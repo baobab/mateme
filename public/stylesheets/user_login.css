@@ -1,0 +1,84 @@
+.helpTextClass{
+font-size:4em;
+position:absolute;
+left:25px;
+}
+.options,#space,#showDataButton,#cancelButton,#date,#SHIFT,#qwerty,#apostrophe{
+display:none
+}
+#decimal,#slash,#comma,#percent,#plus,#minus,#star{
+display:none
+}
+.keyboardButton{
+height:65px;
+width:65px;
+vertical-align: top;
+}
+
+#Unknown{
+ width:138px; 
+}
+
+.keyboard{
+}
+
+.buttonLine{
+height: 75px;
+}
+.touchscreenTextInput{
+position:absolute;
+top:120px;
+left:25px;
+width:600px;
+font-size:6em;
+}
+
+.scrollDownButton {
+display: none;
+}
+
+.scrollUpButton {
+display: none;
+}
+
+.buttonsDiv{
+position:absolute;
+top: auto;
+bottom: 335px;
+left:640px;
+height:auto;
+}
+
+#nextButton{
+  height: 60px;
+}
+
+#popupBox{
+ position: absolute;
+ top: 100px;
+ left: 150px;
+ border: solid 1px #000000;
+ background-color: #FFFF99;
+ visibility: hidden;
+ font-size: 25;
+ z-index: 100;
+}
+
+#backspace{
+  width:75px;
+}
+
+.staticControlsPage0 #backButton{
+  display: none;
+}
+
+#Unknown{
+ display: none;
+}
+
+#Q{
+  position: absolute;
+  left:599px;
+  top:75px;
+}
+

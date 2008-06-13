@@ -1,0 +1,13 @@
+development:
+  adapter: mysql
+  database: neno_development
+  username: root
+  password:
+
+test:
+  adapter: mysql
+  database: neno_test
+  username: root
+  password: 
+
+

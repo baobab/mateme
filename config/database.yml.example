@@ -1,0 +1,15 @@
+development:
+  adapter: mysql
+  database: neno_development
+  username: root
+  password:
+  socket: /var/run/mysqld/mysqld.sock
+
+test:
+  adapter: mysql
+  database: neno_test
+  username: root
+  password: 
+  socket: /var/run/mysqld/mysqld.sock
+
+

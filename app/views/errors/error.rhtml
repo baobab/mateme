@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <style>
+    body{
+      font-size: 2em;
+    }
+    </style>
+  </head>
+  <body>
+    The page you are trying to view does not exist. Please contact the EMR team and they will do their best to help.<br/>
+    <br/>
+    Call: 08769649
+    <br/>
+    <a onmousedown="document.location = this.href" href="/">Touch here to go to menu</a>
+    <br/>
+    <a href="/user/logout" onmousedown="document.location = this.href">Touch here to return to logout</a>
+    <br/>
+    <a href="#" onmousedown="history.back()">Touch here to go to previous page</a>
+    <br/>
+    <a href="#" onmousedown="window.location.reload()">Touch here to try loading page again</a>
+    <br/>
+    <div style="font-size:.5em" id="currentPage"></div>
+    <div style="font-size:.5em"><%= @message %></div>
+    <pre style="font-size: .3em"><%= @backtrace %></pre>
+    <script>
+      document.getElementById("currentPage").innerHTML = '(' + new Date() + '): ' + document.location
+    </script>
+  </body>
+</html> 

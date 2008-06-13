@@ -1,0 +1,8 @@
+
+<%= javascript_include_tag  "cancel_to_user_menu"%>
+<%= start_form_tag :action => 'destroy', :id => @user %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Destroy' %>
+<%= end_form_tag %>
+
+<%= link_to 'Back', :action => 'show' %>

@@ -1,0 +1,171 @@
+<style>
+  .buttonLine{
+    height:auto;
+  }
+
+/*
+  .keyboardButton{
+    height: 80px;
+  }
+  */
+
+  #tt_page_first_name .touchscreenTextInput,
+  #tt_page_last_name .touchscreenTextInput{
+    top: 346px; 
+  }
+
+  #tt_page_first_name .options,
+  #tt_page_last_name .options{
+    height:10em
+  }
+
+  #tt_page_first_name .options li,
+  #tt_page_last_name .options li{
+    font-size: 1.5em
+  }
+  
+  #tt_page_gender .touchscreenTextInput {
+    display:none; 
+  }
+
+  .tt_controls_year_of_birth #Unknown{
+    display: block;
+    width: 289px;
+  }
+  .tt_controls_year_of_birth #Backspace{
+    display: inline;
+    width: 189px;
+  }
+
+  .tt_controls_year_of_birth .NumbersOnly .keyboardButton{
+    height: 78px;
+  }
+
+
+  .tt_controls_age_estimate #Backspace{
+    display: inline;
+    width: 189px;
+  }
+
+  #tt_page_month_of_birth #viewport{
+  }
+
+  #tt_page_month_of_birth .touchscreenTextInput{
+    top: 70px;
+  }
+
+  #tt_page_month_of_birth .options{
+    top: 170px;
+    height: auto;
+    width: auto;
+  }
+
+  #tt_page_month_of_birth #options{
+    height: 380px;
+    width: auto;
+  }
+
+  #tt_page_month_of_birth ul{
+    width:575px;
+  }
+
+  #tt_page_month_of_birth li{
+    border: 3px outset gray;
+    display: block;
+    float: left;
+    background-color: lightgray;
+    width: 115px;
+    margin-right: 10px;
+    height: 80px;
+    text-align: center;
+  }
+
+  #tt_page_month_of_birth #optionUnknown{
+    width: 255px;
+  }
+
+  .tt_controls_month_of_birth #keyboard{
+    display: none;
+  }
+
+  #tt_page_month_of_birth .touchscreenTextInput{
+    display: none;
+  }
+
+  /*
+
+  .tt_controls_month_of_birth .keyboardButton{
+    height: 80px;
+    width: 188px;
+  }
+
+  .tt_controls_month_of_birth #Unknown{
+    display: inline;
+  }
+*/
+  #tt_page_birth_day #viewport{
+    display: none;
+  }
+
+  #tt_page_birth_day .touchscreenTextInput{
+    top: 70px;
+  }
+
+  .tt_controls_birth_day #keyboard{
+    width: 595px;
+  }
+
+  .tt_controls_birth_day .keyboardButton{
+    height: 77px;
+    width: 88px;
+  }
+
+  .tt_controls_birth_day #Unknown{
+    display: inline;
+    width: 160px;
+  }
+
+  #tt_page_birth_day .touchscreenTextInput{
+    display: none;
+  }
+
+</style>
+
+<script>
+  var tt_cancel_destination = "/"
+</script>
+
+<% if params[:identifier].blank? %>
+  <% form_tag "search", :method => :get do |f| %>
+    <%= text_field_tag :identifier,  params[:identifier], {:field_type => 'alpha', :helpText => 'Enter the Patient Identifier', :allowFreeText => true }%>
+    <%= submit_tag "Find person" %>
+  <% end -%>
+
+  <script>
+    function makeKeysToggleBlue(){
+      keys = $('keyboard').childNodes
+      for(var i=0;i<keys.length;i++){
+        keys[i].setAttribute('onMouseDown', 'press(this.id);makeBlue(this)')
+      }
+    }
+    function makeBlue(element){
+      keys = $('keyboard').childNodes
+      for(var i=0;i<keys.length;i++){
+        keys[i].style.backgroundColor = ''
+      }
+      element.style.backgroundColor = 'lightblue'
+    }
+  </script>
+<% end -%>
+
+<% unless params[:identifier].blank? %>
+  <% if @people.blank? %>
+    No patients were found:
+  <% else %>
+    We found the following people:
+    <% @people.each do |person| -%>
+      <div><a href="/encounters/new?patient_id=<%= person.id -%>"><%=h person.name %>, Birthdate: <%=h person.birthdate -%></a></div>  
+    <% end -%>
+  <% end -%>
+  <div><a href="/people/new?identifier=<%= params[:identifier] -%>">Create a new patient</a></div>      
+<% end -%>

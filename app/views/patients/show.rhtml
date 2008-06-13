@@ -1,0 +1,57 @@
+<style>
+
+  body{
+    font-size:2em;
+  }
+
+  #details{
+  background-color:#FFFF99;
+  border:2px solid lightblue;
+  left:25px;
+  margin-top:10px;
+  overflow:auto;
+  top:70px;
+  width:500px;
+}
+
+  a{
+  border:3px outset gray;
+  background-color:lightgray;
+  color:black;
+  display:block;
+  min-height:80px;
+  text-align:center;
+  text-decoration:none;
+  width:200px;}
+
+  div{
+   margin: 5px 5px 5px 5px;
+  }
+</style>
+
+<div id="details" style="float:left">
+  <%= render :partial => "details" %>
+  <%= render :partial => "current_encounters" %>
+</div>
+<div style="float:right">
+  <div id="menu">
+    <%= link_to "Menu", "/" %>
+  </div>
+  <div id="outpatient_diagnosis">
+    <%= link_to "Outpatient Diagnosis", :controller => :encounters, :action => :new, :id => "outpatient_diagnosis", :patient_id => @patient.id %>
+  </div>
+  <div id="vitals">
+    <%= link_to "Vitals", :controller => :encounters, :action => :new, :id => "vitals", :patient_id => @patient.id %>
+  </div>
+  <div id="appointment">
+    <%= link_to "Next Appointment", :controller => :encounters, :action => :new, :id => "appointment", :patient_id => @patient.id %>
+  </div>
+  <div id="print">
+    <%= link_to "Print Label", :action => :print, :id => @patient.id %>
+  </div>
+</div>
+
+
+<!-- Do stuff like show observations or link to forms that we could render for this patient to capture observations -->
+
+

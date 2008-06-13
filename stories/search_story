@@ -1,0 +1,50 @@
+Story: Patient search
+
+  As a logged in user
+  I want to register a patient or find an existing patient
+
+  Scenario: Patient does not already exist
+    Given a logged in user
+    And a patient with first name 'Dennis'
+    And a last name 'Rodman'
+    And a gender 'Male'
+    When the user goes to '/people/search'
+    Then it should have a form for '/people/search'
+    When the user goes to '/people/search?given_name=Dennis&family_name=Rodman&gender=M&create_patient='
+    Then it should have an option for 'Create a new person with the name Dennis Rodman'
+    And should not have an option for 'Evan Waters, Birthdate: 1982-06-09'
+
+  Scenario: Similar patient exists
+    Given a logged in user
+    And a patient with first name 'Evan'
+    And a last name 'Waters'
+    And a gender 'Male'
+    When the user clicks on the 'Find or register patient by name' button
+    And enters the name and gender
+    Then should redirect to '/people/search?given_name=Evan&family_name=Waters&gender=M&create_patient='
+    And should have an option for 'Create a new person with the name Evan Waters'
+    And should have an option for 'Evan Waters, Birthdate: 1982-06-09'
+    When the user registers the patient
+    Then should redirect to '/people/new?family_name=Waters&gender=M&given_name=Evan'
+ 
+  Scenario: Patient already exists with health passport
+    Given a logged in user
+    And a patient identifier '311'
+    When the user clicks on the 'Find patient by identifier' button
+    And enters the identifier
+    Then should redirect to '/identifiers/search?identifier=311'
+    When the user selects the patient
+    Then should redirect to '/patients/show/1'
+  
+  Scenario: Patient already exists with no health passport
+    Given a logged in user
+    And a patient with first name 'Evan'
+    And a last name 'Waters'
+    And a gender 'Male'
+    When the user clicks on the 'Find or register patient by name' button
+    And enters the name and gender
+    Then should redirect to '/people/search?given_name=Evan&family_name=Waters&gender=M&create_patient='
+    And should have an option for 'Create a new person with the name Evan Waters'
+    And should have an option for 'Evan Waters, Birthdate: 1982-06-09'
+    When the user selects the existing patient
+    Then should redirect to '/patients/show/1'

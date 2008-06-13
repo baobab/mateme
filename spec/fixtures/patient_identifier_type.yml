@@ -1,0 +1,51 @@
+--- 
+patient_identifier_type_00001: 
+  name: OpenMRS Identification Number
+  format: ""
+  date_created: 2005-09-22 00:00:00 +02:00
+  creator: 1
+  check_digit: true
+  description: Unique number used in OpenMRS
+  patient_identifier_type_id: 1
+  required: false
+  format_description: 
+patient_identifier_type_00002: 
+  name: Old Identification Number
+  format: ""
+  date_created: 2005-09-22 00:00:00 +02:00
+  creator: 1
+  check_digit: false
+  description: Number given out prior to the OpenMRS system (No check digit)
+  patient_identifier_type_id: 2
+  required: false
+  format_description: 
+patient_identifier_type_00003: 
+  name: National id
+  format: ""
+  date_created: 2007-11-29 22:12:34 +02:00
+  creator: 1
+  check_digit: false
+  description: National ID number developed by Baobab
+  patient_identifier_type_id: 3
+  required: false
+  format_description: P-175-0000004-5
+patient_identifier_type_00004: 
+  name: ARV Number
+  format: ""
+  date_created: 2007-12-17 15:29:01 +02:00
+  creator: 15878
+  check_digit: false
+  description: Unique ID Number for Patients in ARV Treatment Program
+  patient_identifier_type_id: 4
+  required: false
+  format_description: ""
+patient_identifier_type_00005: 
+  name: Unknown id
+  format: 
+  date_created: 2008-04-30 22:28:52 +02:00
+  creator: 1
+  check_digit: false
+  description: Identifier that was recorded for this patient but with unknown provenance
+  patient_identifier_type_id: 5
+  required: false
+  format_description: 

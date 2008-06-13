@@ -1,0 +1,8 @@
+evan_vitals_height:
+  obs_id: 2
+  person_id: 1
+  concept_id: 5090
+  encounter_id: 1
+  obs_datetime: 2000-01-01 00:00:00
+  value_numeric: 191
+  date_created: 2000-01-01 00:00:00

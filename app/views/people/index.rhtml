@@ -1,0 +1,14 @@
+Select an activity
+<div id="options">
+  <ul>
+    <li><%= link_to_onmousedown "Find or register patient by name", {:action => "search"}  %></li>
+    <li><%= link_to_onmousedown "Find patient by identifier", {:controller => :identifiers, :action => "search"}  %></li>
+    <li><%= link_to_onmousedown "Logout", {:controller => "user", :action => "logout"}  %></li>
+  </ul>
+</div>
+
+or scan a barcode
+<form id='barcodeForm' action="/identifiers/search/">
+  <%= text_field_tag :identifier, '', {:id => 'barcode'} %>
+</form>
+<%= javascript_include_tag "barcode" %>

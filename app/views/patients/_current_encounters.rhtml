@@ -1,0 +1,1 @@
+<%= @patient.encounters.find_by_date(Date.today).collect{|encounter|encounter.to_s}.join("<br/>") %>

@@ -1,0 +1,23 @@
+<html>
+<head>
+<title>
+<%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+</title>
+<script language="javascript">
+tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
+tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
+var tt_cancel_destination = "/people"
+</script>
+<%= stylesheet_link_tag "menu" %>
+<%#= stylesheet_link_tag "touch" %>
+<%#= javascript_include_tag "touchscreenToolkit" %>
+<%#= javascript_include_tag "pmis" %>
+</head>
+<body>
+
+<div class="screen">
+<%= @content_for_layout %>
+</div>
+
+</body>
+</html>

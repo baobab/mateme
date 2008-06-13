@@ -1,0 +1,49 @@
+--- 
+encounter_type_00006: 
+  name: APPOINTMENT
+  date_created: 2008-03-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 16
+  description: ""
+encounter_type_00006: 
+  name: VITALS
+  date_created: 2008-03-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 6
+  description: ""
+encounter_type_00007: 
+  name: REGISTRATION
+  date_created: 2008-04-30 22:44:08 +02:00
+  creator: 1
+  encounter_type_id: 7
+  description: ""
+encounter_type_00001: 
+  name: ADULTINITIAL
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 1
+  description: Outpatient Adult Initial Visit
+encounter_type_00002: 
+  name: ADULTRETURN
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 2
+  description: Outpatient Adult Return Visit
+encounter_type_00003: 
+  name: PEDSINITIAL
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 3
+  description: Outpatient Pediatric Initial Visit
+encounter_type_00004: 
+  name: PEDSRETURN
+  date_created: 2005-02-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 4
+  description: Outpatient Pediatric Return Visit
+encounter_type_00005: 
+  name: OUTPATIENT DIAGNOSIS
+  date_created: 2008-03-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 5
+  description: ""

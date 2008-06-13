@@ -1,0 +1,47 @@
+body{
+  font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+  margin: 0;
+  font-size: 2em;
+  -moz-user-select:none;
+}
+
+div.screen {
+  height: 590px;
+  width: 790px;
+  padding: 25px;
+}
+
+div #options {
+  background-color:#FFFF99;
+  border:2px solid lightblue;
+  left:25px;
+  overflow:auto;
+  top:70px;
+  width: 500px;
+  margin-top: 10px;
+  /*height: 400px;*/
+}
+
+a{
+  text-decoration: none;
+  color: black;
+  border: 3px outset gray;
+  background-color: lightgray;
+  width: 200px;
+  min-height: 80px;
+  text-align: center;
+  display:block;
+}
+
+li{
+  display: block;
+  /*float: left;*/
+  margin-right: 10px;
+  margin-top: 20px;
+}
+
+input{
+  background-color: lightblue;
+  font-size: 1em;
+
+}

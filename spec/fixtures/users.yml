@@ -1,0 +1,20 @@
+mikmck:
+  user_id: 1
+  username: mikmck
+  salt: laWkLAw6QB
+  password: 904bf83b60c821aacc43d601b203b124a63fa08f # mike
+  date_created: <%= 1.days.ago.to_s :db %>
+  date_changed: <%= 1.days.ago.to_s :db %>
+  creator: 1
+  changed_by: 1
+  system_id: Baobab Admin
+registration:
+  user_id: 2
+  username: registration
+  salt: a1ddb617b95e2a9e2cbefb58ad31ab789b84da
+  password: dd3e13bc413ccbee48c6af6fa4ad18c056c # sbb4ever
+  date_created: <%= 5.days.ago.to_s :db %>
+  date_changed: <%= 5.days.ago.to_s :db %>
+  creator: 1
+  changed_by: 1
+  system_id: Partners In Health Admin

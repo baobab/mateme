@@ -1,0 +1,16 @@
+evan_name:
+  person_name_id: 1
+  preferred: true
+  person_id: 1
+  prefix: Dr.
+  given_name: Evan 
+  middle_name: Joseph Murray
+  family_name_prefix: 
+  family_name: Waters
+  family_name2: 
+  family_name_suffix: 
+  degree: His Excellency, the President
+  creator: 1
+  date_created: 2000-01-01 00:00:00
+  changed_by: 1
+  date_changed: 2000-01-01 00:00:00
