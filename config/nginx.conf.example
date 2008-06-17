@@ -33,9 +33,9 @@ http {
   # Mateme
   server {
     listen 80; # support for tomcat
-    access_log /var/log/nginx/apzu.access.log main;
+    access_log /var/log/nginx/mateme.access.log main;
 
-    root /var/www/apzu/current/public;
+    root /var/www/mateme/current/public;
     index index.html;
 
     client_max_body_size 10M;
