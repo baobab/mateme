@@ -22,9 +22,7 @@ class Encounter < ActiveRecord::Base
   end
 
   def to_s
-    self.name + ": " + self.observations.collect{|observation|
-      observation.to_s
-    }.join("\n")
+    self.name + ": " + self.observations.collect{|observation| observation.to_s}.join("\n")
   end
 
 end

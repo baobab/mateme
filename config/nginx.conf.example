@@ -24,21 +24,15 @@ http {
   tcp_nodelay on; # could be off?
   keepalive_timeout 65;
 
-  gzip on;
-  gzip_http_version 1.0;
-  gzip_comp_level 2;
-  gzip_proxied any;
-  gzip_types text/plain text/html text/css application/x-javascript text/xml application.xml application/xml+rss text/javascript;
-
-  upstream apzu {
+  upstream mateme {
     server 127.0.0.1:8000;
     server 127.0.0.1:8001;
     server 127.0.0.1:8002;
   }
 
-  # APZU
+  # Mateme
   server {
-    listen 7999; # support for tomcat
+    listen 80; # support for tomcat
     access_log /var/log/nginx/apzu.access.log main;
 
     root /var/www/apzu/current/public;
@@ -66,7 +60,7 @@ http {
       }
 
       if (!-f $request_filename) {
-        proxy_pass http://apzu;
+        proxy_pass http://mateme;
         break;
       }      
       
@@ -74,7 +68,7 @@ http {
     
     error_page 500 502 503 504 /50x.html;
     location = /50x.html {
-      root /var/www/apzu/current/public;
+      root /var/www/mateme/current/public;
     }
   }
 }

@@ -1,6 +1,6 @@
 set :domain, CLI.ui.ask("Domain you are deploying to (IP Address or Hostname): ")
 set :local, "#{`ifconfig | grep "192"`.match(/192\.168\.\d+\.\d+/)}"
-set :application, "apzu"
+set :application, "mateme"
 set :keep_releases, 3
 set :scm, :git
 set :deploy_to, "/var/www/#{application}"

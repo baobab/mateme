@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Encounter do
 #  fixtures :encounter, :encounter_type, :concept, :concept_name, :obs
-=begin
+
   sample({
     :encounter_id => 1,
     :encounter_type => 1,
@@ -12,7 +12,7 @@ describe Encounter do
     :creator => 1,
     :date_created => Time.now,
     :voided => false,
-    :voided_by => 1,
+    :voided_by => 1,  
     :date_voided => Time.now,
     :void_reason => '',
   })
@@ -43,5 +43,5 @@ describe Encounter do
   it "should be printable as a string with all of the observations" do
     encounter(:evan_vitals).to_s.should == "VITALS: HEIGHT (CM): 191.0"
   end
-=end  
+  
 end
