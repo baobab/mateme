@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Encounter do
-#  fixtures :encounter, :encounter_type, :concept, :concept_name, :obs
+  fixtures :encounter, :encounter_type, :concept, :concept_name, :obs
 
   sample({
     :encounter_id => 1,

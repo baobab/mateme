@@ -1,28 +1,58 @@
 --- 
 encounter_type_00006: 
-  name: APPOINTMENT
-  date_created: 2008-03-24 00:00:00 +02:00
-  creator: 1
-  encounter_type_id: 16
-  description: ""
-encounter_type_00006: 
   name: VITALS
-  date_created: 2008-03-24 00:00:00 +02:00
-  creator: 1
+  date_created: 2008-05-02 16:04:05 +02:00
+  creator: 15878
   encounter_type_id: 6
-  description: ""
+  description: Vitals encounter
 encounter_type_00007: 
-  name: REGISTRATION
-  date_created: 2008-04-30 22:44:08 +02:00
-  creator: 1
+  name: APPOINTMENT
+  date_created: 2008-05-02 16:04:20 +02:00
+  creator: 15878
   encounter_type_id: 7
-  description: ""
+  description: New appointment encounter
+encounter_type_00008: 
+  name: OUTPATIENT DIAGNOSIS
+  date_created: 2008-05-02 16:04:54 +02:00
+  creator: 15878
+  encounter_type_id: 8
+  description: Outpatient diagnosis encounter
+encounter_type_00009: 
+  name: ART_INITIAL
+  date_created: 2008-06-04 09:30:14 +02:00
+  creator: 15878
+  encounter_type_id: 9
+  description: Initial ART visit
+encounter_type_00010: 
+  name: ART_FOLLOWUP
+  date_created: 2008-06-04 09:30:36 +02:00
+  creator: 15878
+  encounter_type_id: 10
+  description: Followup visit for ART patient
+encounter_type_00011: 
+  name: PART_INITIAL
+  date_created: 2008-06-04 09:31:08 +02:00
+  creator: 15878
+  encounter_type_id: 11
+  description: Initial Pre-ART visit
 encounter_type_00001: 
   name: ADULTINITIAL
   date_created: 2005-02-24 00:00:00 +02:00
   creator: 1
   encounter_type_id: 1
   description: Outpatient Adult Initial Visit
+encounter_type_00012: 
+  name: PART_FOLLOWUP
+  date_created: 2008-06-04 09:31:29 +02:00
+  creator: 15878
+  encounter_type_id: 12
+  description: Followup visit for Pre-ART patient
+encounter_type_00013: 
+  name: LAB
+  date_created: 2008-06-04 09:31:43 +02:00
+  creator: 15878
+  encounter_type_id: 13
+  description: Lab test
 encounter_type_00002: 
   name: ADULTRETURN
   date_created: 2005-02-24 00:00:00 +02:00
@@ -42,8 +72,8 @@ encounter_type_00004:
   encounter_type_id: 4
   description: Outpatient Pediatric Return Visit
 encounter_type_00005: 
-  name: OUTPATIENT DIAGNOSIS
-  date_created: 2008-03-24 00:00:00 +02:00
-  creator: 1
+  name: REGISTRATION
+  date_created: 2008-05-02 16:03:48 +02:00
+  creator: 15878
   encounter_type_id: 5
-  description: ""
+  description: Patient Registration Encounter

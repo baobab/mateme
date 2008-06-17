@@ -699,7 +699,7 @@ CREATE TABLE `obs` (
   CONSTRAINT `obs_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
   CONSTRAINT `person_obs` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `user_who_voided_obs` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23766 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23746 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `order_type` (
   `order_type_id` int(11) NOT NULL auto_increment,
@@ -1245,6 +1245,15 @@ CREATE TABLE `session` (
   PRIMARY KEY  (`id`),
   KEY `sessions_session_id_index` (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL auto_increment,
+  `session_id` varchar(255) default NULL,
+  `data` text,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `sessions_session_id_index` (`session_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tribe` (
   `tribe_id` int(11) NOT NULL auto_increment,

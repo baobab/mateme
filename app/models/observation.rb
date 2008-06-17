@@ -22,7 +22,7 @@ class Observation < ActiveRecord::Base
     value_coded = ConceptName.find_by_name(value_coded_or_text).concept_id rescue nil
     if value_coded.nil?
       # TODO: this should not be done this way with a brittle hard ref to concept name
-      self.concept_name = "OUTPATIENT DIAGNOSIS, NON-CODED" if self.concept.name.name == "OUTPATIENT DIAGNOSIS"
+      self.concept_name = "OUTPATIENT DIAGNOSIS, NON-CODED" if self.concept && self.concept.name && self.concept.name.name == "OUTPATIENT DIAGNOSIS"
       self.value_text = value_coded_or_text
     else
       self.value_coded = value_coded

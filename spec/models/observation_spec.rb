@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Observation do
-=begin
   fixtures :obs, :concept_name, :concept
 
   sample({
@@ -50,12 +49,12 @@ describe Observation do
   end
   
   it "should allow you to assign the value coded or text" do
-    observation = create_sample(Observation, :value_coded => nil, :value_text => nil)
+    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_coded => nil, :value_text => nil)
     observation.value_coded_or_text = concept_name(:alcohol_counseling).name
     observation.value_coded.should == concept_name(:alcohol_counseling).concept_id
     observation.value_text.should be_nil
 
-    observation = create_sample(Observation, :value_coded => nil, :value_text => nil)
+    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_coded => nil, :value_text => nil)
     observation.value_coded_or_text = "GIANT ROBOT TORSO MODE"
     observation.value_text.should == "GIANT ROBOT TORSO MODE"
     observation.value_coded.should be_nil
@@ -87,5 +86,4 @@ describe Observation do
     observation = create_sample(Observation, {:concept_id => concept(:outpatient_diagnosis).id, :value_coded => concept(:alcohol_counseling).id, :value_numeric => 1, :value_datetime => nil})
     observation.answer_string.should == "ALCOHOL COUNSELINGMELTING1.0"    
   end
-=end  
 end

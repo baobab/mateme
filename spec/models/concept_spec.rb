@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Concept do
-=begin
   fixtures :concept, :concept_name, :concept_answer
 
   sample({
@@ -31,5 +30,4 @@ describe Concept do
     answer = concept(:extrapulmonary_tuberculosis_without_lymphadenopathy)
     concept.concept_answers.limit("extra").include? answer
   end  
-=end  
 end

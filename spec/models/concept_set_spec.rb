@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ConceptSet do
-=begin
   fixtures :concept_set, :concept, :concept_name
 
   sample({
@@ -15,5 +14,4 @@ describe ConceptSet do
     concept_set = create_sample(ConceptSet)
     concept_set.should be_valid
   end
-=end  
 end
