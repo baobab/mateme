@@ -38,6 +38,7 @@ namespace :openmrs do
         Dir.mkdir(data) unless File.exists?(data)
         Dir.mkdir(path) unless File.exists?(path)
         GlobalProperty.to_fixtures(path)
+        User.to_fixtures(path)
       end 
     end
         
