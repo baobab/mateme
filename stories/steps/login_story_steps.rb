@@ -1,5 +1,6 @@
 steps_for(:login) do
-  Given "no current user" do 
+
+  Given "no current user" do     
     @username = nil    
   end
 

@@ -24,10 +24,3 @@ Story: User logging in
     When the user logs in with username and password
     Then the login form should be shown again
     And should show message 'Invalid Workstation Location'
-    
-  Scenario: User uses correct password
-    Given a username 'mikmck'
-    And a password 'mike'
-    And a location '7'
-    When the user logs in with username and password
-    Then should redirect to '/'
