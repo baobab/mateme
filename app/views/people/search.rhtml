@@ -14,6 +14,16 @@
     top: 346px; 
   }
 
+  .options {
+    height:17em;
+    width:546px;    
+  }
+ 
+  .options li {
+    border-top:1px dotted silver; 
+    border-bottom:1px dotted silver; 
+  }
+ 
   #tt_page_first_name .options,
   #tt_page_last_name .options{
     height:10em
@@ -128,6 +138,7 @@
   #tt_page_birth_day .touchscreenTextInput{
     display: none;
   }
+  
 
 </style>
 
@@ -135,7 +146,7 @@
   var tt_cancel_destination = "/people"
 </script>
 
-<% if params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank? %>
+<% if (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
   <% form_tag "search", :method => :get do |f| %>
     <%= text_field_tag :given_name,  params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
     <%= text_field_tag :family_name,  params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
@@ -161,19 +172,24 @@
   </script>
 <% end -%>
 
-<% unless params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?%>
+<% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
   <% form_tag "select", :method => :get do |f| %>
     <% if @people.blank? %>
       <label for="person">No patients were found:</label>
     <% else -%>  
-      <label for="person">Select the patient from the following:</label>
+      <label for="person">Select the patient from the following</label>
     <% end -%>  
     <select name="person" id="person">    
       <% @people.each do |person| -%>
         <option value="<%= person.id %>"><%=h person.name -%>, Birthdate: <%=h person.birthdate -%></option>
       <% end -%>
-      <option value="">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>      
+      <% if params[:identifier] %>      
+        <option value="">Create a new person with the identifier <%=h params[:identifier] -%></option>      
+      <% else %>  
+        <option value="">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>      
+      <% end %>  
     </select>
+    <input type="hidden" name="identifier" value="<%=h params[:identifier] -%>" />
     <input type="hidden" name="gender" value="<%=h params[:gender] -%>" />
     <input type="hidden" name="given_name" value="<%=h params[:given_name] -%>" />
     <input type="hidden" name="family_name" value="<%=h params[:family_name] -%>" />

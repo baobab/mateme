@@ -8,7 +8,7 @@ Select an activity
 </div>
 
 or scan a barcode
-<form id='barcodeForm' action="/identifiers/search/">
+<form id='barcodeForm' action="/people/search">
   <%= text_field_tag :identifier, '', {:id => 'barcode'} %>
 </form>
 <%= javascript_include_tag "barcode" %>
