@@ -9,9 +9,7 @@ class UserController < ApplicationController
       if logged_in_user
         reset_session
         session[:user_id] = logged_in_user.user_id
-        session[:ip_address] = request.env['REMOTE_ADDR'] 
-        
-        # parent_location = Location.find(GlobalProperty.find_by_property("current_health_center_id").property_value) rescue nil
+        session[:ip_address] = request.env['REMOTE_ADDR']         
         location = Location.find(params[:location]) rescue nil        
         flash[:error] = "Invalid Workstation Location" and return unless location
         flash[:error] = "Location is not part of this health center" and return unless location.name.match(/Neno District Hospital/)
@@ -26,7 +24,7 @@ class UserController < ApplicationController
           redirect_to("/")
         end
       else
-        flash[:error] = "Invalid Username or Password"
+        flash[:error] = "Invalid username or password"
       end      
     end
   end          

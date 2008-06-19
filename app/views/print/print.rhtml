@@ -6,13 +6,13 @@ body{
 </style>
 <body>
 <br/><br/><br/>
-  <center><h1>#{@message}</h1></center>
-  <iframe src="#{@print_url}" style='display:none'></iframe>
+  <center><h1><%=h @message %></h1></center>
+  <iframe src="<%= @print_url %>" style='display:none'></iframe>
   </body>
   <script>
 		setTimeout(redirect, 6000);
     function redirect(){
-      document.location = '#{@redirect_url}'
+      document.location = '<%= @redirect_url %>'
     }
   </script>
 </html>
