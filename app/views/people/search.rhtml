@@ -184,9 +184,9 @@
         <option value="<%= person.id %>"><%=h person.name -%>, Birthdate: <%=h person.birthdate -%></option>
       <% end -%>
       <% if params[:identifier] %>      
-        <option value="">Create a new person with the identifier <%=h params[:identifier] -%></option>      
+        <option value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>      
       <% else %>  
-        <option value="">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>      
+        <option value="0">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>      
       <% end %>  
     </select>
     <input type="hidden" name="identifier" value="<%=h params[:identifier] -%>" />

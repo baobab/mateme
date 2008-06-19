@@ -13,7 +13,17 @@
   #tt_page_last_name .touchscreenTextInput{
     top: 346px; 
   }
-
+  
+  .options {
+    height:12em;
+    width:546px;    
+  }
+ 
+  .options li {
+    border-top:1px dotted silver; 
+    border-bottom:1px dotted silver; 
+  }
+ 
   #tt_page_first_name .options,
   #tt_page_last_name .options{
     height:10em
@@ -140,9 +150,13 @@
 
 <% form_for :person, @person, :url => { :action => "create" } do |f| %>
 
-  <input type="hidden" name="person[gender]" value="<%=h params[:gender] -%>" />
+  <!-- input type="hidden" name="person[gender]" value="<%=h params[:gender] -%>" />
   <input type="hidden" name="person_name[given_name]" value="<%=h params[:given_name] -%>" />
-  <input type="hidden" name="person_name[family_name]" value="<%=h params[:family_name] -%>" />
+  <input type="hidden" name="person_name[family_name]" value="<%=h params[:family_name] -%>" /-->
+
+  <%= text_field_tag "person_name[given_name]", params[:given_name], {:id => 'given_name', :field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true, :condition => '$("given_name").value == ""' } %>
+  <%= text_field_tag "person_name[family_name]", params[:family_name], {:id => 'family_name', :field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true, :condition => '$("family_name").value == ""' } %> 
+  Gender: <%= f.select :gender, {"" => "", "Male" => "M", "Female" => "F"}, {:selected => params[:gender]}, {:id => 'gender', :helpText => 'Gender', :condition => '$("gender").value == ""' } %>
 
   <%= text_field_tag :birth_year, nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly"} %>
 

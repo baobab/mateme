@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe ConceptAnswer do
-  fixtures :concept_answer
+  fixtures :concept_answer, :concept_name
 
   sample({
     :concept_answer_id => 1,
