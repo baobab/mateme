@@ -2,7 +2,16 @@ class GlobalProperty < ActiveRecord::Base
   include Openmrs
   set_table_name "global_property"
   set_primary_key "id"
+  def to_s
+    return "#{property}: #{property_value}"
+  end  
+end
 
+
+### Original SQL Definition for global_property #### 
+#  `id` int(11) NOT NULL auto_increment,
+#  `property` varchar(255) default NULL,
+#  `property_value` varchar(255) default NULL,
 
 #  @@global_property_hash_by_property = Hash.new
 #  @@global_property_hash_by_id = Hash.new
@@ -14,14 +23,3 @@ class GlobalProperty < ActiveRecord::Base
 #  def self.find_by_property(property)
 #    return @@global_property_hash_by_property[property.downcase] || super
 #  end
-
-  def to_s
-    return "#{property}: #{property_value}"
-  end  
-end
-
-
-### Original SQL Definition for global_property #### 
-#  `id` int(11) NOT NULL auto_increment,
-#  `property` varchar(255) default NULL,
-#  `property_value` varchar(255) default NULL,

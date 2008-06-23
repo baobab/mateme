@@ -345,7 +345,7 @@ CREATE TABLE `encounter` (
   CONSTRAINT `encounter_provider` FOREIGN KEY (`provider_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `encounter_type_id` FOREIGN KEY (`encounter_type`) REFERENCES `encounter_type` (`encounter_type_id`),
   CONSTRAINT `user_who_voided_encounter` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2617 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2626 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `encounter_type` (
   `encounter_type_id` int(11) NOT NULL auto_increment,
@@ -501,8 +501,9 @@ CREATE TABLE `global_property` (
   `property` varchar(255) NOT NULL default '',
   `property_value` text,
   `description` text,
-  PRIMARY KEY  (`property`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `hl7_in_archive` (
   `hl7_in_archive_id` int(11) NOT NULL auto_increment,
@@ -699,7 +700,7 @@ CREATE TABLE `obs` (
   CONSTRAINT `obs_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
   CONSTRAINT `person_obs` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `user_who_voided_obs` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23747 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23754 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `order_type` (
   `order_type_id` int(11) NOT NULL auto_increment,
@@ -905,7 +906,7 @@ CREATE TABLE `person` (
   CONSTRAINT `user_who_changed_person` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_created_person` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_person` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16473 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16477 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `person_address` (
   `person_address_id` int(11) NOT NULL auto_increment,
@@ -937,7 +938,7 @@ CREATE TABLE `person_address` (
   CONSTRAINT `address_for_person` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `patient_address_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `patient_address_void` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3439 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3443 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `person_attribute` (
   `person_attribute_id` int(11) NOT NULL auto_increment,
@@ -1015,7 +1016,7 @@ CREATE TABLE `person_name` (
   CONSTRAINT `name for person` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `user_who_made_name` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_name` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17481 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17485 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `plugin_schema_info` (
   `plugin_name` varchar(255) default NULL,
@@ -1253,7 +1254,7 @@ CREATE TABLE `sessions` (
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`),
   KEY `sessions_session_id_index` (`session_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tribe` (
   `tribe_id` int(11) NOT NULL auto_increment,

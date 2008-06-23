@@ -11,5 +11,4 @@ module Openmrs
     self.date_created = Time.now if self.attributes.has_key? "date_created"
     self.location_id = Location.current_location.id if self.attributes.has_key? "location_id" and self.location_id == 0 unless Location.current_location.nil?
   end
-
 end

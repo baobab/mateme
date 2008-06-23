@@ -10,4 +10,4 @@ else
   destination = ARGV[1]
 end
 
-`cat #{ARGV[0]} | netcat -p 4242 #{destination}`
+`cat #{ARGV[0]} | netcat -q 1 #{destination} 4242`
