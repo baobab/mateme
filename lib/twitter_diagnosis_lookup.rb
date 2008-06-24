@@ -1,7 +1,7 @@
 require 'twitter'
 
 class TwitterDiagnosisLookup
-   attr_reader :twitter
+  attr_reader :twitter
   
   def initialize
   end
@@ -19,14 +19,13 @@ class TwitterDiagnosisLookup
     property ||= GlobalProperty.create(:property => 'twitter_last_message_id')
     self.messages.each {|message|
       property.property_value = message.id
-      PatientIdentifier.find_by_identifier(parse_message(message.text))
+      send_reply(PatientIdentifier.find_by_identifier(parse_message(message.text), :include => :patient))
     }
     property.save!
   end
   
 private
  
-  # Lookup in the database the last message that we processed
   def last_message_id
     GlobalProperty.find_or_create_by_property('twitter_last_message_id').property_value rescue nil
   end
@@ -34,5 +33,8 @@ private
   def parse_message(message)
     message
   end
+  
+  def send_reply(patient_identifier)
+  end 
    
 end

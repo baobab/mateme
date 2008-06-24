@@ -18,7 +18,7 @@ describe PatientIdentifier do
   })
 
   it "should be valid" do
-    patient_identifier = create_sample(PatientIdentifier)
+    patient_identifier = create_sample(PatientIdentifier, :patient_id => 'Bob')
     patient_identifier.should be_valid
   end
 end

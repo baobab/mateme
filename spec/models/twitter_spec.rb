@@ -35,7 +35,10 @@ describe TwitterDiagnosisLookup do
     diagnosis_lookup.send(:parse_message, @twitter_message.text).should == @twitter_message.text
   end
   
-  it "should lookup the corresponding patient"
+  it "should lookup the corresponding patient" do
+    
+  end 
+  
   it "should send a reply with the diagnosis"
   
 end
