@@ -36,7 +36,7 @@ class PeopleController < ApplicationController
 
     if params[:create_patient] == "true"
       patient = person.create_patient()
-      PatientIdentifierType.find_by_name("National id").next_identifier(:patient => patient).save      
+      # This might actually be a national id, but currently we wouldn't know        
       patient.patient_identifiers.create(:identifier => params[:identifier], :identifier_type => PatientIdentifierType.find_by_name("Unknown id")) unless params[:identifier].blank?
       patient.national_id_label
       print_and_redirect("/patients/print_national_id/?patient_id=#{patient.id}", next_task(patient))  

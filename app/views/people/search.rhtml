@@ -181,7 +181,11 @@
     <% end -%>  
     <select name="person" id="person">    
       <% @people.each do |person| -%>
-        <option value="<%= person.id %>"><%=h person.name -%>, Birthdate: <%=h person.birthdate -%></option>
+        <option value="<%= person.id %>">
+          <%=h person.name -%>, 
+          Birthdate: <%=h person.birthdate -%>, 
+          Village: <%=h person.person_address.city_village -%>
+      </option>
       <% end -%>
       <% if params[:identifier] %>      
         <option value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>      

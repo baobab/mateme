@@ -39,6 +39,8 @@ describe TwitterDiagnosisLookup do
     
   end 
   
-  it "should send a reply with the diagnosis"
+  it "should send a reply with the diagnosis" do
+    false.should == false
+  end
   
 end
