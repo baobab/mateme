@@ -38,7 +38,7 @@ location_00006:
   neighborhood_cell: ""
   longitude: 
 location_00007: 
-  name: Neno District Hospital - Registration
+  name: Neno District Hospital - Registration (ID=750)
   address1: ""
   township_division: 
   state_province: ""
@@ -52,12 +52,12 @@ location_00007:
   city_village: ""
   country: ""
   location_id: 7
-  description: Registration desk at Neno Rural Hospital
+  description: Registration desk at Neno Rural Hospital (ID=750)
   county_district: 
   neighborhood_cell: 
   longitude: ""
 location_00008: 
-  name: Neno District Hospital - Vitals
+  name: Neno District Hospital - Vitals (ID=750)
   address1: ""
   township_division: 
   state_province: ""
@@ -71,12 +71,12 @@ location_00008:
   city_village: ""
   country: ""
   location_id: 8
-  description: Vitals recorded at Neno District Hospital
+  description: Vitals recorded at Neno District Hospital (ID=750)
   county_district: 
   neighborhood_cell: 
   longitude: ""
 location_00009: 
-  name: Neno District Hospital - ART
+  name: Neno District Hospital - ART (ID=750)
   address1: ""
   township_division: 
   state_province: ""
@@ -90,12 +90,12 @@ location_00009:
   city_village: ""
   country: ""
   location_id: 9
-  description: ART Clinic at Neno District Hospital
+  description: ART Clinic at Neno District Hospital (ID=750)
   county_district: 
   neighborhood_cell: 
   longitude: ""
 location_00010: 
-  name: Neno District Hospital - Outpatient
+  name: Neno District Hospital - Outpatient (ID=750)
   address1: ""
   township_division: 
   state_province: ""
@@ -109,7 +109,7 @@ location_00010:
   city_village: ""
   country: ""
   location_id: 10
-  description: Outpatient Department at Neno District Hospital
+  description: Outpatient Department at Neno District Hospital (ID=750)
   county_district: 
   neighborhood_cell: 
   longitude: ""
@@ -190,7 +190,7 @@ location_00013:
   neighborhood_cell: 
   longitude: ""
 location_00002: 
-  name: Neno District Hospital
+  name: Neno District Hospital (ID=750)
   address1: ""
   township_division: 
   state_province: Neno
@@ -266,7 +266,7 @@ location_00015:
   neighborhood_cell: 
   longitude: ""
 location_00004: 
-  name: Neno Mission Hospital
+  name: Neno Mission Hospital (ID=752)
   address1: ""
   township_division: 
   state_province: Neno
