@@ -8,6 +8,8 @@ tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
 tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
 var tt_cancel_destination = "/people"
 </script>
+<%= stylesheet_link_tag "calibrate" %>
+<%= javascript_include_tag "calibrate" %>
 <%= stylesheet_link_tag "touch" %>
 <%= javascript_include_tag "touchscreenToolkit" %>
 <%= javascript_include_tag "pmis" %>
