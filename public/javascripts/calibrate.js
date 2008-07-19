@@ -14,7 +14,7 @@ calibration[3] = {x: resolution_width, y: resolution_height};
 var calibration_index = 0
 var calibration_matrix;
 
-var edge_offset = 10;
+var edge_offset = 100;
 var hit_target_size = 20;
 var calibration_targets = []
 calibration_targets[0] = {x: edge_offset, y: edge_offset};
@@ -141,7 +141,8 @@ function overlay_debug(x, y, point, matrix) {
                 "        [0, 0, 1]\n";
                 
   overlay = document.getElementById("overlay");  
-  overlay.innerHTML = "<pre id='overlay_debug'>" + message + "</pre>";
+  overlay.innerHTML = "<pre id='overlay_debug'>" + message + "</pre>" +
+    "<div id='overlay_cursor' style='left:" + (point.x-8) + ";top:" + (point.y-8) + ";'>&nbsp;</div>";
 }
 
 // Utilize SVG matrices for vector transformation (virtual touchscreen to actual)

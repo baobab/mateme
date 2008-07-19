@@ -1,3 +1,6 @@
+body {
+  cursor: none;
+}
 #overlay {
   -moz-opacity:1;
   background:none;
@@ -33,4 +36,12 @@
   left:500px;
   top:400px;
   z-index:1000;
+}
+#overlay_cursor {
+  -moz-opacity:1;
+  background:red url('/images/target.gif');
+  position:absolute;
+  z-index:1001;
+  width:16px;
+  height:16px;
 }
