@@ -134,7 +134,6 @@ function window_click(x, y) {
 
 
 function overlay_debug(x, y, point, matrix) {
-  return;
   var message = "Incoming point: " + x + ", " + y + "\n" +
                 "Altered point: " + point.x + ", " + point.y + "\n" +
                 "Matrix: [" + matrix.a + ", " + matrix.c + ", " + matrix.e + "]\n" +
@@ -142,8 +141,8 @@ function overlay_debug(x, y, point, matrix) {
                 "        [0, 0, 1]\n";
                 
   overlay = document.getElementById("overlay");  
-  overlay.innerHTML = "<pre id='overlay_debug'>" + message + "</pre>";
-//    "<div id='overlay_cursor' style='left:" + (point.x-8) + ";top:" + (point.y-8) + ";'>&nbsp;</div>";
+  overlay.innerHTML = "<pre id='overlay_debug'>" + message + "</pre>" +    
+    "<div id='overlay_cursor' style='left:" + (point.x-8) + ";top:" + (point.y-8) + ";'>&nbsp;</div>";
 }
 
 // Utilize SVG matrices for vector transformation (virtual touchscreen to actual)
