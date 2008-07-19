@@ -35,7 +35,7 @@
 }
 #overlay_cursor {
   -moz-opacity:1;
-  background:red url('/images/target.gif');
+  background:red url('/images/smirk.gif');
   position:absolute;
   z-index:1001;
   width:16px;

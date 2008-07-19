@@ -134,6 +134,7 @@ function window_click(x, y) {
 
 
 function overlay_debug(x, y, point, matrix) {
+  return;
   var message = "Incoming point: " + x + ", " + y + "\n" +
                 "Altered point: " + point.x + ", " + point.y + "\n" +
                 "Matrix: [" + matrix.a + ", " + matrix.c + ", " + matrix.e + "]\n" +
