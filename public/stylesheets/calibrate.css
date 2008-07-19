@@ -2,8 +2,8 @@ body {
   cursor: none;
 }
 #overlay {
-  -moz-opacity:1;
-  background:none;
+  -moz-opacity:0.4;
+  background:green;
   position:absolute;
   left:0px;
   top:0px;
