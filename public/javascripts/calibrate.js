@@ -14,11 +14,13 @@ calibration[3] = {x: resolution_width, y: resolution_height};
 var calibration_index = 0
 var calibration_matrix;
 
+var edge_offset = 100;
+var hit_target_size = 20;
 var calibration_targets = []
-calibration_targets[0] = {x: 10, y: 10};
-calibration_targets[1] = {x: resolution_width - 30, y: 10};
-calibration_targets[2] = {x: 10, y: resolution_height - 30};
-calibration_targets[3] = {x: resolution_width - 30, y: resolution_height - 30};
+calibration_targets[0] = {x: edge_offset, y: edge_offset};
+calibration_targets[1] = {x: resolution_width - (edge_offset + hit_target_size), y: edge_offset};
+calibration_targets[2] = {x: edge_offset, y: resolution_height - (edge_offset + hit_target_size)};
+calibration_targets[3] = {x: resolution_width - (edge_offset + hit_target_size), y: resolution_height - (edge_offset + hit_target_size)};
 
 var calibration_enabled = false;
 var disable_capture = false;
@@ -30,12 +32,11 @@ if (document.addEventListener) {
 // Calibration will only be enabled for Firefox/Mozilla Browsers
 // Additionally Universal privileges must be available
 function enable_calibration() {
-  if (!calibration_setup) return;
   try {
     netscape.security.PrivilegeManager.enablePrivilege('UniversalXPConnect');
     netscape.security.PrivilegeManager.enablePrivilege('UniversalBrowserWrite');
     calibration_enabled = true;
-    create_calibration_setup();
+    if (calibration_setup) create_calibration_setup();
     create_overlay();
   } catch(e) {
     if (console) 
@@ -68,7 +69,7 @@ function calculate_calibration_matrix() {
   try {
     calibration_index = 0;
     calibration_matrix = create_matrix();
-    calibration_matrix = calibration_matrix.translate(- (calibration[0].x - 30), - (calibration[0].y - 30));
+    calibration_matrix = calibration_matrix.translate(- (calibration[0].x - (edge_offset + (hit_target_size / 2))), - (calibration[0].y - (edge_offset + (hit_target_size / 2))));
     //calibration_matrix = calibration_matrix.scaleNonUniform((resolution_width - 30) / (calibration[1].x - calibration[0].x), (resolution_height - 30) / (calibration[2].y - calibration[0].y));
     calibration_setup = false;
     calibrate = document.getElementById('calibrate');
@@ -115,6 +116,7 @@ function overlay_mouseup(evt) {
   overlay.style.height = 0;
   var point = create_point(evt.clientX, evt.clientY);
   point = point.matrixTransform(calibration_matrix);
+  overlay_debug(evt.clientX, evt.clientY, point, calibration_matrix);
   setTimeout("window_click(" + (point.x) + "," + (point.y) + ");", 1);
 }  
 
@@ -130,6 +132,18 @@ function window_click(x, y) {
   disable_capture = false;
 }
 
+
+function overlay_debug(x, y, point, matrix) {
+  var message = "Incoming point: " + x + ", " + y + "\n" +
+                "Altered point: " + point.x + ", " + point.y + "\n" +
+                "Matrix: [" + matrix.a + ", " + matrix.c + ", " + matrix.e + "]\n" +
+                "        [" + matrix.b + ", " + matrix.d + ", " + matrix.f + "]\n" + 
+                "        [0, 0, 1]\n";
+                
+  overlay = document.getElementById("overlay");  
+  overlay.innerHTML = "<pre id='overlay_debug'>" + message + "</pre>" +    
+    "<div id='overlay_cursor' style='left:" + (point.x-8) + ";top:" + (point.y-8) + ";'>&nbsp;</div>";
+}
 
 // Utilize SVG matrices for vector transformation (virtual touchscreen to actual)
 function create_matrix() {
