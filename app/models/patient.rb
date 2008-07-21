@@ -12,7 +12,9 @@ class Patient < ActiveRecord::Base
   end
 
   def national_id
-    self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("National id").id).identifier rescue nil
+    id = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("National id").id).identifier rescue nil
+    id ||=  PatientIdentifierType.find_by_name("National id").next_identifier(:patient => self).save
+    id
   end
 
   def national_id_with_dashes

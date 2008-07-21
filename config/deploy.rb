@@ -125,11 +125,7 @@ EOF
       if Capistrano::CLI.ui.ask("Create cron jobs? (y/n): ") == 'y'
      		cron_configuration =<<-EOF
 # m h  dom mon dow   command
-0 18 * * mon-fri mysqldump -u root openmrs_production > #{shared_path}/backup/openmrs_production.sql; /usr/local/bin/rsnapshot daily
-0 18 * * sat /usr/local/bin/rsnapshot weekly
-0 19 * * mon-fri #{current_path}/script/runner -e production 'Report.cache'
-0 22 * * mon-fri #{current_path}/script/runner -e production 'Patient.update_defaulters'
-* * * * mon-fri #{current_path}/script/runner  -e production 'Success.verify'
+* * * * mon-fri #{current_path}/script/runner -e production 'Success.verify'
 EOF
         run "mkdir -p #{shared_path}/backup"
         run "echo 'Current cron configuration'"
