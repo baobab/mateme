@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PersonName do
-  fixtures :person_name
+  fixtures :person_name, :person
 
   sample({
     :person_name_id => 1,
@@ -29,5 +29,28 @@ describe PersonName do
     person_name = create_sample(PersonName)
     person_name.should be_valid
   end
+  
+  it "should lookup the most common names" do
+    create_sample(PersonName, :family_name => 'Chuckles')
+    create_sample(PersonName, :family_name => 'Waterson')
+    create_sample(PersonName, :family_name => 'Waters')
+    names = PersonName.find_most_common("family_name", "wat")
+    names[0].family_name.should == person_name(:evan_name).family_name
+  end
+  
+  it "should lookup the most common names and not include voided names" do
+    create_sample(PersonName, :family_name => 'Homie the Clown', :voided => 1)
+    names = PersonName.find_most_common("family_name", "hom")
+    names.size.should == 0
+  end  
+
+  it "should lookup the most common names and not include voided persons" do
+    p = person(:evan)
+    p.voided = 1
+    p.save!
+    create_sample(PersonName, :family_name => 'Bob your uncle', :person_id => p.person_id)
+    names = PersonName.find_most_common("family_name", "Bob")
+    names.size.should == 0
+  end  
   
 end
