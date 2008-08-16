@@ -1,7 +1,7 @@
 # Adds a convenience method that lets us know the current method's name
 class Object
   def this_method
-    caller[0]=~/`(.*?)'/
+    caller[0]=~/`(.*?)'/ #'
     $1
   end
 end
@@ -19,6 +19,8 @@ class Success
   end
 
   def self.verify
+    self.end_of_day_summary if Time.now.hour == 16 and Time.now.min == 0
+      
 	  return if self.sent_recent_alert?
     self.should_have_a_login_screen
     self.should_have_3_mongrels
@@ -80,44 +82,45 @@ class Success
 		property.property_value = value
 		property.save!
   end
+
 	
 protected
 
   def self.should_have_recent_encounter(since = 5.minutes.ago)
-    puts this_method.capitalize.gsub(/_/, " ")
+    notify this_method.capitalize.gsub(/_/, " ")
   	last_encounter_time = Encounter.find(:first, :order => 'encounter_id DESC').date_created
 	  self.alert "Last encounter occurred > five minutes ago (#{last_encounter_time.hour}:#{last_encounter_time.min})" if last_encounter_time < since
 	end
 
   def self.should_have_a_login_screen
-    puts this_method.capitalize.gsub(/_/, " ")
+    notify this_method.capitalize.gsub(/_/, " ")
     login_screen = `lynx --dump localhost`
     #login_screen = shell("lynx --dump localhost")
     self.alert "No login screen available:\n #{login_screen}" unless login_screen.match(/Loading User Login/)
 	end
 
   def self.should_have_3_mongrels
-    puts this_method.capitalize.gsub(/_/, " ")
-    self.alert "3 mongrels are not running:\npgrep mongrel\n#{`pgrep mongrel`}" unless `pgrep mongrel`.split(/\n/).length == 3 rescue false
+    notify this_method.capitalize.gsub(/_/, " ")
+    self.alert("3 mongrels are not running:\npgrep mongrel\n#{`pgrep mongrel`}",self.end_of_log) unless `pgrep mongrel`.split(/\n/).length == 3 rescue false
   end
 
   def self.should_not_run_hot
-    puts this_method.capitalize.gsub(/_/, " ")
+    notify this_method.capitalize.gsub(/_/, " ")
     current_temp = `cat /proc/acpi/thermal_zone/*/temperature | head -1`.match(/\d+/).to_s.to_i rescue nil
-    self.alert "Machine is running hot: #{current_temp}" if current_temp.blank? || current_temp > 55
+    self.alert("Machine is running hot: #{current_temp}", self.end_of_log) if current_temp.blank? || current_temp > 55
   end
 
   def self.should_have_free_memory
-    puts this_method.capitalize.gsub(/_/, " ")
+    notify this_method.capitalize.gsub(/_/, " ")
     mem_free = `cat /proc/meminfo | grep MemFree`
     mem_free_amount = mem_free.match(/\d+/)[0].to_i
-    alert "Machine is running out of memory: #{mem_free_amount}" if mem_free_amount < (128 * 1024) # 128 MB
+    alert("Machine is running out of memory: #{mem_free_amount}",self.end_of_log) if mem_free_amount < (96 * 1024) # 96 MB
   rescue
     alert "Could not check the free memory"      
   end
   
   def self.should_have_free_disk_space
-    puts this_method.capitalize.gsub(/_/, " ")
+    notify this_method.capitalize.gsub(/_/, " ")
     disk_free = `df /var/www | grep / `
     disk_free_amount = disk_free.split[3].to_f
     alert "Machine is running out of disk space: #{disk_free_amount}KB free" if disk_free_amount < 1048576 # 1 Gig
@@ -126,25 +129,44 @@ protected
   end
 
   def self.should_have_more_than_ten_minutes_uptime
-    puts this_method.capitalize.gsub(/_/, " ")
+    notify this_method.capitalize.gsub(/_/, " ")
     uptime = `cat /proc/uptime`
     uptime_seconds = uptime.split(/ +/)[0].to_f
-    alert "System was rebooted at #{Time.now - uptime_seconds}" if uptime_seconds/60 < 10
+    alert("System was rebooted at #{Time.now - uptime_seconds}", self.end_of_log) if uptime_seconds/60 < 10
   rescue 
     alert "Could not check uptime"
   end
 
   def self.should_have_low_load_average
-    puts this_method.capitalize.gsub(/_/, " ")
+    notify this_method.capitalize.gsub(/_/, " ")
     load_average = `cat /proc/loadavg`
     fifteen_minute_load_average = load_average.split(/ +/)[2].to_f
-    alert "System has a high load average over the past 15 minutes: #{fifteen_minute_load_average}" if fifteen_minute_load_average > 2
+    alert("System has a high load average over the past 15 minutes: #{fifteen_minute_load_average}",self.end_of_log) if fifteen_minute_load_average > 2
   rescue 
     alert "Could not check load average"
   end
 
-  def self.get_recent_log
-    `tail /var/www/bart/`
+  def self.end_of_log
+    logfile = "/var/www/bart/current/log/production.log"
+    "Last 15 lines of logfile: #{logfile}\n\n #{`tail -15 #{logfile}`}"
+  end
+
+  def self.end_of_day_summary
+
+    todays_encounters = Encounter.find(:all, :conditions => ["DATE(encounter_datetime) = ?", Date.today])
+    number_of_uniq_patients_with_encounters = todays_encounters.map{|e|e.patient_id}.uniq.length
+    subject = "Number of unique #{self.current_location} patients for today: = #{number_of_uniq_patients_with_encounters}"
+    message = ""
+
+    Encounter.count_by_type_for_date(Date.today).sort{|a,b| a[0].name <=> b[0].name}.each{|type,total|
+      message += "#{type.name}: #{total}\n"
+    }
+
+    uptime = `cat /proc/uptime`
+    uptime_seconds = uptime.split(/ +/)[0].to_f
+    message += "System was last rebooted #{(uptime_seconds/60/60/24).floor} days ago at #{Time.now - uptime_seconds}"
+
+    alert(subject,message)
   end
 
 private 
@@ -172,19 +194,20 @@ private
      Socket.do_not_reverse_lookup = orig  
   end  
 
-  def self.alert(subject)
+  def self.notify(message) 
+    RAILS_DEFAULT_LOGGER.warn message
+  end
+
+  def self.alert(subject, extended_message = "")
     @@sent_alert = true
+    @@sent_subject = subject
     require 'smtp_tls'
-
-# Also log to rails log
-    puts subject
-    RAILS_DEFAULT_LOGGER.warn subject
-
+    notify subject
     username = GlobalProperty.find_by_property("smtp_username").property_value rescue ""
     password = GlobalProperty.find_by_property("smtp_password").property_value rescue ""
 
 		self.reset(DateTime.now.to_default_s)
-	  body = "#{subject} @ #{self.current_location} (#{self.current_ip_address}) at #{Time.now}"
+	  body = "#{subject} @ #{self.current_location} (#{self.current_ip_address}) at #{Time.now}\n#{extended_message}"
     sender = "success@baobabhealth.org"
     receivers = {"malawihackers@baobabhealth.org" => "Support Team", "ga744ktwed@twittermail.com" => "BaobabHealthTweet"}
     #Support Team <#{receiver}>, BaobabHealthTweet <ga744ktwed@twittermail.com>

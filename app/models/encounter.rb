@@ -6,6 +6,7 @@ class Encounter < ActiveRecord::Base
   has_many :observations, :dependent => :destroy
   belongs_to :type, :class_name => "EncounterType", :foreign_key => :encounter_type
   belongs_to :provider, :class_name => "User", :foreign_key => :provider_id
+  belongs_to :patient
 
   def before_save    
     self.encounter_datetime = Time.now if self.encounter_datetime.blank?
@@ -23,6 +24,17 @@ class Encounter < ActiveRecord::Base
 
   def to_s
     self.name + ": " + self.observations.collect{|observation| observation.to_s}.join("\n")
+  end
+
+  def self.count_by_type_for_date(date)  
+    ActiveRecord::Base.connection.select_all("SELECT count(*) as number, encounter_type FROM encounter GROUP BY encounter_type")
+    todays_encounters = Encounter.find(:all, :include => "type", :conditions => ["DATE(encounter_datetime) = ?",date])
+    encounters_by_type = Hash.new(0)
+    todays_encounters.each{|encounter|
+      next if encounter.type.nil?
+      encounters_by_type[encounter.type] += 1
+    }
+    encounters_by_type
   end
 
 end
