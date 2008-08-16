@@ -34,7 +34,13 @@ class Person < ActiveRecord::Base
     patient_age += (estimate && birth_date.month == 7 && birth_date.day == 1  && 
       today.month < birth_date.month && self.date_created.year == today.year) ? 1 : 0
   end
-  
+
+  def age_in_months(today = Date.today)
+    years = (today.year - self.birthdate.year)
+    months = (today.month - self.birthdate.month)
+    (years * 12) + months
+  end
+    
   def birthdate_formatted
     if self.birthdate_estimated
       if self.birthdate.day == 1 and self.birthdate.month == 7

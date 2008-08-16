@@ -37,4 +37,21 @@ class Patient < ActiveRecord::Base
     label.draw_multi_text("#{address}")
     label.print(1)
   end
+  
+  def min_weight
+    WeightHeight.min_weight(person.gender, person.age_in_months).to_f
+  end
+  
+  def max_weight
+    WeightHeight.max_weight(person.gender, person.age_in_months).to_f
+  end
+  
+  def min_height
+    WeightHeight.min_height(person.gender, person.age_in_months).to_f
+  end
+  
+  def max_height
+    WeightHeight.max_height(person.gender, person.age_in_months).to_f
+  end
+  
 end

@@ -445,6 +445,17 @@ form{
   margin-bottom: 5px;
 }
 
+.NumbersOnlyWithDecimal #star,
+.NumbersOnlyWithDecimal #abc,
+.NumbersOnlyWithDecimal #date,
+.NumbersOnlyWithDecimal #minus,
+.NumbersOnlyWithDecimal #plus,
+.NumbersOnlyWithDecimal #slash,
+.NumbersOnlyWithDecimal #comma,
+.NumbersOnlyWithDecimal #percent{
+  display: none
+}
+
 .NumbersOnly #star,
 .NumbersOnly #abc,
 .NumbersOnly #date,
@@ -457,11 +468,14 @@ form{
   display: none
 }
 
+.NumbersOnlyWithDecimal .keyboardButton,
+.NumbersOnlyWithDecimal .buttonLine,
 .NumbersOnly .keyboardButton,
 .NumbersOnly .buttonLine{
   height: auto;
 }
 
+.NumbersOnlyWithDecimal .keyboardButton,
 .NumbersOnly .keyboardButton{
   font-size: 2em;
   height: 90px;

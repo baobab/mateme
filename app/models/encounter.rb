@@ -32,7 +32,7 @@ class Encounter < ActiveRecord::Base
     encounters_by_type = Hash.new(0)
     todays_encounters.each{|encounter|
       next if encounter.type.nil?
-      encounters_by_type[encounter.type] += 1
+      encounters_by_type[encounter.type.name] += 1
     }
     encounters_by_type
   end

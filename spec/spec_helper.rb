@@ -36,6 +36,12 @@ Spec::Runner.configure do |config|
 
 end
 
+module MatemeSpecHelpers
+  def login_current_user
+    session[:user_id] = User.current_user.id
+  end
+end
+
 module Spec
   module Rails
     module Example
@@ -51,6 +57,11 @@ module Spec
           klass.create(@@sample[klass].merge(options))
         end
       end  
+      
+      class ControllerExampleGroup
+        include MatemeSpecHelpers
+      end  
     end
   end
 end  
+

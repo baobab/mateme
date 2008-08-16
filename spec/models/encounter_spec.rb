@@ -43,5 +43,13 @@ describe Encounter do
   it "should be printable as a string with all of the observations" do
     encounter(:evan_vitals).to_s.should == "VITALS: HEIGHT (CM): 191.0"
   end
+
+  it "should be able to report the numbers of unique encounters for a given date" do
+    create_sample(Encounter, {:encounter_type => encounter_type(:vitals).id})
+    create_sample(Encounter, {:encounter_type => encounter_type(:vitals).id})
+    create_sample(Encounter, {:encounter_type => encounter_type(:adultinitial).id})
+    create_sample(Encounter, {:encounter_type => encounter_type(:pedsreturn).id})
+    Encounter.count_by_type_for_date(Date.today).should == {"VITALS" => 2, "ADULTINITIAL" => 1, "PEDSRETURN" => 1}
+  end  
   
 end

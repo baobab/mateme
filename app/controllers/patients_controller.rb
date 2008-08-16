@@ -1,8 +1,4 @@
 class PatientsController < ApplicationController
-  def index
-    @patients = Patient.find(:all)
-  end
-
   def show
     @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil
   end

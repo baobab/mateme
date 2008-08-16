@@ -36,4 +36,24 @@ P1
 EOF
   end
   
+  it "should get the min weight for this patient based on their gender and age" do
+    patient = patient(:evan)
+    patient.min_weight.should == 34.0    
+  end
+  
+  it "should get the max weight for this patient based on their gender and age" do
+    patient = patient(:evan)
+    patient.max_weight.should == 82.0   
+  end  
+
+  it "should get the min height for this patient based on their gender and age" do
+    patient = patient(:evan)
+    patient.min_height.should == 151.0
+  end
+  
+  it "should get the max height for this patient based on their gender and age" do
+    patient = patient(:evan)
+    patient.max_height.should == 183.0
+  end  
+
 end

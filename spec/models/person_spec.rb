@@ -89,5 +89,11 @@ describe Person do
     person.birthdate_formatted.should == "??/???/1986"    
   end
   
-  
+  it "should get the person's age in months" do
+    Date.stub!(:today).and_return(Date.parse("2008-08-16"))
+    person = person(:evan)
+    person.age_in_months.should == 314
+  end
+    
+    
 end

@@ -152,14 +152,13 @@ protected
   end
 
   def self.end_of_day_summary
-
     todays_encounters = Encounter.find(:all, :conditions => ["DATE(encounter_datetime) = ?", Date.today])
     number_of_uniq_patients_with_encounters = todays_encounters.map{|e|e.patient_id}.uniq.length
     subject = "Number of unique #{self.current_location} patients for today: = #{number_of_uniq_patients_with_encounters}"
     message = ""
 
-    Encounter.count_by_type_for_date(Date.today).sort{|a,b| a[0].name <=> b[0].name}.each{|type,total|
-      message += "#{type.name}: #{total}\n"
+    Encounter.count_by_type_for_date(Date.today).sort{|a,b| a[0] <=> b[0]}.each{|name,total|
+      message += "#{name}: #{total}\n"
     }
 
     uptime = `cat /proc/uptime`

@@ -166,13 +166,33 @@
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
     <label for='weight'>Weight (kg)</label>
-      <%= text_field_tag "observations[][value_numeric]", nil, {:id => "weight", :field_type => 'number', :absoluteMin => 0, :absoluteMax => 250, :units => 'kg', :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+      <%= text_field_tag "observations[][value_numeric]", nil, 
+        {:id => "weight", 
+         :field_type => 'number', 
+         :min => number_with_precision(@patient.min_weight, 1), 
+         :max => number_with_precision(@patient.max_weight, 1),
+         :absoluteMin => 0, 
+         :absoluteMax => 250, 
+         :units => 'kg', 
+         :validationRule => "[0-9]+\\.[0-9]$",
+         :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
+         :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
       <%= hidden_field_tag("observations[][concept_name]", "WEIGHT (KG)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   
     <label for='height'>Height (cm)</label>
-      <%= text_field_tag "observations[][value_numeric]", nil, {:id => "height", :field_type => 'number', :absoluteMin => 10, :absoluteMax => 228, :units => 'cm', :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+      <%= text_field_tag "observations[][value_numeric]", nil, 
+        {:id => "height", 
+         :field_type => 'number', 
+         :min => number_with_precision(@patient.min_height, 1), 
+         :max => number_with_precision(@patient.max_height, 1),
+         :absoluteMin => 10, 
+         :absoluteMax => 228, 
+         :units => 'cm', 
+         :validationRule => "^[0-9]+$",
+         :validationMessage => "You must enter numbers only (for example 157)",         
+         :tt_pageStyleClass => "Numeric NumbersOnly"} %>
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
