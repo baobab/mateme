@@ -25,6 +25,7 @@ end
 require 'fixtures'
 require 'composite_primary_keys'
 require 'has_many_through_association_extension'
+require 'bantu_soundex'
 
 # Foreign key checks use a lot of resources but are useful during development
 if ENV['RAILS_ENV'] != 'development'
