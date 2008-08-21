@@ -8,8 +8,7 @@ class PersonNamesController < ApplicationController
   end
 
   def search(field_name, search_string)
-    @names = PersonName.find_most_common(field_name, search_string).collect{|person_name| person_name.send(field_name)}
-    render :text => "<li>" + @names.join("</li><li>") + "</li>"
-
+    @names = PersonNameCode.find_most_common(field_name, search_string).collect{|person_name| person_name.send(field_name)}
+    render :text => "<li>Current: " + ((search_string || '').soundex || '') + "</li><li>" + @names.map{|n| (n + " - " + n.soundex) if n } .join("</li><li>") + "</li>"
   end
 end

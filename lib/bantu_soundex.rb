@@ -14,7 +14,7 @@ class String
     word.gsub!(/[^A-Z]/, '')    
     return nil if word.blank?  
     # Words starting with M or N or D followed by another consonant should drop the first letter
-    word.gsub!(/^M([BCDFGJKLMNPQRSTVXZ])/, '\1')
+    word.gsub!(/^M([BDFGJKLMNPQRSTVXZ])/, '\1') 
     word.gsub!(/^N([BCDFGJKLMNPQRSTVXZ])/, '\1')
     word.gsub!(/^D([BCDFGJKLMNPQRSTVXZ])/, '\1')
     # THY and CH as common phonemes enhancement
@@ -26,6 +26,11 @@ class String
     initial.gsub!(/[AEI]/, 'E')
     # Initial C/K enhancement
     initial.gsub!(/[CK]/, 'K')    
+    initial.gsub!(/[JY]/, 'Y')    
+    initial.gsub!(/[VF]/, 'F')    
+    initial.gsub!(/[LR]/, 'R')
+    initial.gsub!(/[MN]/, 'N')
+    initial.gsub!(/[SZ]/, 'Z') 
     # W followed by a vowel should be treated as a consonant enhancement
     tail.gsub!(/W[AEIOUHY]/, '8')
     # Change letters from the following sets into the digit given
@@ -49,8 +54,7 @@ class String
     tail.gsub!(/9+/, '9')
     # Remove all zeros from the string
     tail.gsub!(/0/, '')
-    # Pad the string that resulted with trailing zeros and return only the first four positions
-    while (tail.size < 3) do tail << "0" end
+    # Return only the first four positions
     initial + tail.slice(0..2)
   end
 end

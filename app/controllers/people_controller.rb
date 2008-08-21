@@ -10,7 +10,18 @@ class PeopleController < ApplicationController
   def search
     @people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
     redirect_to :controller => :encounters, :action => :new, :patient_id => @people.first.id and return unless @people.blank? || @people.size > 1
-    @people = Person.find(:all, :include => [:person_name], :conditions => ["gender = ? AND person_name.given_name LIKE ? AND person_name.family_name LIKE ? AND person.voided = 0 AND person_name.voided = 0", params[:gender], params[:given_name], params[:family_name]]) if @people.blank?
+    @people = Person.find(:all, :include => {:person_name => [:person_name_code]}, :conditions => [
+    "gender = ? AND \
+     person.voided = 0 AND \
+     person_name.voided = 0 AND \
+     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
+     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)", 
+    params[:gender], 
+    params[:given_name], 
+    (params[:given_name] || '').soundex,
+    params[:family_name], 
+    (params[:family_name] || '').soundex,
+    ]) if @people.blank?
   end
 
   # This method is just to allow the select box to submit, we could probably do this better

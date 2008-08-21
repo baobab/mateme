@@ -6,8 +6,8 @@ describe PersonNameCode do
   sample({
     :person_name_code_id => 1,
     :person_name_id => 1,
-    :given_name_code => 'E150',
-    :middle_name_code => 'J210',
+    :given_name_code => 'E15',
+    :middle_name_code => 'J21',
     :family_name_code => 'W342',
     :family_name2_code => nil,
     :family_name_suffix_code => nil,
@@ -21,9 +21,11 @@ describe PersonNameCode do
   it "should rebuild the codes for all of the person names" do
     muluzi = PersonName.create(:given_name => 'Atcheya', :family_name => 'Muluzi')
     PersonNameCode.rebuild_person_name_codes
-    code = PersonNameCode.find(:first, :conditions => ['person_name_id = ?', muluzi.person_name_id])
-    code.given_name_code.should == 'E900'
-    code.family_name_code.should == 'M460'    
+    code = PersonNameCode.find(:all, :conditions => ['person_name_id = ?', muluzi.person_name_id])
+    code.size.should == 1
+    code = code.first
+    code.given_name_code.should == 'E9'
+    code.family_name_code.should == 'M46'    
   end
   
     

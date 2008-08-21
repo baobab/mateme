@@ -53,4 +53,14 @@ describe PersonName do
     names.size.should == 0
   end  
   
+  it "should update the person name code when it is created or updated" do
+    muluzi = PersonName.create(:given_name => 'Atcheya', :family_name => 'Muluzi')
+    code = PersonNameCode.find(:first, :conditions => ['person_name_id = ?', muluzi.person_name_id])
+    code.given_name_code.should == 'E9'
+    code.family_name_code.should == 'M46'    
+    muluzi.given_name = "Bakiri"
+    muluzi.save!
+    code = PersonNameCode.find(:first, :conditions => ['person_name_id = ?', muluzi.person_name_id])
+    code.given_name_code.should == 'B24'    
+  end
 end
