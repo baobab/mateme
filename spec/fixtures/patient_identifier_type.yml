@@ -39,7 +39,7 @@ patient_identifier_type_00004:
   patient_identifier_type_id: 4
   required: false
   format_description: ""
-patient_identifier_type_00005: 
+unknown_id: 
   name: Unknown id
   format: 
   date_created: 2008-04-30 22:28:52 +02:00
