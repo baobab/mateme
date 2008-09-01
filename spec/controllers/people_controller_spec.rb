@@ -28,7 +28,5 @@ describe PeopleController do
     response.should be_success
     assigns[:people].should_not include(person(:evan))
   end
-  
-  
-  
+      
 end

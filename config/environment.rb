@@ -31,3 +31,9 @@ require 'bantu_soundex'
 if ENV['RAILS_ENV'] != 'development'
   ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS=0")
 end
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'person_address', 'person_address'
+  inflect.irregular 'obs', 'obs'
+  inflect.irregular 'concept_class', 'concept_class'
+end  

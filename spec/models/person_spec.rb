@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Person do
-  fixtures :person, :person_name, :person_address
+  fixtures :person, :person_name, :person_name_code, :person_address, :obs
 
   sample({
     :person_id => 1,
@@ -95,11 +95,39 @@ describe Person do
     person.address.should == "Katoleza"
   end
   
-  it "should return the first preferred name" 
-  it "should return the first preferred address"
+  it "should return the first preferred name" do
+    p = person(:evan)
+    p.names << PersonName.create(:given_name => "Mr. Cool")
+    p.names << PersonName.create(:given_name => "Sunshine", :family_name => "Cassidy", :preferred => true)
+    p.save!
+    Person.find(:first, :include => :names).name.should == "Sunshine Cassidy"
+  end
+  
+  it "should return the first preferred address" do
+    p = person(:evan)
+    p.addresses << PersonAddress.create(:address1 => 'Sunshine Underground', :city_village => 'Lilongwe')
+    p.addresses << PersonAddress.create(:address1 => 'Staff Housing', :city_village => 'Neno', :preferred => true)
+    p.save!
+    Person.find(:first, :include => :addresses).address.should == "Neno"
+  end
 
-  it "should refer to the person's names but not include voided names"
-  it "should refer to the person's addresses but not include voided addresses"
-  it "should refer to the person's observations but not include voided observations"
+  it "should refer to the person's names but not include voided names" do
+    p = person(:evan)
+    PersonName.create(:given_name => "Sunshine", :family_name => "Cassidy", :preferred => true, :person_id => p.person_id, :voided => true)
+    Person.find(:first, :include => :names).name.should_not == "Sunshine Cassidy"
+  end
+  
+  it "should refer to the person's addresses but not include voided addresses" do
+    p = person(:evan)
+    PersonAddress.create(:address1 => 'Sunshine Underground', :city_village => 'Lilongwe', :preferred => true, :person_id => p.person_id, :voided => true)
+    Person.find(:first, :include => :addresses).address.should_not == "Lilongwe"
+  end
+
+  it "should refer to the person's observations but not include voided observations" do
+    o = obs(:evan_vitals_height)
+    o.void!("End of the world")
+    p = person(:evan)
+    p.observations.should be_empty    
+  end  
   
 end
