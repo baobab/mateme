@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Person do
-  fixtures :person, :person_name, :person_name_code, :person_address, :obs
+  fixtures :person, :person_name, :person_name_code, :person_address, :obs, :patient
 
   sample({
     :person_id => 1,
@@ -129,5 +129,10 @@ describe Person do
     p = person(:evan)
     p.observations.should be_empty    
   end  
+  
+  it "should refer to the corresponding patient" do
+    p = person(:evan)
+    p.patient.should == patient(:evan)
+  end
   
 end

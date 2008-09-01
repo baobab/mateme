@@ -10,9 +10,10 @@ class PeopleController < ApplicationController
   def search
     @people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
     redirect_to :controller => :encounters, :action => :new, :patient_id => @people.first.id and return unless @people.blank? || @people.size > 1
-    @people = Person.find(:all, :include => {:names => [:person_name_code]}, :conditions => [
+    @people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
     "gender = ? AND \
      person.voided = 0 AND \
+     (patient.voided = 0 OR patient.voided IS NULL) AND \
      (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
      (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)", 
     params[:gender], 

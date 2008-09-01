@@ -13,7 +13,14 @@ describe PeopleController do
     assigns[:people].should include(person(:evan))
   end
   
-  it "should include voided in the search results" do
+  it "should lookup people that are not patients and return them in the search results" do
+    p = patient(:evan).destroy
+    get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
+    response.should be_success
+    assigns[:people].should include(person(:evan))
+  end
+  
+  it "should not include voided people in the search results" do
     p = person(:evan)
     p.void!
     get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
@@ -24,6 +31,14 @@ describe PeopleController do
   it "should not include voided names in the search results" do
     name = person(:evan).names.first
     name.void!
+    get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
+    response.should be_success
+    assigns[:people].should_not include(person(:evan))
+  end
+        
+  it "should not include voided patients in the search results" do
+    p = patient(:evan)
+    p.void!
     get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
     response.should be_success
     assigns[:people].should_not include(person(:evan))
