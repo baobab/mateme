@@ -25,7 +25,7 @@ describe PersonNameCode do
     code.size.should == 1
     code = code.first
     code.given_name_code.should == 'E9'
-    code.family_name_code.should == 'M46'    
+    code.family_name_code.should == 'N46'    
   end
   
     

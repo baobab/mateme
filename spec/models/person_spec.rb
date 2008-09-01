@@ -26,11 +26,6 @@ describe Person do
     person.should be_valid
   end
 
-  it "should return the name" do
-    person = person(:evan)
-    person.name.should == "Evan Waters"    
-  end
-  
   it "should return the age" do
     person = person(:evan)
     person.age("2008-06-07".to_date).should == 25
@@ -47,11 +42,6 @@ describe Person do
     person = create_sample(Person, :birthdate => "2000-07-01".to_date, :birthdate_estimated => true)
     person.date_created = "2000-01-01".to_date
     person.age("2008-06-07".to_date).should == 7
-  end
-  
-  it "should return the address" do
-    person = person(:evan)
-    person.address.should == "Katoleza"
   end
   
   it "should format the birthdate" do
@@ -95,5 +85,21 @@ describe Person do
     person.age_in_months.should == 314
   end
     
+  it "should return the name" do
+    person = person(:evan)
+    person.name.should == "Evan Waters"    
+  end
     
+  it "should return the address" do
+    person = person(:evan)
+    person.address.should == "Katoleza"
+  end
+  
+  it "should return the first preferred name" 
+  it "should return the first preferred address"
+
+  it "should refer to the person's names but not include voided names"
+  it "should refer to the person's addresses but not include voided addresses"
+  it "should refer to the person's observations but not include voided observations"
+  
 end

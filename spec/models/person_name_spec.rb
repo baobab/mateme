@@ -57,7 +57,7 @@ describe PersonName do
     muluzi = PersonName.create(:given_name => 'Atcheya', :family_name => 'Muluzi')
     code = PersonNameCode.find(:first, :conditions => ['person_name_id = ?', muluzi.person_name_id])
     code.given_name_code.should == 'E9'
-    code.family_name_code.should == 'M46'    
+    code.family_name_code.should == 'N46'    
     muluzi.given_name = "Bakiri"
     muluzi.save!
     code = PersonNameCode.find(:first, :conditions => ['person_name_id = ?', muluzi.person_name_id])

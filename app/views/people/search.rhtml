@@ -147,6 +147,7 @@
 </script>
 
 <% if (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
+
   <% form_tag "search", :method => :get do |f| %>
     <%= text_field_tag :given_name,  params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
     <%= text_field_tag :family_name,  params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
