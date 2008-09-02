@@ -199,9 +199,10 @@
 
   <%= text_field_tag "person_address[city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current village of residence', :ajaxURL => '/person_addresses/village?search_string=', :allowFreeText => true }%>
   
-    <%= text_field_tag "person_address[address1]",  params[:address1], {:field_type => 'alpha', :helpText => 'Landmark or plot number', :ajaxURL => '/person_addresses/landmark?search_string=', :allowFreeText => true }%>
+  <%= text_field_tag "person_address[address1]",  params[:address1], {:field_type => 'alpha', :helpText => 'Landmark or plot number', :ajaxURL => '/person_addresses/landmark?search_string=', :allowFreeText => true }%>
 
   <%= hidden_field_tag :create_patient, true %>
+  
   <%= hidden_field_tag :identifier, params[:identifier] %>
 
   <%= submit_tag "Create person" %>
