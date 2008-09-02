@@ -43,5 +43,62 @@ describe PeopleController do
     response.should be_success
     assigns[:people].should_not include(person(:evan))
   end
+
+  it "should select a person" do
+    get :select, {:person => person(:evan).person_id}
+    response.should be_redirect    
+    get :select, {:person => 0, :given_name => 'Dennis', :family_name => 'Rodman', :gender => 'U'}
+    response.should be_redirect
+  end
+  
+  it "should look up people for display on the default page" do
+    get :index
+    assigns[:people].should_not be_empty
+  end
+  
+  it "should display the new person form" do
+    get :new
+    response.should be_success
+  end  
+
+  it "should create a person with their address and name records" do
+    options = {
+     :birth_year => 1987, 
+     :birth_month => 2, 
+     :birth_day => 28,
+     :gender => 'M',
+     :person_name => {:given_name => 'Bruce', :family_name => 'Wayne'},
+     :person_address => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+    }  
+    running { post :create, options }.should change(Person, :count).by(1)
+    running { post :create, options }.should change(PersonAddress, :count).by(1)
+    running { post :create, options }.should change(PersonName, :count).by(1)
+    response.should be_redirect
+  end
+  
+  it "should allow for estimated birthdates" do
+    post :create, {
+     :birth_year => 'Unknown', 
+     :age_estimate => 17,
+     :gender => 'M',
+     :person_name => {:given_name => 'Bruce', :family_name => 'Wayne'},
+     :person_address => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+    }  
+    response.should be_redirect
+  end
+  
+  it "should not create a patient unless specifically requested" do
+    options = {
+     :birth_year => 'Unknown', 
+     :age_estimate => 17,
+     :gender => 'M',
+     :person_name => {:given_name => 'Bruce', :family_name => 'Wayne'},
+     :person_address => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+    }  
+    running { post :create, options }.should_not change(Patient, :count)
+    running { post :create, options.merge(:create_patient => "true") }.should change(Patient, :count).by(1)
+  end
+  
+  
       
 end

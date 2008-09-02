@@ -39,14 +39,13 @@ class PeopleController < ApplicationController
       person.set_birthdate(params[:birth_year], params[:birth_month], params[:birth_day])
     end
     person.save
-
-    person.create_person_name(params[:person_name])
-    person.create_person_address(params[:person_address])
+    person.names.create(params[:person_name])
+    person.addresses.create(params[:person_address])
 
 # TODO handle the birthplace attribute
 
     if params[:create_patient] == "true"
-      patient = person.create_patient()
+      patient = person.create_patient
       # This might actually be a national id, but currently we wouldn't know        
       patient.patient_identifiers.create(:identifier => params[:identifier], :identifier_type => PatientIdentifierType.find_by_name("Unknown id")) unless params[:identifier].blank?
       patient.national_id_label

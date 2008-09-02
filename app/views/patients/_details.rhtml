@@ -1,4 +1,4 @@
 <%= @patient.person.name %><br/>
 <%= @patient.national_id_with_dashes %><br/>
 <%= @patient.person.birthdate_formatted %><br/>
-Village: <%= @patient.person.person_address.city_village %><br/>
+Village: <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>

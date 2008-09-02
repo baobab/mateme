@@ -185,7 +185,7 @@
         <option value="<%= person.id %>">
           <%=h person.name -%>, 
           Birthdate: <%=h person.birthdate -%>, 
-          Village: <%=h person.person_address.city_village -%>
+          Village: <%=h person.addresses.first.city_village rescue 'Unknown' -%>
       </option>
       <% end -%>
       <% if params[:identifier] %>      

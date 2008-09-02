@@ -25,7 +25,7 @@ class Patient < ActiveRecord::Base
   def national_id_label
     return unless self.national_id
     sex =  self.person.gender.match(/F/i) ? "(F)" : "(M)"
-    address = self.person_address.strip[0..24].humanize.delete("'") rescue ""
+    address = self.person.address.strip[0..24].humanize.delete("'") rescue ""
     label = ZebraPrinter::StandardLabel.new
     label.font_size = 2
     label.font_horizontal_multiplier = 2

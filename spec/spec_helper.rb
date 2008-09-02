@@ -3,6 +3,8 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'spec'
 require 'spec/rails'
 
+alias :running :lambda
+
 Test::Unit::TestCase.class_eval do
   set_fixture_class :concept_answer => ConceptAnswer
   set_fixture_class :concept_class => ConceptClass
