@@ -4,22 +4,23 @@ class Patient < ActiveRecord::Base
   include Openmrs
 
   has_one :person, :foreign_key => :person_id
-  has_many :patient_identifiers, :foreign_key => :patient_id, :dependent => :destroy
-  has_many :encounters do 
+  has_many :patient_identifiers, :foreign_key => :patient_id, :dependent => :destroy, :conditions => 'patient_identifier.voided = 0'
+  has_many :encounters, :conditions => 'encounter.voided = 0' do 
     def find_by_date(encounter_date)
       find(:all, :conditions => ["DATE(encounter_datetime) = DATE(?)", encounter_date]) # Use the SQL DATE function to compare just the date part
     end
   end
 
-  def national_id
+  def national_id(force = true)
     id = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("National id").id).identifier rescue nil
-    id ||=  PatientIdentifierType.find_by_name("National id").next_identifier(:patient => self).save
+    return id unless force
+    id ||= PatientIdentifierType.find_by_name("National id").next_identifier(:patient => self).identifier
     id
   end
 
-  def national_id_with_dashes
-    national_id = self.national_id
-    national_id[0..4] + "-" + national_id[5..8] + "-" + national_id[9..-1] rescue nil
+  def national_id_with_dashes(force = true)
+    id = self.national_id(force)
+    id[0..4] + "-" + id[5..8] + "-" + id[9..-1] rescue id
   end
 
   def national_id_label

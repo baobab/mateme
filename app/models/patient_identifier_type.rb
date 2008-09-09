@@ -22,8 +22,8 @@ class PatientIdentifierType < ActiveRecord::Base
         patient_identifier.type = self
         patient_identifier.identifier = new_national_id
         patient_identifier.patient = options[:patient]
-
-        return patient_identifier
+        patient_identifier.save!
+        patient_identifier
     end
   end
 end

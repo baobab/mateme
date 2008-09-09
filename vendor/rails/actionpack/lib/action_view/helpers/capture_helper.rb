@@ -138,7 +138,7 @@ module ActionView
       
         def capture_erb_with_buffer(buffer, *args, &block)
           pos = buffer.length
-          block.call(*args)
+          block.call(args)
         
           # extract the block 
           data = buffer[pos..-1]

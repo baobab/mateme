@@ -29,8 +29,7 @@
     height:10em
   }
 
-  #tt_page_first_name .options li,
-  #tt_page_last_name .options li{
+  .options li{
     font-size: 1.5em
   }
   
@@ -149,11 +148,6 @@
 <% if (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
 
   <% form_tag "search", :method => :get do |f| %>
-    <%= text_field_tag :given_name,  params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
-    <%= text_field_tag :family_name,  params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
-    Gender: <%= select_tag :gender, options_for_select({"" => "", "Male" => "M", "Female" => "F"}), {:helpText => "Gender"} %>
-    <%= hidden_field_tag :create_patient, params[:create_patient] %>
-    <%= submit_tag "Find person" %>
   <% end -%>
 
   <script>
@@ -174,7 +168,7 @@
 <% end -%>
 
 <% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
-  <% form_tag "select", :method => :get do |f| %>
+  <% form_tag("select", :method => :get) do |f| %>
     <% if @people.blank? %>
       <label for="person">No patients were found:</label>
     <% else -%>  
@@ -186,6 +180,8 @@
           <%=h person.name -%>, 
           Birthdate: <%=h person.birthdate -%>, 
           Village: <%=h person.addresses.first.city_village rescue 'Unknown' -%>
+          <%=h '(' + person.patient.national_id_with_dashes + ')' rescue '' -%>
+          <%=h '(Died)' if person.dead rescue '' -%>
       </option>
       <% end -%>
       <% if params[:identifier] %>      
