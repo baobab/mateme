@@ -10,10 +10,12 @@ module ActiveSupport
   # If you discover an incorrect inflection and require it for your application, you'll need
   # to correct it yourself (explained below).
   module Inflector
+    extend self
+
     # A singleton instance of this class is yielded by Inflector.inflections, which can then be used to specify additional
     # inflection rules. Examples:
     #
-    #   Inflector.inflections do |inflect|
+    #   ActiveSupport::Inflector.inflections do |inflect|
     #     inflect.plural /^(ox)$/i, '\1\2en'
     #     inflect.singular /^(ox)en/i, '\1'
     #
@@ -28,21 +30,25 @@ module ActiveSupport
     class Inflections
       include Singleton
 
-      attr_reader :plurals, :singulars, :uncountables
+      attr_reader :plurals, :singulars, :uncountables, :humans
 
       def initialize
-        @plurals, @singulars, @uncountables = [], [], []
+        @plurals, @singulars, @uncountables, @humans = [], [], [], []
       end
 
       # Specifies a new pluralization rule and its replacement. The rule can either be a string or a regular expression.
       # The replacement should always be a string that may include references to the matched data from the rule.
       def plural(rule, replacement)
+        @uncountables.delete(rule) if rule.is_a?(String)
+        @uncountables.delete(replacement)
         @plurals.insert(0, [rule, replacement])
       end
 
       # Specifies a new singularization rule and its replacement. The rule can either be a string or a regular expression.
       # The replacement should always be a string that may include references to the matched data from the rule.
       def singular(rule, replacement)
+        @uncountables.delete(rule) if rule.is_a?(String)
+        @uncountables.delete(replacement)
         @singulars.insert(0, [rule, replacement])
       end
 
@@ -53,6 +59,8 @@ module ActiveSupport
       #   irregular 'octopus', 'octopi'
       #   irregular 'person', 'people'
       def irregular(singular, plural)
+        @uncountables.delete(singular)
+        @uncountables.delete(plural)
         if singular[0,1].upcase == plural[0,1].upcase
           plural(Regexp.new("(#{singular[0,1]})#{singular[1..-1]}$", "i"), '\1' + plural[1..-1])
           singular(Regexp.new("(#{plural[0,1]})#{plural[1..-1]}$", "i"), '\1' + singular[1..-1])
@@ -74,9 +82,20 @@ module ActiveSupport
         (@uncountables << words).flatten!
       end
 
+      # Specifies a humanized form of a string by a regular expression rule or by a string mapping.
+      # When using a regular expression based replacement, the normal humanize formatting is called after the replacement.
+      # When a string is used, the human form should be specified as desired (example: 'The name', not 'the_name')
+      #
+      # Examples:
+      #   human /_cnt$/i, '\1_count'
+      #   human "legacy_col_person_name", "Name"
+      def human(rule, replacement)
+        @humans.insert(0, [rule, replacement])
+      end
+
       # Clears the loaded inflections within a given scope (default is <tt>:all</tt>).
       # Give the scope as a symbol of the inflection type, the options are: <tt>:plurals</tt>,
-      # <tt>:singulars</tt>, <tt>:uncountables</tt>.
+      # <tt>:singulars</tt>, <tt>:uncountables</tt>, <tt>:humans</tt>.
       #
       # Examples:
       #   clear :all
@@ -91,13 +110,11 @@ module ActiveSupport
       end
     end
 
-    extend self
-
     # Yields a singleton instance of Inflector::Inflections so you can specify additional
     # inflector rules.
     #
     # Example:
-    #   Inflector.inflections do |inflect|
+    #   ActiveSupport::Inflector.inflections do |inflect|
     #     inflect.uncountable "rails"
     #   end
     def inflections
@@ -134,7 +151,7 @@ module ActiveSupport
     #   "posts".singularize            # => "post"
     #   "octopi".singularize           # => "octopus"
     #   "sheep".singluarize            # => "sheep"
-    #   "word".singluarize             # => "word"
+    #   "word".singularize             # => "word"
     #   "the blue mailmen".singularize # => "the blue mailman"
     #   "CamelOctopi".singularize      # => "CamelOctopus"
     def singularize(word)
@@ -162,7 +179,7 @@ module ActiveSupport
       if first_letter_in_uppercase
         lower_case_and_underscored_word.to_s.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
       else
-        lower_case_and_underscored_word.first + camelize(lower_case_and_underscored_word)[1..-1]
+        lower_case_and_underscored_word.first.downcase + camelize(lower_case_and_underscored_word)[1..-1]
       end
     end
 
@@ -209,7 +226,10 @@ module ActiveSupport
     #   "employee_salary" # => "Employee salary"
     #   "author_id"       # => "Author"
     def humanize(lower_case_and_underscored_word)
-      lower_case_and_underscored_word.to_s.gsub(/_id$/, "").gsub(/_/, " ").capitalize
+      result = lower_case_and_underscored_word.to_s.dup
+
+      inflections.humans.each { |(rule, replacement)| break if result.gsub!(rule, replacement) }
+      result.gsub(/_id$/, "").gsub(/_/, " ").capitalize
     end
 
     # Removes the module part from the expression in the string.
@@ -259,29 +279,47 @@ module ActiveSupport
       underscore(demodulize(class_name)) + (separate_class_name_and_id_with_underscore ? "_id" : "id")
     end
 
-    # Tries to find a constant with the name specified in the argument string:
-    #
-    #   "Module".constantize     # => Module
-    #   "Test::Unit".constantize # => Test::Unit
-    #
-    # The name is assumed to be the one of a top-level constant, no matter whether
-    # it starts with "::" or not. No lexical context is taken into account:
-    #
-    #   C = 'outside'
-    #   module M
-    #     C = 'inside'
-    #     C               # => 'inside'
-    #     "C".constantize # => 'outside', same as ::C
-    #   end
-    #
-    # NameError is raised when the name is not in CamelCase or the constant is
-    # unknown.
-    def constantize(camel_cased_word)
-      unless /\A(?:::)?([A-Z]\w*(?:::[A-Z]\w*)*)\z/ =~ camel_cased_word
-        raise NameError, "#{camel_cased_word.inspect} is not a valid constant name!"
-      end
+    # Ruby 1.9 introduces an inherit argument for Module#const_get and
+    # #const_defined? and changes their default behavior.
+    if Module.method(:const_get).arity == 1
+      # Tries to find a constant with the name specified in the argument string:
+      #
+      #   "Module".constantize     # => Module
+      #   "Test::Unit".constantize # => Test::Unit
+      #
+      # The name is assumed to be the one of a top-level constant, no matter whether
+      # it starts with "::" or not. No lexical context is taken into account:
+      #
+      #   C = 'outside'
+      #   module M
+      #     C = 'inside'
+      #     C               # => 'inside'
+      #     "C".constantize # => 'outside', same as ::C
+      #   end
+      #
+      # NameError is raised when the name is not in CamelCase or the constant is
+      # unknown.
+      def constantize(camel_cased_word)
+        names = camel_cased_word.split('::')
+        names.shift if names.empty? || names.first.empty?
 
-      Object.module_eval("::#{$1}", __FILE__, __LINE__)
+        constant = Object
+        names.each do |name|
+          constant = constant.const_defined?(name) ? constant.const_get(name) : constant.const_missing(name)
+        end
+        constant
+      end
+    else
+      def constantize(camel_cased_word) #:nodoc:
+        names = camel_cased_word.split('::')
+        names.shift if names.empty? || names.first.empty?
+
+        constant = Object
+        names.each do |name|
+          constant = constant.const_get(name, false) || constant.const_missing(name)
+        end
+        constant
+      end
     end
 
     # Turns a number into an ordinal string used to denote the position in an
@@ -307,4 +345,9 @@ module ActiveSupport
   end
 end
 
-require File.dirname(__FILE__) + '/inflections'
+# in case active_support/inflector is required without the rest of active_support
+require 'active_support/inflections'
+require 'active_support/core_ext/string/inflections'
+unless String.included_modules.include?(ActiveSupport::CoreExtensions::String::Inflections)
+  String.send :include, ActiveSupport::CoreExtensions::String::Inflections
+end

@@ -25,7 +25,6 @@ Test::Unit::TestCase.class_eval do
   set_fixture_class :weight_height_for_ages => WeightHeightForAge
 end
 
-
 Spec::Runner.configure do |config|
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false

@@ -1,4 +1,5 @@
 require 'date'
+require 'set'
 require 'bigdecimal'
 require 'bigdecimal/util'
 
@@ -6,6 +7,8 @@ module ActiveRecord
   module ConnectionAdapters #:nodoc:
     # An abstract definition of a column in a table.
     class Column
+      TRUE_VALUES = [true, 1, '1', 't', 'T', 'true', 'TRUE'].to_set
+
       module Format
         ISO_DATE = /\A(\d{4})-(\d\d)-(\d\d)\z/
         ISO_DATETIME = /\A(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)(\.\d+)?\z/
@@ -30,11 +33,11 @@ module ActiveRecord
       end
 
       def text?
-        [:string, :text].include? type
+        type == :string || type == :text
       end
 
       def number?
-        [:float, :integer, :decimal].include? type
+        type == :integer || type == :float || type == :decimal
       end
 
       # Returns the Ruby class that corresponds to the abstract data type.
@@ -135,10 +138,10 @@ module ActiveRecord
 
         # convert something to a boolean
         def value_to_boolean(value)
-          if value == true || value == false
-            value
+          if value.is_a?(String) && value.blank?
+            nil
           else
-            %w(true t 1).include?(value.to_s.downcase)
+            TRUE_VALUES.include?(value)
           end
         end
 
@@ -257,7 +260,10 @@ module ActiveRecord
 
       def to_sql
         column_sql = "#{base.quote_column_name(name)} #{sql_type}"
-        add_column_options!(column_sql, :null => null, :default => default) unless type.to_sym == :primary_key
+        column_options = {}
+        column_options[:null] = null unless null.nil?
+        column_options[:default] = default unless default.nil?
+        add_column_options!(column_sql, column_options) unless type.to_sym == :primary_key
         column_sql
       end
       alias to_s :to_sql
@@ -304,8 +310,7 @@ module ActiveRecord
       #
       # Available options are (none of these exists by default):
       # * <tt>:limit</tt> -
-      #   Requests a maximum column length (<tt>:string</tt>, <tt>:text</tt>,
-      #   <tt>:binary</tt> or <tt>:integer</tt> columns only)
+      #   Requests a maximum column length. This is number of characters for <tt>:string</tt> and <tt>:text</tt> columns and number of bytes for :binary and :integer columns.
       # * <tt>:default</tt> -
       #   The column's default value. Use nil for NULL.
       # * <tt>:null</tt> -
@@ -442,9 +447,10 @@ module ActiveRecord
 
       # Appends <tt>:datetime</tt> columns <tt>:created_at</tt> and
       # <tt>:updated_at</tt> to the table.
-      def timestamps
-        column(:created_at, :datetime)
-        column(:updated_at, :datetime)
+      def timestamps(*args)
+        options = args.extract_options!
+        column(:created_at, :datetime, options)
+        column(:updated_at, :datetime, options)
       end
 
       def references(*args)

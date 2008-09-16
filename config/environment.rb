@@ -28,8 +28,16 @@ require 'has_many_through_association_extension'
 require 'bantu_soundex'
 
 # Foreign key checks use a lot of resources but are useful during development
-if ENV['RAILS_ENV'] != 'development'
-  ActiveRecord::Base.connection.execute("SET FOREIGN_KEY_CHECKS=0")
+module ActiveRecord
+  module ConnectionAdapters
+    class MysqlAdapter 
+      alias_method :orig_configure_connection, :configure_connection
+      def configure_connection
+        orig_configure_connection
+        execute("SET FOREIGN_KEY_CHECKS=0") if ENV['RAILS_ENV'] != 'development'
+      end  
+    end
+  end
 end
 
 ActiveSupport::Inflector.inflections do |inflect|

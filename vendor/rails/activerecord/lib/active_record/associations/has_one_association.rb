@@ -21,8 +21,8 @@ module ActiveRecord
       def replace(obj, dont_save = false)
         load_target
 
-        unless @target.nil?
-          if dependent? && !dont_save && @target != obj
+        unless @target.nil? || @target == obj
+          if dependent? && !dont_save
             @target.destroy unless @target.new_record?
             @owner.clear_association_cache
           else
@@ -47,7 +47,16 @@ module ActiveRecord
           return (obj.nil? ? nil : self)
         end
       end
-            
+
+      protected
+        def owner_quoted_id
+          if @reflection.options[:primary_key]
+            quote_value(@owner.send(@reflection.options[:primary_key]))
+          else
+            @owner.quoted_id
+          end
+        end
+
       private
         def find_target
           @reflection.klass.find(:first, 
@@ -63,10 +72,10 @@ module ActiveRecord
           case
             when @reflection.options[:as]
               @finder_sql = 
-                "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_id = #{@owner.quoted_id} AND " +
+                "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_id = #{owner_quoted_id} AND " +
                 "#{@reflection.quoted_table_name}.#{@reflection.options[:as]}_type = #{@owner.class.quote_value(@owner.class.base_class.name.to_s)}"
             else
-              @finder_sql = "#{@reflection.quoted_table_name}.#{@reflection.primary_key_name} = #{@owner.quoted_id}"
+              @finder_sql = "#{@reflection.quoted_table_name}.#{@reflection.primary_key_name} = #{owner_quoted_id}"
           end
           @finder_sql << " AND (#{conditions})" if conditions
         end

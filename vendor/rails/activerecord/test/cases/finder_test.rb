@@ -1,5 +1,6 @@
 require "cases/helper"
 require 'models/author'
+require 'models/categorization'
 require 'models/comment'
 require 'models/company'
 require 'models/topic'
@@ -10,6 +11,57 @@ require 'models/post'
 require 'models/customer'
 require 'models/job'
 require 'models/categorization'
+
+class DynamicFinderMatchTest < ActiveRecord::TestCase
+  def test_find_no_match
+    assert_nil ActiveRecord::DynamicFinderMatch.match("not_a_finder")
+  end
+
+  def test_find_by
+    match = ActiveRecord::DynamicFinderMatch.match("find_by_age_and_sex_and_location")
+    assert_not_nil match
+    assert match.finder?
+    assert_equal :find_initial, match.finder
+    assert_equal %w(age sex location), match.attribute_names
+  end
+
+  def find_by_bang
+    match = ActiveRecord::DynamicFinderMatch.match("find_by_age_and_sex_and_location!")
+    assert_not_nil match
+    assert match.finder?
+    assert match.bang?
+    assert_equal :find_initial, match.finder
+    assert_equal %w(age sex location), match.attribute_names
+  end
+
+  def test_find_all_by
+    match = ActiveRecord::DynamicFinderMatch.match("find_all_by_age_and_sex_and_location")
+    assert_not_nil match
+    assert match.finder?
+    assert_equal :find_every, match.finder
+    assert_equal %w(age sex location), match.attribute_names
+  end
+
+  def test_find_or_initialize_by
+    match = ActiveRecord::DynamicFinderMatch.match("find_or_initialize_by_age_and_sex_and_location")
+    assert_not_nil match
+    assert !match.finder?
+    assert match.instantiator?
+    assert_equal :find_initial, match.finder
+    assert_equal :new, match.instantiator
+    assert_equal %w(age sex location), match.attribute_names
+  end
+
+  def test_find_or_create_by
+    match = ActiveRecord::DynamicFinderMatch.match("find_or_create_by_age_and_sex_and_location")
+    assert_not_nil match
+    assert !match.finder?
+    assert match.instantiator?
+    assert_equal :find_initial, match.finder
+    assert_equal :create, match.instantiator
+    assert_equal %w(age sex location), match.attribute_names
+  end
+end
 
 class FinderTest < ActiveRecord::TestCase
   fixtures :companies, :topics, :entrants, :developers, :developers_projects, :posts, :comments, :accounts, :authors, :customers
@@ -197,6 +249,23 @@ class FinderTest < ActiveRecord::TestCase
   def test_find_on_hash_conditions_with_explicit_table_name
     assert Topic.find(1, :conditions => { 'topics.approved' => false })
     assert_raises(ActiveRecord::RecordNotFound) { Topic.find(1, :conditions => { 'topics.approved' => true }) }
+  end
+
+  def test_find_on_hash_conditions_with_hashed_table_name
+    assert Topic.find(1, :conditions => {:topics => { :approved => false }})
+    assert_raises(ActiveRecord::RecordNotFound) { Topic.find(1, :conditions => {:topics => { :approved => true }}) }
+  end
+
+  def test_find_with_hash_conditions_on_joined_table
+    firms = Firm.all :joins => :account, :conditions => {:accounts => { :credit_limit => 50 }}
+    assert_equal 1, firms.size
+    assert_equal companies(:first_firm), firms.first
+  end
+
+  def test_find_with_hash_conditions_on_joined_table_and_with_range
+    firms = DependentFirm.all :joins => :account, :conditions => {:name => 'RailsCore', :accounts => { :credit_limit => 55..60 }}
+    assert_equal 1, firms.size
+    assert_equal companies(:rails_core), firms.first
   end
 
   def test_find_on_hash_conditions_with_explicit_table_name_and_aggregate
@@ -394,6 +463,12 @@ class FinderTest < ActiveRecord::TestCase
     assert_equal '1,1,1', bind('?', os)
   end
 
+  def test_named_bind_with_postgresql_type_casts
+    l = Proc.new { bind(":a::integer '2009-01-01'::date", :a => '10') }
+    assert_nothing_raised(&l)
+    assert_equal "#{ActiveRecord::Base.quote_value('10')}::integer '2009-01-01'::date", l.call
+  end
+
   def test_string_sanitation
     assert_not_equal "#{ActiveRecord::Base.connection.quoted_string_prefix}'something ' 1=1'", ActiveRecord::Base.sanitize("something ' 1=1")
     assert_equal "#{ActiveRecord::Base.connection.quoted_string_prefix}'something; select table'", ActiveRecord::Base.sanitize("something; select table")
@@ -414,6 +489,11 @@ class FinderTest < ActiveRecord::TestCase
   def test_find_by_one_attribute
     assert_equal topics(:first), Topic.find_by_title("The First Topic")
     assert_nil Topic.find_by_title("The First Topic!")
+  end
+
+  def test_find_by_one_attribute_bang
+    assert_equal topics(:first), Topic.find_by_title!("The First Topic")
+    assert_raises(ActiveRecord::RecordNotFound) { Topic.find_by_title!("The First Topic!") }
   end
 
   def test_find_by_one_attribute_caches_dynamic_finder
