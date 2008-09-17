@@ -155,21 +155,21 @@
     <%= submit_tag "Find person" %>
   <% end -%>
 
-  <script>
+  <script type="text/javascript">//<![CDATA[
     function makeKeysToggleBlue(){
       keys = $('keyboard').childNodes
       for(var i=0;i<keys.length;i++){
-        keys[i].setAttribute('onMouseDown', 'press(this.id);makeBlue(this)')
+        keys[i].setAttribute('onMouseDown', 'press(this.id);makeBlue(this)');
       }
     }
     function makeBlue(element){
-      keys = $('keyboard').childNodes
+      keys = $('keyboard').childNodes;
       for(var i=0;i<keys.length;i++){
-        keys[i].style.backgroundColor = ''
+        keys[i].style.backgroundColor = '';
       }
-      element.style.backgroundColor = 'lightblue'
+      element.style.backgroundColor = 'lightblue';
     }
-  </script>
+  //]]></script>
 <% end -%>
 
 <% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>

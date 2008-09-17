@@ -403,7 +403,16 @@ module Spec
         @mock.msg.should equal(:stub_value)
         @mock.rspec_verify
       end
-    
+
+      it "should not require a different signature to replace a method stub" do
+        @mock.stub!(:msg).and_return(:stub_value)
+        @mock.should_receive(:msg).and_return(:mock_value)
+        @mock.msg(:arg).should equal(:mock_value)
+        @mock.msg.should equal(:stub_value)
+        @mock.msg.should equal(:stub_value)
+        @mock.rspec_verify
+      end
+
       it "should temporarily replace a method stub on a non-mock" do
         non_mock = Object.new
         non_mock.stub!(:msg).and_return(:stub_value)
@@ -470,14 +479,6 @@ module Spec
         (1..7).each { @mock.foo }
     
         @calls.should == 7
-      end
-    
-      it "should call the block after #with" do
-        @mock.should_receive(:foo).with(:arg) { add_call }
-        
-        @mock.foo(:arg)
-    
-        @calls.should == 1
       end
     
       it "should call the block after #ordered" do
