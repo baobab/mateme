@@ -22,12 +22,12 @@ describe Patient do
   end
 
   it "should refer to the patient identifiers" do
-    patient(:evan).patient_identifiers.count.should == 1
+    patient(:evan).patient_identifiers.count.should == 3
   end
   
   it "should not include voided identifiers in the list of patient identifiers" do
     PatientIdentifier.find(:first).void!
-    patient(:evan).patient_identifiers.count.should == 0
+    patient(:evan).patient_identifiers.count.should == 2
   end
   
   it "should refer to the person" do

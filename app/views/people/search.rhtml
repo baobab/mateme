@@ -185,7 +185,7 @@
           <%=h person.name -%>, 
           Birthdate: <%=h person.birthdate -%>, 
           Village: <%=h person.addresses.first.city_village rescue 'Unknown' -%>
-          <%=h '(' + person.patient.national_id_with_dashes + ')' rescue '' -%>
+          <%=h '(' + person.patient.location_identifier + ')' rescue '' -%>
           <%=h '(Died)' if person.dead rescue '' -%>
       </option>
       <% end -%>

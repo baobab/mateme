@@ -222,7 +222,8 @@ END_OF_MESSAGE
 
     smtp_server = self.global_property("smtp_server") || "localhost"
 
-    Net::SMTP.start('smtp.gmail.com', 587, 'localhost', username, password, 'plain' ) do |smtp|
+    Net::SMTP.start('smtp.gmail.com', 587, smtp_server, username, password, 'plain' ) do |smtp|
+      smtp.enable_starttls
       smtp.send_message email_message, sender, receivers.keys
     end
 

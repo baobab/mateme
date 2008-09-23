@@ -1,0 +1,20 @@
+<style>
+  #space { display:inline; font-size:1.2em; }
+
+  #tt_page_identifier .touchscreenTextInput {
+    top: 46px; 
+  }
+  .options {
+    display:none;
+  }
+  
+</style>
+
+<script>
+  var tt_cancel_destination = "/people"
+</script>
+
+<% form_tag "search", :method => :get do %>
+  <%= text_field_tag :identifier,  params[:identifier], {:field_type => 'alpha', :helpText => 'Identifier', :allowFreeText => true, :textCase => 'upper' } %>
+  <%= submit_tag "Find identifier" %>
+<% end -%>

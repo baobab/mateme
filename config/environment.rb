@@ -6,7 +6,7 @@ Rails::Initializer.run do |config|
   
   # Skip frameworks you're not going to use (only works if using vendor/rails)
   config.frameworks -= [ :action_web_service, :action_mailer ]
-
+  
   # Force all environments to use the same logger level 
   # (by default production uses :info, the others :debug)
   config.log_level = :debug

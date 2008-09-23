@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "people/search" do
-  fixtures :person, :person_name, :person_name_code, :patient, :patient_identifier
+  fixtures :person, :person_name, :person_name_code, :patient, :patient_identifier, :patient_identifier_type
 
   it "should show the input form if nothing was submitted" do
     render "/people/search"
@@ -60,8 +60,43 @@ describe "people/search" do
     response.should have_tag("option", /Abe Vigoda.*\(Died\)/m)    
   end
   
-  it "should show the arv number if the location is art clinic"
-  it "should show the pre art number if the location is art clinic and there is no arv number"
-  it "should show the registration number if the location is art clinic and there is no arv number and no pre-art number"
+  it "should show the arv number if the location is art clinic" do
+    Location.current_location = Location.find_by_name('Neno District Hospital - ART')
+    params[:gender] = 'M'
+    params[:given_name] = 'Evan'
+    params[:family_name] = 'Waters'
+    assigns[:people] = [person(:evan)]
+    render "/people/search"
+    response.should have_tag("option", /Evan Waters.*\(ARV-311\)/m)
+    Location.current_location = nil
+  end
+  
+  it "should show the pre art number if the location is art clinic and there is no arv number" do
+    kind = PatientIdentifierType.find_by_name("ARV Number").id
+    patient(:evan).patient_identifiers.find_by_identifier_type(kind).void!
+    Location.current_location = Location.find_by_name('Neno District Hospital - ART')
+    params[:gender] = 'M'
+    params[:given_name] = 'Evan'
+    params[:family_name] = 'Waters'
+    assigns[:people] = [person(:evan)]
+    render "/people/search"
+    response.should have_tag("option", /Evan Waters.*\(PART-311\)/m)
+    Location.current_location = nil
+  end
+
+  it "should show the national identifier if the location is art clinic and there is no arv number and no pre-art number" do
+    kind = PatientIdentifierType.find_by_name("ARV Number").id
+    patient(:evan).patient_identifiers.find_by_identifier_type(kind).void!
+    kind = PatientIdentifierType.find_by_name("Pre ART Number").id
+    patient(:evan).patient_identifiers.find_by_identifier_type(kind).void!
+    Location.current_location = Location.find_by_name('Neno District Hospital - ART')
+    params[:gender] = 'M'
+    params[:given_name] = 'Evan'
+    params[:family_name] = 'Waters'
+    assigns[:people] = [person(:evan)]
+    render "/people/search"
+    response.should have_tag("option", /Evan Waters.*\(311\)/m)
+    Location.current_location = nil
+  end
   
 end

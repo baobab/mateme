@@ -6,6 +6,9 @@ class PeopleController < ApplicationController
 
   def new
   end
+  
+  def identifiers
+  end
 
   def search
     @people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?

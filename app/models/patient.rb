@@ -39,6 +39,14 @@ class Patient < ActiveRecord::Base
     label.print(1)
   end
   
+  def location_identifier
+    id = nil
+    id ||= self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("ARV Number").id).identifier rescue nil if Location.current_location.name == 'Neno District Hospital - ART'
+    id ||= self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("Pre ART Number").id).identifier rescue nil if Location.current_location.name == 'Neno District Hospital - ART'    
+    id ||= national_id_with_dashes
+    id
+  end
+  
   def min_weight
     WeightHeight.min_weight(person.gender, person.age_in_months).to_f
   end

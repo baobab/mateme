@@ -1,5 +1,5 @@
 --- 
-patient_identifier_type_00001: 
+openmrs_identification_number: 
   name: OpenMRS Identification Number
   format: ""
   date_created: 2005-09-22 00:00:00 +02:00
@@ -9,7 +9,7 @@ patient_identifier_type_00001:
   patient_identifier_type_id: 1
   required: false
   format_description: 
-patient_identifier_type_00002: 
+old_identification_number: 
   name: Old Identification Number
   format: ""
   date_created: 2005-09-22 00:00:00 +02:00
@@ -19,7 +19,7 @@ patient_identifier_type_00002:
   patient_identifier_type_id: 2
   required: false
   format_description: 
-patient_identifier_type_00003: 
+national_id: 
   name: National id
   format: ""
   date_created: 2007-11-29 22:12:34 +02:00
@@ -29,7 +29,7 @@ patient_identifier_type_00003:
   patient_identifier_type_id: 3
   required: false
   format_description: P-175-0000004-5
-patient_identifier_type_00004: 
+arv_number: 
   name: ARV Number
   format: ""
   date_created: 2007-12-17 15:29:01 +02:00
@@ -39,13 +39,24 @@ patient_identifier_type_00004:
   patient_identifier_type_id: 4
   required: false
   format_description: ""
+pre_art_number: 
+  name: Pre ART Number
+  format: PART-0001 
+  date_created: 2008-04-30 22:28:52 +02:00
+  creator: 1
+  check_digit: false
+  description: Sequential number given to patients enrolled in Pre-ART program 
+  patient_identifier_type_id: 5
+  required: false
+  format_description: 
 unknown_id: 
-  name: Unknown id
+  name: Unknown ID
   format: 
   date_created: 2008-04-30 22:28:52 +02:00
   creator: 1
   check_digit: false
   description: Identifier that was recorded for this patient but with unknown provenance
-  patient_identifier_type_id: 5
+  patient_identifier_type_id: 6
   required: false
   format_description: 
+  

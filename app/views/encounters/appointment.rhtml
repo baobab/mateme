@@ -46,7 +46,7 @@
 
 </style>
 <script>
-  var tt_cancel_destination = "/patiens/show?patient_id=<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
 </script>
 <form id='appointment' action="/encounters/create" method='post'>
   <%= hidden_field_tag "encounter[encounter_type_name]", "APPOINTMENT" %>
