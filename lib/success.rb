@@ -217,7 +217,7 @@ From: #{sender}
 To: #{to_line}
 Subject: #{subject}
 
-!#{body}
+! #{body}
 END_OF_MESSAGE
 
     smtp_server = self.global_property("smtp_server") || "localhost"
