@@ -208,22 +208,20 @@ private
 		self.reset(DateTime.now.to_default_s)
 	  body = "#{subject} @ #{self.current_location} (#{self.current_ip_address}) at #{Time.now}\n#{extended_message}"
     sender = "success@baobabhealth.org"
-    receivers = {"malawihackers@baobabhealth.org" => "Support Team", "ga744ktwed@twittermail.com" => "BaobabHealthTweet"}
-    #Support Team <#{receiver}>, BaobabHealthTweet <ga744ktwed@twittermail.com>
+    receivers = Hash.new
+    receivers["malawihackers@baobabhealth.org"] = "Support Team"
+    receivers["7vbbc@bkite.com"] = "Brightkite"
     to_line = receivers.collect{|key,value| value + " <#{key}>"}.join(", ")
-
     email_message = <<END_OF_MESSAGE
-From: Success <#{sender}>
+From: #{sender}
 To: #{to_line}
 Subject: #{subject}
 
-#{body}
+!#{body}
 END_OF_MESSAGE
 
     smtp_server = self.global_property("smtp_server") || "localhost"
-
     Net::SMTP.start('smtp.gmail.com', 587, smtp_server, username, password, 'plain' ) do |smtp|
-      smtp.enable_starttls
       smtp.send_message email_message, sender, receivers.keys
     end
 

@@ -2,26 +2,22 @@
 require File.dirname(__FILE__) + '/../config/environment'
 
 # smtp_server
-puts "Use 'localhost' as the default SMTP server (y|n)?"
+puts "Enter the SMTP server (y|n)?"
 ans = gets.strip()
 if (ans == 'y')
-  Success.set_global_property('smtp_server', 'localhost')
-end  
-if (ans != 'y')
-  puts "Enter the local SMTP server name:"
+  puts "SMTP server (default: 'localhost'):"
   ans = gets.strip()
+  ans = 'localhost' if ans.blank?
   Success.set_global_property('smtp_server', ans)
 end  
 
 # smtp_username
-puts "Use 'baobabhealth' as the SMTP user (y|n)?"
+puts "Enter the SMTP user name (y|n)?"
 ans = gets.strip()
 if (ans == 'y')
-  Success.set_global_property('smtp_username', 'baobabhealth')
-end  
-if (ans != 'y')
-  puts "Enter the SMTP user name:"
+  puts "SMTP user name (default: 'baobabhealth'):"
   ans = gets.strip()
+  ans = 'baobabhealth' if ans.blank?
   Success.set_global_property('smtp_username', ans)
 end  
 
@@ -29,12 +25,33 @@ end
 puts "Enter the SMTP user password (y|n)?"
 ans = gets.strip()
 if (ans == 'y')
-  puts "Enter the SMTP password:"
+  puts "SMTP password:"
   ans = gets.strip()
   Success.set_global_property('smtp_password', ans)
 end  
 
-puts "To finish setting up, please ensure that your deploy user is running the following cron task \
-\
-* * * * mon-fri #{File.dirname(__FILE__)}/script/runner  -e production 'Success.verify'
-"
+# clinic hours
+puts "Enter the clinic hours (y|n)?"
+ans = gets.strip()
+if (ans == 'y')
+  puts "Clinic hours (default: '7:30am-3:45pm'):"
+  ans = gets.strip()
+  ans = '7:30am-3:45pm' if ans.blank?
+  Success.clinic_hours = ans
+end  
+
+# clinic breaks
+puts "Enter the clinic breaks (y|n)?"
+ans = gets.strip()
+if (ans == 'y')
+  puts "Clinic breaks (default: '12:30pm-1:00pm,1:00pm-1:15pm'):"
+  ans = gets.strip()
+  ans = '12:30pm-1:00pm,1:00pm-1:15pm' if ans.blank?
+  Success.clinic_breaks = ans
+end  
+
+puts "To finish setting up, please ensure that your deploy user is running the following cron task:"
+puts ""
+puts "* * * * mon-fri #{File.dirname(__FILE__)}/script/runner  -e production 'Success.verify'"
+puts ""
+puts "Done."
