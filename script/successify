@@ -50,6 +50,18 @@ if (ans == 'y')
   Success.clinic_breaks = ans
 end  
 
+# current health center
+puts "Enter the current health center (y|n)?"
+ans = gets.strip()
+if (ans == 'y')
+  default = Location.find_by_name("Neno District Hospital").id rescue nil
+  puts "Current health center (default: '#{default}'):"
+  ans = gets.strip()
+  ans = default if ans.blank?
+  Success.set_global_property("current_health_center_id", ans)
+end  
+
+
 puts "To finish setting up, please ensure that your deploy user is running the following cron task:"
 puts ""
 puts "* * * * mon-fri #{File.dirname(__FILE__)}/script/runner  -e production 'Success.verify'"

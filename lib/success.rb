@@ -95,7 +95,8 @@ protected
   def self.should_have_a_login_screen
     notify this_method.capitalize.gsub(/_/, " ")
     login_screen = `lynx --dump localhost:7999`
-    self.alert "No login screen available:\n #{login_screen}" unless login_screen.match(/Loading User Login/)
+    login_screen.gsub! /\n/, ' '
+    self.alert "No login screen available:\n #{login_screen}" unless login_screen.match(/Username/)
 	end
 
   def self.should_have_3_mongrels
@@ -113,7 +114,7 @@ protected
     notify this_method.capitalize.gsub(/_/, " ")
     mem_free = `cat /proc/meminfo | grep MemFree`
     mem_free_amount = mem_free.match(/\d+/)[0].to_i
-    alert("Machine is running out of memory: #{mem_free_amount}",self.end_of_log) if mem_free_amount < (96 * 1024) # 96 MB
+    alert("Machine is running out of memory: #{mem_free_amount}",self.end_of_log) if mem_free_amount < (10 * 1024) # 10 MB
   rescue
     alert "Could not check the free memory"      
   end
