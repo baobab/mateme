@@ -94,8 +94,7 @@ protected
 
   def self.should_have_a_login_screen
     notify this_method.capitalize.gsub(/_/, " ")
-    login_screen = `lynx --dump localhost`
-    #login_screen = shell("lynx --dump localhost")
+    login_screen = `lynx --dump localhost:7999`
     self.alert "No login screen available:\n #{login_screen}" unless login_screen.match(/Loading User Login/)
 	end
 
@@ -147,7 +146,7 @@ protected
   end
 
   def self.end_of_log
-    logfile = "/var/www/bart/current/log/production.log"
+    logfile = "/var/www/mateme/current/log/production.log"
     "Last 15 lines of logfile: #{logfile}\n\n #{`tail -15 #{logfile}`}"
   end
 
