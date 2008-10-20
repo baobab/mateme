@@ -1,79 +1,151 @@
 --- 
-encounter_type_00006: 
-  name: VITALS
-  date_created: 2008-05-02 16:04:05 +02:00
-  creator: 15878
-  encounter_type_id: 6
-  description: Vitals encounter
-encounter_type_00007: 
-  name: APPOINTMENT
-  date_created: 2008-05-02 16:04:20 +02:00
-  creator: 15878
-  encounter_type_id: 7
-  description: New appointment encounter
 encounter_type_00008: 
   name: OUTPATIENT DIAGNOSIS
-  date_created: 2008-05-02 16:04:54 +02:00
-  creator: 15878
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 8
+  creator: 15878
+  date_retired: 
   description: Outpatient diagnosis encounter
+  retired: false
+  date_created: 2008-05-02 16:04:54 -07:00
 encounter_type_00009: 
   name: ART_INITIAL
-  date_created: 2008-06-04 09:30:14 +02:00
-  creator: 15878
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 9
+  creator: 15878
+  date_retired: 
   description: Initial ART visit
+  retired: false
+  date_created: 2008-06-04 09:30:14 -07:00
 encounter_type_00010: 
   name: ART_FOLLOWUP
-  date_created: 2008-06-04 09:30:36 +02:00
-  creator: 15878
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 10
+  creator: 15878
+  date_retired: 
   description: Followup visit for ART patient
+  retired: false
+  date_created: 2008-06-04 09:30:36 -07:00
 encounter_type_00011: 
   name: PART_INITIAL
-  date_created: 2008-06-04 09:31:08 +02:00
-  creator: 15878
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 11
+  creator: 15878
+  date_retired: 
   description: Initial Pre-ART visit
+  retired: false
+  date_created: 2008-06-04 09:31:08 -07:00
 encounter_type_00001: 
   name: ADULTINITIAL
-  date_created: 2005-02-24 00:00:00 +02:00
-  creator: 1
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 1
+  creator: 1
+  date_retired: 
   description: Outpatient Adult Initial Visit
+  retired: false
+  date_created: 2005-02-24 00:00:00 -08:00
 encounter_type_00012: 
   name: PART_FOLLOWUP
-  date_created: 2008-06-04 09:31:29 +02:00
-  creator: 15878
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 12
+  creator: 15878
+  date_retired: 
   description: Followup visit for Pre-ART patient
+  retired: false
+  date_created: 2008-06-04 09:31:29 -07:00
 encounter_type_00013: 
   name: LAB
-  date_created: 2008-06-04 09:31:43 +02:00
-  creator: 15878
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 13
+  creator: 15878
+  date_retired: 
   description: Lab test
+  retired: false
+  date_created: 2008-06-04 09:31:43 -07:00
 encounter_type_00002: 
   name: ADULTRETURN
-  date_created: 2005-02-24 00:00:00 +02:00
-  creator: 1
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 2
+  creator: 1
+  date_retired: 
   description: Outpatient Adult Return Visit
+  retired: false
+  date_created: 2005-02-24 00:00:00 -08:00
 encounter_type_00003: 
   name: PEDSINITIAL
-  date_created: 2005-02-24 00:00:00 +02:00
-  creator: 1
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 3
+  creator: 1
+  date_retired: 
   description: Outpatient Pediatric Initial Visit
+  retired: false
+  date_created: 2005-02-24 00:00:00 -08:00
+encounter_type_00014: 
+  name: TB_INITIAL
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 14
+  creator: 15878
+  date_retired: 
+  description: Initial visit for TB Patient
+  retired: false
+  date_created: 2008-07-15 10:00:14 -07:00
+encounter_type_00015: 
+  name: TB_FOLLOWUP
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 15
+  creator: 15878
+  date_retired: 
+  description: Followup visit for TB Patient
+  retired: false
+  date_created: 2008-07-15 10:00:39 -07:00
 encounter_type_00004: 
   name: PEDSRETURN
-  date_created: 2005-02-24 00:00:00 +02:00
-  creator: 1
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 4
+  creator: 1
+  date_retired: 
   description: Outpatient Pediatric Return Visit
+  retired: false
+  date_created: 2005-02-24 00:00:00 -08:00
 encounter_type_00005: 
   name: REGISTRATION
-  date_created: 2008-05-02 16:03:48 +02:00
-  creator: 15878
+  retire_reason: 
+  retired_by: 
   encounter_type_id: 5
+  creator: 15878
+  date_retired: 
   description: Patient Registration Encounter
+  retired: false
+  date_created: 2008-05-02 16:03:48 -07:00
+encounter_type_00006: 
+  name: VITALS
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 6
+  creator: 15878
+  date_retired: 
+  description: Vitals encounter
+  retired: false
+  date_created: 2008-05-02 16:04:05 -07:00
+encounter_type_00007: 
+  name: APPOINTMENT
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 7
+  creator: 15878
+  date_retired: 
+  description: New appointment encounter
+  retired: false
+  date_created: 2008-05-02 16:04:20 -07:00

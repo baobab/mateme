@@ -1,51 +1,106 @@
 --- 
 patient_identifier_type_00001: 
+  validator: org.openmrs.patient.impl.LuhnIdentifierValidator
+  required: false
   name: OpenMRS Identification Number
+  retire_reason: 
   format: ""
-  date_created: 2005-09-22 00:00:00 +02:00
-  creator: 1
+  retired_by: 
   check_digit: true
-  description: Unique number used in OpenMRS
+  creator: 1
+  date_retired: 
   patient_identifier_type_id: 1
-  required: false
+  description: Unique number used in OpenMRS
+  retired: false
   format_description: 
+  date_created: 2005-09-22 00:00:00 -07:00
 patient_identifier_type_00002: 
+  validator: 
+  required: false
   name: Old Identification Number
+  retire_reason: 
   format: ""
-  date_created: 2005-09-22 00:00:00 +02:00
-  creator: 1
+  retired_by: 
   check_digit: false
-  description: Number given out prior to the OpenMRS system (No check digit)
+  creator: 1
+  date_retired: 
   patient_identifier_type_id: 2
-  required: false
+  description: Number given out prior to the OpenMRS system (No check digit)
+  retired: false
   format_description: 
+  date_created: 2005-09-22 00:00:00 -07:00
 patient_identifier_type_00003: 
+  validator: 
+  required: false
   name: National id
+  retire_reason: 
   format: ""
-  date_created: 2007-11-29 22:12:34 +02:00
-  creator: 1
+  retired_by: 
   check_digit: false
-  description: National ID number developed by Baobab
+  creator: 1
+  date_retired: 
   patient_identifier_type_id: 3
-  required: false
+  description: National ID number developed by Baobab
+  retired: false
   format_description: P-175-0000004-5
+  date_created: 2007-11-29 22:12:34 -08:00
 patient_identifier_type_00004: 
+  validator: 
+  required: false
   name: ARV Number
+  retire_reason: 
   format: ""
-  date_created: 2007-12-17 15:29:01 +02:00
+  retired_by: 
+  check_digit: false
   creator: 15878
-  check_digit: false
-  description: Unique ID Number for Patients in ARV Treatment Program
+  date_retired: 
   patient_identifier_type_id: 4
-  required: false
+  description: Unique ID Number for Patients in ARV Treatment Program
+  retired: false
   format_description: ""
+  date_created: 2007-12-17 15:29:01 -08:00
 patient_identifier_type_00005: 
-  name: Unknown id
-  format: 
-  date_created: 2008-04-30 22:28:52 +02:00
-  creator: 1
-  check_digit: false
-  description: Identifier that was recorded for this patient but with unknown provenance
-  patient_identifier_type_id: 5
+  validator: 
   required: false
-  format_description: 
+  name: Pre ART Number
+  retire_reason: 
+  format: ""
+  retired_by: 
+  check_digit: false
+  creator: 15878
+  date_retired: 
+  patient_identifier_type_id: 5
+  description: Sequential number given to patients enrolled in Pre-ART program
+  retired: false
+  format_description: PART-0001
+  date_created: 2008-05-16 13:26:46 -07:00
+patient_identifier_type_00006: 
+  validator: 
+  required: false
+  name: VHW ID
+  retire_reason: 
+  format: ""
+  retired_by: 
+  check_digit: false
+  creator: 15878
+  date_retired: 
+  patient_identifier_type_id: 6
+  description: Village Health Worker ID#
+  retired: false
+  format_description: ""
+  date_created: 2008-06-11 10:22:53 -07:00
+patient_identifier_type_00007: 
+  validator: ""
+  required: false
+  name: District TB Number
+  retire_reason: 
+  format: ""
+  retired_by: 
+  check_digit: false
+  creator: 15878
+  date_retired: 
+  patient_identifier_type_id: 7
+  description: Ministry of Health identification number for TB patients
+  retired: false
+  format_description: AA/####/YY
+  date_created: 2008-07-09 15:39:46 -07:00

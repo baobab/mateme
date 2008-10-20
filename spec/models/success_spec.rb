@@ -182,7 +182,7 @@ EOF
   end
 
   it "should send alert when there is not enough free memory" do
-    $shell_result = "MemFree:         40736 kB\n" 
+    $shell_result = "MemFree:         9736 kB\n" 
     Success.should_have_free_memory
     Success.sent_alert.should == true
   end
@@ -232,7 +232,7 @@ EOF
 
   it "should get the end of the log file" do
     $shell_result = "blah blah blah"
-    Success.end_of_log.should == "Last 15 lines of logfile: /var/www/bart/current/log/production.log\n\n blah blah blah"
+    Success.end_of_log.should == "Last 15 lines of logfile: /var/www/mateme/current/log/production.log\n\n blah blah blah"
   end
 
   it "should run Success in the cron tab" do

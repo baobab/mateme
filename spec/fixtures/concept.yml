@@ -134,3 +134,37 @@ outpatient_diagnosis_non_coded:
   date_changed: 
   form_text: 
   retired: false
+treatment: 
+  datatype_id: 4
+  concept_id: 1185
+  date_created: 2005-02-09 00:00:00 +02:00
+  creator: 2
+  is_set: false
+  class_id: 11
+  changed_by: 
+  version: ""
+  description: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+triomune: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 7
+  creator: 2
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2008-04-22 09:55:06 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 792
+  date_created: 2004-04-08 00:00:00 -07:00
+  

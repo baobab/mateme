@@ -1,0 +1,34 @@
+triomune_30: 
+  route: 
+  name: Triomune-30
+  minimum_daily_dose: 
+  retire_reason: 
+  retired_by: 
+  dose_strength: 1.0
+  dosage_form: 
+  creator: 2
+  units: tab(s)
+  maximum_daily_dose: 
+  date_retired: 
+  drug_id: 2
+  combination: true
+  retired: false
+  concept_id: 792
+  date_created: 2005-02-24 00:00:00 -08:00
+triomune_40: 
+  route: 
+  name: Triomune-40
+  minimum_daily_dose: 
+  retire_reason: 
+  retired_by: 
+  dose_strength: 1.0
+  dosage_form: 
+  creator: 2
+  units: tab(s)
+  maximum_daily_dose: 
+  date_retired: 
+  drug_id: 3
+  combination: true
+  retired: false
+  concept_id: 792
+  date_created: 2005-02-24 00:00:00 -08:00

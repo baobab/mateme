@@ -29,7 +29,7 @@ class Success
     self.should_have_free_disk_space
     self.should_have_more_than_ten_minutes_uptime
     if clinic_is_active?
-      self.should_have_recent_encounter
+      # Temporarily comment this out to prevent massive onslaught self.should_have_recent_encounter
       self.should_have_low_load_average
     end
 	end

@@ -39,4 +39,19 @@ class EncountersController < ApplicationController
     render :text => "<li>" + suggested_answers.join("</li><li>") + "</li>"
   end
 
+  def treatments
+    search_string = (params[:search_string] || '').upcase
+    filter_list = params[:filter_list].split(/, */) rescue []
+    valid_answers = []
+    unless search_string.blank?
+      drugs = Drug.find(:all, :conditions => ["retired = 0 AND name LIKE ?", '%' + search_string + '%'])
+      valid_answers = drugs.map {|drug| drug.name.upcase }
+    end
+    treatment = ConceptName.find_by_name("TREATMENT").concept
+    previous_answers = Observation.find_most_common(treatment, search_string)
+    suggested_answers = (previous_answers + valid_answers).reject{|answer| filter_list.include?(answer) }.uniq[0..10] 
+    render :text => "<li>" + suggested_answers.join("</li><li>") + "</li>"
+  end
+
+
 end

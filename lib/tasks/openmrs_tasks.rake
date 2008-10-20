@@ -22,6 +22,7 @@ namespace :openmrs do
         ConceptClass.to_fixtures(path)
         ConceptName.to_fixtures(path)
         ConceptSet.to_fixtures(path)
+        Drug.to_fixtures(path)
         EncounterType.to_fixtures(path)
         Location.to_fixtures(path)
         PatientIdentifierType.to_fixtures(path)

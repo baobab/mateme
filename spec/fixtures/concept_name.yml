@@ -73,4 +73,20 @@ outpatient_diagnosis_non_coded:
   description: recording diagnoses that are not in the coded list
   short_name: ""
   locale: en
-  
+treatment: 
+  name: TREATMENT
+  concept_id: 1185
+  date_created: 2005-02-09 00:00:00 +02:00
+  creator: 2
+  description: Administration or application of remedies to a patient or for a disease or an injury; medicinal or surgical management; therapy.
+  short_name: ""
+  locale: en  
+stavudine_lamivudine_nevirapine: 
+  name: STAVUDINE LAMIVUDINE AND NEVIRAPINE
+  creator: 4
+  concept_name_id: 809
+  short_name: D4T+3TC+NVP
+  locale: en
+  description: Combination antiretroviral drug.
+  concept_id: 792
+  date_created: 2004-04-08 00:00:00 -07:00  
