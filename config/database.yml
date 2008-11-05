@@ -1,13 +1,22 @@
+# production:
+#   adapter: mysql
+#   database: openmrs
+#   username: root
+#   password:
+#   host: localhost
+
 development:
   adapter: mysql
-  database: neno_development
+  database: openmrs_development
   username: root
   password:
+  host: localhost
 
 test:
   adapter: mysql
-  database: neno_test
+  database: openmrs_test
   username: root
   password: 
+  host: localhost
 
 

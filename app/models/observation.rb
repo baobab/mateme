@@ -26,6 +26,7 @@ class Observation < ActiveRecord::Base
       self.value_text = value_coded_or_text
     else
       self.value_coded = value_coded
+      self.value_coded
     end
   end
 

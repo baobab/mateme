@@ -9,8 +9,7 @@ describe Drug do
     :name => 'Stavudine Lamivudine Nevirapine',
     :retired => false,
     :creator => 1,
-    :date_created => Time.now,
-    :default_charge => 1
+    :date_created => Time.now
   })
 
   it "should be valid" do
