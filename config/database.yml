@@ -7,7 +7,7 @@
 
 development:
   adapter: mysql
-  database: openmrs_development
+  database: neno_development
   username: root
   password:
   host: localhost

@@ -15,5 +15,7 @@ describe ConceptClass do
     concept_class = create_sample(ConceptClass)
     concept_class.should be_valid
   end
+
+  it "should look up diagnosis concepts and cache them"
   
 end
