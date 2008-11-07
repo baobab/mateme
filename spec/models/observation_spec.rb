@@ -60,6 +60,10 @@ describe Observation do
     observation.value_coded.should be_nil
   end
   
+  it "should store the specific concept name id when assigning the value from a coded concept"
+  it "should only lookup coded concept names based on the current user's locale"
+  it "should not lookup concept names for retired concepts"
+  
   it "should cache the most common observations for each question" do 
     observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'LAME', :value_coded => nil, :value_datetime => nil)
     observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'COOL', :value_coded => nil, :value_datetime => nil)
@@ -86,4 +90,6 @@ describe Observation do
     observation = create_sample(Observation, {:concept_id => concept(:outpatient_diagnosis).id, :value_coded => concept(:alcohol_counseling).id, :value_numeric => 1, :value_datetime => nil})
     observation.answer_string.should == "ALCOHOL COUNSELINGMELTING1.0"    
   end
+  
+  
 end

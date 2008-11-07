@@ -19,8 +19,9 @@ class Observation < ActiveRecord::Base
 
 
   def value_coded_or_text=(value_coded_or_text)
-    value_coded = ConceptName.find_by_name(value_coded_or_text).concept_id rescue nil
-    if value_coded.nil?
+    value_coded_name = ConceptName.find(:first, :conditions => {:name => value_coded_or_text})
+    value_coded = value_coded_name.concept_id if value_coded_name
+    if value_coded
       # TODO: this should not be done this way with a brittle hard ref to concept name
       self.concept_name = "OUTPATIENT DIAGNOSIS, NON-CODED" if self.concept && self.concept.name && self.concept.name.name == "OUTPATIENT DIAGNOSIS"
       self.value_text = value_coded_or_text
@@ -29,25 +30,17 @@ class Observation < ActiveRecord::Base
       self.value_coded
     end
   end
-
-  def self.update_most_common_observations(concept_question)
-    ranked_results = Hash.new(0)
-    self.find(:all, :conditions => ["concept_id = ?", concept_question]).each{|observation|
-      ranked_results[observation.answer_string]+=1
-    }
-    @@most_common_observations[concept_question] = ranked_results.sort{|a,b|b[1] <=> a[1]}.collect{|result|result[0]}.uniq
-
-  end
   
   # Looks for the most commonly used element in the database and sorts the results based on the first part of the string
   def self.find_most_common(concept_question, answer_string)
-    if @@most_common_observations[concept_question].nil?
-      self.update_most_common_observations(concept_question)
-    end
-    return @@most_common_observations[concept_question] if answer_string.nil?
-    self.update_most_common_observations(concept_question)
-    ranked_results = @@most_common_observations[concept_question]
-    ranked_results.reject{|result| !result.match(answer_string)}
+    # Concept name branch will make this easier!
+    self.find(:all, 
+      :select => 'COUNT(*), concept_name.name', 
+      :joins => 'INNER JOIN concept ON concept.concept_id = value_coded INNER JOIN concept_name ON concept_name.concept_id = concept.concept_id', 
+      :conditions => ["concept_name.name LIKE ?", "%#{answer_string}%"],
+      :group => :value_coded, 
+      :order => 'COUNT(*)',
+      :limit => 10)
   end
 
   def to_s

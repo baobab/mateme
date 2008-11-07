@@ -15,5 +15,6 @@ class Concept < ActiveRecord::Base
   end
 
   has_many :concept_names
+  has_many :answer_concept_names, :class_name => 'ConceptName'
   has_one :name, :class_name => 'ConceptName'
 end
