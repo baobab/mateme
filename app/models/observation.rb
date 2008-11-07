@@ -30,24 +30,15 @@ class Observation < ActiveRecord::Base
     end
   end
 
-  def self.update_most_common_observations(concept_question)
-    ranked_results = Hash.new(0)
-    self.find(:all, :conditions => ["concept_id = ?", concept_question]).each{|observation|
-      ranked_results[observation.answer_string]+=1
-    }
-    @@most_common_observations[concept_question] = ranked_results.sort{|a,b|b[1] <=> a[1]}.collect{|result|result[0]}.uniq
-
-  end
-  
-  # Looks for the most commonly used element in the database and sorts the results based on the first part of the string
   def self.find_most_common(concept_question, answer_string)
-    if @@most_common_observations[concept_question].nil?
-      self.update_most_common_observations(concept_question)
-    end
-    return @@most_common_observations[concept_question] if answer_string.nil?
-    self.update_most_common_observations(concept_question)
-    ranked_results = @@most_common_observations[concept_question]
-    ranked_results.reject{|result| !result.match(answer_string)}
+    # Concept name branch will make this easier!
+    self.find(:all, 
+      :select => 'COUNT(*) as count, concept_name.name as name', 
+      :joins => 'INNER JOIN concept ON concept.concept_id = value_coded INNER JOIN concept_name ON concept_name.concept_id = concept.concept_id', 
+      :conditions => ["obs.concept_id = ? AND (concept_name.name LIKE ? OR concept_name.name IS NULL)", concept_question, "%#{answer_string}%"],
+      :group => :value_coded, 
+      :order => 'COUNT(*) DESC',
+      :limit => 10).map{|o| o.name }
   end
 
   def to_s

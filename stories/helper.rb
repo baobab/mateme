@@ -12,6 +12,6 @@ def run_local_story(filename, options={})
 end
 
 def login_user(username, password, location) 
-  post "/user/login", :user => { :username => username, :password => password }, 
-    :location => location
+  post "/user/login", 
+    {:user => { :username => username, :password => password }, :location => location}
 end

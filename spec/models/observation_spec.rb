@@ -60,21 +60,12 @@ describe Observation do
     observation.value_coded.should be_nil
   end
   
-  it "should cache the most common observations for each question" do 
-    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'LAME', :value_coded => nil, :value_datetime => nil)
-    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'COOL', :value_coded => nil, :value_datetime => nil)
-    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'COOL', :value_coded => nil, :value_datetime => nil)
-    Observation.update_most_common_observations(concept(:outpatient_diagnosis).id)
-    Observation.class_eval("@@most_common_observations[#{concept(:outpatient_diagnosis).id}]").should == ["COOL", "LAME"]
-  end
-  
   it "should find the most common observation and sort by the answer" do
-    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'LAME', :value_coded => nil, :value_datetime => nil)
-    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'COOL', :value_coded => nil, :value_datetime => nil)
-    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => 'COOL', :value_coded => nil, :value_datetime => nil)
-    Observation.update_most_common_observations(concept(:outpatient_diagnosis).id)
-    Observation.find_most_common(concept(:outpatient_diagnosis).id, nil).should == ["COOL", "LAME"]
-    Observation.find_most_common(concept(:outpatient_diagnosis).id, "LAME").should == ["LAME"]
+    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => nil, :value_coded => concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).concept_id, :value_datetime => nil)
+    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => nil, :value_coded => concept_name(:immune_reconstitution_inflammatory_syndrome_construct).concept_id, :value_datetime => nil)
+    observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => nil, :value_coded => concept_name(:immune_reconstitution_inflammatory_syndrome_construct).concept_id, :value_datetime => nil)
+    Observation.find_most_common(concept(:outpatient_diagnosis).id, nil).should == [concept_name(:immune_reconstitution_inflammatory_syndrome_construct).name, concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).name]
+    Observation.find_most_common(concept(:outpatient_diagnosis).id, "LYMPH").should == [concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).name]
   end
   
   it "should be displayable as a string" do
