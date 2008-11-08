@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe PeopleController do
-  fixtures :person, :person_name, :person_name_code, :person_address, :patient, :patient_identifier
+  fixtures :person, :person_name, :person_name_code, :person_address, :patient, :patient_identifier, :patient_identifier_type
 
   before(:each) do
     login_current_user  
