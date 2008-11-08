@@ -44,6 +44,11 @@
     top:80px;
   }
 
+  .prescription {
+    margin-left:30px;
+    margin-top:30px;
+    background:#fff url(/images/drug_label_small.png) no-repeat;
+  }
 </style>
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
@@ -56,6 +61,10 @@
 
   <%# This options hash allows us to define our options in one place %>
   <% options = {:textCase => "upper" } %>
+
+  <label for='showSummary'></label>
+  <%= text_field_tag :showSummary, nil, { :optional => "true", :tt_pageStyleClass => "NoControls prescription" } %>
+
 
   <label for='time_until_next_visit'>Time Until Next Appointment</label>
   <%= select_tag("time_until_next_visit", options_for_select([["1 week", 1],
