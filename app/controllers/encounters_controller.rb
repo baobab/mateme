@@ -39,7 +39,7 @@ class EncountersController < ApplicationController
     render :text => "<li>" + suggested_answers.join("</li><li>") + "</li>"
   end
 
-  def treatments
+  def treatment
     search_string = (params[:search_string] || '').upcase
     filter_list = params[:filter_list].split(/, */) rescue []
     valid_answers = []
@@ -52,6 +52,12 @@ class EncountersController < ApplicationController
     suggested_answers = (previous_answers + valid_answers).reject{|answer| filter_list.include?(answer) }.uniq[0..10] 
     render :text => "<li>" + suggested_answers.join("</li><li>") + "</li>"
   end
-
+  
+  def locations
+    search_string = (params[:search_string] || 'neno').upcase
+    filter_list = params[:filter_list].split(/, */) rescue []    
+    locations =  Location.find(:all, :select =>'name', :conditions => ["retired = 0 AND name LIKE ?", '%' + search_string + '%'])
+    render :text => "<li>" + locations.map{|location| location.name }.join("</li><li>") + "</li>"
+  end
 
 end

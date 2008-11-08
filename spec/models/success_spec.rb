@@ -235,10 +235,6 @@ EOF
     Success.end_of_log.should == "Last 15 lines of logfile: /var/www/mateme/current/log/production.log\n\n blah blah blah"
   end
 
-  it "should run Success in the cron tab" do
-    backtick("crontab -l").match(/Success.verify/).should != nil
-  end
-
   it "should send the end of day summary" do
     $shell_result =  "244098.90 90781.20"
     Success.class_eval("@@sent_subject=nil")
