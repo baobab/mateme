@@ -60,13 +60,20 @@ describe Observation do
     observation.value_coded.should be_nil
   end
   
-  it "should find the most common observation and sort by the answer" do
+  it "should look up active concepts"
+  
+  it "should find the most common active observation and sort by the answer" do
     observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => nil, :value_coded => concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).concept_id, :value_datetime => nil)
     observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => nil, :value_coded => concept_name(:immune_reconstitution_inflammatory_syndrome_construct).concept_id, :value_datetime => nil)
     observation = create_sample(Observation, :concept_id => concept(:outpatient_diagnosis).id, :value_text => nil, :value_coded => concept_name(:immune_reconstitution_inflammatory_syndrome_construct).concept_id, :value_datetime => nil)
     Observation.find_most_common(concept(:outpatient_diagnosis).id, nil).should == [concept_name(:immune_reconstitution_inflammatory_syndrome_construct).name, concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).name]
     Observation.find_most_common(concept(:outpatient_diagnosis).id, "LYMPH").should == [concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).name]
   end
+  
+  it "should find the most common active observation values by text"
+  it "should find the most common active observation values by number"
+  it "should find the most common active observation values by date and time"
+  it "should find the most common active observation values by location"
   
   it "should be displayable as a string" do
     observation = create_sample(Observation, {:concept_id => concept(:outpatient_diagnosis).id, :value_coded => concept(:alcohol_counseling).id, :value_numeric => 1, :value_datetime => nil})

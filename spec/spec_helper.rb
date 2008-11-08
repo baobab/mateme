@@ -1,4 +1,7 @@
 ENV["RAILS_ENV"] = "test"
+ENV["RSPEC"] = "true"
+ENV["AUTOTEST"] = "true"
+
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'spec'
 require 'spec/rails'
