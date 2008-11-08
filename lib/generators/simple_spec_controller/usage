@@ -1,0 +1,11 @@
+Description:
+    The spec generator creates a set of controller
+    specs that are ready to use as the starting point for your
+    application. 
+    
+    The generator takes the name of the controller as its first argument. So 
+    "simple_spec_controller ConceptController" will generate a 
+    concept_controller_spec controller spec.
+    
+Examples:
+    ./script/generate simple_spec_controller ConceptController

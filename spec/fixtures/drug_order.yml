@@ -1,0 +1,8 @@
+default:
+  order_id: 1
+  drug_inventory_id: 1
+  units: 
+  frequency: 
+  prn: false
+  complex: false
+  quantity: 1

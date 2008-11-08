@@ -1,0 +1,12 @@
+default:
+  drug_substance_id: 0
+  concept_id: 0
+  name: 
+  route: 0
+  units: 
+  creator: 0
+  date_created: 2000-01-01 00:00:00
+  retired: false
+  retired_by: 0
+  date_retired: 2000-01-01 00:00:00
+  retire_reason: 2000-01-01 00:00:00
