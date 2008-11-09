@@ -3,6 +3,7 @@ class PrescriptionsController < ApplicationController
   end
   
   def new
+    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
   end
   
   def create

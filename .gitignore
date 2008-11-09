@@ -1,5 +1,5 @@
 .DS_Store
-database.yml
+config/database.yml
 notes
 doc
 development.sql

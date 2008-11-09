@@ -7,21 +7,16 @@ describe PrescriptionsController do
     login_current_user  
   end
 
-  # it "should create a record" do
-  #  options = {
-  #   :some_symbol => 'some_value'
-  #  }  
-  #  running { post :create, options }.should_not change(SomeModel, :count)
-  #  running { post :create, options.merge(:some_other_symbol => 'some_other_value') }.should change(SomeModel, :count).by(1)
-  # end
-
-
-
   it "should handle index" do
     get :index
+    response.should be_success
   end
 
-  it "should handle new"
+  it "should handle new" do
+    get :new, {:patient_id => patient(:evan).patient_id}
+    response.should be_success
+    assigns[:patient].should == patient(:evan)
+  end
 
   it "should handle create"
 
