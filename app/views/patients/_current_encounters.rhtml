@@ -1,1 +1,6 @@
-<%= @patient.encounters.find_by_date(Date.today).collect{|encounter|encounter.to_s}.join("<br/>") %>
+<% encounters = Hash.new()
+   encounters_by_date = @patient.encounters.find_by_date(Date.today)
+   encounters_by_date.collect{|encounter|encounters[encounter.name] = encounter.to_s.gsub("OUTPATIENT DIAGNOSIS: ","").gsub("VITALS: ","").gsub("APPOINTMENT: ","").downcase}.join("<br/>") 
+%>  
+<%= encounters.collect{|keys,values|[keys.to_s,values.to_s]}.join("<br/>") rescue nil %>
+
