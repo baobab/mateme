@@ -1,0 +1,100 @@
+<style>
+  .buttonLine{
+    height:auto;
+  }
+
+  .touchscreenTextInput {
+    display:none; 
+  }
+
+  #num {
+    display:none;
+  }
+
+  .options
+  {
+    height:10em
+  }
+  
+  .options li 
+  {
+    font-size: 1.5em
+  }
+  
+  li {
+    border-top:1px dotted silver;
+    border-bottom:1px dotted silver;
+  }
+
+  #tt_page__generic_drug .touchscreenTextInput
+  {
+    top: 346px; 
+  }
+
+  #tt_page_generic_drug .options 
+  {
+    height:10em
+  }
+
+  #tt_page_generic_drug .options li 
+  {
+    font-size: 1.5em
+  }
+  
+  #space { display:inline; font-size:1.2em; }
+    
+  li {
+    border-top:1px dotted silver;
+    border-bottom:1px dotted silver;
+  }
+
+  .prescription {
+    margin-left:30px;
+    margin-top:30px;
+    background:#fff url(/images/drug_label_small.png) no-repeat;
+  }
+</style>
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  function set_generic_drug_for_formulation() {
+    var drug = encodeURI($('generic_drug').value);
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/formulations?name=" + drug + "&search_string=");
+    clearInput();
+  }
+</script>
+<form id='prescription' action="/prescriptions/create" method='post'>
+
+
+  <label for='generic_drug'></label>
+  <%= text_field_tag :generic_drug, nil, {
+    :ajaxURL => "/prescriptions/generics?search_string=", 
+    :textCase => "upper", 
+    :helpText => "Generic Drug"}%>
+
+  <label for='formulation'></label>
+  <%= text_field_tag :formulation, nil, {
+    :tt_onLoad => "set_generic_drug_for_formulation();",
+    :ajaxURL => "", 
+    :textCase => "upper", 
+    :helpText => "Formulation"}%>
+
+  <label for='showSummary'></label>
+  <%= text_field_tag :showSummary, nil, { :optional => "true", :tt_pageStyleClass => "NoControls prescription" } %>
+
+  <script>
+    function makeKeysToggleBlue(){
+      keys = $('keyboard').childNodes
+      for(var i=0;i<keys.length;i++){
+        keys[i].setAttribute('onMouseDown', 'press(this.id);makeBlue(this)')
+      }
+    }
+    function makeBlue(element){
+      keys = $('keyboard').childNodes
+      for(var i=0;i<keys.length;i++){
+        keys[i].style.backgroundColor = ''
+      }
+      element.style.backgroundColor = 'lightblue'
+    }
+  </script>
+
+</form>

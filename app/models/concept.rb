@@ -3,6 +3,8 @@ class Concept < ActiveRecord::Base
   set_primary_key :concept_id
   include Openmrs
 
+  named_scope :active, :conditions => ['concept.retired = 0']
+
   belongs_to :concept_class
   belongs_to :concept_datatype
   has_many :concept_answers do
@@ -17,4 +19,5 @@ class Concept < ActiveRecord::Base
   has_many :concept_names
   has_many :answer_concept_names, :class_name => 'ConceptName'
   has_one :name, :class_name => 'ConceptName'
+  has_many :drugs
 end
