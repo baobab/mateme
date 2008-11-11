@@ -1,30 +1,32 @@
-<html>
-<head>
-<title>
-<%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
-</title>
-<script language="javascript">
-tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
-tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
-var tt_cancel_destination = "/people"
-</script>
-<%= stylesheet_link_tag "touch" %>
-<%= javascript_include_tag "touchscreenToolkit" %>
-<%= javascript_include_tag "pmis" %>
-<%# if @needs_date_picker %>
-  <%= javascript_include_tag "dateselector" %>
-<%# end %>
-</head>
-<body>
-
-<% unless flash[:notice].nil? %>
-  <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
-<% end %>
-<% unless flash[:error].nil? %>
-  <p id="flash_error" style="color: red"><%= flash[:error] %></p>
-<% end %>
-
-<%= @content_for_layout %>
-
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+    <script language="javascript">
+      tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
+      tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
+    </script>
+    <%= stylesheet_link_tag "mateme" %>
+    <%= stylesheet_link_tag "touch" %>
+    <%= javascript_include_tag "touchscreenToolkit" %>
+    <%= javascript_include_tag "pmis" %>
+    <%= javascript_include_tag "dateselector" %>
+  </head>
+  <body id="mateme">  
+    <div id="container">
+      <div id="content">
+        <% unless flash[:notice].nil? %>
+          <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
+        <% end %>
+        <% unless flash[:error].nil? %>
+          <p id="flash_error" style="color: red"><%= flash[:error] %></p>
+        <% end %>
+        <%= yield %>  
+        <div id="footer">
+        </div>    
+      </div>  
+    </div>
+  </body>
 </html>

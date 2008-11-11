@@ -95,9 +95,11 @@ function elementSelectedValue(element){
 
 
 var touchscreenInterfaceEnabled = 0;
+var contentContainer = null;
 
 function loadTouchscreenToolkit() {
 //	if ($('launchButton')) return;
+  contentContainer = document.getElementById("content");
 
 	if (document.forms.length>0) {
 		tstFormElements = getFormElements();
@@ -123,7 +125,7 @@ function addLaunchButton(){
 		launchButton.addEventListener("mousedown", toggleTouchscreenInterface, false);
 		launchButton.addEventListener("click", toggleTouchscreenInterface, false);
 		launchButton.innerHTML = "Enable Touchscreen UI";
-		document.body.appendChild(launchButton);
+		contentContainer.appendChild(launchButton);
 	}
 }
 
@@ -187,32 +189,31 @@ function createButtons() {
 	buttonsDiv.setAttribute("class", "buttonsDiv");
 	
 	// Show/Hide Captured Data
-	buttonsDiv.innerHTML = "<button id='showDataButton' class='button' onMouseDown='toggleShowProgress()'>Show Data</button>"; 
+	buttonsDiv.innerHTML = "<button id='showDataButton' class='button gray navButton' onMouseDown='toggleShowProgress()'>Show Data</button>"; 
   
 	//create next/finish button
-	buttonsDiv.innerHTML += "<button id='nextButton' class='button' onMouseDown='gotoNextPage()'>Next</button>";
+	buttonsDiv.innerHTML += "<button id='nextButton' class='button green navButton' onMouseDown='gotoNextPage()'><span>Next</span></button>";
 
 	//create back button
-  buttonsDiv.innerHTML += "<button id='backButton' class='button' >Back</button>"; 
+  buttonsDiv.innerHTML += "<button id='backButton' class='button gray navButton'><span>Back</span></button>"; 
 
 	//create clear button or new patient button if on search page
 	if (!tstSearchPage) {
-		buttonsDiv.innerHTML += "<button id='clearButton' class='button' onMouseDown='clearInput()'>Clear</button>"; 
-		//buttonsDiv.innerHTML += "<div id='clearButton' class='button' onMouseDown='clearInput()'>Clear</div>"; 
+		buttonsDiv.innerHTML += "<button id='clearButton' class='button gray navButton' onMouseDown='clearInput()'><span>Clear</span></button>"; 
 	} else {
 		var buttonLabel = "New Patient";
 		if (tstSearchMode && (tstSearchMode == "guardian")) { 
 			buttonLabel = "New Guardian";
 		}
 
-		buttonsDiv.innerHTML += "<button id='newPatientButton' class='button' onMouseDown='document.forms[0].submit()'>"+buttonLabel+"</button>"; 
+		buttonsDiv.innerHTML += "<button id='newPatientButton' class='button navButton' onMouseDown='document.forms[0].submit()'><span>"+buttonLabel+"</span></button>"; 
 	}
 
 	// create div for extra buttons
 	buttonsDiv.innerHTML += "<div id='tt_extraButtons'></div>";
 
 	//create cancel button
-	buttonsDiv.innerHTML += "<button class='button' id='cancelButton' onMouseDown='confirmCancelEntry();'>Cancel</button>"; 
+	buttonsDiv.innerHTML += "<button class='button navButton red' id='cancelButton' onMouseDown='confirmCancelEntry();'><span>Cancel</span></button>"; 
 
   return buttonsDiv
 }
@@ -300,7 +301,7 @@ function enableTouchscreenInterface(){
   // Ugly hack that allows css selection by either name or number
   var staticControlWrapper = document.createElement("div")
   staticControlWrapper.setAttribute("id","tt_staticControlsWrapper")
-  document.body.appendChild(staticControlWrapper);
+  contentContainer.appendChild(staticControlWrapper);
   
   var staticControl = document.createElement("div")
   staticControl.setAttribute("id","tt_staticControls")
@@ -402,8 +403,8 @@ function populateInputPage(pageNum) {
 
 //	addScrollButtons();
 
-//	document.body.appendChild(inputPage);
-	document.body.appendChild(wrapperPage);
+//	contentContainer.appendChild(inputPage);
+	contentContainer.appendChild(wrapperPage);
 
 	tstInputTarget.addEventListener("keyup", checkKey, false)
 	tstInputTarget.focus();
@@ -621,7 +622,7 @@ function scrollDown(element){
 
 function getLabel(anElementId) {
 	var labelText = "";
-	var labels = document.body.getElementsByTagName("label");
+	var labels = contentContainer.getElementsByTagName("label");
 	for(var i=0;i<labels.length;i++){
 		if(labels[i].getAttribute("for") == anElementId){
 			labelText = labels[i].innerHTML;
@@ -1061,13 +1062,11 @@ function gotoPage(destPage, validate){
     $("progressAreaPage"+destPage).setAttribute("class", "currentIndex");
 
 		var nextButton = tstNextButton;
-    nextButton.style.backgroundColor = ''
     if (destPage+1 == tstPages.length) {
-      nextButton.innerHTML = "Finish";
+      nextButton.innerHTML = "<span>Finish</span>";
     } else {
-      nextButton.innerHTML = "Next";
+      nextButton.innerHTML = "<span>Next</span>";
 		}
-		//nextButton.setAttribute("onMouseDown", "gotoPage("+(destPage+1)+", true)");
 		showBestKeyboard(destPage);
 
     // manage whether or not scroll bars are displayed TODO
@@ -1079,18 +1078,15 @@ function gotoPage(destPage, validate){
     var requireNextClick = tstInputTarget.getAttribute("tt_requireNextClick");
 
     // Make sure the next button is setup for right defaults
-    nextButton.style.border="3px outset gray"
     nextButton.setAttribute("onMouseDown", "gotoNextPage()");
     // if in fast mode and not retrospective mode and missing is not disabled
 		if (requireNextClick == "false") {
       if (tstRetrospectiveMode != "true"){
-        nextButton.style.backgroundColor="white"
-        nextButton.style.border="none"
         nextButton.innerHTML=""
         nextButton.setAttribute("onMouseDown", "return false");
       }
       else if (missingDisabled != true){
-        nextButton.innerHTML="Skip"
+        nextButton.innerHTML="<span>Skip</span>"
       }
     }
 
@@ -1127,7 +1123,6 @@ function inputIsValid() {
 		}
     showMessage(message)
 		var nextButton = tstNextButton;
-    nextButton.style.backgroundColor = ''
 		return false;
 	}
 	return true;
@@ -1156,7 +1151,7 @@ function confirmValue() {
 		popupKeyboard.setAttribute("id", "popupKeyboard");
 		popupKeyboard.setAttribute("class", "keyboard");
 		popupKeyboard.innerHTML = getABCKeyboard();
-		document.body.appendChild(popupKeyboard);
+		contentContainer.appendChild(popupKeyboard);
 	}
 	$("backspace").style.display = "inline";
 	hideMessage();
@@ -1178,7 +1173,7 @@ function cancelConfirmValue() {
 	if (typeof(focusForBarcodeInput) != "undefined")
 		focusForBarcodeInput();
 	
-	document.body.removeChild($("popupKeyboard"));
+	contentContainer.removeChild($("popupKeyboard"));
 	showBestKeyboard(tstCurrentPage);
 }
 
@@ -1205,10 +1200,10 @@ function hideMessage(){
 
 function disableTouchscreenInterface(){
   // delete touchscreen tstPages
-	document.body.removeChild($('page'+tstCurrentPage));
-	document.body.removeChild($('keyboard'));
-	document.body.removeChild($('progressArea'));
-	document.body.removeChild($('buttons'));
+	contentContainer.removeChild($('page'+tstCurrentPage));
+	contentContainer.removeChild($('keyboard'));
+	contentContainer.removeChild($('progressArea'));
+	contentContainer.removeChild($('buttons'));
 	document.forms[0].style.display = 'block';
 
 	touchscreenInterfaceEnabled = 0;
@@ -1218,7 +1213,7 @@ function disableTouchscreenInterface(){
 function confirmCancelEntry() {
 	if (tstConfirmCancel) {
 		tstMessageBar.innerHTML = "Are you sure you want to Cancel?<br/>" +
-															"<button onmousedown='hideMessage(); cancelEntry();'>Yes</button><button onmousedown='hideMessage();'>No</button>";
+															"<button onmousedown='hideMessage(); cancelEntry();'><span>Yes</span></button><button onmousedown='hideMessage();'><span>No</span></button>";
 		tstMessageBar.style.display = "block";
 	} else {
 		cancelEntry();
@@ -1355,14 +1350,12 @@ function getDatePart(aElementName) {
 
 
 function gotoNextPage() {
-  if (tstInputTarget.getAttribute("tt_requireNextClick") != "false" ) 
-    tstNextButton.style.backgroundColor = "lightblue";
 	gotoPage(tstCurrentPage+1, true);
 }
 
 function	disableTextSelection() {
 	if (navigator.userAgent.search(/opera/gi) != -1) {
-		var theBody = document.body;
+		var theBody = contentContainer;
 		theBody.onmousedown = disableSelect;
 		theBody.onmousemove = disableSelect;
 	}
@@ -1409,16 +1402,16 @@ function getQwertyKeyboard(){
 		"<span class='qwertyKeyboard'>" +
 		"<span class='buttonLine'>" +
 		getButtons("QWERTYUIOP") +
-		getButtonString('backspace','<span>BkSp</span>') +
-//		getButtonString('date','<span>Date</span>') +
+		getButtonString('backspace','Delete') +
+//		getButtonString('date','Date') +
 		"</span><span style='padding-left:15px' class='buttonLine'>" +
 		getButtons("ASDFGHJKL") +
-		getButtonString('space','<span>Space</span>') +
-		getButtonString('SHIFT','<span>SHIFT</span>') +
+		getButtonString('space','Space') +
+		getButtonString('SHIFT','Upper') +
 		"</span><span style='padding-left:25px' class='buttonLine'>" +
 		getButtons("ZXCVBNM,.") +
-		getButtonString('abc','<span>abc</span>') +
-		getButtonString('num','<span>Num</span>') +
+		getButtonString('abc','abc') +
+		getButtonString('num','Num') +
 		"</span>" +
 		"</span>"
 	return keyboard;
@@ -1430,18 +1423,17 @@ function getABCKeyboard(){
 		"<span class='abcKeyboard'>" +
 		"<span class='buttonLine'>" +
 		getButtons("ABCDEFGH") +
-		getButtonString('backspace','<span>BkSp</span>') +
-		getButtonString('num','<span>Num</span>') +
-//		getButtonString('date','<span>Date</span>') +
+		getButtonString('backspace','Delete') +
+		getButtonString('num','Num') +
 		"</span><span class='buttonLine'>" +
 		getButtons("IJKLMNOP") +
-		getButtonString('apostrophe',"<span>'</span>") +
-		getButtonString('space','<span>Space</span>') +
-		getButtonString('SHIFT','<span>SHIFT</span>') +
-		getButtonString('Unknown','<span>Unknow</span>') +
+		getButtonString('apostrophe',"'") +
+		getButtonString('space','Space') +
+		getButtonString('SHIFT','SHIFT') +
+		getButtonString('Unknown','Unknown') +
 		"</span><span class='buttonLine'>" +
 		getButtons("QRSTUVWXYZ") +
-		getButtonString('qwerty','<span>qwerty</span>') +
+		getButtonString('qwerty','qwerty') +
 		"</span>" +
 		"</span>";
 	return keyboard;
@@ -1453,16 +1445,16 @@ function getNumericKeyboard(){
 		"<span id='buttonLine1' class='buttonLine'>" +
 		getButtons("123") +
 		getCharButtonSetID("*","star") +
-		getButtonString('abc','<span>abc</span>') +
-		getButtonString('date','<span>Date</span>') +
+		getButtonString('abc','abc') +
+		getButtonString('date','Date') +
 		"</span><span id='buttonLine2' class='buttonLine'>" +
 		getButtons("456") +
 		getCharButtonSetID("-","minus") +
-		getButtonString('qwerty','<span>qwerty</span>') +
+		getButtonString('qwerty','qwerty') +
 		"</span><span id='buttonLine3' class='buttonLine'>" +
 		getButtons("789") +
 		getCharButtonSetID("+","plus") +
-		getButtonString('SHIFT','<span>SHIFT</span>') +
+		getButtonString('SHIFT','SHIFT') +
 		"</span><span id='buttonLine4' class='buttonLine'>" +
 		getCharButtonSetID(".","decimal") +
 		getCharButtonSetID("0","zero") +
@@ -1472,8 +1464,8 @@ function getNumericKeyboard(){
 		getCharButtonSetID("=","equals") +
 		getCharButtonSetID("<","lessthan") +
 		getCharButtonSetID(">","greaterthan") +
-		getButtonString('backspace','<span>BkSp</span>') +
-		getButtonString('Unknown','<span>Unknown</span>') +
+		getButtonString('backspace','Delete') +
+		getButtonString('Unknown','Unknown') +
 		"</span>" +
 		"</span>"
 	return keyboard;
@@ -1548,16 +1540,16 @@ function getButtons(chars){
 }
 
 function getCharButtonSetID(character,id){
-	return '<button onMouseDown="press(\''+character+'\');" class="keyboardButton" id="'+id+'">' +character+ "</button>";
+	return '<button onMouseDown="press(\''+character+'\');" class="keyboardButton" id="'+id+'"><span>' +character+ '</span></button>';
 }
 
 function getButtonString(id,string){
 	return "<button \
 		onMouseDown='press(this.id);' \
 		class='keyboardButton' \
-		id='"+id+"'>"+
+		id='"+id+"'><span>"+
 		string +
-	"</button>";
+	"</span></button>";
 }
 
 function press(pressedChar){

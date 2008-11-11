@@ -1,0 +1,45 @@
+#mateme {
+  background-color:#000000;
+}
+
+#container {
+  background-color:#000000;
+  display:block;
+  height:1px;
+  left:0;
+  overflow:visible;
+  position:absolute;
+  top:50%;
+  visibility:visible;
+  width:100%;
+}
+
+#content {
+  background:#FFFFFF;
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:800px;
+  height:600px;
+  margin-left:-400px;
+  margin-top:-300px;
+
+}
+
+#footer {
+  background:#BBCCD9 url(/images/bg.png) repeat-x scroll 0 0;
+  color:#CADCEA;
+  height:80px;
+  width:100%;
+  bottom:0px;
+  position:absolute;
+  overflow:hidden;
+}
+
+.inputPage {
+  background-color: #FFFFFF; 
+  background-image: url(/images/watermark.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 80% 80%
+}

@@ -57,16 +57,33 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
   function set_generic_drug_for_formulation() {
-    var drug = encodeURI($('generic_drug').value);
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/formulations?name=" + drug + "&search_string=");
+    var generic = encodeURI($('generic').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/formulations?generic=" + generic + "&search_string=");
     clearInput();
+  }
+  
+  function set_generic_drug_and_formulation_for_frequency() {
+    var generic = encodeURI($('generic').value); 
+    var formulation = encodeURI($('formulation').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/frequencies?generic=" + generic + "&forumalation=" + formulation + "&search_string=");
+    clearInput();
+  }
+  
+
+  function set_drug_summary() {
+    var drug = encodeURI($('generic_drug').value); 
+    var formulation = encodeURI($('formulation').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "");
+    $('touchscreenInput'+tstCurrentPage).setAttribute('helpText', "Wow!");
+    clearInput();
+  
   }
 </script>
 <form id='prescription' action="/prescriptions/create" method='post'>
 
 
-  <label for='generic_drug'></label>
-  <%= text_field_tag :generic_drug, nil, {
+  <label for='generic'></label>
+  <%= text_field_tag :generic, nil, {
     :ajaxURL => "/prescriptions/generics?search_string=", 
     :textCase => "upper", 
     :helpText => "Generic Drug"}%>
@@ -78,8 +95,17 @@
     :textCase => "upper", 
     :helpText => "Formulation"}%>
 
-  <label for='showSummary'></label>
+
+  <label for="morning_frequency"></label>
+  <%= text_field_tag :morning_frequency, nil, { 
+    :tt_onLoad => "set_generic_drug_and_formulation_for_frequency();",
+    :ajaxURL => "", 
+    :textCase => "upper", 
+    :helpText => "How many doses in the morning?"}%>
+
+ <label for='showSummary'></label>
   <%= text_field_tag :showSummary, nil, { :optional => "true", :tt_pageStyleClass => "NoControls prescription" } %>
+
 
   <script>
     function makeKeysToggleBlue(){
