@@ -26,15 +26,34 @@
   }
 </style>
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
+   <select id="select" name="select" helptext="Referral Case To another Health Center">
+      <option value="option1">Yes</option>
+      <option value="option2">No</option>
+   </select>    
+  <label for="refer">REFER TO OTHER HOSPITAL</label>
+    <% options = {
+	:id => "refer", 
+	:field_type => 'text', 
+	:helptext =>"REFER TO OTHER HOSPITAL", 
+	:condition => "($('select').value == 'option1')",
+	:allowFreeText => 'true', 
+	:ajaxURL => "/encounters/locations?search_string=", 
+	:textCase => "upper"
+	} %>
+    <%= text_field_tag "observations[][value_text]", nil, options %>
+    <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER HOSPITAL", options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   
-  <%= hidden_field_tag "encounter[encounter_type_name]", "OUTPATIENT DIAGNOSIS" %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "REFERRED" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
    
   <%# This options hash allows us to define our options in one place %>
-  <% options = {:allowFreeText => 'true', :allowFreeText => 'true', :ajaxURL => "/encounters/diagnoses?search_string=", :textCase => "upper" } %>
+  <% options = {:allowFreeText => 'true', :allowFreeText => 'true', :ajaxURL => "/encounters/diagnoses?search_string=", :textCase => "upper",:condition => "($('select').value == 'option2')" } %>
 
   <label for='observations[][value_coded_or_text]'>Outpatient diagnosis</label>
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
@@ -57,7 +76,7 @@
   </script>
 
   <% 5.times do |counter| %>
-    <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
+    <% options[:condition] = "$('select').value == 'option2' && tstFormElements[#{counter}].value != ''" if counter > 0 %>
     <% counter += 1 %>
     <% options[:helpText] = "Additional diagnosis" %>
     <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
@@ -67,24 +86,5 @@
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <% end %>
 
-   <select id="select" name="select" helptext="Referral Case To another Health Center">
-      <option value="option1">Yes</option>
-      <option value="option2">No</option>
-   </select>    
-  <label for="refer">REFER TO OTHER HOSPITAL</label>
-    <% options = {
-	:id => "refer", 
-	:field_type => 'text', 
-	:helptext =>"REFER TO OTHER HOSPITAL", 
-	:condition => "($('select').value == 'option1')",
-	:allowFreeText => 'true', 
-	:ajaxURL => "/encounters/locations?search_string=", 
-	:textCase => "upper"
-	} %>
-    <%= text_field_tag "observations[][value_text]", nil, options %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
-    <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER HOSPITAL", options) %>
-    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 </form>

@@ -149,3 +149,13 @@ encounter_type_00007:
   description: New appointment encounter
   retired: false
   date_created: 2008-05-02 16:04:20 -07:00
+encounter_type_00016: 
+  name: REFERRED
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 16
+  creator: 15878
+  date_retired: 
+  description: Refer patient to another HC
+  retired: false
+  date_created: 2008-05-02 16:04:20 -07:00
