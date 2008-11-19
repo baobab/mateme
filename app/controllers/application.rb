@@ -1,16 +1,11 @@
 class ApplicationController < ActionController::Base
+  include AuthenticatedSystem
 
-  # A unique cookie name to distinguish our session data from others'
-  session :session_key => '_patient_registration_session_id'
-
-  before_filter :authorize, :except => ["login", "logout"]
-
-  def authorize
-    User.current_user = User.find(session[:user_id]) unless session[:user_id].nil?
-    Location.current_location = Location.find(session[:location_id]) unless session[:location_id].nil?
-    redirect_to(:controller => "user", :action => "login") if session[:user_id].nil?
-  end
-
+  helper :all
+  protect_from_forgery :secret => '87e9a354841fa737a0a28e1472b24f3c'
+  filter_parameter_logging :password
+  before_filter :login_required, :except => ['login', 'logout']
+  
   def rescue_action_in_public(exception)
     @message = exception.message
     @backtrace = exception.backtrace.join("\n") unless exception.nil?

@@ -47,43 +47,27 @@ form{
 }
 
 .options, .optionsSearchPage, .touchscreenTextInput, .searchResults {
-  position: absolute; 
   font-size:1.5em;
-  width: 400px;
-  padding:5px;
-  margin-left:5px;
-  background-color: white;
-  border: 3px inset gray;
   -moz-user-select:none
 }
 
 .touchscreenTextInput{
-  position: absolute; 
-  top: 250px;
-  left: 25px;
-  background-color: lightblue;
-  border-color: lightblue;
-  border-style: inset;
-  border-width: 2px;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-bottom: 1px solid silver;
+  width:745px;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:2.2em;
+  background:none;
+  padding-left:5px;
 }
 
 .options{
-  height: 6em;
-}
-
-.scrollable{
-  height: 5em;
-}
-
-.options{
-  top: 70px;
-  left: 25px;
-  border-style: solid;
-  border-color: lightblue;
-  border-width: 2px;
-  background-color: #ffff99;
 	overflow: auto;
+  height:10em;
 }
+
 .options ul{
   margin-top: 5px;
   margin-bottom: 5px;
@@ -91,12 +75,13 @@ form{
 }
 .options li{
   color: black;
-	font-size: 1.7em;
   list-style: none;
   padding-left: 5px;
   padding-right: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:1.5em;
 }
 .optionsList{
   display:none;
@@ -165,7 +150,7 @@ form{
   text-align: center;
 }
 
-.inputContainer{
+/*.inputContainer{
   position:absolute;
   top: 275px;
   left: 450px;
@@ -175,7 +160,7 @@ form{
   border: 3px inset gray;
   font-size: 2em;
   overflow:hidden;
-}
+}*/
 
 .keyboard{
   position:absolute;
@@ -221,13 +206,20 @@ form{
   font-size: 2em;
 	overflow: hidden;
 }
+
 .helpTextClass {
-  top: 5px;
-  position: absolute;
   font-size: 2em;
-  left: 25px;
+  padding-top: 5px;
+  padding-left: 25px;
   width: 620px;
-  -moz-user-select:none;
+  -moz-user-select: none;
+}
+
+.inputFrameClass {
+  border: 2px solid black;
+  margin-left:25px;
+  background: #F0F0F0;
+  width:750px;  
 }
 
 .progressAreaSearchPage {

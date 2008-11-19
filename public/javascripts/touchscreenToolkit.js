@@ -25,10 +25,6 @@
 tstRequireNextClickByDefault = true;
 tstConfirmCancel = true;
 tstEnableDateSelector = false;
-//tstCustomPageClass = ""
-//tstUsername = ""
-//tstCurrentDate = ""
-//
 
 // Restrospective functionality doesn't belong here
 // should be in pmis.js only
@@ -98,7 +94,6 @@ var touchscreenInterfaceEnabled = 0;
 var contentContainer = null;
 
 function loadTouchscreenToolkit() {
-//	if ($('launchButton')) return;
   contentContainer = document.getElementById("content");
 
 	if (document.forms.length>0) {
@@ -113,7 +108,6 @@ function loadTouchscreenToolkit() {
 	addLaunchButton();
 	enableTouchscreenInterface();
 
-	//tstOptionsBox = null;
 	tstKeyboard = $('keyboard');
 }
 
@@ -140,7 +134,6 @@ function toggleTouchscreenInterface(){
 
 function touchScreenEditFinish(element){
   element.style.background=element.getAttribute('originalColor')
-  //$('keyboard').style.display='none';
 }
 
 function createInputPage(pageNumber){
@@ -169,7 +162,6 @@ function createInputPage(pageNumber){
 	if(pageNumber==0){ // display the first page
 		inputPage.setAttribute('style','display:block');
 		inputTargetPageNumber = 0;
-		//$('keyboard').style.display='block';
 	}
 	
 	// hidden trigger button for calendar
@@ -276,11 +268,9 @@ function enableTouchscreenInterface(){
 	
   // This code parses the existing forms and tries to build a wizard like UI
   for(var i=0;i<numberOfInputElements;i++){
-		if (!tstSearchPage) {
-			
+		if (!tstSearchPage) {			
 			// create one page for the 3 date elements
       // called 445 times on staging page
-
 			var formElementName = tstFormElements[i].getAttribute("name");
       if (formElementName.match(/2i|3i|\[month\]|\[day\]/)){
         continue;
@@ -318,12 +308,7 @@ function enableTouchscreenInterface(){
 	
 	tstNextButton = $("nextButton");
 	tstMessageBar = $('messageBar');
-//	var keyboard = createKeyboardDiv();
-	
-//  createProgressArea();
-//	createButtons();
 	gotoPage(0, false);
-//  enableValidKeyboardButtons();	//disabled due to performance issues
 
 	document.forms[0].style.display = "none";
 	touchscreenInterfaceEnabled = 1;
@@ -333,14 +318,17 @@ function enableTouchscreenInterface(){
 function populateInputPage(pageNum) {
 	var i = tstPages[pageNum];
   
-	
 	inputPage  = createInputPage(pageNum);
 	inputPage.setAttribute("style", "display: block;");
-	// Try and find contextual information from *above* the input element
+	
+  // Try and find contextual information from *above* the input element
 	var previousSibling = tstFormElements[i].previousSibling;
 	var inputDiv = document.createElement("div");
+  inputDiv.setAttribute("id", "inputFrame"+pageNum);
+  inputDiv.setAttribute("class", "inputFrameClass");
 	var helpText = getHelpText(tstFormElements[i], pageNum);
 	inputPage.appendChild(helpText); 
+
 	var lastInsertedNode = inputPage.appendChild(inputDiv);
   
 	var wrapperPage = document.createElement("div")
@@ -399,11 +387,8 @@ function populateInputPage(pageNum) {
 	tstInputTarget = touchscreenInputNode; 
 
 	// options	
-	inputPage.appendChild(getOptions());
-
-//	addScrollButtons();
-
-//	contentContainer.appendChild(inputPage);
+	inputDiv.appendChild(getOptions());
+  
 	contentContainer.appendChild(wrapperPage);
 
 	tstInputTarget.addEventListener("keyup", checkKey, false)
@@ -427,8 +412,6 @@ function populateInputPage(pageNum) {
 		showMessage(flashMessage);
 	}
 
-	//  createProgressArea();
-//  enableValidKeyboardButtons();
 }
 
 function addScrollButtons() {
@@ -470,7 +453,6 @@ function setTouchscreenAttributes(aInputNode, aFormElement, aPageNum) {
 }
 
 function getHelpText(inputElement, aPageNum) {
-// instructions
 	var helpTextClass;
 	if (tstSearchPage) {
 		helpTextClass = "helpTextSearchPage";
@@ -538,7 +520,6 @@ function getHelpText(inputElement, aPageNum) {
 }
 
 function getOptions() {
-	// options
 	var pageNum = tstCurrentPage;
 	var i = tstPages[pageNum]
 	var optionsClass = "";
@@ -552,15 +533,6 @@ function getOptions() {
 	viewPort.setAttribute('id','viewport')
 	viewPort.setAttribute('class',optionsClass);
 
-/* 
-	var scrollUp = document.createElement("div");
-	scrollUp.setAttribute('id','scrollUp')
-	scrollUp.setAttribute('onMouseDown','scrollUp(this.parentNode)')
-
-	var scrollDown = document.createElement("div");
-	scrollDown.setAttribute('id','scrollDown')
-	scrollDown.setAttribute('onMouseDown','scrollDown(this.parentNode)')
- */ 
 	var options = document.createElement("div");
 	options.setAttribute('id','options');
 	options.setAttribute('class','scrollable');
@@ -583,29 +555,21 @@ function getOptions() {
 				for(var j=0;j<selectOptions.length;j++){
 					if (selectOptions[j].checked) tstInputTarget.value = selectOptions[j].value;
 				}
-				loadOptions(selectOptions, options);
-				
+				loadOptions(selectOptions, options);				
 			} else if (tstFormElements[i].getAttribute("type") == "checkbox") {
 				loadOptions([{value: "Yes"}, {value: "No"}], options);
 				if (tstFormElements[i].checked) tstInputTarget.value = "Yes";
 				else tstInputTarget.value = "No";
-			}
+			} else {
+        viewPort.setAttribute('style', 'display:none');
+      }
 		}
-	} else {
-		// search Results
-//		var postParams = getFormPostParams();
-//		new Ajax.Request('/patient/search_by_name',
-//				{ method: 'post', parameters: postParams, onComplete: showAjaxResponse });
-		
 	}
-//	return options;
-
+  
 	if (options.firstChild && tstInputTarget.value.length>0) {
 		highlightSelection(options.firstChild.childNodes, tstInputTarget);
 	}
 		
-//  viewPort.appendChild(scrollUp)
-//  viewPort.appendChild(scrollDown)
   viewPort.appendChild(options)
   return viewPort
 }
@@ -1070,10 +1034,6 @@ function gotoPage(destPage, validate){
 		showBestKeyboard(destPage);
 
     // manage whether or not scroll bars are displayed TODO
-		
-//    enableValidKeyboardButtons();
-//		tstCurrentPage = destPage;
-
     var missingDisabled = tstInputTarget.getAttribute("tt_missingDisabled");
     var requireNextClick = tstInputTarget.getAttribute("tt_requireNextClick");
 
@@ -1102,10 +1062,7 @@ function gotoPage(destPage, validate){
 		if (popupBox) {
 			popupBox.style.visibility = "visible";
 		}
-   
-    
-//    $('keyboard').style.display='none';
-//    toggleTouchscreenInterface();
+       
 		document.forms[0].submit();	
   }
 }
@@ -1227,19 +1184,8 @@ function cancelEntry() {
   for (i in inputElements) {
     inputElements[i].value = "";
   }
-  //disableTouchscreenInterface();
-  //window.location.reload();
-  
-//  if (tt_cancel_destination == null){
-    window.location.href = window.tt_cancel_destination || "/patient/menu?no_auto_load_forms=true";
-    /*
-  }
-  else{
-    window.location.href = tt_cancel_destination
-  }
-  */
 
-   
+  window.location.href = window.tt_cancel_destination || "/patient/menu?no_auto_load_forms=true";
 }
 
 // format the given element's value for display on the Progress Indicator
@@ -1410,8 +1356,8 @@ function getQwertyKeyboard(){
 		getButtonString('SHIFT','Upper') +
 		"</span><span style='padding-left:25px' class='buttonLine'>" +
 		getButtons("ZXCVBNM,.") +
-		getButtonString('abc','abc') +
-		getButtonString('num','Num') +
+		getButtonString('abc','A-Z') +
+		getButtonString('num','0-9') +
 		"</span>" +
 		"</span>"
 	return keyboard;
@@ -1424,7 +1370,7 @@ function getABCKeyboard(){
 		"<span class='buttonLine'>" +
 		getButtons("ABCDEFGH") +
 		getButtonString('backspace','Delete') +
-		getButtonString('num','Num') +
+		getButtonString('num','0-9') +
 		"</span><span class='buttonLine'>" +
 		getButtons("IJKLMNOP") +
 		getButtonString('apostrophe',"'") +
@@ -1445,7 +1391,7 @@ function getNumericKeyboard(){
 		"<span id='buttonLine1' class='buttonLine'>" +
 		getButtons("123") +
 		getCharButtonSetID("*","star") +
-		getButtonString('abc','abc') +
+		getButtonString('abc','A-Z') +
 		getButtonString('date','Date') +
 		"</span><span id='buttonLine2' class='buttonLine'>" +
 		getButtons("456") +
@@ -1611,8 +1557,6 @@ function press(pressedChar){
   }
 
 	tstLastPressTime = new Date();
-//	enableValidKeyboardButtons(); // disabled for performance reasons
-
 }
 
 //ugly hack but it works!
@@ -1755,10 +1699,18 @@ function unescape(s) {
 function checkKey(anEvent) {
 	if (anEvent.keyCode == 13) {
 		gotoNextPage();
+    return;
 	}
 	if (anEvent.keyCode == 27) {
 		confirmCancelEntry(); 
+    return;
 	}
+
+  if(doListSuggestions){
+    listSuggestions(inputTargetPageNumber);
+  }
+
+	tstLastPressTime = new Date();  
 }
 
 
@@ -1910,9 +1862,6 @@ TTInput.prototype = {
 			absMinValue = this.getNumberFromString(this.element.getAttribute("absoluteMin"));
 			absMaxValue = this.getNumberFromString(this.element.getAttribute("absoluteMax"));
 
-//			if (isNaN(this.value) && !isNaN(this.formElement.value) && !this.formElement.value.length > 0)
-//				this.value = this.formElement.value;
-				
 			if (!isNaN(numValue) && !isNaN(absMinValue)) {
 				if (numValue < absMinValue) {
 					tooSmall = true;
@@ -1941,9 +1890,6 @@ TTInput.prototype = {
 			}
 		}
 
-		//if (this.formElement.getAttribute("disableAuthorization")) 
-		//	this.shouldConfirm = false;
-			
 		if (tooSmall || tooBig) {
 			if (!isNaN(minValue) && !isNaN(maxValue)) 
 				return "Value out of Range: "+minValue+" - "+maxValue;

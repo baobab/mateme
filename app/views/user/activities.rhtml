@@ -1,7 +1,0 @@
-<%= start_form_tag :action => 'change_activities', :id => @user %>
-  <label for="user[activities][]">
-  Select current tasks
-  </label>
-  <%= select_tag 'user[activities][]', options_from_collection_for_select(@privileges.sort_by{|p|p.privilege}, :privilege, :privilege, @activities), :multiple => true, :tt_pageStyleClass => "ShortSelectList" %>
-  <%= submit_tag 'Change' %>
-<%= end_form_tag %>

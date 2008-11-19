@@ -3,7 +3,7 @@ Select an activity
   <ul>
     <li><%= link_to_onmousedown "Find or register patient by name", {:action => "search"}  %></li>
     <li><%= link_to_onmousedown "Find patient by identifier", {:action => "identifiers"}  %></li>
-    <li><%= link_to_onmousedown "Logout", {:controller => "user", :action => "logout"}  %></li>
+    <li><%= link_to_onmousedown "Logout", '/logout'  %></li>
   </ul>
 </div>
 
