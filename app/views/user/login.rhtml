@@ -37,7 +37,7 @@
     <label for="user_password">Password</label>
     <%= password_field(:user, :password, :helpText => "Enter Password", :textCase => "lower") %><br>
     <label for="user_location">Location</label>
-    <%= text_field_tag('location', '', :helpText=> "Workstation Location", :tt_pageonload=>"loadBarcodePage", :field_type => "number") %><br>
+    <%= hidden_field_tag('location', '7', :helpText=> "Workstation Location", :tt_pageonload=>"loadBarcodePage", :field_type => "number") %><br>
     <%= submit_tag value="Submit"%>
   <% end %>
 
