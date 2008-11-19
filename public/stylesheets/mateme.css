@@ -27,7 +27,8 @@
 }
 
 #footer {
-  background:#BBCCD9 url(/images/bg.png) repeat-x scroll 0 0;
+  background:#BBCCD9;
+  border-top:3px solid :#99AAB7;
   color:#CADCEA;
   height:80px;
   width:100%;
@@ -38,8 +39,8 @@
 
 .inputPage {
   background-color: #FFFFFF; 
-  background-image: url(/images/watermark.png);
+  /*background-image: url(/images/watermark.png);
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: 80% 80%
+  background-position: 80% 80%*/
 }

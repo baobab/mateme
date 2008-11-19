@@ -359,76 +359,76 @@ button span {
 
 
 button, button.blue { 
-  background:url(/images/buttons/btn_right_blue.png) right no-repeat; 
+  background:#000; 
   font-size:1.3em; 
   height:57px; 
   line-height:57px;
   min-width:48px;
 }
 button span, button.blue span { 
-  background:url(/images/buttons/btn_left_blue.png) left no-repeat;
+  background:#000; 
   height:57px; 
   line-height:57px;
   color:#fff; 
 }
-button:hover, button:hover.blue {
-	background:url(/images/buttons/btn_right_hover_blue.png) right no-repeat; 
+/*button:hover, button:hover.blue {
+  background:#00f; 
 }
 button:hover span, button:hover.blue span {
-	background:url(/images/buttons/btn_left_hover_blue.png) left no-repeat; 
-}
+  background:#00f; 
+}*/
 
 button.red { 
-  background:url(/images/buttons/btn_right_red.png) right no-repeat; 
+  background:#f00; 
 }
 button.red span { 
-  background:url(/images/buttons/btn_left_red.png) left no-repeat;
+  background:#f00; 
 }
-button:hover.red {
-	background:url(/images/buttons/btn_right_hover_red.png) right no-repeat; 
+/*button:hover.red {
+  background:#f00; 
 }
 button:hover.red span {
-	background:url(/images/buttons/btn_left_hover_red.png) left no-repeat; 
-}
+  background:#f00; 
+}*/
 
 button.green { 
-  background:url(/images/buttons/btn_right_green.png) right no-repeat; 
+  background:#0f0; 
 }
 button.green span { 
-  background:url(/images/buttons/btn_left_green.png) left no-repeat;
+  background:#0f0; 
 }
-button:hover.green  {
+/*button:hover.green  {
 	background:url(/images/buttons/btn_right_hover_green.png) right no-repeat; 
 }
 button:hover.green span {
 	background:url(/images/buttons/btn_left_hover_green.png) left no-repeat; 
-}
+}*/
 
 button.gray { 
-  background:url(/images/buttons/btn_right_gray.png) right no-repeat; 
+  background:#aaa; 
 }
 button.gray span { 
-  background:url(/images/buttons/btn_left_gray.png) left no-repeat;
+  background:#aaa; 
 }
-button:hover.gray {
+/*button:hover.gray {
 	background:url(/images/buttons/btn_right_hover_gray.png) right no-repeat; 
 }
 button:hover.gray span {
 	background:url(/images/buttons/btn_left_hover_gray.png) left no-repeat; 
-}
+}*/
 
 button.dark { 
-  background:url(/images/buttons/btn_right_dark.png) right no-repeat; 
+  background:#777; 
 }
 button.dark span { 
-  background:url(/images/buttons/btn_left_dark.png) left no-repeat;
+  background:#777; 
 }
-button:hover.dark {
+/*button:hover.dark {
 	background:url(/images/buttons/btn_right_hover_dark.png) right no-repeat; 
 }
 button:hover.dark span {
 	background:url(/images/buttons/btn_left_hover_dark.png) left no-repeat; 
-}
+}*/
 
 
 
