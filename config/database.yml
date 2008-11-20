@@ -9,14 +9,14 @@ development:
   adapter: mysql
   database: openmrs_development
   username: root
-  password:
+  password: umoyo56
   host: localhost
 
 test:
   adapter: mysql
   database: openmrs_test
   username: root
-  password: 
+  password: umoyo56
   host: localhost
 
 

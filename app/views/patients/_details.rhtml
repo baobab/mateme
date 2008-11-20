@@ -1,4 +1,7 @@
 <%= @patient.person.name %><br/>
 <%= @patient.national_id_with_dashes %><br/>
 <%= @patient.person.birthdate_formatted %><br/>
-Village: <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
+Maiden Name:<%= @patient.person.names.first.family_name2 %></br>
+Home Village:<%= @patient.person.addresses.first.address2 %></br>
+Current Village: <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
+

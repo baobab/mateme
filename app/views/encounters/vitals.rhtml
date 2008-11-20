@@ -164,6 +164,27 @@
     <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
     <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+     
+      <select id="select" name="select" helptext="Other Reason For Visit">
+	      <option value="option1">ART</option>
+	      <option value="option2">PART</option>
+	      <option value="option3">EID</option>
+	      <option value="option4">KS</option>
+	      <option value="option5">PMTCT</option>
+	      <option value="option6">Other</option>
+      </select>    
+  <label for="reason">Other Reason for visit</label>
+    <% options = {
+	:id => "reason", 
+	:field_type => 'text', 
+	:helptext =>"Other Reason for visit", 
+	:condition => "($('select').value == 'option6')",
+	:allowFreeText => 'true', 
+	:ajaxURL => "/encounters/locations?search_string=", 
+	:textCase => "upper"
+	} %>
+
+
 
     <label for='weight'>Weight (kg)</label>
       <%= text_field_tag "observations[][value_numeric]", nil, 
@@ -201,6 +222,8 @@
 
     <label for='showSummary'>Summary </label>
       <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
+   
+      
       
 
   </form>

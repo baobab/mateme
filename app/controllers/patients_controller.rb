@@ -1,6 +1,6 @@
 class PatientsController < ApplicationController
   def show
-    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil
+    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil  
   end
   
   def print
