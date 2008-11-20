@@ -141,8 +141,23 @@
 
 </style>
 
-<script>
-  var tt_cancel_destination = "/people"
+<script type="text/javascript">
+  var tt_cancel_destination = "/people";
+    
+  function newSearch(){
+    var currentUrl = window.location.href;
+    if (currentUrl.match(/\?identifier/)){
+      window.location.href = "/people/identifiers" 
+    }
+    else{
+      window.location.href = "/people/search";
+    }
+  }
+
+  function createNewSearchButton(){
+      $('tt_extraButtons').innerHTML = "<div class='button' onmousedown='newSearch()' > New Search </div>";  
+  }
+
 </script>
 
 <% if (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
@@ -179,7 +194,7 @@
     <% else -%>  
       <label for="person">Select the patient from the following</label>
     <% end -%>  
-    <select name="person" id="person">    
+    <select tt_onload="createNewSearchButton()" name="person" id="person">    
       <% @people.each do |person| -%>
         <option value="<%= person.id %>">
           <%=h person.name -%>, 
