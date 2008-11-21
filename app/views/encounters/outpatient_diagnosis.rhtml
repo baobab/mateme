@@ -75,7 +75,7 @@
     }
   </script>
 
-  <% 5.times do |counter| %>
+  <% 0.times do |counter| %>
     <% options[:condition] = "$('select').value == 'option2' && tstFormElements[#{counter}].value != ''" if counter > 0 %>
     <% counter += 1 %>
     <% options[:helpText] = "Additional diagnosis" %>
@@ -85,6 +85,5 @@
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <% end %>
-
 
 </form>

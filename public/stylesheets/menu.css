@@ -1,7 +1,6 @@
 body{
   font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
   margin: 0;
-  font-size: 2em;
   -moz-user-select:none;
 }
 
@@ -11,37 +10,47 @@ div.screen {
   padding: 25px;
 }
 
-div #options {
-  background-color:#FFFF99;
-  border:2px solid lightblue;
-  left:25px;
-  overflow:auto;
-  top:70px;
-  width: 500px;
-  margin-top: 10px;
-  /*height: 400px;*/
+div.right{
+  float:right;
+  width: 360px;
+}
+
+table.buttons{
+  background-color: #ffff99;
+  border-color: lightblue;
+  border-style: solid;
+  border-width: 2px;
+  border-spacing: 10px;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 100%;
+  height: 550px;
 }
 
 a{
-  text-decoration: none;
-  color: black;
-  border: 3px outset gray;
-  background-color: lightgray;
-  width: 200px;
-  min-height: 80px;
-  text-align: center;
-  display:block;
-}
-
-li{
   display: block;
-  /*float: left;*/
-  margin-right: 10px;
-  margin-top: 20px;
+  color: black;
+  font-size: 1.75em;
+  width: 100%;
+  text-decoration: none;
+  text-align: center;
 }
 
-input{
-  background-color: lightblue;
-  font-size: 1em;
+table.buttons td{
+  border: 2px outset gray;
+  background-color: lightgrey;
+  cursor: pointer;
+}
 
+div.left{
+  float:left;
+  width: 430px;
+  font-size: 16pt;
+}
+
+input#barcode{
+  border: none;
 }

@@ -2,6 +2,15 @@ class EncountersController < ApplicationController
 
   def create
     encounter = Encounter.create(params[:encounter])
+    if params[:select].to_s =="option2"
+      encounter_type_id= EncounterType.find_by_name("OUTPATIENT DIAGNOSIS").id
+    elsif params[:select].to_s =="option1"
+      encounter_type_id = EncounterType.find_by_name("REFERRED").id 
+    end
+    encounter.type = EncounterType.find(encounter_type_id) rescue nil
+    encounter.save unless encounter_type_id.blank?
+
+
     (params[:observations] || []).each{|observation|
 
       # Check to see if any values are part of this observation
