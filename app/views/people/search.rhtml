@@ -146,6 +146,11 @@
 
 <script type="text/javascript">
   var tt_cancel_destination = "/people";
+
+  function chageNextButtonText(text){
+    $('nextButton').style.display = 'block';
+    $('nextButton').innerHTML = text;  
+  }
     
   function newSearch(){
     var currentUrl = window.location.href;
@@ -197,9 +202,10 @@
     <% else -%>  
       <label for="person">Select the patient from the following</label>
     <% end -%>  
-    <select tt_onload="createNewSearchButton()" name="person" id="person">    
+    <select tt_onload="createNewSearchButton();$('nextButton').style.display='none';$('clearButton').style.display='none'" name="person" id="person">
+      <option></option> 
       <% @people.each do |person| -%>
-        <option value="<%= person.id %>">
+      <option onMouseDown="chageNextButtonText('Select Patient')" value="<%= person.id %>">
           <%=h person.name -%>, 
           Birthdate: <%=h person.birthdate -%>, 
           Village: <%=h person.addresses.first.city_village rescue 'Unknown' -%>
@@ -208,9 +214,9 @@
       </option>
       <% end -%>
       <% if params[:identifier] %>      
-        <option value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>      
+      <option onMouseDown="chageNextButtonText('New Patient')" value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>      
       <% else %>  
-        <option value="0">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>      
+      <option onMouseDown="chageNextButtonText('New Patient')" value="0">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>      
       <% end %>  
     </select>
     <input type="hidden" name="identifier" value="<%=h params[:identifier] -%>" />
