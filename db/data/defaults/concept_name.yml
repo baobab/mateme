@@ -15935,7 +15935,7 @@ concept_name_02040:
   concept_id: 2040
   date_created: 2007-05-03 21:21:37 -07:00
 concept_name_00887: 
-  name: "GLYC\xC9MIE"
+  name: "GLYCEMIE"
   creator: 6
   concept_name_id: 910
   short_name: ""
@@ -16034,7 +16034,7 @@ concept_name_00775:
   concept_id: 775
   date_created: 2004-03-20 00:00:00 -08:00
 concept_name_00029: 
-  name: "H\xC9PATITE"
+  name: "HEPATITE"
   creator: 5
   concept_name_id: 31
   short_name: ""
@@ -17185,9 +17185,8 @@ concept_name_02467:
   description: Chest xray & CT scan finding
   concept_id: 2467
   date_created: 2007-06-26 12:05:36 -07:00
-concept_name_00003: 
-  name: "AN\xC9MIE"
-  creator: 5
+concept_name_00003:
+  name: "ANEMIE"
   concept_name_id: 4
   short_name: ""
   locale: fr

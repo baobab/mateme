@@ -21,6 +21,9 @@ class EncountersController < ApplicationController
 
       next if values.length == 0
       observation[:encounter_id] = encounter.id
+      observation[:obs_datetime] ||= Time.now()
+      observation[:person_id] ||= encounter.patient_id
+      observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
       Observation.create(observation)
     }
     redirect_to "/patients/show/#{params[:encounter][:patient_id]}"

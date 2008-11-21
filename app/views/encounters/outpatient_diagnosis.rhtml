@@ -12,14 +12,18 @@
     height:10em
   }
 
-  #tt_page_outpatient_diagnosis .options li 
+  #tt_page_outpatient_diagnosis .options li,
   #tt_page_additional_diagnosis .options li 
   {
     font-size: 1.5em
   }
   
   #space { display:inline; font-size:1.2em; }
-    
+
+  #tt_page_additional_diagnosis #viewport{height:440px; width:570px;}
+
+  #tt_page_additional_diagnosis .touchscreenTextInput {display:none;}  
+
   li {
     border-top:1px dotted silver;
     border-bottom:1px dotted silver;
@@ -74,16 +78,20 @@
       setTimeout(updateNextFinish, 500)
     }
   </script>
-
-  <% 0.times do |counter| %>
-    <% options[:condition] = "$('select').value == 'option2' && tstFormElements[#{counter}].value != ''" if counter > 0 %>
-    <% counter += 1 %>
+    <% options[:condition] = "$('select').value == 'option2'" %>
     <% options[:helpText] = "Additional diagnosis" %>
-    <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+    <% options = {}
+       options[:multiple] =  "multiple"
+       options[:condition] = "$('select').value == 'option2'" 
+       options[:helpText] = "Additional diagnosis"
+       options[:tt_pageStyleClass] = "longSelectList"
+       options_text = options.collect{|name,value|"#{name}=\"#{value}\""}.join(" ")
+    %>
+    <%# select_tag("observations[][value_coded_or_text]", options_for_select(ConceptClass.find_by_name("DIAGNOSIS").concepts.map(&:name).map(&:name).compact),:multiple => true) %>
+    <%= select_tag("observations[][value_coded_or_text]", options_from_collection_for_select(ConceptClass.find_by_name("DIAGNOSIS").concepts.map(&:name).compact,"name","name"),{}).gsub("<select","<select #{options_text}") %>
     <%= hidden_field_tag("observations[][value_text]", nil) %>
     <%= hidden_field_tag("observations[][concept_name]", "OUTPATIENT DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  <% end %>
 
 </form>
