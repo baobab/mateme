@@ -1,6 +1,7 @@
+set :staging, CLI.ui.ask("Do you want to stage this deployment? (y/n): ") == 'y'
 set :domain, CLI.ui.ask("Domain you are deploying to (IP Address or Hostname): ")
 set :local, "#{`ifconfig | grep "192"`.match(/192\.168\.\d+\.\d+/)}"
-set :application, "mateme"
+set :application, staging ? "staging" : "mateme"
 set :keep_releases, 3
 set :scm, :git
 set :deploy_to, "/var/www/#{application}"
@@ -39,86 +40,6 @@ EOF
 		  end		
     end
 
-    desc "Create mongrel_cluster.yml"
-    task :mongrel do
-      if Capistrano::CLI.ui.ask("Create mongrel configuration? (y/n): ") == 'y'
-        mongrel_cluster_configuration = <<-EOF
---- 
-user: #{runner}
-cwd: #{current_path}
-log_file: #{current_path}/log/mongrel.log
-port: "8000"
-environment: production
-group: mongrel
-address: 127.0.0.1
-pid_file: #{current_path}/tmp/pids/mongrel.pid
-servers: 3  
-EOF
-        run "mkdir -p #{shared_path}/config"
-        put mongrel_cluster_configuration, "#{shared_path}/config/mongrel_cluster.yml"
-
-        run "mkdir -p #{shared_path}/log"
-        run "touch #{shared_path}/log/production.log"
-        sudo "chmod 0666 #{shared_path}/log/production.log"
-
-        # Survive reboot
-        mongrel_cluster_reboot_script = <<-EOF
-#!/bin/bash
-CONF_DIR=/etc/mongrel_cluster/
-PID_DIR=#{current_path}/tmp/pids
-USER=#{runner}
-USER=mongrel
-RETVAL=0
-
-# Gracefully exit if the controller is missing.
-which mongrel_cluster_ctl >/dev/null || exit 0
-
-# Go no further if config directory is missing.
-[ -d "$CONF_DIR" ] || exit 0
-
-case "$1" in
-    start)
-      # Create pid directory
-      mkdir -p $PID_DIR
-      chown $USER:$USER $PID_DIR
-
-      # remove stale pids
-      rm -f $PID_DIR/mongrel.80*
-
-      mongrel_cluster_ctl start --clean -v -c $CONF_DIR
-      RETVAL=$?
-  ;;
-    stop)
-      mongrel_cluster_ctl stop --clean -v -c $CONF_DIR
-      RETVAL=$?
-  ;;
-    restart)
-      # remove stale pids
-      rm -f $PID_DIR/mongrel.80*
-
-      mongrel_cluster_ctl restart --clean -v -c $CONF_DIR
-      RETVAL=$?
-  ;;
-    status)                                                            
-      mongrel_cluster_ctl status -v -c $CONF_DIR
-      RETVAL=$?
-  ;;
-    *)
-      echo "Usage: mongrel_cluster {start|stop|restart|status}"
-      exit 1
-  ;;
-esac
-
-exit $RETVAL
-EOF
-        run "mkdir -p #{shared_path}/scripts"
-        put mongrel_cluster_reboot_script, "#{shared_path}/scripts/mongrel_cluster"
-        sudo "cp #{shared_path}/scripts/mongrel_cluster /etc/init.d/mongrel_cluster"
-        sudo "chmod +x /etc/init.d/mongrel_cluster"
-        sudo "/usr/sbin/update-rc.d -f mongrel_cluster defaults"
-        sudo "ln #{shared_path}/config/mongrel_cluster.yml /etc/mongrel_cluster/#{application}.yml --force"
-      end  
-    end
     
     desc "Create cron tasks for success testing, report caching and database backups"
     task :cron do
@@ -210,12 +131,15 @@ end
 namespace :deploy do
   if Capistrano::CLI.ui.ask("Pull from current machine (#{local})? (y/n): ") == 'y'
     set :distribution, local
-    set :repository, "git://#{distribution}/var/www/#{application}"
+    set :repository, "git://#{distribution}/var/www/mateme"
   elsif Capistrano::CLI.ui.ask("Pull from distributed git repository? (y/n): ") == 'y'
     set :distribution, Capistrano::CLI.ui.ask("Repository address: ")
-    set :repository, "git://#{distribution}/var/www/#{application}"
-  elsif Capistrano::CLI.ui.ask("Pull from github.com (public)? (y/n): ") == 'y'
+    set :repository, "git://#{distribution}/var/www/mateme"
+  elsif Capistrano::CLI.ui.ask("Pull from shared github.com (public)? (y/n): ") == 'y'
     set :repository, "git://github.com/baobab/mateme.git"
+  elsif Capistrano::CLI.ui.ask("Pull from alternate github.com (public)? (y/n): ") == 'y'
+    set :alternate_repository, CLI.ui.ask("Github Repository (jeffrafter/mateme): ")  
+    set :repository, "git://github.com/#{alternate_repository}.git"
   else
   	set :repository, "git://null"
 	end	

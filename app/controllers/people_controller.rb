@@ -18,12 +18,15 @@ class PeopleController < ApplicationController
      person.voided = 0 AND \
      (patient.voided = 0 OR patient.voided IS NULL) AND \
      (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
-     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)", 
+     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?) AND \
+     (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL )", 
     params[:gender], 
     params[:given_name], 
     (params[:given_name] || '').soundex,
     params[:family_name], 
     (params[:family_name] || '').soundex,
+    params[:family_name2], 
+    (params[:family_name2] || '').soundex,
     ]) if @people.blank?
   end
 
