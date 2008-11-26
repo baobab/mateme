@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
 
   helper :all
-  protect_from_forgery :secret => '87e9a354841fa737a0a28e1472b24f3c'
   filter_parameter_logging :password
   before_filter :login_required, :except => ['login', 'logout']
   

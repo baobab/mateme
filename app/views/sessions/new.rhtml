@@ -34,13 +34,13 @@
   <%= error_messages_for 'user' %>
   
   <% form_tag session_path do -%>
-    <label for="user_username">Username</label>
+    <label for="login">Username</label>
     <%= text_field_tag(:login, nil, :helpText => "Enter Username", :textCase => "lower", :tt_pageonload => "loadBarcodePage") %><br>
 
-    <label for="user_password">Password</label>
-    <%= password_field(:password, '', :helpText => "Enter Password", :textCase => "lower") %><br>
+    <label for="password">Password</label>
+    <%= password_field_tag(:password, nil, :helpText => "Enter Password", :textCase => "lower") %><br>
 
-    <label for="user_location">Location</label>
+    <label for="location">Location</label>
     <%= text_field_tag(:location, nil, :helpText=> "Workstation Location", :tt_pageonload=>"loadBarcodePage", :field_type => "number") %><br>
 
     <%= submit_tag value="Submit"%>

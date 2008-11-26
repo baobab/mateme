@@ -4,9 +4,11 @@ set :local, "#{`ifconfig | grep "192"`.match(/192\.168\.\d+\.\d+/)}"
 set :application, staging ? "staging" : "mateme"
 set :keep_releases, 3
 set :scm, :git
+set :branch, "master"
+set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
 set :user, "deploy"
-set :runner, "mongrel"
+set :runner, "deploy"
 set :use_sudo, :false
 
 role :app, "#{domain}"
@@ -67,7 +69,7 @@ EOF
 
     desc "Symlink shared configurations to current"
     task :localize, :roles => [:app] do
-      %w[mongrel_cluster.yml database.yml].each do |f|
+      %w[database.yml].each do |f|
         run "ln -nsf #{shared_path}/config/#{f} #{current_path}/config/#{f}"
       end
     end 		
@@ -88,29 +90,6 @@ namespace :openmrs do
   end
 end      
 
-
-# == NGINX =====================================================================
-namespace :nginx do 
-  desc "Start Nginx on the app server"
-  task :start, :roles => :app do
-    sudo "/etc/init.d/nginx start"
-  end
-
-  desc "Restart the Nginx processes on the app server by starting and stopping the cluster"
-  task :restart , :roles => :app do
-    sudo "/etc/init.d/nginx restart"
-  end
-
-  desc "Stop the Nginx processes on the app server"
-  task :stop , :roles => :app do
-    sudo "/etc/init.d/nginx stop"
-  end
-
-  desc "Setup the Nginx conf file from the example config"
-  task :setup , :roles => :app do
-    sudo "cp #{current_path}/config/nginx.conf.example /etc/nginx/nginx.conf"
-  end
-end
 
 # == DATABASE ==================================================================
 namespace :db do
@@ -144,19 +123,14 @@ namespace :deploy do
   	set :repository, "git://null"
 	end	
 
-  desc "Start mongrel cluster"
+  desc "Start application"
   task :start do
-    run  "cd #{current_path} && sudo mongrel_rails cluster::start"
+    run "touch #{current_path}/tmp/restart.txt"
   end
   
-  desc "Stop mongrel cluster"
-  task :stop do
-    run  "cd #{current_path} && sudo mongrel_rails cluster::stop"
-  end
-  
-  desc "Restart mongrel cluster"
+  desc "Restart application"
   task :restart do
-    run  "cd #{current_path} && sudo mongrel_rails cluster::restart"
+    run "touch #{current_path}/tmp/restart.txt"
   end  
 end
 
@@ -166,14 +140,8 @@ before "deploy:migrate", "db:backup"
 after "deploy", "deploy:cleanup"
 after "deploy:migrations", "deploy:cleanup"
 after "deploy:setup", "init:config:database"
-after "deploy:setup", "init:config:mongrel"
 after "deploy:setup", "init:config:cron"
 after "deploy:symlink", "init:config:localize"
 
 task :after_update_code do
-  sudo "chown mongrel:mongrel #{release_path}/public -R" # Caching, in a public app this is not a good idea on closed systems it is okay
-  sudo "chown mongrel:mongrel #{release_path}/tmp -R"
-  sudo "chown mongrel:mongrel #{release_path}/log -R"
-  sudo "chown mongrel:mongrel #{shared_path}/pids -R"
-  sudo "chown mongrel:mongrel #{shared_path}/config -R"
 end

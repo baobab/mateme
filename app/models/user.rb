@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   set_primary_key :user_id
 
   cattr_accessor :current_user
+  attr_accessor :plain_password
 
   has_many :user_properties, :foreign_key => :user_id
 
@@ -13,9 +14,9 @@ class User < ActiveRecord::Base
     self.first_name + " " + self.last_name
   end
     
-  def before_create
+  def before_create    
     # We expect that the default OpenMRS interface is used to create users
-    raise "Please use the OpenMRS administration interface to modify users"
+    self.password = encrypt(self.plain_password, self.salt) if self.plain_password
   end
    
   def self.authenticate(login, password)

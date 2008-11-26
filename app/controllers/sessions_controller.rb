@@ -7,8 +7,15 @@ class SessionsController < ApplicationController
   def create
     logout_keeping_session!
     session[:location_id] = params[:location]
+    location = Location.find(session[:location_id]) rescue nil
+    unless location
+      flash[:error] = "Invalid workstation location"
+      render :action => 'new'
+      return    
+    end
     user = User.authenticate(params[:login], params[:password])
     if user
+      self.current_location = location
       self.current_user = user
       redirect_back_or_default('/')
       flash[:notice] = "Logged in successfully"
@@ -28,7 +35,7 @@ class SessionsController < ApplicationController
 protected
   # Track failed login attempts
   def note_failed_signin
-    flash[:error] = "Couldn't log you in as '#{params[:login]}'"
+    flash[:error] = "Invalid user name or password"
     logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
   end
 end

@@ -21,6 +21,20 @@ module AuthenticatedSystem
       @current_user = new_user || false
     end
 
+    # Accesses the current user from the session.
+    # Future calls avoid the database because nil is not equal to false.
+    def current_location
+      @current_location ||= location_from_session unless @current_location == false
+      Location.current_location = @current_location
+      @current_location
+    end
+
+    # Store the given location id in the session.
+    def current_location=(new_location)
+      session[:location_id] = new_location ? new_location.id : nil
+      @current_location = new_location || false
+    end
+
     # Check if the user is authorized
     #
     # Override this method in your controllers if you want to restrict access
@@ -72,9 +86,9 @@ module AuthenticatedSystem
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
         # you may want to change format.any to e.g. format.any(:js, :xml)
-        format.any do
-          request_http_basic_authentication 'Web Password'
-        end
+        #format.any do
+        #  request_http_basic_authentication 'Web Password'
+        #end
       end
     end
 
@@ -103,6 +117,11 @@ module AuthenticatedSystem
     #
     # Login
     #
+
+    # Called from #current_location.  First attempt to get the location id stored in the session.
+    def location_from_session
+      self.current_location = Location.find_by_location_id(session[:location_id]) if session[:location_id]
+    end
 
     # Called from #current_user.  First attempt to login by the user id stored in the session.
     def login_from_session
