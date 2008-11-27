@@ -85,7 +85,7 @@ class UserController < ApplicationController
     unless session[:user_edit].nil?
      @user = User.find(session[:user_edit])
     else
-     @user = User.find(:all).last
+     @user = User.find(:first, :order => 'date_created DESC')
      session[:user_edit]=@user.user_id
     end  
   end
@@ -95,22 +95,26 @@ class UserController < ApplicationController
   end
 
   def create
-       session[:user_edit] = nil
-       @user = User.new(params[:user])
+      session[:user_edit] = nil
 
     if (params[:user][:password] != params[:user_confirm][:password])
       flash[:notice] = 'Password Mismatch'
     #  flash[:notice] = nil
-       @user_first_name = params[:user][:first_name]
-       @user_middle_name = params[:user][:middle_name]
-       @user_last_name = params[:user][:last_name]
-       @user_role = params[:user_role][:role_id]
-       @user_admin_role = params[:user_role_admin][:role]
-       @user_name = params[:user][:username]
-       redirect_to :action => 'new'
+      @user_first_name = params[:person_name][:given_name]
+#      @user_middle_name = params[:user][:middle_name]
+      @user_last_name = params[:person_name][:family_name]
+      @user_role = params[:user_role][:role_id]
+      @user_admin_role = params[:user_role_admin][:role]
+      @user_name = params[:user][:username]
+      redirect_to :action => 'new'
       return
     end
       
+    person = Person.create()
+    person.names.create(params[:person_name])
+    params[:user][:user_id] = person.id
+    @user = User.new(params[:user])
+    @user.id = person.id
     if @user.save
      # if params[:user_role_admin][:role] == "Yes"  
       #  @roles = Array.new.push params[:user_role][:role_id] 
@@ -123,7 +127,7 @@ class UserController < ApplicationController
       #}
       #else
         user_role=UserRole.new
-        user_role.role_id = Role.find_by_role(params[:user_role][:role_id]).role_id
+        user_role.role = Role.find_by_role(params[:user_role][:role_id])
         user_role.user_id=@user.user_id
         user_role.save
      # end
@@ -167,7 +171,7 @@ class UserController < ApplicationController
      @user = User.find(params[:id])
      unless request.get?
         user_role=UserRole.new
-        user_role.role_id = Role.find_by_role(params[:user_role][:role_id]).role_id
+        user_role.role = Role.find_by_role(params[:user_role][:role_id])
         user_role.user_id=@user.user_id
         user_role.save
         flash[:notice] = "You have successfuly added the role of #{params[:user_role][:role_id]}"
@@ -185,8 +189,8 @@ class UserController < ApplicationController
     unless request.post?
       @roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role.role}
     else
-      role_id = Role.find_by_role(params[:user_role][:role_id]).role_id
-      user_role =  UserRole.find_by_role_id_and_user_id(role_id,@user.user_id)  
+      role = Role.find_by_role(params[:user_role][:role_id]).role
+      user_role =  UserRole.find_by_role_and_user_id(role,@user.user_id)  
       user_role.destroy
       flash[:notice] = "You have successfuly removed the role of #{params[:user_role][:role_id]}"
       redirect_to :action =>"show"

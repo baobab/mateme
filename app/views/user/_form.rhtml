@@ -10,15 +10,18 @@
       <p><label for="user_confirm_password">Re-enter Password</label><br/>
       <%= password_field 'user_confirm', 'password', :xhelpText => 'Password',:textCase =>"lower",:validationRule =>"\\w{4}\\w*", :validationMessage =>"Password less than FOUR characters." %></p>
       
-<  <%when "edit"%>
-     <p><label for="user_first_name">First name</label><br/>
-      <%= text_field 'user', 'first_name', :xhelpText => 'First name', :ajaxURL => '/search/User?field=first_name&value=', :value => @user_first_name, :allowFreeText => true %></p>
+  <%when "edit"%>
+     <p><label for="person_name_given_name">First name</label><br/>
+      <%= text_field 'person_name', 'given_name', :ajaxURL => '/search/PersonName?field=given_name&value=', :value => @user_first_name ,:allowFreeText => true%></p>
 
       <p><label for="user_middle_name">Middle name</label><br/>
-      <%= text_field 'user', 'middle_name', :xhelpText => 'Middle name', :ajaxURL => '/search/User?field=middle_name&value=' ,:optional => true, :value => @user_middle_name ,:allowFreeText => true%></p>
+      <%#= text_field 'user', 'middle_name', :xhelpText => 'Middle name', :ajaxURL => '/search/User?field=middle_name&value=' ,:optional => true, :value => @user_middle_name, :allowFreeText => true %></p>
+
+      <p><label for="person_name_family_name">Last name</label><br/>
+      <%= text_field 'person_name', 'family_name', :ajaxURL => '/search/PersonName?field=family_name&value=', :value => @user_last_name, :allowFreeText => true%></p>
 
       <p><label for="user_username">Username</label><br/>
-      <%= text_field 'user', 'username', :xhelpText => 'Username',:textCase => "lower",:value => @user_name,:tt_onload =>"$('touchscreenInput5').value = ($('user_first_name').value.substring(0,3)+$('user_last_name').value.substring(0,3)).toLowerCase()" ,:validationRule =>"\\w{6}\\w*" ,:validationMessage => "Username must have at least SIX letters", :textCase => "lower" %></p>
+      <%= text_field 'user', 'username', :textCase => "lower",:value => @user_name,:tt_onload =>"$('touchscreenInput5').value = ($('user_first_name').value.substring(0,3)+$('user_last_name').value.substring(0,3)).toLowerCase()" ,:validationRule =>"\\w{6}\\w*" ,:validationMessage => "Username must have at least SIX letters", :textCase => "lower" %></p>
 
 
   <%when "destroy"%>
@@ -34,14 +37,14 @@
   <p><label for="user_role_role_id">Delete User Role</label>
   <%= select(:user_role ,:role_id, @roles,:include_blank => "true", :value => @user_role)%>
   <%else%>
-    <p><label for="user_first_name">First name</label><br/>
-      <%= text_field 'user', 'first_name', :xhelpText => 'First name', :ajaxURL => '/search/User?field=first_name&value=', :value => @user_first_name ,:allowFreeText => true%></p>
+    <p><label for="person_name_given_name">First name</label><br/>
+      <%= text_field 'person_name', 'given_name', :ajaxURL => '/search/PersonName?field=given_name&value=', :value => @user_first_name ,:allowFreeText => true%></p>
 
       <p><label for="user_middle_name">Middle name</label><br/>
-      <%= text_field 'user', 'middle_name', :xhelpText => 'Middle name', :ajaxURL => '/search/User?field=middle_name&value=' ,:optional => true, :value => @user_middle_name, :allowFreeText => true %></p>
+      <%#= text_field 'user', 'middle_name', :xhelpText => 'Middle name', :ajaxURL => '/search/User?field=middle_name&value=' ,:optional => true, :value => @user_middle_name, :allowFreeText => true %></p>
 
-      <p><label for="user_last_name">Last name</label><br/>
-      <%= text_field 'user', 'last_name', :xhelpText => 'Last name', :ajaxURL => '/search/User?field=last_name&value=', :value => @user_last_name, :allowFreeText => true%></p>
+      <p><label for="person_name_family_name">Last name</label><br/>
+      <%= text_field 'person_name', 'family_name', :ajaxURL => '/search/PersonName?field=family_name&value=', :value => @user_last_name, :allowFreeText => true%></p>
 
       <p><label for="user_role_role_id">User Role</label></br>
       <%= text_field 'user_role', 'role_id', :xhelpText => 'User role', :ajaxURL => '/search/Role?field=role&value='%></p>
