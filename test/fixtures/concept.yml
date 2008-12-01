@@ -23,7 +23,22 @@ alcohol_counseling:
   class_id: 11
   changed_by: 
   version: ""
-  description: ""
+  description: "Counseling for people addicted to alcohol"
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+muppet_counseling: 
+  datatype_id: 4
+  concept_id: 1289
+  date_created: 2005-02-25 11:32:55 +02:00
+  creator: 2
+  is_set: false
+  class_id: 11
+  changed_by: 
+  version: ""
+  description: "Counseling for people addicted to muppets"
   short_name: ""
   default_charge: 
   date_changed: 
@@ -113,7 +128,7 @@ referrals_ordered:
   class_id: 7
   changed_by: 2
   version: ""
-  description: ""
+  description: "Kinds of referrals"
   short_name: ""
   default_charge: 
   date_changed: 2006-02-13 21:45:19 +02:00

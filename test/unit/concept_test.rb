@@ -3,16 +3,22 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ConceptTest < Test::Unit::TestCase 
   fixtures :concept, :concept_name, :concept_answer
   
-  describe "Concepts" do
-    it "should be valid" do
+  context "Concepts" do
+    should "be valid" do
       concept = Concept.make
-      concept.should be_valid
+      assert concept.valid?
     end
 
-    it "should search the answers for the concept and return the subset" do
-      concept = concept(:who_stages_criteria_present)
-      answer = concept(:extrapulmonary_tuberculosis_without_lymphadenopathy)
-      concept.concept_answers.limit("extra").include? answer
+    should "search have answers for the concept" do
+      c = concept(:referrals_ordered)
+      answer = concept(:muppet_counseling)
+      assert_contains c.concept_answers.map(&:answer), answer
+    end  
+
+    should "search the answers for the concept and return the subset" do
+      c = concept(:referrals_ordered)
+      answer = concept(:alcohol_counseling)
+      assert_contains c.concept_answers.limit("ALCOHOL").map(&:answer), answer
     end  
   end
 end

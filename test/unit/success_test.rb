@@ -1,5 +1,4 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require File.dirname(__FILE__) + '/encounter_test'
 
 require 'net/smtp'
 
@@ -16,121 +15,120 @@ end
 class SuccessTest < Test::Unit::TestCase
   fixtures :location, :encounter 
 
-  describe "Success" do
-    before do
-      Net::SMTP.stub!(:start).and_return(true)
+  context "Success" do
+    setup do
+      Net::SMTP.stubs(:start).returns(true)
       Success.sent_alert = false
     end
 
-    it "should verify the success of the site" do
+    should "verify the success of the site" do
       $shell_result = '' # This will cause a problem and force an alert to be sent
       Success.verify
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should not verify if an alert has recently been sent" do
+    should "not verify if an alert has recently been sent" do
       Success.set_global_property("last_error_reported", 1.minute.ago)
       Success.verify
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should reset last_error_reported property" do
+    should "reset last_error_reported property" do
       Success.set_global_property("last_error_reported", 1.minute.ago)
       Success.reset
-      GlobalProperty.find_by_property("last_error_reported").property_value.should be_blank
+      assert GlobalProperty.find_by_property("last_error_reported").property_value.blank?
     end
 
-    it "should check for recent alerts" do
+    should "check for recent alerts" do
       Success.set_global_property("last_error_reported", 11.minute.ago)
-      Success.sent_recent_alert?.should == false
+      assert !Success.sent_recent_alert?
       Success.set_global_property("last_error_reported", 1.minute.ago)
-      Success.sent_recent_alert?.should == true
+      assert Success.sent_recent_alert?
     end
 
-    it "should check if the clinic is active" do
+    should "check if the clinic is active" do
 
       Success.clinic_hours = nil
       Success.clinic_breaks = nil
-      Success.clinic_is_active?.should == true
+      assert Success.clinic_is_active?
 
       Success.clinic_hours=() # Use the default
       Success.clinic_breaks=("10:30am-11:00am") 
-      Time.stub!(:now).and_return(Time.parse("10:45am"))
-      Success.clinic_is_active?.should == false
+      Time.stubs(:now).returns(Time.parse("10:45am"))
+      assert !Success.clinic_is_active?
 
       Success.clinic_hours=("8am-5pm") 
       Success.clinic_breaks=("10:30am-11:00am") 
-      Time.stub!(:now).and_return(Time.parse("2:00pm"))
-      Success.clinic_is_active?.should == true
+      Time.stubs(:now).returns(Time.parse("2:00pm"))
+      assert Success.clinic_is_active?
 
-      Time.stub!(:now).and_return(Time.parse("7:00pm"))
-      Success.clinic_is_active?.should == false
+      Time.stubs(:now).returns(Time.parse("7:00pm"))
+      assert !Success.clinic_is_active?
     end
 
-    it "should set the clinic hours" do
+    should "set the clinic hours" do
       Success.clinic_hours=("beer-thirty") 
-      GlobalProperty.find_by_property("clinic_hours").property_value.should == "beer-thirty"
+      assert_equal GlobalProperty.find_by_property("clinic_hours").property_value, "beer-thirty"
     end
 
-    it "should set the clinic breaks" do
+    should "set the clinic breaks" do
       Success.clinic_breaks=("beer-thirty") 
-      GlobalProperty.find_by_property("clinic_breaks").property_value.should == "beer-thirty"
+      assert_equal GlobalProperty.find_by_property("clinic_breaks").property_value, "beer-thirty"
     end
 
-    it "should set the smtp server" do 
+    should "set the smtp server" do 
       Success.smtp_server=("beer-thirty") 
-      GlobalProperty.find_by_property("smtp_server").property_value.should == "beer-thirty"
+      assert_equal GlobalProperty.find_by_property("smtp_server").property_value, "beer-thirty"
     end
 
-    it "should be able to create and update global properties" do
+    should "be able to create and update global properties" do
       Success.set_global_property("muppetballs", "fluffy")
-      GlobalProperty.find_by_property("muppetballs").property_value.should == "fluffy"
+      assert_equal GlobalProperty.find_by_property("muppetballs").property_value, "fluffy"
       Success.set_global_property("muppetballs", "furry")
-      GlobalProperty.find_by_property("muppetballs").property_value.should == "furry"
+      assert_equal GlobalProperty.find_by_property("muppetballs").property_value, "furry"
     end
 
-    it "should get the current location" do
-      Success.set_global_property("current_health_center_id", Location.current_location.id)
-      Success.current_location.should == Location.current_location.name
+    should "get the current location" do
+      Success.set_global_property("current_health_center_id", Location.current_location.location_id)
+      assert_equal Success.current_location, Location.current_location.name
     end
 
-    it "should get the current IP address" do
+    should "get the current IP address" do
       command_line_ip = backtick("ifconfig | grep 'inet ' | grep -v '127.0.0.1' | grep -v '192.168.2.1'").match(/inet (addr)?:?([^\s]*)/)[0].split(/(:|\s)/).last
-      command_line_ip.should == Success.current_ip_address
+      assert_equal command_line_ip, Success.current_ip_address
     end
 
-    it "should send email" do
+    should "send email" do
       Success.alert("My feet have smoking")
     end
 
   end
 
-  describe "Success tasks" do
+  context "Success tasks" do
 
-    before do
-      Net::SMTP.stub!(:start).and_return(true)
+    setup do
+      Net::SMTP.stubs(:start).returns(true)
       Success.sent_alert = false
-
     end
 
-    it "should check for recent encounters and alert when there are none" do
+    should "check for recent encounters and alert when there are none" do
       Success.should_have_recent_encounter
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should check for recent encounters and not alert when there is one" do
-      encounter = create_sample(Encounter, :encounter_datetime => 1.minute.ago)
+    should "check for recent encounters and not alert when there is one" do
+      encounter = Encounter.make(:encounter_datetime => 1.minute.ago, :provider_id => 1)
       Success.should_have_recent_encounter
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should send alert when there is no login screen" do
+    should "send alert when there is no login screen" do
       $shell_result = "404"
       Success.should_have_a_login_screen
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should not send alert when there is login screen" do
+    should "not send alert when there is login screen" do
       $shell_result = <<EOF
                              Loading User Login
 
@@ -143,105 +141,105 @@ class SuccessTest < Test::Unit::TestCase
                               Please wait......
 EOF
       Success.should_have_a_login_screen
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should have lynx installed" do
+    should "have lynx installed" do
       lynx = backtick('which lynx')
-      lynx.match(/lynx/).should_not == nil
+      assert_not_nil lynx.match(/lynx/)
     end
 
-    it "should send alert when there are no running mongrels" do
+    should "send alert when there are no running mongrels" do
       $shell_result = ""
       Success.should_have_3_mongrels
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should send alert when there are only two running mongrels" do
+    should "send alert when there are only two running mongrels" do
       $shell_result = "12121\n3222"
       Success.should_have_3_mongrels
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should not send alert when there are enough running mongrels" do
+    should "not send alert when there are enough running mongrels" do
       $shell_result = "12121\n3222\n55442"
       Success.should_have_3_mongrels
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should send alert when machine is not hot" do
+    should "send alert when machine is not hot" do
       $shell_result = "temperature:             54 C\n"
       Success.should_not_run_hot
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should send alert when machine is hot" do
+    should "send alert when machine is hot" do
       $shell_result = "temperature:             66 C\n"
       Success.should_not_run_hot
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should send alert when there is not enough free memory" do
+    should "send alert when there is not enough free memory" do
       $shell_result = "MemFree:         9736 kB\n" 
       Success.should_have_free_memory
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should not send alert when there is enough free memory" do
+    should "not send alert when there is enough free memory" do
       $shell_result = "MemFree:         640736 kB\n" 
       Success.should_have_free_memory
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should not send alert if free disk space is high" do
+    should "not send alert if free disk space is high" do
       $shell_result =  "/dev/sda6             19228276   3688924  14562604  21% /var\n"
       Success.should_have_free_disk_space
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should send alert if free disk space is low" do
+    should "send alert if free disk space is low" do
       $shell_result =  "/dev/sda6             19228276   3688924  1456  21% /var\n"
       Success.should_have_free_disk_space
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should not send alert if more than one day uptime" do
+    should "not send alert if more than one day uptime" do
       $shell_result =  "244098.90 90781.20"
       Success.should_have_more_than_ten_minutes_uptime
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should send alert if less than one day uptime" do
+    should "send alert if less than one day uptime" do
       $shell_result =  "0.38 0.47 0.40 1/315 24294\n"
       $shell_result =  "500 40"
       Success.should_have_more_than_ten_minutes_uptime
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should send alert if load average is over 1.5" do
+    should "send alert if load average is over 1.5" do
       $shell_result =  "2.38 2.47 2.40 1/315 24294\n"
       Success.should_have_low_load_average
-      Success.sent_alert.should == true
+      assert Success.sent_alert
     end
 
-    it "should not send alert if load average is less than 1.5" do
+    should "not send alert if load average is less than 1.5" do
       $shell_result =  "1.38 1.47 1.40 1/315 24294\n"
       Success.should_have_low_load_average
-      Success.sent_alert.should == false
+      assert !Success.sent_alert
     end
 
-    it "should get the end of the log file" do
+    should "get the end of the log file" do
       $shell_result = "blah blah blah"
-      Success.end_of_log.should == "Last 15 lines of logfile: /var/www/mateme/current/log/production.log\n\n blah blah blah"
+      assert_equal Success.end_of_log, "Last 15 lines of logfile: /var/www/mateme/current/log/production.log\n\n blah blah blah"
     end
 
-    it "should send the end of day summary" do
+    should "send the end of day summary" do
       $shell_result =  "244098.90 90781.20"
       Success.class_eval("@@sent_subject=nil")
       Success.end_of_day_summary
-      Success.sent_alert.should == true
+      assert Success.sent_alert
       subject = Success.class_eval("@@sent_subject")
-      subject.should match(/Number of unique/)
+      assert subject =~ /Number of unique/
     end
 
   end

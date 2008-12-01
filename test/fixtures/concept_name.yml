@@ -31,14 +31,20 @@ alcohol_counseling:
   description: Referral made @ AMPATH.
   short_name: ""
   locale: en
-who_stages_criteria_present: 
-  name: WHO STAGES CRITERIA PRESENT
-  concept_id: 2743
+alcohol_counseling: 
+  name: ALCOHOL COUNSELING
+  concept_id: 1288
+  date_created: 2005-02-25 11:32:55 +02:00
+  creator: 2
+  description: Referral made @ AMPATH.
+  short_name: ""
+  locale: en
+muppet_counseling: 
+  name: MUPPET COUNSELING
+  concept_id: 1289
   date_created: 2007-10-25 13:39:28 +02:00
   creator: 7
-  description: |-
-    What criteria are present from all WHO Stage? 
-    Note: only adult stages are currently added, but pediatric can be added here.
+  description: ""
   short_name: ""
   locale: en
 extrapulmonary_tuberculosis_without_lymphadenopathy: 

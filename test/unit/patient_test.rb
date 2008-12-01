@@ -3,63 +3,63 @@ require File.dirname(__FILE__) + '/../test_helper'
 class PatientTest < Test::Unit::TestCase
   fixtures :patient, :patient_identifier, :person_name, :person, :encounter
 
-  describe "Patients" do
-    it "should be valid" do
+  context "Patients" do
+    should "be valid" do
       patient = Patient.make
-      patient.should be_valid
+      assert patient.valid?
     end
 
-    it "should refer to the patient identifiers" do
-      patient(:evan).patient_identifiers.count.should == 3
+    should "refer to the patient identifiers" do
+      assert_equal patient(:evan).patient_identifiers.count, 3
     end
     
-    it "should not include voided identifiers in the list of patient identifiers" do
+    should "not include voided identifiers in the list of patient identifiers" do
       PatientIdentifier.find(:first).void!
-      patient(:evan).patient_identifiers.count.should == 2
+      assert_equal patient(:evan).patient_identifiers.count, 2
     end
     
-    it "should refer to the person" do
-      patient(:evan).person.should_not be_nil
+    should "refer to the person" do
+      assert_not_nil patient(:evan).person
     end
     
-    it "should refer to the patient encounters" do
-      patient(:evan).encounters.count.should == 1
+    should "refer to the patient encounters" do
+      assert_equal patient(:evan).encounters.count, 1
     end
      
-    it "should not included voided encounters" do
+    should "not included voided encounters" do
       Encounter.find(:first).void!
-      patient(:evan).encounters.count.should == 0
+      assert_equal patient(:evan).encounters.count, 0
     end
     
-    it "should lookup encounters by date" do
-      patient(:evan).encounters.find_by_date("2001-01-01".to_date).size.should == 1
-      patient(:evan).encounters.find_by_date("2000-01-01".to_date).size.should == 0
+    should "lookup encounters by date" do
+      assert_equal patient(:evan).encounters.find_by_date("2001-01-01".to_date).size, 1
+      assert_equal patient(:evan).encounters.find_by_date("2000-01-01".to_date).size, 0
     end
 
-    it "should return the national identifier" do
-      patient(:evan).national_id.should == "311"
+    should "return the national identifier" do
+      assert_equal patient(:evan).national_id, "311"
     end
     
-    it "should create a new national identifier if none exists" do
+    should "create a new national identifier if none exists" do
       PatientIdentifier.find(:first).void!
-      patient(:evan).national_id.should_not be_blank
+      assert_not_nil patient(:evan).national_id
     end
     
-    it "should not create a new national identifier if it is not forced"  do
+    should "not create a new national identifier if it is not forced"  do
       PatientIdentifier.find(:first).void!
-      patient(:evan).national_id(false).should be_blank
+      assert_nil patient(:evan).national_id(false)
     end
     
-    it "should format the national identifier with dashes" do
+    should "format the national identifier with dashes" do
       PatientIdentifier.find(:first).void!
       t = PatientIdentifierType.find_by_name("National id")
       patient(:evan).patient_identifiers.create(:identifier =>  "P123456789012", :identifier_type => t.id)
-      patient(:evan).national_id_with_dashes.should == "P1234-5678-9012"
+      assert_equal patient(:evan).national_id_with_dashes, "P1234-5678-9012"
     end
     
-    it "should print the national id label" do
+    should "print the national id label" do
       patient = patient(:evan)
-      patient.national_id_label.should == <<EOF
+      assert_equal patient.national_id_label, <<EOF
 
 N
 q801
@@ -73,24 +73,24 @@ P1
 EOF
     end
     
-    it "should get the min weight for this patient based on their gender and age" do
+    should "get the min weight for this patient based on their gender and age" do
       patient = patient(:evan)
-      patient.min_weight.should == 34.0    
+      assert_equal patient.min_weight, 34.0    
     end
     
-    it "should get the max weight for this patient based on their gender and age" do
+    should "get the max weight for this patient based on their gender and age" do
       patient = patient(:evan)
-      patient.max_weight.should == 82.0   
+      assert_equal patient.max_weight, 82.0   
     end  
 
-    it "should get the min height for this patient based on their gender and age" do
+    should "get the min height for this patient based on their gender and age" do
       patient = patient(:evan)
-      patient.min_height.should == 151.0
+      assert_equal patient.min_height, 151.0
     end
     
-    it "should get the max height for this patient based on their gender and age" do
+    should "get the max height for this patient based on their gender and age" do
       patient = patient(:evan)
-      patient.max_height.should == 183.0
+      assert_equal patient.max_height, 183.0
     end  
 
   end

@@ -3,14 +3,14 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ConceptAnswerTest < Test::Unit::TestCase 
   fixtures :concept_answer, :concept_name, :concept
 
-  describe 'Concept answers' do
-    it "should be valid" do
+  context 'Concept answers' do
+    should "be valid" do
       concept_answer = ConceptAnswer.make
-      concept_answer.should be_valid
+      assert concept_answer.valid?
     end
 
-    it "should be able to display the name" do
-      concept_answer(:alcohol_counseling).name.should == "ALCOHOL COUNSELING"
+    should "be able to display the name" do
+      assert_equal "ALCOHOL COUNSELING", concept_answer(:alcohol_counseling).name
     end
   end
 end

@@ -1,81 +1,81 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BantuSoundexTest < Test::Unit::TestCase 
-  describe "Soundex" do
-    it "should be able to convert a word to code" do
-      "Rodney".soundex.should_not be_nil
+  context "Soundex" do
+    should "be able to convert a word to code" do
+      assert_not_nil "Rodney".soundex
     end  
     
-    it "should capatalize all of the letters" do
-      "x".soundex.should == "X"
+    should "capatalize all of the letters" do
+      assert_equal "x".soundex, "X"
     end
     
-    it "should drop all of the punctuation marks" do
-      "kg'g".soundex.should == "K2"    
+    should "drop all of the punctuation marks" do
+      assert_equal "kg'g".soundex, "K2"    
     end
     
-    it "should convert vowels, 'H', 'W', and 'Y' before it removes double letters" do
-      "kghg".soundex.should == "K22"    
-      "kgwg".soundex.should == "K22"    
-      "kgyg".soundex.should == "K22"        
+    should "convert vowels, 'H', 'W', and 'Y' before it removes double letters" do
+      assert_equal "kghg".soundex, "K22"    
+      assert_equal "kgwg".soundex, "K22"    
+      assert_equal "kgyg".soundex, "K22"        
     end
     
-    it "should convert consonants to the correct group" do
-      "XL".soundex.should == "X4"    
-      "XR".soundex.should == "X4"    
+    should "convert consonants to the correct group" do
+      assert_equal "XL".soundex, "X4"    
+      assert_equal "XR".soundex, "X4"    
     end
     
-    it "should remove double letters" do
-      "XLL".soundex.should == "X4"    
-      "XLR".soundex.should == "X4"    
+    should "remove double letters" do
+      assert_equal "XLL".soundex, "X4"    
+      assert_equal "XLR".soundex, "X4"    
     end  
     
-    it "should remove vowels" do
-      "KAEI".soundex.should == "K"    
-      "KOUW".soundex.should == "K"    
-      "KHAY".soundex.should == "K"    
+    should "remove vowels" do
+      assert_equal "KAEI".soundex, "K"    
+      assert_equal "KOUW".soundex, "K"    
+      assert_equal "KHAY".soundex, "K"    
     end  
     
-    it "should construct the code from the first letter and first three digits" do
-      "KOWALE".soundex.should == "K84"        
+    should "construct the code from the first letter and first three digits" do
+      assert_equal "KOWALE".soundex, "K84"        
     end
 
-    it "should maintain the first letter of the word unless it is a 'N', 'M', or 'D' followed by a consonant" do
-      "DZANJALIMODZI".soundex.should == "Z574"    
-      "MZIMBA".soundex.should == "Z51"    
-      "NGOMBE".soundex.should == "G51"    
+    should "maintain the first letter of the word unless it is a 'N', 'M', or 'D' followed by a consonant" do
+      assert_equal "DZANJALIMODZI".soundex, "Z574"    
+      assert_equal "MZIMBA".soundex, "Z51"    
+      assert_equal "NGOMBE".soundex, "G51"    
     end
     
-    it "should return nil for blank strings" do
-      "".soundex.should be_nil
+    should "return nil for blank strings" do
+      assert_nil "".soundex
     end
     
-    it "should return nil for strings with no letters" do
-      "1234".soundex.should be_nil
-      " ".soundex.should be_nil
-      "-".soundex.should be_nil
+    should "return nil for strings with no letters" do
+      assert_nil "1234".soundex
+      assert_nil " ".soundex
+      assert_nil "-".soundex
     end
     
-    it "should encode 'W' followed by a vowel as a separate consonant class" do
-      "CHICHEWA".soundex.should == "998"
-      "BWAIWLA".soundex.should == "B84"
+    should "encode 'W' followed by a vowel as a separate consonant class" do
+      assert_equal "CHICHEWA".soundex, "998"
+      assert_equal "BWAIWLA".soundex, "B84"
     end
     
-    it "should encode 'CH', 'TCH', and 'THY' as a separate consonant class" do
-      "KCH".soundex.should == "K9"
-      "KTHY".soundex.should == "K9"
-      "KTCH".soundex.should == "K9"
-      "THYOLO".soundex.should == "94"
+    should "encode 'CH', 'TCH', and 'THY' as a separate consonant class" do
+      assert_equal "KCH".soundex, "K9"
+      assert_equal "KTHY".soundex, "K9"
+      assert_equal "KTCH".soundex, "K9"
+      assert_equal "THYOLO".soundex, "94"
     end
     
-    it "should encode initial 'C' as a 'K'" do
-      "CAUMA".soundex.should == "K5"
+    should "encode initial 'C' as a 'K'" do
+      assert_equal "CAUMA".soundex, "K5"
     end
     
-    it "should encode initial 'A' and 'I' as 'E'" do
-      "EVAN".soundex.should == "E15"
-      "AVAN".soundex.should == "E15"
-      "IVAN".soundex.should == "E15"
+    should "encode initial 'A' and 'I' as 'E'" do
+      assert_equal "EVAN".soundex, "E15"
+      assert_equal "AVAN".soundex, "E15"
+      assert_equal "IVAN".soundex, "E15"
     end      
   end
 end

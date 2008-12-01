@@ -3,10 +3,10 @@ require File.dirname(__FILE__) + '/../test_helper'
 class PersonAddressTest < Test::Unit::TestCase
   fixtures :person_address
   
-  describe "Person addresses" do
-    it "should be valid" do
+  context "Person addresses" do
+    should "be valid" do
       person_address = PersonAddress.make
-      person_address.should be_valid
+      assert person_address.valid?
     end
   end  
 end

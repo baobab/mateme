@@ -1,51 +1,51 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class OpenMRSTest < Test::Unit::TestCase
+class OpenmrsTest < Test::Unit::TestCase
   fixtures :patient_identifier_type, :person
 
-  describe "OpenMRS modules" do    
-    before do
+  context "OpenMRS modules" do    
+    setup do
       now = Time.now
-      Time.stub!(:now).and_return(now)  
+      Time.stubs(:now).returns(now)  
     end
     
-    it "should set the changed by and date changed before saving" do 
+    should "set the changed by and date changed before saving" do 
       p = person(:evan)
       p.gender = "U"
       p.save!
-      p.changed_by.should == User.current_user.id
-      p.date_changed.should == Time.now
+      assert_equal p.changed_by, User.current_user.id
+      assert_equal p.date_changed, Time.now
     end
     
-    it "should set the creator, date created and the location before creating" do 
+    should "set the creator, date created and the location before creating" do 
       p = PatientIdentifier.create(:identifier => 'foo', :identifier_type => patient_identifier_type(:unknown_id))
-      p.location_id.should == Location.current_location.id
-      p.creator.should == User.current_user.id
-      p.date_created.should == Time.now
+      assert_equal p.location_id, Location.current_location.id
+      assert_equal p.creator, User.current_user.id
+      assert_equal p.date_created, Time.now
     end
     
-    it "should void the record with a reason" do
+    should "void the record with a reason" do
       reason = "Evan is out."
       p = person(:evan)
-      p.should_not be_voided
+      assert !p.voided?
       p.void(reason)
       p.save!
-      p.should be_voided
-      p.void_reason.should == reason
+      assert p.voided?
+      assert_equal p.void_reason, reason
     end
     
-    it "should save the record after voiding when using the destructive call" do
+    should "save the record after voiding when using the destructive call" do
       p = person(:evan)
-      p.should_receive("save!")
-      p.should_receive("void")
+      p.expects("save!")
+      p.expects("void")
       p.void!("Evan is out.")        
     end
     
-    it "should know whether or not it has been voided" do
+    should "know whether or not it has been voided" do
       p = person(:evan)
-      p.should_not be_voided
+      assert !p.voided? 
       p.void!("Evan is out.")        
-      p.should be_voided  
+      assert p.voided?
     end
   end
 end  

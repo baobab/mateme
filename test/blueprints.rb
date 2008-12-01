@@ -1,12 +1,10 @@
 ConceptAnswer.blueprint do
-  concept_answer_id 1
   concept_id 1
   creator 1
   date_created Time.now
 end
 
 ConceptClass.blueprint do
-  concept_class_id 1
   name ''
   description ''
   creator 1
@@ -14,7 +12,6 @@ ConceptClass.blueprint do
 end
   
 ConceptName.blueprint do
-  concept_id 1
   name ''
   short_name ''
   description ''
@@ -31,7 +28,6 @@ ConceptSet.blueprint do
 end
 
 Concept.blueprint do
-  concept_id 1
   retired false
   short_name ''
   description ''
@@ -48,13 +44,11 @@ Concept.blueprint do
 end
   
 DrugIngredient.blueprint do
-  id 1
   drug_id 1
   drug_substance_id 1
 end
   
 DrugOrder.blueprint do
-  order_id 1
   drug_inventory_id 1
   units ''
   frequency ''
@@ -64,7 +58,6 @@ DrugOrder.blueprint do
 end
     
 Drug.blueprint do
-  drug_id 1
   concept_id 1
   name 'Stavudine Lamivudine Nevirapine'
   retired false
@@ -73,7 +66,6 @@ Drug.blueprint do
 end
 
 DrugSubstance.blueprint do
-  drug_substance_id 1
   concept_id 1
   name ''
   route 1
@@ -87,7 +79,6 @@ DrugSubstance.blueprint do
 end
 
 Encounter.blueprint do
-  encounter_id 1
   encounter_type 1
   patient_id 1
   location_id 1
@@ -101,7 +92,6 @@ Encounter.blueprint do
 end
 
 EncounterType.blueprint do
-  encounter_type_id 1
   name ''
   description ''
   creator 1
@@ -115,7 +105,6 @@ GlobalProperty.blueprint do
 end
 
 Location.blueprint do
-  location_id 1
   name         'Matandani Rural Health Center'
   description  '(ID=753)'
   address1 ''
@@ -136,7 +125,6 @@ Location.blueprint do
 end
 
 Observation.blueprint do
-  obs_id 1
   person_id 1
   concept_id 1
   encounter_id 1
@@ -164,7 +152,6 @@ Observation.blueprint do
 end
 
 Order.blueprint do
-  order_id 1
   order_type_id 1
   concept_id 1
   orderer 1
@@ -187,7 +174,6 @@ Order.blueprint do
 end
 
 OrderType.blueprint do
-  order_type_id 1
   name 'Pickle order'
   description 'I like them when they are dill'
   creator 1
@@ -199,7 +185,6 @@ OrderType.blueprint do
 end
 
 PatientIdentifier.blueprint do
-  patient_id 1
   identifier ''
   identifier_type 1
   preferred 1
@@ -213,7 +198,6 @@ PatientIdentifier.blueprint do
 end
 
 PatientIdentifierType.blueprint do
-  patient_identifier_type_id 1
   name ''
   description ''
   format ''
@@ -225,7 +209,6 @@ PatientIdentifierType.blueprint do
 end
 
 Patient.blueprint do
-  patient_id 1
   tribe 1
   creator 1
   date_created Time.now
@@ -238,7 +221,6 @@ Patient.blueprint do
 end
 
 PersonAddress.blueprint do
-  person_address_id 1
   person_id 1
   preferred false
   address1 ''
@@ -263,7 +245,6 @@ PersonAddress.blueprint do
 end
 
 PersonNameCode.blueprint do
-  person_name_code_id 1
   person_name_id 1
   given_name_code 'E15'
   middle_name_code 'J21'
@@ -273,7 +254,6 @@ PersonNameCode.blueprint do
 end
 
 PersonName.blueprint do
-  person_name_id 1
   preferred false
   person_id 1
   prefix ''
@@ -295,7 +275,6 @@ PersonName.blueprint do
 end
 
 Person.blueprint do
-  person_id 1
   gender ''
   birthdate Time.now.to_date
   birthdate_estimated false
@@ -321,15 +300,4 @@ User.blueprint do
   creator 1
   changed_by 1
   system_id 'Baobab Admin'
-end
-
-WeightForHeight.blueprint do
-  median_weight_height 26.8
-  supinecm 130.0
-end
-
-WeightHeightForAge.blueprint do
-  age_in_months 1
-  sex ''
-  age_sex ''
 end

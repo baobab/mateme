@@ -2,9 +2,8 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require File.join(Rails.root, 'test', 'blueprints')
 require 'test_help'
-require 'context'
-require 'matchy'
-require 'stump'
+require 'shoulda'
+require 'mocha'
 
 alias :running :lambda
 
@@ -36,10 +35,11 @@ class Test::Unit::TestCase
   self.set_fixture_class :weight_for_heights => WeightForHeight
   self.set_fixture_class :weight_height_for_ages => WeightHeightForAge
 
-  def setup
-    fixtures :users, :location
-    User.current_user ||= users(:registration)
-    Location.current_location ||= location(:registration)  
+  fixtures :users, :location
+
+  setup do    
+    User.current_user = User.find_by_username('registration')
+    Location.current_location = Location.find_by_name('Neno District Hospital - Registration')  
   end
 
   def assert_difference(object, method = nil, difference = 1)
@@ -51,10 +51,23 @@ class Test::Unit::TestCase
   def assert_no_difference(object, method, &block)
     assert_difference object, method, 0, &block
   end
-
-  def login_current_user
-    session[:user_id] = User.current_user.id
+  
+  # should_raise(ArgumentError) { }
+  # should_raise(:kind_of => ArgumentError) { }
+  # should_raise() { }
+  # should_raise(:message => 'Expecting a special exception here', :kind_of => SpecialException) { }
+  def should_raise(*args, &block)
+    opts = args.first.is_a?(Hash) ? args.fist : {}
+    opts[:kind_of] = args.first if args.first.is_a?(Class)
+    yield block
+    flunk opts[:message] || "should raise an exception, but none raised"
+  rescue Exception => e
+    assert e.kind_of?(opts[:kind_of]), opts[:message] || "should raise exception of type #{opts[:kind_of]}, but got #{e.class} instead" if opts[:kind_of]
   end
   
+  # logged_in_as :mikmck { }
+  def logged_in_as(login, &block)
+     @request.session[:user_id] = users(login).user_id
+     yield block
+  end 
 end
-                                                                        
