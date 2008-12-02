@@ -218,6 +218,7 @@ form{
   height: 595px;
   width: 795px;
   overflow: hidden;
+  margin: auto;
 }
 
 .helpText {

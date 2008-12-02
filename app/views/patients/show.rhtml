@@ -1,6 +1,7 @@
 <%= stylesheet_link_tag "patient_details" %>
-<div id="details" style="float:left">
+<div id="details" class="scrollable" style="float:left;">
   <%= render :partial => "details" %>
+  <hr noshade style="color: #cccccc"/>
   <%= render :partial => "current_encounters" %>
 </div>
 <div style="float:right">

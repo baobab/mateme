@@ -9,7 +9,8 @@
   #tt_page_outpatient_diagnosis .options, 
   #tt_page_additional_diagnosis .options
   {
-    height:10em
+    height: 10em;
+    width: 570px;
   }
 
   #tt_page_outpatient_diagnosis .options li,
@@ -19,13 +20,13 @@
   }
   
   #space { display:inline; font-size:1.2em; }
-
+/*
   #tt_page_additional_diagnosis #viewport{height:440px; width:570px;}
-
+*/
   #tt_page_additional_diagnosis .touchscreenTextInput {display:none;}  
 
   li {
-    border-top:1px dotted silver;
+/*    border-top:1px dotted silver; */
     border-bottom:1px dotted silver;
   }
 </style>
@@ -79,13 +80,15 @@
       setTimeout(updateNextFinish, 500)
     }
   </script>
-    <% options[:condition] = "$('select').value == 'option2'" %>
-    <% options[:helpText] = "Additional diagnosis" %>
-    <% options = {}
-       options[:multiple] =  "multiple"
+    <% #options = {}
+       options[:optional] = 'true'
+       options[:multiple] = "multiple"
        options[:condition] = "$('select').value == 'option2'" 
        options[:helpText] = "Additional diagnosis"
-       options[:tt_pageStyleClass] = "longSelectList"
+       options[:allowFreeText] = 'true', 
+       options[:field_type] = "text"
+#       options[:tt_pageStyleClass] = "shortSelectList"
+			 options[:tt_onLoad] = "$('keyboard').innerHTML = getABCKeyboard();"
        options_text = options.collect{|name,value|"#{name}=\"#{value}\""}.join(" ")
     %>
     <%# select_tag("observations[][value_coded_or_text]", options_for_select(ConceptClass.find_by_name("DIAGNOSIS").concepts.map(&:name).map(&:name).compact),:multiple => true) %>

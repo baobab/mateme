@@ -1,6 +1,10 @@
 class PatientsController < ApplicationController
   def show
     @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil
+    last_date = @patient.encounters.find(:first, 
+                                         :order => 'encounter_datetime DESC'
+                                        ).encounter_datetime.to_date
+    @encounters = @patient.encounters.find_by_date(last_date)
   end
   
   def print

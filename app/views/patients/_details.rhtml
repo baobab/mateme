@@ -1,4 +1,6 @@
+<div style="font-size: 16pt;">
 <%= @patient.person.name %><br/>
 <%= "National id: " + @patient.national_id_with_dashes rescue "" %><br/>
 <%= "Birthdate: " + @patient.person.birthdate_formatted  rescue "" %><br/>
-Village: <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/></br>
+Village: <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
+</div>
