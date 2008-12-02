@@ -21,7 +21,9 @@
 <table class="buttons">
     <%= link_to_onmousedown_in_tr_td "Find or register patient by name", {:action => "search"}  %>
     <%#= link_to_onmousedown_in_tr_td "Find patient by identifier", {:action => "identifiers"}  %>
+    <%= link_to_onmousedown_in_tr_td "Administration", {:controller =>"user",:action => "user_menu"}  if @show_user_management %>
     <div><%= link_to_onmousedown_in_tr_td "Change user", { :controller => "user", :action => "logout"}, :style => "background-color: tomato", :id => "logout" %></div>
+</table>
 </div>
 </div>
 

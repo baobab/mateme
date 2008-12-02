@@ -1,5 +1,9 @@
 class PeopleController < ApplicationController
   def index
+    @show_user_management = false
+
+
+    @show_user_management = true if User.current_user.user_roles.collect{|r|r.role.role}.include?("superuser") ||  User.current_user.user_roles.collect{|r|r.role.role}.include?("System Developer")
     @people = Person.find(:all)
     render :layout => "menu"
   end

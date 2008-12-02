@@ -1,0 +1,17 @@
+--- 
+user_1: 
+  salt: wvX62At3ZG
+  voided: false
+  date_created: 2008-01-22 13:42:51 +02:00
+  creator: 1
+  secret_answer: 
+  changed_by: 1
+  secret_question: ""
+  void_reason: ""
+  username: oligad
+  system_id: 27-3
+  voided_by: 
+  date_changed: 2008-01-22 00:00:00 +02:00
+  user_id: 16369
+  date_voided: 
+  password: 406cc7a4f4dad66e195f6687f936867e81cf9f3a
