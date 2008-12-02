@@ -3,11 +3,11 @@ Given /no current user/ do
 end
 
 Given /a user named "(.*)" with password "(.*)" exists/ do |username, password|
-  User.make(:username => 'mikmck')
+  assert User.authenticate(username, password)
 end
 
 Given /a location "(.*)" exists/ do |location|
-  Location.make(:location_id => location)
+  assert Location.find_by_location_id(location)
 end
 
 Given /there is no user with this username/ do
@@ -15,11 +15,12 @@ Given /there is no user with this username/ do
 end
 
 Given /I am on the login page/ do
-  visits "/session/new"
+  visit "/session/new"
+  raise response.body
 end
 
 When /I access a page/ do
-  visits "/people/search"
+  visit "/people/search"
 end
 
 When /the user logs in with username and password/ do

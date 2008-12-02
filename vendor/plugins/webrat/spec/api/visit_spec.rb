@@ -3,7 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 describe "visit" do
   before do
     with_html <<-HTML
+      <html>
       Hello world
+      </html>
     HTML
   end
 
@@ -14,7 +16,7 @@ describe "visit" do
   
   it "should assert valid response" do
     webrat_session.response_code = 501
-    lambda { visit("/") }.should raise_error
+    lambda { visit("/") }.should raise_error(Webrat::PageLoadError)
   end
   
   [200, 300, 400, 499].each do |status|
@@ -25,7 +27,7 @@ describe "visit" do
   end
   
   it "should require a visit before manipulating page" do
-    lambda { fill_in "foo", :with => "blah" }.should raise_error
+    lambda { fill_in "foo", :with => "blah" }.should raise_error(Webrat::WebratError)
   end
 end
 
@@ -33,7 +35,9 @@ describe "visit with referer" do
   before do
     webrat_session.instance_variable_set(:@current_url, "/old_url")
     with_html <<-HTML
+      <html>
       Hello world
+      </html>
     HTML
   end
 

@@ -1,7 +1,9 @@
-require "webrat/core/form"
+require "webrat/core/elements/form"
 require "webrat/core/locators"
+require "webrat/core_extensions/deprecate"
 
 module Webrat
+  # An HTML element (link, button, field, etc.) that Webrat expected was not found on the page
   class NotFoundError < WebratError
   end
   
@@ -22,6 +24,8 @@ module Webrat
         @selector = selector
       end
     end
+    
+    attr_reader :session
     
     def initialize(session, &block) #:nodoc:
       @session = session
@@ -44,7 +48,7 @@ module Webrat
       field.set(options[:with])
     end
 
-    alias_method :fills_in, :fill_in
+    webrat_deprecate :fills_in, :fill_in
     
     def set_hidden_field(field_locator, options = {})
       field = locate_field(field_locator, HiddenField)
@@ -60,7 +64,7 @@ module Webrat
       locate_field(field_locator, CheckboxField).check
     end
 
-    alias_method :checks, :check
+    webrat_deprecate :checks, :check
     
     # Verifies that an input checkbox exists on the current page and marks it
     # as unchecked, so that the value will not be submitted with the form.
@@ -71,7 +75,7 @@ module Webrat
       locate_field(field_locator, CheckboxField).uncheck
     end
 
-    alias_method :unchecks, :uncheck
+    webrat_deprecate :unchecks, :uncheck
     
     # Verifies that an input radio button exists on the current page and marks it
     # as checked, so that the value will be submitted with the form.
@@ -82,7 +86,7 @@ module Webrat
       locate_field(field_locator, RadioField).choose
     end
 
-    alias_method :chooses, :choose
+    webrat_deprecate :chooses, :choose
     
     # Verifies that a an option element exists on the current page with the specified
     # text. You can optionally restrict the search to a specific select list by
@@ -90,19 +94,14 @@ module Webrat
     # a label. Stores the option's value to be sent when the form is submitted.
     #
     # Examples:
-    #   selects "January"
-    #   selects "February", :from => "event_month"
-    #   selects "February", :from => "Event Month"
-    def selects(option_text, options = {})
-      if option = find_select_option(option_text, options[:from])
-        option.choose
-      else
-        select_box_text = options[:from] ? " in the '#{options[:from]}' select box" : '' 
-        raise NotFoundError.new("The '#{option_text}' option was not found#{select_box_text}") 
-       end
+    #   select "January"
+    #   select "February", :from => "event_month"
+    #   select "February", :from => "Event Month"
+    def select(option_text, options = {})
+      select_option(option_text, options[:from]).choose
     end
 
-    alias_method :select, :selects
+    webrat_deprecate :selects, :select
     
     DATE_TIME_SUFFIXES = {
       :year   => '1i',
@@ -123,26 +122,26 @@ module Webrat
     # by assigning <tt>options[:id_prefix]</tt>.
     #
     # Examples:
-    #   selects_date "January 23, 2004"
-    #   selects_date "April 26, 1982", :from => "Birthday"
-    #   selects_date Date.parse("December 25, 2000"), :from => "Event"
-    #   selects_date "April 26, 1982", :id_prefix => 'birthday'
-    def selects_date(date_to_select, options ={})
+    #   select_date "January 23, 2004"
+    #   select_date "April 26, 1982", :from => "Birthday"
+    #   select_date Date.parse("December 25, 2000"), :from => "Event"
+    #   select_date "April 26, 1982", :id_prefix => 'birthday'
+    def select_date(date_to_select, options ={})
       date = date_to_select.is_a?(Date) || date_to_select.is_a?(Time) ? 
                 date_to_select : Date.parse(date_to_select) 
       
       id_prefix = locate_id_prefix(options) do
-        year_field = find_field_with_id(/(.*?)_#{DATE_TIME_SUFFIXES[:year]}$/)
+        year_field = FieldByIdLocator.new(@session, dom, /(.*?)_#{DATE_TIME_SUFFIXES[:year]}$/).locate
         raise NotFoundError.new("No date fields were found") unless year_field && year_field.id =~ /(.*?)_1i/
         $1
       end
         
-      selects date.year, :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:year]}"
-      selects date.strftime('%B'), :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:month]}"
-      selects date.day, :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:day]}"
+      select date.year, :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:year]}"
+      select date.strftime('%B'), :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:month]}"
+      select date.day, :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:day]}"
     end
 
-    alias_method :select_date, :selects_date
+    webrat_deprecate :selects_date, :select_date
 
     # Verifies that time elements (hour, minute) exist on the current page 
     # with the specified values. You can optionally restrict the search to a specific
@@ -158,44 +157,43 @@ module Webrat
     # 24 hour select boxes, and not 12 hours with AM/PM.
     # 
     # Examples:
-    #   selects_time "9:30"
-    #   selects_date "3:30PM", :from => "Party Time"
-    #   selects_date Time.parse("10:00PM"), :from => "Event"
-    #   selects_date "10:30AM", :id_prefix => 'meeting'
-    def selects_time(time_to_select, options ={})
+    #   select_time "9:30"
+    #   select_date "3:30PM", :from => "Party Time"
+    #   select_date Time.parse("10:00PM"), :from => "Event"
+    #   select_date "10:30AM", :id_prefix => 'meeting'
+    def select_time(time_to_select, options ={})
       time = time_to_select.is_a?(Time) ? time_to_select : Time.parse(time_to_select) 
 
       id_prefix = locate_id_prefix(options) do
-        hour_field = find_field_with_id(/(.*?)_#{DATE_TIME_SUFFIXES[:hour]}$/)
+        hour_field = FieldByIdLocator.new(@session, dom, /(.*?)_#{DATE_TIME_SUFFIXES[:hour]}$/).locate
         raise NotFoundError.new("No time fields were found") unless hour_field && hour_field.id =~ /(.*?)_4i/
         $1
       end
         
-      selects time.hour.to_s.rjust(2,'0'), :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:hour]}"
-      selects time.min.to_s.rjust(2,'0'), :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:minute]}"
+      select time.hour.to_s.rjust(2,'0'), :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:hour]}"
+      select time.min.to_s.rjust(2,'0'), :from => "#{id_prefix}_#{DATE_TIME_SUFFIXES[:minute]}"
     end
 
-
-    alias_method :select_time, :selects_time
+    webrat_deprecate :selects_time, :select_time
    
     # Verifies and selects all the date and time elements on the current page. 
-    # See #selects_time and #selects_date for more details and available options.
+    # See #select_time and #select_date for more details and available options.
     #
     # Examples:
-    #   selects_datetime "January 23, 2004 10:30AM"
-    #   selects_datetime "April 26, 1982 7:00PM", :from => "Birthday"
-    #   selects_datetime Time.parse("December 25, 2000 15:30"), :from => "Event"
-    #   selects_datetime "April 26, 1982 5:50PM", :id_prefix => 'birthday'
-    def selects_datetime(time_to_select, options ={})
+    #   select_datetime "January 23, 2004 10:30AM"
+    #   select_datetime "April 26, 1982 7:00PM", :from => "Birthday"
+    #   select_datetime Time.parse("December 25, 2000 15:30"), :from => "Event"
+    #   select_datetime "April 26, 1982 5:50PM", :id_prefix => 'birthday'
+    def select_datetime(time_to_select, options ={})
       time = time_to_select.is_a?(Time) ? time_to_select : Time.parse(time_to_select) 
       
-      options[:id_prefix] ||= (options[:from] ? find_field_with_id(options[:from]) : nil)
+      options[:id_prefix] ||= (options[:from] ? FieldByIdLocator.new(@session, dom, options[:from]).locate : nil)
       
-      selects_date time, options
-      selects_time time, options
+      select_date time, options
+      select_time time, options
     end
 
-    alias_method :select_datetime, :selects_datetime
+    webrat_deprecate :selects_datetime, :select_datetime
     
     # Verifies that an input file field exists on the current page and sets
     # its value to the given +file+, so that the file will be uploaded
@@ -208,13 +206,13 @@ module Webrat
       locate_field(field_locator, FileField).set(path, content_type)
     end
 
-    alias_method :attaches_file, :attach_file
+    webrat_deprecate :attaches_file, :attach_file
     
     def click_area(area_name)
       find_area(area_name).click
     end
     
-    alias_method :clicks_area, :click_area
+    webrat_deprecate :clicks_area, :click_area
     
     # Issues a request for the URL pointed to by a link on the current page,
     # follows any redirects, and verifies the final page load was successful.
@@ -238,15 +236,13 @@ module Webrat
     # 
     # Example:
     #   click_link "Sign up"
-    #
     #   click_link "Sign up", :javascript => false
-    # 
     #   click_link "Sign up", :method => :put
     def click_link(text_or_title_or_id, options = {})
       find_link(text_or_title_or_id).click(options)
     end
 
-    alias_method :clicks_link, :click_link
+    webrat_deprecate :clicks_link, :click_link
     
     # Verifies that a submit button exists for the form, then submits the form, follows
     # any redirects, and verifies the final page was successful.
@@ -261,11 +257,10 @@ module Webrat
       find_button(value).click
     end
 
-    alias_method :clicks_button, :click_button
+    webrat_deprecate :clicks_button, :click_button
     
     def submit_form(id)
-      form = forms.detect { |f| f.matches_id?(id) }
-      form.submit
+      FormLocator.new(@session, dom, id).locate.submit
     end
     
     def dom # :nodoc:
@@ -281,7 +276,7 @@ module Webrat
     end
     
   protected
-  
+    
     def page_dom #:nodoc:
       return @response.dom if @response.respond_to?(:dom)
       dom = Webrat::XML.document(@response_body)
@@ -290,7 +285,7 @@ module Webrat
     end
     
     def scoped_dom #:nodoc:
-      Webrat::XML.document(@scope.dom.search(@selector).first.to_html)
+      Webrat::XML.document("<html>" + Webrat::XML.to_html(Webrat::XML.css_search(@scope.dom, @selector).first) + "</html>")
     end
     
     def locate_field(field_locator, *field_types) #:nodoc:
@@ -303,27 +298,20 @@ module Webrat
     
     def locate_id_prefix(options, &location_strategy) #:nodoc:
       return options[:id_prefix] if options[:id_prefix]
-      id_prefix = options[:from] ? find_field_id_for_label(options[:from]) : yield
-    end
-    
-    def areas #:nodoc:
-      Webrat::XML.css_search(dom, "area").map do |element| 
-        Area.new(@session, element)
-      end
-    end
-    
-    def links #:nodoc:
-      Webrat::XML.css_search(dom, "a[@href]").map do |link_element|
-        Link.new(@session, link_element)
+      
+      if options[:from]
+        if (label = LabelLocator.new(@session, dom, options[:from]).locate)
+          label.for_id
+        else
+          raise NotFoundError.new("Could not find the label with text #{options[:from]}")
+        end
+      else
+        yield
       end
     end
     
     def forms #:nodoc:
-      return @forms if @forms
-      
-      @forms = Webrat::XML.css_search(dom, "form").map do |form_element|
-        Form.new(@session, form_element)
-      end
+      @forms ||= Form.load_all(@session, dom)
     end
     
   end

@@ -4,6 +4,7 @@ require "ostruct"
 require "webrat/core/mime"
 
 module Webrat
+  # A page load or form submission returned an unsuccessful response code (500-599)
   class PageLoadError < WebratError
   end
   
@@ -31,6 +32,7 @@ module Webrat
     include Logging
     
     attr_reader :current_url
+    attr_reader :elements
     
     def initialize(context = nil) #:nodoc:
       @http_method     = :get
@@ -38,6 +40,8 @@ module Webrat
       @default_headers = {}
       @custom_headers  = {}
       @context         = context
+      
+      reset
     end
 
     # Saves the page out to RAILS_ROOT/tmp/ and opens it in the default
@@ -106,11 +110,11 @@ module Webrat
         send "#{http_method}", url, data || {}, h
       end
 
-      save_and_open_page if exception_caught? && Webrat.configuration.open_error_files
+      save_and_open_page if exception_caught? && Webrat.configuration.open_error_files?
       raise PageLoadError.new("Page load was not successful (Code: #{response_code.inspect}):\n#{formatted_error}") unless success_code?
       
-      @_scopes      = nil
-      @_page_scope  = nil
+      reset
+      
       @current_url  = url
       @http_method  = http_method
       @data         = data
@@ -132,14 +136,11 @@ module Webrat
     
     # Reloads the last page requested. Note that this will resubmit forms
     # and their data.
-    #
-    # Example:
-    #   reloads
     def reloads
       request_page(@current_url, @http_method, @data)
     end
 
-    alias_method :reload, :reloads
+    webrat_deprecate :reload, :reloads
       
     
     # Works like click_link, but only looks for the link text within a given selector
@@ -152,7 +153,7 @@ module Webrat
       end
     end
 
-    alias_method :clicks_link_within, :click_link_within
+    webrat_deprecate :clicks_link_within, :click_link_within
     
     def within(selector)
       scopes.push(Scope.from_scope(self, current_scope, selector))
@@ -170,7 +171,7 @@ module Webrat
       request_page(url, http_method, data)
     end
     
-    alias_method :visits, :visit
+    webrat_deprecate :visits, :visit
     
     def open_in_browser(path) # :nodoc
       platform = ruby_platform
@@ -181,7 +182,7 @@ module Webrat
       end
     end
     
-    def rewrite_css_and_image_references(response_html) #:nodoc
+    def rewrite_css_and_image_references(response_html) # :nodoc:
       return response_html unless doc_root
       response_html.gsub(/"\/(stylesheets|images)/, doc_root + '/\1')
     end
@@ -197,6 +198,10 @@ module Webrat
 
     def page_scope #:nodoc:
       @_page_scope ||= Scope.from_page(self, response, response_body)
+    end
+    
+    def dom
+      page_scope.dom
     end
     
     def_delegators :current_scope, :fill_in,            :fills_in
@@ -216,8 +221,18 @@ module Webrat
     def_delegators :current_scope, :should_see
     def_delegators :current_scope, :should_not_see
     def_delegators :current_scope, :field_labeled
+    def_delegators :current_scope, :field_by_xpath
+    def_delegators :current_scope, :field_with_id
+    def_delegators :current_scope, :select_option
     
-    private
+  private
+    
+    def reset
+      @elements     = {}
+      @_scopes      = nil
+      @_page_scope  = nil
+    end
+    
     # accessor for testing
     def ruby_platform
       RUBY_PLATFORM
