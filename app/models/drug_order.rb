@@ -4,6 +4,10 @@ class DrugOrder < ActiveRecord::Base
   set_primary_key :order_id
   belongs_to :drug, :foreign_key => :drug_inventory_id
   belongs_to :order
+  
+  def to_s 
+    "#{drug.name}: #{frequency} (#{quantity} total)"
+  end
 end
 
 # CREATE TABLE `drug_order` (

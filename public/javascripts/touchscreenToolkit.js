@@ -1390,29 +1390,27 @@ function getNumericKeyboard(){
 		"<span class='numericKeyboard'>" +
 		"<span id='buttonLine1' class='buttonLine'>" +
 		getButtons("123") +
+		getCharButtonSetID("+","plus") +
+		getCharButtonSetID("-","minus") +
+		getCharButtonSetID("/","slash") +
 		getCharButtonSetID("*","star") +
 		getButtonString('abc','A-Z') +
 		getButtonString('date','Date') +
 		"</span><span id='buttonLine2' class='buttonLine'>" +
 		getButtons("456") +
-		getCharButtonSetID("-","minus") +
-		getButtonString('qwerty','qwerty') +
-		"</span><span id='buttonLine3' class='buttonLine'>" +
-		getButtons("789") +
-		getCharButtonSetID("+","plus") +
-		getButtonString('SHIFT','SHIFT') +
-		"</span><span id='buttonLine4' class='buttonLine'>" +
-		getCharButtonSetID(".","decimal") +
-		getCharButtonSetID("0","zero") +
-		getCharButtonSetID("/","slash") +
-		getCharButtonSetID(",","comma") +
 		getCharButtonSetID("%","percent") +
 		getCharButtonSetID("=","equals") +
 		getCharButtonSetID("<","lessthan") +
 		getCharButtonSetID(">","greaterthan") +
+		getButtonString('qwerty','qwerty') +
+		"</span><span id='buttonLine3' class='buttonLine'>" +
+		getButtons("789") +
+		getCharButtonSetID("0","zero") +
+		getCharButtonSetID(".","decimal") +
+		getCharButtonSetID(",","comma") +
 		getButtonString('backspace','Delete') +
 		getButtonString('Unknown','Unknown') +
-		"</span>" +
+		getButtonString('SHIFT','SHIFT') +
 		"</span>"
 	return keyboard;
 }

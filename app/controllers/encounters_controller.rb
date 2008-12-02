@@ -14,7 +14,8 @@ class EncountersController < ApplicationController
       observation[:encounter_id] = encounter.id
       Observation.create(observation)
     }
-    redirect_to "/patients/show/#{params[:encounter][:patient_id]}"
+    @patient = Patient.find(params[:encounter][:patient_id])
+    redirect_to next_task(@patient) 
   end
 
   def new

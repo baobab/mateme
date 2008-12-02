@@ -10,6 +10,18 @@ class Patient < ActiveRecord::Base
       find(:all, :conditions => ["DATE(encounter_datetime) = DATE(?)", encounter_date]) # Use the SQL DATE function to compare just the date part
     end
   end
+  
+  def current_treatment_encounter
+    type = EncounterType.find_by_name("TREATMENT")
+    encounter = encounters.current.find_by_encounter_type(type.id)
+    encounter ||= encounters.create(:encounter_type => type.id)
+  end
+  
+  def current_orders
+    encounter = current_treatment_encounter 
+    orders = encounter.orders.active
+    orders
+  end
 
   def national_id(force = true)
     id = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("National id").id).identifier rescue nil
