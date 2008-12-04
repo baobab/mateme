@@ -36,6 +36,11 @@ class EncountersController < ApplicationController
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
+    
+    concept_set = ConceptName.find_by_name('MALAWI NATIONAL DIAGNOSIS').concept
+    @diagnosis_concepts = Concept.find(:all, :joins => :concept_sets, 
+                                      :conditions => ['concept_set = ?', concept_set.id],
+                                      :include => [:name]).map(&:name)
     render :action => params[:encounter_type] if params[:encounter_type]
   end
 

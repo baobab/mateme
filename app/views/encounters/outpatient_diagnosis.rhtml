@@ -80,19 +80,17 @@
       setTimeout(updateNextFinish, 500)
     }
   </script>
-    <% #options = {}
+    <% options = {}
        options[:optional] = 'true'
        options[:multiple] = "multiple"
        options[:condition] = "$('select').value == 'option2'" 
        options[:helpText] = "Additional diagnosis"
        options[:allowFreeText] = 'true', 
        options[:field_type] = "text"
-#       options[:tt_pageStyleClass] = "shortSelectList"
 			 options[:tt_onLoad] = "$('keyboard').innerHTML = getABCKeyboard();"
        options_text = options.collect{|name,value|"#{name}=\"#{value}\""}.join(" ")
     %>
-    <%# select_tag("observations[][value_coded_or_text]", options_for_select(ConceptClass.find_by_name("DIAGNOSIS").concepts.map(&:name).map(&:name).compact),:multiple => true) %>
-    <%= select_tag("observations[][value_coded_or_text]", options_from_collection_for_select(ConceptClass.find_by_name("DIAGNOSIS").concepts.map(&:name).compact,"name","name"),{}).gsub("<select","<select #{options_text}") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_from_collection_for_select(@diagnosis_concepts.compact,"name","name"),{}).gsub("<select","<select #{options_text}") %>
     <%= hidden_field_tag("observations[][value_text]", nil) %>
     <%= hidden_field_tag("observations[][concept_name]", "OUTPATIENT DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
