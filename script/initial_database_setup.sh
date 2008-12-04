@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # DB_USER="root --password=XXX"
-DB_USER="root"
-DB="mateme"
-SITE="nno"
+DB_USER="root -p"
+DB="mateme_development"
+SITE="cmerd"
 
 echo "CREATE DATABASE $DB" | mysql -u $DB_USER
 echo "CREATE DATABASE $DB_test" | mysql -u $DB_USER
@@ -28,6 +28,8 @@ family_name_code varchar(255),
 family_name2_code varchar(255),
 family_name_suffix_code varchar(255));" | mysql -u $DB_USER
 
-rake openmrs:bootstrap:load:defaults RAILS_ENV=production
-rake openmrs:bootstrap:load:site SITE=$SITE RAILS_ENV=production
+#rake openmrs:bootstrap:load:defaults RAILS_ENV=production
+#rake openmrs:bootstrap:load:site SITE=$SITE RAILS_ENV=production
+rake openmrs:bootstrap:load:defaults 
+rake openmrs:bootstrap:load:site SITE=$SITE
 rake db:fixtures:load

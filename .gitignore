@@ -1,4 +1,6 @@
 .DS_Store
+.*swp
+.*swo
 config/database.yml
 notes
 doc
