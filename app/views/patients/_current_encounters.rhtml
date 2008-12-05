@@ -1,11 +1,13 @@
-<div style="font-size: 24pt;">
+<div style="font-size: 22pt;">
 <% encounters = Hash.new()
    encounters_by_date = @encounters
-   encounters_by_date.collect{|encounter|encounters[encounter.name] = encounter.to_s.gsub("OUTPATIENT DIAGNOSIS: ","").gsub("VITALS: ","").gsub("APPOINTMENT: ","").downcase}.compact.join("<br/>") 
+   encounters_by_date.collect{|encounter|
+     key = encounter.name + "<span style='font-size:12pt'> -- " + encounter.encounter_datetime.to_date.to_s + "</span>"
+     encounters[key] = encounter.to_s.gsub("OUTPATIENT DIAGNOSIS: ","").gsub("VITALS: ","").gsub("APPOINTMENT: ","").downcase
+   }.compact.join("<br/>") 
 %>  
-<%= encounters.collect{|keys,values|
-    next if keys == "REGISTRATION"
-    values = "patient referred to: " + values.to_s.split(":").last if keys.to_s == "REFERRED"
+<%= encounters.collect{|key,value|
+    value = "patient referred to: " + value.to_s.split(":").last if key.to_s.include?("REFERRED")
     [keys.to_s,values.to_s] 
 
 }.compact.join("<br/>") rescue nil %>
