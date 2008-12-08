@@ -3016,7 +3016,7 @@ concept_02156:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-02-07 10:14:39 -08:00
+  date_changed: 2008-08-15 13:12:22 -07:00
   form_text: 
   description: 
   retired: false
@@ -3124,7 +3124,7 @@ concept_02157:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-02-07 10:14:56 -08:00
+  date_changed: 2008-08-15 13:12:34 -07:00
   form_text: 
   description: 
   retired: false
@@ -8931,20 +8931,20 @@ concept_00844:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2
-  creator: 2
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 1
   version: ""
   short_name: HIV DNA PCR
   default_charge: 
-  date_changed: 2005-02-18 14:44:12 -08:00
+  date_changed: 2008-09-16 14:46:31 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 2
   concept_id: 844
-  date_created: 2004-05-05 00:00:00 -07:00
+  date_created: 2004-05-05 06:00:00 -07:00
 concept_02970: 
   retire_reason: 
   retired_by: 
@@ -10857,20 +10857,20 @@ concept_01290:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2
-  creator: 2
+  changed_by: 
+  creator: 15877
   date_retired: 
-  class_id: 7
-  version: "0.001"
-  short_name: ROOF
+  class_id: 1
+  version: ""
+  short_name: 
   default_charge: 
-  date_changed: 2005-10-27 14:49:19 -07:00
+  date_changed: 
   form_text: 
-  description: ""
+  description: 
   retired: false
-  datatype_id: 2
+  datatype_id: 1
   concept_id: 1290
-  date_created: 2005-10-27 14:46:33 -07:00
+  date_created: 2008-08-22 15:49:56 -07:00
 concept_00518: 
   retire_reason: 
   retired_by: 
@@ -11002,19 +11002,19 @@ concept_01291:
   retired_by: 
   is_set: false
   changed_by: 
-  creator: 2
+  creator: 15877
   date_retired: 
-  class_id: 5
+  class_id: 4
   version: ""
-  short_name: ""
+  short_name: 
   default_charge: 
   date_changed: 
   form_text: 
-  description: ""
+  description: 
   retired: false
   datatype_id: 4
   concept_id: 1291
-  date_created: 2005-10-27 14:48:57 -07:00
+  date_created: 2008-08-22 15:54:36 -07:00
 concept_00519: 
   retire_reason: 
   retired_by: 
@@ -11991,20 +11991,20 @@ concept_02538:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 15877
-  creator: 15877
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-08-03 11:34:23 -07:00
+  date_changed: 2008-09-24 15:13:18 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
   concept_id: 2538
-  date_created: 2007-08-03 11:34:23 -07:00
+  date_created: 2007-08-03 17:34:23 -07:00
 concept_02201: 
   retire_reason: 
   retired_by: 
@@ -12981,14 +12981,14 @@ concept_02207:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 1128
+  changed_by: 15877
   creator: 1128
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-05-13 03:55:48 -07:00
+  date_changed: 2008-08-13 11:01:55 -07:00
   form_text: 
   description: 
   retired: false
@@ -13719,14 +13719,14 @@ concept_02734:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 7
+  changed_by: 15877
   creator: 7
   date_retired: 
   class_id: 5
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-10-25 09:28:35 -07:00
+  date_changed: 2008-08-13 11:34:44 -07:00
   form_text: 
   description: 
   retired: false
@@ -14115,14 +14115,14 @@ concept_01271:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 7
+  changed_by: 15877
   creator: 1128
   date_retired: 
   class_id: 7
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2008-08-04 15:02:27 -07:00
+  date_changed: 2008-08-15 13:05:04 -07:00
   form_text: 
   description: ""
   retired: false
@@ -14241,20 +14241,20 @@ concept_01272:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2
-  creator: 2
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 7
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2006-02-13 21:45:19 -08:00
+  date_changed: 2008-09-19 15:01:41 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 2
   concept_id: 1272
-  date_created: 2005-02-22 20:46:03 -08:00
+  date_created: 2005-02-23 03:46:03 -08:00
 concept_02625: 
   retire_reason: 
   retired_by: 
@@ -15339,20 +15339,20 @@ concept_01054:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 15878
-  creator: 2
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 7
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2008-06-24 15:12:45 -07:00
+  date_changed: 2008-09-17 22:05:43 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 2
   concept_id: 1054
-  date_created: 2005-01-06 00:00:00 -08:00
+  date_created: 2005-01-06 07:00:00 -08:00
 concept_02408: 
   retire_reason: 
   retired_by: 
@@ -22521,20 +22521,20 @@ concept_01523:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-08-23 13:33:11 -07:00
+  date_changed: 2008-09-18 16:07:54 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1523
-  date_created: 2006-08-23 13:33:11 -07:00
+  date_created: 2006-08-23 19:33:11 -07:00
 concept_01748: 
   retire_reason: 
   retired_by: 
@@ -22593,20 +22593,20 @@ concept_01524:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-08-23 13:34:28 -07:00
+  date_changed: 2008-09-18 16:08:32 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1524
-  date_created: 2006-08-23 13:34:28 -07:00
+  date_created: 2006-08-23 19:34:28 -07:00
 concept_01749: 
   retire_reason: 
   retired_by: 
@@ -22719,20 +22719,20 @@ concept_01525:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-08-23 13:38:31 -07:00
+  date_changed: 2008-09-18 16:09:08 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1525
-  date_created: 2006-08-23 13:36:51 -07:00
+  date_created: 2006-08-23 19:36:51 -07:00
 concept_01414: 
   retire_reason: 
   retired_by: 
@@ -22791,20 +22791,20 @@ concept_01526:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-08-23 13:37:51 -07:00
+  date_changed: 2008-09-18 16:10:41 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1526
-  date_created: 2006-08-23 13:37:51 -07:00
+  date_created: 2006-08-23 19:37:51 -07:00
 concept_01302: 
   retire_reason: 
   retired_by: 
@@ -22935,20 +22935,20 @@ concept_01529:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-08-23 16:12:20 -07:00
+  date_changed: 2008-09-18 16:11:37 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1529
-  date_created: 2006-08-23 16:12:20 -07:00
+  date_created: 2006-08-23 22:12:20 -07:00
 concept_01417: 
   retire_reason: 
   retired_by: 
@@ -23979,20 +23979,20 @@ concept_01509:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-08-23 14:53:13 -07:00
+  date_changed: 2008-09-18 16:07:09 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1509
-  date_created: 2006-08-22 21:31:39 -07:00
+  date_created: 2006-08-23 03:31:39 -07:00
 concept_01920: 
   retire_reason: 
   retired_by: 
@@ -24105,20 +24105,20 @@ concept_01811:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 7
-  creator: 7
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-07-17 10:37:40 -07:00
+  date_changed: 2008-09-05 17:46:41 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
   concept_id: 1811
-  date_created: 2006-12-06 16:14:03 -08:00
+  date_created: 2006-12-06 23:14:03 -08:00
 concept_01700: 
   retire_reason: 
   retired_by: 
@@ -26464,19 +26464,19 @@ concept_05497:
   retired_by: 
   is_set: false
   changed_by: 
-  creator: 2
+  creator: 15878
   date_retired: 
   class_id: 1
   version: ""
   short_name: CD4
   default_charge: 
-  date_changed: 
+  date_changed: 2008-09-17 20:03:16 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 1
   concept_id: 5497
-  date_created: 2004-08-12 00:00:00 -07:00
+  date_created: 2004-08-12 06:00:00 -07:00
 concept_03493: 
   retire_reason: 
   retired_by: 
@@ -26535,14 +26535,14 @@ concept_05272:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2053
+  changed_by: 15877
   creator: 2
   date_retired: 
   class_id: 7
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2007-12-29 15:56:54 -08:00
+  date_changed: 2008-08-22 15:51:32 -07:00
   form_text: 
   description: ""
   retired: false
@@ -28241,6 +28241,24 @@ concept_05585:
   datatype_id: 10
   concept_id: 5585
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03580: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 18
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3580
+  date_created: 2008-09-05 17:46:10 -07:00
 concept_05472: 
   retire_reason: 
   retired_by: 
@@ -28313,6 +28331,24 @@ concept_05586:
   datatype_id: 10
   concept_id: 5586
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03581: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3581
+  date_created: 2008-09-11 17:00:57 -07:00
 concept_05473: 
   retire_reason: 
   retired_by: 
@@ -28385,6 +28421,24 @@ concept_05587:
   datatype_id: 2
   concept_id: 5587
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03582: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3582
+  date_created: 2008-09-11 17:07:23 -07:00
 concept_05474: 
   retire_reason: 
   retired_by: 
@@ -28439,6 +28493,24 @@ concept_05588:
   datatype_id: 10
   concept_id: 5588
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03583: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3583
+  date_created: 2008-09-11 17:09:01 -07:00
 concept_05475: 
   retire_reason: 
   retired_by: 
@@ -28529,6 +28601,24 @@ concept_05250:
   datatype_id: 4
   concept_id: 5250
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03584: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3584
+  date_created: 2008-09-11 17:10:44 -07:00
 concept_05476: 
   retire_reason: 
   retired_by: 
@@ -28601,6 +28691,24 @@ concept_05251:
   datatype_id: 10
   concept_id: 5251
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03585: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3585
+  date_created: 2008-09-11 17:12:24 -07:00
 concept_05477: 
   retire_reason: 
   retired_by: 
@@ -28691,6 +28799,24 @@ concept_05252:
   datatype_id: 10
   concept_id: 5252
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03586: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 6
+  concept_id: 3586
+  date_created: 2008-09-11 17:13:45 -07:00
 concept_05478: 
   retire_reason: 
   retired_by: 
@@ -28781,6 +28907,24 @@ concept_05253:
   datatype_id: 4
   concept_id: 5253
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03587: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3587
+  date_created: 2008-09-11 17:15:15 -07:00
 concept_05479: 
   retire_reason: 
   retired_by: 
@@ -28889,6 +29033,24 @@ concept_05254:
   datatype_id: 4
   concept_id: 5254
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03588: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 4
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3588
+  date_created: 2008-09-15 21:01:17 -07:00
 concept_05141: 
   retire_reason: 
   retired_by: 
@@ -28961,6 +29123,24 @@ concept_05255:
   datatype_id: 4
   concept_id: 5255
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03589: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3589
+  date_created: 2008-09-15 21:06:38 -07:00
 concept_03250: 
   retire_reason: 
   retired_by: 
@@ -30743,6 +30923,24 @@ concept_05564:
   datatype_id: 4
   concept_id: 5564
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03560: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15877
+  creator: 15877
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-08-18 13:31:32 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3560
+  date_created: 2008-08-18 11:07:31 -07:00
 concept_05452: 
   retire_reason: 
   retired_by: 
@@ -30797,6 +30995,24 @@ concept_05565:
   datatype_id: 1
   concept_id: 5565
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03561: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3561
+  date_created: 2008-08-18 11:09:41 -07:00
 concept_05453: 
   retire_reason: 
   retired_by: 
@@ -30869,6 +31085,24 @@ concept_05566:
   datatype_id: 4
   concept_id: 5566
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03562: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3562
+  date_created: 2008-08-18 11:10:53 -07:00
 concept_05454: 
   retire_reason: 
   retired_by: 
@@ -30923,6 +31157,24 @@ concept_05567:
   datatype_id: 10
   concept_id: 5567
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03563: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3563
+  date_created: 2008-08-18 11:13:16 -07:00
 concept_05455: 
   retire_reason: 
   retired_by: 
@@ -31013,6 +31265,24 @@ concept_05230:
   datatype_id: 2
   concept_id: 5230
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03564: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3564
+  date_created: 2008-08-18 11:14:02 -07:00
 concept_05456: 
   retire_reason: 
   retired_by: 
@@ -31103,6 +31373,24 @@ concept_05231:
   datatype_id: 10
   concept_id: 5231
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03565: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3565
+  date_created: 2008-08-18 11:14:32 -07:00
 concept_05457: 
   retire_reason: 
   retired_by: 
@@ -31175,6 +31463,24 @@ concept_05232:
   datatype_id: 10
   concept_id: 5232
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03566: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3566
+  date_created: 2008-08-18 11:15:15 -07:00
 concept_05458: 
   retire_reason: 
   retired_by: 
@@ -31265,6 +31571,24 @@ concept_05233:
   datatype_id: 10
   concept_id: 5233
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03567: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-23 16:45:48 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3567
+  date_created: 2008-08-18 17:17:49 -07:00
 concept_05459: 
   retire_reason: 
   retired_by: 
@@ -31391,6 +31715,24 @@ concept_05234:
   datatype_id: 10
   concept_id: 5234
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03568: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 16
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3568
+  date_created: 2008-08-18 11:19:08 -07:00
 concept_05121: 
   retire_reason: 
   retired_by: 
@@ -31499,6 +31841,24 @@ concept_05235:
   datatype_id: 10
   concept_id: 5235
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03569: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 4
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3569
+  date_created: 2008-08-22 15:55:29 -07:00
 concept_03230: 
   retire_reason: 
   retired_by: 
@@ -33245,6 +33605,24 @@ concept_05655:
   datatype_id: 1
   concept_id: 5655
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03650: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3650
+  date_created: 2008-09-25 15:10:14 -07:00
 concept_05542: 
   retire_reason: 
   retired_by: 
@@ -33335,6 +33713,24 @@ concept_05656:
   datatype_id: 1
   concept_id: 5656
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03651: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3651
+  date_created: 2008-09-25 15:10:52 -07:00
 concept_05543: 
   retire_reason: 
   retired_by: 
@@ -33407,6 +33803,24 @@ concept_05657:
   datatype_id: 1
   concept_id: 5657
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03652: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3652
+  date_created: 2008-09-25 15:11:27 -07:00
 concept_05544: 
   retire_reason: 
   retired_by: 
@@ -33461,6 +33875,24 @@ concept_05658:
   datatype_id: 1
   concept_id: 5658
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03653: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3653
+  date_created: 2008-09-25 15:12:01 -07:00
 concept_05545: 
   retire_reason: 
   retired_by: 
@@ -33551,6 +33983,24 @@ concept_05320:
   datatype_id: 2
   concept_id: 5320
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03654: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3654
+  date_created: 2008-09-25 16:14:00 -07:00
 concept_05546: 
   retire_reason: 
   retired_by: 
@@ -33623,6 +34073,24 @@ concept_05321:
   datatype_id: 2
   concept_id: 5321
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03655: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 18
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-25 16:45:54 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3655
+  date_created: 2008-09-25 16:44:45 -07:00
 concept_05547: 
   retire_reason: 
   retired_by: 
@@ -33713,6 +34181,24 @@ concept_05322:
   datatype_id: 1
   concept_id: 5322
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03656: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 18
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3656
+  date_created: 2008-09-25 16:46:46 -07:00
 concept_05548: 
   retire_reason: 
   retired_by: 
@@ -33803,6 +34289,24 @@ concept_05323:
   datatype_id: 1
   concept_id: 5323
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03657: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3657
+  date_created: 2008-09-25 21:39:34 -07:00
 concept_05549: 
   retire_reason: 
   retired_by: 
@@ -33911,6 +34415,24 @@ concept_05324:
   datatype_id: 1
   concept_id: 5324
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03658: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3658
+  date_created: 2008-09-25 21:40:47 -07:00
 concept_05211: 
   retire_reason: 
   retired_by: 
@@ -34163,6 +34685,24 @@ concept_05213:
   datatype_id: 10
   concept_id: 5213
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03547: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15877
+  creator: 15877
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-08-11 15:20:33 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3547
+  date_created: 2008-08-11 14:58:30 -07:00
 concept_05439: 
   retire_reason: 
   retired_by: 
@@ -34289,6 +34829,24 @@ concept_05214:
   datatype_id: 10
   concept_id: 5214
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03548: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15877
+  creator: 15877
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-08-11 15:21:59 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3548
+  date_created: 2008-08-11 15:04:32 -07:00
 concept_03210: 
   retire_reason: 
   retired_by: 
@@ -34541,6 +35099,24 @@ concept_05216:
   datatype_id: 10
   concept_id: 5216
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03549: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3549
+  date_created: 2008-08-11 15:20:12 -07:00
 concept_03212: 
   retire_reason: 
   retired_by: 
@@ -35711,6 +36287,24 @@ concept_05634:
   datatype_id: 10
   concept_id: 5634
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03630: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3630
+  date_created: 2008-09-18 16:49:11 -07:00
 concept_05522: 
   retire_reason: 
   retired_by: 
@@ -35783,6 +36377,24 @@ concept_05635:
   datatype_id: 1
   concept_id: 5635
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03631: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3631
+  date_created: 2008-09-18 16:52:55 -07:00
 concept_05523: 
   retire_reason: 
   retired_by: 
@@ -35837,6 +36449,24 @@ concept_05636:
   datatype_id: 1
   concept_id: 5636
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03632: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3632
+  date_created: 2008-09-18 17:04:46 -07:00
 concept_05524: 
   retire_reason: 
   retired_by: 
@@ -35909,6 +36539,24 @@ concept_05637:
   datatype_id: 1
   concept_id: 5637
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03633: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3633
+  date_created: 2008-09-18 17:28:29 -07:00
 concept_05525: 
   retire_reason: 
   retired_by: 
@@ -35999,6 +36647,24 @@ concept_05300:
   datatype_id: 1
   concept_id: 5300
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03634: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3634
+  date_created: 2008-09-18 17:31:18 -07:00
 concept_05526: 
   retire_reason: 
   retired_by: 
@@ -36071,6 +36737,24 @@ concept_05301:
   datatype_id: 1
   concept_id: 5301
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03635: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3635
+  date_created: 2008-09-18 17:33:07 -07:00
 concept_05527: 
   retire_reason: 
   retired_by: 
@@ -36100,13 +36784,13 @@ concept_03522:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 
+  date_changed: 2008-09-18 16:25:22 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 3522
-  date_created: 2008-07-28 15:08:46 -07:00
+  date_created: 2008-07-28 21:08:46 -07:00
 concept_05414: 
   retire_reason: 
   retired_by: 
@@ -36161,6 +36845,24 @@ concept_05302:
   datatype_id: 1
   concept_id: 5302
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03636: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3636
+  date_created: 2008-09-18 17:38:05 -07:00
 concept_05528: 
   retire_reason: 
   retired_by: 
@@ -36190,13 +36892,13 @@ concept_03523:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 
+  date_changed: 2008-09-18 16:26:22 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 3523
-  date_created: 2008-07-28 15:09:21 -07:00
+  date_created: 2008-07-28 21:09:21 -07:00
 concept_05415: 
   retire_reason: 
   retired_by: 
@@ -36323,6 +37025,24 @@ concept_05304:
   datatype_id: 1
   concept_id: 5304
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03637: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3637
+  date_created: 2008-09-18 17:41:26 -07:00
 concept_05529: 
   retire_reason: 
   retired_by: 
@@ -36413,6 +37133,24 @@ concept_05305:
   datatype_id: 1
   concept_id: 5305
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03638: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3638
+  date_created: 2008-09-18 17:44:12 -07:00
 concept_03300: 
   retire_reason: 
   retired_by: 
@@ -36503,6 +37241,24 @@ concept_05306:
   datatype_id: 1
   concept_id: 5306
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03639: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3639
+  date_created: 2008-09-18 17:48:01 -07:00
 concept_03301: 
   retire_reason: 
   retired_by: 
@@ -36706,19 +37462,19 @@ concept_03528:
   retired_by: 
   is_set: false
   changed_by: 
-  creator: 15877
+  creator: 15878
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 
+  date_changed: 2008-09-11 17:48:54 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
   concept_id: 3528
-  date_created: 2008-08-01 12:03:42 -07:00
+  date_created: 2008-08-01 18:03:42 -07:00
 concept_03416: 
   retire_reason: 
   retired_by: 
@@ -37547,6 +38303,24 @@ concept_05615:
   datatype_id: 1
   concept_id: 5615
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03610: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-22 21:48:01 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3610
+  date_created: 2008-09-16 18:24:25 -07:00
 concept_05502: 
   retire_reason: 
   retired_by: 
@@ -37601,6 +38375,24 @@ concept_05616:
   datatype_id: 2
   concept_id: 5616
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03611: 
+  retire_reason: 
+  retired_by: 
+  is_set: true
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 10
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3611
+  date_created: 2008-09-16 18:25:18 -07:00
 concept_05503: 
   retire_reason: 
   retired_by: 
@@ -37637,6 +38429,24 @@ concept_05729:
   datatype_id: 1
   concept_id: 5729
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03612: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3612
+  date_created: 2008-09-16 18:26:50 -07:00
 concept_05504: 
   retire_reason: 
   retired_by: 
@@ -37691,6 +38501,24 @@ concept_05617:
   datatype_id: 4
   concept_id: 5617
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03613: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3613
+  date_created: 2008-09-16 18:33:02 -07:00
 concept_05505: 
   retire_reason: 
   retired_by: 
@@ -37745,6 +38573,24 @@ concept_05618:
   datatype_id: 4
   concept_id: 5618
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03614: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3614
+  date_created: 2008-09-16 18:34:13 -07:00
 concept_05506: 
   retire_reason: 
   retired_by: 
@@ -37835,6 +38681,24 @@ concept_00090:
   datatype_id: 4
   concept_id: 90
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03615: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-16 19:11:26 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3615
+  date_created: 2008-09-16 18:52:40 -07:00
 concept_05507: 
   retire_reason: 
   retired_by: 
@@ -37889,6 +38753,24 @@ concept_00091:
   datatype_id: 4
   concept_id: 91
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03616: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3616
+  date_created: 2008-09-16 18:54:09 -07:00
 concept_05508: 
   retire_reason: 
   retired_by: 
@@ -37925,6 +38807,24 @@ concept_00092:
   datatype_id: 4
   concept_id: 92
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03617: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3617
+  date_created: 2008-09-16 18:55:45 -07:00
 concept_05509: 
   retire_reason: 
   retired_by: 
@@ -37979,6 +38879,24 @@ concept_00093:
   datatype_id: 4
   concept_id: 93
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03618: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3618
+  date_created: 2008-09-16 18:56:39 -07:00
 concept_03506: 
   retire_reason: 
   retired_by: 
@@ -38015,6 +38933,24 @@ concept_00094:
   datatype_id: 4
   concept_id: 94
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03619: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3619
+  date_created: 2008-09-16 19:05:10 -07:00
 concept_05920: 
   retire_reason: 
   retired_by: 
@@ -52239,20 +53175,20 @@ concept_01085:
   retire_reason: 
   retired_by: 
   is_set: true
-  changed_by: 7
-  creator: 2
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 9
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2008-04-03 16:42:11 -07:00
+  date_changed: 2008-09-02 19:44:24 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 4
   concept_id: 1085
-  date_created: 2005-01-12 00:00:00 -08:00
+  date_created: 2005-01-12 07:00:00 -08:00
 concept_02438: 
   retire_reason: 
   retired_by: 
@@ -55295,6 +56231,60 @@ concept_01062:
   datatype_id: 4
   concept_id: 1062
   date_created: 2005-01-06 00:00:00 -08:00
+concept_01063: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2006-02-13 20:17:33 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 1063
+  date_created: 2005-01-06 00:00:00 -08:00
+concept_01176: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-02-09 00:00:00 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 2
+  concept_id: 1176
+  date_created: 2005-02-08 00:00:00 -08:00
+concept_02304: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1128
+  creator: 1128
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-05-18 16:32:40 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 2304
+  date_created: 2007-05-18 16:32:40 -07:00
 concept_02416: 
   retire_reason: 
   retired_by: 
@@ -55349,42 +56339,6 @@ concept_00924:
   datatype_id: 4
   concept_id: 924
   date_created: 2004-07-23 00:00:00 -07:00
-concept_02304: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 1128
-  creator: 1128
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-05-18 16:32:40 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 10
-  concept_id: 2304
-  date_created: 2007-05-18 16:32:40 -07:00
-concept_01176: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-02-09 00:00:00 -08:00
-  form_text: 
-  description: ""
-  retired: false
-  datatype_id: 2
-  concept_id: 1176
-  date_created: 2005-02-08 00:00:00 -08:00
 concept_02529: 
   retire_reason: 
   retired_by: 
@@ -55421,60 +56375,24 @@ concept_00811:
   datatype_id: 4
   concept_id: 811
   date_created: 2004-04-25 00:00:00 -07:00
-concept_01063: 
+concept_01064: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2
+  changed_by: 
   creator: 2
   date_retired: 
   class_id: 11
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2006-02-13 20:17:33 -08:00
+  date_changed: 
   form_text: 
   description: ""
   retired: false
   datatype_id: 4
-  concept_id: 1063
+  concept_id: 1064
   date_created: 2005-01-06 00:00:00 -08:00
-concept_02417: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 15680
-  creator: 15680
-  date_retired: 
-  class_id: 11
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-05-31 10:01:40 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 4
-  concept_id: 2417
-  date_created: 2007-05-31 10:01:40 -07:00
-concept_00925: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 3
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-02-18 01:31:07 -08:00
-  form_text: 
-  description: ""
-  retired: true
-  datatype_id: 4
-  concept_id: 925
-  date_created: 2004-07-23 00:00:00 -07:00
 concept_02305: 
   retire_reason: 
   retired_by: 
@@ -55493,6 +56411,42 @@ concept_02305:
   datatype_id: 10
   concept_id: 2305
   date_created: 2007-05-18 16:34:08 -07:00
+concept_00925: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-02-18 01:31:07 -08:00
+  form_text: 
+  description: ""
+  retired: true
+  datatype_id: 4
+  concept_id: 925
+  date_created: 2004-07-23 00:00:00 -07:00
+concept_02417: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15680
+  creator: 15680
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-05-31 10:01:40 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 2417
+  date_created: 2007-05-31 10:01:40 -07:00
 concept_01177: 
   retire_reason: 
   retired_by: 
@@ -55529,7 +56483,7 @@ concept_00812:
   datatype_id: 4
   concept_id: 812
   date_created: 2004-04-25 00:00:00 -07:00
-concept_01064: 
+concept_01065: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -55545,44 +56499,8 @@ concept_01064:
   description: ""
   retired: false
   datatype_id: 4
-  concept_id: 1064
+  concept_id: 1065
   date_created: 2005-01-06 00:00:00 -08:00
-concept_02418: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 15680
-  creator: 15680
-  date_retired: 
-  class_id: 6
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-05-31 12:21:28 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 10
-  concept_id: 2418
-  date_created: 2007-05-31 12:21:28 -07:00
-concept_00700: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 
-  creator: 2
-  date_retired: 
-  class_id: 5
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 
-  form_text: 
-  description: ""
-  retired: true
-  datatype_id: 4
-  concept_id: 700
-  date_created: 2004-01-01 00:00:00 -08:00
 concept_00926: 
   retire_reason: 
   retired_by: 
@@ -55601,6 +56519,42 @@ concept_00926:
   datatype_id: 4
   concept_id: 926
   date_created: 2004-07-26 00:00:00 -07:00
+concept_00700: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 2
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: ""
+  retired: true
+  datatype_id: 4
+  concept_id: 700
+  date_created: 2004-01-01 00:00:00 -08:00
+concept_02418: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15680
+  creator: 15680
+  date_retired: 
+  class_id: 6
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-05-31 12:21:28 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 2418
+  date_created: 2007-05-31 12:21:28 -07:00
 concept_01178: 
   retire_reason: 
   retired_by: 
@@ -55637,7 +56591,25 @@ concept_00813:
   datatype_id: 4
   concept_id: 813
   date_created: 2004-04-25 00:00:00 -07:00
-concept_01065: 
+concept_01066: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-01-06 00:00:00 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 1066
+  date_created: 2005-01-06 00:00:00 -08:00
+concept_01179: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -55653,8 +56625,26 @@ concept_01065:
   description: ""
   retired: false
   datatype_id: 4
-  concept_id: 1065
-  date_created: 2005-01-06 00:00:00 -08:00
+  concept_id: 1179
+  date_created: 2005-02-09 00:00:00 -08:00
+concept_02306: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1128
+  creator: 1128
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-05-18 16:36:37 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 2306
+  date_created: 2007-05-18 16:36:37 -07:00
 concept_02419: 
   retire_reason: 
   retired_by: 
@@ -55709,42 +56699,6 @@ concept_00927:
   datatype_id: 4
   concept_id: 927
   date_created: 2004-07-26 00:00:00 -07:00
-concept_02306: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 1128
-  creator: 1128
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-05-18 16:36:37 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 10
-  concept_id: 2306
-  date_created: 2007-05-18 16:36:37 -07:00
-concept_01179: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 
-  creator: 2
-  date_retired: 
-  class_id: 11
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 
-  form_text: 
-  description: ""
-  retired: false
-  datatype_id: 4
-  concept_id: 1179
-  date_created: 2005-02-09 00:00:00 -08:00
 concept_00814: 
   retire_reason: 
   retired_by: 
@@ -55781,60 +56735,24 @@ concept_02940:
   datatype_id: 2
   concept_id: 2940
   date_created: 2008-02-12 10:28:03 -08:00
-concept_01066: 
+concept_01067: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2
+  changed_by: 7
   creator: 2
   date_retired: 
   class_id: 11
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2005-01-06 00:00:00 -08:00
+  date_changed: 2006-11-21 20:32:16 -08:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 4
-  concept_id: 1066
+  concept_id: 1067
   date_created: 2005-01-06 00:00:00 -08:00
-concept_00702: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 5
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-02-16 17:48:03 -08:00
-  form_text: 
-  description: ""
-  retired: true
-  datatype_id: 4
-  concept_id: 702
-  date_created: 2004-01-01 00:00:00 -08:00
-concept_00928: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 3
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-02-18 16:06:36 -08:00
-  form_text: 
-  description: ""
-  retired: false
-  datatype_id: 4
-  concept_id: 928
-  date_created: 2004-07-26 00:00:00 -07:00
 concept_02307: 
   retire_reason: 
   retired_by: 
@@ -55853,6 +56771,42 @@ concept_02307:
   datatype_id: 2
   concept_id: 2307
   date_created: 2007-05-18 16:37:40 -07:00
+concept_00928: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-02-18 16:06:36 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 928
+  date_created: 2004-07-26 00:00:00 -07:00
+concept_00702: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-02-16 17:48:03 -08:00
+  form_text: 
+  description: ""
+  retired: true
+  datatype_id: 4
+  concept_id: 702
+  date_created: 2004-01-01 00:00:00 -08:00
 concept_00815: 
   retire_reason: 
   retired_by: 
@@ -55889,60 +56843,24 @@ concept_02941:
   datatype_id: 2
   concept_id: 2941
   date_created: 2008-02-12 10:45:19 -08:00
-concept_01067: 
+concept_01068: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 7
+  changed_by: 2
   creator: 2
   date_retired: 
   class_id: 11
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2006-11-21 20:32:16 -08:00
+  date_changed: 2005-02-18 18:11:51 -08:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 4
-  concept_id: 1067
+  concept_id: 1068
   date_created: 2005-01-06 00:00:00 -08:00
-concept_00703: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 11
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-01-26 00:00:00 -08:00
-  form_text: 
-  description: ""
-  retired: false
-  datatype_id: 4
-  concept_id: 703
-  date_created: 2004-01-01 00:00:00 -08:00
-concept_00929: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 3
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-02-18 16:07:13 -08:00
-  form_text: 
-  description: ""
-  retired: false
-  datatype_id: 4
-  concept_id: 929
-  date_created: 2004-07-26 00:00:00 -07:00
 concept_02308: 
   retire_reason: 
   retired_by: 
@@ -55961,6 +56879,42 @@ concept_02308:
   datatype_id: 2
   concept_id: 2308
   date_created: 2007-05-18 16:38:29 -07:00
+concept_00929: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-02-18 16:07:13 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 929
+  date_created: 2004-07-26 00:00:00 -07:00
+concept_00703: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-01-26 00:00:00 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 703
+  date_created: 2004-01-01 00:00:00 -08:00
 concept_00816: 
   retire_reason: 
   retired_by: 
@@ -55997,60 +56951,24 @@ concept_02942:
   datatype_id: 4
   concept_id: 2942
   date_created: 2008-02-12 10:52:11 -08:00
-concept_01068: 
+concept_01069: 
   retire_reason: 
   retired_by: 
   is_set: false
   changed_by: 2
   creator: 2
   date_retired: 
-  class_id: 11
+  class_id: 7
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2005-02-18 18:11:51 -08:00
+  date_changed: 2006-02-13 21:17:45 -08:00
   form_text: 
   description: ""
   retired: false
-  datatype_id: 4
-  concept_id: 1068
+  datatype_id: 2
+  concept_id: 1069
   date_created: 2005-01-06 00:00:00 -08:00
-concept_00704: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 
-  creator: 2
-  date_retired: 
-  class_id: 11
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 
-  form_text: 
-  description: ""
-  retired: true
-  datatype_id: 4
-  concept_id: 704
-  date_created: 2004-01-01 00:00:00 -08:00
-concept_02830: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 7
-  creator: 7
-  date_retired: 
-  class_id: 18
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-10-30 11:28:51 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 4
-  concept_id: 2830
-  date_created: 2007-10-30 11:28:51 -07:00
 concept_02309: 
   retire_reason: 
   retired_by: 
@@ -56069,6 +56987,42 @@ concept_02309:
   datatype_id: 4
   concept_id: 2309
   date_created: 2007-05-18 16:41:57 -07:00
+concept_02830: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 7
+  creator: 7
+  date_retired: 
+  class_id: 18
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-10-30 11:28:51 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 2830
+  date_created: 2007-10-30 11:28:51 -07:00
+concept_00704: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 2
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: ""
+  retired: true
+  datatype_id: 4
+  concept_id: 704
+  date_created: 2004-01-01 00:00:00 -08:00
 concept_00817: 
   retire_reason: 
   retired_by: 
@@ -56105,24 +57059,24 @@ concept_02943:
   datatype_id: 4
   concept_id: 2943
   date_created: 2008-02-12 10:54:07 -08:00
-concept_01069: 
+concept_00818: 
   retire_reason: 
   retired_by: 
   is_set: false
   changed_by: 2
   creator: 2
   date_retired: 
-  class_id: 7
+  class_id: 5
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2006-02-13 21:17:45 -08:00
+  date_changed: 2005-02-18 13:58:30 -08:00
   form_text: 
   description: ""
-  retired: false
-  datatype_id: 2
-  concept_id: 1069
-  date_created: 2005-01-06 00:00:00 -08:00
+  retired: true
+  datatype_id: 4
+  concept_id: 818
+  date_created: 2004-05-04 00:00:00 -07:00
 concept_00705: 
   retire_reason: 
   retired_by: 
@@ -56177,7 +57131,7 @@ concept_01590:
   datatype_id: 4
   concept_id: 1590
   date_created: 2006-09-01 11:20:49 -07:00
-concept_00818: 
+concept_00819: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -56188,13 +57142,31 @@ concept_00818:
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2005-02-18 13:58:30 -08:00
+  date_changed: 2005-02-18 14:08:59 -08:00
   form_text: 
   description: ""
-  retired: true
+  retired: false
   datatype_id: 4
-  concept_id: 818
+  concept_id: 819
   date_created: 2004-05-04 00:00:00 -07:00
+concept_01591: 
+  retire_reason: 
+  retired_by: 
+  is_set: true
+  changed_by: 7
+  creator: 9
+  date_retired: 
+  class_id: 10
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-11-21 12:02:30 -08:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 1591
+  date_created: 2006-09-01 13:29:13 -07:00
 concept_00706: 
   retire_reason: 
   retired_by: 
@@ -56231,42 +57203,6 @@ concept_02832:
   datatype_id: 4
   concept_id: 2832
   date_created: 2007-10-30 11:29:31 -07:00
-concept_01591: 
-  retire_reason: 
-  retired_by: 
-  is_set: true
-  changed_by: 7
-  creator: 9
-  date_retired: 
-  class_id: 10
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-11-21 12:02:30 -08:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 4
-  concept_id: 1591
-  date_created: 2006-09-01 13:29:13 -07:00
-concept_00819: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 5
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-02-18 14:08:59 -08:00
-  form_text: 
-  description: ""
-  retired: false
-  datatype_id: 4
-  concept_id: 819
-  date_created: 2004-05-04 00:00:00 -07:00
 concept_02944: 
   retire_reason: 
   retired_by: 
@@ -56573,7 +57509,25 @@ concept_02947:
   datatype_id: 4
   concept_id: 2947
   date_created: 2008-02-12 10:57:22 -08:00
-concept_02948: 
+concept_01595: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 9
+  creator: 9
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-07-03 09:28:55 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 1595
+  date_created: 2006-09-01 14:08:09 -07:00
+concept_02723: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -56584,49 +57538,13 @@ concept_02948:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-02-12 11:15:07 -08:00
+  date_changed: 2007-11-06 13:40:30 -08:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 1
-  concept_id: 2948
-  date_created: 2008-02-12 11:03:09 -08:00
-concept_06060: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 
-  creator: 2
-  date_retired: 
-  class_id: 1
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 
-  form_text: 
-  description: ""
-  retired: true
-  datatype_id: 1
-  concept_id: 6060
-  date_created: 2004-08-12 00:00:00 -07:00
-concept_02835: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 7
-  creator: 7
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-11-02 11:34:16 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 1
-  concept_id: 2835
-  date_created: 2007-11-02 11:34:16 -07:00
+  datatype_id: 10
+  concept_id: 2723
+  date_created: 2007-10-15 16:43:34 -07:00
 concept_02610: 
   retire_reason: 
   retired_by: 
@@ -56663,7 +57581,7 @@ concept_01482:
   datatype_id: 4
   concept_id: 1482
   date_created: 2006-08-16 02:05:34 -07:00
-concept_02723: 
+concept_02835: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -56674,31 +57592,67 @@ concept_02723:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-11-06 13:40:30 -08:00
+  date_changed: 2007-11-02 11:34:16 -07:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 10
-  concept_id: 2723
-  date_created: 2007-10-15 16:43:34 -07:00
-concept_01595: 
+  datatype_id: 1
+  concept_id: 2835
+  date_created: 2007-11-02 11:34:16 -07:00
+concept_02948: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 7
+  creator: 7
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-07-03 09:28:55 -07:00
+  date_changed: 2008-02-12 11:15:07 -08:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 2
-  concept_id: 1595
-  date_created: 2006-09-01 14:08:09 -07:00
+  datatype_id: 1
+  concept_id: 2948
+  date_created: 2008-02-12 11:03:09 -08:00
+concept_06060: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: ""
+  retired: true
+  datatype_id: 1
+  concept_id: 6060
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_06061: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2005-02-08 00:00:00 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 10
+  concept_id: 6061
+  date_created: 2004-08-12 00:00:00 -07:00
 concept_01596: 
   retire_reason: 
   retired_by: 
@@ -56735,24 +57689,6 @@ concept_01370:
   datatype_id: 10
   concept_id: 1370
   date_created: 2006-06-14 14:46:35 -07:00
-concept_06061: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2
-  creator: 2
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: ""
-  default_charge: 
-  date_changed: 2005-02-08 00:00:00 -08:00
-  form_text: 
-  description: ""
-  retired: false
-  datatype_id: 10
-  concept_id: 6061
-  date_created: 2004-08-12 00:00:00 -07:00
 concept_02611: 
   retire_reason: 
   retired_by: 
@@ -58449,20 +59385,20 @@ concept_01159:
   retire_reason: 
   retired_by: 
   is_set: true
-  changed_by: 7
-  creator: 2
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 9
   version: ""
   short_name: ""
   default_charge: 
-  date_changed: 2007-11-05 18:00:56 -08:00
+  date_changed: 2008-09-02 19:35:45 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 4
   concept_id: 1159
-  date_created: 2005-02-08 00:00:00 -08:00
+  date_created: 2005-02-08 07:00:00 -08:00
 concept_01046: 
   retire_reason: 
   retired_by: 
@@ -62265,20 +63201,20 @@ concept_01337:
   retire_reason: 
   retired_by: 
   is_set: true
-  changed_by: 15877
-  creator: 5
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 10
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-04-16 15:14:55 -07:00
+  date_changed: 2008-09-23 20:27:31 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1337
-  date_created: 2006-06-07 21:26:13 -07:00
+  date_created: 2006-06-08 03:26:13 -07:00
 concept_01224: 
   retire_reason: 
   retired_by: 
@@ -63291,20 +64227,20 @@ concept_01530:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 9
-  creator: 9
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-08-23 16:15:16 -07:00
+  date_changed: 2008-09-18 16:12:16 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
   concept_id: 1530
-  date_created: 2006-08-23 16:15:16 -07:00
+  date_created: 2006-08-23 22:15:16 -07:00
 concept_01009: 
   retire_reason: 
   retired_by: 
@@ -65649,20 +66585,20 @@ concept_01822:
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2053
-  creator: 2053
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-02-21 11:36:41 -08:00
+  date_changed: 2008-09-25 21:39:13 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 1
   concept_id: 1822
-  date_created: 2007-02-21 11:35:02 -08:00
+  date_created: 2007-02-21 18:35:02 -08:00
 concept_01710: 
   retire_reason: 
   retired_by: 
@@ -66077,24 +67013,6 @@ concept_01829:
   datatype_id: 1
   concept_id: 1829
   date_created: 2007-02-21 12:38:10 -08:00
-concept_01717: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 6
-  creator: 6
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2006-10-03 15:51:34 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 10
-  concept_id: 1717
-  date_created: 2006-10-03 15:51:34 -07:00
 concept_01604: 
   retire_reason: 
   retired_by: 
@@ -66113,24 +67031,24 @@ concept_01604:
   datatype_id: 3
   concept_id: 1604
   date_created: 2006-09-06 13:37:41 -07:00
-concept_01718: 
+concept_01717: 
   retire_reason: 
   retired_by: 
   is_set: false
   changed_by: 6
   creator: 6
   date_retired: 
-  class_id: 11
+  class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-10-03 16:05:53 -07:00
+  date_changed: 2006-10-03 15:51:34 -07:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 4
-  concept_id: 1718
-  date_created: 2006-10-03 16:05:53 -07:00
+  datatype_id: 10
+  concept_id: 1717
+  date_created: 2006-10-03 15:51:34 -07:00
 concept_01605: 
   retire_reason: 
   retired_by: 
@@ -66149,7 +67067,7 @@ concept_01605:
   datatype_id: 2
   concept_id: 1605
   date_created: 2006-09-06 13:39:51 -07:00
-concept_01719: 
+concept_01718: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -66160,13 +67078,13 @@ concept_01719:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2006-10-03 16:10:30 -07:00
+  date_changed: 2006-10-03 16:05:53 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 4
-  concept_id: 1719
-  date_created: 2006-10-03 16:06:46 -07:00
+  concept_id: 1718
+  date_created: 2006-10-03 16:05:53 -07:00
 concept_01606: 
   retire_reason: 
   retired_by: 
@@ -66185,24 +67103,42 @@ concept_01606:
   datatype_id: 4
   concept_id: 1606
   date_created: 2006-09-06 13:48:45 -07:00
+concept_01719: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 6
+  creator: 6
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2006-10-03 16:10:30 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 1719
+  date_created: 2006-10-03 16:06:46 -07:00
 concept_01607: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 7
-  creator: 6
+  changed_by: 
+  creator: 15878
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-08-05 12:05:29 -07:00
+  date_changed: 2008-09-15 21:01:42 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
   concept_id: 1607
-  date_created: 2006-09-06 21:56:19 -07:00
+  date_created: 2006-09-07 03:56:19 -07:00
 concept_01608: 
   retire_reason: 
   retired_by: 
@@ -66293,24 +67229,6 @@ concept_01912:
   datatype_id: 2
   concept_id: 1912
   date_created: 2007-05-01 09:23:11 -07:00
-concept_01913: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 2053
-  creator: 2053
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-05-01 09:25:16 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 2
-  concept_id: 1913
-  date_created: 2007-05-01 09:25:16 -07:00
 concept_01800: 
   retire_reason: 
   retired_by: 
@@ -66329,24 +67247,24 @@ concept_01800:
   datatype_id: 4
   concept_id: 1800
   date_created: 2006-11-29 12:11:02 -08:00
-concept_01914: 
+concept_01913: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 15680
-  creator: 15680
+  changed_by: 2053
+  creator: 2053
   date_retired: 
-  class_id: 11
+  class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-05-04 09:33:12 -07:00
+  date_changed: 2007-05-01 09:25:16 -07:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 4
-  concept_id: 1914
-  date_created: 2007-05-04 09:33:12 -07:00
+  datatype_id: 2
+  concept_id: 1913
+  date_created: 2007-05-01 09:25:16 -07:00
 concept_01801: 
   retire_reason: 
   retired_by: 
@@ -66365,24 +67283,24 @@ concept_01801:
   datatype_id: 4
   concept_id: 1801
   date_created: 2006-11-29 12:11:32 -08:00
-concept_01915: 
+concept_01914: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 2053
-  creator: 2053
+  changed_by: 15680
+  creator: 15680
   date_retired: 
-  class_id: 7
+  class_id: 11
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-05-01 12:37:50 -07:00
+  date_changed: 2007-05-04 09:33:12 -07:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 2
-  concept_id: 1915
-  date_created: 2007-05-01 12:37:50 -07:00
+  datatype_id: 4
+  concept_id: 1914
+  date_created: 2007-05-04 09:33:12 -07:00
 concept_01802: 
   retire_reason: 
   retired_by: 
@@ -66401,7 +67319,7 @@ concept_01802:
   datatype_id: 4
   concept_id: 1802
   date_created: 2006-11-29 12:12:02 -08:00
-concept_01916: 
+concept_01915: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -66412,13 +67330,13 @@ concept_01916:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-05-01 12:41:10 -07:00
+  date_changed: 2007-05-01 12:37:50 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
-  concept_id: 1916
-  date_created: 2007-05-01 12:41:10 -07:00
+  concept_id: 1915
+  date_created: 2007-05-01 12:37:50 -07:00
 concept_01803: 
   retire_reason: 
   retired_by: 
@@ -66437,7 +67355,7 @@ concept_01803:
   datatype_id: 4
   concept_id: 1803
   date_created: 2006-11-29 12:13:02 -08:00
-concept_01917: 
+concept_01916: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -66448,13 +67366,13 @@ concept_01917:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-05-01 12:42:37 -07:00
+  date_changed: 2007-05-01 12:41:10 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
-  concept_id: 1917
-  date_created: 2007-05-01 12:42:37 -07:00
+  concept_id: 1916
+  date_created: 2007-05-01 12:41:10 -07:00
 concept_01804: 
   retire_reason: 
   retired_by: 
@@ -66473,7 +67391,7 @@ concept_01804:
   datatype_id: 4
   concept_id: 1804
   date_created: 2006-11-29 12:51:11 -08:00
-concept_01918: 
+concept_01917: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -66484,13 +67402,13 @@ concept_01918:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-05-01 12:44:43 -07:00
+  date_changed: 2007-05-01 12:42:37 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
-  concept_id: 1918
-  date_created: 2007-05-01 12:44:43 -07:00
+  concept_id: 1917
+  date_created: 2007-05-01 12:42:37 -07:00
 concept_01805: 
   retire_reason: 
   retired_by: 
@@ -66509,7 +67427,7 @@ concept_01805:
   datatype_id: 4
   concept_id: 1805
   date_created: 2006-11-30 17:04:37 -08:00
-concept_01919: 
+concept_01918: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -66520,13 +67438,13 @@ concept_01919:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2007-05-01 12:46:18 -07:00
+  date_changed: 2007-05-01 12:44:43 -07:00
   form_text: 
   description: 
   retired: false
   datatype_id: 2
-  concept_id: 1919
-  date_created: 2007-05-01 12:46:18 -07:00
+  concept_id: 1918
+  date_created: 2007-05-01 12:44:43 -07:00
 concept_01806: 
   retire_reason: 
   retired_by: 
@@ -66545,6 +67463,24 @@ concept_01806:
   datatype_id: 2
   concept_id: 1806
   date_created: 2006-11-30 17:07:03 -08:00
+concept_01919: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2053
+  creator: 2053
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-05-01 12:46:18 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 1919
+  date_created: 2007-05-01 12:46:18 -07:00
 concept_01807: 
   retire_reason: 
   retired_by: 
@@ -66905,24 +67841,6 @@ concept_05085:
   datatype_id: 1
   concept_id: 5085
   date_created: 2004-08-12 00:00:00 -07:00
-concept_03080: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 
-  creator: 7
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 1
-  concept_id: 3080
-  date_created: 2008-05-20 12:03:03 -07:00
 concept_03193: 
   retire_reason: 
   retired_by: 
@@ -66941,6 +67859,24 @@ concept_03193:
   datatype_id: 3
   concept_id: 3193
   date_created: 2008-06-17 14:18:25 -07:00
+concept_03080: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 7
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3080
+  date_created: 2008-05-20 12:03:03 -07:00
 concept_05198: 
   retire_reason: 
   retired_by: 
@@ -66977,24 +67913,6 @@ concept_05199:
   datatype_id: 4
   concept_id: 5199
   date_created: 2004-08-12 00:00:00 -07:00
-concept_03081: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 
-  creator: 7
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 2
-  concept_id: 3081
-  date_created: 2008-05-20 12:05:03 -07:00
 concept_03194: 
   retire_reason: 
   retired_by: 
@@ -67013,6 +67931,24 @@ concept_03194:
   datatype_id: 2
   concept_id: 3194
   date_created: 2008-06-17 14:33:05 -07:00
+concept_03081: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 7
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3081
+  date_created: 2008-05-20 12:05:03 -07:00
 concept_05086: 
   retire_reason: 
   retired_by: 
@@ -67049,24 +67985,6 @@ concept_05087:
   datatype_id: 1
   concept_id: 5087
   date_created: 2004-08-12 00:00:00 -07:00
-concept_03082: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 7
-  creator: 7
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2008-05-20 12:13:59 -07:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 2
-  concept_id: 3082
-  date_created: 2008-05-20 12:11:46 -07:00
 concept_03195: 
   retire_reason: 
   retired_by: 
@@ -67085,24 +68003,24 @@ concept_03195:
   datatype_id: 4
   concept_id: 3195
   date_created: 2008-06-17 14:56:52 -07:00
-concept_03083: 
+concept_03082: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 
+  changed_by: 7
   creator: 7
   date_retired: 
-  class_id: 11
+  class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 
+  date_changed: 2008-05-20 12:13:59 -07:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 4
-  concept_id: 3083
-  date_created: 2008-05-20 12:13:18 -07:00
+  datatype_id: 2
+  concept_id: 3082
+  date_created: 2008-05-20 12:11:46 -07:00
 concept_03196: 
   retire_reason: 
   retired_by: 
@@ -67121,6 +68039,24 @@ concept_03196:
   datatype_id: 4
   concept_id: 3196
   date_created: 2008-06-17 14:58:59 -07:00
+concept_03083: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 7
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3083
+  date_created: 2008-05-20 12:13:18 -07:00
 concept_05088: 
   retire_reason: 
   retired_by: 
@@ -67157,24 +68093,6 @@ concept_05089:
   datatype_id: 1
   concept_id: 5089
   date_created: 2004-08-12 00:00:00 -07:00
-concept_03084: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 
-  creator: 7
-  date_retired: 
-  class_id: 7
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 1
-  concept_id: 3084
-  date_created: 2008-05-20 12:18:33 -07:00
 concept_03197: 
   retire_reason: 
   retired_by: 
@@ -67193,24 +68111,24 @@ concept_03197:
   datatype_id: 4
   concept_id: 3197
   date_created: 2008-06-17 15:02:54 -07:00
-concept_03085: 
+concept_03084: 
   retire_reason: 
   retired_by: 
   is_set: false
-  changed_by: 7
+  changed_by: 
   creator: 7
   date_retired: 
   class_id: 7
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-05-20 12:20:42 -07:00
+  date_changed: 
   form_text: 
   description: 
   retired: false
   datatype_id: 1
-  concept_id: 3085
-  date_created: 2008-05-20 12:20:15 -07:00
+  concept_id: 3084
+  date_created: 2008-05-20 12:18:33 -07:00
 concept_03198: 
   retire_reason: 
   retired_by: 
@@ -67229,7 +68147,7 @@ concept_03198:
   datatype_id: 4
   concept_id: 3198
   date_created: 2008-06-17 15:03:46 -07:00
-concept_03086: 
+concept_03085: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -67240,13 +68158,13 @@ concept_03086:
   version: ""
   short_name: 
   default_charge: 
-  date_changed: 2008-05-20 12:42:01 -07:00
+  date_changed: 2008-05-20 12:20:42 -07:00
   form_text: 
   description: 
   retired: false
-  datatype_id: 2
-  concept_id: 3086
-  date_created: 2008-05-20 12:31:34 -07:00
+  datatype_id: 1
+  concept_id: 3085
+  date_created: 2008-05-20 12:20:15 -07:00
 concept_03199: 
   retire_reason: 
   retired_by: 
@@ -67265,6 +68183,24 @@ concept_03199:
   datatype_id: 2
   concept_id: 3199
   date_created: 2008-06-17 15:06:16 -07:00
+concept_03086: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 7
+  creator: 7
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-05-20 12:42:01 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3086
+  date_created: 2008-05-20 12:31:34 -07:00
 concept_03087: 
   retire_reason: 
   retired_by: 
@@ -68903,6 +69839,24 @@ concept_05595:
   datatype_id: 1
   concept_id: 5595
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03590: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3590
+  date_created: 2008-09-16 14:47:47 -07:00
 concept_05482: 
   retire_reason: 
   retired_by: 
@@ -68939,6 +69893,24 @@ concept_05483:
   datatype_id: 1
   concept_id: 5483
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03591: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 16
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3591
+  date_created: 2008-09-16 17:48:13 -07:00
 concept_05370: 
   retire_reason: 
   retired_by: 
@@ -69011,6 +69983,24 @@ concept_05371:
   datatype_id: 1
   concept_id: 5371
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03592: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 2
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-16 17:49:53 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3592
+  date_created: 2008-09-16 17:49:07 -07:00
 concept_05484: 
   retire_reason: 
   retired_by: 
@@ -69047,6 +70037,24 @@ concept_05485:
   datatype_id: 4
   concept_id: 5485
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03593: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 2
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3593
+  date_created: 2008-09-16 17:49:35 -07:00
 concept_03480: 
   retire_reason: 
   retired_by: 
@@ -69155,6 +70163,24 @@ concept_03481:
   datatype_id: 4
   concept_id: 3481
   date_created: 2008-07-07 11:26:55 -07:00
+concept_03594: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 16
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3594
+  date_created: 2008-09-16 17:51:43 -07:00
 concept_05260: 
   retire_reason: 
   retired_by: 
@@ -69227,6 +70253,24 @@ concept_05261:
   datatype_id: 4
   concept_id: 5261
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03595: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 6
+  concept_id: 3595
+  date_created: 2008-09-16 17:53:29 -07:00
 concept_03482: 
   retire_reason: 
   retired_by: 
@@ -69317,6 +70361,24 @@ concept_03370:
   datatype_id: 2
   concept_id: 3370
   date_created: 2008-06-25 11:40:09 -07:00
+concept_03596: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3596
+  date_created: 2008-09-16 17:57:29 -07:00
 concept_05262: 
   retire_reason: 
   retired_by: 
@@ -69389,6 +70451,24 @@ concept_05263:
   datatype_id: 4
   concept_id: 5263
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03597: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3597
+  date_created: 2008-09-16 17:58:48 -07:00
 concept_03371: 
   retire_reason: 
   retired_by: 
@@ -69533,6 +70613,24 @@ concept_03372:
   datatype_id: 4
   concept_id: 3372
   date_created: 2008-06-25 12:00:52 -07:00
+concept_03598: 
+  retire_reason: 
+  retired_by: 
+  is_set: true
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 10
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-16 18:00:01 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3598
+  date_created: 2008-09-16 17:59:53 -07:00
 concept_05264: 
   retire_reason: 
   retired_by: 
@@ -69569,6 +70667,24 @@ concept_05265:
   datatype_id: 4
   concept_id: 5265
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03599: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3599
+  date_created: 2008-09-16 18:08:25 -07:00
 concept_03260: 
   retire_reason: 
   retired_by: 
@@ -71207,6 +72323,24 @@ concept_05575:
   datatype_id: 1
   concept_id: 5575
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03570: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 4
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3570
+  date_created: 2008-08-22 15:57:34 -07:00
 concept_05462: 
   retire_reason: 
   retired_by: 
@@ -71279,6 +72413,24 @@ concept_05463:
   datatype_id: 1
   concept_id: 5463
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03571: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-16 14:45:19 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3571
+  date_created: 2008-08-22 22:01:08 -07:00
 concept_05350: 
   retire_reason: 
   retired_by: 
@@ -71351,6 +72503,24 @@ concept_05351:
   datatype_id: 4
   concept_id: 5351
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03572: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3572
+  date_created: 2008-08-22 16:03:29 -07:00
 concept_05464: 
   retire_reason: 
   retired_by: 
@@ -71387,6 +72557,24 @@ concept_05465:
   datatype_id: 1
   concept_id: 5465
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03573: 
+  retire_reason: 
+  retired_by: 
+  is_set: true
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 10
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-11 17:05:50 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3573
+  date_created: 2008-08-22 22:04:52 -07:00
 concept_03460: 
   retire_reason: 
   retired_by: 
@@ -71495,6 +72683,24 @@ concept_03461:
   datatype_id: 6
   concept_id: 3461
   date_created: 2008-07-02 14:06:11 -07:00
+concept_03574: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3574
+  date_created: 2008-08-26 13:52:22 -07:00
 concept_05240: 
   retire_reason: 
   retired_by: 
@@ -71567,6 +72773,24 @@ concept_05241:
   datatype_id: 10
   concept_id: 5241
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03575: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 16
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-05 17:17:21 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3575
+  date_created: 2008-08-26 19:54:31 -07:00
 concept_03462: 
   retire_reason: 
   retired_by: 
@@ -71657,6 +72881,24 @@ concept_03350:
   datatype_id: 4
   concept_id: 3350
   date_created: 2008-06-24 15:16:34 -07:00
+concept_03576: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-05 17:27:22 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3576
+  date_created: 2008-08-26 19:55:04 -07:00
 concept_05242: 
   retire_reason: 
   retired_by: 
@@ -71729,6 +72971,24 @@ concept_05243:
   datatype_id: 4
   concept_id: 5243
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03577: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 8
+  concept_id: 3577
+  date_created: 2008-08-29 17:42:10 -07:00
 concept_03351: 
   retire_reason: 
   retired_by: 
@@ -71873,6 +73133,24 @@ concept_03352:
   datatype_id: 4
   concept_id: 3352
   date_created: 2008-06-24 15:35:10 -07:00
+concept_03578: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 8
+  concept_id: 3578
+  date_created: 2008-08-29 17:44:05 -07:00
 concept_05244: 
   retire_reason: 
   retired_by: 
@@ -71945,6 +73223,24 @@ concept_05245:
   datatype_id: 4
   concept_id: 5245
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03579: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-05 15:40:32 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 6
+  concept_id: 3579
+  date_created: 2008-09-05 15:29:04 -07:00
 concept_03240: 
   retire_reason: 
   retired_by: 
@@ -73907,6 +75203,24 @@ concept_05555:
   datatype_id: 4
   concept_id: 5555
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03550: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3550
+  date_created: 2008-08-11 15:25:12 -07:00
 concept_05442: 
   retire_reason: 
   retired_by: 
@@ -73979,6 +75293,24 @@ concept_05443:
   datatype_id: 1
   concept_id: 5443
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03551: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 7
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3551
+  date_created: 2008-08-14 11:12:21 -07:00
 concept_05330: 
   retire_reason: 
   retired_by: 
@@ -74051,6 +75383,24 @@ concept_05331:
   datatype_id: 4
   concept_id: 5331
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03552: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 7
+  creator: 7
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-08-14 12:18:26 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3552
+  date_created: 2008-08-14 11:14:38 -07:00
 concept_05444: 
   retire_reason: 
   retired_by: 
@@ -74087,6 +75437,24 @@ concept_05445:
   datatype_id: 1
   concept_id: 5445
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03553: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15877
+  creator: 15877
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-08-15 12:51:20 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3553
+  date_created: 2008-08-15 12:50:47 -07:00
 concept_03440: 
   retire_reason: 
   retired_by: 
@@ -74195,6 +75563,24 @@ concept_03441:
   datatype_id: 4
   concept_id: 3441
   date_created: 2008-06-30 14:24:38 -07:00
+concept_03554: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3554
+  date_created: 2008-08-15 12:55:04 -07:00
 concept_05220: 
   retire_reason: 
   retired_by: 
@@ -74267,6 +75653,24 @@ concept_05221:
   datatype_id: 1
   concept_id: 5221
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03555: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3555
+  date_created: 2008-08-15 13:07:33 -07:00
 concept_03442: 
   retire_reason: 
   retired_by: 
@@ -74357,6 +75761,24 @@ concept_03330:
   datatype_id: 4
   concept_id: 3330
   date_created: 2008-06-23 15:36:30 -07:00
+concept_03556: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3556
+  date_created: 2008-08-15 13:11:56 -07:00
 concept_05222: 
   retire_reason: 
   retired_by: 
@@ -74429,6 +75851,24 @@ concept_05223:
   datatype_id: 1
   concept_id: 5223
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03557: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15877
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3557
+  date_created: 2008-08-18 11:03:11 -07:00
 concept_03331: 
   retire_reason: 
   retired_by: 
@@ -74573,6 +76013,24 @@ concept_03332:
   datatype_id: 3
   concept_id: 3332
   date_created: 2008-06-24 13:58:23 -07:00
+concept_03558: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15877
+  creator: 15877
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-08-19 16:24:14 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3558
+  date_created: 2008-08-18 11:05:50 -07:00
 concept_05224: 
   retire_reason: 
   retired_by: 
@@ -74645,6 +76103,24 @@ concept_05225:
   datatype_id: 10
   concept_id: 5225
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03559: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 15877
+  creator: 15877
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-08-19 16:24:26 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3559
+  date_created: 2008-08-18 11:06:28 -07:00
 concept_03333: 
   retire_reason: 
   retired_by: 
@@ -76373,6 +77849,24 @@ concept_03007:
   datatype_id: 1
   concept_id: 3007
   date_created: 2008-04-16 15:08:52 -07:00
+concept_03640: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3640
+  date_created: 2008-09-19 16:58:23 -07:00
 concept_05532: 
   retire_reason: 
   retired_by: 
@@ -76445,6 +77939,24 @@ concept_05533:
   datatype_id: 1
   concept_id: 5533
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03641: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3641
+  date_created: 2008-09-22 17:38:33 -07:00
 concept_03008: 
   retire_reason: 
   retired_by: 
@@ -76553,6 +78065,24 @@ concept_03009:
   datatype_id: 10
   concept_id: 3009
   date_created: 2008-04-16 16:13:56 -07:00
+concept_03642: 
+  retire_reason: 
+  retired_by: 
+  is_set: true
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 8
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3642
+  date_created: 2008-09-22 17:48:44 -07:00
 concept_05534: 
   retire_reason: 
   retired_by: 
@@ -76589,6 +78119,24 @@ concept_05535:
   datatype_id: 1
   concept_id: 5535
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03643: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 18
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3643
+  date_created: 2008-09-23 16:33:27 -07:00
 concept_03530: 
   retire_reason: 
   retired_by: 
@@ -76697,6 +78245,24 @@ concept_03531:
   datatype_id: 4
   concept_id: 3531
   date_created: 2008-08-01 14:30:51 -07:00
+concept_03644: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 18
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3644
+  date_created: 2008-09-23 16:33:57 -07:00
 concept_05310: 
   retire_reason: 
   retired_by: 
@@ -76769,6 +78335,24 @@ concept_05311:
   datatype_id: 1
   concept_id: 5311
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03645: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3645
+  date_created: 2008-09-23 16:44:01 -07:00
 concept_03532: 
   retire_reason: 
   retired_by: 
@@ -76859,6 +78443,24 @@ concept_03420:
   datatype_id: 4
   concept_id: 3420
   date_created: 2008-06-30 11:42:58 -07:00
+concept_03646: 
+  retire_reason: 
+  retired_by: 
+  is_set: true
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 8
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3646
+  date_created: 2008-09-23 19:23:01 -07:00
 concept_05312: 
   retire_reason: 
   retired_by: 
@@ -76931,6 +78533,24 @@ concept_05313:
   datatype_id: 4
   concept_id: 5313
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03647: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: "1.0"
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 3
+  concept_id: 3647
+  date_created: 2008-09-25 04:13:48 -07:00
 concept_03421: 
   retire_reason: 
   retired_by: 
@@ -77165,6 +78785,24 @@ concept_03536:
   datatype_id: 4
   concept_id: 3536
   date_created: 2008-08-04 17:34:33 -07:00
+concept_03648: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3648
+  date_created: 2008-09-25 15:08:32 -07:00
 concept_05202: 
   retire_reason: 
   retired_by: 
@@ -77237,6 +78875,24 @@ concept_05203:
   datatype_id: 10
   concept_id: 5203
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03649: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-25 15:09:29 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3649
+  date_created: 2008-09-25 15:09:18 -07:00
 concept_03537: 
   retire_reason: 
   retired_by: 
@@ -78569,6 +80225,24 @@ concept_05625:
   datatype_id: 1
   concept_id: 5625
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03620: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3620
+  date_created: 2008-09-16 19:07:26 -07:00
 concept_05512: 
   retire_reason: 
   retired_by: 
@@ -78605,6 +80279,24 @@ concept_05513:
   datatype_id: 1
   concept_id: 5513
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03621: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3621
+  date_created: 2008-09-16 19:08:16 -07:00
 concept_05400: 
   retire_reason: 
   retired_by: 
@@ -78713,6 +80405,24 @@ concept_05401:
   datatype_id: 1
   concept_id: 5401
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03622: 
+  retire_reason: 
+  retired_by: 
+  is_set: true
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 10
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3622
+  date_created: 2008-09-16 19:10:11 -07:00
 concept_05514: 
   retire_reason: 
   retired_by: 
@@ -78749,6 +80459,24 @@ concept_05515:
   datatype_id: 1
   concept_id: 5515
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03623: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3623
+  date_created: 2008-09-16 19:33:58 -07:00
 concept_03510: 
   retire_reason: 
   retired_by: 
@@ -78821,6 +80549,24 @@ concept_03511:
   datatype_id: 3
   concept_id: 3511
   date_created: 2008-07-28 14:49:43 -07:00
+concept_03624: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3624
+  date_created: 2008-09-16 19:34:47 -07:00
 concept_05516: 
   retire_reason: 
   retired_by: 
@@ -78893,6 +80639,24 @@ concept_05517:
   datatype_id: 1
   concept_id: 5517
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03625: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3625
+  date_created: 2008-09-16 19:36:47 -07:00
 concept_03512: 
   retire_reason: 
   retired_by: 
@@ -79019,6 +80783,24 @@ concept_03514:
   datatype_id: 3
   concept_id: 3514
   date_created: 2008-07-28 14:57:02 -07:00
+concept_03626: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 18
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3626
+  date_created: 2008-09-17 21:26:05 -07:00
 concept_05406: 
   retire_reason: 
   retired_by: 
@@ -79091,6 +80873,24 @@ concept_05407:
   datatype_id: 1
   concept_id: 5407
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03627: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 17
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 2
+  concept_id: 3627
+  date_created: 2008-09-17 21:31:03 -07:00
 concept_03515: 
   retire_reason: 
   retired_by: 
@@ -79145,6 +80945,42 @@ concept_03403:
   datatype_id: 4
   concept_id: 3403
   date_created: 2008-06-30 09:36:21 -07:00
+concept_03628: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3628
+  date_created: 2008-09-17 22:05:05 -07:00
+concept_03629: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3629
+  date_created: 2008-09-18 16:45:36 -07:00
 concept_03404: 
   retire_reason: 
   retired_by: 
@@ -79973,6 +81809,42 @@ concept_05605:
   datatype_id: 2
   concept_id: 5605
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03600: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3600
+  date_created: 2008-09-16 18:09:16 -07:00
+concept_03601: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3601
+  date_created: 2008-09-16 18:13:10 -07:00
 concept_05718: 
   retire_reason: 
   retired_by: 
@@ -80009,6 +81881,24 @@ concept_05719:
   datatype_id: 1
   concept_id: 5719
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03602: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3602
+  date_created: 2008-09-16 18:13:33 -07:00
 concept_05606: 
   retire_reason: 
   retired_by: 
@@ -80045,6 +81935,24 @@ concept_05607:
   datatype_id: 1
   concept_id: 5607
   date_created: 2004-08-12 00:00:00 -07:00
+concept_03603: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 10
+  concept_id: 3603
+  date_created: 2008-09-16 18:14:31 -07:00
 concept_00190: 
   retire_reason: 
   retired_by: 
@@ -80135,6 +82043,42 @@ concept_00192:
   datatype_id: 2
   concept_id: 192
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03604: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 7
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2008-09-22 21:51:11 -07:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3604
+  date_created: 2008-09-16 18:16:34 -07:00
+concept_03605: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 1
+  concept_id: 3605
+  date_created: 2008-09-16 18:17:08 -07:00
 concept_00193: 
   retire_reason: 
   retired_by: 
@@ -80207,6 +82151,42 @@ concept_00081:
   datatype_id: 4
   concept_id: 81
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03606: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3606
+  date_created: 2008-09-16 18:19:52 -07:00
+concept_03607: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3607
+  date_created: 2008-09-16 18:20:22 -07:00
 concept_00195: 
   retire_reason: 
   retired_by: 
@@ -80279,6 +82259,42 @@ concept_00083:
   datatype_id: 4
   concept_id: 83
   date_created: 2004-01-01 00:00:00 -08:00
+concept_03608: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3608
+  date_created: 2008-09-16 18:21:18 -07:00
+concept_03609: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 
+  creator: 15878
+  date_retired: 
+  class_id: 5
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 3609
+  date_created: 2008-09-16 18:22:12 -07:00
 concept_00197: 
   retire_reason: 
   retired_by: 
