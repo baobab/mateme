@@ -43,6 +43,9 @@
   <div id="vitals">
     <%= link_to "Vitals", :controller => :encounters, :action => :new, :id => "vitals", :patient_id => @patient.id %>
   </div>
+  <div id="PMTCT">
+    <%= link_to "PMTCT", :controller => :encounters, :action => :new, :id => "pmtct", :patient_id => @patient.id %>
+  </div>
   <div id="appointment">
     <%= link_to "Next Appointment", :controller => :encounters, :action => :new, :id => "appointment", :patient_id => @patient.id %>
   </div>

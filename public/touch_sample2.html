@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>Another Sample Touchscreen Wizard by Rodney</title>
+  <title>Sample for PMTCT</title>
   <meta name="Keywords" content="auto, repair, video, vehicle, maintenance, cars, trucks, suvs, brakes, oil-change, tire-pressure, tune-up, fluid-check, mechanic, free" />
   <script language="javascript">
      tstUsername = "";
@@ -16,16 +16,68 @@
  </head>
 <body>
   <form action="#" method="GET">
-    <label for="text">Sample Text Input By Rodney</label>
-    <input id="text" name="text" type="text"/>
-    <label for="select">Enter your gender</label>
-    <select id="select" name="select">
-      <option value="option1">Male</option>
-      <option value="option2">Female</option>
-      <option value="option3">Both</option>
+    <label><h2>PMTCT<h2></label><br>
+    <label><u>Antenatally</u></label><br>
+    <table><tr><td>
+    <label for="demographics">Demographics</label></td><td>
+    <input id="demographics" name="demographics" type="text"/></td></tr><tr><td>
+    <label for="visitdate">Visit Date</label></td><td>
+    <input id="visitdate" name="visitdate" type="text"/></td></tr><td></tr><td>
+    <label for="menstrualperiod">Last Date of Menstrual Period</label></td><td>
+    <input id="menstrualperiod" name="menstrualperiod" type="text"/></td></tr><td>
+    <label for="gestationalage">Estimated Gestational Age</label><tr><td>
+    <input id="gestationalage" name="gestationalage" type="text"/></td></tr><td>
+    <label for="duedate">Due Date of Menstrual Period</label><tr><td>
+    <input id="duedate" name="duedate" type="text"/></td></tr><td>
+    <label for="vitalbp">Vital Signs(Include BP)</label><tr><td>
+    <input id="vitalbp" name="vitalbp" type="text"/></td></tr><td>
+    <label for="hivstatus">HIV Status</label><tr><td>
+    <input id="hivstatus" name="hivstatus" type="text"/></td></tr><td>
+    <label for="artstatus">ART Status</label><tr><td>
+    <input id="artstatus" name="artstatus" type="text"/></td></tr><td>
+    <label for="cd4count">CD4 Count</label><tr><td>
+    <input id="cd4count" name="cd4count" type="text"/></td></tr><td>
+    <label for="idrn">Infant Diagnosis Registration Number</label><tr><td>
+    <input id="idrn" name="idrn" type="text"/></td></tr><td>
+    <label for="select1">pMTCT</label></td>
+    <select id="select1" name="select1"><tr><td>
+      <option value="option1">SD-NVP</option>
+      <option value="option2">AZT Combination Regimen</option>
+      <option value="option3">ART</option>
+      <option value="option4">None</option>
+    </select></td><tr>
+    <input id="pmtctnone" name="pmtctnone" type="text" helptext="pMTCT None" condition="($('select1').value == 'option4')"/><br>
+    <label for="select2">Prenatal Interversions</label>
+    <select id="select2" name="select2">
+      <option value="option1">IPT</option>
+      <option value="option2">CPT</option>
+      <option value="option3">ITN</option>
+      <option value="option4">Ferrous Felate</option>
+      <option value="option5">Other</option>
     </select>
-    <label for="text2">Conditional control</label>
-    <input id="text2" name="text2" type="text" helptext="my help" condition="($('select').value == 'option3')"/>
+    <input id="prenatal" name="prenatal" type="text" helptext="Other Prenatal" condition="($('select2').value == 'option5')"/><br>
+    <label for="appointment">Next Appointment</label>
+    <input id="appointment" name="appointment" type="text"/><br>
+    <p><br></p>
+    <label><u>Post-Natally</u></label><br>
+    <label for="deliverydate">Date of Delivery</label>
+    <input id="deliverydate" name="deliverydate" type="text"/><br>
+
+    <label for="birthweght">Newborn Birth Weight</label>
+    <input id="birthweght" name="birthweght" type="text"/><br>
+    <label for="select3">PmTCT Interversion for Baby</label>
+    <select id="select3" name="select3">
+      <option value="option1">SD-NVP</option>
+      <option value="option2">SD-NVP + AZT/3TC</option>
+      <option value="option3">None</option>
+    </select>
+    <input id="pmtctbaby" name="pmtctbaby" type="text" helptext="PmTCT Interversion for Baby" condition="($('select3').value == 'option3')"/><br>
+    <label for="unque_national_id_baby">Unque National ID for Baby</label>
+    <input id="unque_national_id_baby" name="unque_national_id_baby" type="text"/><br>
+    <label for="infact_diagnosis_reg">Infant Diagnosis Registration Number for Baby</label>
+    <input id="infact_diagnosis_reg" name="infact_diagnosis_reg" type="text"/><br>
+
+    
   </form>
 </body>
 </html>
