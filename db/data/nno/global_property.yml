@@ -578,7 +578,7 @@ global_property_00062:
 global_property_00033: 
   property: database_version
   id: 33
-  property_value: 1.4.0.08
+  property_value: 1.4.0.20
   description: ""
 global_property_00006: 
   property: birt.outputDir
