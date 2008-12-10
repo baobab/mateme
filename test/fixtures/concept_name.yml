@@ -4,95 +4,71 @@ immune_reconstitution_inflammatory_syndrome_date:
   concept_id: 2524
   date_created: 2007-08-02 15:35:58 +02:00
   creator: 2053
-  description: ""
-  short_name: IRIS DATE
   locale: en
 immune_reconstitution_inflammatory_syndrome_construct: 
   name: IMMUNE RECONSTITUTION INFLAMMATORY SYNDROME CONSTRUCT
   concept_id: 2522
   date_created: 2007-08-02 15:27:59 +02:00
   creator: 2053
-  description: ""
-  short_name: IRIS CONSTRUCT
   locale: en
 outpatient_diagnosis: 
   name: OUTPATIENT DIAGNOSIS
   concept_id: 6098
   date_created: 2008-03-21 15:08:47 +02:00
   creator: 15878
-  description: This describes a diagnosis for a patient visiting the Outpatient Department
-  short_name: 
   locale: en
 alcohol_counseling: 
   name: ALCOHOL COUNSELING
   concept_id: 1288
   date_created: 2005-02-25 11:32:55 +02:00
   creator: 2
-  description: Referral made @ AMPATH.
-  short_name: ""
   locale: en
 alcohol_counseling: 
   name: ALCOHOL COUNSELING
   concept_id: 1288
   date_created: 2005-02-25 11:32:55 +02:00
   creator: 2
-  description: Referral made @ AMPATH.
-  short_name: ""
   locale: en
 muppet_counseling: 
   name: MUPPET COUNSELING
   concept_id: 1289
   date_created: 2007-10-25 13:39:28 +02:00
   creator: 7
-  description: ""
-  short_name: ""
   locale: en
 extrapulmonary_tuberculosis_without_lymphadenopathy: 
   name: EXTRAPULMONARY TUBERCULOSIS WITHOUT LYMPHADENOPATHY
   concept_id: 2892
   date_created: 2008-01-18 12:24:33 +02:00
   creator: 15877
-  description: Extrapulmonary tuberculosis excluding TB lymphadenopathy
-  short_name: ""
   locale: en
 height: 
   name: HEIGHT (CM)
   concept_id: 5090
   date_created: 2004-08-12 00:00:00 +02:00
   creator: 2
-  description: Patient's height in centimeters.
-  short_name: HT
   locale: en
 referrals_ordered: 
   name: REFERRALS ORDERED
   concept_id: 1272
   date_created: 2005-02-22 20:46:03 +02:00
   creator: 2
-  description: Question on encounter form.  Answers are referrals made during a particular patient visit.
-  short_name: ""
   locale: en
 outpatient_diagnosis_non_coded: 
   name: OUTPATIENT DIAGNOSIS, NON-CODED
   concept_id: 3106
   date_created: 2008-05-23 16:26:14 +02:00
   creator: 7
-  description: recording diagnoses that are not in the coded list
-  short_name: ""
   locale: en
 treatment: 
   name: TREATMENT
   concept_id: 1185
   date_created: 2005-02-09 00:00:00 +02:00
   creator: 2
-  description: Administration or application of remedies to a patient or for a disease or an injury; medicinal or surgical management; therapy.
-  short_name: ""
   locale: en  
 stavudine_lamivudine_nevirapine: 
   name: STAVUDINE LAMIVUDINE AND NEVIRAPINE
   creator: 4
   concept_name_id: 809
-  short_name: D4T+3TC+NVP
   locale: en
-  description: Combination antiretroviral drug.
   concept_id: 792
   date_created: 2004-04-08 00:00:00 -07:00  

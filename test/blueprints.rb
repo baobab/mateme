@@ -13,8 +13,6 @@ end
   
 ConceptName.blueprint do
   name ''
-  short_name ''
-  description ''
   locale ''
   creator 1
   date_created Time.now

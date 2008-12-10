@@ -6,7 +6,7 @@ class Observation < ActiveRecord::Base
   belongs_to :concept
   belongs_to :answer_concept, :class_name => "Concept", :foreign_key => "value_coded"
   has_many :concept_names, :through => :concept
-  named_scope :active, :conditions => ['voided = 0']
+  named_scope :active, :conditions => ['obs.voided = 0']
 
 
   def patient_id=(patient_id)

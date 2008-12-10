@@ -1,153 +1,25 @@
 <style>
-/*
-  .buttonLine{
-    height:auto;
-  }
-
-  #tt_page_first_name .touchscreenTextInput,
-  #tt_page_last_name .touchscreenTextInput,
-  #tt_page_family_name2 .touchscreenTextInput,
-  #tt_page_address2 .touchscreenTextInput{
-    top: 346px; 
-  }
-
-  .options {
-    height:5em;
-    width:546px;    
-  }
- 
-  .options li {
-    border-top:1px dotted silver; 
-    border-bottom:1px dotted silver; 
-  }
- 
-  #tt_page_first_name .options,
-  #tt_page_last_name .options,
-  #tt_page_family_name2 .options,
-  #tt_page_address2 .options{
-    height:9em
-  }
-
-  .options li{
-    font-size: 1.5em
-  }
-  
-  #tt_page_gender .touchscreenTextInput {
-    display:none; 
-  }
-
-  .tt_controls_year_of_birth #Unknown{
-    display: block;
-    width: 289px;
-  }
-  .tt_controls_year_of_birth #Backspace{
-    display: inline;
-    width: 189px;
-  }
-
-  .tt_controls_year_of_birth .NumbersOnly .keyboardButton{
-    height: 78px;
-  }
-
-
-  .tt_controls_age_estimate #Backspace{
-    display: inline;
-    width: 189px;
-  }
-
-  #tt_page_month_of_birth #viewport{
-  }
-
-  #tt_page_month_of_birth .touchscreenTextInput{
-    top: 70px;
-  }
-
-  #tt_page_month_of_birth .options{
-    top: 170px;
-    height: auto;
-    width: auto;
-  }
-
-  #tt_page_month_of_birth #options{
-    height: 380px;
-    width: auto;
-  }
-
-  #tt_page_month_of_birth ul{
-    width:575px;
-  }
-
-  #tt_page_month_of_birth li{
-    border: 3px outset gray;
-    display: block;
-    float: left;
-    background-color: lightgray;
-    width: 115px;
-    margin-right: 10px;
-    height: 80px;
-    text-align: center;
-  }
-
-  #tt_page_month_of_birth #optionUnknown{
-    width: 255px;
-  }
-
-  .tt_controls_month_of_birth #keyboard{
-    display: none;
-  }
-
-  #tt_page_month_of_birth .touchscreenTextInput{
-    display: none;
-  }
-
-
-  #tt_page_birth_day #viewport{
-    display: none;
-  }
-
-  #tt_page_birth_day .touchscreenTextInput{
-    top: 70px;
-  }
-
-  .tt_controls_birth_day #keyboard{
-    width: 595px;
-  }
-
-  .tt_controls_birth_day .keyboardButton{
-    height: 77px;
-    width: 88px;
-  }
-
-  .tt_controls_birth_day #Unknown{
-    display: inline;
-    width: 160px;
-  }
-
-  #tt_page_birth_day .touchscreenTextInput{
-    display: none;
-  }
-  
-*/
 </style>
 
 <script>
   var tt_cancel_destination = "/people"
 </script>
 
-<% if (params[:gender].blank? || params[:given_name].blank? || params[:family_name2].blank? || params[:address2].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
+<% if (params[:gender].blank? || params[:given_name].blank? ||params[:family_name].blank?) && (params[:identifier].blank?) %>
 
   <% form_tag "search", :method => :get do %>
     <%= text_field_tag :given_name,  params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
 
     <%= text_field_tag :family_name,  params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
 
-    <%= text_field_tag :family_name2,  params[:family_name2], {:field_type => 'alpha', :helpText => 'Mother\'s Maiden Name', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true }%>
+    <%= text_field_tag :family_name2,  params[:family_name2], {:field_type => 'alpha', :helpText => 'Mother\'s Maiden Name', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :optional => true }%>
 
-    <%= text_field_tag :address2,  params[:address2], {:field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', 
-:allowFreeText => true }%>
+    <%= text_field_tag :address2,  params[:address2], {:field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :optional => true }%>
     
     Gender: <%= select_tag :gender, options_for_select({"" => "", "Male" => "M", "Female" => "F"}), {:helpText => "Gender"} %>
+
     <%= hidden_field_tag :create_patient, params[:create_patient] %>
+
     <%= submit_tag "Find person" %>
   <% end -%>
 
@@ -168,7 +40,7 @@
   //]]></script>
 <% end -%>
 
-<% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name2].blank? || params[:address2].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
+<% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
   <% form_tag "select", :method => :get do %>
     <% if @people.blank? %>
       <label for="person">No patients were found:</label>
