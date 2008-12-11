@@ -72,3 +72,17 @@ stavudine_lamivudine_nevirapine:
   locale: en
   concept_id: 792
   date_created: 2004-04-08 00:00:00 -07:00  
+nitrous_oxide: 
+  name: NITROUS OXIDE
+  creator: 4
+  concept_name_id: 1000
+  locale: en
+  concept_id: 1000
+  date_created: 2004-04-08 00:00:00 -07:00    
+valium: 
+  name: VALIUM
+  creator: 4
+  concept_name_id: 1001
+  locale: en
+  concept_id: 1001
+  date_created: 2004-04-08 00:00:00 -07:00

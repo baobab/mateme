@@ -6,4 +6,9 @@ module ApplicationHelper
     html_options["onClick"]="return false" #if we don't do this we get double clicks
     link = link_to(name, options, html_options, *parameters_for_method_reference)
   end
+  
+  def fancy_or_high_contrast_touch
+    fancy = GlobalProperty.find_by_property("interface").property_value == "fancy" rescue false
+    fancy ? "touch-fancy.css" : "touch.css"
+  end
 end

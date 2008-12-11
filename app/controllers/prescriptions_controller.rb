@@ -9,8 +9,8 @@ class PrescriptionsController < ApplicationController
   end
   
   def create
-    formulation = (params[:formulation] || '').upcase
-    @drug = Drug.find_by_name(formulation) rescue nil
+    @formulation = (params[:formulation] || '').upcase
+    @drug = Drug.find_by_name(@formulation) rescue nil
     render :text => "No matching drugs found for #{params[:formulation]}" and return unless @drug
   
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
@@ -29,9 +29,6 @@ class PrescriptionsController < ApplicationController
                     "#{params[:night_dose]} at night; ")
     flash[:notice] = 'Prescription was successfully created.'
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
-#  rescue
-#    flash[:error] = 'Could not create prescription.'
-#    render :action => "new" 
   end
   
   def print
@@ -45,34 +42,34 @@ class PrescriptionsController < ApplicationController
   def generics
     search_string = (params[:search_string] || '').upcase
     filter_list = params[:filter_list].split(/, */) rescue []    
-    drugs = Concept.active.find(:all, 
+    @drug_concepts = Concept.active.find(:all, 
       :select => "concept_name.name", 
       :include => [:name], 
       :joins => "INNER JOIN drug ON drug.concept_id = concept.concept_id AND drug.retired = 0", 
       :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
-    render :text => "<li>" + drugs.map{|drug| drug.name.name }.join("</li><li>") + "</li>"
+    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name.name }.join("</li><li>") + "</li>"
   end
   
   # Look up all of the matching drugs for the given generic drugs
   def formulations
-    generic = (params[:generic] || '').upcase
-    concept_id = ConceptName.find_by_name(generic).concept_id rescue nil
-    render :text => "" and return unless concept_id
+    @generic = (params[:generic] || '')
+    @concept_ids = ConceptName.find_all_by_name(@generic).map{|c| c.concept_id}
+    render :text => "" and return if @concept_ids.blank?
     search_string = (params[:search_string] || '').upcase
-    drugs = Drug.active.find(:all, 
+    @drugs = Drug.active.find(:all, 
       :select => "name", 
-      :conditions => ["concept_id = ? AND name LIKE ?", concept_id, '%' + search_string + '%'])
-    render :text => "<li>" + drugs.map{|drug| drug.name }.join("</li><li>") + "</li>"
+      :conditions => ["concept_id IN (?) AND name LIKE ?", @concept_ids, '%' + search_string + '%'])
+    render :text => "<li>" + @drugs.map{|drug| drug.name }.join("</li><li>") + "</li>"
   end
   
   # Look up allowable frequency for the specific drug
   def frequencies
-    generic = (params[:generic] || '').upcase
-    concept_id = ConceptName.find_by_name(generic).concept_id rescue nil
-    render :text => "No matching generics found for #{params[:generic]}" and return unless concept_id
+    @generic = (params[:generic] || '').upcase
+    @concept_ids = ConceptName.find_all_by_name(@generic).map{|c| c.concept_id}
+    render :text => "No matching generics found for #{params[:generic]}" and return if @concept_ids.blank?
 
-    formulation = (params[:formulation] || '').upcase
-    drug = Drug.find_by_name(formulation) rescue nil
+    @formulation = (params[:formulation] || '').upcase
+    drug = Drug.find_by_name(@formulation) rescue nil
     render :text => "No matching drugs found for #{params[:formulation]}" and return unless drug
 
     # Eventually we will have a real dosage table lookup here based on weight
@@ -94,12 +91,12 @@ class PrescriptionsController < ApplicationController
 
   # Look up likely quantities for the drug
   def quantities
-    generic = (params[:generic] || '').upcase
-    concept_id = ConceptName.find_by_name(generic).concept_id rescue nil
-    render :text => "No matching generics found for #{params[:generic]}" and return unless concept_id
+    @generic = (params[:generic] || '').upcase
+    @concept_ids = ConceptName.find_all_by_name(@generic).map{|c| c.concept_id}
+    render :text => "No matching generics found for #{params[:generic]}" and return if @concept_ids.blank?
 
-    formulation = (params[:formulation] || '').upcase
-    drug = Drug.find_by_name(formulation) rescue nil
+    @formulation = (params[:formulation] || '').upcase
+    drug = Drug.find_by_name(@formulation) rescue nil
     render :text => "No matching drugs found for #{params[:formulation]}" and return unless drug
 
     # Grab the 10 most popular quantities for this drug
