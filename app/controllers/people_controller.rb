@@ -12,25 +12,25 @@ class PeopleController < ApplicationController
 
   def search
     @people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
-    redirect_to :controller => :encounters, :action => :new, :patient_id => @people.first.id and return unless @people.blank? || @people.size > 1
+      redirect_to :controller => :encounters, :action => :new, :patient_id => @people.first.id and return unless @people.blank? || @people.size > 1
     @people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
     "gender = ? AND \
      person.voided = 0 AND \
      (patient.voided = 0 OR patient.voided IS NULL) AND \
      (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \ 
-     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?) AND \
-     (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL )",
+     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?) OR \
+     (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL)",
     params[:gender], 
     params[:given_name], 
     (params[:given_name] || '').soundex,
+     params[:family_name], 
+    (params[:family_name] || '').soundex,
      params[:family_name2], 
     (params[:family_name2] || '').soundex,
-    params[:family_name], 
-    (params[:family_name] || '').soundex,
     ]) if @people.blank?
   end
 
-  # This method is just to allow the select box to submit, we could probably do this better
+  # This method is just to allow the select box to submit, we could probably do this better      
   def select
     redirect_to :controller => :encounters, :action => :new, :patient_id => params[:person] and return unless params[:person].blank? || params[:person] == '0'
     redirect_to :action => :new, :gender => params[:gender], :given_name => params[:given_name], :family_name => params[:family_name], 
@@ -61,5 +61,4 @@ class PeopleController < ApplicationController
       redirect_to :action => "index"
     end
   end
-
 end

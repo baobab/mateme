@@ -1,7 +1,6 @@
-<%= @patient.person.name %><br/>
-<%= @patient.national_id_with_dashes %><br/>
+<%= @patient.person.name %> (MMN):<%= @patient.person.names.first.family_name2 %></br>
+<%= @patient.national_id_with_dashes %>,
 <%= @patient.person.birthdate_formatted %><br/>
-Maiden Name:<%= @patient.person.names.first.family_name2 %></br>
 Home Village:<%= @patient.person.addresses.first.address2 %></br>
 Current Village: <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
 

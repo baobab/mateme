@@ -13,12 +13,12 @@
   #tt_page_last_name .touchscreenTextInput,
   #tt_page_family_name2 .touchscreenTextInput,
   #tt_page_address2 .touchscreenTextInput{
-    top: 346px; 
+     top: 346px; 
   }
 
   .options {
-    height:5em;
-    width:546px;    
+    height:6em;
+    width:546px;  
   }
  
   .options li {
@@ -30,7 +30,7 @@
   #tt_page_last_name .options,
   #tt_page_family_name2 .options,
   #tt_page_address2 .options{
-    height:9em
+    height:10em
   }
 
   .options li{
@@ -141,8 +141,8 @@
   #tt_page_birth_day .touchscreenTextInput{
     display: none;
   }
-  
 
+  
 </style>
 
 <script>
@@ -162,6 +162,7 @@
 :allowFreeText => true }%>
     
     Gender: <%= select_tag :gender, options_for_select({"" => "", "Male" => "M", "Female" => "F"}), {:helpText => "Gender"} %>
+    
     <%= hidden_field_tag :create_patient, params[:create_patient] %>
     <%= submit_tag "Find person" %>
   <% end -%>
@@ -190,7 +191,7 @@
     <% else -%>  
       <label for="person">Select the patient from the following</label>
     <% end -%>  
-    <select name="person" id="person">    
+     <select name="person" id="person">    
       <% @people.each do |person| -%>
         <option value="<%= person.id %>">
           <%=h person.name -%> (MMN:<%=h params[:family_name2] -%>),  
@@ -201,9 +202,10 @@
       </option>
       <% end -%>
       <% if params[:identifier] %>      
-        <option value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>      
+	<option value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>      
       <% else %>  
-        <option value="0">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%> (MMN:<%=h params[:family_name2] -%>)</option>      
+	<option value="0">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%> 
+        (MMN:<%=h params[:family_name2] -%>)</option>      
       <% end %>  
     </select>
     <input type="hidden" name="identifier" value="<%=h params[:identifier] -%>" />

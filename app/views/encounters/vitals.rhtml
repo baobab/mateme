@@ -1,5 +1,8 @@
-  <style type="text/css">
-    #weightHistory {
+   <style type="text/css">
+	#tt_page_reason_visit .touchscreenTextInput{
+    	display:none; 
+  	}
+   #weightHistory {
       margin-top:20px;
       padding-top:10px;
       margin-bottom:15px;
@@ -156,8 +159,8 @@
     var plot = jQuery.plot(jQuery("#placeholder"), get_data(null, null), plot_options);
 
   }
-  </script>
-
+  
+</script>
 
   <form action="/encounters/create/vitals">
     <%= hidden_field_tag "encounter[encounter_type_name]", "VITALS" %>
@@ -165,26 +168,18 @@
     <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
      
-      <select id="select" name="select" helptext="Other Reason For Visit">
-	      <option value="option1">ART</option>
-	      <option value="option2">PART</option>
-	      <option value="option3">EID</option>
-	      <option value="option4">KS</option>
-	      <option value="option5">PMTCT</option>
-	      <option value="option6">Other</option>
-      </select>    
-  <label for="reason">Other Reason for visit</label>
-    <% options = {
-	:id => "reason", 
-	:field_type => 'text', 
-	:helptext =>"Other Reason for visit", 
-	:condition => "($('select').value == 'option6')",
-	:allowFreeText => 'true', 
-	:ajaxURL => "/encounters/locations?search_string=", 
-	:textCase => "upper"
-	} %>
-
-
+  <label for="temperature">Patient's Temperature</label>
+    	<%= text_field_tag "", nil, 
+        {:id => "temperature", 
+         :field_type => 'number',
+	 :helptext =>"Patient's Temperature", 
+	 :allowFreeText => 'true',
+	 :min => 20, 
+         :max => 45,
+	 :units => 'Celcuis',	 
+         :validationRule => "[0-9]+\\.[0-9]$",
+         :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
+         :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
 
     <label for='weight'>Weight (kg)</label>
       <%= text_field_tag "observations[][value_numeric]", nil, 
@@ -222,10 +217,6 @@
 
     <label for='showSummary'>Summary </label>
       <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
-   
-      
-      
-
-  </form>
+</form>
   
   
