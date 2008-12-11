@@ -20,7 +20,8 @@ class PrescriptionsController < ApplicationController
       :concept_id => 1, 
       :orderer => User.current_user.user_id, 
       :patient_id => @patient.id)
-    @drug_order = @order.create_drug_order(
+    @drug_order = DrugOrder.create(
+      :order_id => @order.id,
       :drug_inventory_id => @drug.id,
       :quantity => params[:quantity],
       :frequency => "#{params[:morning_dose]} in the morning; " +
