@@ -4,7 +4,7 @@ class PatientsController < ApplicationController
     @last_date = @patient.encounters.find(:first, 
                                          :order => 'encounter_datetime DESC',
                                          :conditions => ['encounter_type != ?', EncounterType.find_by_name('REGISTRATION').id]
-                                        ).encounter_datetime.to_date
+                                         ).encounter_datetime.to_date rescue nil
     @encounters = @patient.encounters.find_by_date(@last_date)
   end
   

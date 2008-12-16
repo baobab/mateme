@@ -8,7 +8,7 @@
 %>  
 <%= encounters.collect{|key,value|
     value = "patient referred to: " + value.to_s.split(":").last if key.to_s.include?("REFERRED")
-    [keys.to_s,values.to_s] 
+    [key.to_s,value.to_s] 
 
 }.compact.join("<br/>") rescue nil %>
 </div>

@@ -7,6 +7,7 @@ class Patient < ActiveRecord::Base
   has_many :patient_identifiers, :foreign_key => :patient_id, :dependent => :destroy, :conditions => 'patient_identifier.voided = 0'
   has_many :encounters, :conditions => 'encounter.voided = 0' do 
     def find_by_date(encounter_date)
+      encounter_date = Date.today unless encounter_date
       find(:all, :conditions => ["DATE(encounter_datetime) = DATE(?)", encounter_date]) # Use the SQL DATE function to compare just the date part
     end
   end

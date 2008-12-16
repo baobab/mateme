@@ -2,7 +2,7 @@
 
 # DB_USER="root --password=XXX"
 DB_USER="root -p"
-DB="mateme_development"
+DB="mateme_dev"
 SITE="cmerd"
 
 echo "CREATE DATABASE $DB" | mysql -u $DB_USER
