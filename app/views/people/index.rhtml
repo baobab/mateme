@@ -1,14 +1,10 @@
-Select an activity
-<div id="options">
-  <ul>
-    <li><%= link_to_onmousedown "Find or register patient by name", {:action => "search"}  %></li>
-    <li><%= link_to_onmousedown "Find patient by identifier", {:action => "identifiers"}  %></li>
-    <li><%= link_to_onmousedown "Logout", '/logout'  %></li>
-  </ul>
-</div>
-
-or scan a barcode
-<form id='barcodeForm' action="/people/search">
-  <%= text_field_tag :identifier, '', {:id => 'barcode'} %>
-</form>
-<%= javascript_include_tag "barcode" %>
+<div style="text-align:center;margin:10px;">
+  <form id='barcodeForm' action="/people/search">
+    <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
+  </form>
+  <%= javascript_include_tag "barcode" %>
+  <p class="centered">
+    <button id="find_or_register_button" class="button gray" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+    <button id="find_or_register_by_identifier_button" class="button gray" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button>
+  </p>  
+</div>  

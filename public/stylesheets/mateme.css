@@ -44,3 +44,15 @@
   background-attachment: fixed;
   background-position: 80% 80%*/
 }
+
+.centered {
+  width:400px;
+  height:300px;
+  position:absolute;
+  margin-top:-150px;
+  margin-left:-200px;
+  left:50%;
+  top:50%;
+  text-align:center;
+  background:red;
+}

@@ -673,3 +673,14 @@ display:block;
   display: block;
   font-size:.5em;
 }
+
+.centered {
+  width:400px;
+  height:400px;
+  position:absolute;
+  margin-left:-200px;
+  left:50%;
+}
+.centered button {
+  margin:0 auto;
+}

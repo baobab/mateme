@@ -9,7 +9,6 @@
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
     </script>
     <%= stylesheet_link_tag "mateme" %>
-    <%= stylesheet_link_tag "menu" %>
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
   </head>
   <body id="mateme">  
@@ -23,10 +22,9 @@
         <% end %>
         <%= yield %>  
         <div id="footer">
-          <div id="buttons" class="buttonsDiv">
-            <button id="clearButton" class="button gray navButton" onmousedown="clearInput()"></button>
+          <div id="buttons" class="buttonsDiv" style="top:0px">
             <div id="tt_extraButtons"/>
-            <button id="cancelButton" class="button navButton red" onmousedown="confirmCancelEntry();"></button>
+            <button onmousedown="confirmCancelEntry();" id="cancelButton" class="button navButton red"><span>Cancel</span></button></div>
           </div>
           
         </div>    

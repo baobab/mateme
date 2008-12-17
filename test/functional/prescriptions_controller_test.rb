@@ -42,6 +42,8 @@ class PrescriptionsControllerTest < Test::Unit::TestCase
       end            
     end    
 
+    should "not include duplicate generic drug names in the results"
+    
     should "filter the set of generic drugs based on the search" 
 
     should "lookup the set of formulations that match a specific generic drug name" do
@@ -52,6 +54,8 @@ class PrescriptionsControllerTest < Test::Unit::TestCase
         assert_contains assigns(:drugs).map(&:name), drug(:laughing_gas_1000).name
       end                
     end
+
+    should "include all of the formulations even if the name is duplicated"
 
     should "filter the set of formulations based on the search" 
     
