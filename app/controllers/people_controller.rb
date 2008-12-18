@@ -19,7 +19,7 @@ class PeopleController < ApplicationController
      (patient.voided = 0 OR patient.voided IS NULL) AND \
      (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \ 
      (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?) OR \
-     (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL)",
+     (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 LIKE NULL)",
     params[:gender], 
     params[:given_name], 
     (params[:given_name] || '').soundex,

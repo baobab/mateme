@@ -32,7 +32,6 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-   
   <%# This options hash allows us to define our options in one place %>
   <% options = {:allowFreeText => 'true', :allowFreeText => 'true', :ajaxURL => "/encounters/diagnoses?search_string=", :textCase => "upper" } %>
 
