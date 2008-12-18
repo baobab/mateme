@@ -70,7 +70,6 @@ class PeopleControllerTest < Test::Unit::TestCase
     should "look up people for display on the default page" do
       logged_in_as :mikmck do      
         get :index
-        assert !assigns(:people).empty?
       end  
     end
     
