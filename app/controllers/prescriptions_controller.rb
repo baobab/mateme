@@ -2,6 +2,7 @@ class PrescriptionsController < ApplicationController
   def index
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @orders = @patient.current_orders rescue []
+    render :layout => 'menu'
   end
   
   def new
@@ -15,20 +16,22 @@ class PrescriptionsController < ApplicationController
   
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
-    @order = @encounter.orders.create(
-      :order_type_id => 1, 
-      :concept_id => 1, 
-      :orderer => User.current_user.user_id, 
-      :patient_id => @patient.id)
-    @drug_order = DrugOrder.create(
-      :order_id => @order.id,
-      :drug_inventory_id => @drug.id,
-      :quantity => params[:quantity],
-      :frequency => "#{params[:morning_dose]} in the morning; " +
-                    "#{params[:afternoon_dose]} in the afternoon; " +
-                    "#{params[:evening_dose]} in the evening; " +
-                    "#{params[:night_dose]} at night; ")
-    flash[:notice] = 'Prescription was successfully created.'
+    ActiveRecord::Base.transaction do
+      @order = @encounter.orders.create(
+        :order_type_id => 1, 
+        :concept_id => 1, 
+        :orderer => User.current_user.user_id, 
+        :patient_id => @patient.id)        
+      @drug_order = DrugOrder.new(
+        :drug_inventory_id => @drug.id,
+        :quantity => params[:quantity],
+        :frequency => "morning: #{params[:morning_dose]}; " +
+                      "afternoon: #{params[:afternoon_dose]}; " +
+                      "evening: #{params[:evening_dose]}; " +
+                      "night: #{params[:night_dose]}; ")
+      @drug_order.order_id = @order.id                
+      @drug_order.save!
+    end                  
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
   end
   

@@ -54,5 +54,37 @@
   left:50%;
   top:50%;
   text-align:center;
-  background:red;
 }
+
+.centered button {
+  display:inline;
+}
+
+.right {
+
+}
+
+ul.list {
+  font-size:0.9em;
+  border:2px solid black;
+  padding:0px;
+  overflow:scroll;
+}  
+ul.list li.data {
+  vertical-align:top;
+  display:block;
+  list-style: none;
+  padding-left:8px;
+  padding-top:8px;
+  line-height:0.7em;
+}
+ul.list li.data .summary {  
+  padding:3px;
+  padding-left:10px;
+  font-size:0.6em;  
+  color:#444;
+}
+ul.list li.odd {
+  background:#eee;
+}
+

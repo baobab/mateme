@@ -1,24 +1,23 @@
-<style>
-  td { font-size:1.4em }
-</style>
+<script type="text/javascript">
+  tt_cancel_destination = '/patients/show/<%= @patient.id %>';
+</script>
+
 <div style="padding: 15px;">
-  <h1>Patient Prescriptions</h1>
-  <div id="options">
-    <table>
-      <% @orders.each do |order| %>
-        <tr>
-          <td><%=h order.to_s %></td>
-          <td>[Void]</td>
-        </tr>
+  <h2>Patient Prescriptions</h2>
+  <div style="font-size: 22pt;">
+    <ul class="list" style="height:270px;width:750px;">
+      <% for order in @orders do %>
+        <li class="data <%= cycle('even', 'odd') %>">
+          Prescription
+          <div class="summary"><%= order.to_s.gsub(/\n/, '<br/>') -%></div>
+        </li>  
       <% end %>
       <% if @orders.blank? %>        
-        <tr>
-          <td>No prescriptions have been added for this patient today</td>
-          <td></td>
-        </tr>
+        <li>No prescriptions have been added for this patient today</li>
       <% end %>
-    </table>  
+    </ul>
   </div>
-  <%= link_to "Menu", :controller => :people, :action => "index", :patient_id => @patient.id  %>
-  <%= link_to "Prescribe", :action => "new",:patient_id => @patient.id  %>
+  <div style="float:right;padding-right:20px;">
+    <button class="button green" onclick="window.location = '/prescriptions/new/vitals?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
+  </div>
 </div>

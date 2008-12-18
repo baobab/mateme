@@ -1,1 +1,12 @@
-<%= @patient.encounters.find_by_date(Date.today).collect{|encounter|encounter.to_s}.join("<br/>") %>
+<!-- h2>Programs:</h2 -->
+<!-- h2>Next Task:</h2 -->
+<div style="font-size: 22pt;">
+  <ul class="list" style="height:270px;width:500px;">
+    <% for encounter in @encounters do %>
+      <li class="data <%= cycle('even', 'odd') %>">
+        <%=h encounter.name.humanize %>
+        <div class="summary"><%= encounter.to_s.gsub(/\n/, '<br/>') -%></div>
+      </li>  
+    <% end %>
+  </ul>
+</div>

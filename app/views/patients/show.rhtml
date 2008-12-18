@@ -1,60 +1,22 @@
-<style>
-
-  body{
-    font-size:2em;
-  }
-
-  #details{
-  background-color:#FFFF99;
-  border:2px solid lightblue;
-  left:25px;
-  margin-top:10px;
-  overflow:auto;
-  top:70px;
-  width:500px;
-}
-
-  a{
-  border:3px outset gray;
-  background-color:lightgray;
-  color:black;
-  display:block;
-  min-height:80px;
-  text-align:center;
-  text-decoration:none;
-  width:200px;}
-
-  div{
-   margin: 5px 5px 5px 5px;
+<script type="text/javascript">
+  tt_cancel_destination = '/people';
+</script>
+<style type="text/css">
+  #menu .button {
+    width:220px;
   }
 </style>
 
-<div id="details" style="float:left">
-  <%= render :partial => "details" %>
-  <%= render :partial => "current_encounters" %>
-</div>
-<div style="float:right">
-  <div id="menu">
-    <%= link_to "Menu", "/" %>
+<div style="margin:10px;">
+  <div id="details" style="float:left">
+    <%= render :partial => "details" %>
+    <%= render :partial => "current_encounters" %>
   </div>
-  <div id="outpatient_diagnosis">
-    <%= link_to "Outpatient Diagnosis", :controller => :encounters, :action => :new, :id => "outpatient_diagnosis", :patient_id => @patient.id %>
+  <div id="menu" style="float:right">
+    <button class="button green" onclick="window.location = '/encounters/new/vitals?patient_id=<%= @patient.id -%>'"><span>Weight/Height</span></button><br/>
+    <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'"><span>Diagnosis</span></button><br/>
+    <button class="button green" onclick="window.location = '/prescriptions/?patient_id=<%= @patient.id -%>'"><span>Prescriptions</span></button><br/>
+    <button class="button green" onclick="window.location = '/encounters/new/appointment?patient_id=<%= @patient.id -%>'"><span>Next Appointment</span></button><br/>
+    <button class="button dark" onclick="window.location = '/patient/print?patient_id=<%= @patient.id -%>'"><span>Print Registration</span></button><br/>
   </div>
-  <div id="vitals">
-    <%= link_to "Vitals", :controller => :encounters, :action => :new, :id => "vitals", :patient_id => @patient.id %>
-  </div>
-  <div id="Prescriptions">
-    <%= link_to "Prescriptions", :controller => :prescriptions, :action => :new, :id => "prescriptions", :patient_id => @patient.id %>
-  </div>
-  <div id="appointment">
-    <%= link_to "Next Appointment", :controller => :encounters, :action => :new, :id => "appointment", :patient_id => @patient.id %>
-  </div>
-  <div id="print">
-    <%= link_to "Print Label", :action => :print, :id => @patient.id %>
-  </div>
-</div>
-
-
-<!-- Do stuff like show observations or link to forms that we could render for this patient to capture observations -->
-
-
+</div>  

@@ -1,7 +1,15 @@
-<%= @patient.person.name %><br/>
-<%= @patient.national_id_with_dashes %><br/>
-<%= @patient.person.birthdate_formatted %><br/>
-Maiden Name:<%= @patient.person.names.first.family_name2 %></br>
-Home Village:<%= @patient.person.addresses.first.address2 %></br>
-Current Village: <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
-
+<style type="text/css">
+  .title {
+    text-decoration:underline;
+  }
+</style>
+<div style="font-size:1.2em;">
+<h2><%= @patient.person.name %></h2>
+<p>
+<span class='title'>National id:</span> <%= @patient.national_id_with_dashes rescue '' %><br/>
+<span class='title'>Birthdate:</span> <%= @patient.person.birthdate_formatted rescue '' %><br/>
+<span class='title'>Maiden Name:</span> <%= @patient.person.names.first.family_name2 rescue '' %><br/>
+<span class='title'>Home Village:</span> <%= @patient.person.addresses.first.address2 rescue '' %><br/>
+<span class='title'>Current Village:</span> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
+</p> 
+</div>

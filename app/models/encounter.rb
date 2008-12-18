@@ -27,7 +27,15 @@ class Encounter < ActiveRecord::Base
   end
 
   def to_s
-    self.name + ": " + self.observations.collect{|observation| observation.to_s}.join("\n")
+    if name == 'REGISTRATION'
+      "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
+    elsif name == 'TREATMENT'
+      o = orders.collect{|order| order.to_s}.join("\n")
+      o = "No prescriptions have been made" if o.blank?
+      o
+    else  
+      observations.collect{|observation| observation.answer_string}.join(", ")
+    end  
   end
 
   def self.count_by_type_for_date(date)  

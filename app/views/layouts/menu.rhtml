@@ -7,6 +7,7 @@
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
+      var tt_cancel_destination = null;
     </script>
     <%= stylesheet_link_tag "mateme" %>
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
@@ -24,7 +25,7 @@
         <div id="footer">
           <div id="buttons" class="buttonsDiv" style="top:0px">
             <div id="tt_extraButtons"/>
-            <button onmousedown="confirmCancelEntry();" id="cancelButton" class="button navButton red"><span>Cancel</span></button></div>
+            <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Cancel</span></button></div>
           </div>
           
         </div>    

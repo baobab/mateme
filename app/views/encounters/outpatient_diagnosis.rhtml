@@ -1,3 +1,6 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
 <style>
   #space { display:inline; font-size:1.2em; } 
 </style>
@@ -46,25 +49,4 @@
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <% end %>
-
-   <select id="select" name="select" helptext="Referral Case To another Health Center">
-      <option value="option1">Yes</option>
-      <option value="option2">No</option>
-   </select>    
-  <label for="refer">REFER TO OTHER HOSPITAL</label>
-    <% options = {
-	:id => "refer", 
-	:field_type => 'text', 
-	:helptext =>"REFER TO OTHER HOSPITAL", 
-	:condition => "($('select').value == 'option1')",
-	:allowFreeText => 'true', 
-	:ajaxURL => "/encounters/locations?search_string=", 
-	:textCase => "upper"
-	} %>
-    <%= text_field_tag "observations[][value_text]", nil, options %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
-    <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER HOSPITAL", options) %>
-    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
 </form>

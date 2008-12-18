@@ -18,7 +18,6 @@ class SessionsController < ApplicationController
       self.current_location = location
       self.current_user = user
       redirect_back_or_default('/')
-      flash[:notice] = "Logged in successfully"
     else
       note_failed_signin
       @login = params[:login]
