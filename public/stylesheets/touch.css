@@ -468,6 +468,7 @@ button:hover.dark span {
 }
 
 .dateselector input {
+  font-size:1.7em;
 	width: 100px;
 }
 .dateselector button {
@@ -476,6 +477,7 @@ button:hover.dark span {
 	color: black;
 	margin: 5px;
 	text-align: center;
+  width:90%;
 }
 
 .ShortSelectList #scrollUp, 
