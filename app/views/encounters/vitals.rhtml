@@ -18,7 +18,7 @@
       min-width:33px;
       font-size:10pt;
       margin-top:17px;
-    }  
+    }
     .xLabel {
       margin-top:-17px;
     }
@@ -32,12 +32,12 @@
     .medHeightForAge {color:black;background:yellow;}
     .goodHeightForAge {color:black;}
   </style>
-
+ 
   <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
   <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
-  <script language="javascript">      
+  <script language="javascript">
   jQuery.noConflict();
-
+ 
   var currentBmi;
   var currentWeight;
   var currentHeight;
@@ -45,14 +45,14 @@
   var currentWeightPercentile;
   var displayText;
   var medianWeightHeight;
-
+ 
   function growthIndicators(){
-     //These values pulled from the tt_onLoad bit in the third form... 
+     //These values pulled from the tt_onLoad bit in the third form...
      currentHeight = $('height').value;
      currentWeight = $('weight').value;
      medianWeightHeight = [<%= WeightHeightForAge.median_weight_height(@patient.person.age, @patient.person.gender).join(',') rescue nil -%>];
      currentWeightPercentile = (currentWeight/(medianWeightHeight[0])*100).toFixed(0);
-     currentHeightPercentile = (currentHeight/(medianWeightHeight[1])*100).toFixed(0);   
+     currentHeightPercentile = (currentHeight/(medianWeightHeight[1])*100).toFixed(0);
      if (('<%= @patient.person.age %>') > 14) {
        showBMI();
      } else {
@@ -61,7 +61,7 @@
      }
      displayText += '<div id="weightHistory">Weight history graph:</div>';
      displayText += '<div id="placeholder" style="width:500px;height:300px;"></div><div id="overview" style="width:500px;height:140px;"></div>';
-     $('tt_page_summary_').innerHTML = '<div id="summary">' + displayText + '</div>'  ;
+     $('tt_page_summary_').innerHTML = '<div id="summary">' + displayText + '</div>' ;
      drawGraph();
    }
         
@@ -74,7 +74,7 @@
     } else {
       displayText += "<span class='lowWeightForAge'>" + currentWeightPercentile + "%</span>" + " <span class='recommendation'> Severe wasting,</span><br>";
     }
-
+ 
     displayText += "Height for age:";
     if (currentHeightPercentile >= 80){
       displayText += "<span class='goodHeightForAge'>" + currentHeightPercentile + "%</span><br>";
@@ -83,17 +83,17 @@
     } else {
       displayText += "<span class='lowHeightForAge'>" + currentHeightPercentile + "%</span>" + " <span class='recommendation'> Severe stunted growth </span><br>";
     }
-
+ 
   }
-
+ 
   function showWeightForHeight() {
     var currentHeightRounded = (currentHeight % Math.floor(currentHeight) < 0.5 ? 0 : 0.5) + Math.floor(currentHeight);
-    var weightForHeights = <%= WeightForHeight.patient_weight_for_height_values.to_json -%>;    
+    var weightForHeights = <%= WeightForHeight.patient_weight_for_height_values.to_json -%>;
     var medianWeightHeight = weightForHeights[currentHeightRounded];
     var weightForHeightPercentile = (currentWeight/(medianWeightHeight)*100).toFixed(0);
-
+ 
     displayText += "Weight for height:";
-
+ 
     if (weightForHeightPercentile >= 80) {
       displayText += "<span class='goodWeightForHeight'>" + weightForHeightPercentile + "%</span><br>";
     } else if (weightForHeightPercentile >= 75) {
@@ -101,9 +101,9 @@
     } else {
       displayText += "<span class='lowWeightForHeight'>" + weightForHeightPercentile + "%</span> <br/><span class='recommendation'>Severe wasting</span><br>";
     }
-
+ 
   }
-
+ 
   function showBMI() {
       currentBmi = (currentWeight/(currentHeight*currentHeight)*10000).toFixed(1);
       displayText = "BMI: ";
@@ -115,7 +115,7 @@
        displayText += "<span class='lowBMI'>" + currentBmi + "</span><br/><span class='recommendation'>Eligible for therapeutic feeding</span>";
       }
    }
-
+ 
   function drawGraph() {
     var patient_data = [
       <% @min = Time.now
@@ -126,15 +126,15 @@
         [<%= obs.obs_datetime.to_f -%>, <%= obs.value_numeric -%>],<% end %>
     ];
     <% @min = @max - 1.year if @min > @max - 1.year %>
-
+ 
     var patient_ticks = [
-      <% 
+      <%
          @first = Time.mktime(@min.year, @min.month, 1) # move to the start of the month
-         @last = Time.mktime(@max.year + (@max.month == 12 ? 1 : 0), @max.month + (@max.month < 12 ? 1 : -11), 1) 
+         @last = Time.mktime(@max.year + (@max.month == 12 ? 1 : 0), @max.month + (@max.month < 12 ? 1 : -11), 1)
          while (@first <= @last) do
-       %>  
+       %>
         [<%= @first.to_f -%>, "<div class='xLabel'><%= @first.strftime("%b") -%><br/><b><%= @first.strftime("%Y") if @first.month == 1 -%></b></div>"],
-       <%  @first = Time.mktime(@first.year + (@first.month == 12 ? 1 : 0), @first.month + (@first.month < 12 ? 1 : -11), 1)  %>
+       <% @first = Time.mktime(@first.year + (@first.month == 12 ? 1 : 0), @first.month + (@first.month < 12 ? 1 : -11), 1) %>
        <% end %>
     ];
     
@@ -145,42 +145,58 @@
     patient_data.push([max, currentWeight]);
         
     function get_data(x1, x2) {
-      return [{ 
+      return [{
         color: "green",
         data: patient_data,
         points: { show: true},
-        lines: { show: true, fill: true, fillColor: "rgba(0, 255, 80, 0.2)"  },
-        bars: { show: true } 
+        lines: { show: true, fill: true, fillColor: "rgba(0, 255, 80, 0.2)" },
+        bars: { show: true }
       }]
     }
-
-    var plot_options = { 
+ 
+    var plot_options = {
       grid: { clickable: false },
       yaxis: { min: 0, max: 120},
       xaxis: { min: max-range, max: max, ticks: patient_ticks}
-    }    
+    }
     
     var plot = jQuery.plot(jQuery("#placeholder"), get_data(null, null), plot_options);
-
+ 
   }
   </script>
-
-
+ 
+ 
   <form action="/encounters/create/vitals">
     <%= hidden_field_tag "encounter[encounter_type_name]", "VITALS" %>
     <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
     <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
      
+  <label for="temperature">Patient's Temperature</label>
+      <%= text_field_tag "", nil,
+        {:id => "temperature",
+         :field_type => 'number',
+         :helptext =>"Temperature",
+         :allowFreeText => 'true',
+         :min => 20,
+         :max => 45,
+         :units => 'Celcuis',  
+         :validationRule => "[0-9]+\\.[0-9]$",
+         :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
+         :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
+      <%= hidden_field_tag("observations[][concept_name]", "TEMPERATURE (C)") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+         
     <label for='weight'>Weight (kg)</label>
-      <%= text_field_tag "observations[][value_numeric]", nil, 
-        {:id => "weight", 
-         :field_type => 'number', 
-         :min => number_with_precision(@patient.min_weight, 1), 
+      <%= text_field_tag "observations[][value_numeric]", nil,
+        {:id => "weight",
+         :field_type => 'number',
+         :min => number_with_precision(@patient.min_weight, 1),
          :max => number_with_precision(@patient.max_weight, 1),
-         :absoluteMin => 0, 
-         :absoluteMax => 250, 
-         :units => 'kg', 
+         :absoluteMin => 0,
+         :absoluteMax => 250,
+         :units => 'kg',
          :optional => true,
          :validationRule => "[0-9]+\\.[0-9]$",
          :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
@@ -190,28 +206,26 @@
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   
     <label for='height'>Height (cm)</label>
-      <%= text_field_tag "observations[][value_numeric]", nil, 
-        {:id => "height", 
-         :field_type => 'number', 
-         :min => number_with_precision(@patient.min_height, 1), 
+      <%= text_field_tag "observations[][value_numeric]", nil,
+        {:id => "height",
+         :field_type => 'number',
+         :min => number_with_precision(@patient.min_height, 1),
          :max => number_with_precision(@patient.max_height, 1),
-         :absoluteMin => 10, 
-         :absoluteMax => 228, 
-         :units => 'cm', 
+         :absoluteMin => 10,
+         :absoluteMax => 228,
+         :units => 'cm',
          :optional => true,
          :validationRule => "^[0-9]+$",
-         :validationMessage => "You must enter numbers only (for example 157)",         
+         :validationMessage => "You must enter numbers only (for example 157)",
          :tt_pageStyleClass => "Numeric NumbersOnly"} %>
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
+ 
     <label for='showSummary'>Summary </label>
       <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
    
       
       
-
+ 
   </form>
-  
-  

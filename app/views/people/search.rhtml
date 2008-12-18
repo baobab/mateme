@@ -1,28 +1,25 @@
-<style>
-</style>
-
 <script>
   var tt_cancel_destination = "/people"
 </script>
-
+ 
 <% if (params[:gender].blank? || params[:given_name].blank? ||params[:family_name].blank?) && (params[:identifier].blank?) %>
-
+ 
   <% form_tag "search", :method => :get do %>
-    <%= text_field_tag :given_name,  params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
-
-    <%= text_field_tag :family_name,  params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
-
-    <%= text_field_tag :family_name2,  params[:family_name2], {:field_type => 'alpha', :helpText => 'Mother\'s Maiden Name', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :optional => true }%>
-
-    <%= text_field_tag :address2,  params[:address2], {:field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :optional => true }%>
+    <%= text_field_tag :given_name, params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
+ 
+    <%= text_field_tag :family_name, params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
+ 
+    <%= text_field_tag :family_name2, params[:family_name2], {:field_type => 'alpha', :helpText => 'Mother\'s Maiden Name', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :optional => true }%>
+ 
+    <%= text_field_tag :address2, params[:address2], {:field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :optional => true }%>
     
     Gender: <%= select_tag :gender, options_for_select({"" => "", "Male" => "M", "Female" => "F"}), {:helpText => "Gender"} %>
-
+ 
     <%= hidden_field_tag :create_patient, params[:create_patient] %>
-
+ 
     <%= submit_tag "Find person" %>
   <% end -%>
-
+ 
   <script type="text/javascript">//<![CDATA[
     function makeKeysToggleBlue(){
       keys = $('keyboard').childNodes
@@ -39,29 +36,29 @@
     }
   //]]></script>
 <% end -%>
-
+ 
 <% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
   <% form_tag "select", :method => :get do %>
     <% if @people.blank? %>
       <label for="person">No patients were found:</label>
-    <% else -%>  
+    <% else -%>
       <label for="person">Select the patient from the following</label>
-    <% end -%>  
-    <select name="person" id="person">    
+    <% end -%>
+    <select name="person" id="person">
       <% @people.each do |person| -%>
         <option value="<%= person.id %>">
-          <%=h person.name -%> (MMN:<%=h params[:family_name2] -%>),  
+          <%=h person.name -%> (MMN:<%=h params[:family_name2] -%>),
           Birthdate: <%=h person.birthdate -%>,
           Home Village: <%=h params[:address2] -%>
           <%=h '(' + person.patient.location_identifier + ')' rescue '' -%>
           <%=h '(Died)' if person.dead rescue '' -%>
       </option>
       <% end -%>
-      <% if params[:identifier] %>      
-        <option value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>      
-      <% else %>  
-        <option value="0">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%> (MMN:<%=h params[:family_name2] -%>)</option>      
-      <% end %>  
+      <% if params[:identifier] %>
+        <option value="0">Create a new person with the identifier <%=h params[:identifier] -%></option>
+      <% else %>
+        <option value="0">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%> (MMN:<%=h params[:family_name2] -%>)</option>
+      <% end %>
     </select>
     <input type="hidden" name="identifier" value="<%=h params[:identifier] -%>" />
     <input type="hidden" name="gender" value="<%=h params[:gender] -%>" />
