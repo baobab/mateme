@@ -24,8 +24,8 @@
         <%= yield %>  
         <div id="footer">
           <div id="buttons" class="buttonsDiv" style="top:0px">
+            <button id="finishButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Finish</span></button></div>
             <div id="tt_extraButtons"/>
-            <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Cancel</span></button></div>
           </div>
           
         </div>    
