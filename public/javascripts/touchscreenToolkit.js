@@ -181,7 +181,7 @@ function createButtons() {
 	buttonsDiv.setAttribute("class", "buttonsDiv");
 	
 	// Show/Hide Captured Data
-	buttonsDiv.innerHTML = "<button id='showDataButton' class='button gray navButton' onMouseDown='toggleShowProgress()'>Show Data</button>"; 
+	buttonsDiv.innerHTML = "<button id='showDataButton' class='button gray navButton' onMouseDown='toggleShowProgress()'><span>Show Data</span></button>"; 
   
 	//create next/finish button
 	buttonsDiv.innerHTML += "<button id='nextButton' class='button green navButton' onMouseDown='gotoNextPage()'><span>Next</span></button>";
