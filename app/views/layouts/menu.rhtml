@@ -24,12 +24,14 @@
           <br/><a href="mailto:jeff@baobabhealth.org" style="color:white">Email</a> with questions.
           Login using the sample login "demo", password "demo" and location "7".
         </div>
-        <% unless flash[:notice].nil? %>
-          <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
-        <% end %>
-        <% unless flash[:error].nil? %>
-          <p id="flash_error" style="color: red"><%= flash[:error] %></p>
-        <% end %>
+        <div style="padding-left: 15px;font-size:1.2em;">
+          <% unless flash[:notice].nil? %>
+            <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
+          <% end %>
+          <% unless flash[:error].nil? %>
+            <p id="flash_error" style="color: red"><%= flash[:error] %></p>
+          <% end %>
+        </div>  
         <%= yield %>  
         <div id="footer">
           <div id="buttons" class="buttonsDiv" style="top:0px">

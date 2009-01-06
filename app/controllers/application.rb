@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
     return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/Vitals/) && !todays_encounters.include?("VITALS")
 #return "/encounters/new/hiv_clinic?patient_id=#{patient.id}" if current_location_name.match(/HIV Clinic/) && !todays_encounters.include?("HIV Clinic")
     return "/encounters/new/outpatient_diagnosis?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("OUTPATIENT DIAGNOSIS")
-    return "/prescriptions/new?patient_id=#{patient.id}" if todays_encounters.include?("OUTPATIENT DIAGNOSIS") && !todays_encounters.include?("TREATMENT")
+#return "/prescriptions/new?patient_id=#{patient.id}" if todays_encounters.include?("OUTPATIENT DIAGNOSIS") && !todays_encounters.include?("TREATMENT")
     return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
     return "/patients/show/#{patient.id}" 
   end

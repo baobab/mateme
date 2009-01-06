@@ -2,11 +2,18 @@ class PrescriptionsController < ApplicationController
   def index
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @orders = @patient.current_orders rescue []
-    render :layout => 'menu'
+    render :template => 'prescriptions/index', :layout => 'menu'
   end
   
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+  end
+  
+  def void 
+    @order = Order.find(params[:order_id])
+    @order.void!
+    flash.now[:notice] = "Order was successfully voided"
+    index and return
   end
   
   def create

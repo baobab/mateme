@@ -70,4 +70,23 @@ class Test::Unit::TestCase
      @request.session[:user_id] = users(login).user_id
      yield block
   end 
+  
+  def prescribe(patient, drug, quantity = 1, frequency = "morning: 1; afternoon 1; evening: 1; night: 1")
+    drug_order = nil
+    encounter = patient.current_treatment_encounter
+    ActiveRecord::Base.transaction do
+      order = encounter.orders.create(
+        :order_type_id => 1, 
+        :concept_id => 1, 
+        :orderer => User.current_user.user_id, 
+        :patient_id => patient.id)        
+      drug_order = DrugOrder.new(
+        :drug_inventory_id => drug.id,
+        :quantity => quantity,
+        :frequency => frequency)
+      drug_order.order_id = order.id                
+      drug_order.save!
+    end                  
+    drug_order
+  end
 end

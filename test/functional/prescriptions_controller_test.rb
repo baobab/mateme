@@ -62,5 +62,20 @@ class PrescriptionsControllerTest < Test::Unit::TestCase
     should "handle dosages"
     should "handle create"
     should "handle print"
+    
+    should "void an order and display the non voided orders" do
+      logged_in_as :mikmck do
+        p = patient(:evan)
+        o = prescribe(p, drug(:laughing_gas_600))
+        o = prescribe(p, drug(:laughing_gas_1000))
+        post :void, {:patient_id => p.patient_id, :order_id => o.order_id}
+        assert_response :success
+        orders = assigns(:orders)
+        drug_orders = orders.map(&:drug_order).flatten
+        drugs = drug_orders.map(&:drug)
+        assert_contains drugs.map(&:name), drug(:laughing_gas_600).name
+        assert_does_not_contain drugs.map(&:name), drug(:laughing_gas_1000).name
+      end                    
+    end
   end  
 end
