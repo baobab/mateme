@@ -84,7 +84,7 @@ class PrescriptionsController < ApplicationController
     render :text => "No matching drugs found for #{params[:formulation]}" and return unless drug
 
     # Eventually we will have a real dosage table lookup here based on weight
-    dosage_form = drug.form.name rescue 'tablet'
+    dosage_form = drug.form.name rescue 'dose'
     doses = [
       "None", 
       "1 #{dosage_form}", 

@@ -51,6 +51,24 @@ class Patient < ActiveRecord::Base
     label.print(1)
   end
   
+  def visit_label
+    label = ZebraPrinter::StandardLabel.new
+    label.font_size = 1
+    label.font_horizontal_multiplier = 2
+    label.font_vertical_multiplier = 2
+    label.left_margin = 50
+    encs = encounters.find_by_date(Date.today)
+    return nil if encs.blank?
+    
+    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)    
+    encs.each {|encounter|
+      next if encounter.name.humanize == "Registration"
+      label.draw_multi_text("#{encounter.name.humanize}", :font_reverse => false)
+      label.draw_multi_text("#{encounter.to_s.gsub(/\n/, ';')}", :font_reverse => false)
+    }
+    label.print(1)
+  end
+  
   def location_identifier
     id = nil
     id ||= self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("ARV Number").id).identifier rescue nil if Location.current_location.name == 'Neno District Hospital - ART'

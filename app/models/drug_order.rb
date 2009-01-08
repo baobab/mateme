@@ -7,6 +7,15 @@ class DrugOrder < ActiveRecord::Base
   def to_s 
     "#{drug.name}: #{frequency} (#{quantity} total)"
   end
+  
+  def to_short_s
+    "#{drug.name}: #{frequency} (#{quantity} total)"  
+  end
+  
+  def parse_frequency
+    amounts = self.frequency.match(/\:\s([\d\s\/]+)\s\w+\;/)
+  end
+  
 end
 
 # CREATE TABLE `drug_order` (
