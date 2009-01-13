@@ -80,10 +80,11 @@
   <%#= text_field_tag("observations[][value_datetime_year]", (Time.now + 1.month).year, {:helpText => 'Year of Next Appointment', :field_type => 'number', :absoluteMin => Date.today.year, :absoluteMax => Date.today.year + 1, :tt_pageStyleClass => "Numeric NumbersOnly"}) %>
   <%#= select_tag("observations[][value_datetime_month]", options_for_select(options_array), {:helpText => 'Month of Next Appointment'}) %>
   <%#= text_field_tag("observations[][value_datetime_day]", (Time.now + 1.month).day, {:helpText => 'Day of Next Appointment', :field_type => 'number', :absoluteMin => 1, :absoluteMax => 31, :tt_onLoad => "makeKeysToggleBlue()", :tt_pageStyleClass => "Numeric NumbersOnly"}) %>) %>
-  <%= hidden_field_tag("observations[][concept_name]", "RETURN VISIT DATE") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
+  <%#= hidden_field_tag("observations[][concept_name]", "RETURN VISIT DATE") %>
+  <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+<!--
       <select id="select" name="select" helptext="Other Reason For Visit">
 	      <option value="option1">ART</option>
 	      <option value="option2">PART</option>
@@ -93,15 +94,8 @@
 	      <option value="option6">Other</option>
       </select>    
   <label for="reason">Other Reason for visit</label>
-    <% options = {
-	:id => "reason", 
-	:field_type => 'text', 
-	:helptext =>"Other Reason for visit", 
-	:condition => "($('select').value == 'option6')",
-	:allowFreeText => 'true', 
-	:ajaxURL => "/encounters/locations?search_string=", 
-	:textCase => "upper"
-	} %>
+-->
+
 
    <select id="select" name="select" helptext="Referral Case To another Health Center">
       <option value="option1">Yes</option>
