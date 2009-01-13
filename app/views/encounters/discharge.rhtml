@@ -1,0 +1,29 @@
+      <select id="select" name="select" helptext="Other Reason For Visit">
+	      <option value="option1">ART</option>
+	      <option value="option2">PART</option>
+	      <option value="option3">EID</option>
+	      <option value="option4">KS</option>
+	      <option value="option5">PMTCT</option>
+	      <option value="option6">Other</option>
+      </select>    
+  <label for="reason">Other Reason for visit</label>
+
+   <select id="select" name="select" helptext="Referral Case To another Health Center">
+      <option value="option1">Yes</option>
+      <option value="option2">No</option>
+   </select>    
+  <label for="refer">REFER TO OTHER HOSPITAL</label>
+    <% options = {
+	:id => "refer", 
+	:field_type => 'text', 
+	:helptext =>"REFER TO OTHER HOSPITAL", 
+	:condition => "($('select').value == 'option1')",
+	:allowFreeText => 'true', 
+	:ajaxURL => "/encounters/locations?search_string=", 
+	:textCase => "upper"
+	} %>
+    <%= text_field_tag "observations[][value_text]", nil, options %>
+    <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER HOSPITAL", options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>

@@ -1,8 +1,14 @@
 class PatientsController < ApplicationController
   def show
     @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
-    @encounters = @patient.encounters.find_by_date(Date.today)
-    render :layout => 'menu' 
+    @encounters = @patient.encounters.current.active.find(:all)
+    render :template => 'patients/show', :layout => 'menu' 
+  end
+
+  def void 
+    @encounter = Encounter.find(params[:encounter_id])
+    @encounter.void!
+    show and return
   end
   
   def print_registration

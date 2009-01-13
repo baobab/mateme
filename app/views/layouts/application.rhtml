@@ -19,12 +19,14 @@
     <div id="container">
       <div id="content">
         <div id="description" style="color:#777;position:absolute;margin-top:-70px;">
-          This demonstration site contains the work of <a href="http://pih.org" style="color:white">Partners In Health</a>
-          and <a href="http://baobabhealth.org" style="color:white">Baobab Health.</a>
-          This EMR is built on top of OpenMRS 1.4 and is currently being used in Neno and Ngoni, Malawi.
-          It is designed for an 800 by 600 pixel touch screen at the point of patient contact. 
-          <br/><a href="mailto:jeff@baobabhealth.org" style="color:white">Email</a> with questions.
-          Login using the sample login "demo", password "demo" and location "7".
+          <% if show_intro_text %>
+            This demonstration site contains the work of <a href="http://pih.org" style="color:white">Partners In Health</a>
+            and <a href="http://baobabhealth.org" style="color:white">Baobab Health.</a>
+            This EMR is built on top of OpenMRS 1.4 and is currently being used in Neno and Ngoni, Malawi.
+            It is designed for an 800 by 600 pixel touch screen at the point of patient contact. 
+            <br/><a href="mailto:jeff@baobabhealth.org" style="color:white">Email</a> with questions.
+            Login using the sample login "demo", password "demo" and location "7".
+          <% end %>  
         </div>
         <% unless flash[:notice].nil? %>
           <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>

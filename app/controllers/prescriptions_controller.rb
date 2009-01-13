@@ -42,11 +42,6 @@ class PrescriptionsController < ApplicationController
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
   end
   
-  def print
-#    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil
-#    print_and_redirect("/patients/print_national_id/?patient_id=#{@patient.id}", next_task(@patient))  
-  end
-  
   # Look up the set of matching generic drugs based on the concepts. We 
   # limit the list to only the list of drugs that are actually in the 
   # drug list so we don't pick something we don't have.

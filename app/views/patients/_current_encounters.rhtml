@@ -4,8 +4,11 @@
   <ul class="list" style="height:270px;width:500px;">
     <% for encounter in @encounters do %>
       <li class="data <%= cycle('even', 'odd') %>">
-        <%=h encounter.name.humanize %>
-        <div class="summary"><%= encounter.to_s.gsub(/\n/, '<br/>') -%></div>
+        <div style="float:right;padding:7px;">
+          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
+        </div>
+        <div style="float:left"><%=h encounter.name.humanize %></div>
+        <div style="clear:left" class="summary">&nbsp;<%= encounter.to_s.gsub(/\n/, '<br/>') -%></div>
       </li>  
     <% end %>
   </ul>

@@ -19,4 +19,9 @@ module ApplicationHelper
     fancy = GlobalProperty.find_by_property("interface").property_value == "fancy" rescue false
     fancy ? "touch-fancy.css" : "touch.css"
   end
+  
+  def show_intro_text
+    GlobalProperty.find_by_property("show_intro_text").property_value == "yes" rescue false
+  end
+  
 end
