@@ -1,5 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
-ALTER TABLE `obs` ADD COLUMN `value_location` int(11) NOT NULL DEFAULT '0';
+ALTER TABLE `obs` ADD COLUMN `value_location` int(11) DEFAULT NULL;
 ALTER TABLE `obs` ADD KEY `location_for_value` (`value_location`);
 ALTER TABLE `obs` ADD CONSTRAINT `location_for_value` FOREIGN KEY (`value_location`) REFERENCES `location` (`location_id`);
 

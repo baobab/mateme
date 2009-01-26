@@ -19,16 +19,23 @@ class ApplicationController < ActionController::Base
 
   def next_task(patient)
     current_location_name = Location.current_location.name
-    todays_encounters = patient.encounters.find(:all, :include => [:type], :conditions => ['DATE(encounter_datetime) = ?', Date.today]).map{|e| e.type.name}
+    todays_encounters = @patient.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name}
+    
 #    return "/encounters/new/registration?patient_id=#{patient.id}" if current_location_name.match(/ART/) && !todays_encounters.include?("REGISTRATION")
 #    return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/ART/) && !todays_encounters.include?("VITALS")
 #    return "/encounters/new/appointment?patient_id=#{patient.id}" if current_location_name.match(/ART/) && !todays_encounters.include?("APPOINTMENT")
+#    return "/encounters/new/hiv_clinic?patient_id=#{patient.id}" if current_location_name.match(/HIV Clinic/) && !todays_encounters.include?("HIV Clinic")
+#    return "/prescriptions/new?patient_id=#{patient.id}" if todays_encounters.include?("OUTPATIENT DIAGNOSIS") && !todays_encounters.include?("TREATMENT")
+
+    # Registration clerk needs to do registration if it hasn't happened yet
     return "/encounters/new/registration?patient_id=#{patient.id}" if current_location_name.match(/Registration/) && !todays_encounters.include?("REGISTRATION")
-    return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/Vitals/) && !todays_encounters.include?("VITALS")
-#return "/encounters/new/hiv_clinic?patient_id=#{patient.id}" if current_location_name.match(/HIV Clinic/) && !todays_encounters.include?("HIV Clinic")
-    return "/encounters/new/outpatient_diagnosis?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("OUTPATIENT DIAGNOSIS")
-#return "/prescriptions/new?patient_id=#{patient.id}" if todays_encounters.include?("OUTPATIENT DIAGNOSIS") && !todays_encounters.include?("TREATMENT")
+    # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
     return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
+    # Outpatient diagnosis needs vitals to be done before doing diagnosis!
+    return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("VITALS")
+    # Outpatient diagnosis needs outpatient diagnosis to be done!        
+    return "/encounters/new/outpatient_diagnosis?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("OUTPATIENT DIAGNOSIS")
+    # Everything seems to be done... show the dashboard
     return "/patients/show/#{patient.id}" 
   end
 

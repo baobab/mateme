@@ -5,7 +5,7 @@ set :application, staging ? "staging" : "mateme"
 set :keep_releases, 3
 set :scm, :git
 set :branch, "master"
-set :deploy_via, :remote_cache
+#set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
 set :user, "deploy"
 set :runner, "deploy"

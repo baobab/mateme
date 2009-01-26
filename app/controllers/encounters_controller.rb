@@ -11,6 +11,7 @@ class EncountersController < ApplicationController
       }.compact
 
       next if values.length == 0
+      observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
       observation[:encounter_id] = encounter.id
       Observation.create(observation)
     }
