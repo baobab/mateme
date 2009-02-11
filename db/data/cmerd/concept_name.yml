@@ -42293,6 +42293,138 @@ concept_name_10046:
   description: ""
   concept_id: 10046
   date_created: 2008-12-04 11:03:57 +02:00
-
-
-
+concept_name_10047:
+  name: SEVERE ANAEMIA IN PREGNANCY
+  creator: 1
+  concept_name_id: 10047
+  short_name:
+  locale: en
+  description: ""
+  concept_id: 10047
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10048: 
+  name: CHRONIC PSYCHIATRIC DISORDER
+  creator: 1
+  concept_name_id: 10048
+  short_name: ""
+  locale: fr
+  description: ""
+  concept_id: 10048
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10049: 
+  name: SYPHILIS IN PREGNANCY
+  creator: 1
+  concept_name_id: 10049
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10049
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10050: 
+  name: INTESTINAL WORMS
+  creator: 1
+  concept_name_id: 10050
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10050
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10051: 
+  name: ALL OTHER COMMUNICABLE DISEASES
+  creator: 1
+  concept_name_id: 10051
+  short_name: 
+  locale: en
+  description: ""
+  concept_id: 10051
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10052: 
+  name: OPPORTUNISTIC INFECTIONS
+  creator: 1
+  concept_name_id: 10052
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10052
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10053: 
+  name: ABORTION COMPLICATIONS
+  creator: 1
+  concept_name_id: 10053
+  short_name: 
+  locale: en
+  description: ""
+  concept_id: 10053
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10054: 
+  name: ECLAMPSIA
+  creator: 1
+  concept_name_id: 10054
+  short_name: ""
+  locale: fr
+  description: ""
+  concept_id: 10054
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10055: 
+  name: POSTPARTUM SEPSIS
+  creator: 1
+  concept_name_id: 10055
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10055
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10056: 
+  name: POSTPARTUM HAEMORRHAGE
+  creator: 1
+  concept_name_id: 10056
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10056
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10057: 
+  name: NEW BORN COMPLICATIONS
+  creator: 1
+  concept_name_id: 10057
+  short_name: 
+  locale: en
+  description: ""
+  concept_id: 10057
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10058: 
+  name: OTHER GENITO-URINARY TRACT INFECTION
+  creator: 1
+  concept_name_id: 10058
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10058
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10059: 
+  name: ROAD TRAFFIC ACCIDENTS
+  creator: 1
+  concept_name_id: 10059
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10059
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10060: 
+  name: ALL OTHER NON-COMMUNICABLE DISEASES
+  creator: 1
+  concept_name_id: 10060
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10060
+  date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10061: 
+  name: ALL OTHER SURGICAL CONDITION
+  creator: 1
+  concept_name_id: 10061
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10061
+  date_created: 2009-01-22 08:53:58 +02:00
