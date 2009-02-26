@@ -24,4 +24,14 @@ module ApplicationHelper
     GlobalProperty.find_by_property("show_intro_text").property_value == "yes" rescue false
   end
   
+  def month_name_options
+    i=0
+    options_array = [[]] +Date::ABBR_MONTHNAMES[1..-1].collect{|month|[month,i+=1]} + [["Unknown","Unknown"]]
+    options_for_select(options_array)  
+  end
+  
+  def age_limit
+    Time.now.year - 1890
+  end
+  
 end

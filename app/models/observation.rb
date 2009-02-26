@@ -17,7 +17,6 @@ class Observation < ActiveRecord::Base
     self.concept_id = ConceptName.find_by_name(concept_name).concept_id
   end
 
-
   def value_coded_or_text=(value_coded_or_text)
     value_coded = ConceptName.find_by_name(value_coded_or_text).concept_id rescue nil
     if value_coded.nil?

@@ -1,211 +1,57 @@
-<style>
-/*
-  .buttonLine{
-    height:auto;
-  }
-
-
-  #tt_page_first_name .touchscreenTextInput,
-  #tt_page_last_name .touchscreenTextInput{
-    top: 346px; 
-  }
-  
-  .options {
-    height:10.5em;
-    width:546px;    
-  }
- 
-  .options li {
-    border-top:1px dotted silver; 
-    border-bottom:1px dotted silver; 
-  }
- 
-  #tt_page_first_name .options,
-  #tt_page_last_name .options{
-    height:10em
-  }
-
-  #tt_page_first_name .options li,
-  #tt_page_last_name .options li{
-    font-size: 1.5em
-  }
-  
-  #tt_page_gender .touchscreenTextInput {
-    display:none; 
-  }
-
-  .tt_controls_year_of_birth #Unknown{
-    display: block;
-    width: 289px;
-  }
-  .tt_controls_year_of_birth #Backspace{
-    display: inline;
-    width: 189px;
-  }
-
-  .tt_controls_year_of_birth .NumbersOnly .keyboardButton{
-    height: 78px;
-  }
-
-
-  .tt_controls_age_estimate #Backspace{
-    display: inline;
-    width: 189px;
-  }
-
-  #tt_page_month_of_birth #viewport{
-  }
-
-  #tt_page_month_of_birth .touchscreenTextInput{
-    top: 70px;
-  }
-
-  #tt_page_month_of_birth .options{
-    top: 170px;
-    height: auto;
-    width: auto;
-  }
-
-  #tt_page_month_of_birth #options{
-    height: 380px;
-    width: auto;
-  }
-
-  #tt_page_month_of_birth ul{
-    width:575px;
-  }
-
-  #tt_page_month_of_birth li{
-    border: 3px outset gray;
-    display: block;
-    float: left;
-    background-color: lightgray;
-    width: 115px;
-    margin-right: 10px;
-    height: 80px;
-    text-align: center;
-  }
-
-  #tt_page_month_of_birth #optionUnknown{
-    width: 255px;
-  }
-
-  .tt_controls_month_of_birth #keyboard{
-    display: none;
-  }
-
-  #tt_page_month_of_birth .touchscreenTextInput{
-    display: none;
-  }
-  #tt_page_birth_day #viewport{
-    display: none;
-  }
-
-  #tt_page_birth_day .touchscreenTextInput{
-    top: 70px;
-  }
-
-  .tt_controls_birth_day #keyboard{
-    width: 595px;
-  }
-
-  .tt_controls_birth_day .keyboardButton{
-    height: 77px;
-    width: 88px;
-  }
-
-  .tt_controls_birth_day #Unknown{
-    display: inline;
-    width: 160px;
-  }
-
-  #tt_page_birth_day .touchscreenTextInput{
-    display: none;
-  }
-  
-  #tt_page_current_traditional_authority_ta .touchscreenTextInput{ top: 345px; }
-  #tt_page_current_village_of_residence .touchscreenTextInput{ top: 345px; }
-  #tt_page_landmark_or_plot_number .touchscreenTextInput{ top: 345px; }
-  #tt_page_address2 .touchscreenTextInput{ top: 345px; }
-  
-  #space { display:inline; font-size:1.2em; }
-  */
-
-
-</style>
-
-<%#= javascript_include_tag "dateselector" %>
-
 <script>
   var tt_cancel_destination = "/people"
+
+  function makeKeysToggleBlue(){
+    keys = $('keyboard').childNodes
+    for(var i=0;i<keys.length;i++){
+      keys[i].setAttribute('onMouseDown', 'press(this.id);makeBlue(this)')
+    }
+  }
+  function makeBlue(element){
+    keys = $('keyboard').childNodes
+    for(var i=0;i<keys.length;i++){
+      keys[i].style.backgroundColor = ''
+    }
+    element.style.backgroundColor = 'lightblue'
+
+  }
 </script>
 
 
 <% form_for :person, @person, :url => { :action => "create" } do |f| %>
 
-  <!-- input type="hidden" name="person[gender]" value="<%=h params[:gender] -%>" />
-  <input type="hidden" name="person_name[given_name]" value="<%=h params[:given_name] -%>" />
-  <input type="hidden" name="person_name[family_name2]" value="<%=h params[:family_name2] -%>" /-->
-  <input type="hidden" name="person_address[address2]" value="<%=h params[:address2] -%>" /-->
-  <input type="hidden" name="person_name[family_name]" value="<%=h params[:family_name] -%>" /-->
-
   <%= text_field_tag "person_name[given_name]", params[:given_name], {:id => 'given_name', :field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true, :condition => '$("given_name").value == ""' } %>
   
-  <%= text_field_tag "person_name[family_name2]", params[:family_name2], {:id => 'family_name2', :field_type => 'alpha', :helpText => 'Mother\'s Maiden Name', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :condition => '$("family_name2").value == ""' } %>
-
-  <%= text_field_tag "person_address[address2]", params[:address2], {:id => 'address2', :field_type => 'alpha', :helpText => 'Home Address', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :condition => '$("address2").value == ""' } %>
-
   <%= text_field_tag "person_name[family_name]", params[:family_name], {:id => 'family_name', :field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true, :condition => '$("family_name").value == ""' } %> 
-  
+
   Gender: <%= f.select :gender, {"" => "", "Male" => "M", "Female" => "F"}, {:selected => params[:gender]}, {:id => 'gender', :helpText => 'Gender', :condition => '$("gender").value == ""' } %>
 
+  <%= text_field_tag "person_name[family_name2]", params[:family_name2], {:id => 'family_name2', :field_type => 'alpha', :helpText => 'Mother\'s Surame', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :condition => '$("family_name2").value == ""' } %>
+
+  <%= text_field_tag "person_address[address2]", params[:address2], {:id => 'address2', :field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :condition => '$("address2").value == ""' } %>
   
   <%= text_field_tag :birth_year, nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly"} %>
 
-  <% 
-    # Create a 2d array with month names and their numbers, plus an Unknown 
-    i=0
-    options_array = [[]] +Date::ABBR_MONTHNAMES[1..-1].collect{|month|[month,i+=1]} + [["Unknown","Unknown"]]
-  %>
+  <%= select_tag :birth_month, month_name_options, {:helpText => 'Month of Birth', :condition => '$("birth_year").value.toLowerCase() != "unknown"'}%>
 
-  <%= select_tag :birth_month, options_for_select(options_array), {:helpText => 'Month of Birth', :condition => '$("birth_year").value.toLowerCase() != "unknown"'}%>
-
-  <% age_limit = Time.now.year - 1890 %>
   <%= text_field_tag 'age_estimate', nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %> 
 
   <%= text_field_tag :birth_day,  nil, :field_type => 'number', :helpText => 'Birth Day', :condition => '($("birth_year").value != "Unknown") && ($("birth_month").value != "Unknown")', :tt_onLoad => "makeKeysToggleBlue()" %>
-
-  <script>
-    function makeKeysToggleBlue(){
-      keys = $('keyboard').childNodes
-      for(var i=0;i<keys.length;i++){
-        keys[i].setAttribute('onMouseDown', 'press(this.id);makeBlue(this)')
-      }
-    }
-    function makeBlue(element){
-      keys = $('keyboard').childNodes
-      for(var i=0;i<keys.length;i++){
-        keys[i].style.backgroundColor = ''
-      }
-      element.style.backgroundColor = 'lightblue'
-
-    }
-
-  </script>
-
-  <!--
-  Birthplace: <%#= text_field :birthplace, nil, :field_type => "alpha", :allowFreeText => "true", :ajaxURL => "", :helpText => "Birth city or village" %>
-  -->
 
   <%= text_field_tag "person_address[county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/person_addresses/traditional_authority?search_string=', :allowFreeText => true }%>
 
   <%= text_field_tag "person_address[city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current village of residence', :ajaxURL => '/person_addresses/village?search_string=', :allowFreeText => true }%>
   
-  <%= text_field_tag "person_address[address1]",  params[:address1], {:field_type => 'alpha', :helpText => 'Landmark or plot number', :ajaxURL => '/person_addresses/landmark?search_string=', :allowFreeText => true }%>
+  <!--
+  Birthplace: <%#= text_field :birthplace, nil, :field_type => "alpha", :allowFreeText => "true", :ajaxURL => "", :helpText => "Birth city or village" %>
+
+  <%#= text_field_tag "person_address[address1]",  params[:address1], {:field_type => 'alpha', :helpText => 'Landmark or plot number', :ajaxURL => '/person_addresses/landmark?search_string=', :allowFreeText => true }%>
+  -->
 
   <%= hidden_field_tag :create_patient, true %>
   
   <%= hidden_field_tag :identifier, params[:identifier] %>
 
   <%= submit_tag "Create person" %>
+  
 <% end %>
