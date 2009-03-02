@@ -56,7 +56,8 @@ class EncountersController < ApplicationController
       name.match(search_string) ? name : nil rescue nil
     }.compact
     outpatient_diagnosis = ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept
-    previous_answers = Observation.find_most_common(outpatient_diagnosis, search_string)
+    #XXX common diagnoses disabled due to polluted previous answers at CMED sites
+    previous_answers = [] #Observation.find_most_common(outpatient_diagnosis, search_string)
     suggested_answers = (previous_answers + valid_answers).reject{|answer| filter_list.include?(answer) }.uniq[0..10] 
     render :text => "<li>" + suggested_answers.join("</li><li>") + "</li>"
   end
