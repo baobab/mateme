@@ -1,0 +1,51 @@
+<%= render :partial => 'header' %>
+<table>
+  <tr class="header">
+    <td>Diagnosis</td>
+    <% @times.each{|t| %>
+    <td> <%="#{t.to_date.strftime("%d/%m/%y")} to #{4.days.from_now(t.to_date).strftime("%d/%m/%y")}"%></td>
+    <%}%>
+  </tr>
+  <tr>
+
+    <%
+      @times.each{|t| 
+        @data_hash.each{|key, value|
+          temp_hash = Hash.new 
+      if key.to_date == t.to_date 
+        #render :text => value.to_yaml and return
+        temp_hash = value   
+      %>
+         <% if t.to_date == @times[0].to_date%>
+        <td>
+      <table>
+         <%temp_hash.each{|a,b|%>
+        <tr>
+           <td><%="#{a}"%></td>
+                  
+        </tr>
+         <% }%>
+
+     </table>
+   </td>
+ <%end%>
+
+      
+  
+    <td>
+      <table>
+         <%temp_hash.each{|k,v|%>
+        <tr>
+          <td><%="#{v}"%></td>
+                  
+        </tr>
+         <% }%>
+
+     </table>
+    </td>
+    <% end
+    }
+    }%>
+  </tr>
+</table>
+    
