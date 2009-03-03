@@ -172,8 +172,8 @@
     <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
      
-  <label for="temperature">Patient's Temperature</label>
-      <%= text_field_tag "", nil,
+  <label for="temperature">Temperature (C)</label>
+      <%= text_field_tag "observations[][value_numeric]", nil,
         {:id => "temperature",
          :field_type => 'number',
          :helptext =>"Temperature",
@@ -188,7 +188,7 @@
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
          
-    <label for='weight'>Weight (kg)</label>
+    <label for='weight'>Weight (KG)</label>
       <%= text_field_tag "observations[][value_numeric]", nil,
         {:id => "weight",
          :field_type => 'number',
@@ -197,15 +197,14 @@
          :absoluteMin => 0,
          :absoluteMax => 250,
          :units => 'kg',
-         :optional => true,
-         :validationRule => "[0-9]+\\.[0-9]$",
+         :validationRule => "([0-9]+\\.[0-9])|Unknown$",
          :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
          :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
       <%= hidden_field_tag("observations[][concept_name]", "WEIGHT (KG)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   
-    <label for='height'>Height (cm)</label>
+    <label for='height'>Height (CM)</label>
       <%= text_field_tag "observations[][value_numeric]", nil,
         {:id => "height",
          :field_type => 'number',
@@ -214,8 +213,7 @@
          :absoluteMin => 10,
          :absoluteMax => 228,
          :units => 'cm',
-         :optional => true,
-         :validationRule => "^[0-9]+$",
+         :validationRule => "^([0-9]+)|Unknown$",
          :validationMessage => "You must enter numbers only (for example 157)",
          :tt_pageStyleClass => "Numeric NumbersOnly"} %>
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
@@ -223,7 +221,7 @@
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
  
     <label for='showSummary'>Summary </label>
-      <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
+    <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
    
       
       
