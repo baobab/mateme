@@ -40,7 +40,7 @@
 
   <%= text_field_tag "person_address[county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/person_addresses/traditional_authority?search_string=', :allowFreeText => true }%>
 
-  <%= text_field_tag "person_address[city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current village of residence', :ajaxURL => '/person_addresses/village?search_string=', :allowFreeText => true }%>
+  <%= text_field_tag "person_address[city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/person_addresses/village?search_string=', :allowFreeText => true }%>
   
   <!--
   Birthplace: <%#= text_field :birthplace, nil, :field_type => "alpha", :allowFreeText => "true", :ajaxURL => "", :helpText => "Birth city or village" %>

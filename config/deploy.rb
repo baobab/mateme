@@ -108,20 +108,23 @@ end
 
 # == DEPLOY ======================================================================
 namespace :deploy do
-  if Capistrano::CLI.ui.ask("Pull from current machine (#{local})? (y/n): ") == 'y'
-    set :distribution, local
-    set :repository, "git://#{distribution}/var/www/mateme"
-  elsif Capistrano::CLI.ui.ask("Pull from distributed git repository? (y/n): ") == 'y'
-    set :distribution, Capistrano::CLI.ui.ask("Repository address: ")
-    set :repository, "git://#{distribution}/var/www/mateme"
-  elsif Capistrano::CLI.ui.ask("Pull from shared github.com (public)? (y/n): ") == 'y'
-    set :repository, "git://github.com/baobab/mateme.git"
-  elsif Capistrano::CLI.ui.ask("Pull from alternate github.com (public)? (y/n): ") == 'y'
-    set :alternate_repository, CLI.ui.ask("Github Repository (jeffrafter/mateme): ")  
-    set :repository, "git://github.com/#{alternate_repository}.git"
-  else
-  	set :repository, "git://null"
-	end	
+#  if Capistrano::CLI.ui.ask("Pull from current machine (#{local})? (y/n): ") == 'y'
+#    set :distribution, local
+#    set :repository, "git://#{distribution}/var/www/mateme"
+#  elsif Capistrano::CLI.ui.ask("Pull from distributed git repository? (y/n): ") == 'y'
+#    set :distribution, Capistrano::CLI.ui.ask("Repository address: ")
+#    set :repository, "git://#{distribution}/var/www/mateme"
+#  elsif Capistrano::CLI.ui.ask("Pull from shared github.com (public)? (y/n): ") == 'y'
+#    set :repository, "git://github.com/baobab/mateme.git"
+#  elsif Capistrano::CLI.ui.ask("Pull from alternate github.com (public)? (y/n): ") == 'y'
+#    set :alternate_repository, CLI.ui.ask("Github Repository (jeffrafter/mateme): ")  
+#    set :repository, "git://github.com/#{alternate_repository}.git"
+#  else
+#  	set :repository, "git://null"
+#	end	
+  set :alternate_repository, "jeffrafter/mateme"
+  set :repository, "git://github.com/#{alternate_repository}.git"
+
 
   desc "Start application"
   task :start do

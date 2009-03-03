@@ -33,6 +33,14 @@ class Encounter < ActiveRecord::Base
       o = orders.active.collect{|order| order.to_s}.join("\n")
       o = "No prescriptions have been made" if o.blank?
       o
+    elsif name == 'VITALS'
+      temp = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("TEMPERATURE (C)") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
+      weight = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("WEIGHT (KG)") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
+      height = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HEIGHT (CM)") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
+      vitals = [temp_str = temp.first.answer_string + '°C' rescue 'UNKNOWN TEMP',
+                weight_str = weight.first.answer_string + 'KG' rescue 'UNKNOWN WEIGHT',
+                height_str = height.first.answer_string + 'CM' rescue 'UNKNOWN HEIGHT']
+      vitals.join(', ')
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  
