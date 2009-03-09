@@ -123,8 +123,8 @@ namespace :deploy do
 #  	set :repository, "git://null"
 #	end	
   set :alternate_repository, "jeffrafter/mateme"
-  set :repository, "git://github.com/#{alternate_repository}.git"
-
+ #set :repository, "git://github.com/#{alternate_repository}.git"
+  set :repository, "git://192.168.1.39/var/www/mateme.git"
 
   desc "Start application"
   task :start do
