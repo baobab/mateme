@@ -2,8 +2,13 @@
 <table>
   <tr class="header">
     <td>Diagnosis</td>
-    <% @times.each{|t| %>
-    <td> <%="#{t.to_date.strftime("%d/%m/%y")} to #{4.days.from_now(t.to_date).strftime("%d/%m/%y")}"%></td>
+    <% @times.each{|t| 
+      end_day = 4.days.from_now(t.to_date.monday)
+      if end_day > @end_date
+        end_day = @end_date
+      end
+    %>
+    <td> <%="#{t.to_date.strftime("%d/%m/%y")} - #{end_day.strftime("%d/%m/%y")}"%></td>
     <%}%>
   </tr>
   <tr>
