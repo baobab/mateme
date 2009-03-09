@@ -12,7 +12,7 @@ class UserController < ApplicationController
         session[:ip_address] = request.env['REMOTE_ADDR']         
         location = Location.find(params[:location]) rescue nil        
         flash[:error] = "Invalid Workstation Location" and return unless location
-        flash[:error] = "Location is not part of this health center" and return unless location.name.match(/Neno District Hospital/)
+        #flash[:error] = "Location is not part of this health center" and return unless location.name.match(/Neno District Hospital/)
         session[:location_id] = nil
         session[:location_id] = location.id if location
         Location.current_location = location if location
