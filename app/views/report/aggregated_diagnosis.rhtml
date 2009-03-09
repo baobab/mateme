@@ -1,14 +1,7 @@
 <%= render :partial => 'header' %>
 <table>
-  <tr class="header">
-    <td><%= "#{@start_date} to #{@end_date}"%></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
   <tr>
-    <td>&nbsp;</td>
+    <td>Age group</td>
     <td>U5</td>
     <td>5-14</td>
     <td>>14</td>
@@ -16,10 +9,9 @@
   </tr>
   <tr class="header">
     <td>Diagnosis</td>
-    <td><table><tr><td>M</td><td>F</td></tr></table></td>
-    <td><table><tr><td>M</td><td>F</td></tr></table></td>
-    <td><table><tr><td>M</td><td>F</td></tr></table></td>
-    <td><table><tr><td>M</td><td>F</td></tr></table></td>
+    <%4.times do%>
+    <td><table><tr><td class="values">M</td><td class="values">F</td></tr></table></td>
+    <%end%>
   </tr>
   <% 
     @diagnoses.each{|diagnosis|
@@ -57,16 +49,16 @@
   <tr>
     <td><%= diagnosis.name%></td>
     <td><table>
-        <tr><td><%= count_male_under_five %></td><td><%= count_female_under_five %></td></tr>
+        <tr><td class="values"><%= count_male_under_five %></td><td class="values"><%= count_female_under_five %></td></tr>
     </table></td>
-    <td><table><tr><td><%= count_male_in_between%></td><td><%= count_female_in_between%></td></tr></table></td>
+    <td><table><tr><td class="values"><%= count_male_in_between%></td><td class="values"><%= count_female_in_between%></td></tr></table></td>
     <td><table>
-        <tr><td><%= count_male_above_fourteen %></td><td><%= count_female_above_fourteen%></td></tr>
+        <tr><td class="values"><%= count_male_above_fourteen %></td><td class="values"><%= count_female_above_fourteen%></td></tr>
     </table></td>
     <td>
       <table>
-        <tr><td><%= count_male_under_five + count_male_in_between + count_male_above_fourteen %></td>
-          <td><%= count_female_under_five + count_female_in_between + count_female_above_fourteen%></td></tr>
+        <tr><td class="values"><%= count_male_under_five + count_male_in_between + count_male_above_fourteen %></td>
+          <td class="values"><%= count_female_under_five + count_female_in_between + count_female_above_fourteen%></td></tr>
     </table></td>
   </tr>
   <% }%>
