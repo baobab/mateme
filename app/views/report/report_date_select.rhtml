@@ -24,13 +24,6 @@
 }
 
 
-.tt_controls_date_of_birth .keyboard{width:70px;height:70px;}
-
-.tt_controls_date_of_birth .keyboard{
-  top:95px;
-  height:467px;
-  width:560;
-}
 
 #tt_page_start_year #viewport{display:none;}
 #tt_page_start_date #viewport{display:none;}
@@ -60,24 +53,6 @@
 }
 
 #tt_page_start_date .touchscreenTextInput{top:50px;}
-
-.tt_controls_birth_month .keyboard{height:467px; width:560px;}
-
-.tt_controls_username .keyboard{
- }
-
-.tt_controls_username .buttonLine {
-  display:block;
-  height:60px;
-}
-
-.tt_controls_username #num{display:none;}
-
-#tt_page_username .touchscreenTextInput{top:295px;}
-
-#tt_page_username #viewport{
-  height:200px;
- }
 
 #tt_page_start_date .options li {
   color:black;
@@ -147,13 +122,8 @@
 #backspace{display:inline;width:180px;}
 
 </style>
-
-
-
-<%
+  <%
     case  params[:report]
-        when "Site summary"
-           action = 'summary_report'
         when "Weekly report"
            action = 'weekly_report'
         when "Aggregated Diagnoses"
@@ -161,7 +131,7 @@
         when "Referrals"
            action = 'referral'
         end
-
+  
     form_tag :action =>"#{action}"do
  %>
  
@@ -176,12 +146,19 @@
       optionsString << "<option>" "Unknown" "</option>"
 %>
 <%=select_tag(:start_month, optionsString,  {:field_type => 'alpha', :helpText => 'Start Month'})%>
-<label for="calendar">Date of Birth</label><br/>
+<label for="calendar">Start Date</label><br/>
 <%day=Array.new(31){|d|d + 1 } %>
-<%unknown=Array.new %>
-<%days_with_unknown = day<< "Unknown" %>
-<%days = [""].concat day%>
-<%= select_tag(:start_day, options_for_select(days), :field_type => 'number', :helpText => 'Start Date')  %>
+<%#unknown=Array.new %>
+<%#days_with_unknown = day<< "Unknown" %>
+<%#days = [].concat day%>
+<%
+ options = "<option>" "" "</option>"
+    day.each{ |number| 
+       options += "<option value = '" + number.to_s + "'>" + number.to_s + "</option>"
+      }
+%>
+
+<%= select_tag(:start_day, options, {:field_type => 'number', :helpText => 'Start Date', :min => "1", :absoluteMin =>"1", :absoluteMax =>"31"})  %>
 
 
 <label for="calendar">End Year</label><br/>
@@ -200,6 +177,6 @@
 <%unknown=Array.new %>
 <%days_with_unknown = day<< "Unknown" %>
 <%days = [""].concat day%>
-<%= select_tag(:end_day, options_for_select(days), :field_type => 'number', :helpText => 'End Date')  %>
+<%= select_tag(:end_day, options_for_select(days), {:field_type => 'number', :helpText => 'End Date'})  %>
 <%end%>
 
