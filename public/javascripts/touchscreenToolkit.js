@@ -742,13 +742,22 @@ function updateTouchscreenInputForSelect(element){
     //njih
   	else if (element.innerHTML.length>1) 
 	  	val = unescape(element.innerHTML); 
+
+    // Remove partially entered (using keyboard) values
+    var lastValue = val_arr[val_arr.length-1]
+    var idx = (elementSelectedValue(tstFormElements[tstPages[tstCurrentPage]])+';').indexOf(lastValue+';');
+    if (idx == -1) {
+      val_arr = removeFromArray(val_arr, lastValue);
+    }
 	  // Check if the item is already included 	
-	  var idx = val_arr.toString().indexOf(val);	  	  
+	  //var idx = val_arr.toString().indexOf(val);	  	  
+	  idx = (val_arr.join(';')+';').indexOf(val+';');	  	  
 	  if (idx == -1) 
 	    val_arr.push(val);
 	  else
       //val_arr.splice(idx, 1);  
 			val_arr = removeFromArray(val_arr, val);
+
     inputTarget.value = val_arr.join(tstMultipleSplitChar);  
     if (inputTarget.value.indexOf(tstMultipleSplitChar) == 0)
       inputTarget.value = inputTarget.value.substring(1, inputTarget.value.length);
