@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   attr_accessor :plain_password
 
   has_many :user_properties, :foreign_key => :user_id
+  has_many :user_roles, :foreign_key => :user_id, :dependent => :delete_all
+  has_many :roles, :through => :user_roles, :foreign_key => :user_id
 
   def name
     self.first_name + " " + self.last_name
@@ -27,6 +29,10 @@ class User < ActiveRecord::Base
   def authenticated?(plain)
     encrypt(plain, salt) == password || Digest::SHA1.hexdigest("#{plain}#{salt}") == password
   end
+  
+  def admin?
+    roles.map{|role| role.role }.include? 'admin'
+  end  
       
   # Encrypts plain data with the salt.
   # Digest::SHA1.hexdigest("#{plain}#{salt}") would be equivalent to

@@ -1,12 +1,12 @@
 set :staging, CLI.ui.ask("Do you want to stage this deployment? (y/n): ") == 'y'
-set :domain, CLI.ui.ask("Domain you are deploying to (IP Address or Hostname): ")
-set :local, "#{`ifconfig | grep "192"`.match(/192\.168\.\d+\.\d+/)}"
+set :repository, "git://github.com/jeffrafter/mateme.git"  
+set :domain, "neno:8999"
 set :application, staging ? "staging" : "mateme"
 set :keep_releases, 3
 set :scm, :git
-set :branch, "master"
-#set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
 set :deploy_to, "/var/www/#{application}"
+set :branch, "master"
 set :user, "deploy"
 set :runner, "deploy"
 set :use_sudo, :false
@@ -41,32 +41,7 @@ EOF
 				put database_configuration, "#{shared_path}/config/database.yml"
 		  end		
     end
-
     
-    desc "Create cron tasks for success testing, report caching and database backups"
-    task :cron do
-      if Capistrano::CLI.ui.ask("Create cron jobs? (y/n): ") == 'y'
-     		cron_configuration =<<-EOF
-# m h  dom mon dow   command
-* * * * mon-fri #{current_path}/script/runner -e production 'Success.verify'
-EOF
-        run "mkdir -p #{shared_path}/backup"
-        run "echo 'Current cron configuration'"
-        run "crontab -l; echo ---"
-        put cron_configuration, "#{shared_path}/scripts/cron"
-        # Note this overwrites the cron configuration for the deploy user every time, if you have other crontabs you have to do more work
-        run "cat #{shared_path}/scripts/cron | crontab -"
-      end  
-    end    
-
-    desc "Setup DNS/DHCP server"
-    task :dns do
-      if Capistrano::CLI.ui.ask("Setup DNS/DHCP server? (y/n): ") == 'y'
-        
-      end
-    end  
-
-
     desc "Symlink shared configurations to current"
     task :localize, :roles => [:app] do
       %w[database.yml].each do |f|
@@ -108,23 +83,10 @@ end
 
 # == DEPLOY ======================================================================
 namespace :deploy do
-#  if Capistrano::CLI.ui.ask("Pull from current machine (#{local})? (y/n): ") == 'y'
-#    set :distribution, local
-#    set :repository, "git://#{distribution}/var/www/mateme"
-#  elsif Capistrano::CLI.ui.ask("Pull from distributed git repository? (y/n): ") == 'y'
-#    set :distribution, Capistrano::CLI.ui.ask("Repository address: ")
-#    set :repository, "git://#{distribution}/var/www/mateme"
-#  elsif Capistrano::CLI.ui.ask("Pull from shared github.com (public)? (y/n): ") == 'y'
-#    set :repository, "git://github.com/baobab/mateme.git"
-#  elsif Capistrano::CLI.ui.ask("Pull from alternate github.com (public)? (y/n): ") == 'y'
-#    set :alternate_repository, CLI.ui.ask("Github Repository (jeffrafter/mateme): ")  
-#    set :repository, "git://github.com/#{alternate_repository}.git"
-#  else
-#  	set :repository, "git://null"
-#	end	
-  set :alternate_repository, "jeffrafter/mateme"
-  set :repository, "git://github.com/#{alternate_repository}.git"
-
+  desc "Update the cache" 
+  task :cache do
+#    run "cd #{shared_path}/cached-copy && git pull origin master"
+  end
 
   desc "Start application"
   task :start do
@@ -138,13 +100,7 @@ namespace :deploy do
 end
 
 # == TASKS =====================================================================
+before "deploy", "deploy:cache"
 before "deploy:migrate", "db:backup"
-
-after "deploy", "deploy:cleanup"
-after "deploy:migrations", "deploy:cleanup"
 after "deploy:setup", "init:config:database"
-after "deploy:setup", "init:config:cron"
 after "deploy:symlink", "init:config:localize"
-
-task :after_update_code do
-end
