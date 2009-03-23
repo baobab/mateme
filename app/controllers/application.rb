@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   def authorize
     User.current_user = User.find(session[:user_id]) unless session[:user_id].nil?
+    #raise session[:location_id].to_yaml
     Location.current_location = Location.find(session[:location_id]) unless session[:location_id].nil?
     redirect_to(:controller => "user", :action => "login") if session[:user_id].nil?
   end
