@@ -83,11 +83,6 @@ end
 
 # == DEPLOY ======================================================================
 namespace :deploy do
-  desc "Update the cache" 
-  task :cache do
-#    run "cd #{shared_path}/cached-copy && git pull origin master"
-  end
-
   desc "Start application"
   task :start do
     run "touch #{current_path}/tmp/restart.txt"
@@ -100,7 +95,6 @@ namespace :deploy do
 end
 
 # == TASKS =====================================================================
-before "deploy", "deploy:cache"
 before "deploy:migrate", "db:backup"
 after "deploy:setup", "init:config:database"
 after "deploy:symlink", "init:config:localize"
