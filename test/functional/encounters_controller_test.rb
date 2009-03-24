@@ -17,7 +17,7 @@ class EncountersControllerTest < Test::Unit::TestCase
     context "Outpatient Diagnoses" do
 
       should "lookup diagnoses by name return them in the search results" do
-        logged_in_as :mikmck do
+        logged_in_as :mikmck, :registration do
           get :diagnoses, {:search_string => 'EXTRAPULMONARY'}
           assert_response :success
           assert_contains assigns(:suggested_answers), concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).name

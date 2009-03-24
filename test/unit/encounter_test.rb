@@ -29,7 +29,7 @@ class EncounterTest < Test::Unit::TestCase
     
     should "be printable as a string with all of the observations" do
       # This used to be VITALS: HEIGHT (CM): 191.0
-      assert_equal encounter(:evan_vitals).to_s, "191.0"
+      assert_equal encounter(:evan_vitals).to_s, "UNKNOWN TEMP, UNKNOWN WEIGHT, 191.0CM"
     end
 
     should "be able to report the numbers of unique encounters for a given date" do

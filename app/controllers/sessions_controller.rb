@@ -1,28 +1,39 @@
 class SessionsController < ApplicationController
-  skip_before_filter :login_required
+  skip_before_filter :login_required, :except => [:location, :update]
+  skip_before_filter :location_required
 
   def new
   end
 
   def create
     logout_keeping_session!
-    session[:location_id] = params[:location]
-    location = Location.find(session[:location_id]) rescue nil
-    unless location
-      flash[:error] = "Invalid workstation location"
-      render :action => 'new'
-      return    
-    end
     user = User.authenticate(params[:login], params[:password])
     if user
-      self.current_location = location
       self.current_user = user
-      redirect_back_or_default('/')
+      url = self.current_user.admin? ? '/admin' : '/'
+      redirect_to url
     else
       note_failed_signin
       @login = params[:login]
       render :action => 'new'
     end
+  end
+
+  # Form for entering the location information
+  def location
+  end
+
+  # Update the session with the location information
+  def update
+    location = Location.find(params[:location]) rescue nil
+    unless location
+      flash[:error] = "Invalid workstation location"
+      render :action => 'location'
+      return    
+    end
+    self.current_location = location
+    url = self.current_user.admin? ? '/admin' : '/'
+    redirect_to url
   end
 
   def destroy

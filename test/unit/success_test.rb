@@ -93,11 +93,6 @@ class SuccessTest < Test::Unit::TestCase
       assert_equal Success.current_location, Location.current_location.name
     end
 
-    should "get the current IP address" do
-      command_line_ip = backtick("ifconfig | grep 'inet ' | grep -v '127.0.0.1' | grep -v '192.168.2.1'").match(/inet (addr)?:?([^\s]*)/)[0].split(/(:|\s)/).last
-      assert_equal command_line_ip, Success.current_ip_address
-    end
-
     should "send email" do
       Success.alert("My feet have smoking")
     end

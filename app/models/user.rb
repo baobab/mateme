@@ -10,7 +10,6 @@ class User < ActiveRecord::Base
 
   has_many :user_properties, :foreign_key => :user_id
   has_many :user_roles, :foreign_key => :user_id, :dependent => :delete_all
-  has_many :roles, :through => :user_roles, :foreign_key => :user_id
 
   def name
     self.first_name + " " + self.last_name
@@ -31,7 +30,7 @@ class User < ActiveRecord::Base
   end
   
   def admin?
-    roles.map{|role| role.role }.include? 'admin'
+    user_roles.map{|user_role| user_role.role }.include? 'Informatics Manager'
   end  
       
   # Encrypts plain data with the salt.

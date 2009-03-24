@@ -11,7 +11,6 @@ module AuthenticatedSystem
     def current_user
       @current_user ||= (login_from_session || login_from_basic_auth) unless @current_user == false
       User.current_user = @current_user unless @current_user == false
-      Location.current_location = Location.find(session[:location_id]) unless session[:location_id].nil?
       @current_user
     end
 
@@ -25,7 +24,7 @@ module AuthenticatedSystem
     # Future calls avoid the database because nil is not equal to false.
     def current_location
       @current_location ||= location_from_session unless @current_location == false
-      Location.current_location = @current_location
+      Location.current_location = @current_location unless @current_location == false
       @current_location
     end
 
@@ -51,7 +50,7 @@ module AuthenticatedSystem
     def authorized?(action=nil, resource=nil, *args)
       logged_in?
     end
-
+        
     # Filter method to enforce a login requirement.
     #
     # To require logins for all actions, use this in your controllers:
@@ -82,15 +81,31 @@ module AuthenticatedSystem
       respond_to do |format|
         format.html do
           store_location
-          redirect_to new_session_path
+          redirect_to '/login'
         end
-        # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
-        # you may want to change format.any to e.g. format.any(:js, :xml)
-        #format.any do
-        #  request_http_basic_authentication 'Web Password'
-        #end
       end
     end
+
+    def location_required
+      located? || location_denied
+    end
+
+    def located?
+      self.current_location 
+    end
+
+    # Redirect as appropriate when an access request fails.
+    #
+    # The default action is to redirect to the location screen.
+    def location_denied
+      respond_to do |format|
+        format.html do
+          store_location
+          redirect_to '/location'
+        end
+      end
+    end
+
 
     # Store the URI of the current request in the session.
     #

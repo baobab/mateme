@@ -12,7 +12,7 @@ class PeopleControllerTest < Test::Unit::TestCase
   context "People controller" do
 
     should "lookup people by name and gender and return them in the search results" do
-      logged_in_as :mikmck do
+      logged_in_as :mikmck, :registration do
         get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
         assert_response :success
         assert_contains assigns(:people), person(:evan)
@@ -20,7 +20,7 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
     
     should "lookup people that are not patients and return them in the search results" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         p = patient(:evan).destroy
         get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
         assert_response :success
@@ -29,7 +29,7 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
     
     should "not include voided people in the search results" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         p = person(:evan)
         p.void!
         get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
@@ -39,7 +39,7 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
     
     should "not include voided names in the search results" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         name = person(:evan).names.first
         name.void!
         get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
@@ -49,7 +49,7 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
           
     should "not include voided patients in the search results" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         p = patient(:evan)
         p.void!
         get :search, {:gender => 'M', :given_name => 'evan', :family_name => 'waters'}
@@ -59,7 +59,7 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
 
     should "select a person" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         get :select, {:person => person(:evan).person_id}
         assert_response :redirect
         get :select, {:person => 0, :given_name => 'Dennis', :family_name => 'Rodman', :gender => 'U'}
@@ -68,20 +68,20 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
     
     should "look up people for display on the default page" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         get :index
       end  
     end
     
     should "display the new person form" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         get :new
         assert_response :success
       end  
     end  
 
     should "create a person with their address and name records" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         options = {
          :birth_year => 1987, 
          :birth_month => 2, 
@@ -98,7 +98,7 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
     
     should "allow for estimated birthdates" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         post :create, {
          :birth_year => 'Unknown', 
          :age_estimate => 17,
@@ -111,7 +111,7 @@ class PeopleControllerTest < Test::Unit::TestCase
     end
     
     should "not create a patient unless specifically requested" do
-      logged_in_as :mikmck do      
+      logged_in_as :mikmck, :registration do      
         options = {
          :birth_year => 'Unknown', 
          :age_estimate => 17,

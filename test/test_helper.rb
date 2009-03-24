@@ -65,9 +65,10 @@ class Test::Unit::TestCase
     assert e.kind_of?(opts[:kind_of]), opts[:message] || "should raise exception of type #{opts[:kind_of]}, but got #{e.class} instead" if opts[:kind_of]
   end
   
-  # logged_in_as :mikmck { }
-  def logged_in_as(login, &block)
+  # logged_in_as :mikmck, :registration { }
+  def logged_in_as(login, place, &block)
      @request.session[:user_id] = users(login).user_id
+     @request.session[:location_id] = location(place).location_id
      yield block
   end 
   

@@ -1,0 +1,16 @@
+  <script>
+    var tt_cancel_destination = "/logout"
+  </script>
+
+  <% form_tag session_path, :method => :put do -%>
+
+    <label for="location">Location</label>
+    <%= text_field_tag(:location, nil, :helpText=> "Workstation Location", :field_type => "number") %><br>
+
+    <%= submit_tag value="Submit"%>
+  <% end %>
+
+  <div id="popupBox"  align="center">
+    <p id="p1">Verifying location</p>
+    <p id="p2">Please wait...</p>
+  </div>

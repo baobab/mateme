@@ -9,7 +9,7 @@ private
   
   def require_admin
     unless current_user.admin?
-      flash[:error] = "You must be an admin to view this page"
+      flash[:error] = "You must be an admin to view the admin page"
       redirect_to '/'
     end  
   end
