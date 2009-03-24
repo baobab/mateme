@@ -49,12 +49,12 @@ class ObservationTest < Test::Unit::TestCase
     should "find the most common active observation values by location"
     
     should "be displayable as a string" do
-      observation = Observation.make(:concept_id => concept(:outpatient_diagnosis).id, :value_coded => concept(:alcohol_counseling).id, :value_numeric => 1, :value_datetime => nil)
+      observation = Observation.make(:concept_id => concept(:outpatient_diagnosis).id, :value_coded => concept(:alcohol_counseling).id, :value_coded_name_id => concept_name(:alcohol_counseling).id, :value_numeric => 1, :value_datetime => nil)
       assert_equal observation.to_s, "OUTPATIENT DIAGNOSIS: ALCOHOL COUNSELINGMELTING1.0"    
     end
       
     should "be able to display the answer as a string" do
-      observation = Observation.make(:concept_id => concept(:outpatient_diagnosis).id, :value_coded => concept(:alcohol_counseling).id, :value_numeric => 1, :value_datetime => nil)
+      observation = Observation.make(:concept_id => concept(:outpatient_diagnosis).id, :value_coded => concept(:alcohol_counseling).id, :value_coded_name_id => concept_name(:alcohol_counseling).id, :value_numeric => 1, :value_datetime => nil)
       assert_equal observation.answer_string, "ALCOHOL COUNSELINGMELTING1.0"    
     end
   end
