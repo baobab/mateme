@@ -59,7 +59,7 @@
 
    
   <%# This options hash allows us to define our options in one place %>
-  <% options = {:allowFreeText => 'true', :allowFreeText => 'true', :ajaxURL => "/encounters/diagnoses?search_string=", :textCase => "upper",:condition => "($('select').value == 'option2')" } %>
+  <% options = {:allowFreeText => 'false', :allowFreeText => 'false', :ajaxURL => "/encounters/diagnoses?search_string=", :textCase => "upper",:condition => "($('select').value == 'option2')" } %>
 
   <label for='observations[][value_coded_or_text]'>Outpatient diagnosis</label>
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
@@ -85,7 +85,7 @@
        options[:multiple] = "multiple"
        options[:condition] = "$('select').value == 'option2'" 
        options[:helpText] = "Additional diagnosis"
-       options[:allowFreeText] = 'true', 
+       options[:allowFreeText] = 'false', 
        options[:field_type] = "text"
 			 options[:tt_onLoad] = "$('keyboard').innerHTML = getABCKeyboard();"
        options_text = options.collect{|name,value|"#{name}=\"#{value}\""}.join(" ")
