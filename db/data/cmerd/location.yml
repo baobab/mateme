@@ -392,7 +392,7 @@ location_00017:
   date_created: 2008-05-06 09:33:43 -07:00
 location_00018: 
   region: 
-  name: Mbang'ombe Health Centre
+  name: Mbangombe Health Centre
   address1: ""
   township_division: 
   state_province: ""
@@ -407,6 +407,29 @@ location_00018:
   creator: 15878
   date_retired: 
   location_id: 18
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Health Centre , Public Health Facility
+  retired: false
+  date_created: 2008-05-06 09:33:43 -07:00
+location_00019: 
+  region: 
+  name: Bwaila Hospital (Bottom)
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 19
   county_district: 
   neighborhood_cell: 
   longitude: ""

@@ -42427,3 +42427,12 @@ concept_name_10061:
   description: ""
   concept_id: 10061
   date_created: 2009-01-22 08:53:58 +02:00
+concept_name_10062: 
+  name: ACUTE RESPIRATORY INFECTION
+  creator: 1
+  concept_name_id: 10062
+  short_name: ""
+  locale: en
+  description: ""
+  concept_id: 10062
+  date_created: 2009-01-22 08:53:58 +02:00

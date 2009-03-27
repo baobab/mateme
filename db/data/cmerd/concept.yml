@@ -84746,3 +84746,22 @@ concept_10061:
   date_changed: 2009-01-22 08:53:58 +02:00
   form_text: 
   retired: false
+
+concept_10062: 
+  datatype_id: 1
+  concept_id: 10062
+  retire_reason: 
+  date_created: 2009-01-22 08:53:58 +02:00
+  creator: 1
+  retired_by: 
+  is_set: false
+  date_retired: 
+  class_id: 4
+  changed_by: 
+  version: 
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 2009-01-22 08:53:58 +02:00
+  form_text: 
+  retired: false
