@@ -37,6 +37,7 @@ var tstLastActionTime;  //= null; //new Date();
 var tstIdleTimeout; // = null;
 var tstIdleTimeoutPeriod = 1800; // idle timeout period in seconds
 var tstIdleWarnPeriod = 30; // idle timeout warn period in seconds
+tstCancelURL = "/people";
 
 if (typeof(tstRetrospectiveMode) == "undefined") 
 	tstRetrospectiveMode = false;
@@ -151,15 +152,15 @@ function updateHeartbeat() {
 	beatTime += ":"+thisTime.getSeconds()
   */
 
-//	var username = typeof(tstUsername) == "undefined"? "" : tstUsername
-//
-//	var params = "";
-//	params += "url="+window.location
-//	params += "&username="+username
+	var username = typeof(tstUsername) == "undefined"? "" : tstUsername
+
+	var params = "";
+	params += "url="+window.location
+	params += "&username="+username
 //	params += "&time="+beatTime
 
-//	ajaxRequest(null, "/heartbeat/update?"+params)
-//	setTimeout("updateHeartbeat()", 300000); // ms == 5mins
+	ajaxRequest(null, "/heartbeat/update?"+params)
+	setTimeout("updateHeartbeat()", 300000); // ms == 5mins
 }
 
 function resetLastActionTime() {
@@ -192,20 +193,24 @@ function checkIdleTimeout() {
 }
 
 function initBART() {
-//	setTimeout("updateHeartbeat()", 30000); // ms == 30secs
-//	if (tstIdleTimeout != null) {
-//		clearTimeout(tstIdleTimeout);
-//	}
-//	tstIdleTimeout = setTimeout("checkIdleTimeout()", tstIdleTimeoutPeriod*1000);
-//	document.body.addEventListener("mousedown", resetLastActionTime, false)
-//	resetLastActionTime();
+	setTimeout("updateHeartbeat()", 30000); // ms == 30secs
+	if (tstIdleTimeout != null) {
+		clearTimeout(tstIdleTimeout);
+	}
+	tstIdleTimeout = setTimeout("checkIdleTimeout()", tstIdleTimeoutPeriod*1000);
+	document.body.addEventListener("mousedown", resetLastActionTime, false)
+	resetLastActionTime();
 }
 
-function ajaxJavascriptRequest(aUrl) {
+function ajaxJavascriptRequest(aUrl,aFunction) {
   var httpRequest = new XMLHttpRequest(); 
   httpRequest.onreadystatechange = function() { 
     if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-      eval(httpRequest.responseText);
+      if (aFunction){  
+        aFunction(httpRequest.responseText);
+      }else{
+        eval(httpRequest.responseText);
+      }
     }
   };
   try {
@@ -217,9 +222,9 @@ function ajaxJavascriptRequest(aUrl) {
 
 function skipMissingData() {
 	hideMessage();
-//  tstFormElements[tstPages[tstCurrentPage]].innerHTML += "<option value='Missing'>Missing</option>"
-//	tstInputTarget.value = "Missing";
-//	gotoPage(tstCurrentPage+1, false);
+  tstFormElements[tstPages[tstCurrentPage]].innerHTML += "<option value='Missing'>Missing</option>"
+	tstInputTarget.value = "Missing";
+	gotoPage(tstCurrentPage+1, false);
 }
 
 TTInput.prototype.validateExistence = function(){	
