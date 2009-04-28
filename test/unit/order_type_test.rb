@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class OrderTypeTest < Test::Unit::TestCase
+class OrderTypeTest < ActiveSupport::TestCase
   fixtures :order_type
   
   context "Order types" do

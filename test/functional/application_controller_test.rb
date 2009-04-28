@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ApplicationControllerTest < Test::Unit::TestCase
+class ApplicationControllerTest < ActionController::TestCase
   fixtures :global_property
 
   def setup  

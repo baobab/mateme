@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class OpenmrsTest < Test::Unit::TestCase
+class OpenmrsTest < ActiveSupport::TestCase
   fixtures :patient_identifier_type, :person
 
   context "OpenMRS modules" do    

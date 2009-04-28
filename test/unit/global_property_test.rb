@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class GlobalPropertyTest < Test::Unit::TestCase 
+class GlobalPropertyTest < ActiveSupport::TestCase 
   fixtures :global_property
 
   context "Global properties" do

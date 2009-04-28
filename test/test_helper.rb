@@ -7,7 +7,7 @@ require 'mocha'
 
 alias :running :lambda
 
-class Test::Unit::TestCase
+class ActiveSupport::TestCase 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures = false
 

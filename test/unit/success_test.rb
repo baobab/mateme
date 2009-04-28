@@ -12,7 +12,7 @@ module Kernel
   end
 end
 
-class SuccessTest < Test::Unit::TestCase
+class SuccessTest < ActiveSupport::TestCase
   fixtures :location, :encounter 
 
   context "Success" do

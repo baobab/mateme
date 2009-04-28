@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class LocationTest < Test::Unit::TestCase 
+class LocationTest < ActiveSupport::TestCase 
   fixtures :location
 
   context "Locations" do

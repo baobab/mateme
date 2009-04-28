@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PersonAddressTest < Test::Unit::TestCase
+class PersonAddressTest < ActiveSupport::TestCase
   fixtures :person_address
   
   context "Person addresses" do

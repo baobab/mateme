@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ConceptSetTest < Test::Unit::TestCase 
+class ConceptSetTest < ActiveSupport::TestCase 
   context "Concept sets" do
     fixtures :concept_set, :concept, :concept_name
 

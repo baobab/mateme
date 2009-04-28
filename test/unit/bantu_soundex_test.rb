@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BantuSoundexTest < Test::Unit::TestCase 
+class BantuSoundexTest < ActiveSupport::TestCase 
   context "Soundex" do
     should "be able to convert a word to code" do
       assert_not_nil "Rodney".soundex

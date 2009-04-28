@@ -23,12 +23,6 @@ alcohol_counseling:
   date_created: 2005-02-25 11:32:55 +02:00
   creator: 2
   locale: en
-alcohol_counseling: 
-  name: ALCOHOL COUNSELING
-  concept_id: 1288
-  date_created: 2005-02-25 11:32:55 +02:00
-  creator: 2
-  locale: en
 muppet_counseling: 
   name: MUPPET COUNSELING
   concept_id: 1289

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PeopleControllerTest < Test::Unit::TestCase
+class PeopleControllerTest < ActionController::TestCase
   fixtures :person, :person_name, :person_name_code, :person_address, :patient, :patient_identifier, :patient_identifier_type
 
   def setup  

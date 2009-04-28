@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class EncounterTypeTest < Test::Unit::TestCase 
+class EncounterTypeTest < ActiveSupport::TestCase 
   context "Encounter types" do
     fixtures :encounter_type
 

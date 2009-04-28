@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PersonNameCodeTest < Test::Unit::TestCase
+class PersonNameCodeTest < ActiveSupport::TestCase
   fixtures :person_name_code, :person_name, :person
 
   context "Person name codes" do  

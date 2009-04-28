@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DrugIngredientTest < Test::Unit::TestCase 
+class DrugIngredientTest < ActiveSupport::TestCase 
   fixtures :drug_ingredient
 
   context "Drug ingredients" do

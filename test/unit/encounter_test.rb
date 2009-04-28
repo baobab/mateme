@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class EncounterTest < Test::Unit::TestCase 
+class EncounterTest < ActiveSupport::TestCase 
   fixtures :encounter, :encounter_type, :concept, :concept_name, :obs
   
   context "Encounters" do

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PatientIdentifierTypeTest < Test::Unit::TestCase
+class PatientIdentifierTypeTest < ActiveSupport::TestCase
   fixtures :patient_identifier_type
 
   context "Patient identifier types" do 

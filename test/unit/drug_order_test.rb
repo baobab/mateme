@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class DrugOrderTest < Test::Unit::TestCase 
+class DrugOrderTest < ActiveSupport::TestCase 
   fixtures :drug_order
 
   context "Drug orders" do

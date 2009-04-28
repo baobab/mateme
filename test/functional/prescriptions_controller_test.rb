@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PrescriptionsControllerTest < Test::Unit::TestCase
+class PrescriptionsControllerTest < ActionController::TestCase
   fixtures :drug, :orders, :drug_order, :order_type, :patient, :person, :encounter_type,
            :concept, :concept_name, :concept_class
 
