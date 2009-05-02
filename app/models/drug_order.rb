@@ -5,15 +5,20 @@ class DrugOrder < ActiveRecord::Base
   belongs_to :drug, :foreign_key => :drug_inventory_id
   
   def to_s 
-    "#{drug.name}: #{frequency} (#{quantity} total)"
+    "#{drug.name}: #{frequency} (#{duration} days)"
   end
   
   def to_short_s
-    "#{drug.name}: #{frequency} (#{quantity} total)"  
+    "#{drug.name}: #{frequency} (#{duration} days)"  
   end
   
   def parse_frequency
     amounts = self.frequency.match(/\:\s([\d\s\/]+)\s\w+\;/)
+  end
+  
+  def duration
+    order = Order.find(order_id)
+    (order.auto_expire_date.to_date - order.start_date.to_date).to_i rescue nil
   end
   
 end

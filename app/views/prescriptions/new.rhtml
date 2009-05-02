@@ -6,31 +6,51 @@
     clearInput();
   }
   
+  function set_generic_drug_and_formulation_for_duration() {
+    var generic = encodeURIComponent($('generic').value); 
+    var formulation = encodeURIComponent($('formulation').value); 
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/durations?generic=" + generic + "&formulation=" + formulation + "&search_string=");
+    clearInput();
+  }
+  
   function set_generic_drug_and_formulation_for_dose() {
     var generic = encodeURIComponent($('generic').value); 
     var formulation = encodeURIComponent($('formulation').value); 
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/frequencies?generic=" + generic + "&formulation=" + formulation + "&search_string=");
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/dosages?generic=" + generic + "&formulation=" + formulation + "&search_string=");
     clearInput();
   }
 
-  function set_generic_drug_and_formulation_for_quantity() {
-    var generic = encodeURIComponent($('generic').value); 
-    var formulation = encodeURIComponent($('formulation').value); 
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/quantities?generic=" + generic + "&formulation=" + formulation + "&search_string=");
-    clearInput();
+  function set_units_for_dose_strength() {
+    var helpText = $('helpText'+tstCurrentPage);
+    helpText.innerHTML = "Dose strength";
+    var formulation = encodeURIComponent($('formulation').value);     
+    var aUrl = "/prescriptions/units?formulation=" + formulation;
+    var httpRequest = new XMLHttpRequest(); 
+    httpRequest.onreadystatechange = function() { 
+      set_help_text(helpText, httpRequest); 
+    };
+    try {
+      httpRequest.open('GET', aUrl, true);
+      httpRequest.send(null);    
+    } catch(e){
+    }
   }
+  
+  function set_help_text(el, req) {
+    if (req.readyState == 4 && req.status == 200)
+      el.innerHTML = "Dose strength (" + req.responseText + ")";
+  }
+  
 </script>
 <form id='prescription' action="/prescriptions/create" method='post'>
  
   <%= hidden_field_tag :patient_id, @patient.id %>
   
-  <label for='generic'></label>
   <%= text_field_tag :generic, nil, {
     :ajaxURL => "/prescriptions/generics?search_string=", 
     :textCase => "upper", 
     :helpText => "Generic Drug"}%>
 
-  <label for='formulation'></label>
   <% # Set ajaxURL in the script, but need to start it blank %>
   <%= text_field_tag :formulation, nil, {
     :tt_onLoad => "set_generic_drug_for_formulation();",
@@ -38,6 +58,39 @@
     :textCase => "upper", 
     :helpText => "Formulation"}%>
 
+  <%= select_tag :type_of_prescription, options_for_select(
+    {"Standard Dose" => "standard"}), 
+    {:helpText => "Type of Prescription"} %> 
+
+  <% # Set ajaxURL in the script, but need to start it blank %>
+  <%= text_field_tag :dose_strength, nil, {
+    :tt_onLoad => "set_generic_drug_and_formulation_for_dose(); set_units_for_dose_strength();",
+    :ajaxURL => "", 
+    :field_type => 'number',
+    :units => 'mg',
+    :helpText => "Dose strength"}%>
+<!--:absoluteMin => should use minimumDailyDose
+    :absoluteMax => should use maximumDailyDose-->    
+
+  <%= select_tag :frequency, options_from_collection_for_select(
+    ConceptName.find_by_name("DRUG FREQUENCY CODED").concept.concept_answers, :name, :name), 
+    {:helpText => "Frequency"} %> 
+
+
+  <% # Set ajaxURL in the script, but need to start it blank %>
+  <%= text_field_tag :duration, nil, { 
+    :tt_onLoad => "set_generic_drug_and_formulation_for_duration();",
+    :ajaxURL => "", 
+    :textCase => "upper", 
+    :field_type => "number",
+    :helpText => "Duration (days)"}%>
+
+  <%= select_tag :prn, options_for_select(
+    {"No" => "0", 
+     "Yes" => "1"}), 
+    {:helpText => "Take as needed (PRN)?"} %> 
+
+<!--
 
   <label for="morning_dose"></label>
   <% # Set ajaxURL in the script, but need to start it blank %>
@@ -74,14 +127,8 @@
     :textCase => "upper", 
     :helpText => "How many doses at night?"}%>
 
-  <label for="quantity"></label>
-  <% # Set ajaxURL in the script, but need to start it blank %>
-  <%= text_field_tag :quantity, nil, { 
-    :tt_onLoad => "set_generic_drug_and_formulation_for_quantity();",
-    :ajaxURL => "", 
-    :textCase => "upper", 
-    :field_type => "number",
-    :helpText => "Total number of doses?"}%>
+-->
+
 
 
 
