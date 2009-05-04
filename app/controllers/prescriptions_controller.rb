@@ -20,26 +20,20 @@ class PrescriptionsController < ApplicationController
     @formulation = (params[:formulation] || '').upcase
     @drug = Drug.find_by_name(@formulation) rescue nil
     render :text => "No matching drugs found for #{params[:formulation]}" and return unless @drug
-    render :text => "Variable dosing is not currently enabled" and return if params[:type_of_prescription] == "variable"
     
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
-    ActiveRecord::Base.transaction do
-      @order = @encounter.orders.create(
-        :order_type_id => 1, 
-        :concept_id => 1, 
-        :orderer => User.current_user.user_id, 
-        :patient_id => @patient.id,
-        :start_date => Time.now,
-        :auto_expire_date => Time.now + params[:duration].to_i.days)        
-      @drug_order = DrugOrder.new(
-        :drug_inventory_id => @drug.id,
-        :dose => params[:dose_strength],
-        :frequency => params[:frequency],
-        :prn => params[:prn])
-      @drug_order.order_id = @order.id                
-      @drug_order.save!
-    end                  
+    start_date = Time.now
+    auto_expire_date = Time.now + params[:duration].to_i.days
+    prn = params[:prn]
+    if params[:type_of_prescription] == "variable"
+      write_order(start_date, auto_expire_date, params[:morning_dose], 'MORNING', prn) unless params[:morning_dose] == "Unknown" || params[:morning_dose].to_f == 0
+      write_order(start_date, auto_expire_date, params[:afternoon_dose], 'AFTERNOON', prn) unless params[:afternoon_dose] == "Unknown" || params[:afternoon_dose].to_f == 0
+      write_order(start_date, auto_expire_date, params[:evening_dose], 'EVENING', prn) unless params[:evening_dose] == "Unknown" || params[:evening_dose].to_f == 0
+      write_order(start_date, auto_expire_date, params[:night_dose], 'NIGHT', prn)  unless params[:night_dose] == "Unknown" || params[:night_dose].to_f == 0
+    else
+      write_order(start_date, auto_expire_date, params[:dose_strength], params[:frequency], prn)
+    end  
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
   end
   
@@ -49,12 +43,11 @@ class PrescriptionsController < ApplicationController
   def generics
     search_string = (params[:search_string] || '').upcase
     filter_list = params[:filter_list].split(/, */) rescue []    
-    @drug_concepts = Concept.active.find(:all, 
+    @drug_concepts = ConceptName.find(:all, 
       :select => "concept_name.name", 
-      :include => [:name], 
-      :joins => "INNER JOIN drug ON drug.concept_id = concept.concept_id AND drug.retired = 0", 
+      :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0", 
       :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
-    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name.name }.join("</li><li>") + "</li>"
+    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.join("</li><li>") + "</li>"
   end
   
   # Look up all of the matching drugs for the given generic drugs
@@ -69,33 +62,6 @@ class PrescriptionsController < ApplicationController
     render :text => "<li>" + @drugs.map{|drug| drug.name }.join("</li><li>") + "</li>"
   end
   
-  # Look up allowable frequency for the specific drug
-  def frequencies
-    @generic = (params[:generic] || '').upcase
-    @concept_ids = ConceptName.find_all_by_name(@generic).map{|c| c.concept_id}
-    render :text => "No matching generics found for #{params[:generic]}" and return if @concept_ids.blank?
-
-    @formulation = (params[:formulation] || '').upcase
-    drug = Drug.find_by_name(@formulation) rescue nil
-    render :text => "No matching drugs found for #{params[:formulation]}" and return unless drug
-
-    # Eventually we will have a real dosage table lookup here based on weight
-    dosage_form = drug.form.name rescue 'dose'
-    doses = [
-      "None", 
-      "1 #{dosage_form}", 
-      "2 #{dosage_form.pluralize}", 
-      "3 #{dosage_form.pluralize}", 
-      "1/4 #{dosage_form}", 
-      "1/3 #{dosage_form}", 
-      "1/2 #{dosage_form}", 
-      "3/4 #{dosage_form}", 
-      "1 1/4 #{dosage_form}", 
-      "1 1/2 #{dosage_form}", 
-      "1 3/4 #{dosage_form}"]
-    render :text => "<li>" + doses.join("</li><li>") + "</li>"
-  end
-
   # Look up likely durations for the drug
   def durations
     @formulation = (params[:formulation] || '').upcase
@@ -125,17 +91,22 @@ class PrescriptionsController < ApplicationController
     drug = Drug.find_by_name(@formulation) rescue nil
     render :text => "No matching drugs found for #{params[:formulation]}" and return unless drug
 
+    @frequency = (params[:frequency] || '')
+
     # Grab the 10 most popular dosages for this drug
     amounts = []
     amounts << "#{drug.dose_strength}" if drug.dose_strength 
-    orders = DrugOrder.find(:all, :limit => 10, :group => 'drug_inventory_id, dose', :order => 'count(*)', :conditions => {:drug_inventory_id => drug.id})
+    orders = DrugOrder.find(:all, 
+      :limit => 10, 
+      :group => 'drug_inventory_id, dose', 
+      :order => 'count(*)', 
+      :conditions => {:drug_inventory_id => drug.id, :frequency => @frequency})
     orders.each {|order|
       amounts << "#{order.dose}"
     }  
     amounts = amounts.flatten.compact.uniq
     render :text => "<li>" + amounts.join("</li><li>") + "</li>"
   end
-
 
   # Look up the units for the first substance in the drug, ideally we should re-activate the units on drug for aggregate units
   def units
@@ -145,5 +116,26 @@ class PrescriptionsController < ApplicationController
     render :text => drug.units
   end
   
+  private
+  
+  def write_order(start_date, auto_expire_date, dose, frequency, prn)
+    ActiveRecord::Base.transaction do
+      @order = @encounter.orders.create(
+        :order_type_id => 1, 
+        :concept_id => 1, 
+        :orderer => User.current_user.user_id, 
+        :patient_id => @patient.id,
+        :start_date => start_date,
+        :auto_expire_date => auto_expire_date)        
+      @drug_order = DrugOrder.new(
+        :drug_inventory_id => @drug.id,
+        :dose => dose,
+        :frequency => frequency,
+        :prn => prn,
+        :units => @drug.units || 'per dose')
+      @drug_order.order_id = @order.id                
+      @drug_order.save!
+    end                  
+  end
   
 end
