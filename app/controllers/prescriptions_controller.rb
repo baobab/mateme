@@ -71,15 +71,15 @@ class PrescriptionsController < ApplicationController
     # Grab the 10 most popular durations for this drug
     amounts = []
     orders = DrugOrder.find(:all, 
-      :select => 'DATEDIFF(orders.auto_expire_date, orders.start_date) as duration',
-      :include => :orders,
+      :select => 'DATEDIFF(orders.auto_expire_date, orders.start_date) as duration_days',
+      :joins => 'LEFT JOIN orders ON orders.order_id = drug_order.order_id',
       :limit => 10, 
-      :group => 'drug_inventory_id, DATEDIFF(orders.auto_expire_date, orders.start_date) as duration', 
+      :group => 'drug_inventory_id, DATEDIFF(orders.auto_expire_date, orders.start_date)', 
       :order => 'count(*)', 
       :conditions => {:drug_inventory_id => drug.id})
       
     orders.each {|order|
-      amounts << "#{order.quantity}"
+      amounts << "#{order.duration_days}"
     }  
     amounts = amounts.flatten.compact.uniq
     render :text => "<li>" + amounts.join("</li><li>") + "</li>"
