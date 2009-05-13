@@ -7,7 +7,7 @@ class PeopleController < ApplicationController
     user_roles = User.current_user.user_roles.collect{|r|r.role.role}
     @show_user_management = true if user_roles.include?("superuser") || user_roles.include?("System Developer")
     @show_set_date = true unless session[:encounter_datetime].blank? 
-
+    #render :text =>"_#{@show_set_date.to_s}_   #{(session[:encounter_datetime].blank?).to_s}" and return
     @people = Person.find(:all)
     render :layout => "menu"
   end
