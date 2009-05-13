@@ -5,9 +5,14 @@
     </form>
     <%= javascript_include_tag "barcode" %>
 </br>
-      Summary for <%= Date.today.strftime("%d %b %Y") %>:<br/>
+      <% date = session[:encounter_datetime] ||= Date.today 
+      if @show_set_date %>
+        Summary for <%= date.strftime("%d %b %Y") %>:<br/>
+      <% else %>  
+        <div class='session_date'>Summary for <%= date.strftime("%d %b %Y") %>:</div><br/>
+      <% end %>
         <table class="patient_information">
-        <% Encounter.count_by_type_for_date(Date.today).each{|type,total| 
+        <% Encounter.count_by_type_for_date(date.to_date).each{|type,total| 
            type = "Reception - patients seen" if type == "REGISTRATION"
            type = "patients referred to other clinics" if type == "REFERRED"
         %>
@@ -22,6 +27,8 @@
     <%= link_to_onmousedown_in_tr_td "Find or register patient by name", {:action => "search"}  %>
     <!--%= link_to_onmousedown_in_tr_td "View reports", {:controller => "report", :action => 'select'}  %-->
     <%= link_to_onmousedown_in_tr_td "Administration", {:controller =>"user",:action => "user_menu"}  if @show_user_management %>
+    <%= link_to_onmousedown_in_tr_td "Set Date", {:controller =>"people",:action => "set_datetime_for_retrospective_data_entry"} if @show_set_date%>
+    <%= link_to_onmousedown_in_tr_td "Reset Date", {:controller =>"people",:action => "reset_datetime"} unless @show_set_date %>
     <div><%= link_to_onmousedown_in_tr_td "Change user", { :controller => "user", :action => "logout"}, :style => "background-color: tomato", :id => "logout" %></div>
 </table>
 </div>

@@ -69,7 +69,11 @@
                                                               ["6 months", 24]]), {:helpText => 'Time Until Next Appointment'}) %>
 
   <label for='next_appointment_date'>Next Appointment Date</label>
-  <%= text_field_tag("observations[][value_datetime]", (Time.now + 1.month).year, {:helpText => 'Next Appointment Date', :field_type => 'date', :absoluteMin => Date.today.year, :absoluteMax => Date.today.year + 1, :tt_pageStyleClass => "Date DatesOnly", :tt_onLoad => "
+  <%
+    session_date = session[:encounter_datetime] ||= Time.now()
+    date = session_date.to_date
+  %> 
+  <%= text_field_tag("observations[][value_datetime]", (date + 1.month).year, {:helpText => 'Next Appointment Date', :field_type => 'date', :absoluteMin => date.year, :absoluteMax => date.year + 1, :tt_pageStyleClass => "Date DatesOnly", :tt_onLoad => "
      ds.date = new Date(); 
      ds.date.setDate(ds.date.getDate() + (7 * parseInt($('time_until_next_visit').value)));
      $('dateselector_year').value = ds.date.getFullYear();
