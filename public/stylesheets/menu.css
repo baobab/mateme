@@ -54,3 +54,5 @@ div.left{
 input#barcode{
   border: none;
 }
+
+.session_date{width:264px;background-color:red;}
