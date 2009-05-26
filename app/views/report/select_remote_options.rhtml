@@ -1,0 +1,57 @@
+<style>
+body {
+   font-family: Helvetica, Geneva, Arial, sans-serif;
+   font-size: small;
+   font-color: #000;
+   background-color: #fff;
+}
+
+</style>
+
+<% render :layout => false%>
+<script src=""> </script>
+
+<h1>Remote select options</h1>
+<table>
+  <form action = "remote_report">
+  <tr>
+    <td>
+      Report Type:
+    </td>
+    <td>
+      <select name="report">
+        <option>Weekly report</option>
+        <option>Aggregated Diagnoses</option>
+        <option>Referrals</option>
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Start Date:
+    </td>
+    <td>
+      <%=date_select "post", "start_date"%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      End Date:
+    </td>
+    <td>
+      <%=date_select "post", "end_date"%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+      
+<input type="submit" value="View" />
+    </td>
+  </tr>
+  </form>
+</table>
+
+

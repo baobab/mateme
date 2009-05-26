@@ -2,7 +2,7 @@
 <script src="/javascripts/dateselector.js" type="text/javascript"></script>
 <style>
 .tt_controls_start_year .buttonLine {
-  height:116px;
+  height:95px;
 }
 
 .buttonLine {
@@ -11,8 +11,8 @@
 }
 
 .tt_controls_start_year .keyboard .keyboardButton {
-  width:180px;
-  height:111px
+  width:85px;
+  height:90px
 }
 
 .keyboard {
@@ -27,10 +27,10 @@
 
 #tt_page_start_year #viewport{display:none;}
 #tt_page_start_date #viewport{display:none;}
-#tt_page_start_year .touchscreenTextInput{top:50px;}
+#tt_page_start_year .touchscreenTextInput{top:95px;}
 
-#tt_page_start_month #viewport{top:50px; width:465px;}
-#tt_page_start_month .touchscreenTextInput{top:50px;}
+#tt_page_start_month #viewport{top:145px; width:465px;}
+#tt_page_start_month .touchscreenTextInput{top:95px;}
 .tt_controls_start_month .keyboard{display:none;}
 
 .options {
@@ -52,7 +52,7 @@
   display:none;
 }
 
-#tt_page_start_date .touchscreenTextInput{top:50px;}
+#tt_page_start_date .touchscreenTextInput{top:95px;}
 
 #tt_page_start_date .options li {
   color:black;
@@ -71,32 +71,32 @@
   height:55;
 }
 .tt_controls_start_date .keyboard {
-  top:95px;
+  top:145px;
   width:540px;
 }
 
 .tt_controls_end_year .buttonLine {
-  height:116px;
+  height:95px;
 }
 
 .tt_controls_end_year .keyboard .keyboardButton {
-  width:180px;
-  height:111px
+  width:85px;
+  height:90px
 }
 
 #tt_page_end_year #viewport{display:none;}
 #tt_page_end_date #viewport{display:none;}
-#tt_page_end_year .touchscreenTextInput{top:50px;}
+#tt_page_end_year .touchscreenTextInput{top:95px;}
 
-#tt_page_end_month #viewport{top:50px; width:465px;}
-#tt_page_end_month .touchscreenTextInput{top:50px;}
+#tt_page_end_month #viewport{top:145px; width:465px;}
+#tt_page_end_month .touchscreenTextInput{top:95px;}
 .tt_controls_end_month .keyboard{display:none;}
 
 #tt_page_end_year #space, #abc, #percent, #backspace, #slash, #decimal, #comma, #minus, #star, #plus, #date {
   display:none;
 }
 
-#tt_page_end_date .touchscreenTextInput{top:50px;}
+#tt_page_end_date .touchscreenTextInput{top:95px;}
 
 #tt_page_end_date .options li {
   color:black;
@@ -115,9 +115,16 @@
   height:55;
 }
 .tt_controls_end_date .keyboard {
-  top:95px;
+  top:145px;
   width:540px;
 }
+
+#infofield {
+   font-family: Helvetica, Geneva, Arial, sans-serif;
+   font-size: small;
+   font-color: #000;
+}
+
 
 #backspace{display:inline;width:180px;}
 
@@ -136,7 +143,7 @@
  %>
  
 <label for="calendar">Start Year</label><br/>
-<%= text_field_tag :start_year, nil, {:helpText => 'Start Year', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year} %>
+<%= text_field_tag :start_year, nil, {:helpText => "Start Year", :tt_onLoad => "loadHelpText();", :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year} %>
 <label for="calendar">Start Month</label><br/>
 <%  
    optionsString = "<option>" "" "</option>"
@@ -145,7 +152,7 @@
       }
       optionsString << "<option>" "Unknown" "</option>"
 %>
-<%=select_tag(:start_month, optionsString,  {:field_type => 'alpha', :helpText => 'Start Month'})%>
+<%=select_tag(:start_month, optionsString,  {:field_type => 'alpha', :helpText => "Start Month", :tt_onLoad => "loadHelpText();"})%>
 <label for="calendar">Start Date</label><br/>
 <%day=Array.new(31){|d|d + 1 } %>
 <%#unknown=Array.new %>
@@ -158,11 +165,11 @@
       }
 %>
 
-<%= select_tag(:start_day, options, {:field_type => 'number', :helpText => 'Start Date', :min => "1", :absoluteMin =>"1", :absoluteMax =>"31"})  %>
+<%= select_tag(:start_day, options, {:field_type => 'number', :helpText => 'Start Date', :tt_onLoad => "loadHelpText();", :min => "1", :absoluteMin =>"1", :absoluteMax =>"31"})  %>
 
 
 <label for="calendar">End Year</label><br/>
-<%= text_field_tag :end_year, nil, {:helpText => 'End Year', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year} %>
+<%= text_field_tag :end_year, nil, {:helpText => 'End Year', :field_type => 'number', :tt_onLoad => "loadHelpText();", :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year} %>
 <label for="calendar">End Month</label><br/>
 <%  
    optionsString = "<option>" "" "</option>"
@@ -171,12 +178,36 @@
       }
       optionsString << "<option>" "Unknown" "</option>"
 %>
-<%=select_tag(:end_month, optionsString,  {:field_type => 'alpha', :helpText => 'End Month'})%>
+<%=select_tag(:end_month, optionsString,  {:field_type => 'alpha', :helpText => 'End Month', :tt_onLoad => "loadHelpText();"})%>
 <label for="calendar">End Date</label><br/>
 <%day=Array.new(31){|d|d + 1 } %>
 <%unknown=Array.new %>
 <%days_with_unknown = day<< "Unknown" %>
 <%days = [""].concat day%>
-<%= select_tag(:end_day, options_for_select(days), {:field_type => 'number', :helpText => 'End Date'})  %>
+<%= select_tag(:end_day, options_for_select(days), {:field_type => 'number', :helpText => 'End Date', :tt_onLoad => "loadHelpText();"})  %>
+
 <%end%>
+
+<div id='tyinfo'>
+
+</div>
+
+
+<script type='text/javascript'>
+           
+function loadHelpText() {
+  helpText = $('helpText'+tstCurrentPage);
+  helpTextString = helpText.innerHTML;
+  helpText.innerHTML = helpTextString + "<div id='infofield'/>";
+  var selectedDates = "<div>Selected start date: <b>" + selectedValue('start_year') + ' ' + selectedValue('start_month') + ' ' + selectedValue('start_day') + "</b></div><div>Selected end date: <b>" + selectedValue('end_year') + ' ' + selectedValue('end_month') + ' ' + selectedValue('end_day') + "</b></div>"
+
+
+$('infofield').innerHTML = selectedDates;
+
+}
+
+
+
+</script>
+
 

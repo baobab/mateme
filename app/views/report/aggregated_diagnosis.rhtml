@@ -10,10 +10,11 @@
   <tr class="header">
     <td>Diagnosis</td>
     <%4.times do%>
-    <td><table><tr><td class="values">M</td><td class="values">F</td></tr></table></td>
+    <td><table><tr><td id="values">M</td><td id="values">F</td></tr></table></td>
     <%end%>
   </tr>
   <% 
+      counter = 0 
     @diagnoses.each{|diagnosis|
       #raise  diagnosis.to_yaml and return
       count_male_under_five = 0
@@ -44,23 +45,23 @@
             end
           end
         end 
-      } 
+      }
+     counter += 1 
   %>
-  <tr>
+  <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightblue"%>'>
     <td><%= diagnosis.name%></td>
     <td><table>
-        <tr><td class="values"><%= count_male_under_five %></td><td class="values"><%= count_female_under_five %></td></tr>
+        <tr><td id="values"><%= count_male_under_five %></td><td id="values"><%= count_female_under_five %></td></tr>
     </table></td>
-    <td><table><tr><td class="values"><%= count_male_in_between%></td><td class="values"><%= count_female_in_between%></td></tr></table></td>
+    <td><table><tr><td id="values"><%= count_male_in_between%></td><td id="values"><%= count_female_in_between%></td></tr></table></td>
     <td><table>
-        <tr><td class="values"><%= count_male_above_fourteen %></td><td class="values"><%= count_female_above_fourteen%></td></tr>
+        <tr><td id="values"><%= count_male_above_fourteen %></td><td id="values"><%= count_female_above_fourteen%></td></tr>
     </table></td>
     <td>
       <table>
-        <tr><td class="values"><%= count_male_under_five + count_male_in_between + count_male_above_fourteen %></td>
-          <td class="values"><%= count_female_under_five + count_female_in_between + count_female_above_fourteen%></td></tr>
+        <tr><td id="values"><%= count_male_under_five + count_male_in_between + count_male_above_fourteen %></td>
+          <td id="values"><%= count_female_under_five + count_female_in_between + count_female_above_fourteen%></td></tr>
     </table></td>
   </tr>
   <% }%>
 </table>
-

@@ -2,17 +2,16 @@
 <table>
   <tr class="header">
     <td>Diagnosis</td>
-    <% @times.each{|t| 
+    <% @times.each{|t|
       end_day = 4.days.from_now(t.to_date.monday)
       if end_day > @end_date
         end_day = @end_date
       end
     %>
-    <td> <%="#{t.to_date.strftime("%d/%m/%y")} - #{end_day.strftime("%d/%m/%y")}"%></td>
+    <td id="dates"> <%="#{t.to_date.strftime("%d/%m/%y")}"%> </br>to </br> <%= "#{end_day.strftime("%d/%m/%y")}"%></td>
     <%}%>
   </tr>
   <tr>
-
     <%
       @times.each{|t| 
         @data_hash.each{|key, value|
@@ -22,15 +21,21 @@
         temp_hash = value   
       %>
          <% if t.to_date == @times[0].to_date%>
-        <td>
+    <td>
       <table>
-         <%temp_hash.each{|a,b|%>
-        <tr>
-           <td><%="#{a}"%></td>
-                  
+        <%
+          counter = 0
+          @sort_array.each{|diag|
+             counter += 1
+            temp_hash.each{|a,b|
+              if diag == a            
+          %>
+        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightblue"%>'>
+           <td><%="#{a}"%></td>                  
         </tr>
-         <% }%>
-
+        <% end
+            }
+          }%>
      </table>
    </td>
  <%end%>
@@ -39,12 +44,19 @@
   
     <td>
       <table>
-         <%temp_hash.each{|k,v|%>
-        <tr>
-          <td><%="#{v}"%></td>
+        <%counter = 0
+        @sort_array.each{|diag|
+            counter += 1
+            temp_hash.each{|k,v|
+              if diag == k            
+          %>
+        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightblue"%>'>
+          <td id="values"><%="#{v}"%></td>
                   
         </tr>
-         <% }%>
+        <% end
+            }
+          }%>
 
      </table>
     </td>
