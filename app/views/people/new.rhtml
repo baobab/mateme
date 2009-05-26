@@ -26,7 +26,7 @@
 
   Gender: <%= f.select :gender, {"" => "", "Male" => "M", "Female" => "F"}, {:selected => params[:gender]}, {:id => 'gender', :helpText => 'Gender', :condition => '$("gender").value == ""' } %>
 
-  <%= text_field_tag "person_name[family_name2]", params[:family_name2], {:id => 'family_name2', :field_type => 'alpha', :helpText => 'Mother\'s Surame', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :condition => '$("family_name2").value == ""' } %>
+  <%= text_field_tag "person_name[family_name2]", params[:family_name2], {:id => 'family_name2', :field_type => 'alpha', :helpText => 'Mother\'s Surname', :ajaxURL => '/person_names/family_name2?search_string=', :allowFreeText => true, :condition => '$("family_name2").value == ""' } %>
 
   <%= text_field_tag "person_address[address2]", params[:address2], {:id => 'address2', :field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :condition => '$("address2").value == ""' } %>
   
