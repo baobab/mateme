@@ -10,6 +10,7 @@ class EncountersController < ApplicationController
       end
 
       encounter.type = EncounterType.find(encounter_type_id) rescue nil
+      encounter.encounter_datetime = session[:encounter_datetime] unless session[:encounter_datetime].blank?
       encounter.save unless encounter_type_id.blank?
     end
 
@@ -23,7 +24,7 @@ class EncountersController < ApplicationController
 
       next if values.length == 0
       observation[:encounter_id] = encounter.id
-      observation[:obs_datetime] ||= Time.now()
+      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
       observation[:person_id] ||= encounter.patient_id
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
       Observation.create(observation)

@@ -21,7 +21,7 @@ location_00014:
   longitude: ""
   description: Mlambe Hospital in Lunzu
   retired: false
-  date_created: 2008-05-06 09:34:54 -07:00
+  date_created: 2008-05-06 18:34:54 +02:00
 location_00003: 
   region: 
   name: Magaleta Rural Health Center
@@ -44,7 +44,7 @@ location_00003:
   longitude: ""
   description: Magaleta Rural Health Center (ID=751)
   retired: false
-  date_created: 2007-11-29 16:23:37 -08:00
+  date_created: 2007-11-30 02:23:37 +02:00
 location_00004: 
   region: 
   name: Neno Mission Hospital
@@ -67,7 +67,7 @@ location_00004:
   longitude: ""
   description: Neno Mission Hospital (ID=752)
   retired: false
-  date_created: 2007-11-29 16:25:15 -08:00
+  date_created: 2007-11-30 02:25:15 +02:00
 location_00015: 
   region: 
   name: Mulanje District Hospital
@@ -90,7 +90,7 @@ location_00015:
   longitude: ""
   description: Mulanje District Hospital
   retired: false
-  date_created: 2008-05-06 09:35:32 -07:00
+  date_created: 2008-05-06 18:35:32 +02:00
 location_00016: 
   region: 
   name: Lisungwi Rural Hospital
@@ -113,7 +113,7 @@ location_00016:
   longitude: ""
   description: Lisungwi Rural Hospital
   retired: false
-  date_created: 2008-06-14 00:46:04 -07:00
+  date_created: 2008-06-14 09:46:04 +02:00
 location_00005: 
   region: 
   name: Matandani Rural Health Center
@@ -136,7 +136,7 @@ location_00005:
   longitude: ""
   description: (ID=753)
   retired: false
-  date_created: 2007-11-29 16:25:44 -08:00
+  date_created: 2007-11-30 02:25:44 +02:00
 location_00006: 
   region: 
   name: Malawi
@@ -159,7 +159,7 @@ location_00006:
   longitude: 
   description: The Country of Malawi
   retired: false
-  date_created: 2008-01-16 19:45:13 -08:00
+  date_created: 2008-01-17 05:45:13 +02:00
 location_00007: 
   region: 
   name: Neno District Hospital - Registration
@@ -182,7 +182,7 @@ location_00007:
   longitude: ""
   description: Registration desk at Neno Rural Hospital (ID=750)
   retired: false
-  date_created: 2008-05-02 15:03:45 -07:00
+  date_created: 2008-05-03 00:03:45 +02:00
 location_00008: 
   region: 
   name: Neno District Hospital - Vitals
@@ -205,7 +205,7 @@ location_00008:
   longitude: ""
   description: Vitals recorded at Neno District Hospital (ID=750)
   retired: false
-  date_created: 2008-05-02 15:04:11 -07:00
+  date_created: 2008-05-03 00:04:11 +02:00
 location_00009: 
   region: 
   name: Neno District Hospital - ART
@@ -228,7 +228,7 @@ location_00009:
   longitude: ""
   description: ART Clinic at Neno District Hospital (ID=750)
   retired: false
-  date_created: 2008-05-02 15:04:36 -07:00
+  date_created: 2008-05-03 00:04:36 +02:00
 location_00010: 
   region: 
   name: Neno District Hospital - Outpatient
@@ -251,7 +251,7 @@ location_00010:
   longitude: ""
   description: Outpatient Department at Neno District Hospital (ID=750)
   retired: false
-  date_created: 2008-05-02 15:05:20 -07:00
+  date_created: 2008-05-03 00:05:20 +02:00
 location_00011: 
   region: 
   name: Mwanza District Hospital
@@ -274,7 +274,7 @@ location_00011:
   longitude: ""
   description: Mwanza District Hospital
   retired: false
-  date_created: 2008-05-06 09:32:32 -07:00
+  date_created: 2008-05-06 18:32:32 +02:00
 location_00012: 
   region: 
   name: QECH
@@ -297,7 +297,7 @@ location_00012:
   longitude: ""
   description: Queen Elizabeth Central Hospital
   retired: false
-  date_created: 2008-05-06 09:32:59 -07:00
+  date_created: 2008-05-06 18:32:59 +02:00
 location_00001: 
   region: 
   name: Unknown Location
@@ -320,7 +320,7 @@ location_00001:
   longitude: 
   description: 
   retired: false
-  date_created: 2005-09-22 00:00:00 -07:00
+  date_created: 2005-09-22 09:00:00 +02:00
 location_00002: 
   region: 
   name: Neno District Hospital
@@ -343,7 +343,7 @@ location_00002:
   longitude: ""
   description: Neno District Hospital, formerly Neno Rural Hospital (ID=750)
   retired: false
-  date_created: 2007-11-29 16:23:00 -08:00
+  date_created: 2007-11-30 02:23:00 +02:00
 location_00013: 
   region: 
   name: KCH
@@ -366,4 +366,4 @@ location_00013:
   longitude: ""
   description: Kamuzu Central Hospital
   retired: false
-  date_created: 2008-05-06 09:33:43 -07:00
+  date_created: 2008-05-06 18:33:43 +02:00

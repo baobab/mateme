@@ -2,15 +2,15 @@ class Encounter < ActiveRecord::Base
   set_table_name :encounter
   set_primary_key :encounter_id
   include Openmrs
-
+  
   has_many :observations, :dependent => :destroy
   belongs_to :type, :class_name => "EncounterType", :foreign_key => :encounter_type
   belongs_to :provider, :class_name => "User", :foreign_key => :provider_id
   belongs_to :patient
 
   def before_save    
-    self.encounter_datetime = Time.now if self.encounter_datetime.blank?
     self.provider = User.current_user if self.provider.blank?
+    self.encounter_datetime = Time.now if self.encounter_datetime.blank?
   end
 
   def encounter_type_name=(encounter_type_name)

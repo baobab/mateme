@@ -15,7 +15,7 @@ drug_00010:
   combination: false
   retired: false
   concept_id: 796
-  date_created: 2005-02-24 00:00:00 -08:00
+  date_created: 2005-02-24 10:00:00 +02:00
 drug_00009: 
   route: 
   name: DDI (Didanosine 125mg tablet)
@@ -32,7 +32,7 @@ drug_00009:
   combination: false
   retired: false
   concept_id: 796
-  date_created: 2005-02-24 00:00:00 -08:00
+  date_created: 2005-02-24 10:00:00 +02:00
 drug_00031: 
   route: 
   name: d4T (Stavudine 20mg tablet)
@@ -49,7 +49,7 @@ drug_00031:
   combination: false
   retired: false
   concept_id: 625
-  date_created: 2006-08-10 15:16:05 -07:00
+  date_created: 2006-08-11 00:16:05 +02:00
 drug_00052: 
   route: 
   name: CPX (Ciprofloxacin)
@@ -61,12 +61,12 @@ drug_00052:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 13:29:00 -07:00
+  date_retired: 2008-04-23 22:29:00 +02:00
   drug_id: 52
   combination: false
   retired: true
   concept_id: 740
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00073: 
   route: 
   name: LPV/r (Lopinavir and Ritonavir 200/50mg tablet)
@@ -83,7 +83,7 @@ drug_00073:
   combination: true
   retired: false
   concept_id: 794
-  date_created: 2008-04-17 17:34:23 -07:00
+  date_created: 2008-04-18 02:34:23 +02:00
 drug_00094: 
   route: 
   name: LPV/r (Lopinavir and Ritonavir syrup)
@@ -100,7 +100,7 @@ drug_00094:
   combination: true
   retired: false
   concept_id: 794
-  date_created: 2008-08-13 16:22:47 -07:00
+  date_created: 2008-08-14 01:22:47 +02:00
 drug_00011: 
   route: 
   name: EFV (Efavirenz 600mg tablet)
@@ -117,7 +117,7 @@ drug_00011:
   combination: false
   retired: false
   concept_id: 633
-  date_created: 2006-08-09 11:53:33 -07:00
+  date_created: 2006-08-09 20:53:33 +02:00
 drug_00032: 
   route: 
   name: d4T (Stavudine 15mg tablet)
@@ -134,7 +134,7 @@ drug_00032:
   combination: false
   retired: false
   concept_id: 625
-  date_created: 2006-08-10 15:16:29 -07:00
+  date_created: 2006-08-11 00:16:29 +02:00
 drug_00053: 
   route: 
   name: OFX (Ofloxacin)
@@ -146,12 +146,12 @@ drug_00053:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 13:12:00 -07:00
+  date_retired: 2008-04-23 22:12:00 +02:00
   drug_id: 53
   combination: false
   retired: true
   concept_id: 1418
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00074: 
   route: 
   name: LPV/r (Lopinavir and Ritonavir 100/25mg tablet)
@@ -168,7 +168,7 @@ drug_00074:
   combination: true
   retired: false
   concept_id: 794
-  date_created: 2008-04-17 17:35:20 -07:00
+  date_created: 2008-04-18 02:35:20 +02:00
 drug_00095: 
   route: 
   name: d4T (Stavudine syrup)
@@ -185,7 +185,7 @@ drug_00095:
   combination: false
   retired: false
   concept_id: 625
-  date_created: 2008-08-13 16:25:01 -07:00
+  date_created: 2008-08-14 01:25:01 +02:00
 drug_00033: 
   route: 
   name: TMP/SMX (Cotrimoxazole 800/160mg tablet)
@@ -202,7 +202,7 @@ drug_00033:
   combination: true
   retired: false
   concept_id: 916
-  date_created: 2006-08-10 15:19:42 -07:00
+  date_created: 2006-08-11 00:19:42 +02:00
 drug_00054: 
   route: 
   name: LFX (Levofloxacin)
@@ -214,12 +214,12 @@ drug_00054:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 13:31:00 -07:00
+  date_retired: 2008-04-23 22:31:00 +02:00
   drug_id: 54
   combination: false
   retired: true
   concept_id: 755
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00075: 
   route: 
   name: CFZ (Clofazimine 100mg tablet)
@@ -236,7 +236,7 @@ drug_00075:
   combination: false
   retired: false
   concept_id: 1412
-  date_created: 2008-04-23 10:40:00 -07:00
+  date_created: 2008-04-23 19:40:00 +02:00
 drug_00096: 
   route: 
   name: Amitriptyline (25 mg)
@@ -253,7 +253,7 @@ drug_00096:
   combination: false
   retired: false
   concept_id: 931
-  date_created: 2008-08-13 16:39:02 -07:00
+  date_created: 2008-08-14 01:39:02 +02:00
 drug_00034: 
   route: 
   name: TMP/SMX (Cotrimoxazole 400/80mg tablet)
@@ -270,7 +270,7 @@ drug_00034:
   combination: true
   retired: false
   concept_id: 916
-  date_created: 2006-08-10 15:37:56 -07:00
+  date_created: 2006-08-11 00:37:56 +02:00
 drug_00055: 
   route: 
   name: Moxi (Moxifloxacin 400mg tablet)
@@ -287,7 +287,7 @@ drug_00055:
   combination: false
   retired: false
   concept_id: 955
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00076: 
   route: 
   name: B6 (Pyridoxine 50mg tablet)
@@ -304,7 +304,7 @@ drug_00076:
   combination: false
   retired: false
   concept_id: 766
-  date_created: 2008-04-23 11:11:00 -07:00
+  date_created: 2008-04-23 20:11:00 +02:00
 drug_00097: 
   route: 
   name: Chlorphenamine
@@ -321,7 +321,7 @@ drug_00097:
   combination: false
   retired: false
   concept_id: 913
-  date_created: 2008-08-13 16:43:47 -07:00
+  date_created: 2008-08-14 01:43:47 +02:00
 drug_00035: 
   route: 
   name: TMP/SMX (Cotrimoxazole 200/40mg tablet)
@@ -338,7 +338,7 @@ drug_00035:
   combination: true
   retired: false
   concept_id: 916
-  date_created: 2006-08-10 15:39:35 -07:00
+  date_created: 2006-08-11 00:39:35 +02:00
 drug_00056: 
   route: 
   name: Gati (Gatifloxacin 400 mg tablet)
@@ -355,7 +355,7 @@ drug_00056:
   combination: false
   retired: false
   concept_id: 1416
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00077: 
   route: 
   name: B6 (Pyridoxine 100mg tablet)
@@ -372,7 +372,7 @@ drug_00077:
   combination: false
   retired: false
   concept_id: 766
-  date_created: 2008-04-23 11:06:22 -07:00
+  date_created: 2008-04-23 20:06:22 +02:00
 drug_00098: 
   route: 
   name: Cloxacillin (tablet)
@@ -389,7 +389,7 @@ drug_00098:
   combination: false
   retired: false
   concept_id: 922
-  date_created: 2008-08-13 16:45:52 -07:00
+  date_created: 2008-08-14 01:45:52 +02:00
 drug_00014: 
   route: 
   name: TDF (Tenofavir 300 mg tablet)
@@ -406,7 +406,7 @@ drug_00014:
   combination: false
   retired: false
   concept_id: 802
-  date_created: 2006-08-10 14:37:07 -07:00
+  date_created: 2006-08-10 23:37:07 +02:00
 drug_00099: 
   route: 
   name: Bactrim (Trimethoprim and Sulfamethoxazole liquid)
@@ -423,7 +423,7 @@ drug_00099:
   combination: true
   retired: false
   concept_id: 916
-  date_created: 2008-08-13 16:50:29 -07:00
+  date_created: 2008-08-14 01:50:29 +02:00
 drug_00057: 
   route: 
   name: Ethio (Ethionamide 250 mg tablet)
@@ -440,7 +440,7 @@ drug_00057:
   combination: false
   retired: false
   concept_id: 1414
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00078: 
   route: 
   name: B6 (Pyridoxine 300mg tablet)
@@ -457,7 +457,7 @@ drug_00078:
   combination: false
   retired: false
   concept_id: 766
-  date_created: 2008-04-23 11:09:50 -07:00
+  date_created: 2008-04-23 20:09:50 +02:00
 drug_00015: 
   route: 
   name: S (Streptomycin 1gm vial)
@@ -474,7 +474,7 @@ drug_00015:
   combination: false
   retired: false
   concept_id: 438
-  date_created: 2006-08-10 14:38:33 -07:00
+  date_created: 2006-08-10 23:38:33 +02:00
 drug_00036: 
   route: 
   name: AZT (Zidovudine syrup 10mg/mL from 100ml bottle)
@@ -491,7 +491,7 @@ drug_00036:
   combination: false
   retired: false
   concept_id: 797
-  date_created: 2006-08-10 15:41:28 -07:00
+  date_created: 2006-08-11 00:41:28 +02:00
 drug_00079: 
   route: 
   name: LFX (Levofloxacin 250mg tablet)
@@ -508,7 +508,7 @@ drug_00079:
   combination: false
   retired: false
   concept_id: 755
-  date_created: 2008-04-23 12:52:57 -07:00
+  date_created: 2008-04-23 21:52:57 +02:00
 drug_00016: 
   route: 
   name: RIF or R (Rifampin 300mg tablet)
@@ -525,7 +525,7 @@ drug_00016:
   combination: false
   retired: false
   concept_id: 767
-  date_created: 2006-08-10 14:47:33 -07:00
+  date_created: 2006-08-10 23:47:33 +02:00
 drug_00037: 
   route: 
   name: AZT (Zidovudine 100mg tablet)
@@ -542,7 +542,7 @@ drug_00037:
   combination: false
   retired: false
   concept_id: 797
-  date_created: 2006-08-10 15:41:51 -07:00
+  date_created: 2006-08-11 00:41:51 +02:00
 drug_00080: 
   route: 
   name: OFX (Ofloxacin 200mg tablet)
@@ -559,7 +559,7 @@ drug_00080:
   combination: false
   retired: false
   concept_id: 1418
-  date_created: 2008-04-23 12:57:26 -07:00
+  date_created: 2008-04-23 21:57:26 +02:00
 drug_00058: 
   route: 
   name: CS (Cycloserine 250mg tablet)
@@ -576,7 +576,7 @@ drug_00058:
   combination: false
   retired: false
   concept_id: 1413
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00017: 
   route: 
   name: RHZ (Rifampin, Isoniazid and Pyrazinamide tablet)
@@ -593,7 +593,7 @@ drug_00017:
   combination: true
   retired: false
   concept_id: 768
-  date_created: 2006-08-10 14:48:24 -07:00
+  date_created: 2006-08-10 23:48:24 +02:00
 drug_00060: 
   route: 
   name: TRD (Terizidone 250mg tablet)
@@ -610,7 +610,7 @@ drug_00060:
   combination: false
   retired: false
   concept_id: 1634
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00038: 
   route: 
   name: AZT (Zidovudine 300mg tablet)
@@ -627,7 +627,7 @@ drug_00038:
   combination: false
   retired: false
   concept_id: 797
-  date_created: 2006-08-10 15:42:22 -07:00
+  date_created: 2006-08-11 00:42:22 +02:00
 drug_00081: 
   route: 
   name: OFX (Ofloxacin 300mg tablet)
@@ -644,7 +644,7 @@ drug_00081:
   combination: false
   retired: false
   concept_id: 1418
-  date_created: 2008-04-23 12:58:24 -07:00
+  date_created: 2008-04-23 21:58:24 +02:00
 drug_00059: 
   route: 
   name: Prothio (Prothionamide 250 mg tablet)
@@ -661,7 +661,7 @@ drug_00059:
   combination: false
   retired: false
   concept_id: 1415
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00040: 
   route: 
   name: ABC (Abacavir 300mg tablet)
@@ -678,7 +678,7 @@ drug_00040:
   combination: false
   retired: false
   concept_id: 814
-  date_created: 2006-08-10 15:44:45 -07:00
+  date_created: 2006-08-11 00:44:45 +02:00
 drug_00018: 
   route: 
   name: RHEZ (RIF, INH, Ethambutol and Pyrazinamide tab)
@@ -695,7 +695,7 @@ drug_00018:
   combination: true
   retired: false
   concept_id: 1131
-  date_created: 2006-08-10 14:48:57 -07:00
+  date_created: 2006-08-10 23:48:57 +02:00
 drug_00039: 
   route: 
   name: AZT+3TC (Zidovudine and Lamivudine tablet)
@@ -712,7 +712,7 @@ drug_00039:
   combination: true
   retired: false
   concept_id: 630
-  date_created: 2006-08-10 15:43:32 -07:00
+  date_created: 2006-08-11 00:43:32 +02:00
 drug_00061: 
   route: 
   name: PAS (P-aminosalyicylic acid 4g sachet)
@@ -729,7 +729,7 @@ drug_00061:
   combination: false
   retired: false
   concept_id: 1419
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00082: 
   route: 
   name: OFX (Ofloxacin 400mg tablet)
@@ -746,7 +746,7 @@ drug_00082:
   combination: false
   retired: false
   concept_id: 1418
-  date_created: 2008-04-23 12:58:45 -07:00
+  date_created: 2008-04-23 21:58:45 +02:00
 drug_00020: 
   route: 
   name: Z (Pyrazinamide 500mg tablet)
@@ -763,7 +763,7 @@ drug_00020:
   combination: false
   retired: false
   concept_id: 5829
-  date_created: 2006-08-10 14:51:55 -07:00
+  date_created: 2006-08-10 23:51:55 +02:00
 drug_00019: 
   route: 
   name: RH (Rifampin and Isoniazid tablet)
@@ -780,7 +780,7 @@ drug_00019:
   combination: true
   retired: false
   concept_id: 1194
-  date_created: 2006-08-10 14:49:37 -07:00
+  date_created: 2006-08-10 23:49:37 +02:00
 drug_00041: 
   route: 
   name: 3TC (Lamivudine syrup 10mg/mL from 100mL bottle)
@@ -797,7 +797,7 @@ drug_00041:
   combination: false
   retired: false
   concept_id: 628
-  date_created: 2006-08-10 16:04:40 -07:00
+  date_created: 2006-08-11 01:04:40 +02:00
 drug_00062: 
   route: 
   name: CFZ (Clofazimine)
@@ -809,12 +809,12 @@ drug_00062:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 13:22:00 -07:00
+  date_retired: 2008-04-23 22:22:00 +02:00
   drug_id: 62
   combination: false
   retired: true
   concept_id: 1412
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00083: 
   route: 
   name: B6 (Pyridoxine 25mg tablet)
@@ -831,7 +831,7 @@ drug_00083:
   combination: false
   retired: false
   concept_id: 766
-  date_created: 2008-04-23 13:12:15 -07:00
+  date_created: 2008-04-23 22:12:15 +02:00
 drug_00021: 
   route: 
   name: NVP (Nevirapine susp 10mg/mL in 100mL bottle)
@@ -848,7 +848,7 @@ drug_00021:
   combination: false
   retired: false
   concept_id: 631
-  date_created: 2006-08-10 14:53:14 -07:00
+  date_created: 2006-08-10 23:53:14 +02:00
 drug_00042: 
   route: 
   name: 3TC (Lamivudine 150mg tablet)
@@ -865,7 +865,7 @@ drug_00042:
   combination: false
   retired: false
   concept_id: 628
-  date_created: 2006-08-10 16:05:32 -07:00
+  date_created: 2006-08-11 01:05:32 +02:00
 drug_00063: 
   route: 
   name: AMX/CLV (Amoxicillin/Clavulantic Acid 500/125mg )
@@ -882,7 +882,7 @@ drug_00063:
   combination: true
   retired: false
   concept_id: 450
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00084: 
   route: 
   name: CFZ (Clofazimine 50mg tablet)
@@ -899,7 +899,7 @@ drug_00084:
   combination: false
   retired: false
   concept_id: 1412
-  date_created: 2008-04-23 13:14:00 -07:00
+  date_created: 2008-04-23 22:14:00 +02:00
 drug_00022: 
   route: 
   name: NVP (Nevirapine 200 mg tablet)
@@ -916,7 +916,7 @@ drug_00022:
   combination: false
   retired: false
   concept_id: 631
-  date_created: 2006-08-10 14:55:16 -07:00
+  date_created: 2006-08-10 23:55:16 +02:00
 drug_00043: 
   route: 
   name: "INH or H (Isoniazid) no dose strength  "
@@ -928,12 +928,12 @@ drug_00043:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 11:24:00 -07:00
+  date_retired: 2008-04-23 20:24:00 +02:00
   drug_id: 43
   combination: false
   retired: true
   concept_id: 656
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00064: 
   route: 
   name: CLR (Clarithromycin 500 mg tablet)
@@ -950,7 +950,7 @@ drug_00064:
   combination: false
   retired: false
   concept_id: 2459
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00085: 
   route: 
   name: CPX (Ciprofloxacin 250 mg tablet)
@@ -967,7 +967,7 @@ drug_00085:
   combination: false
   retired: false
   concept_id: 740
-  date_created: 2008-04-23 13:18:34 -07:00
+  date_created: 2008-04-23 22:18:34 +02:00
 drug_00002: 
   route: 
   name: Triomune-30
@@ -984,7 +984,7 @@ drug_00002:
   combination: true
   retired: false
   concept_id: 792
-  date_created: 2005-02-24 00:00:00 -08:00
+  date_created: 2005-02-24 10:00:00 +02:00
 drug_00023: 
   route: 
   name: LPV/r (cold; Lopanavir and Ritonavir 166 mg tab)
@@ -1001,7 +1001,7 @@ drug_00023:
   combination: true
   retired: false
   concept_id: 794
-  date_created: 2006-08-10 14:57:49 -07:00
+  date_created: 2006-08-10 23:57:49 +02:00
 drug_00044: 
   route: 
   name: RIF or R (Rifampin) no dose strength
@@ -1013,12 +1013,12 @@ drug_00044:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 11:24:00 -07:00
+  date_retired: 2008-04-23 20:24:00 +02:00
   drug_id: 44
   combination: false
   retired: true
   concept_id: 767
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00065: 
   route: 
   name: RFB (Rifabutin 150mg tablet )
@@ -1035,7 +1035,7 @@ drug_00065:
   combination: false
   retired: false
   concept_id: 2460
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00086: 
   route: 
   name: CPX (Ciprofloxacin 500 mg tablet)
@@ -1052,7 +1052,7 @@ drug_00086:
   combination: false
   retired: false
   concept_id: 740
-  date_created: 2008-04-23 13:21:10 -07:00
+  date_created: 2008-04-23 22:21:10 +02:00
 drug_00024: 
   route: 
   name: INH or H (Isoniazid 100mg tablet)
@@ -1069,7 +1069,7 @@ drug_00024:
   combination: false
   retired: false
   concept_id: 656
-  date_created: 2006-08-10 15:01:54 -07:00
+  date_created: 2006-08-11 00:01:54 +02:00
 drug_00045: 
   route: 
   name: E (Ethambutol) no dose strength
@@ -1081,12 +1081,12 @@ drug_00045:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 11:24:00 -07:00
+  date_retired: 2008-04-23 20:24:00 +02:00
   drug_id: 45
   combination: false
   retired: true
   concept_id: 745
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00066: 
   route: 
   name: B6 (Pyridoxine)
@@ -1098,12 +1098,12 @@ drug_00066:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 13:18:00 -07:00
+  date_retired: 2008-04-23 22:18:00 +02:00
   drug_id: 66
   combination: false
   retired: true
   concept_id: 766
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00087: 
   route: 
   name: LFX (Levofloxacin 500mg tablet)
@@ -1120,7 +1120,7 @@ drug_00087:
   combination: false
   retired: false
   concept_id: 755
-  date_created: 2008-04-23 13:23:52 -07:00
+  date_created: 2008-04-23 22:23:52 +02:00
 drug_00003: 
   route: 
   name: Triomune-40
@@ -1137,7 +1137,7 @@ drug_00003:
   combination: true
   retired: false
   concept_id: 792
-  date_created: 2005-02-24 00:00:00 -08:00
+  date_created: 2005-02-24 10:00:00 +02:00
 drug_00088: 
   route: 
   name: RHE (Rifampicin Isoniazid and Ethambutol)
@@ -1154,7 +1154,7 @@ drug_00088:
   combination: true
   retired: false
   concept_id: 1614
-  date_created: 2008-06-30 13:01:12 -07:00
+  date_created: 2008-06-30 22:01:12 +02:00
 drug_00067: 
   route: 
   name: IDV (Indinavir 400mg tablet)
@@ -1171,7 +1171,7 @@ drug_00067:
   combination: false
   retired: false
   concept_id: 749
-  date_created: 2008-02-08 15:27:25 -08:00
+  date_created: 2008-02-09 01:27:25 +02:00
 drug_00046: 
   route: 
   name: Z (Pyrazinamide mg ) no dose strength
@@ -1183,12 +1183,12 @@ drug_00046:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-18 12:00:00 -07:00
+  date_retired: 2008-04-18 21:00:00 +02:00
   drug_id: 46
   combination: false
   retired: true
   concept_id: 5829
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00025: 
   route: 
   name: FCZ (Fluconazole 150mg tablet)
@@ -1205,7 +1205,7 @@ drug_00025:
   combination: false
   retired: false
   concept_id: 747
-  date_created: 2006-08-10 15:05:26 -07:00
+  date_created: 2006-08-11 00:05:26 +02:00
 drug_00089: 
   route: 
   name: Zidolam
@@ -1222,7 +1222,7 @@ drug_00089:
   combination: true
   retired: false
   concept_id: 630
-  date_created: 2008-06-30 13:04:21 -07:00
+  date_created: 2008-06-30 22:04:21 +02:00
 drug_00026: 
   route: 
   name: FCZ (Fluconazole 200mg tablet)
@@ -1239,7 +1239,7 @@ drug_00026:
   combination: false
   retired: false
   concept_id: 747
-  date_created: 2006-08-10 15:06:17 -07:00
+  date_created: 2006-08-11 00:06:17 +02:00
 drug_00005: 
   route: 
   name: d4T (Stavudine 30mg tablet)
@@ -1256,7 +1256,7 @@ drug_00005:
   combination: false
   retired: false
   concept_id: 625
-  date_created: 2005-02-24 00:00:00 -08:00
+  date_created: 2005-02-24 10:00:00 +02:00
 drug_00047: 
   route: 
   name: S (Streptomycin) no dose strength
@@ -1268,12 +1268,12 @@ drug_00047:
   creator: 1128
   units: mg
   maximum_daily_dose: 
-  date_retired: 2008-04-23 11:24:00 -07:00
+  date_retired: 2008-04-23 20:24:00 +02:00
   drug_id: 47
   combination: false
   retired: true
   concept_id: 438
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00090: 
   route: 
   name: Coviro30 (Lamivudine 150 mg; Stavudine 30 mg)
@@ -1290,7 +1290,7 @@ drug_00090:
   combination: false
   retired: false
   concept_id: 2833
-  date_created: 2008-06-30 13:06:59 -07:00
+  date_created: 2008-06-30 22:06:59 +02:00
 drug_00091: 
   route: 
   name: Coviro40 (Lamivudine 150 mg; Stavudine 40 mg)
@@ -1307,7 +1307,7 @@ drug_00091:
   combination: true
   retired: false
   concept_id: 2833
-  date_created: 2008-06-30 13:07:38 -07:00
+  date_created: 2008-06-30 22:07:38 +02:00
 drug_00069: 
   route: 
   name: Standard tuberculosis treatment
@@ -1324,7 +1324,7 @@ drug_00069:
   combination: false
   retired: false
   concept_id: 2995
-  date_created: 2008-03-26 14:12:15 -07:00
+  date_created: 2008-03-26 23:12:15 +02:00
 drug_00027: 
   route: 
   name: E (Ethambutol 400mg tablet)
@@ -1341,7 +1341,7 @@ drug_00027:
   combination: false
   retired: false
   concept_id: 745
-  date_created: 2006-08-10 15:07:28 -07:00
+  date_created: 2006-08-11 00:07:28 +02:00
 drug_00006: 
   route: 
   name: d4T (Stavudine 40mg tablet)
@@ -1358,7 +1358,7 @@ drug_00006:
   combination: false
   retired: false
   concept_id: 625
-  date_created: 2005-02-24 00:00:00 -08:00
+  date_created: 2005-02-24 10:00:00 +02:00
 drug_00070: 
   route: 
   name: LS30 (Stavudine and Lamivudine 30mg tablet)
@@ -1375,7 +1375,7 @@ drug_00070:
   combination: true
   retired: false
   concept_id: 2833
-  date_created: 2008-04-08 15:00:37 -07:00
+  date_created: 2008-04-09 00:00:37 +02:00
 drug_00048: 
   route: 
   name: KM (Kanamycin 1gm vial)
@@ -1392,7 +1392,7 @@ drug_00048:
   combination: false
   retired: false
   concept_id: 1417
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00049: 
   route: 
   name: AMK (Amikacin 500mg/2mL )
@@ -1409,7 +1409,7 @@ drug_00049:
   combination: false
   retired: false
   concept_id: 1406
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00050: 
   route: 
   name: CM (Capreomicin 1g vial )
@@ -1426,7 +1426,7 @@ drug_00050:
   combination: false
   retired: false
   concept_id: 1411
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
 drug_00028: 
   route: 
   name: EFV (Efavirenz 100mg tablet)
@@ -1443,7 +1443,7 @@ drug_00028:
   combination: false
   retired: false
   concept_id: 633
-  date_created: 2006-08-10 15:13:24 -07:00
+  date_created: 2006-08-11 00:13:24 +02:00
 drug_00071: 
   route: 
   name: Lamivir baby (Stavudine and Lamivudine 6/30mg)
@@ -1460,7 +1460,7 @@ drug_00071:
   combination: true
   retired: false
   concept_id: 2833
-  date_created: 2008-04-17 17:27:36 -07:00
+  date_created: 2008-04-18 02:27:36 +02:00
 drug_00092: 
   route: 
   name: MVI (multivitamin liquid)
@@ -1477,7 +1477,7 @@ drug_00092:
   combination: true
   retired: false
   concept_id: 461
-  date_created: 2008-08-13 16:15:50 -07:00
+  date_created: 2008-08-14 01:15:50 +02:00
 drug_00093: 
   route: 
   name: MVI (multivitamin tablet)
@@ -1494,7 +1494,7 @@ drug_00093:
   combination: true
   retired: false
   concept_id: 461
-  date_created: 2008-08-13 16:17:02 -07:00
+  date_created: 2008-08-14 01:17:02 +02:00
 drug_00072: 
   route: 
   name: Triomune baby (d4T + 3TC + NVP 6/30/50mg)
@@ -1511,7 +1511,7 @@ drug_00072:
   combination: true
   retired: false
   concept_id: 792
-  date_created: 2008-04-17 17:29:02 -07:00
+  date_created: 2008-04-18 02:29:02 +02:00
 drug_00030: 
   route: 
   name: EFV (Efavirenz 200mg tablet)
@@ -1528,7 +1528,7 @@ drug_00030:
   combination: false
   retired: false
   concept_id: 633
-  date_created: 2006-08-10 15:14:35 -07:00
+  date_created: 2006-08-11 00:14:35 +02:00
 drug_00029: 
   route: 
   name: EFV (Efavirenz 50mg tablet)
@@ -1545,7 +1545,7 @@ drug_00029:
   combination: false
   retired: false
   concept_id: 633
-  date_created: 2006-08-10 15:13:54 -07:00
+  date_created: 2006-08-11 00:13:54 +02:00
 drug_00051: 
   route: 
   name: Vi (Viomycin )
@@ -1562,4 +1562,4 @@ drug_00051:
   combination: false
   retired: false
   concept_id: 2457
-  date_created: 2007-09-04 11:39:55 -07:00
+  date_created: 2007-09-04 20:39:55 +02:00
