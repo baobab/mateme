@@ -6,14 +6,14 @@ Feature: Registering a new patient
   Scenario: Find a locally valid patient by name
     Given I am on the "find or register patient" page
     And I have a patient
-    And I click "Find or register patient by name"
+    When I click "Find or register patient by name"
     Then I should see "First name"
-    And I have entered the patient's demographic details in the form
+    When I have entered the patient's demographic details in the form
     Then I should see "Select the patient from the following"
-    And I select "Create a new person with name <First name>"
+    When I select "Create a new person with name <First name>"
     And I click "Finish"
     Then I should see "Mother's surname"
-    And I have entered the rest of the patient's demographic details in the form
+    When I have entered the rest of the patient's demographic details in the form
     Then I should see the "Print label" page
 
     Examples:

@@ -1,4 +1,4 @@
-Given /no current user/ do     
+Given /I am not logged in/ do     
   logout_user
 end
 
