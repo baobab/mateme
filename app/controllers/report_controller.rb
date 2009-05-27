@@ -1,5 +1,7 @@
 class ReportController < ApplicationController
 
+  include PdfHelper
+
   def weekly_report
     @start_date = Date.new(params[:start_year].to_i,params[:start_month].to_i,params[:start_day].to_i) rescue nil
     @end_date = Date.new(params[:end_year].to_i,params[:end_month].to_i,params[:end_day].to_i) rescue nil
@@ -29,11 +31,12 @@ class ReportController < ApplicationController
     start_date = @start_date
     end_date = @end_date
 
-    while start_date >= @start_date and start_date <= end_date
+    while start_date >= @start_date and start_date <= @end_date
       @times << start_date
       start_date = 1.weeks.from_now(start_date.monday)
-      end_date = 4.days.from_now(start_date)
-      if end_date > @end_date
+      end_date = start_date-1.day
+      #end_date = 4.days.from_now(start_date)
+      if end_date >= @end_date
         end_date = @end_date
       end
     end
@@ -42,8 +45,9 @@ class ReportController < ApplicationController
       @diagnoses_hash = {}
       patients = []
       @patient.each{|p|
-        end_day = 4.days.from_now(t.monday)
-        if end_day > @end_date
+        next_start_day = 1.weeks.from_now(t.monday)
+        end_day = next_start_day - 1.day
+        if end_day >= @end_date
           end_day = @end_date
         end
         patients << p if p.obs_datetime.to_date >= t and p.obs_datetime.to_date <= end_day
@@ -183,5 +187,10 @@ class ReportController < ApplicationController
     end
 
   end
+
+  def generate_pdf_report
+    make_and_send_pdf('/report/weekly_report', 'weekly_report.pdf')
+  end
+
 
 end

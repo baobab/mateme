@@ -3,7 +3,8 @@
   <tr class="header">
     <td>Diagnosis</td>
     <% @times.each{|t|
-      end_day = 4.days.from_now(t.to_date.monday)
+      next_start_day = 1.weeks.from_now(t.monday)
+      end_day = next_start_day - 1.day
       if end_day > @end_date
         end_day = @end_date
       end
@@ -30,7 +31,7 @@
             temp_hash.each{|a,b|
               if diag == a            
           %>
-        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightblue"%>'>
+        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightgrey"%>'>
            <td><%="#{a}"%></td>                  
         </tr>
         <% end
@@ -50,7 +51,7 @@
             temp_hash.each{|k,v|
               if diag == k            
           %>
-        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightblue"%>'>
+        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightgrey"%>'>
           <td id="values"><%="#{v}"%></td>
                   
         </tr>
