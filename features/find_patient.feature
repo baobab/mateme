@@ -28,20 +28,20 @@ Feature: Finding an existing patient
     Demographics include:
 
 {
-  person => {
-    gender => "",
-    person_name => {
-      family_name => "",
-      family_name2 => ""
-    }
-    person_address => {
-      county_district => "",
-      city_village => ""
-    }
-    patient => {
-      patient_identifer => {
-        identifier_type => TODO
-        identifier => ""
+  :person => {
+    :gender => "",
+    :person_name => {
+      :family_name => "",
+      :family_name2 => ""
+    },
+    :person_address => {
+      :county_district => "",
+      :city_village => ""
+    },
+    :patient => {
+      :patient_identifer => {
+        :identifier_type => "TODO",
+        :identifier => ""
       }
     }
   }
