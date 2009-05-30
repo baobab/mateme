@@ -107,7 +107,7 @@ class Person < ActiveRecord::Base
 
     demographics = {"person" => {
       "gender" => self.gender,
-#      "birth_year" => self.birthdate.year,
+      "birth_year" => self.birthdate.year,
       "birth_month" => birth_month,
       "birth_day" => birth_day,
       "names" => {

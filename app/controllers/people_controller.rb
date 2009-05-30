@@ -40,7 +40,7 @@ class PeopleController < ApplicationController
  
   def create
     person = Person.create_from_form(params[:person])
-    if params[:create_patient] == "true"
+    if params[:person][:patient]
       person.patient.national_id_label
       print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))
     else

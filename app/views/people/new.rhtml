@@ -30,13 +30,13 @@
 
   <%= text_field_tag "person[addresses][address2]", params[:address2], {:id => 'address2', :field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :condition => '$("address2").value == ""' } %>
   
-  <%= text_field_tag :birth_year, nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+  <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly"} %>
 
-  <%= select_tag :birth_month, month_name_options, {:helpText => 'Month of Birth', :condition => '$("birth_year").value.toLowerCase() != "unknown"'}%>
+  <%= select_tag 'person[birth_month]', month_name_options, {:helpText => 'Month of Birth', :condition => '$("person_birth_year").value.toLowerCase() != "unknown"'}%>
 
-  <%= text_field_tag 'age_estimate', nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %> 
+  <%= text_field_tag 'person[age_estimate]', nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %> 
 
-  <%= text_field_tag :birth_day,  nil, :field_type => 'number', :helpText => 'Birth Day', :condition => '($("birth_year").value != "Unknown") && ($("birth_month").value != "Unknown")', :tt_onLoad => "makeKeysToggleBlue()" %>
+  <%= text_field_tag 'person[birth_day]',  nil, :field_type => 'number', :helpText => 'Birth Day', :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")', :tt_onLoad => "makeKeysToggleBlue()" %>
 
   <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/person_addresses/traditional_authority?search_string=', :allowFreeText => true }%>
 

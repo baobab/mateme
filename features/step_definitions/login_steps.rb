@@ -22,8 +22,6 @@ When /^I access the "([^\"]*)" page$/ do |url|
   visit url
 end
 
-
-
 When /the user logs in with username and password/ do
   login_user(@username, @password, @location)
 end
@@ -31,8 +29,3 @@ end
 Then /the login form should be shown again/ do
   assert_template "sessions/new"
 end
-
-Then /^the password field should be masked \*HARD TO TEST\*$/ do
-  pending
-end
-   

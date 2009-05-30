@@ -5,39 +5,41 @@ Feature: Finding an existing patient
  
   Scenario: View find or register patient screen
     Given I am on the "find or register patient" page
-    Then I should see "Scan a barcode"
+    Then I should see "scan a barcode"
     And I should see "Find or register patient by name"
     And I should see "Find patient by identifier"
     And I should see "Finish"
-    And it should look like find_or_register_patient.jpg *HARD TO TEST*
+    And it should look like find_or_register_patient.jpg
 
   Scenario: Scan a locally valid barcode
     Given I am on the "find or register patient" page
     And I scan a patient that exists in the local database
-    And the national id number is "P1701210013"
+    And I enter "P1701210013" as the national id number
     Then I should see the "patient dashboard" page
 
   Scenario: Scan a remotely valid barcode with connectivity
     Given I am on the "find or register patient" page
     And I scan a patient that does not exist in the local database
-    And the national id number is "P1601510216"
+    And I enter "P1601510016" as the national id number
     And the patient exists in a remote database
     Then I should see the "patient dashboard" page
 
   Scenario: Scan a remotely valid barcode without connectivity
     Given I am on the "find or register patient" page
     And I scan a patient that does not exist in the local database
-    And the national id number is "P1601510216"
+    And I enter "P1601510016" as the national id number
     And the patient exists in a remote database
     Then I should see "First name"
     And the patient that is created will maintain the same national id *HARD TO TEST*
 
   Scenario: Find a locally valid patient by name
     Given I am on the "find or register patient" page
-    And a patient exists with "Evan" as given_name and "Waters" as family_name and "M" as gender
-    And I click "Find or register patient by name"
+    When I click "Find or register patient by name"
     Then I should see "First name"
-    And I have entered the given_name, family_name and gender in the form
+    When I enter "Evan" as given_name 
+    And I enter "Waters" as family_name 
+    And I enter "M" as gender
+    And I click "Finish"
     Then I should see "Evan Waters, Birthdate"
 
   Scenario: Find a locally valid patient by identifier
