@@ -4,6 +4,7 @@ require File.join(Rails.root, 'test', 'blueprints')
 require 'test_help'
 require 'shoulda'
 require 'mocha'
+require 'colorfy_strings'
 
 alias :running :lambda
 

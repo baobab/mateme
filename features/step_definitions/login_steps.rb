@@ -1,5 +1,5 @@
 Given /I am not logged in/ do     
-  logout_user
+  visit "/logout"
 end
 
 Given /a user named "(.*)" with password "(.*)" exists/ do |username, password|
@@ -16,12 +16,13 @@ end
 
 Given /I am on the login page/ do
   visit "/session/new"
-  raise response.body
 end
 
-When /I access a page/ do
-  visit "/people/search"
+When /^I access the "([^\"]*)" page$/ do |url|
+  visit url
 end
+
+
 
 When /the user logs in with username and password/ do
   login_user(@username, @password, @location)
@@ -30,3 +31,8 @@ end
 Then /the login form should be shown again/ do
   assert_template "sessions/new"
 end
+
+Then /^the password field should be masked \*HARD TO TEST\*$/ do
+  pending
+end
+   

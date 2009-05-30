@@ -114,6 +114,85 @@ class PersonTest < ActiveSupport::TestCase
       p = person(:evan)
       assert_equal p.patient, patient(:evan)
     end
-    
+
+    should "return a hash with correct name" do
+      p = person(:evan)
+      name_data = {
+          "given_name" => "Evan",
+          "family_name" => "Waters",
+          "family_name2" => ""
+      }
+      assert_equal p.demographics["person"]["names"], name_data
+    end
+
+    should "return a hash with correct address" do
+      p = person(:evan)
+      data = {
+        "county_district" => "",
+        "city_village" => "Katoleza"
+      }
+      assert_equal p.demographics["person"]["addresses"], data
+    end
+
+    should "return a hash with correct patient" do
+      p = person(:evan)
+      data = {
+        "identifiers" => [
+          {"identifier_type" => 3,"identifier" => "311"},
+          {"identifier_type"=>4, "identifier"=>"ARV-311"},
+          {"identifier_type"=>5, "identifier"=>"PART-311"}
+        ]
+      }
+      assert_equal p.demographics["person"]["patient"], data
+    end
+
+    should "return a hash that represents a patients demographics" do
+      p = person(:evan)
+      evan_demographics = { "person" => {
+        "gender" => "M",
+        "birth_year" => 1982,
+        "birth_month" => 6,
+        "birth_day" => 9,
+        "names" => {
+          "given_name" => "Evan",
+          "family_name" => "Waters",
+          "family_name2" => ""
+        },
+        "addresses" => {
+          "county_district" => "",
+          "city_village" => "Katoleza"
+        },
+        "patient" => {
+          "identifiers" => [
+            {"identifier_type" => 3,"identifier" => "311"},
+            {"identifier_type"=>4, "identifier"=>"ARV-311"},
+            {"identifier_type"=>5, "identifier"=>"PART-311"}
+          ]
+        }
+      }}
+      assert_equal p.demographics, evan_demographics
+    end
+
+    should "return demographics with appropriate estimated birthdates" do
+      p = person(:evan)
+      assert_equal p.demographics["person"]["birth_day"], 9
+      p.birthdate_estimated = true
+      assert_equal p.demographics["person"]["birth_day"], "Unknown"
+      p.set_birthdate(p.birthdate.year,p.birthdate.month,"Unknown")
+      assert_equal p.demographics["person"]["birth_year"], 1982
+      assert_equal p.demographics["person"]["birth_month"], 6
+      assert_equal p.demographics["person"]["birth_day"], "Unknown"
+      p.set_birthdate(p.birthdate.year,"Unknown","Unknown")
+      assert_equal p.demographics["person"]["birth_year"], 1982
+      assert_equal p.demographics["person"]["birth_month"], "Unknown"
+      assert_equal p.demographics["person"]["birth_day"], "Unknown"
+    end
+
+    should "create a patient with nested parameters formatted as if they were coming from a form" do
+      demographics = person(:evan).demographics
+      parameters = demographics.to_param
+      assert_equal Person.create_from_form(Rack::Utils.parse_nested_query(parameters)["person"]).demographics, demographics
+    end
   end
+
 end

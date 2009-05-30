@@ -83,12 +83,14 @@ class PeopleControllerTest < ActionController::TestCase
     should "create a person with their address and name records" do
       logged_in_as :mikmck, :registration do      
         options = {
-         :birth_year => 1987, 
-         :birth_month => 2, 
-         :birth_day => 28,
-         :gender => 'M',
-         :person_name => {:given_name => 'Bruce', :family_name => 'Wayne'},
-         :person_address => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+          :person => {          
+            :birth_year => 1987, 
+            :birth_month => 2, 
+            :birth_day => 28,
+            :gender => 'M',
+            :names => {:given_name => 'Bruce', :family_name => 'Wayne'},
+            :addresses => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+          }
         }  
         assert_difference(Person, :count) { post :create, options }
         assert_difference(PersonAddress, :count) { post :create, options }
@@ -100,11 +102,13 @@ class PeopleControllerTest < ActionController::TestCase
     should "allow for estimated birthdates" do
       logged_in_as :mikmck, :registration do      
         post :create, {
-         :birth_year => 'Unknown', 
-         :age_estimate => 17,
-         :gender => 'M',
-         :person_name => {:given_name => 'Bruce', :family_name => 'Wayne'},
-         :person_address => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+          :person => {          
+            :birth_year => 'Unknown', 
+            :age_estimate => 17,
+            :gender => 'M',
+            :names => {:given_name => 'Bruce', :family_name => 'Wayne'},
+            :addresses => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+          }
         }  
         assert_response :redirect
       end  
@@ -113,14 +117,17 @@ class PeopleControllerTest < ActionController::TestCase
     should "not create a patient unless specifically requested" do
       logged_in_as :mikmck, :registration do      
         options = {
-         :birth_year => 'Unknown', 
-         :age_estimate => 17,
-         :gender => 'M',
-         :person_name => {:given_name => 'Bruce', :family_name => 'Wayne'},
-         :person_address => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
-        }  
+        :person => {          
+          :birth_year => 'Unknown', 
+          :age_estimate => 17,
+          :gender => 'M',
+          :names => {:given_name => 'Bruce', :family_name => 'Wayne'},
+          :addresses => {:county_district => 'Homeland', :city_village => 'Coolsville', :address1 => 'The Street' }
+          }  
+        }
         assert_no_difference(Patient, :count) { post :create, options }
-        assert_difference(Patient, :count) { post :create, options.merge(:create_patient => "true") }
+        options[:person].merge!(:patient => "")
+        assert_difference(Patient, :count) { post :create, options }
       end  
     end            
   end

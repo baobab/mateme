@@ -39,25 +39,10 @@ class PeopleController < ApplicationController
   end
  
   def create
-    person = Person.create(params[:person])
- 
-    if params[:birth_year] == "Unknown"
-      person.set_birthdate_by_age(params[:age_estimate])
-    else
-      person.set_birthdate(params[:birth_year], params[:birth_month], params[:birth_day])
-    end
-    person.save
-    person.names.create(params[:person_name])
-    person.addresses.create(params[:person_address])
- 
-# TODO handle the birthplace attribute
- 
+    person = Person.create_from_form(params[:person])
     if params[:create_patient] == "true"
-      patient = person.create_patient
-      # This might actually be a national id, but currently we wouldn't know
-      patient.patient_identifiers.create(:identifier => params[:identifier], :identifier_type => PatientIdentifierType.find_by_name("Unknown id")) unless params[:identifier].blank?
-      patient.national_id_label
-      print_and_redirect("/patients/national_id_label/?patient_id=#{patient.id}", next_task(patient))
+      person.patient.national_id_label
+      print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))
     else
       redirect_to :action => "index"
     end
