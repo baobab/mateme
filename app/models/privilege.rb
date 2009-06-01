@@ -31,7 +31,6 @@ end
 
 
 ### Original SQL Definition for privilege #### 
-#   `privilege_id` int(11) NOT NULL auto_increment ,
 #   `privilege` varchar(50) NOT NULL default '',
 #   `description` varchar(250) NOT NULL default '',
 #   PRIMARY KEY  (`privilege_id`)

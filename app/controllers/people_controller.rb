@@ -4,7 +4,7 @@ class PeopleController < ApplicationController
     @show_user_management = false
     @show_set_date = false
 
-    user_roles = User.current_user.user_roles.collect{|r|r.role.role}
+    user_roles = User.current_user.user_roles.collect{|r|r.role.role if r && r.role}.compact
     @show_user_management = true if user_roles.include?("superuser") || user_roles.include?("System Developer")
     @show_set_date = true unless session[:datetime].blank? 
     #render :text =>"_#{@show_set_date.to_s}_   #{(session[:datetime].blank?).to_s}" and return
