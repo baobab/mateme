@@ -124,7 +124,6 @@ class Person < ActiveRecord::Base
     end
 
     return demographics
-
   end
 
   def self.search_by_identifier(identifier)
@@ -201,14 +200,13 @@ class Person < ActiveRecord::Base
   end
 
   def self.find_by_demographics(person_demographics)
-    puts person_demographics.inspect.yellow
-    national_id = person_demographics[:person][:patient][:identifiers]["National id"] || nil
-    results = Person.search_by_identifier(national_id)
+    national_id = person_demographics["person"]["patient"]["identifiers"]["National id"] rescue nil
+    results = Person.search_by_identifier(national_id) unless national_id.nil?
     return results unless results.blank?
 
-    gender = person_demographics[:person][:gender]
-    given_name = person_demographics[:person][:names][:given_name]
-    family_name = person_demographics[:person][:names][:family_name]
+    gender = person_demographics["person"]["gender"] rescue nil
+    given_name = person_demographics["person"]["names"]["given_name"] rescue nil
+    family_name = person_demographics["person"]["names"]["family_name"] rescue nil
 
     search_params = {:gender => gender, :given_name => given_name, :family_name => family_name }
 
@@ -251,6 +249,11 @@ class Person < ActiveRecord::Base
     return person
   end
 
+  def self.find_remote_by_identifier(identifier)
+    known_demographics = {:person => {:patient => { :identifiers => {"National id" => identifier }}}}
+    Person.find_remote(known_demographics)
+  end
+
   def self.find_remote(known_demographics)
 
     servers = GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/)
@@ -259,19 +262,34 @@ class Person < ActiveRecord::Base
     # use ssh to establish a secure connection then query the localhost
     # use wget to login (using cookies and sessions) and set the location
     # then pull down the demographics
-    # TODO fix login/pass
+    # TODO fix login/pass and location with something better
+
+    login = "mikmck"
+    password = "mike"
+    location = 8
+
+    post_data = known_demographics
+    post_data["_method"]="put"
+
     local_demographic_lookup_steps = [ 
-      "#{wget_base_command} -O /dev/null --post-data=\"login=mikmck&password=mike\" \"http://localhost/session\"",
-      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=8\" \"http://localhost/session\"",
-      "#{wget_base_command} -O - --post-data=\"_method=get&\" \"http://localhost/people/demographics\""
+      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost/session\"",
+      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost/session\"",
+      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost/people/demographics\""
     ]
     results = []
     servers.each{|server|
       command = "ssh #{server} '#{local_demographic_lookup_steps.join(";\n")}'"
-      results.push `#{command}`
-
+      puts "http://localhost/people/demographics/?#{post_data.to_param}".yellow
+      output = `#{command}`
+      results.push output if output.match /person/
     }
-    results
+    # TODO need better logic here to select the best result or merge them
+    # Currently returning the longest result - assuming that it has the most information
+    # Can't return multiple results because there will be redundant data from sites
+    result = results.sort{|a,b|b.length <=> a.length}.first
+
+    result ? JSON.parse(result) : nil
+
   end
 
   

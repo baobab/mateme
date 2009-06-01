@@ -19,11 +19,24 @@ class PeopleControllerTest < ActionController::TestCase
       end  
     end
 
-    should "lookup people by posting some demographics and return full demographic data" do
+    should "lookup people by posting a national id and return full demographic data" do
       logged_in_as :mikmck, :registration do
-        get :demographics, {:person => {:patient => {:identifier => "P1701210013" }}}
+        get :demographics, {:person => {:patient => { :identifiers => {"National id" => "P1701210013" }}}}
         assert_response :success
       end  
+    end
+
+    should "lookup people by posting a family name, first name and gender and return full demographic data" do
+      logged_in_as :mikmck, :registration do
+        get :demographics, {:person => {:gender => "M", :names => {:given_name => "Evan", :family_name => "Waters"}}}
+        assert_response :success
+      end  
+    end
+
+    should "search for patients at remote sites and create them locally if they match ***PENDING****TODO" do
+      # TODO people_controller line 23ish
+      # @people = Person.find_remote_by_identifier(params[:identifier])
+
     end
     
     should "lookup people that are not patients and return them in the search results" do

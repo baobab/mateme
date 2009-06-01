@@ -18,6 +18,7 @@ require 'fixtures'
 require 'composite_primary_keys'
 require 'has_many_through_association_extension'
 require 'bantu_soundex'
+require 'json'
 
 # Foreign key checks use a lot of resources but are useful during development
 module ActiveRecord

@@ -198,17 +198,24 @@ class PersonTest < ActiveSupport::TestCase
       assert !GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).nil?, "Current GlobalProperties #{GlobalProperty.find(:all).map{|gp|gp.property}.inspect}"
     end
 
-
-    should "check be able to check remote servers for person demographics" do
-      assert_equal Person.find_remote(person(:evan).demographics).first, person(:evan).demographics.to_json
+    should "be able to ssh without password to remote demographic servers" do
+      GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).split(/,/).each{|hostname|
+        ssh_result = `ssh -o ConnectTimeout=2 #{hostname} wget --version `
+        assert ssh_result.match /GNU Wget/
+      }
     end
 
-    should "be able to locate a patient by their demographic details" do
+
+    should "check be able to check remote servers for person demographics" do
+      assert_equal Person.find_remote(person(:evan).demographics), person(:evan).demographics
+    end
+
+    should "be able to retrieve person data by their demographic details" do
       assert_equal Person.find_by_demographics(person(:evan).demographics).first, person(:evan)
     end
 
-    should "check be able to locate a patient by their national id" do
-      demographic_national_id_only = {:person => {:patient => {:identifiers => {"National id" => "P1701210013"} }}}
+    should "be able to retrieve person data with their national id" do
+      demographic_national_id_only = {"person" => {"patient" => {"identifiers" => {"National id" => "P1701210013"} }}}
       assert_equal Person.find_by_demographics(demographic_national_id_only).first, person(:evan)
     end
 

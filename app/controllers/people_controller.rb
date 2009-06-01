@@ -10,19 +10,30 @@ class PeopleController < ApplicationController
   end
 
   def demographics
-    #@patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
-    #render :text => @patient.demographics
-
-
-    render :text => Person.find(:first).demographics.to_json
+    # Search by the demographics that were passed in and then return demographics
+    render :text => Person.find_by_demographics(params).first.demographics.to_json
   end
  
   def search
-    # First check for an identifier match
-    @people = Person.search_by_identifier(params[:identifier])
-    redirect_to :controller => :encounters, :action => :new, :patient_id => @people.first.id and return unless @people.blank? || @people.size > 1
+    found_person = nil
+    if params[:identifier]
+      local_results = Person.search_by_identifier(params[:identifier])
+      if local_results.length >= 1
+        @people = Person.search(params)
+      elsif local_results.length == 1
+        found_person = local_results.first
+      else
+        # TODO - figure out how to write a test for this
+        # This is sloppy - creating something as the result of a GET
+        found_person_data = Person.find_remote_by_identifier(params[:identifier])
+        found_person =  Person.create_from_form(found_person_data) unless found_person_data.nil?
+      end
+      if found_person
+        redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return 
+      end
+    end
 
-    # If there is no single identifier match then do a general search and show the search page
+    # TODO - consider doing remote searches using name, gender, etc
     @people = Person.search(params)
 
     
