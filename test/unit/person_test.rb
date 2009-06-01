@@ -137,11 +137,11 @@ class PersonTest < ActiveSupport::TestCase
     should "return a hash with correct patient" do
       p = person(:evan)
       data = {
-        "identifiers" => [
-          {"identifier_type" => 3,"identifier" => "311"},
-          {"identifier_type"=>4, "identifier"=>"ARV-311"},
-          {"identifier_type"=>5, "identifier"=>"PART-311"}
-        ]
+        "identifiers" => {
+            "National id" => "P1701210013",
+            "ARV Number" => "ARV-311",
+            "Pre ART Number" => "PART-311",
+        }
       }
       assert_equal p.demographics["person"]["patient"], data
     end
@@ -163,11 +163,11 @@ class PersonTest < ActiveSupport::TestCase
           "city_village" => "Katoleza"
         },
         "patient" => {
-          "identifiers" => [
-            {"identifier_type" => 3,"identifier" => "311"},
-            {"identifier_type"=>4, "identifier"=>"ARV-311"},
-            {"identifier_type"=>5, "identifier"=>"PART-311"}
-          ]
+          "identifiers" => {
+            "National id" => "P1701210013",
+            "ARV Number" => "ARV-311",
+            "Pre ART Number" => "PART-311",
+          }
         }
       }}
       assert_equal p.demographics, evan_demographics
@@ -193,6 +193,25 @@ class PersonTest < ActiveSupport::TestCase
       parameters = demographics.to_param
       assert_equal Person.create_from_form(Rack::Utils.parse_nested_query(parameters)["person"]).demographics, demographics
     end
-  end
 
+    should "include a remote demographics servers global property" do
+      assert !GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).nil?, "Current GlobalProperties #{GlobalProperty.find(:all).map{|gp|gp.property}.inspect}"
+    end
+
+
+    should "check be able to check remote servers for person demographics" do
+      assert_equal Person.find_remote(person(:evan).demographics).first, person(:evan).demographics.to_json
+    end
+
+    should "be able to locate a patient by their demographic details" do
+      assert_equal Person.find_by_demographics(person(:evan).demographics).first, person(:evan)
+    end
+
+    should "check be able to locate a patient by their national id" do
+      demographic_national_id_only = {:person => {:patient => {:identifiers => {"National id" => "P1701210013"} }}}
+      assert_equal Person.find_by_demographics(demographic_national_id_only).first, person(:evan)
+    end
+
+
+  end
 end

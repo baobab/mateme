@@ -3,10 +3,10 @@ pages = {
   "login" => "/login",
   "home" => "/session",
   "location" => "/location",
+  "patient dashboard" => "/patients/show",
 }
 
 Given /^I am on the "([^\"]*)" page$/ do |page_name|
-  puts User.find(:all).inspect.blue
   post "/login", {:user => { :username => "mikmck", :password => "mike" }, :location => 6}
   visit pages[page_name]
 end
@@ -16,7 +16,9 @@ When /^I enter "([^\"]*)" as (.*)$/ do |text,target|
 end
 
 Then /^I should (see|be redirected to) the "([^\"]*)" page$/ do |null,page_name|
-  assert_equal pages[page_name], current_url.gsub(/.*\.com/,"")
+  page_url = pages[page_name] || page_name
+#  assert_equal page_url, current_url.gsub(/.*\.com/,"")
+  assert current_url.gsub(/.*\.com/,"").match(/#{page_url}/), "Expected #{current_url} to contain #{page_url}"
 end
 
 Then /^it should look like (\w*\.jpg).*/ do |img|
@@ -39,4 +41,9 @@ Then /^I am logged in as "([^\"]*)", "([^\"]*)"/ do |username, pass|
   fill_in "location", :with => 8
   click_button("submit")
 end
+
+Then /^what$/ do
+  puts response_body.yellow
+end
+
 

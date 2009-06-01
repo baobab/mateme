@@ -18,6 +18,13 @@ class PeopleControllerTest < ActionController::TestCase
         assert_contains assigns(:people), person(:evan)
       end  
     end
+
+    should "lookup people by posting some demographics and return full demographic data" do
+      logged_in_as :mikmck, :registration do
+        get :demographics, {:person => {:patient => {:identifier => "P1701210013" }}}
+        assert_response :success
+      end  
+    end
     
     should "lookup people that are not patients and return them in the search results" do
       logged_in_as :mikmck, :registration do      

@@ -6,5 +6,6 @@ class String
   def blue; colorize(self, "\e[1m\e[34m"); end
   def dark_blue; colorize(self, "\e[34m"); end
   def pur; colorize(self, "\e[1m\e[35m"); end
+  def purple; colorize(self, "\e[1m\e[35m"); end
   def colorize(text, color_code)  "#{color_code}#{text}\e[0m" end
 end

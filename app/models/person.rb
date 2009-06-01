@@ -86,12 +86,6 @@ class Person < ActiveRecord::Base
 
   def demographics
 
-    if not self.patient.patient_identifiers.blank? 
-      identifiers = self.patient.patient_identifiers.collect{|identifier|
-        { "identifier_type" => identifier.identifier_type,
-          "identifier" => identifier.identifier }
-      }
-    end
 
     if self.birthdate_estimated
       birth_day = "Unknown"
@@ -121,10 +115,104 @@ class Person < ActiveRecord::Base
       },
     }}
 
-    demographics["person"]["patient"] = { "identifiers" => identifiers } if identifiers
-
+ 
+    if not self.patient.patient_identifiers.blank? 
+      demographics["person"]["patient"] = {"identifiers" => {}}
+      self.patient.patient_identifiers.each{|identifier|
+        demographics["person"]["patient"]["identifiers"][identifier.type.name] = identifier.identifier
+      }
+    end
 
     return demographics
+
+  end
+
+  def self.search_by_identifier(identifier)
+    PatientIdentifier.find_all_by_identifier(identifier).map{|id| id.patient.person} unless identifier.blank?
+  end
+
+  def self.search(params)
+    people = Person.search_by_identifier(params[:identifier])
+
+    return people.first.id unless people.blank? || people.size > 1
+    people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
+    "gender = ? AND \
+     person.voided = 0 AND \
+     (patient.voided = 0 OR patient.voided IS NULL) AND \
+     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
+     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
+    params[:gender],
+    params[:given_name],
+    (params[:given_name] || '').soundex,
+    params[:family_name],
+    (params[:family_name] || '').soundex
+    ]) if people.blank?
+
+    return people
+    
+    # temp removed
+    # AND (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL )"    
+    #  params[:family_name2],
+    #  (params[:family_name2] || '').soundex,
+
+
+
+
+# CODE below is TODO, untested and NOT IN USE
+#    people = []
+#    people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
+#    if people.size == 1
+#      return people
+#    elsif people.size >2
+#      filtered_by_family_name_and_gender = []
+#      filtered_by_family_name = []
+#      filtered_by_gender = []
+#      people.each{|person|
+#        gender_match = person.gender == params[:gender] unless params[:gender].blank?
+#        filtered_by_gender.push person if gender_match
+#        family_name_match = person.first.names.collect{|name|name.family_name.soundex}.include? params[:family_name].soundex
+#        filtered_by_family_name.push person if gender_match?
+#        filtered_by_family_name_and_gender.push person if family_name_match? and gender_match?
+#      }
+#      return filtered_by_family_name_and_gender unless filtered_by_family_name_and_gender.empty?
+#      return filtered_by_family_name unless filtered_by_family_name.empty?
+#      return filtered_by_gender unless filtered_by_gender.empty?
+#      return people
+#    else
+#    return people if people.size == 1
+#    people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
+#    "gender = ? AND \
+#     person.voided = 0 AND \
+#     (patient.voided = 0 OR patient.voided IS NULL) AND \
+#     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
+#     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
+#    params[:gender],
+#    params[:given_name],
+#    (params[:given_name] || '').soundex,
+#    params[:family_name],
+#    (params[:family_name] || '').soundex
+#    ]) if people.blank?
+#    
+    # temp removed
+    # AND (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL )"    
+    #  params[:family_name2],
+    #  (params[:family_name2] || '').soundex,
+
+  end
+
+  def self.find_by_demographics(person_demographics)
+    puts person_demographics.inspect.yellow
+    national_id = person_demographics[:person][:patient][:identifiers]["National id"] || nil
+    results = Person.search_by_identifier(national_id)
+    return results unless results.blank?
+
+    gender = person_demographics[:person][:gender]
+    given_name = person_demographics[:person][:names][:given_name]
+    family_name = person_demographics[:person][:names][:family_name]
+
+    search_params = {:gender => gender, :given_name => given_name, :family_name => family_name }
+
+    results = Person.search(search_params)
 
   end
 
@@ -152,9 +240,9 @@ class Person < ActiveRecord::Base
     if (!patient_params.nil?)
       patient = person.create_patient
 
-      patient_params["identifiers"].each{|identifier|
-        identifier_type = identifier["identifier_type"] || PatientIdentifierType.find_by_name("Unknown id")
-        patient.patient_identifiers.create("identifier" => identifier["identifier"], "identifier_type" => identifier_type)
+      patient_params["identifiers"].each{|identifier_type_name, identifier|
+        identifier_type = PatientIdentifierType.find_by_name(identifier_type_name) || PatientIdentifierType.find_by_name("Unknown id")
+        patient.patient_identifiers.create("identifier" => identifier, "identifier_type" => identifier_type.patient_identifier_type_id)
       } if patient_params["identifiers"]
   
       # This might actually be a national id, but currently we wouldn't know
@@ -162,5 +250,29 @@ class Person < ActiveRecord::Base
     end
     return person
   end
+
+  def self.find_remote(known_demographics)
+
+    servers = GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/)
+
+    wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt"
+    # use ssh to establish a secure connection then query the localhost
+    # use wget to login (using cookies and sessions) and set the location
+    # then pull down the demographics
+    # TODO fix login/pass
+    local_demographic_lookup_steps = [ 
+      "#{wget_base_command} -O /dev/null --post-data=\"login=mikmck&password=mike\" \"http://localhost/session\"",
+      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=8\" \"http://localhost/session\"",
+      "#{wget_base_command} -O - --post-data=\"_method=get&\" \"http://localhost/people/demographics\""
+    ]
+    results = []
+    servers.each{|server|
+      command = "ssh #{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      results.push `#{command}`
+
+    }
+    results
+  end
+
   
 end

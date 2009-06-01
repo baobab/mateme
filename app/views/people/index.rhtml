@@ -6,6 +6,7 @@
 <div style="text-align:center;margin:10px;">
   <form id='barcodeForm' action="/people/search">
     <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
+    <%= submit_tag "Submit", :style => "display:none" %>
     <div style="color:gray">scan a barcode</div>
   </form>
   <p class="centered">
