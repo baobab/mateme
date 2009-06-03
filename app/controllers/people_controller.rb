@@ -3,11 +3,11 @@ class PeopleController < ApplicationController
   def index
     @show_user_management = false
     @show_set_date = false
+    session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
 
     user_roles = User.current_user.user_roles.collect{|r|r.role.role if r && r.role}.compact
     @show_user_management = true if user_roles.include?("superuser") || user_roles.include?("System Developer")
     @show_set_date = true unless session[:datetime].blank? 
-    #render :text =>"_#{@show_set_date.to_s}_   #{(session[:datetime].blank?).to_s}" and return
     @people = Person.find(:all)
     render :layout => "menu"
   end
@@ -66,12 +66,11 @@ class PeopleController < ApplicationController
     end
   end
 
-  def set_datetime_for_retrospective_data_entry
+  def set_datetime
     if request.post?
       unless params["retrospective_patient_day"]== "" or params["retrospective_patient_month"]== "" or params["retrospective_patient_year"]== ""
         date_of_encounter = Time.mktime(params["retrospective_patient_year"].to_i,params["retrospective_patient_month"].to_i,                                params["retrospective_patient_day"].to_i,0,0,1) # set for 1 second after midnight to designate it as a retrospective date
-        session[:datetime] = date_of_encounter 
-        session[:datetime] = nil if date_of_encounter.to_date == Date.today || date_of_encounter.to_date > Date.today
+        session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today 
       end
       redirect_to :action => "index"
     end

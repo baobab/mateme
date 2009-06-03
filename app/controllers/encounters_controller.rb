@@ -1,7 +1,12 @@
 class EncountersController < ApplicationController
 
   def create
-    encounter = Encounter.create(params[:encounter])
+    #render :text =>  params[:encounter] and return
+      
+    encounter = Encounter.new(params[:encounter])
+    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
+    encounter.save
+
     if encounter.type.name =~ /OUTPATIENT DIAGNOSIS|REFERRED/
       if params[:select].to_s =="option2"
         encounter_type_id= EncounterType.find_by_name("OUTPATIENT DIAGNOSIS").id
@@ -10,7 +15,7 @@ class EncountersController < ApplicationController
       end
 
       encounter.type = EncounterType.find(encounter_type_id) rescue nil
-      encounter.encounter_datetime = session[:encounter_datetime] unless session[:encounter_datetime].blank?
+      encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
       encounter.save unless encounter_type_id.blank?
     end
 
