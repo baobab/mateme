@@ -12,12 +12,16 @@ Feature: Vitals encounter
     Then I should see "Temperature"
 
   Scenario: Enter vitals
+    Given I am on the "find or register patient" page
+    And I have a patient that exists in the local database with "P1701210013" as the national id number
+    When I scan the "P1701210013" barcode
+
     Given I am on the "vitals" page
     When I enter "36.1" as temperature
     And I enter "51.1" as weight
     And I enter "171" as height
-    Then I should see a graph *HARD TO TEST W/O javascript*
-    When I click "Finish"
+#    Then I should see a graph *HARD TO TEST*
+    When I press "Finish"
     Then I should see the "patient dashboard" page
 
   Scenario: Temperature validation

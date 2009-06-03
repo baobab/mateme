@@ -11,14 +11,16 @@ class PeopleController < ApplicationController
 
   def demographics
     # Search by the demographics that were passed in and then return demographics
-    render :text => Person.find_by_demographics(params).first.demographics.to_json
+    people = Person.find_by_demographics(params)
+    result = people.empty? ? {} : people.first.demographics
+    render :text => result.to_json
   end
  
   def search
     found_person = nil
     if params[:identifier]
       local_results = Person.search_by_identifier(params[:identifier])
-      if local_results.length >= 1
+      if local_results.length > 1
         @people = Person.search(params)
       elsif local_results.length == 1
         found_person = local_results.first

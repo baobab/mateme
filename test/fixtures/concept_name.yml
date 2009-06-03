@@ -80,3 +80,25 @@ valium:
   locale: en
   concept_id: 1001
   date_created: 2004-04-08 00:00:00 -07:00
+concept_name_03454: 
+  name: TEMPERATURE (C)
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3454
+  locale: en
+  concept_id: 5088
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_name_03455: 
+  name: WEIGHT (KG)
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3455
+  locale: en
+  concept_id: 5089
+  date_created: 2004-08-12 00:00:00 -07:00
