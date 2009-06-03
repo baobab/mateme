@@ -4,6 +4,7 @@ pages = {
   "home" => "/session",
   "location" => "/location",
   "patient dashboard" => "/patients/show",
+  "vitals" => "/encounters/new/vitals?patient_id=1",
 }
 
 Given /^I am on the "([^\"]*)" page$/ do |page_name|
@@ -45,5 +46,3 @@ end
 Then /^what$/ do
   puts response_body.yellow
 end
-
-

@@ -14,17 +14,14 @@ Feature: Finding an existing patient
   Scenario: Scan a locally valid barcode
     Given I am on the "find or register patient" page
     And I have a patient that exists in the local database with "P1701210013" as the national id number
-    And I enter "P1701210013" as barcode
-    And I press "Submit"
+    When I scan the "P1701210013" barcode
     Then I should see the "patient dashboard" page
 
   Scenario: Scan a remotely valid barcode with connectivity
     Given I am on the "find or register patient" page
-    And I have a patient that does not exist in the local database with "P1701210013" as the national id number
-    And I have a patient that exists in a remote database with "P1701210013" as the national id number *HARD TO TEST*
-    And I enter "P1701210013" as barcode
-    And I press "Submit"
-
+    And I have a patient that does not exist in the local database with "P1201210059" as the national id number
+    And I have a patient that exists in a remote database with "P1701210013" as the national id number
+    When I scan the "P1701210013" barcode
     Then I should see the "patient dashboard" page
 
   Scenario: Scan a remotely valid barcode without connectivity
@@ -32,7 +29,7 @@ Feature: Finding an existing patient
     And I have a patient that does not exist in the local database with "P1701210013" as the national id number
     And I have a patient that exists in a remote database with "P1701210013" as the national id number *HARD TO TEST*
     And I have no connectivity
-    And I enter "P1701210013" as barcode
+    When I scan the "P1701210013" barcode
     Then I should see "First name"
     And the patient that is created will maintain the same national id *HARD TO TEST*
 

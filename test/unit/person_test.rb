@@ -199,7 +199,7 @@ class PersonTest < ActiveSupport::TestCase
     end
 
     should "be able to ssh without password to remote demographic servers" do
-      GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).split(/,/).each{|hostname|
+      GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/).each{|hostname|
         ssh_result = `ssh -o ConnectTimeout=2 #{hostname} wget --version `
         assert ssh_result.match /GNU Wget/
       }
