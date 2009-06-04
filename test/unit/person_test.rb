@@ -149,6 +149,7 @@ class PersonTest < ActiveSupport::TestCase
     should "return a hash that represents a patients demographics" do
       p = person(:evan)
       evan_demographics = { "person" => {
+        "date_changed" => "2000-01-01 00:00:00".to_datetime.to_s,
         "gender" => "M",
         "birth_year" => 1982,
         "birth_month" => 6,
@@ -170,7 +171,7 @@ class PersonTest < ActiveSupport::TestCase
           }
         }
       }}
-      assert_equal p.demographics, evan_demographics
+    ssert_equal p.demographics, evan_demographics
     end
 
     should "return demographics with appropriate estimated birthdates" do
@@ -200,7 +201,8 @@ class PersonTest < ActiveSupport::TestCase
 
     should "be able to ssh without password to remote demographic servers" do
       GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/).each{|hostname|
-        ssh_result = `ssh -o ConnectTimeout=2 #{hostname} wget --version `
+        command = "ssh -o ConnectTimeout=2 #{hostname} wget --version "
+        ssh_result = `#{command}`
         assert ssh_result.match /GNU Wget/
       }
     end
