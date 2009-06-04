@@ -4,7 +4,7 @@
 <form action="/encounter_types/show">
 
   <%= hidden_field_tag "patient_id", params[:patient_id] %>
-  <select name="encounter_type">
+  <select helpText='Select Encounter' name="encounter_type">
     <% @available_encounter_types.each do |encounter_type| %>
       <option><%= encounter_type %></option>
     <% end %>
