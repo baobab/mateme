@@ -280,9 +280,8 @@ class Person < ActiveRecord::Base
     results = []
     servers.each{|server|
       command = "ssh #{server} '#{local_demographic_lookup_steps.join(";\n")}'"
-      puts "http://localhost/people/demographics/?#{post_data.to_param}".yellow
       output = `#{command}`
-      results.push output if output.match /person/
+      results.push output if output and output.match /person/
     }
     # TODO need better logic here to select the best result or merge them
     # Currently returning the longest result - assuming that it has the most information

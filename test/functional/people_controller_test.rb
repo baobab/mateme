@@ -19,12 +19,34 @@ class PeopleControllerTest < ActionController::TestCase
       end  
     end
 
-    should "lookup people by posting a national id and return full demographic data" do
+    should "lookup valid person by national id and redirect them to dashboard" do
+      logged_in_as :mikmck, :registration do
+        get :search, {:identifier => 'P1701210013'}
+        assert_response :redirect
+      end  
+    end
+
+    should "lookup people by national id that has no associated record and return them in the search results" do
+      logged_in_as :mikmck, :registration do
+        get :search, {:identifier => 'P16666666666'}
+        assert_response :success
+      end  
+    end
+
+    should "lookup demographics by posting a national id and return full demographic data" do
       logged_in_as :mikmck, :registration do
         get :demographics, {:person => {:patient => { :identifiers => {"National id" => "P1701210013" }}}}
         assert_response :success
       end  
     end
+
+    should "lookup demographics by posting a national id that has no associated record and send them to the search page" do
+      logged_in_as :mikmck, :registration do
+        get :demographics, {:person => {:patient => { :identifiers => {"National id" => "P1666666666" }}}}
+        assert_response :success
+      end  
+    end
+
 
     should "lookup people by posting a family name, first name and gender and return full demographic data" do
       logged_in_as :mikmck, :registration do

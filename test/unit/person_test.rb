@@ -171,7 +171,7 @@ class PersonTest < ActiveSupport::TestCase
           }
         }
       }}
-    ssert_equal p.demographics, evan_demographics
+    assert_equal p.demographics, evan_demographics
     end
 
     should "return demographics with appropriate estimated birthdates" do
@@ -201,8 +201,7 @@ class PersonTest < ActiveSupport::TestCase
 
     should "be able to ssh without password to remote demographic servers" do
       GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/).each{|hostname|
-        command = "ssh -o ConnectTimeout=2 #{hostname} wget --version "
-        ssh_result = `#{command}`
+        ssh_result = `ssh -o ConnectTimeout=2 #{hostname} wget --version `
         assert ssh_result.match /GNU Wget/
       }
     end

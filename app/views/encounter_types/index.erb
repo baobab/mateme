@@ -1,0 +1,13 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= params[:patient_id] %>"
+</script>
+<form action="/encounter_types/show">
+
+  <%= hidden_field_tag "patient_id", params[:patient_id] %>
+  <select helpText='Select Encounter' name="encounter_type">
+    <% @available_encounter_types.each do |encounter_type| %>
+      <option><%= encounter_type %></option>
+    <% end %>
+  </select>
+  <%= submit_tag "Finish" %>    
+</form>

@@ -2,9 +2,26 @@
   tt_cancel_destination = '/people';
 </script>
 <style type="text/css">
-  #menu .button {
+
+  a.button.green {
     width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:#00FF00 none repeat scroll 0 0;
+    font-size:1.4em;
+    height:57px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
   }
+
 </style>
 
 <div style="margin:10px;">
@@ -13,11 +30,14 @@
     <%= render :partial => "current_encounters" %>
   </div>
   <div id="menu" style="float:right">
-    <button class="button green" onclick="window.location = '/encounters/new/vitals?patient_id=<%= @patient.id -%>'"><span>Weight/Height</span></button><br/>
-    <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'"><span>Diagnosis</span></button><br/>
-    <button class="button green" onclick="window.location = '/prescriptions/?patient_id=<%= @patient.id -%>'"><span>Prescriptions</span></button><br/>
-    <button class="button green" onclick="window.location = '/encounters/new/appointment?patient_id=<%= @patient.id -%>'"><span>Next Appointment</span></button><br/>
-    <button class="button dark" onclick="window.location = '/patients/print_registration?patient_id=<%= @patient.id -%>'"><span>Print Registration</span></button><br/>
-    <button class="button dark" onclick="window.location = '/patients/print_visit?patient_id=<%= @patient.id -%>'"><span>Print Visit</span></button><br/>
+    <a class="button green" href='/encounter_types?patient_id=<%= @patient.id -%>'>Encounters</a>
+    <!--
+    <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Weight/Height</a>
+    <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
+    -->
+    <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Prescriptions</a>
+    <a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a>
+    <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
+    <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
   </div>
 </div>  

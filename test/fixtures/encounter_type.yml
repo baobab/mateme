@@ -47,3 +47,9 @@ treatment:
   creator: 1
   encounter_type_id: 8
   description: ""
+diabetes_hypertenstion_initial_visit: 
+  name: DIABETES HYPERTENSION INITIAL VISIT
+  date_created: 2008-09-24 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 9
+  description: ""
