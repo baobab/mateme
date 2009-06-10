@@ -27,11 +27,14 @@ class PeopleControllerTest < ActionController::TestCase
     end
 
     should "lookup people by national id that has no associated record and return them in the search results" do
+      GlobalProperty.delete_all(:property => 'remote_demographics_servers')
       logged_in_as :mikmck, :registration do
         get :search, {:identifier => 'P16666666666'}
         assert_response :success
       end  
     end
+
+    should "lookup people by national id that has no associated record and find the id from a remote"
 
     should "lookup demographics by posting a national id and return full demographic data" do
       logged_in_as :mikmck, :registration do
@@ -47,7 +50,6 @@ class PeopleControllerTest < ActionController::TestCase
       end  
     end
 
-
     should "lookup people by posting a family name, first name and gender and return full demographic data" do
       logged_in_as :mikmck, :registration do
         get :demographics, {:person => {:gender => "M", :names => {:given_name => "Evan", :family_name => "Waters"}}}
@@ -55,11 +57,9 @@ class PeopleControllerTest < ActionController::TestCase
       end  
     end
 
-    should "search for patients at remote sites and create them locally if they match ***PENDING****TODO" do
-      # TODO people_controller line 23ish
-      # @people = Person.find_remote_by_identifier(params[:identifier])
-
-    end
+    should "search for patients at remote sites and create them locally if they match"
+    # TODO people_controller line 23ish
+    # @people = Person.find_remote_by_identifier(params[:identifier])
     
     should "lookup people that are not patients and return them in the search results" do
       logged_in_as :mikmck, :registration do      

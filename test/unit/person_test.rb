@@ -194,21 +194,28 @@ class PersonTest < ActiveSupport::TestCase
       assert_equal Person.create_from_form(Rack::Utils.parse_nested_query(parameters)["person"]).demographics, demographics
     end
 
-    should "include a remote demographics servers global property" do
-      assert !GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).nil?, "Current GlobalProperties #{GlobalProperty.find(:all).map{|gp|gp.property}.inspect}"
+    should "not crash if there are no demographic servers specified" do
+      should_not_raise do
+        GlobalProperty.delete_all(:property => 'remote_demographics_servers')
+        Person.find_remote(person(:evan).demographics)
+      end
     end
 
-    should "be able to ssh without password to remote demographic servers" do
-      GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/).each{|hostname|
-        ssh_result = `ssh -o ConnectTimeout=2 #{hostname} wget --version `
-        assert ssh_result.match /GNU Wget/
-      }
-    end
+# THESE NEED FAKEWEB!
+    should "include a remote demographics servers global property" #do
+#      assert !GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).nil?, "Current GlobalProperties #{GlobalProperty.find(:all).map{|gp|gp.property}.inspect}"
+#    end
 
+    should "be able to ssh without password to remote demographic servers" #do
+#      GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/).each{|hostname|
+#        ssh_result = `ssh -o ConnectTimeout=2 #{hostname} wget --version `
+#        assert ssh_result.match /GNU Wget/
+#      }
+#    end
 
-    should "check be able to check remote servers for person demographics" do
-      assert_equal Person.find_remote(person(:evan).demographics), person(:evan).demographics
-    end
+    should "check be able to check remote servers for person demographics" #do
+#      assert_equal Person.find_remote(person(:evan).demographics), person(:evan).demographics
+#    end
 
     should "be able to retrieve person data by their demographic details" do
       assert_equal Person.find_by_demographics(person(:evan).demographics).first, person(:evan)
