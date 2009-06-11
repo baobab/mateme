@@ -80,8 +80,8 @@
   
   function set_help_text(el, req) {
     if (req.readyState == 4 && req.status == 200) {
-      units = "(" + req.responseText + ")";
-      el.innerHTML += (" " + units);
+      units = req.responseText;
+      el.innerHTML += (" in " + units);
     }
   }
   
@@ -115,16 +115,17 @@
     :field_type => 'number',
     :units => 'mg',
     :helpText => "Dose strength",
-    :condition => "selectedValue('type_of_prescription') == 'Standard Dose'"}%>
+    :condition => "selectedValue('type_of_prescription') == 'Standard Dose'",
+    :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
+    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 <!--:absoluteMin => should use minimumDailyDose
     :absoluteMax => should use maximumDailyDose-->    
 
-  <% answers = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept.concept_answers rescue []
-     names = answers.map{|a| ConceptName.find_by_concept_id(a.answer.concept_id) }
-     names.flatten!     
+  <% coded = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id
+     names = ConceptName.all(:conditions => ['concept_answer.concept_id = ?', coded], :joins => 'INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept') rescue []
   %>
-  <%= select_tag :frequency, options_from_collection_for_select(
-    names, :name, :name), 
+  <%= select_tag :frequency, options_from_collection_for_select(names, :name, :name), 
     {:tt_onLoad => "set_info_for_frequency();",     
      :helpText => "Frequency",
      :condition => "selectedValue('type_of_prescription') == 'Standard Dose'"} %> 
@@ -137,7 +138,10 @@
     :textCase => "upper", 
     :field_type => "number",
     :helpText => "Morning Dose Strength",
-    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'"}%>
+    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
+    :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
+    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
   <%= text_field_tag :afternoon_dose, nil, { 
@@ -146,7 +150,10 @@
     :textCase => "upper", 
     :field_type => "number",
     :helpText => "Afternoon Dose Strength",
-    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'"}%>
+    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
+    :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
+    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
   <%= text_field_tag :evening_dose, nil, { 
@@ -155,7 +162,10 @@
     :textCase => "upper", 
     :field_type => "number",
     :helpText => "Evening Dose Strength",
-    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'"}%>
+    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
+    :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
+    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
   <%= text_field_tag :night_dose, nil, { 
@@ -164,15 +174,21 @@
     :textCase => "upper", 
     :field_type => "number",
     :helpText => "Night Dose Strength",
-    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'"}%>
+    :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
+    :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
+    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
   <%= text_field_tag :duration, nil, { 
     :tt_onLoad => "set_generic_drug_and_formulation_for_duration();",
     :ajaxURL => "", 
-    :textCase => "upper", 
-    :field_type => "number",
-    :helpText => "Duration (days)"}%>
+    :field_type => 'number',
+    :units => 'days',
+    :helpText => "Duration (days)",
+    :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
+    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <%= select_tag :prn, options_for_select(
     {"No" => "0", 

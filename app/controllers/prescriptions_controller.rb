@@ -80,7 +80,7 @@ class PrescriptionsController < ApplicationController
       :conditions => {:drug_inventory_id => drug.id})
       
     orders.each {|order|
-      amounts << "#{order.duration_days}"
+      amounts << "#{order.duration_days.to_f}" unless order.duration_days.blank?
     }  
     amounts = amounts.flatten.compact.uniq
     render :text => "<li>" + amounts.join("</li><li>") + "</li>"
