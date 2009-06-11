@@ -53,7 +53,7 @@ class Patient < ActiveRecord::Base
   
   def visit_label
     label = ZebraPrinter::StandardLabel.new
-    label.font_size = 1
+    label.font_size = 3
     label.font_horizontal_multiplier = 1
     label.font_vertical_multiplier = 1
     label.left_margin = 50
