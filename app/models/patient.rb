@@ -53,9 +53,9 @@ class Patient < ActiveRecord::Base
   
   def visit_label
     label = ZebraPrinter::StandardLabel.new
-    label.font_size = 1
-    label.font_horizontal_multiplier = 2
-    label.font_vertical_multiplier = 2
+    label.font_size = 0.8
+    label.font_horizontal_multiplier = 1.5
+    label.font_vertical_multiplier = 1.5
     label.left_margin = 50
     encs = encounters.current.active.find(:all)
     return nil if encs.blank?
