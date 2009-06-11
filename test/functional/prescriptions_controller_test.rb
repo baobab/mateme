@@ -13,16 +13,26 @@ class PrescriptionsControllerTest < ActionController::TestCase
   context "Prescriptions controller" do  
     should "provide the current list of orders for the patient" do
       logged_in_as :mikmck, :registration do
+        p = patient(:evan)
+        o = prescribe(p, drug(:laughing_gas_600))
         get :index, {:patient_id => patient(:evan).patient_id} 
         assert_response :success
+      end  
+    end
+
+    should "provide skip the current orders list if it is empty" do
+      logged_in_as :mikmck, :registration do
+        Order.all.map(&:destroy)
+        get :index, {:patient_id => patient(:evan).patient_id} 
+        assert_response :redirect
       end  
     end
     
     should "provide a form for creating a new prescription" do
       logged_in_as :mikmck, :registration do
-        #get :new, {:patient_id => patient(:evan).patient_id}
-        #assert_response :success
-        #assert_equal assigns(:patient), patient(:evan)
+        get :new, {:patient_id => patient(:evan).patient_id}
+        assert_response :success
+        assert_equal assigns(:patient), patient(:evan)
       end  
     end  
 

@@ -1,15 +1,39 @@
+<style type="text/css">
+  /* TEMP, move out of here! */
+  .options {
+    height:8em;
+  }
+  .infoBarClass {
+    -moz-user-select:none;
+    color:gray;
+    font-size:1.3em;
+    margin-left:25px;
+    padding-top:5px;
+    width:750px;  
+    border-bottom:2px dotted;
+  }  
+</style>
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
   function set_generic_drug_for_formulation() {
     var generic = encodeURIComponent($('generic').value); 
     $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/formulations?generic=" + generic + "&search_string=");
+    $('infoBar'+tstCurrentPage).innerHTML = $('generic').value;
     clearInput();
+  }
+
+  function set_formulation_for_type() {
+    $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value;  
   }
   
   function set_generic_drug_and_formulation_for_duration() {
     var generic = encodeURIComponent($('generic').value); 
     var formulation = encodeURIComponent($('formulation').value); 
     $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/durations?generic=" + generic + "&formulation=" + formulation + "&search_string=");
+    if (selectedValue('type_of_prescription') == 'Standard Dose')
+      $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value + ': ' + $('dose_strength').value + ' ' + units + ' ' + selectedValue('frequency');        
+    else
+      $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value + ': ' + 'Variable Dose; ';              
     clearInput();
   }
   
@@ -19,8 +43,24 @@
     var generic = encodeURIComponent($('generic').value); 
     var formulation = encodeURIComponent($('formulation').value); 
     $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/dosages?generic=" + generic + "&formulation=" + formulation + "&frequency=" + frequency + "&search_string=");
+    $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value;  
     clearInput();
   }
+  
+  function set_info_for_frequency() {
+    $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value + ': ' + $('dose_strength').value + ' ' + units;    
+  }
+
+  function set_info_for_prn() {
+    $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value;  
+    if (selectedValue('type_of_prescription') == 'Standard Dose')
+      $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value + ': ' + $('dose_strength').value + ' ' + units + ' ' + selectedValue('frequency') + ' for ' + $('duration').value + ' days';        
+    else
+      $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value + ': ' + 'Variable Dose; ' + ' for ' + $('duration').value + ' days';        
+  
+  }
+
+  var units = '';
 
   function set_units_for_dose_strength(text) {
     var helpText = $('helpText'+tstCurrentPage);
@@ -39,8 +79,10 @@
   }
   
   function set_help_text(el, req) {
-    if (req.readyState == 4 && req.status == 200)
-      el.innerHTML += " (" + req.responseText + ")";
+    if (req.readyState == 4 && req.status == 200) {
+      units = "(" + req.responseText + ")";
+      el.innerHTML += (" " + units);
+    }
   }
   
 </script>
@@ -63,7 +105,8 @@
   <%= select_tag :type_of_prescription, options_for_select(
     {"Standard Dose" => "standard",
      "Variable Dose" => "variable"}), 
-    {:helpText => "Type of Prescription"} %> 
+    {:tt_onLoad => "set_formulation_for_type();",
+     :helpText => "Type of Prescription"} %> 
 
   <% # Set ajaxURL in the script, but need to start it blank %>
   <%= text_field_tag :dose_strength, nil, {
@@ -76,13 +119,14 @@
 <!--:absoluteMin => should use minimumDailyDose
     :absoluteMax => should use maximumDailyDose-->    
 
-  <% answers = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept.concept_answers 
+  <% answers = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept.concept_answers rescue []
      names = answers.map{|a| ConceptName.find_by_concept_id(a.answer.concept_id) }
      names.flatten!     
   %>
   <%= select_tag :frequency, options_from_collection_for_select(
     names, :name, :name), 
-    {:helpText => "Frequency",
+    {:tt_onLoad => "set_info_for_frequency();",     
+     :helpText => "Frequency",
      :condition => "selectedValue('type_of_prescription') == 'Standard Dose'"} %> 
 
 
@@ -133,7 +177,8 @@
   <%= select_tag :prn, options_for_select(
     {"No" => "0", 
      "Yes" => "1"}), 
-    {:helpText => "Take as needed (PRN)?"} %> 
+    {:tt_onLoad => "set_info_for_prn();",
+     :helpText => "Take as needed (PRN)?"} %> 
 
   <!-- label for='showSummary'></label -->
   <%#= text_field_tag :showSummary, nil, { :optional => "true", :tt_pageStyleClass => "NoControls prescription" } %>

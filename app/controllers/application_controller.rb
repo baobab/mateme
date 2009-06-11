@@ -32,8 +32,6 @@ class ApplicationController < ActionController::Base
     return "/encounters/new/registration?patient_id=#{patient.id}" if current_location_name.match(/Registration/) && !todays_encounters.include?("REGISTRATION")
     # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
     return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
-    # Outpatient diagnosis needs vitals to be done before doing diagnosis!
-    return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("VITALS")
     # Outpatient diagnosis needs outpatient diagnosis to be done!        
     return "/encounters/new/outpatient_diagnosis?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("OUTPATIENT DIAGNOSIS")
     # Everything seems to be done... show the dashboard

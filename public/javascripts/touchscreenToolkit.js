@@ -326,7 +326,9 @@ function populateInputPage(pageNum) {
 	var inputDiv = document.createElement("div");
   inputDiv.setAttribute("id", "inputFrame"+pageNum);
   inputDiv.setAttribute("class", "inputFrameClass");
+	var infoBar = getInfoBar(tstFormElements[i], pageNum);
 	var helpText = getHelpText(tstFormElements[i], pageNum);
+	inputPage.appendChild(infoBar); 
 	inputPage.appendChild(helpText); 
 
 	var lastInsertedNode = inputPage.appendChild(inputDiv);
@@ -451,6 +453,18 @@ function setTouchscreenAttributes(aInputNode, aFormElement, aPageNum) {
   aInputNode.setAttribute("v", aFormElement.getAttribute("validationRegexp"));  
 	if (aInputNode.type == "password") aInputNode.value = "";
 }
+
+function getInfoBar(inputElement, aPageNum) {
+	var infoBarClass = "infoBarClass";  
+  var infoBar = document.createElement("div");
+  infoBar.setAttribute('id','infoBar'+aPageNum);
+  infoBar.setAttribute('class',infoBarClass);
+  infoBar.setAttribute('refersToTouchscreenInputID',aPageNum);
+  if(inputElement.getAttribute("infoBar") != null){
+    infoBar.innerHTML = inputElement.getAttribute("infoBar");
+	} 
+  return infoBar;
+}  
 
 function getHelpText(inputElement, aPageNum) {
 	var helpTextClass;
@@ -628,7 +642,7 @@ function createProgressArea() {
 }
 
 function toggleShowProgress() {
-	var progressArear = $('progressArea');
+	var progressArea = $('progressArea');
 	var progressAreaHeader = $('progressAreaHeader');
 	var progressAreaBody = $('progressAreaBody');
 	var showProgressButton = $('showDataButton');
