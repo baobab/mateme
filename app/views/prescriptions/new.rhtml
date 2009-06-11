@@ -117,15 +117,17 @@
     :helpText => "Dose strength",
     :condition => "selectedValue('type_of_prescription') == 'Standard Dose'",
     :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 <!--:absoluteMin => should use minimumDailyDose
     :absoluteMax => should use maximumDailyDose-->    
 
   <% coded = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id
      names = ConceptName.all(:conditions => ['concept_answer.concept_id = ?', coded], :joins => 'INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept') rescue []
+     options = names.map{|n| [n.name, n.name]}
+     options << ['', '']
   %>
-  <%= select_tag :frequency, options_from_collection_for_select(names, :name, :name), 
+  <%= select_tag :frequency, options_for_select(options, ''), 
     {:tt_onLoad => "set_info_for_frequency();",     
      :helpText => "Frequency",
      :condition => "selectedValue('type_of_prescription') == 'Standard Dose'"} %> 
@@ -140,7 +142,7 @@
     :helpText => "Morning Dose Strength",
     :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
     :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
@@ -152,7 +154,7 @@
     :helpText => "Afternoon Dose Strength",
     :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
     :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
@@ -164,7 +166,7 @@
     :helpText => "Evening Dose Strength",
     :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
     :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
@@ -176,7 +178,7 @@
     :helpText => "Night Dose Strength",
     :condition => "selectedValue('type_of_prescription') == 'Variable Dose'",
     :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
@@ -187,7 +189,7 @@
     :units => 'days',
     :helpText => "Duration (days)",
     :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 5<b>.0</b>)",
+    :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <%= select_tag :prn, options_for_select(
