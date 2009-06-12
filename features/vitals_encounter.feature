@@ -4,11 +4,12 @@ Feature: Vitals encounter
   I want to be able to accurately capture a patient's vital signs
  
   Scenario: Select vitals encounter
-    Given I am on the "patient dashboard" page
-    When I click "Consult"
-    Then I should see the "Select Encounter" page
-    And it should look like select_encounter.jpg *HARD TO TEST*
-    When I click "Vitals"
+    Given I am on the "patient dashboard" page with patient "P1701210013"
+    When I follow "Encounters"
+    Then I should see "Select Encounter"
+    And it should look like select_encounter.jpg
+    When I select "Vitals" from "Select Encounter"
+    And I press "Finish"
     Then I should see "Temperature"
 
   Scenario: Enter vitals
@@ -26,13 +27,13 @@ Feature: Vitals encounter
 
   Scenario: Temperature validation
     Given I am on the "vitals" page
-    And I am on the "temperature" question
-    When I enter a temperature less than "20"
-    And I press "Next"
-    Then I see the alert "Value out of Range: 20 - 45" *HARD TO TEST W/O javascript*
+    Then I should see "Temperature" 
+    When I enter "19" as temperature
+    And I press "Finish"
+    Then I should see text "etween"
     When I enter a temperature greater than "45"
     And I press "Next"
-    Then I see the alert "Value out of Range: 20 - 45" *HARD TO TEST W/O javascript*
+    Then I should see "Value out of Range: 20 - 45"
 
   Scenario: Weight validation
     Given I am on the "vitals" page

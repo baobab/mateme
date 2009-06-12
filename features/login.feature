@@ -7,7 +7,7 @@ Feature: Logging in
     When I access the "/people/search" page
     Then I should be redirected to the "login" page
     And I should see "Username"
-    And it should look like login_user.jpg *HARD TO TEST*
+    And it should look like login_user.jpg
 
   Scenario: User enters username and password
     Given I am not logged in
