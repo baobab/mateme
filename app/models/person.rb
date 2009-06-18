@@ -115,7 +115,6 @@ class Person < ActiveRecord::Base
         "city_village" => self.addresses[0].city_village
       },
     }}
-
  
     if not self.patient.patient_identifiers.blank? 
       demographics["person"]["patient"] = {"identifiers" => {}}
