@@ -21,7 +21,7 @@ Then /^I should (see|be redirected to) the "([^\"]*)" page$/ do |null,page_name|
   assert current_url.gsub(/.*\.com/,"").match(/#{page_url}/), "Expected #{current_url} to contain #{page_url}"
 end
 
-Then /^it should look like (\w*\.jpg).*/ do |img|
+Then /^it should look like (\w*\.jpg)/ do |img|
   assert File.exist?(File.dirname(__FILE__) + "/../../features/images/#{img}")
 end
 
@@ -30,7 +30,7 @@ Then /^I should see "([^\"]*)" in the (\w*)/ do |text, target|
 end
 
 Then /^.*HARD TO TEST\*$/ do
- pending
+  pending
 end
 
 Then /^I am logged in as "([^\"]*)", "([^\"]*)"/ do |username, pass|

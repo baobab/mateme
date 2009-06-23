@@ -1,3 +1,5 @@
+
+
 Given /^I have a patient that exists in the local database with "([^\"]*)" as the national id number$/ do |national_id|
   # Find the first identifier in the fixture and make it match what was passed in (cheap factory approach)
 # Couldn't make this work, so I changed the fixture
