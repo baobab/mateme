@@ -232,7 +232,7 @@
          :validationRule => "^([0-9]+)|Unknown$",
          :validationMessage => "You must enter numbers only (for example 157)",
          :tt_pageStyleClass => "Numeric NumbersOnly"} %>
-      <%= hidden_field_tag("observations[][concept_name]", "HEIGHT SYSTOLIC BLOOD PRESSURE (?/Y)") %>
+      <%= hidden_field_tag("observations[][concept_name]", "SYSTOLIC BLOOD PRESSURE (?/Y)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
     <label for='diastolic_blood_pressure'>DIASTOLIC BLOOD PRESSURE (X/?)</label>
