@@ -219,11 +219,40 @@
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
+      <%= text_field_tag "observations[][value_numeric]", nil,
+        {:id => "systolic_blood_pressure",
+         :field_type => 'number',
+         # :min => number_with_precision(@patient.min_height, 1),
+         # :max => number_with_precision(@patient.max_height, 1),
+         :absoluteMin => 80,
+         :absoluteMax => 180,
+         # :units => 'cm',
+         :validationRule => "^([0-9]+)|Unknown$",
+         :validationMessage => "You must enter numbers only (for example 157)",
+         :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+      <%= hidden_field_tag("observations[][concept_name]", "SYSTOLIC BLOOD PRESSURE (?/Y)") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <label for='diastolic_blood_pressure'>DIASTOLIC BLOOD PRESSURE (X/?)</label>
+      <%= text_field_tag "observations[][value_numeric]", nil,
+        {:id => "diastolic_blood_pressure",
+         :field_type => 'number',
+         # :min => number_with_precision(@patient.min_height, 1),
+         # :max => number_with_precision(@patient.max_height, 1),
+         :absoluteMin => 50,
+         :absoluteMax => 110,
+         # :units => 'cm',
+         :validationRule => "^([0-9]+)|Unknown$",
+         :validationMessage => "You must enter numbers only (for example 157)",
+         :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+      <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE (X/?)") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
  
     <label for='showSummary'>Summary </label>
     <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
    
-      
-      
- 
+  <%= submit_tag "Finish" %>    
   </form>

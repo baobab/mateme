@@ -1,0 +1,33 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='initial_visit' action="/encounters/create" method='post'>
+  
+  <%= hidden_field_tag "encounter[encounter_type_name]", "DIABETES HYPERTENSION INITIAL VISIT" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+ 
+   
+  <%# This options hash allows us to define our options in one place %>
+  <% options = {
+    :helpText => 'Confirmed Diabetes',
+#    :allowFreeText => 'true',
+#    :ajaxURL => "/encounters/diagnoses?search_string=",
+    :textCase => "upper" } %>
+ 
+  <label for='observations[][value_coded_or_text]'>Diabetes Status</label>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES STATUS", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+ 
+  <% options[:optional] = 'true' %>
+ 
+  <%= submit_tag "Finish" %>    
+</form>
+ 

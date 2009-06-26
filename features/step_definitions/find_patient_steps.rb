@@ -13,7 +13,32 @@ Given /^I have a patient that exists in the local database with "([^\"]*)" as th
 end
 
 Given /^I have a patient that does not exist in the local database with "([^\"]*)" as the national id number$/ do |arg1|
-  pending
+  assert Person.search_by_identifier(arg1).empty?, "Patient #{arg1} DOES exist in the local database"
+end
+
+Given /^I have a patient that exists in a remote database with "([^\"]*)" as the national id number$/ do |arg1|
+  person_demographics = { "person" => {
+    "gender" => "M",
+    "birth_year" => 1982,
+    "birth_month" => 6,
+    "birth_day" => 9,
+    "names" => {
+      "given_name" => "Evan",
+      "family_name" => "Waters",
+      "family_name2" => ""
+    },
+    "addresses" => {
+      "county_district" => "",
+      "city_village" => "Katoleza"
+    },
+    "patient" => {
+      "identifiers" => {
+        "National id" => arg1,
+        "ARV Number" => "ARV-311",
+        "Pre ART Number" => "PART-311",
+      }
+    }
+  }}
 end
 
 Given /^the patient exists in a remote database$/ do
@@ -24,5 +49,11 @@ end
 Given /^I have no connectivity$/ do
   pending
 end
+
+When /^I scan the "([^\"]*)" barcode$/ do |scanned_number|
+  fill_in "barcode", :with => scanned_number
+  click_button("Submit")
+end
+
 
 

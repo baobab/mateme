@@ -220,4 +220,75 @@ diazepam:
   datatype_id: 4
   concept_id: 1001
   date_created: 2004-04-08 00:00:00 -07:00
-    
+concept_05088: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: TEMP (C)
+  default_charge: 
+  date_changed: 2005-02-25 06:59:42 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5088
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_05089: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: WT
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5089
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_05091: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: SYSTOLIC
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5091
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_05092: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: DIASTOLIC
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5092
+  date_created: 2004-08-12 00:00:00 -07:00

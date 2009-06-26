@@ -1,0 +1,20 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= params[:patient_id] %>"
+</script>
+<form action="/encounter_types/show">
+
+  <%= hidden_field_tag "patient_id", params[:patient_id] %>
+  <%
+  # webrat default form filler requires label tag with 'for="field_id"'
+  # to find field by Actual label text. Also TouchScreen Toolkit displays 
+  # helptext automatically if specified withing label tag.
+  # Would therefore encourage using label and other standard HTML best practices.
+  %>
+  <label for="encounter_type">Select Encounter</label>
+  <select name="encounter_type" id="encounter_type">
+    <% @available_encounter_types.each do |encounter_type| %>
+      <option><%= encounter_type %></option>
+    <% end %>
+  </select>
+  <%= submit_tag "Finish" %>    
+</form>

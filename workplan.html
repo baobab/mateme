@@ -1,0 +1,144 @@
+<style> code{ background-color: black; color: white; display: block;
+margin-top: 15px; margin-bottom: 15px; padding-top: 15px; padding-bottom: 15px;
+padding-left: 30px; border: 2px solid gray; font-family: monospace; } </style>
+<pre> <img width="300px" src="public/images/BaobabHealth.png">
+<h1>Diabetes / Hypertension Roadmap</h1>
+
+<h3>Steps required to take Mateme (as Mike delivered by Mike on Jun 4) and get
+it deployed to Queens.</h3>
+
+<h2>1. Add in the encounters and observation</h2> The system has an encounter
+selection screen at the following URL: <code> /encounter_types/ </code>
+
+We need to add the required encounters:
+
+<li> Initial Visit
+<li> Enter Lab data
+<li> Referral
+<li> DMHT: Eyes 
+<li> DMHT: Renal 
+<li> DMHT: Cardiovascular 
+<li> DMHT: Neurologic
+<li> Other tests (foot, urine... other stuff)
+<li> 
+
+This will require us creating new encounter types of the above name. We create
+new encounter types by adding them to the appropriate fixture file.
+
+For each encounter we need to add a template to the app/views/encounters. This
+will be simple touchscreen toolkit stuff. Note that Jeff has put a lot of work
+into eliminating the need for custom CSS on touchscreen toolkit pages. Use this
+new approach to avoid lots of pain!!
+
+Each question that is asked in the template will need to have a concept that
+matches each question that we are asking. Look in db/data/defaults to see if
+there are concepts that already exist that meet our needs.
+
+If we need to create new concepts, then we do it in the .yml fixtures. This
+requires us to add a concept name entry and a corresponding concept.
+
+Fixtures are found in two places:
+
+<code> 
+/test/fixtures
+/db/data/defaults
+</code>
+
+For our testing environment we load the test/fixtures with: 
+<code> rake openmrs:bootstrap:load:samples </code>
+
+Testing fixtures should only contain the bare minimum data needed for testing.
+
+For deployment we load /db/data/defaults fixtures with: 
+<code> rake openmrs:bootstrap:load:defaults </code>
+
+Default fixtures will include all data required for a deployment. If there are
+site specific fixtures (for users, for example) then create a new directory
+under /db/ (see nno for example)
+
+<h2>2. Add /demographic/ URL to QECH ART, MPC, LH, Salima, Dedza, CMERD
+sites.</h2>
+
+Mateme allows someone to scan a barcode that has been created from
+any site. If a barcode is scanned and a patient doesn't match it in the local
+database it will go out and check every other Baobab site by doing the
+following request:
+
+<code> GET /demographics/?person[patient][identifiers]["Nationalid"]=P12321121213 </code>
+
+The result of this will be a JSON object that represents the matched patient:
+(note this is in ruby format for readability)
+
+<code> 
+
+{ "person" => {
+        "date_changed"=>"Sat Jan 01 00:00:00 +0200 2000",
+        "gender" => "M",
+        "birth_year" => 1982,
+        "birth_month" => 6,
+        "birth_day" => 9,
+        "names" => {
+          "given_name" => "Evan",
+          "family_name" => "Waters",
+          "family_name2" => ""
+        },
+        "addresses" => {
+          "county_district" => "",
+          "city_village" => "Katoleza"
+        },
+        "patient" => {
+          "identifiers" => {
+            "National id" => "P1701210013",
+            "ARV Number" => "ARV-311",
+            "Pre ART Number" => "PART-311",
+          }
+        }
+      }}
+</code>
+
+This hash can then be passed to the POST /create/ URL to create a patient
+(passing a ruby object to a POST can be done by calling to_param on the hash).
+The params passed use the same format and the same URL that is used when we
+create a patient from the normal registration form. Note that the same format
+is used in the GET request to /demographics.
+
+Add created_at and updated_at to demographic hash. - DONE BY Kondwani
+
+Handle voided patients
+
+What happens when we submit to create a patient that already exists. We should
+check and see if the national id already exists before we create the person.
+
+TEST thoroughly!! Use fakeweb to help. <a
+href="http://technicalpickles.com/posts/stop-net-http-dead-in-its-tracks-with-fakeweb">http://technicalpickles.com/posts/stop-net-http-dead-in-its-tracks-with-fakeweb</a>
+<h2>3. Merge in mateme's touchscreen user admin code</h2> This fork of mateme is
+missing the ability to create users, reset passwords, etc. It assumes that you
+will use the keyboard based interface OpenMRS interface. We almost certainly
+want Oliver's user admin code. This is not high priority as user management can
+be done via the console if needed by Baobab.
+
+<h2>4. Create the graphs</h2> Use flot to create some simple graphs that appear on
+the dashboard. Soyapi of Ushahidi fame is the expert. Note that we will be
+deploying on J2's - this means we have more room and are not so worried about
+slow rendering.
+
+<h2>5. Setup the prescription module</h2> There is a prescription module included.
+For it to be useful it will need drugs to be added and it will need to be
+discussed with clinicians to make sure that it addresses their needs. I am not
+sure how to manage available drugs. It might be done at the script/console
+level or perhaps with the OpenMRS interface.
+
+<h2>6. Setup passwordless (key based) ssh login between sites</h2> 
+<h2>7. Figure out how to deploy with capistrano</h2>
+<h2>8. Define the reports</h2>
+Create a mastercard
+Create a cohort
+
+<h2>9. Don't deploy without control over the paper system</h2>
+Lets use labels in the register. Don't let us get in the position where we are being evaluated against a fragile paper system.
+<h2>10. Create specification document from cucumber stories</h2>
+run script to generate the features specification document
+<code>
+./support/features_to_doc.rb > features.html
+</code>
+</pre>

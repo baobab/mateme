@@ -4,11 +4,28 @@ pages = {
   "home" => "/session",
   "location" => "/location",
   "patient dashboard" => "/patients/show",
+  "vitals" => "/encounters/new/vitals?patient_id=1",
 }
+
+@@pages = pages
+
+def visit_page(page_name)
+  raise "Could not find \"#{page_name}\" - have you defined it?" unless @@pages[page_name]
+
+  visit @@pages[page_name]
+end
 
 Given /^I am on the "([^\"]*)" page$/ do |page_name|
   post "/login", {:user => { :username => "mikmck", :password => "mike" }, :location => 6}
-  visit pages[page_name]
+  visit_page page_name
+end
+
+Given /^I am on the "patient dashboard" page with patient "([^\"]*)"$/ do |national_identifier|
+  post "/login", {:user => { :username => "mikmck", :password => "mike" }, :location => 6}
+  #visit pages['find or register patient']
+  visit_page 'find or register patient'
+  fill_in "barcode", :with => national_identifier
+  click_button("Submit")
 end
 
 When /^I enter "([^\"]*)" as (.*)$/ do |text,target|
@@ -45,5 +62,3 @@ end
 Then /^what$/ do
   puts response_body.yellow
 end
-
-
