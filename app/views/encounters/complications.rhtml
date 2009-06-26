@@ -2,19 +2,21 @@
   <% default={
     :allowFreeText => 'true',
   } %>
-	<%= hidden_field_tag "encounter[encounter_type_name]", "MEDICAL HISTORY" %>
+
+	<%= hidden_field_tag "encounter[encounter_type_name]", "COMPLICATIONS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   
   <label for='complication_eyes_vision'>EYE COMPLICATIONS: Vision Changes/Blurry Vision</label>
   <% options=default.merge({
-    :field_type => 'text'
+    :field_type => 'text',
+    :id => "complication_eyes_vision"
   }) %>
-  <%= select "observations[][value_text]", nil,[
+  <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
-  ], options , :id => "complication_eyes_vision"%>
+  ]), options) %>
   <%= hidden_field_tag("observations[][concept_name]", "EYE COMPLICATIONS: Vision Changes/Blurry Vision") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -22,12 +24,108 @@
   <label for='complication_eyes_vision_frequency'>EYE COMPLICATIONS: How Frequent are Vision Changes</label>
   <% options=default.merge({
     :field_type => 'text',
-    :condition=>"$('complication_eyes_vision').value == 'Yes'"
+    :condition=>"$('complication_eyes_vision').value == 'Yes'",
+     :id => "complication_eyes_vision_frequency"
   }) %>
-  <%= select "observations[][value_text]", nil,[
+  <%= select_tag( "observations[][value_text]", options_for_select([
     "All the Time",
     "Intermittent"
-  ], options , :id => "complication_eyes_vision_frequency"%>
+  ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "EYE COMPLICATIONS: How Frequent are Vision Changes") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_neorologic_numbness'>NEOROLOGIC/EXTREMETIES: Numbness or Tingling in Hand, Feet, Legs</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_neorologic_numbness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No",
+    "Unsure"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "NEOROLOGIC/EXTREMETIES: Numbness or Tingling in Hand, Feet, Legs") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_neorologic_soles'>NEOROLOGIC/EXTREMETIES: Non Healing Sores on Feet/Ankles</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_neorologic_soles"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "NEOROLOGIC/EXTREMETIES: Non Healing Sores on Feet/Ankles") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_cardiovascular_chest_pains'>CARDIOVASCULAR: Chest Pains</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_cardiovascular_chest_pains"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR: Chest Pains") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='complication_cardiovascular_short_breath'>CARDIOVASCULAR: Shortness of Breath</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_cardiovascular_short_breath"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR: Shortness of Breath") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_renal_urine'>RENAL: Urine Output</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_renal_urine"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "RENAL: Urine Output") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hyperglycemia_polyuria'>HYPERGLYCEMIA SYMPTOMS: Polyuria</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hyperglycemia_polyuria"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPERGLYCEMIA SYMPTOMS: Polyuria") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hyperglycemia_polydipsia'>HYPERGLYCEMIA SYMPTOMS: Polydipsia</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hyperglycemia_polydipsia"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPERGLYCEMIA SYMPTOMS: Polydipsia") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <%= submit_tag "Finish" %>    
+</form>
