@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class PatientTest < ActiveSupport::TestCase
-  fixtures :patient, :patient_identifier, :person_name, :person, :encounter
+  fixtures :patient, :patient_identifier, :person_name, :person, :encounter, :encounter_type, :concept, :concept_name, :obs
 
   context "Patients" do
     should "be valid" do
@@ -93,5 +93,45 @@ EOF
       assert_equal patient.max_height, 183.0
     end  
 
+    context "current diagnoses" do
+      setup do
+        @evan = patient(:evan)
+        @encounter = Encounter.make(
+          :encounter_type => encounter_type(:outpatient_diagnosis).encounter_type_id)
+        @diagnosis = Observation.make(
+          :encounter_id => @encounter.id, 
+          :concept_id => concept(:outpatient_diagnosis).concept_id,
+          :value_coded => concept(:extrapulmonary_tuberculosis_without_lymphadenopathy).concept_id,
+          :value_coded_name_id => concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).concept_name_id,
+          :value_text => nil)
+        @diagnosis_non_coded = Observation.make(
+          :encounter_id => @encounter.id, 
+          :concept_id => concept(:outpatient_diagnosis_non_coded).concept_id,
+          :value_text => "HE IS TOO SUAVE")
+      end
+    
+      should "include coded and non-coded diagnoses" do
+        assert_equal [@diagnosis, @diagnosis_non_coded], @evan.current_diagnoses
+      end
+      
+      should "not include non-diagnosis observations" do
+        Observation.make(
+          :encounter_id => @encounter.id, 
+          :concept_id => concept(:height).concept_id,
+          :value_numeric => 100)
+        assert_equal [@diagnosis, @diagnosis_non_coded], @evan.current_diagnoses
+      end
+                  
+      should "not include voided diagnoses in the list of current diagnoses" do
+        @diagnosis.void!
+        assert_equal [@diagnosis_non_coded], @evan.current_diagnoses
+      end
+
+      should "not include diagnoses belonging to voided encounters in the list of current diagnoses" do
+        @encounter.void!
+        assert_equal [], @evan.current_diagnoses
+      end
+
+    end
   end
 end

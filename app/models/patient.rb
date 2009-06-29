@@ -10,7 +10,16 @@ class Patient < ActiveRecord::Base
       find(:all, :conditions => ["DATE(encounter_datetime) = DATE(?)", encounter_date]) # Use the SQL DATE function to compare just the date part
     end
   end
-  
+
+  def current_diagnoses
+    self.encounters.current.all(:include => [:observations]).map{|encounter| 
+      encounter.observations.active.all(
+        :conditions => ["obs.concept_id = ? OR obs.concept_id = ?", 
+        ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id,
+        ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id])
+    }.flatten.compact
+  end
+
   def current_treatment_encounter
     type = EncounterType.find_by_name("TREATMENT")
     encounter = encounters.current.find_by_encounter_type(type.id)

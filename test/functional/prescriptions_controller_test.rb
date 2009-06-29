@@ -10,7 +10,7 @@ class PrescriptionsControllerTest < ActionController::TestCase
     @response   = ActionController::TestResponse.new    
   end
 
-  context "Prescriptions controller" do  
+  context "Prescriptions controller" do    
     should "provide the current list of orders for the patient" do
       logged_in_as :mikmck, :registration do
         p = patient(:evan)
@@ -20,7 +20,7 @@ class PrescriptionsControllerTest < ActionController::TestCase
       end  
     end
 
-    should "provide skip the current orders list if it is empty" do
+    should "skip the current orders list if it is empty" do
       logged_in_as :mikmck, :registration do
         Order.all.map(&:destroy)
         get :index, {:patient_id => patient(:evan).patient_id} 
@@ -35,6 +35,9 @@ class PrescriptionsControllerTest < ActionController::TestCase
         assert_equal assigns(:patient), patient(:evan)
       end  
     end  
+
+    should "lookup the diagnoses that this prescription could apply to"
+    should "lookup the diagnoses and skip the question if there is only one diagnosis"
 
     should "lookup the set of generic drugs based on matching drugs to concepts" do
       logged_in_as :mikmck, :registration do

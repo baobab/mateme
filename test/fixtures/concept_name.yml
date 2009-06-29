@@ -102,3 +102,9 @@ concept_name_03455:
   locale: en
   concept_id: 5089
   date_created: 2004-08-12 00:00:00 -07:00
+drug_frequency_coded: 
+  name: DRUG FREQUENCY CODED
+  concept_id: 3320
+  date_created: 2008-05-23 16:26:14 +02:00
+  creator: 7
+  locale: en

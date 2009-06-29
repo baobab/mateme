@@ -117,6 +117,11 @@ class PrescriptionsController < ApplicationController
     render :text => drug.units
   end
   
+  def diagnoses
+    render :text => "<li>" + amounts.join("</li><li>") + "</li>"
+    
+  end
+  
   private
   
   def write_order(start_date, auto_expire_date, dose, frequency, prn)

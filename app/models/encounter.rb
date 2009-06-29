@@ -3,7 +3,7 @@ class Encounter < ActiveRecord::Base
   set_primary_key :encounter_id
   include Openmrs
 
-  named_scope :current, :conditions => 'DATE(encounter.encounter_datetime) = CURRENT_DATE()'
+  named_scope :current, :conditions => 'DATE(encounter.encounter_datetime) = CURRENT_DATE() AND encounter.voided = 0'
   named_scope :active, :conditions => 'encounter.voided = 0'
 
   has_many :observations, :dependent => :destroy

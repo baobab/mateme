@@ -131,13 +131,6 @@ Observation.blueprint do
   location_id 1
   obs_group_id 1
   accession_number ''
-  value_group_id 1
-  value_boolean false
-  value_coded 1
-  value_drug 1
-  value_datetime Time.now
-  value_modifier ''
-  value_text 'MELTING'
   date_started Time.now
   date_stopped Time.now
   comments ''
