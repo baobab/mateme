@@ -1,0 +1,9 @@
+--- 
+global_property_00000: 
+  property: use_patient_attribute.tribe
+  description: Indicates whether or not the 'tribe' attribute is shown when viewing/searching for patients
+  property_value: "true"
+global_property_00001: 
+  property: ask_location
+  description: Indicates whether or not the 'location id' is shown when login
+  property_value: "false"

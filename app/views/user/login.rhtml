@@ -1,0 +1,54 @@
+  <%= stylesheet_link_tag "user_login" %>
+
+  <script language="javascript">
+    doListSuggestions = false; //speeds up keyboard response
+
+    var setFocusTimeout = 1000;
+    var checkForBarcodeTimeout = 1500;
+   
+    function loadBarcodePage() {
+       focusForBarcodeInput();
+       moveNext();
+    }
+
+    function focusForBarcodeInput(){
+      var barcode = document.getElementById("touchscreenInput0");
+      if (barcode) {
+         barcode.focus();
+         window.setTimeout("focusForBarcodeInput()", setFocusTimeout);
+      }
+    }
+    
+   
+    function moveNext(){
+      usertext=document.getElementById("touchscreenInput0");
+      if (usertext.value.match(/.+\$$/i) != null){
+        usertext.value=usertext.value.substring(0,usertext.value.length -1);
+        gotoNextPage();
+      }
+       window.setTimeout("moveNext()", checkForBarcodeTimeout);
+    }    
+    window.addEventListener("load", loadBarcodePage, false);
+  </script>
+  <%= error_messages_for 'user' %>
+  <% form_tag do %>
+    <label for="user_username">Username</label>
+    <%= text_field(:user, :username, :helpText=> "Enter Username", :textCase => "lower",:tt_pageonload=>"loadBarcodePage") %><br>
+    <label for="user_password">Password</label>
+    <%= password_field(:user, :password, :helpText => "Enter Password", :textCase => "lower") %><br>
+    <% ask_location = GlobalProperty.find_by_property("ask_location").property_value rescue "false"
+       current_health_center_id = GlobalProperty.find_by_property("current_health_center_id").property_value rescue "7"
+     if ask_location == "false" %>
+      <label for="user_location">Location</label>
+      <%= hidden_field_tag('location', current_health_center_id, :helpText=> "Workstation Location", :tt_pageonload=>"loadBarcodePage", :field_type => "number") %><br>
+    <% elsif ask_location == "true" %>  
+      <label for="user_location">Location</label>
+      <%= text_field_tag('location', '', :helpText=> "Scan location barcode", :tt_pageonload=>"loadBarcodePage") %><br>
+    <% end %>  
+    <%= submit_tag value="Submit"%>
+  <% end %>
+
+  <div id="popupBox"  align="center">
+  <p id="p1">Verifying your username and password</p>
+  <p id="p2">Please wait......</p>
+  </div>

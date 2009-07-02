@@ -1,9 +1,11 @@
 class EncountersController < ApplicationController
 
   def create
-    encounter = Encounter.create(params[:encounter])
-    (params[:observations] || []).each{|observation|
+    encounter = Encounter.new(params[:encounter])
+    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
+    encounter.save
 
+    (params[:observations] || []).each{|observation|
       # Check to see if any values are part of this observation
       # This keeps us from saving empty observations
       values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
@@ -13,6 +15,9 @@ class EncountersController < ApplicationController
       next if values.length == 0
       observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
       observation[:encounter_id] = encounter.id
+      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:person_id] ||= encounter.patient_id
+      observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
       Observation.create(observation)
     }
     @patient = Patient.find(params[:encounter][:patient_id])
@@ -32,11 +37,18 @@ class EncountersController < ApplicationController
     filter_list = params[:filter_list].split(/, */) rescue []
     outpatient_diagnosis = ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept
     diagnosis_concepts = ConceptClass.find_by_name("DIAGNOSIS", :include => {:concepts => :name}).concepts rescue []    
+    # TODO Need to check a global property for which concept set to limit things to
+    if (false)
+      diagnosis_concept_set = ConceptName.find_by_name('MALAWI NATIONAL DIAGNOSIS').concept
+      diagnosis_concepts = Concept.find(:all, :joins => :concept_sets, :conditions => ['concept_set = ?', concept_set.id], :include => [:name])
+    end  
     valid_answers = diagnosis_concepts.map{|concept| 
-      name = concept.name.name
-      name.match(search_string) ? name : nil
+      name = concept.name.name rescue nil
+      name.match(search_string) ? name : nil rescue nil
     }.compact
-    previous_answers = Observation.find_most_common(outpatient_diagnosis, search_string)
+    previous_answers = []
+    # TODO Need to check global property to find out if we want previous answers or not (right now we do not)
+    previous_answers = Observation.find_most_common(outpatient_diagnosis, search_string) if false
     @suggested_answers = (previous_answers + valid_answers).reject{|answer| filter_list.include?(answer) }.uniq[0..10] 
     render :text => "<li>" + @suggested_answers.join("</li><li>") + "</li>"
   end

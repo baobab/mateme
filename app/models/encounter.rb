@@ -2,10 +2,9 @@ class Encounter < ActiveRecord::Base
   set_table_name :encounter
   set_primary_key :encounter_id
   include Openmrs
-
+  # TODO, this needs to account for current visit, which needs to account for possible retrospective entry
   named_scope :current, :conditions => 'DATE(encounter.encounter_datetime) = CURRENT_DATE() AND encounter.voided = 0'
   named_scope :active, :conditions => 'encounter.voided = 0'
-
   has_many :observations, :dependent => :destroy
   has_many :orders, :dependent => :destroy
   belongs_to :type, :class_name => "EncounterType", :foreign_key => :encounter_type
@@ -13,8 +12,9 @@ class Encounter < ActiveRecord::Base
   belongs_to :patient
 
   def before_save    
-    self.encounter_datetime = Time.now if self.encounter_datetime.blank?
     self.provider = User.current_user if self.provider.blank?
+    # TODO, this needs to account for current visit, which needs to account for possible retrospective entry
+    self.encounter_datetime = Time.now if self.encounter_datetime.blank?
   end
 
   def encounter_type_name=(encounter_type_name)

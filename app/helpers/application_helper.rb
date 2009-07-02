@@ -24,6 +24,14 @@ module ApplicationHelper
     GlobalProperty.find_by_property("show_intro_text").property_value == "yes" rescue false
   end
   
+  def ask_home_village
+    GlobalProperty.find_by_property("demographics.home_village").property_value == "yes" rescue false
+  end
+  
+  def ask_mothers_surname
+    GlobalProperty.find_by_property("demographics.mothers_surname").property_value == "yes" rescue false
+  end
+  
   def month_name_options
     i=0
     options_array = [[]] +Date::ABBR_MONTHNAMES[1..-1].collect{|month|[month,i+=1]} + [["Unknown","Unknown"]]
@@ -33,5 +41,4 @@ module ApplicationHelper
   def age_limit
     Time.now.year - 1890
   end
-  
 end

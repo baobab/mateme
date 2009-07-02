@@ -1,8 +1,9 @@
 .DS_Store
+*.swp
+*.swo
 config/database.yml
 notes
 doc
 development.sql
 development_structure.sql
 schema.rb
-/*swp?

@@ -1,0 +1,438 @@
+--- 
+location_00014: 
+  region: 
+  name: Mlambe Hospital
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 14
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Mlambe Hospital in Lunzu
+  retired: false
+  date_created: 2008-05-06 09:34:54 -07:00
+location_00003: 
+  region: 
+  name: Magaleta Rural Health Center
+  address1: ""
+  township_division: 
+  state_province: Neno
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: Magaleta
+  postal_code: ""
+  creator: 5
+  date_retired: 
+  location_id: 3
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Magaleta Rural Health Center (ID=751)
+  retired: false
+  date_created: 2007-11-29 16:23:37 -08:00
+location_00004: 
+  region: 
+  name: Neno Mission Hospital
+  address1: ""
+  township_division: 
+  state_province: Neno
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: Neno Mission
+  postal_code: ""
+  creator: 5
+  date_retired: 
+  location_id: 4
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Neno Mission Hospital (ID=752)
+  retired: false
+  date_created: 2007-11-29 16:25:15 -08:00
+location_00015: 
+  region: 
+  name: Mulanje District Hospital
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 15
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Mulanje District Hospital
+  retired: false
+  date_created: 2008-05-06 09:35:32 -07:00
+location_00016: 
+  region: 
+  name: Lisungwi Rural Hospital
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 16
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Lisungwi Rural Hospital
+  retired: false
+  date_created: 2008-06-14 00:46:04 -07:00
+location_00005: 
+  region: 
+  name: Matandani Rural Health Center
+  address1: ""
+  township_division: 
+  state_province: Neno
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: Matandani
+  postal_code: ""
+  creator: 5
+  date_retired: 
+  location_id: 5
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: (ID=753)
+  retired: false
+  date_created: 2007-11-29 16:25:44 -08:00
+location_00006: 
+  region: 
+  name: Malawi
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: 
+  address2: 
+  subregion: 
+  retired_by: 
+  country: 
+  city_village: ""
+  postal_code: 
+  creator: 15878
+  date_retired: 
+  location_id: 6
+  county_district: ""
+  neighborhood_cell: ""
+  longitude: 
+  description: The Country of Malawi
+  retired: false
+  date_created: 2008-01-16 19:45:13 -08:00
+location_00007: 
+  region: 
+  name: Neno District Hospital - Registration
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 7
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Registration desk at Neno Rural Hospital (ID=750)
+  retired: false
+  date_created: 2008-05-02 15:03:45 -07:00
+location_00008: 
+  region: 
+  name: Neno District Hospital - Vitals
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 8
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Vitals recorded at Neno District Hospital (ID=750)
+  retired: false
+  date_created: 2008-05-02 15:04:11 -07:00
+location_00009: 
+  region: 
+  name: Neno District Hospital - ART
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 9
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: ART Clinic at Neno District Hospital (ID=750)
+  retired: false
+  date_created: 2008-05-02 15:04:36 -07:00
+location_00010: 
+  region: 
+  name: Neno District Hospital - Outpatient
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 10
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Outpatient Department at Neno District Hospital (ID=750)
+  retired: false
+  date_created: 2008-05-02 15:05:20 -07:00
+location_00011: 
+  region: 
+  name: Mwanza District Hospital
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 11
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Mwanza District Hospital
+  retired: false
+  date_created: 2008-05-06 09:32:32 -07:00
+location_00012: 
+  region: 
+  name: QECH
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 12
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Queen Elizabeth Central Hospital
+  retired: false
+  date_created: 2008-05-06 09:32:59 -07:00
+location_00001: 
+  region: 
+  name: Unknown Location
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: 
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 1
+  date_retired: 
+  location_id: 1
+  county_district: 
+  neighborhood_cell: 
+  longitude: 
+  description: 
+  retired: false
+  date_created: 2005-09-22 00:00:00 -07:00
+location_00002: 
+  region: 
+  name: Neno District Hospital
+  address1: ""
+  township_division: 
+  state_province: Neno
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: Neno
+  postal_code: ""
+  creator: 5
+  date_retired: 
+  location_id: 2
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Neno District Hospital, formerly Neno Rural Hospital (ID=750)
+  retired: false
+  date_created: 2007-11-29 16:23:00 -08:00
+location_00013: 
+  region: 
+  name: KCH
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 13
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Kamuzu Central Hospital
+  retired: false
+  date_created: 2008-05-06 09:33:43 -07:00
+location_00017: 
+  region: 
+  name: Ngoni Health Centre
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 17
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Health Centre , Public Health Facility
+  retired: false
+  date_created: 2008-05-06 09:33:43 -07:00
+location_00018: 
+  region: 
+  name: Mbangombe Health Centre
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 18
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Health Centre , Public Health Facility
+  retired: false
+  date_created: 2008-05-06 09:33:43 -07:00
+location_00019: 
+  region: 
+  name: Bwaila Hospital (Bottom)
+  address1: ""
+  township_division: 
+  state_province: ""
+  retire_reason: 
+  latitude: ""
+  address2: ""
+  subregion: 
+  retired_by: 
+  country: ""
+  city_village: ""
+  postal_code: ""
+  creator: 15878
+  date_retired: 
+  location_id: 19
+  county_district: 
+  neighborhood_cell: 
+  longitude: ""
+  description: Health Centre , Public Health Facility
+  retired: false
+  date_created: 2008-05-06 09:33:43 -07:00

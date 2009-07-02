@@ -14,5 +14,18 @@
     <br/>
     <br/>
     <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button>
+    <!-- TODO: need to show current date
+         TODO: need set date/reset date button
+         TODO: need reports button
+         TODO: need summary to be adjusted based on visit? -->
+    <table class="patient_information">
+      <% Encounter.count_by_type_for_date(date.to_date).each do |type,total| 
+         type = "Reception - patients seen" if type == "REGISTRATION"
+         type = "patients referred to other clinics" if type == "REFERRED" %>
+        <tr>
+          <td><%= type.upcase %>:</td>
+          <td><%= total %></td></tr>
+      <% end %>
+    </table>
   </p>  
 </div>  

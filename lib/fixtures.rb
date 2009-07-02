@@ -8,7 +8,7 @@ class ActiveRecord::Base
   end
 
   def self.to_fixtures(path=nil)
-    path ||= File.expand_path("db/defaults/#{table_name}.yml", RAILS_ROOT)
+    path ||= File.expand_path("db/data/defaults/#{table_name}.yml", RAILS_ROOT)
     path = File.join(path, "#{table_name}.yml") if File.directory?(path)
     puts "Creating fixtures: #{path} (composite: #{self.composite? rescue false})"
     file = File.open(path, "w")

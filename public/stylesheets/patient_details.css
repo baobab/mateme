@@ -1,0 +1,30 @@
+
+ body{
+    font-size:2em;
+  }
+
+  #details{
+  background-color:#FFFF99;
+  border:2px solid lightblue;
+  left:25px;
+  margin-top:10px;
+  overflow:auto;
+  top:70px;
+  width:500px;
+  height:454px;
+  }
+
+  a{
+  border:3px outset gray;
+  background-color:lightgray;
+  color:black;
+  display:block;
+  min-height:80px;
+  text-align:center;
+  text-decoration:none;
+  width:200px;
+  }
+
+  div{
+   margin: 5px 5px 5px 5px;
+  }

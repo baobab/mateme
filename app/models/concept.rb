@@ -20,4 +20,5 @@ class Concept < ActiveRecord::Base
   has_many :answer_concept_names, :class_name => 'ConceptName'
   has_one :name, :class_name => 'ConceptName'
   has_many :drugs
+  has_many :concept_sets #, :class_name => 'ConceptSet'
 end

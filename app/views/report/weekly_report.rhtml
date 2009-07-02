@@ -1,0 +1,69 @@
+<%= render :partial => 'header' %>
+<table>
+  <tr class="header">
+    <td>Diagnosis</td>
+    <% @times.each{|t|
+      next_start_day = 1.weeks.from_now(t.monday)
+      end_day = next_start_day - 1.day
+      if end_day > @end_date
+        end_day = @end_date
+      end
+    %>
+    <td id="dates"> <%="#{t.to_date.strftime("%d/%m/%y")}"%> </br>to </br> <%= "#{end_day.strftime("%d/%m/%y")}"%></td>
+    <%}%>
+  </tr>
+  <tr>
+    <%
+      @times.each{|t| 
+        @data_hash.each{|key, value|
+          temp_hash = Hash.new 
+      if key.to_date == t.to_date 
+        #render :text => value.to_yaml and return
+        temp_hash = value   
+      %>
+         <% if t.to_date == @times[0].to_date%>
+    <td>
+      <table>
+        <%
+          counter = 0
+          @sort_array.each{|diag|
+             counter += 1
+            temp_hash.each{|a,b|
+              if diag == a            
+          %>
+        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightgrey"%>'>
+           <td><%="#{a}"%></td>                  
+        </tr>
+        <% end
+            }
+          }%>
+     </table>
+   </td>
+ <%end%>
+
+      
+  
+    <td>
+      <table>
+        <%counter = 0
+        @sort_array.each{|diag|
+            counter += 1
+            temp_hash.each{|k,v|
+              if diag == k            
+          %>
+        <tr style='background-color: <%=counter % 2 == 0 ? "white" : "lightgrey"%>'>
+          <td id="values"><%="#{v}"%></td>
+                  
+        </tr>
+        <% end
+            }
+          }%>
+
+     </table>
+    </td>
+    <% end
+    }
+    }%>
+  </tr>
+</table>
+    

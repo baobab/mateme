@@ -29,7 +29,7 @@
   <% options[:optional] = 'true' %>
   <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
   <script>
-    // Every 500 seconds update the Next/Finish button
+    // Every 500 milliseconds update the Next/Finish button
     function updateNextFinish(){
       if (tstInputTarget.value == '')
         $('nextButton').innerHTML = 'Finish';
@@ -51,4 +51,3 @@
   <% end %>
   <%= submit_tag "Finish" %>    
 </form>
- 
