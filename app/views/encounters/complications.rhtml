@@ -126,6 +126,58 @@
   <%= hidden_field_tag("observations[][concept_name]", "HYPERGLYCEMIA SYMPTOMS: Polydipsia") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hypoglycemia_dizziness'>HYPOGLYMECIA SYMPTOMS: Dizziness</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hypoglycemia_dizziness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: Dizziness") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hypoglycemia_sweating'>HYPOGLYMECIA SYMPTOMS: Sweating/Feeling Clammy</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hypoglycemia_sweating"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: Sweating/Feeling Clammy") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='complication_hypoglycemia_loseconsciousness'>HYPOGLYMECIA SYMPTOMS: Loss of Consciousness</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hypoglycemia_loseconsciousness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: Loss of Consciousness") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS: General body weakness</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hyperglycemia_weakness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: General body weakness") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   
   <%= submit_tag "Finish" %>    
 </form>

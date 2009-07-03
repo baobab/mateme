@@ -54,13 +54,26 @@ class PeopleControllerTest < ActionController::TestCase
         assert_response :success
       end  
     end
-
-    should "search for patients at remote sites and create them locally if they match ***PENDING****TODO" do
-      # TODO people_controller line 23ish
-      # @people = Person.find_remote_by_identifier(params[:identifier])
-
+=begin
+      # should "search for patients at remote sites and create them locally if they match **** UNDERCONSTRUCTION****" do
+    should "search login at remote sites" do
+      #logged_in_as :mikmck, :registration do
+        post "http://localhost:3000/session/create?login=mikmck&password=mike&location=8"
+        # get :demographics, {:person => {:patient => {:identifiers => "National id" => "P1701210013"}}}
+        get "http://localhost:3000/people"
+        assert_response :success
+      #end  
     end
-    
+=end
+    should "search for patients at remote sites and create them locally if they match **** UNDERCONSTRUCTION****" do
+      # tests search action given parameters from barcode scan, find by name or find by identifier whose details are on remote server
+      logged_in_as :mikmck, :registration do
+        #post "http://localhost:3000/session/create?login=mikmck&password=mike&location=8"
+        get :demographics, {:person => {:patient => {:identifiers => { "National id" => "P1701210013"}}}}
+        #get "http://localhost:3000/people"
+        assert response.body =~ /aaaa/
+      end  
+    end   
     should "lookup people that are not patients and return them in the search results" do
       logged_in_as :mikmck, :registration do      
         p = patient(:evan).destroy

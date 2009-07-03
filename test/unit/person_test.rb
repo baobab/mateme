@@ -157,7 +157,7 @@ class PersonTest < ActiveSupport::TestCase
         "names" => {
           "given_name" => "Evan",
           "family_name" => "Waters",
-          "family_name2" => ""
+          "family_name2" => "",
         },
         "addresses" => {
           "county_district" => "",
@@ -210,8 +210,40 @@ class PersonTest < ActiveSupport::TestCase
     end
 
 
-    should "check be able to check remote servers for person demographics" do
-      assert_equal Person.find_remote(person(:evan).demographics), person(:evan).demographics
+    should "be able to check remote servers for person demographics" do
+      # IMPLEMENTAION OF THE TEST
+      # =========================
+      # - set up a clone of mateme to run on localhost port 80
+      # - change the demographics on the clone eg national id to
+      #   an id that is not on this one
+      # - request for demographics with the new national id
+      # - check if we get expected demographics
+      remote_demographics={ 
+        "person" => {
+          "date_changed"=>"Sat Jan 01 00:00:00 +0200 2000",
+          "gender" => "M",
+          "birth_year" => 1982,
+          "birth_month" => 6,
+          "birth_day" => 9,
+          "names" => {
+            "given_name" => "Evan",
+            "family_name" => "Waters",
+            "family_name2" => ""
+          },
+          "addresses" => {
+            "county_district" => "",
+            "city_village" => "Katoleza"
+          },
+          "patient" => {
+            "identifiers" => {
+              "National id" => "P1701210014",
+              "ARV Number" => "ARV-411",
+              "Pre ART Number" => "PART-411"
+            }
+          }
+        }
+      }
+      assert_equal Person.find_remote(remote_demographics)["person"], remote_demographics["person"]
     end
 
     should "be able to retrieve person data by their demographic details" do

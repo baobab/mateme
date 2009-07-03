@@ -34,7 +34,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 	////////////////////////////////////
-	<label for='cardiovascular_exam_carotid_articles'>CARDIOVASCULAR EXAM: Carotid Articles?</label>
+	<label for='cardiovascular_exam_carotid_articles'>CARDIOVASCULAR EXAM: Carotid Arteries Bruit Present</label>
   <% options=default.merge({
     :field_type => 'text'
   }) %>
@@ -43,7 +43,7 @@
     "No",
 		"Unsure"
   ], options , :id => "cardiovascular_exam_carotid_articles"%>
-  <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR EXAM: Carotid Articles") %>
+  <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR EXAM: Carotid Artiries Bruit Present") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 	/////////////////////////////////

@@ -21293,24 +21293,6 @@ concept_01547:
   datatype_id: 10
   concept_id: 1547
   date_created: 2006-08-31 23:29:14 +02:00
-concept_06127: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 1
-  creator: 1
-  date_retired: 
-  class_id: 7
-  version: 
-  short_name: POLYDIPSIA
-  default_charge: 
-  date_changed: 2009-06-26 10:55:25 +02:00
-  form_text: "HYPERGLYCEMIA SYMPTOMS: Polydipsia"
-  description: "HYPERGLYCEMIA SYMPTOMS: Polydipsia"
-  retired: false
-  datatype_id: 10
-  concept_id: 6127
-  date_created: 2009-06-26 10:55:25 +02:00
 concept_01210: 
   retire_reason: 
   retired_by: 
@@ -21329,6 +21311,24 @@ concept_01210:
   datatype_id: 4
   concept_id: 1210
   date_created: 2005-02-09 10:00:00 +02:00
+concept_06127: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: POLYDIPSIA
+  default_charge: 
+  date_changed: 2009-06-26 10:55:25 +02:00
+  form_text: "HYPERGLYCEMIA SYMPTOMS: Polydipsia"
+  description: "HYPERGLYCEMIA SYMPTOMS: Polydipsia"
+  retired: false
+  datatype_id: 10
+  concept_id: 6127
+  date_created: 2009-06-26 10:55:25 +02:00
 concept_01436: 
   retire_reason: 
   retired_by: 
@@ -21419,6 +21419,24 @@ concept_01211:
   datatype_id: 4
   concept_id: 1211
   date_created: 2005-02-09 10:00:00 +02:00
+concept_06128: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: HEARTREGULAR
+  default_charge: 
+  date_changed: 2009-07-02 16:26:50 +02:00
+  form_text: "CARDIOVASCULAR EXAM: Heart Regular"
+  description: "CARDIOVASCULAR EXAM: Heart Regular"
+  retired: false
+  datatype_id: 10
+  concept_id: 6128
+  date_created: 2009-07-02 16:26:50 +02:00
 concept_06015: 
   retire_reason: 
   retired_by: 
@@ -21491,6 +21509,24 @@ concept_01212:
   datatype_id: 4
   concept_id: 1212
   date_created: 2005-02-09 10:00:00 +02:00
+concept_06129: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: HEARTMURMURS
+  default_charge: 
+  date_changed: 2009-07-02 16:27:41 +02:00
+  form_text: "CARDIOVASCULAR EXAM: Heart Murmurs"
+  description: "CARDIOVASCULAR EXAM: Heart Murmurs"
+  retired: false
+  datatype_id: 10
+  concept_id: 6129
+  date_created: 2009-07-02 16:27:41 +02:00
 concept_01437: 
   retire_reason: 
   retired_by: 
@@ -56231,24 +56267,6 @@ concept_02301:
   datatype_id: 2
   concept_id: 2301
   date_created: 2007-05-19 01:29:58 +02:00
-concept_02414: 
-  retire_reason: 
-  retired_by: 
-  is_set: false
-  changed_by: 1954
-  creator: 1954
-  date_retired: 
-  class_id: 11
-  version: ""
-  short_name: 
-  default_charge: 
-  date_changed: 2007-05-27 02:06:35 +02:00
-  form_text: 
-  description: 
-  retired: false
-  datatype_id: 4
-  concept_id: 2414
-  date_created: 2007-05-27 02:06:35 +02:00
 concept_01286: 
   retire_reason: 
   retired_by: 
@@ -56267,6 +56285,24 @@ concept_01286:
   datatype_id: 4
   concept_id: 1286
   date_created: 2005-02-24 23:03:27 +02:00
+concept_02414: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1954
+  creator: 1954
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2007-05-27 02:06:35 +02:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 2414
+  date_created: 2007-05-27 02:06:35 +02:00
 concept_02639: 
   retire_reason: 
   retired_by: 
@@ -62729,6 +62765,42 @@ concept_01665:
   datatype_id: 4
   concept_id: 1665
   date_created: 2006-09-21 21:13:11 +02:00
+concept_06130: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: CAROTIDARTRIES
+  default_charge: 
+  date_changed: 2009-07-02 16:50:36 +02:00
+  form_text: "CARDIOVASCULAR EXAM: Carotid Artiries Bruit Present"
+  description: "CARDIOVASCULAR EXAM: Carotid Artiries Bruit Present"
+  retired: false
+  datatype_id: 10
+  concept_id: 6130
+  date_created: 2009-07-02 16:50:36 +02:00
+concept_06131: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: FOOTULCERS
+  default_charge: 
+  date_changed: 2009-07-02 16:51:32 +02:00
+  form_text: "FOOT EXAM: Any ulcers/sores"
+  description: "FOOT EXAM: Any ulcers/sores"
+  retired: false
+  datatype_id: 10
+  concept_id: 6131
+  date_created: 2009-07-02 16:51:32 +02:00
 concept_01666: 
   retire_reason: 
   retired_by: 
@@ -62909,6 +62981,42 @@ concept_01667:
   datatype_id: 4
   concept_id: 1667
   date_created: 2006-09-21 21:20:18 +02:00
+concept_06132: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: FOOTPULSES
+  default_charge: 
+  date_changed: 2009-07-03 08:59:23 +02:00
+  form_text: "FOOT EXAM: Pulses present bilaterally"
+  description: "FOOT EXAM: Pulses present bilaterally"
+  retired: false
+  datatype_id: 10
+  concept_id: 6132
+  date_created: 2009-07-03 08:59:23 +02:00
+concept_06133: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: FOOTSENSETIONINTACT
+  default_charge: 
+  date_changed: 2009-07-03 09:00:13 +02:00
+  form_text: "FOOT EXAM: Sensation intact"
+  description: "FOOT EXAM: Sensation intact"
+  retired: false
+  datatype_id: 10
+  concept_id: 6133
+  date_created: 2009-07-03 09:00:13 +02:00
 concept_01442: 
   retire_reason: 
   retired_by: 
@@ -63089,6 +63197,42 @@ concept_01330:
   datatype_id: 2
   concept_id: 1330
   date_created: 2006-06-08 05:40:10 +02:00
+concept_06134: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: DIZZINESS
+  default_charge: 
+  date_changed: 2009-07-03 09:08:49 +02:00
+  form_text: "HYPOGLYMECIA SYMPTOMS: Dizziness"
+  description: "HYPOGLYMECIA SYMPTOMS: Dizziness"
+  retired: false
+  datatype_id: 10
+  concept_id: 6134
+  date_created: 2009-07-03 09:08:49 +02:00
+concept_06135: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: SWEATING
+  default_charge: 
+  date_changed: 2009-07-03 09:40:24 +02:00
+  form_text: "HYPOGLYMECIA SYMPTOMS: Sweating/Feeling Clammy"
+  description: "HYPOGLYMECIA SYMPTOMS: Sweating/Feeling Clammy"
+  retired: false
+  datatype_id: 10
+  concept_id: 6135
+  date_created: 2009-07-03 09:40:24 +02:00
 concept_01669: 
   retire_reason: 
   retired_by: 
@@ -63233,6 +63377,42 @@ concept_01332:
   datatype_id: 3
   concept_id: 1332
   date_created: 2006-06-08 05:47:58 +02:00
+concept_06136: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: LOSECONSIOUSNESS
+  default_charge: 
+  date_changed: 2009-07-03 09:41:35 +02:00
+  form_text: "HYPOGLYMECIA SYMPTOMS: Loss of Consciousness"
+  description: "HYPOGLYMECIA SYMPTOMS: Loss of Consciousness"
+  retired: false
+  datatype_id: 10
+  concept_id: 6136
+  date_created: 2009-07-03 09:41:35 +02:00
+concept_06137: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 1
+  date_retired: 
+  class_id: 7
+  version: 
+  short_name: WEAKNESS
+  default_charge: 
+  date_changed: 2009-07-03 09:49:32 +02:00
+  form_text: "HYPOGLYMECIA SYMPTOMS: General body weakness"
+  description: "HYPOGLYMECIA SYMPTOMS: General body weakness"
+  retired: false
+  datatype_id: 10
+  concept_id: 6137
+  date_created: 2009-07-03 09:49:32 +02:00
 concept_01446: 
   retire_reason: 
   retired_by: 

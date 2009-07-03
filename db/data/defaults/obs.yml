@@ -1,4 +1,33 @@
 --- 
+obs_00939: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 939
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6106
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00697: 
   value_coded: 
   voided: false
@@ -60,6 +89,68 @@ obs_00778:
   encounter_id: 661
   concept_id: 6113
   date_created: 2009-06-25 13:53:01 +02:00
+obs_00859: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 859
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 688
+  concept_id: 6128
+  date_created: 2009-07-03 08:59:30 +02:00
+obs_00885: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 885
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6125
+  date_created: 2009-07-03 09:08:09 +02:00
 obs_00698: 
   value_coded: 
   voided: false
@@ -121,6 +212,35 @@ obs_00779:
   encounter_id: 661
   concept_id: 6114
   date_created: 2009-06-25 13:53:01 +02:00
+obs_00886: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 886
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6126
+  date_created: 2009-07-03 09:08:09 +02:00
 obs_00699: 
   value_coded: 
   voided: false
@@ -153,6 +273,93 @@ obs_00699:
   encounter_id: 649
   concept_id: 6103
   date_created: 2009-06-23 10:08:20 +02:00
+obs_00887: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 887
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6127
+  date_created: 2009-07-03 09:08:09 +02:00
+obs_00888: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 888
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6119
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00889: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 889
+  date_voided: 
+  accession_number: 
+  value_text: All the Time
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6120
+  date_created: 2009-07-03 09:39:39 +02:00
 obs_00700: 
   value_coded: 
   voided: false
@@ -856,6 +1063,35 @@ obs_00813:
   encounter_id: 670
   concept_id: 6122
   date_created: 2009-06-26 10:53:04 +02:00
+obs_00920: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 920
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6136
+  date_created: 2009-07-03 09:48:50 +02:00
 obs_00571: 
   value_coded: 
   voided: false
@@ -1030,6 +1266,64 @@ obs_00814:
   encounter_id: 670
   concept_id: 6123
   date_created: 2009-06-26 10:53:04 +02:00
+obs_00840: 
+  value_coded: 2
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 2
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 840
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:12 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 678
+  concept_id: 3065
+  date_created: 2009-07-02 15:45:37 +02:00
+obs_00921: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 921
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6119
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00572: 
   value_coded: 
   voided: false
@@ -1204,6 +1498,64 @@ obs_00815:
   encounter_id: 670
   concept_id: 6124
   date_created: 2009-06-26 10:53:04 +02:00
+obs_00841: 
+  value_coded: 3
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 3
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 841
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:12 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 678
+  concept_id: 3065
+  date_created: 2009-07-02 15:45:37 +02:00
+obs_00922: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 922
+  date_voided: 
+  accession_number: 
+  value_text: All the Time
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6120
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00573: 
   value_coded: 
   voided: false
@@ -1439,6 +1791,64 @@ obs_00816:
   encounter_id: 670
   concept_id: 6125
   date_created: 2009-06-26 10:53:04 +02:00
+obs_00842: 
+  value_coded: 4
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 5
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 842
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:12 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 678
+  concept_id: 3065
+  date_created: 2009-07-02 15:45:37 +02:00
+obs_00923: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 923
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6121
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00629: 
   value_coded: 
   voided: false
@@ -1648,6 +2058,93 @@ obs_00817:
   encounter_id: 671
   concept_id: 6119
   date_created: 2009-06-26 10:54:59 +02:00
+obs_00843: 
+  value_coded: 3
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 3
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 843
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:12 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 678
+  concept_id: 3065
+  date_created: 2009-07-02 15:45:37 +02:00
+obs_00924: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 924
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6122
+  date_created: 2009-07-03 09:50:55 +02:00
+obs_00950: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 950
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6117
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00574: 
   value_coded: 
   voided: false
@@ -1677,6 +2174,35 @@ obs_00574:
   encounter_id: 624
   concept_id: 5090
   date_created: 2009-06-18 11:02:07 +02:00
+obs_00951: 
+  value_coded: 5964
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 4338
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 951
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6118
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00656: 
   value_coded: 1065
   voided: false
@@ -1800,6 +2326,93 @@ obs_00763:
   encounter_id: 656
   concept_id: 6119
   date_created: 2009-06-23 15:59:11 +02:00
+obs_00844: 
+  value_coded: 2
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 2
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 844
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:12 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 678
+  concept_id: 3065
+  date_created: 2009-07-02 15:45:37 +02:00
+obs_00870: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 870
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6119
+  date_created: 2009-07-03 09:02:12 +02:00
+obs_00925: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 925
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6123
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00575: 
   value_coded: 
   voided: false
@@ -2010,6 +2623,97 @@ obs_00818:
   encounter_id: 671
   concept_id: 6120
   date_created: 2009-06-26 10:54:59 +02:00
+obs_00845: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 845
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:53 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 681
+  concept_id: 6128
+  date_created: 2009-07-02 16:26:58 +02:00
+obs_00871: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 871
+  date_voided: 
+  accession_number: 
+  value_text: All the Time
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6120
+  date_created: 2009-07-03 09:02:12 +02:00
+obs_00926: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 926
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6124
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00576: 
   value_coded: 
   voided: false
@@ -2223,6 +2927,97 @@ obs_00819:
   encounter_id: 671
   concept_id: 6121
   date_created: 2009-06-26 10:54:59 +02:00
+obs_00846: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 846
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:53 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 682
+  concept_id: 6128
+  date_created: 2009-07-02 16:27:48 +02:00
+obs_00872: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 872
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6121
+  date_created: 2009-07-03 09:02:12 +02:00
+obs_00927: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 927
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6125
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00577: 
   value_coded: 
   voided: false
@@ -2374,6 +3169,67 @@ obs_00792:
   encounter_id: 666
   concept_id: 6119
   date_created: 2009-06-26 10:49:25 +02:00
+obs_00847: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 847
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:53 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 682
+  concept_id: 6129
+  date_created: 2009-07-02 16:27:48 +02:00
+obs_00873: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 873
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6122
+  date_created: 2009-07-03 09:02:12 +02:00
 obs_00578: 
   value_coded: 
   voided: false
@@ -2493,6 +3349,97 @@ obs_00793:
   encounter_id: 666
   concept_id: 6120
   date_created: 2009-06-26 10:49:25 +02:00
+obs_00848: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 848
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:53 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 683
+  concept_id: 6128
+  date_created: 2009-07-02 16:31:39 +02:00
+obs_00874: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 874
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6123
+  date_created: 2009-07-03 09:02:12 +02:00
+obs_00928: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 928
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6126
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00579: 
   value_coded: 
   voided: false
@@ -2612,6 +3559,96 @@ obs_00794:
   encounter_id: 666
   concept_id: 6121
   date_created: 2009-06-26 10:49:25 +02:00
+obs_00849: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 849
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:53 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 683
+  concept_id: 6129
+  date_created: 2009-07-02 16:31:39 +02:00
+obs_00875: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 875
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6124
+  date_created: 2009-07-03 09:02:12 +02:00
+obs_00929: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 929
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6127
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00769: 
   value_coded: 
   voided: false
@@ -2670,6 +3707,35 @@ obs_00795:
   encounter_id: 667
   concept_id: 6119
   date_created: 2009-06-26 10:50:31 +02:00
+obs_00876: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 876
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6125
+  date_created: 2009-07-03 09:02:12 +02:00
 obs_00688: 
   value_coded: 1065
   voided: false
@@ -2728,6 +3794,35 @@ obs_00796:
   encounter_id: 667
   concept_id: 6120
   date_created: 2009-06-26 10:50:31 +02:00
+obs_00877: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 877
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6126
+  date_created: 2009-07-03 09:02:12 +02:00
 obs_00689: 
   value_coded: 1065
   voided: false
@@ -2786,6 +3881,35 @@ obs_00797:
   encounter_id: 667
   concept_id: 6121
   date_created: 2009-06-26 10:50:31 +02:00
+obs_00878: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 878
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:01:36 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 690
+  concept_id: 6127
+  date_created: 2009-07-03 09:02:12 +02:00
 obs_00798: 
   value_coded: 
   voided: false
@@ -2815,6 +3939,35 @@ obs_00798:
   encounter_id: 667
   concept_id: 6122
   date_created: 2009-06-26 10:50:31 +02:00
+obs_00879: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 879
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6119
+  date_created: 2009-07-03 09:08:09 +02:00
 obs_00799: 
   value_coded: 
   voided: false
@@ -3178,6 +4331,35 @@ obs_00802:
   encounter_id: 668
   concept_id: 6122
   date_created: 2009-06-26 10:51:17 +02:00
+obs_00910: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 910
+  date_voided: 
+  accession_number: 
+  value_text: All the Time
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6120
+  date_created: 2009-07-03 09:48:50 +02:00
 obs_00560: 
   value_coded: 
   voided: false
@@ -3329,6 +4511,35 @@ obs_00803:
   encounter_id: 668
   concept_id: 6123
   date_created: 2009-06-26 10:51:17 +02:00
+obs_00911: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 911
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6121
+  date_created: 2009-07-03 09:48:50 +02:00
 obs_00561: 
   value_coded: 
   voided: false
@@ -3715,6 +4926,35 @@ obs_00831:
   encounter_id: 672
   concept_id: 6125
   date_created: 2009-06-26 10:55:31 +02:00
+obs_00912: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 912
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6122
+  date_created: 2009-07-03 09:48:50 +02:00
 obs_00563: 
   value_coded: 
   voided: false
@@ -3950,7 +5190,7 @@ obs_00832:
   encounter_id: 672
   concept_id: 6126
   date_created: 2009-06-26 10:55:31 +02:00
-obs_00833: 
+obs_00913: 
   value_coded: 
   voided: false
   value_datetime: 
@@ -3965,20 +5205,20 @@ obs_00833:
   date_started: 
   void_reason: 
   value_boolean: 
-  obs_id: 833
+  obs_id: 913
   date_voided: 
   accession_number: 
   value_text: "Yes"
   value_modifier: 
   person_id: 1
   location_id: 8
-  obs_datetime: 2009-06-26 10:45:30 +02:00
+  obs_datetime: 2009-07-03 09:07:49 +02:00
   date_stopped: 
   value_numeric: 
   value_group_id: 
-  encounter_id: 672
-  concept_id: 6127
-  date_created: 2009-06-26 10:55:31 +02:00
+  encounter_id: 694
+  concept_id: 6123
+  date_created: 2009-07-03 09:48:50 +02:00
 obs_00564: 
   value_coded: 
   voided: false
@@ -4188,6 +5428,93 @@ obs_00752:
   encounter_id: 652
   concept_id: 6108
   date_created: 2009-06-23 10:11:29 +02:00
+obs_00833: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 833
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-26 10:45:30 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 672
+  concept_id: 6127
+  date_created: 2009-06-26 10:55:31 +02:00
+obs_00914: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 914
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6124
+  date_created: 2009-07-03 09:48:50 +02:00
+obs_00940: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 940
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6107
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00565: 
   value_coded: 
   voided: false
@@ -4397,6 +5724,125 @@ obs_00807:
   encounter_id: 669
   concept_id: 6122
   date_created: 2009-06-26 10:52:04 +02:00
+obs_00834: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 834
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:43:54 +02:00
+  date_stopped: 
+  value_numeric: 37.0
+  value_group_id: 
+  encounter_id: 677
+  concept_id: 5088
+  date_created: 2009-07-02 15:44:39 +02:00
+obs_00860: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 860
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 688
+  concept_id: 6129
+  date_created: 2009-07-03 08:59:30 +02:00
+obs_00915: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 915
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6125
+  date_created: 2009-07-03 09:48:50 +02:00
+obs_00941: 
+  value_coded: 1015
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 5112
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 941
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6108
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00566: 
   value_coded: 
   voided: false
@@ -4641,6 +6087,125 @@ obs_00808:
   encounter_id: 669
   concept_id: 6123
   date_created: 2009-06-26 10:52:04 +02:00
+obs_00835: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 835
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:43:54 +02:00
+  date_stopped: 
+  value_numeric: 65.0
+  value_group_id: 
+  encounter_id: 677
+  concept_id: 5089
+  date_created: 2009-07-02 15:44:39 +02:00
+obs_00861: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 861
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 688
+  concept_id: 6130
+  date_created: 2009-07-03 08:59:30 +02:00
+obs_00916: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 916
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6126
+  date_created: 2009-07-03 09:48:50 +02:00
+obs_00942: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 942
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6109
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00567: 
   value_coded: 
   voided: false
@@ -4885,6 +6450,218 @@ obs_00809:
   encounter_id: 669
   concept_id: 6124
   date_created: 2009-06-26 10:52:04 +02:00
+obs_00836: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 836
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:43:54 +02:00
+  date_stopped: 
+  value_numeric: 172.0
+  value_group_id: 
+  encounter_id: 677
+  concept_id: 5090
+  date_created: 2009-07-02 15:44:39 +02:00
+obs_00862: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 862
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 688
+  concept_id: 6131
+  date_created: 2009-07-03 08:59:30 +02:00
+obs_00943: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 943
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6110
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00863: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 863
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 688
+  concept_id: 6132
+  date_created: 2009-07-03 08:59:30 +02:00
+obs_00837: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 837
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:43:54 +02:00
+  date_stopped: 
+  value_numeric: 90.0
+  value_group_id: 
+  encounter_id: 677
+  concept_id: 6098
+  date_created: 2009-07-02 15:44:40 +02:00
+obs_00675: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 675
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 647
+  concept_id: 6106
+  date_created: 2009-06-23 10:01:11 +02:00
+obs_00649: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 649
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - Blood Test
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 645
+  concept_id: 6103
+  date_created: 2009-06-23 09:58:23 +02:00
 obs_00002: 
   value_coded: 
   voided: false
@@ -4975,67 +6752,6 @@ obs_00594:
   encounter_id: 636
   concept_id: 6102
   date_created: 2009-06-23 09:40:35 +02:00
-obs_00649: 
-  value_coded: 
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 649
-  date_voided: 
-  accession_number: 
-  value_text: |
-    --- 
-    - Blood Test
-
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 645
-  concept_id: 6103
-  date_created: 2009-06-23 09:58:23 +02:00
-obs_00675: 
-  value_coded: 1065
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 1102
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 675
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 647
-  concept_id: 6106
-  date_created: 2009-06-23 10:01:11 +02:00
 obs_00756: 
   value_coded: 1065
   voided: false
@@ -5094,6 +6810,216 @@ obs_00782:
   encounter_id: 661
   concept_id: 6117
   date_created: 2009-06-25 13:53:01 +02:00
+obs_00917: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 917
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6127
+  date_created: 2009-07-03 09:48:50 +02:00
+obs_00944: 
+  value_coded: 1228
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1266
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 944
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6111
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00945: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 945
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6112
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00890: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 890
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6121
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00864: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 864
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 689
+  concept_id: 6128
+  date_created: 2009-07-03 09:00:22 +02:00
+obs_00757: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 757
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - T30
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 652
+  concept_id: 6113
+  date_created: 2009-06-23 10:11:29 +02:00
+obs_00676: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 676
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 647
+  concept_id: 6107
+  date_created: 2009-06-23 10:01:11 +02:00
 obs_00569: 
   value_coded: 
   voided: false
@@ -5155,67 +7081,6 @@ obs_00595:
   encounter_id: 637
   concept_id: 6101
   date_created: 2009-06-23 09:48:49 +02:00
-obs_00676: 
-  value_coded: 1065
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 1102
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 676
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 647
-  concept_id: 6107
-  date_created: 2009-06-23 10:01:11 +02:00
-obs_00757: 
-  value_coded: 
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 757
-  date_voided: 
-  accession_number: 
-  value_text: |
-    --- 
-    - T30
-
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 652
-  concept_id: 6113
-  date_created: 2009-06-23 10:11:29 +02:00
 obs_00783: 
   value_coded: 
   voided: false
@@ -5245,6 +7110,183 @@ obs_00783:
   encounter_id: 661
   concept_id: 6118
   date_created: 2009-06-25 13:53:01 +02:00
+obs_00838: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 838
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:43:54 +02:00
+  date_stopped: 
+  value_numeric: 100.0
+  value_group_id: 
+  encounter_id: 677
+  concept_id: 6099
+  date_created: 2009-07-02 15:44:40 +02:00
+obs_00918: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 918
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6134
+  date_created: 2009-07-03 09:48:50 +02:00
+obs_00919: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 919
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6135
+  date_created: 2009-07-03 09:48:50 +02:00
+obs_00865: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 865
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 689
+  concept_id: 6129
+  date_created: 2009-07-03 09:00:22 +02:00
+obs_00839: 
+  value_coded: 2
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 2
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 839
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 15:45:12 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 678
+  concept_id: 3065
+  date_created: 2009-07-02 15:45:37 +02:00
+obs_00677: 
+  value_coded: 1015
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 5112
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 677
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 647
+  concept_id: 6108
+  date_created: 2009-06-23 10:01:11 +02:00
 obs_00596: 
   value_coded: 
   voided: false
@@ -5277,35 +7319,6 @@ obs_00596:
   encounter_id: 637
   concept_id: 6102
   date_created: 2009-06-23 09:48:49 +02:00
-obs_00677: 
-  value_coded: 1015
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 5112
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 677
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 647
-  concept_id: 6108
-  date_created: 2009-06-23 10:01:11 +02:00
 obs_00758: 
   value_coded: 1065
   voided: false
@@ -5364,6 +7377,154 @@ obs_00784:
   encounter_id: 662
   concept_id: 5088
   date_created: 2009-06-25 14:57:04 +02:00
+obs_00891: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 891
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6122
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00946: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 946
+  date_voided: 
+  accession_number: 
+  value_text: T30
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6113
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00947: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 947
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6114
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00866: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 866
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 689
+  concept_id: 6130
+  date_created: 2009-07-03 09:00:22 +02:00
+obs_00678: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 678
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 647
+  concept_id: 6109
+  date_created: 2009-06-23 10:01:11 +02:00
 obs_00597: 
   value_coded: 
   voided: false
@@ -5396,35 +7557,6 @@ obs_00597:
   encounter_id: 637
   concept_id: 6103
   date_created: 2009-06-23 09:48:49 +02:00
-obs_00678: 
-  value_coded: 1065
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 1102
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 678
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 647
-  concept_id: 6109
-  date_created: 2009-06-23 10:01:11 +02:00
 obs_00759: 
   value_coded: 1065
   voided: false
@@ -5483,6 +7615,96 @@ obs_00785:
   encounter_id: 662
   concept_id: 5089
   date_created: 2009-06-25 14:57:04 +02:00
+obs_00892: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 892
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6123
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00893: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 893
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6124
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00867: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 867
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 689
+  concept_id: 6131
+  date_created: 2009-07-03 09:00:22 +02:00
 obs_00598: 
   value_coded: 
   voided: false
@@ -5573,6 +7795,96 @@ obs_00786:
   encounter_id: 662
   concept_id: 5090
   date_created: 2009-06-25 14:57:04 +02:00
+obs_00948: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 948
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6115
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00949: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 949
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6116
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00868: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 868
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 689
+  concept_id: 6132
+  date_created: 2009-07-03 09:00:22 +02:00
 obs_00599: 
   value_coded: 
   voided: false
@@ -5634,6 +7946,96 @@ obs_00787:
   encounter_id: 662
   concept_id: 6098
   date_created: 2009-06-25 14:57:04 +02:00
+obs_00894: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 894
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6125
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00895: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 895
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6126
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00869: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 869
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 689
+  concept_id: 6133
+  date_created: 2009-07-03 09:00:22 +02:00
 obs_00788: 
   value_coded: 
   voided: false
@@ -5692,6 +8094,64 @@ obs_00789:
   encounter_id: 664
   concept_id: 6119
   date_created: 2009-06-26 10:46:05 +02:00
+obs_00896: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 896
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6127
+  date_created: 2009-07-03 09:39:39 +02:00
+obs_00897: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 897
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 692
+  concept_id: 6134
+  date_created: 2009-07-03 09:39:39 +02:00
 obs_00600: 
   value_coded: 
   voided: false
@@ -5756,6 +8216,64 @@ obs_00601:
   encounter_id: 638
   concept_id: 6104
   date_created: 2009-06-23 09:50:11 +02:00
+obs_00898: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 898
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6119
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00899: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 899
+  date_voided: 
+  accession_number: 
+  value_text: All the Time
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6120
+  date_created: 2009-07-03 09:40:38 +02:00
 obs_00602: 
   value_coded: 
   voided: false
@@ -5788,35 +8306,6 @@ obs_00602:
   encounter_id: 639
   concept_id: 6101
   date_created: 2009-06-23 09:51:06 +02:00
-obs_00710: 
-  value_coded: 1065
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 1102
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 710
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 649
-  concept_id: 6114
-  date_created: 2009-06-23 10:08:21 +02:00
 obs_00603: 
   value_coded: 
   voided: false
@@ -5849,7 +8338,7 @@ obs_00603:
   encounter_id: 639
   concept_id: 6102
   date_created: 2009-06-23 09:51:06 +02:00
-obs_00711: 
+obs_00710: 
   value_coded: 1065
   voided: false
   value_datetime: 
@@ -5864,7 +8353,7 @@ obs_00711:
   date_started: 
   void_reason: 
   value_boolean: 
-  obs_id: 711
+  obs_id: 710
   date_voided: 
   accession_number: 
   value_text: 
@@ -5876,7 +8365,7 @@ obs_00711:
   value_numeric: 
   value_group_id: 
   encounter_id: 649
-  concept_id: 6115
+  concept_id: 6114
   date_created: 2009-06-23 10:08:21 +02:00
 obs_00604: 
   value_coded: 
@@ -5910,6 +8399,35 @@ obs_00604:
   encounter_id: 639
   concept_id: 6103
   date_created: 2009-06-23 09:51:06 +02:00
+obs_00711: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 711
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 649
+  concept_id: 6115
+  date_created: 2009-06-23 10:08:21 +02:00
 obs_00630: 
   value_coded: 
   voided: false
@@ -5941,6 +8459,38 @@ obs_00630:
   value_group_id: 
   encounter_id: 643
   concept_id: 6103
+  date_created: 2009-06-23 09:55:46 +02:00
+obs_00631: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 631
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - Type I
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 643
+  concept_id: 6104
   date_created: 2009-06-23 09:55:46 +02:00
 obs_00712: 
   value_coded: 
@@ -6006,7 +8556,7 @@ obs_00605:
   encounter_id: 639
   concept_id: 6104
   date_created: 2009-06-23 09:51:06 +02:00
-obs_00631: 
+obs_00900: 
   value_coded: 
   voided: false
   value_datetime: 
@@ -6021,12 +8571,70 @@ obs_00631:
   date_started: 
   void_reason: 
   value_boolean: 
-  obs_id: 631
+  obs_id: 900
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6121
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00901: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 901
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6122
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00632: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 632
   date_voided: 
   accession_number: 
   value_text: |
     --- 
-    - Type I
+    - Glibenclamide
 
   value_modifier: 
   person_id: 1
@@ -6036,7 +8644,7 @@ obs_00631:
   value_numeric: 
   value_group_id: 
   encounter_id: 643
-  concept_id: 6104
+  concept_id: 6105
   date_created: 2009-06-23 09:55:46 +02:00
 obs_00713: 
   value_coded: 
@@ -6131,12 +8739,12 @@ obs_00606:
   encounter_id: 639
   concept_id: 6105
   date_created: 2009-06-23 09:51:06 +02:00
-obs_00632: 
-  value_coded: 
+obs_00633: 
+  value_coded: 1065
   voided: false
   value_datetime: 
   comments: 
-  value_coded_name_id: 
+  value_coded_name_id: 1102
   order_id: 
   creator: 1
   obs_group_id: 
@@ -6146,13 +8754,10 @@ obs_00632:
   date_started: 
   void_reason: 
   value_boolean: 
-  obs_id: 632
+  obs_id: 633
   date_voided: 
   accession_number: 
-  value_text: |
-    --- 
-    - Glibenclamide
-
+  value_text: 
   value_modifier: 
   person_id: 1
   location_id: 8
@@ -6161,40 +8766,8 @@ obs_00632:
   value_numeric: 
   value_group_id: 
   encounter_id: 643
-  concept_id: 6105
+  concept_id: 6106
   date_created: 2009-06-23 09:55:46 +02:00
-obs_00714: 
-  value_coded: 
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 714
-  date_voided: 
-  accession_number: 
-  value_text: |
-    --- 
-    - Blood Test
-
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 650
-  concept_id: 6103
-  date_created: 2009-06-23 10:09:27 +02:00
 obs_00740: 
   value_coded: 
   voided: false
@@ -6227,6 +8800,38 @@ obs_00740:
   encounter_id: 651
   concept_id: 6113
   date_created: 2009-06-23 10:10:37 +02:00
+obs_00714: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 714
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - Blood Test
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 650
+  concept_id: 6103
+  date_created: 2009-06-23 10:09:27 +02:00
 obs_00821: 
   value_coded: 
   voided: false
@@ -6288,7 +8893,97 @@ obs_00607:
   encounter_id: 640
   concept_id: 6101
   date_created: 2009-06-23 09:52:30 +02:00
-obs_00633: 
+obs_00902: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 902
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6123
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00903: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 903
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6124
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00660: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 660
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - Blood Test
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 646
+  concept_id: 6103
+  date_created: 2009-06-23 09:59:59 +02:00
+obs_00634: 
   value_coded: 1065
   voided: false
   value_datetime: 
@@ -6303,7 +8998,7 @@ obs_00633:
   date_started: 
   void_reason: 
   value_boolean: 
-  obs_id: 633
+  obs_id: 634
   date_voided: 
   accession_number: 
   value_text: 
@@ -6315,37 +9010,8 @@ obs_00633:
   value_numeric: 
   value_group_id: 
   encounter_id: 643
-  concept_id: 6106
+  concept_id: 6107
   date_created: 2009-06-23 09:55:46 +02:00
-obs_00741: 
-  value_coded: 1065
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 1102
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 741
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 651
-  concept_id: 6114
-  date_created: 2009-06-23 10:10:37 +02:00
 obs_00822: 
   value_coded: 
   voided: false
@@ -6375,6 +9041,35 @@ obs_00822:
   encounter_id: 671
   concept_id: 6124
   date_created: 2009-06-26 10:54:59 +02:00
+obs_00741: 
+  value_coded: 1065
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 1102
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 741
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-23 09:38:47 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 651
+  concept_id: 6114
+  date_created: 2009-06-23 10:10:37 +02:00
 obs_00553: 
   value_coded: 
   voided: false
@@ -6436,67 +9131,6 @@ obs_00608:
   encounter_id: 640
   concept_id: 6102
   date_created: 2009-06-23 09:52:30 +02:00
-obs_00634: 
-  value_coded: 1065
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 1102
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 634
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 643
-  concept_id: 6107
-  date_created: 2009-06-23 09:55:46 +02:00
-obs_00660: 
-  value_coded: 
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 660
-  date_voided: 
-  accession_number: 
-  value_text: |
-    --- 
-    - Blood Test
-
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-23 09:38:47 +02:00
-  date_stopped: 
-  value_numeric: 
-  value_group_id: 
-  encounter_id: 646
-  concept_id: 6103
-  date_created: 2009-06-23 09:59:59 +02:00
 obs_00715: 
   value_coded: 
   voided: false
@@ -6561,6 +9195,64 @@ obs_00716:
   encounter_id: 650
   concept_id: 6105
   date_created: 2009-06-23 10:09:27 +02:00
+obs_00580: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 580
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-18 11:01:33 +02:00
+  date_stopped: 
+  value_numeric: 65.0
+  value_group_id: 
+  encounter_id: 626
+  concept_id: 5089
+  date_created: 2009-06-18 11:37:29 +02:00
+obs_00554: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 554
+  date_voided: 
+  accession_number: 
+  value_text: 
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-06-12 15:38:22 +02:00
+  date_stopped: 
+  value_numeric: 75.0
+  value_group_id: 
+  encounter_id: 615
+  concept_id: 5089
+  date_created: 2009-06-12 15:38:58 +02:00
 obs_00742: 
   value_coded: 1065
   voided: false
@@ -6619,64 +9311,6 @@ obs_00823:
   encounter_id: 671
   concept_id: 6125
   date_created: 2009-06-26 10:54:59 +02:00
-obs_00554: 
-  value_coded: 
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 554
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-12 15:38:22 +02:00
-  date_stopped: 
-  value_numeric: 75.0
-  value_group_id: 
-  encounter_id: 615
-  concept_id: 5089
-  date_created: 2009-06-12 15:38:58 +02:00
-obs_00580: 
-  value_coded: 
-  voided: false
-  value_datetime: 
-  comments: 
-  value_coded_name_id: 
-  order_id: 
-  creator: 1
-  obs_group_id: 
-  voided_by: 
-  value_location: 
-  value_drug: 
-  date_started: 
-  void_reason: 
-  value_boolean: 
-  obs_id: 580
-  date_voided: 
-  accession_number: 
-  value_text: 
-  value_modifier: 
-  person_id: 1
-  location_id: 8
-  obs_datetime: 2009-06-18 11:01:33 +02:00
-  date_stopped: 
-  value_numeric: 65.0
-  value_group_id: 
-  encounter_id: 626
-  concept_id: 5089
-  date_created: 2009-06-18 11:37:29 +02:00
 obs_00635: 
   value_coded: 1015
   voided: false
@@ -6738,6 +9372,122 @@ obs_00661:
   encounter_id: 646
   concept_id: 6104
   date_created: 2009-06-23 09:59:59 +02:00
+obs_00904: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 904
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6125
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00930: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 930
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6134
+  date_created: 2009-07-03 09:50:55 +02:00
+obs_00931: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 931
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6135
+  date_created: 2009-07-03 09:50:55 +02:00
+obs_00905: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 905
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6126
+  date_created: 2009-07-03 09:40:38 +02:00
 obs_00717: 
   value_coded: 1065
   voided: false
@@ -6976,6 +9726,71 @@ obs_00743:
   encounter_id: 651
   concept_id: 6116
   date_created: 2009-06-23 10:10:37 +02:00
+obs_00850: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 850
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 16:48:29 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 684
+  concept_id: 6128
+  date_created: 2009-07-02 16:48:56 +02:00
+obs_00851: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 851
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 16:48:29 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 684
+  concept_id: 6129
+  date_created: 2009-07-02 16:48:56 +02:00
 obs_00825: 
   value_coded: 
   voided: false
@@ -7211,6 +10026,64 @@ obs_00718:
   encounter_id: 650
   concept_id: 6107
   date_created: 2009-06-23 10:09:27 +02:00
+obs_00932: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 932
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6136
+  date_created: 2009-07-03 09:50:55 +02:00
+obs_00933: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 933
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 695
+  concept_id: 6137
+  date_created: 2009-07-03 09:50:55 +02:00
 obs_00745: 
   value_coded: 
   voided: false
@@ -7449,6 +10322,129 @@ obs_00826:
   encounter_id: 672
   concept_id: 6120
   date_created: 2009-06-26 10:55:31 +02:00
+obs_00852: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 852
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 16:48:29 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 685
+  concept_id: 6128
+  date_created: 2009-07-02 16:50:49 +02:00
+obs_00906: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 906
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6127
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00907: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 907
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6134
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00853: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 853
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 16:48:29 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 685
+  concept_id: 6129
+  date_created: 2009-07-02 16:50:49 +02:00
 obs_00827: 
   value_coded: 
   voided: false
@@ -7716,6 +10712,64 @@ obs_00772:
   encounter_id: 661
   concept_id: 6107
   date_created: 2009-06-25 13:53:01 +02:00
+obs_00934: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 934
+  date_voided: 
+  accession_number: 
+  value_text: Hospital(KCH or Other)
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6101
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00935: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 935
+  date_voided: 
+  accession_number: 
+  value_text: Complications
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6102
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00747: 
   value_coded: 
   voided: false
@@ -7922,6 +10976,187 @@ obs_00828:
   encounter_id: 672
   concept_id: 6122
   date_created: 2009-06-26 10:55:31 +02:00
+obs_00854: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 854
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-02 16:48:29 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 685
+  concept_id: 6130
+  date_created: 2009-07-02 16:50:49 +02:00
+obs_00880: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 880
+  date_voided: 
+  accession_number: 
+  value_text: All the Time
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6120
+  date_created: 2009-07-03 09:08:09 +02:00
+obs_00908: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 908
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 693
+  concept_id: 6135
+  date_created: 2009-07-03 09:40:38 +02:00
+obs_00909: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 909
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 694
+  concept_id: 6119
+  date_created: 2009-07-03 09:48:50 +02:00
+obs_00881: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 881
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6121
+  date_created: 2009-07-03 09:08:09 +02:00
+obs_00855: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 855
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 687
+  concept_id: 6128
+  date_created: 2009-07-03 08:57:22 +02:00
 obs_00774: 
   value_coded: 1065
   voided: false
@@ -8070,6 +11305,64 @@ obs_00748:
   encounter_id: 652
   concept_id: 6104
   date_created: 2009-06-23 10:11:29 +02:00
+obs_00936: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 936
+  date_voided: 
+  accession_number: 
+  value_text: Blood Test
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6103
+  date_created: 2009-07-03 09:51:24 +02:00
+obs_00937: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 937
+  date_voided: 
+  accession_number: 
+  value_text: Type I
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6104
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00829: 
   value_coded: 
   voided: false
@@ -8247,6 +11540,128 @@ obs_00775:
   encounter_id: 661
   concept_id: 6110
   date_created: 2009-06-25 13:53:01 +02:00
+obs_00856: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 856
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 687
+  concept_id: 6129
+  date_created: 2009-07-03 08:57:22 +02:00
+obs_00882: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 882
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6122
+  date_created: 2009-07-03 09:08:09 +02:00
+obs_00883: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 883
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6123
+  date_created: 2009-07-03 09:08:09 +02:00
+obs_00857: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 857
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 687
+  concept_id: 6130
+  date_created: 2009-07-03 08:57:22 +02:00
 obs_00695: 
   value_coded: 
   voided: false
@@ -8366,6 +11781,35 @@ obs_00776:
   encounter_id: 661
   concept_id: 6111
   date_created: 2009-06-25 13:53:01 +02:00
+obs_00938: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 938
+  date_voided: 
+  accession_number: 
+  value_text: Glibenclamide
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:51:06 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 696
+  concept_id: 6105
+  date_created: 2009-07-03 09:51:24 +02:00
 obs_00777: 
   value_coded: 1065
   voided: false
@@ -8453,3 +11897,64 @@ obs_00589:
   encounter_id: 630
   concept_id: 6100
   date_created: 2009-06-22 11:25:28 +02:00
+obs_00858: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 858
+  date_voided: 
+  accession_number: 
+  value_text: |
+    --- 
+    - "Yes"
+
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 08:54:05 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 687
+  concept_id: 6131
+  date_created: 2009-07-03 08:57:22 +02:00
+obs_00884: 
+  value_coded: 
+  voided: false
+  value_datetime: 
+  comments: 
+  value_coded_name_id: 
+  order_id: 
+  creator: 1
+  obs_group_id: 
+  voided_by: 
+  value_location: 
+  value_drug: 
+  date_started: 
+  void_reason: 
+  value_boolean: 
+  obs_id: 884
+  date_voided: 
+  accession_number: 
+  value_text: "Yes"
+  value_modifier: 
+  person_id: 1
+  location_id: 8
+  obs_datetime: 2009-07-03 09:07:49 +02:00
+  date_stopped: 
+  value_numeric: 
+  value_group_id: 
+  encounter_id: 691
+  concept_id: 6124
+  date_created: 2009-07-03 09:08:09 +02:00
