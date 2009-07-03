@@ -1,0 +1,13 @@
+
+ <% fields_for :concept do |c| %>
+ 	<%= c.label :short_name %><br />
+ 	<%= c.text_field :short_name %><br />
+ 	<%= c.label :description %><br />
+ 	<%= c.text_field :description %><br />
+ 	<%= c.label :form_text %><br />
+ 	<%= c.text_field :form_text %><br />
+ 	<%= c.label :class_id %><br />
+ 	<%= c.select :class_id , @cclasses %><br />
+ 	<%= c.label :datatype_id %><br />
+ 	<%= c.select :datatype_id , @cdatatypes %><br />
+<% end %>

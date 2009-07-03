@@ -102,9 +102,34 @@ concept_name_03455:
   locale: en
   concept_id: 5089
   date_created: 2004-08-12 00:00:00 -07:00
+<<<<<<< HEAD:test/fixtures/concept_name.yml
 drug_frequency_coded: 
   name: DRUG FREQUENCY CODED
   concept_id: 3320
   date_created: 2008-05-23 16:26:14 +02:00
   creator: 7
   locale: en
+=======
+concept_name_03456: 
+  name: SYSTOLIC BLOOD PRESSURE (?/Y)
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3456
+  locale: en
+  concept_id: 5091
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_name_03457: 
+  name: DIASTOLIC BLOOD PRESSURE (X/?)
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3457
+  locale: en
+  concept_id: 5092
+  date_created: 2004-08-12 00:00:00 -07:00
+>>>>>>> 02b2bf8ab7ae6b18729b4c0e401f37a3c8342a8b:test/fixtures/concept_name.yml

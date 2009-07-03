@@ -1,0 +1,24 @@
+<h1>Create New Encounter Type</h1>
+
+Encounter  Type:
+<%= @etype.name if @etype %>
+New:
+<% form_for :encounter_type  do |form|%>
+	<%= render :partial=> "encounter_type" %>
+	<%=form.submit "Create" %>
+<% end %>
+
+Observation
+<% if @concept %>
+	<% @concept.each do |c| %>
+		<li><%= @c.name %></li>
+	<% end %>
+<% else %>
+	New:
+	<% form_for :concept do |form|%>
+		<%= render :partial=> "concept"%>
+		<%= render :partial=> "concept_name" %>
+		<%=form.submit "Create" %>
+	<% end %>
+<% end %>
+New 

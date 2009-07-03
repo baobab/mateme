@@ -1,0 +1,311 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+
+<form id='medical_history' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "MEDICAL HISTORY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  
+  <label for='history_diabetes_year'>DIABETES HISTORY: Year of Diagnosis</label>
+  <% options=default.merge({
+    :id => "history_diabetes_year",
+    :field_type => 'number',
+    :validationRule=>"\(19\|20\)\\d\\d$",
+    :validationMessage => "Expecting 4 digit Year example: 1989",
+    :tt_pageStyleClass => "NumbersOnly"
+  }) %>
+  <%= text_field_tag "observations[][value_text]", nil, options %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES HISTORY: Year of Diagnosis") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='history_diabetes_place'>DIABETES HISTORY: Place of Diagnosis</label>
+  <% options=default.merge({
+    :field_type => 'string',
+    :id=>"history_diabetes_place"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]",options_for_select([
+    "Hospital(KCH or Other)",
+    "Outpatient",
+    "Unknown"
+  ]), options) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES HISTORY: Place of Diagnosis") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='history_diabetes_referral_reason'>DIABETES HISTORY: Why Referred Here</label>
+  <% options=default.merge({
+    :field_type => 'string',
+    :id=>"history_diabetes_referral_reason"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+    "Complications",
+    "DKA",
+    "HONK",
+    "Other"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES HISTORY: Why Referred Here") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='history_diabetes_how_diagonised'>DIABETES HISTORY: How Diagnosis was Made</label>
+  <% options=default.merge({
+    :field_type => 'string',
+    :id => "history_diabetes_how_diagonised"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+    "Blood Test",
+    "Symptoms",
+    "Both",
+    "Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES HISTORY: How Diagnosis was Made") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='history_diabetes_type'>DIABETES HISTORY: Type of Diabetes</label>
+  <% options=default.merge({
+    :id => "history_diabetes_type"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+    "Type I",
+    "Type II",
+    "Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES HISTORY: Type of Diabetes") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='history_diabetes_current_medication'>DIABETES HISTORY: Current Diabetes Medication</label>
+  <% options=default.merge({
+    :id=> "history_diabetes_current_medication"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"Glibenclamide",
+  	"Metformin",
+  	"Insulin, Lente",
+  	"Insulin, Soluble",
+  	"Other",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES HISTORY: Current Diabetes Medication") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <label for='history_diabetes_oral_medication'>DIABETES HISTORY: Was Patient Previously on Oral Insulin Medication</label>
+  <% options=default.merge({
+    :id=> "history_diabetes_oral_medication",
+    :condition=>"$('history_diabetes_current_medication').value.toLowerCase().match(\/\^insulin\/)" 
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES HISTORY: Was Patient Previously on Oral Insulin Medication") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_hypertension_present'>HYPERTENSION HISTORY: Hypertension Present</label>
+  <% options=default.merge({
+    :id=> "history_hypertension_present"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPERTENSION HISTORY: Hypertension Present") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_hypertension_year'>HYPERTENSION HISTORY: Year of Diagnosis</label>
+   <% options=default.merge({
+    :id=> "history_hypertension_year",
+  	:field_type=>"number",
+  	:ajaxURL=>"",
+  	:tt_pageStyleClass=>"NumbersOnly",
+  	:validationRule=>"((19|20)\d\d|Unknown)",
+  	:validationMessage=>"Expecting a four digit year eg 1999",
+  	:condition=>"$('history_hypertension_present').value.toLowerCase == 'yes'"
+  }) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPERTENSION HISTORY: Year of Diagnosis") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_hypertension_medication'>HYPERTENSION HISTORY: Hypertension Medication</label>
+  <% options=default.merge({
+    :id=> "history_hypertension_medication",
+    :condition=>"$('history_hypertension_present').value.toLowerCase == 'yes'"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"HCT",
+  	"Captopril",
+  	"Nifedipine",
+  	"Propranolol",
+  	"Methyldopa",
+  	"Furosemide",
+  	"Other",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPERTENSION HISTORY: Hypertension Medication") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+
+  <label for='history_hypertension_heart_attack'>CARDIOVASCULAR: Ever had Mycordial Infraction/Heart Attack</label>
+  <% options=default.merge({
+    :id=> "history_hypertension_heart_attack"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR: Ever had Mycordial Infraction/Heart Attack") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_hypertension_stroke'>CARDIOVASCULAR: Ever had CVA/Stroke</label>
+  <% options=default.merge({
+    :id=> "history_hypertension_stroke"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR: Ever had CVA/Stroke") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_hiv_status'>HIV HISTORY: HIV Status</label>
+  <% options=default.merge({
+     :id=> "history_hiv_status"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"Reactive",
+  	"Non-Reactive",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HIV HISTORY: HIV Status") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_hiv_arv'>HIV HISTORY: Patient on ARVs</label>
+  <% options=default.merge({
+    :condition=>"$('history_hiv_status').value == 'Reactive'",
+    :id=> "history_hiv_arv"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HIV HISTORY: Patient on ARVs") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_hiv_arv_regimen'>HIV HISTORY: ARV Regimen</label>
+  <% options=default.merge({
+    :condition=>"$('history_hiv_arv').value == 'Yes'",
+    :id=> "history_hiv_arv_regimen"
+  }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([
+  	"T30",
+  	"T40",
+  	"AZT Containing Regimen",
+  	"Kaletra Containing Regimen",
+  	"Other"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HIV HISTORY: ARV Regimen") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_endocrine_thyroid'>ENDOCRINE HISTORY: Has Patient Thyroid Condition</label>
+  <% options=default.merge({
+  }) %>
+  <%= select("observations[][value_coded_or_text]", nil, [
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ], options, :id=> "history_endocrine_thyroid" ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ENDOCRINE HISTORY: Has Patient Thyroid Condition") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_endocrine_other'>ENDOCRINE HISTORY: Any Other Endocrine Disorders</label>
+  <% options=default.merge({
+    
+  }) %>
+  <%= select("observations[][value_coded_or_text]", nil, [
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ], options, :id=> "history_endocrine_other" ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ENDOCRINE HISTORY: Any Other Endocrine Disorders") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_pulmonary_asthma'>PULMONARY HISTORY: Ever had Asthma</label>
+  <% options=default.merge({
+  }) %>
+  <%= select("observations[][value_coded_or_text]", nil, [
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ], options, :id=> "history_pulmonary_asthma" ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "PULMONARY HISTORY: Ever had Asthma") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_medication_problems'>Has Other Medication Problems</label>
+  <% options=default.merge({
+  }) %>
+  <%= select("observations[][value_coded_or_text]", nil, [
+  	"Yes",
+  	"no",
+  	"Unknown"
+  ], options, :id=> "history_medication_problems" ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "Has Other Medication Problems") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='history_medication_other'>Other Medication Patient is On</label>
+  <% options=default.merge({
+    :id=> "history_medication_other"
+  }) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options ) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "Other Medication Patient is On") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+
+  <%= submit_tag "Finish" %>    
+</form>
+ 
