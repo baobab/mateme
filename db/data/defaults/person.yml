@@ -1,0 +1,17 @@
+--- 
+person_00001: 
+  voided: false
+  changed_by: 1
+  birthdate: 1982-06-09
+  creator: 1
+  birthdate_estimated: false
+  voided_by: 
+  gender: M
+  void_reason: 
+  dead: false
+  date_voided: 
+  person_id: 1
+  death_date: 2000-01-01 00:00:00 +02:00
+  date_changed: 2000-01-01 00:00:00 +02:00
+  cause_of_death: 0
+  date_created: 2000-01-01 00:00:00 +02:00

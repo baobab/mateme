@@ -1,0 +1,37 @@
+--- 
+patient_identifier_1part_3115: 
+  voided: false
+  preferred: 1
+  creator: 1
+  voided_by: 0
+  patient_id: 1
+  void_reason: 
+  date_voided: 2000-01-01 00:00:00 +02:00
+  location_id: 1
+  identifier_type: 5
+  identifier: PART-311
+  date_created: 2000-01-01 00:00:00 +02:00
+patient_identifier_1arv_3114: 
+  voided: false
+  preferred: 1
+  creator: 1
+  voided_by: 0
+  patient_id: 1
+  void_reason: 
+  date_voided: 2000-01-01 00:00:00 +02:00
+  location_id: 1
+  identifier_type: 4
+  identifier: ARV-311
+  date_created: 2000-01-01 00:00:00 +02:00
+patient_identifier_1p17012100133: 
+  voided: false
+  preferred: 1
+  creator: 1
+  voided_by: 0
+  patient_id: 1
+  void_reason: 
+  date_voided: 2000-01-01 00:00:00 +02:00
+  location_id: 1
+  identifier_type: 3
+  identifier: P1701210013
+  date_created: 2000-01-01 00:00:00 +02:00

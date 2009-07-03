@@ -1,0 +1,12 @@
+--- 
+patient_00001: 
+  voided: false
+  changed_by: 1
+  creator: 1
+  voided_by: 
+  tribe: 
+  patient_id: 1
+  void_reason: 
+  date_voided: 
+  date_changed: 2000-01-01 00:00:00 +02:00
+  date_created: 2000-01-01 00:00:00 +02:00

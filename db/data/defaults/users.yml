@@ -1,0 +1,33 @@
+--- 
+user_00001: 
+  salt: laWkLAw6QB
+  voided: false
+  secret_answer: 
+  changed_by: 1
+  secret_question: 
+  creator: 1
+  username: mikmck
+  system_id: Baobab Admin
+  voided_by: 
+  void_reason: 
+  user_id: 1
+  date_voided: 
+  date_changed: 2009-06-11 15:35:59 +02:00
+  password: 904bf83b60c821aacc43d601b203b124a63fa08f
+  date_created: 2009-06-11 15:35:59 +02:00
+user_00002: 
+  salt: laWkLAw6QB
+  voided: false
+  secret_answer: 
+  changed_by: 1
+  secret_question: 
+  creator: 1
+  username: registration
+  system_id: Partners In Health Admin
+  voided_by: 
+  void_reason: 
+  user_id: 2
+  date_voided: 
+  date_changed: 2009-06-07 15:35:59 +02:00
+  password: 904bf83b60c821aacc43d601b203b124a63fa08f
+  date_created: 2009-06-07 15:35:59 +02:00
