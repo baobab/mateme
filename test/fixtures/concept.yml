@@ -256,7 +256,7 @@ concept_05089:
   datatype_id: 1
   concept_id: 5089
   date_created: 2004-08-12 00:00:00 -07:00
-concept_05091: 
+systolic_blood_pressure: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -265,16 +265,16 @@ concept_05091:
   date_retired: 
   class_id: 1
   version: ""
-  short_name: SYSTOLIC
+  short_name: SBP
   default_charge: 
   date_changed: 2006-06-07 21:13:50 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 1
-  concept_id: 5091
+  concept_id: 5085
   date_created: 2004-08-12 00:00:00 -07:00
-concept_05092: 
+diastolic_blood_pressure: 
   retire_reason: 
   retired_by: 
   is_set: false
@@ -283,12 +283,12 @@ concept_05092:
   date_retired: 
   class_id: 1
   version: ""
-  short_name: DIASTOLIC
+  short_name: DBP
   default_charge: 
   date_changed: 2006-06-07 21:13:50 -07:00
   form_text: 
   description: ""
   retired: false
   datatype_id: 1
-  concept_id: 5092
+  concept_id: 5086
   date_created: 2004-08-12 00:00:00 -07:00
