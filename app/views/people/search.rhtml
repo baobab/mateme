@@ -1,8 +1,8 @@
 <script type="text/javascript">
   var tt_cancel_destination = "/people"
 
-  function chageNextButtonText(text){
-    $('nextButton').innerHTML = "&lt;span&gt;" + text + "&lt;/span&gt;";  
+  function changeNextButtonText(text){
+    $('nextButton').innerHTML = "<span>" + text + "</span>";  
   }
     
   function newSearch(){
@@ -13,7 +13,7 @@
   }
 
   function createNewSearchButton(){
-    $('clearButton').innerHTML = "&lt;span&gt;New Search&lt;/span&gt;";  
+    $('clearButton').innerHTML = "<span>New Search</span>";  
     $('clearButton').setAttribute("onmousedown","newSearch();");  
   }
 </script>

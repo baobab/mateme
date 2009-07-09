@@ -19,7 +19,7 @@
          TODO: need reports button
          TODO: need summary to be adjusted based on visit? -->
     <table class="patient_information">
-      <% Encounter.count_by_type_for_date(date.to_date).each do |type,total| 
+      <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
          type = "Reception - patients seen" if type == "REGISTRATION"
          type = "patients referred to other clinics" if type == "REFERRED" %>
         <tr>
