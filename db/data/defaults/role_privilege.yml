@@ -1,0 +1,47 @@
+--- 
+role_privilege_view_reportsdata_manager: 
+  role: Data Manager
+  privilege: View reports
+role_privilege_general_receptiondata_manager: 
+  role: Data Manager
+  privilege: General Reception
+role_privilege_enter_past_visitdata_manager: 
+  role: Data Manager
+  privilege: Enter past visit
+role_privilege_view_reportsprovider: 
+  role: Provider
+  privilege: View reports
+role_privilege_general_receptionprovider: 
+  role: Provider
+  privilege: General Reception
+role_privilege_enter_past_visitprovider: 
+  role: Provider
+  privilege: Enter past visit
+role_privilege_view_reportsdata_assistant: 
+  role: Data Assistant
+  privilege: View reports
+role_privilege_general_receptiondata_assistant: 
+  role: Data Assistant
+  privilege: General Reception
+role_privilege_enter_past_visitdata_assistant: 
+  role: Data Assistant
+  privilege: Enter past visit
+role_privilege_view_reportsauthenticated: 
+  role: Authenticated
+  privilege: View reports
+role_privilege_general_receptionauthenticated: 
+  role: Authenticated
+  privilege: General Reception
+role_privilege_enter_past_visituthenticated: 
+  role: Authenticated
+  privilege: Enter past visit
+role_privilege_view_reports_menuanonymous:
+  role: Anonymous
+  privilege: View reports
+role_privilege_general_reception_menuanonymous:
+  role: Anonymous
+  privilege: General Reception
+role_privilege_enter_past_visit_menuanonymous:
+  role: Anonymous
+  privilege: Enter past visit
+

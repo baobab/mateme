@@ -5,6 +5,7 @@ class PatientsController < ApplicationController
                                          :order => 'encounter_datetime DESC',
                                          :conditions => ['encounter_type != ?', EncounterType.find_by_name('REGISTRATION').id]
                                          ).encounter_datetime.to_date rescue nil
+    @last_date = session[:datetime] unless session[:datetime].blank?
     @encounters = @patient.encounters.find_by_date(@last_date)
   end
   

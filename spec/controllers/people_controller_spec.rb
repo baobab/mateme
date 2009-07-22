@@ -100,5 +100,22 @@ describe PeopleController do
   end
   
   
+  it "should set date for retrospective data entery" do
+    post :set_datetime, {
+    :retrospective_patient_day => "01", 
+    :retrospective_patient_month => "06", 
+    :retrospective_patient_year => "2009"}
+    expected_text =  Time.mktime(2009,6,1,0,0,1)
+
+    expected_text.should == session[:datetime]
+    response.should redirect_to("/")
+  end
+  
+  it "should reset date for retrospective data entery" do
+    session[:datetime] = Time.mktime(2009,6,1,0,0,1)
+    expected_text = nil
+    get :reset_datetime
+    expected_text.should == session[:datetime]
+  end
       
 end
