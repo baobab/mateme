@@ -27,7 +27,7 @@ module PdfHelper
   
     # Makes and sends a pdf to the browser
     #
-    def make_and_send_pdf(template_path, pdf_name, landscape=false)
+    def make_and_send_pdf(template_path, pdf_name, landscape=true)
       send_data(
         make_pdf(template_path, pdf_name, landscape),
         :filename => pdf_name,

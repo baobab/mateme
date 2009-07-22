@@ -88,9 +88,11 @@ class ReportController < ApplicationController
   sort_hash = sort_hash.sort{|a,b| -1*( a[1]<=>b[1])}
    sort_hash.each{|x| @sort_array << x[0]}
 
+  # make_and_send_pdf('/report/weekly_report', 'weekly_report.pdf')
+
   end
 
-  def aggregated_diagnosis
+  def disaggregated_diagnosis
 
   @start_date = Date.new(params[:start_year].to_i,params[:start_month].to_i,params[:start_day].to_i) rescue nil
   @end_date = Date.new(params[:end_year].to_i,params[:end_month].to_i,params[:end_day].to_i) rescue nil
@@ -180,8 +182,8 @@ class ReportController < ApplicationController
 
     if params[:report] == 'Weekly report'
       redirect_to :action => 'weekly_report', :params => parameters
-    elsif params[:report] == 'Aggregated Diagnoses'
-      redirect_to :action => 'aggregated_diagnosis', :params => parameters
+    elsif params[:report] == 'Disaggregated Diagnoses'
+      redirect_to :action => 'disaggregated_diagnosis', :params => parameters
     elsif params[:report] == 'Referrals'
       redirect_to :action => 'referral', :params => parameters
     end
