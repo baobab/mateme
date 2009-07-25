@@ -15,8 +15,3 @@ Feature: Registering a new patient
     Then I should see "Mother's surname"
     When I have entered the rest of the patient's demographic details in the form
     Then I should see the "Print label" page
-
-    Examples:
-
-    | First name | Last name | Mother's surname | Gender | Home Village | Year of Birth | Month of Birth | Birth Day | Current Traditional Authority (TA) | Current Village | Address/Landmark | Phone number |
-    | Evan       | Waters    | Madzi            | Male   | Neno         | 1940          | August         | 17        | Blantyre                           | Neno | Water Tower  | 0999981750 |

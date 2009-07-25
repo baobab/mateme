@@ -7,11 +7,7 @@ Feature: Logging in
     When I access the "/people/search" page
     Then I should be redirected to the "login" page
     And I should see "Username"
-<<<<<<< HEAD:features/login.feature
     And it should look like login_user.jpg 
-=======
-    And it should look like login_user.jpg
->>>>>>> v1.1:features/login.feature
 
   Scenario: User enters username and password
     Given I am not logged in

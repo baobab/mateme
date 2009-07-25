@@ -6,17 +6,6 @@ Feature: Capturing DMHT data
   Scenario: Perform a DMHT Visit
     Given I am on the "DMHT: Eyes: page
     Then it should look like:
-
-    Result of eye exam
-    -------------------------
-    Bloodshot
-    Glycemia
-    Over dialated
-    I am making these up
-    Normal
-    Not applicable
-    -------------------------
-    FINISH  CANCEL
  
   Scenario: Perform DMHT: Eyes
     Given I am on the "DMHT: Eyes" page
