@@ -41,4 +41,8 @@ module ApplicationHelper
   def age_limit
     Time.now.year - 1890
   end
+  
+  def welcome_message
+    "Muli bwanji, enter your user name or scan your id card. <span style='font-size:0.6em;float:right'>(Version: #{MATEME_VERSION}, #{File.ctime(File.join(RAILS_ROOT, 'config', 'environment.rb')).strftime('%d-%b-%Y')})</span>"  
+  end
 end

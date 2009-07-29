@@ -671,3 +671,14 @@ display:block;
   display: block;
   font-size:.5em;
 }
+
+
+.infoBarClass {
+  -moz-user-select:none;
+  color:gray;
+  font-size:1.3em;
+  margin-left:25px;
+  padding-top:5px;
+  width:750px;  
+  border-bottom:2px dotted;
+}  
