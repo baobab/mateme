@@ -97,13 +97,17 @@
   <%= text_field_tag :diagnosis, nil, {
     :ajaxURL => "/prescriptions/diagnoses?patient_id=#{@patient.id}&search_string=", 
     :textCase => "upper", 
+    :field_type => 'boolean',
+    :allowFreeText => 'false',
     :helpText => "Prescribe treatment for which diagnosis?"}%>
   
   <%= text_field_tag :suggestion, nil, {
     :tt_onLoad => "set_diagnosis_for_suggestions();",
     :ajaxURL => "", 
     :textCase => "upper", 
-    :condition => "selectedValue('diagnosis') != 'Unknown'",
+    :field_type => 'boolean',
+    :allowFreeText => 'false',
+    :condition => "selectedValue('diagnosis') != '0'",
     :helpText => "Suggested prescriptions for this diagnosis"}%>
   
   <%= text_field_tag :generic, nil, {

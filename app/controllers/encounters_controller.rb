@@ -47,8 +47,8 @@ class EncountersController < ApplicationController
       name.match(search_string) ? name : nil rescue nil
     }.compact
     previous_answers = []
-    # TODO Need to check global property to find out if we want previous answers or not (right now we do not)
-    previous_answers = Observation.find_most_common(outpatient_diagnosis, search_string) if false
+    # TODO Need to check global property to find out if we want previous answers or not (right now we)
+    previous_answers = Observation.find_most_common(outpatient_diagnosis, search_string)
     @suggested_answers = (previous_answers + valid_answers).reject{|answer| filter_list.include?(answer) }.uniq[0..10] 
     render :text => "<li>" + @suggested_answers.join("</li><li>") + "</li>"
   end

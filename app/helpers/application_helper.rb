@@ -32,6 +32,14 @@ module ApplicationHelper
     GlobalProperty.find_by_property("demographics.mothers_surname").property_value == "yes" rescue false
   end
   
+  def ask_blood_pressure
+    GlobalProperty.find_by_property("vitals.blood_pressure").property_value == "yes" rescue false
+  end
+  
+  def ask_temperature
+    GlobalProperty.find_by_property("vitals.temperature").property_value == "yes" rescue false
+  end  
+
   def month_name_options
     i=0
     options_array = [[]] +Date::ABBR_MONTHNAMES[1..-1].collect{|month|[month,i+=1]} + [["Unknown","Unknown"]]

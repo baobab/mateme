@@ -126,7 +126,7 @@ class PrescriptionsController < ApplicationController
   def diagnoses
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @diagnoses = @patient.current_diagnoses
-    render :text => "<li>" + @diagnoses.map{|obs| obs.answer_string}.join("</li><li>") + "</li>"    
+    render :layout => false
   end
   
   def suggested
