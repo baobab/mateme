@@ -18,22 +18,28 @@ class PrescriptionsController < ApplicationController
   end
   
   def create
-    @formulation = (params[:formulation] || '').upcase
-    @drug = Drug.find_by_name(@formulation) rescue nil
-    render :text => "No matching drugs found for #{params[:formulation]}" and return unless @drug
-    
+    @suggestion = params[:suggestion]
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
-    start_date = Time.now
-    auto_expire_date = Time.now + params[:duration].to_i.days
-    prn = params[:prn]
-    if params[:type_of_prescription] == "variable"
-      write_order(start_date, auto_expire_date, params[:morning_dose], 'MORNING', prn) unless params[:morning_dose] == "Unknown" || params[:morning_dose].to_f == 0
-      write_order(start_date, auto_expire_date, params[:afternoon_dose], 'AFTERNOON', prn) unless params[:afternoon_dose] == "Unknown" || params[:afternoon_dose].to_f == 0
-      write_order(start_date, auto_expire_date, params[:evening_dose], 'EVENING', prn) unless params[:evening_dose] == "Unknown" || params[:evening_dose].to_f == 0
-      write_order(start_date, auto_expire_date, params[:night_dose], 'NIGHT', prn)  unless params[:night_dose] == "Unknown" || params[:night_dose].to_f == 0
+    @diagnosis = @patient.current_diagnoses.select{|obs| obs.answer_string == params[:diagnosis]}.first rescue nil
+    if (@suggestion)
+      @order = DrugOrder.find(@suggestion)
+      DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order)
     else
-      write_order(start_date, auto_expire_date, params[:dose_strength], params[:frequency], prn)
+      @formulation = (params[:formulation] || '').upcase
+      @drug = Drug.find_by_name(@formulation) rescue nil
+      render :text => "No matching drugs found for #{params[:formulation]}" and return unless @drug
+      start_date = Time.now
+      auto_expire_date = Time.now + params[:duration].to_i.days
+      prn = params[:prn]
+      if params[:type_of_prescription] == "variable"
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:morning_dose], 'MORNING', prn) unless params[:morning_dose] == "Unknown" || params[:morning_dose].to_f == 0
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:afternoon_dose], 'AFTERNOON', prn) unless params[:afternoon_dose] == "Unknown" || params[:afternoon_dose].to_f == 0
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:evening_dose], 'EVENING', prn) unless params[:evening_dose] == "Unknown" || params[:evening_dose].to_f == 0
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:night_dose], 'NIGHT', prn)  unless params[:night_dose] == "Unknown" || params[:night_dose].to_f == 0
+      else
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], params[:frequency], prn)
+      end  
     end  
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
   end
@@ -118,30 +124,19 @@ class PrescriptionsController < ApplicationController
   end
   
   def diagnoses
-    render :text => "<li>" + amounts.join("</li><li>") + "</li>"
-    
+    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @diagnoses = @patient.current_diagnoses
+    render :text => "<li>" + @diagnoses.map{|obs| obs.answer_string}.join("</li><li>") + "</li>"    
   end
   
-  private
-  
-  def write_order(start_date, auto_expire_date, dose, frequency, prn)
-    ActiveRecord::Base.transaction do
-      @order = @encounter.orders.create(
-        :order_type_id => 1, 
-        :concept_id => @drug.concept_id, 
-        :orderer => User.current_user.user_id, 
-        :patient_id => @patient.id,
-        :start_date => start_date,
-        :auto_expire_date => auto_expire_date)        
-      @drug_order = DrugOrder.new(
-        :drug_inventory_id => @drug.id,
-        :dose => dose,
-        :frequency => frequency,
-        :prn => prn,
-        :units => @drug.units || 'per dose')
-      @drug_order.order_id = @order.id                
-      @drug_order.save!
-    end                  
+  def suggested
+    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @diagnosis = @patient.current_diagnoses.select{|obs| obs.answer_string == params[:diagnosis]}.first rescue nil
+    @options = [[0, "New prescription"]]
+    render :layout => false and return unless @diagnosis && @diagnosis.value_coded
+    @orders = DrugOrder.find_common_orders(@diagnosis.value_coded)
+    @options = @orders.map{|o| [o.order_id, o.script] } + @options
+    render :layout => false
   end
   
 end

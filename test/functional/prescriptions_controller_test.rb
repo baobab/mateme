@@ -14,7 +14,7 @@ class PrescriptionsControllerTest < ActionController::TestCase
     should "provide the current list of orders for the patient" do
       logged_in_as :mikmck, :registration do
         p = patient(:evan)
-        o = prescribe(p, drug(:laughing_gas_600))
+        o = prescribe(p, nil, drug(:laughing_gas_600))
         get :index, {:patient_id => patient(:evan).patient_id} 
         assert_response :success
       end  
@@ -79,8 +79,8 @@ class PrescriptionsControllerTest < ActionController::TestCase
     should "void an order and display the non voided orders" do
       logged_in_as :mikmck, :registration do
         p = patient(:evan)
-        o = prescribe(p, drug(:laughing_gas_600))
-        o = prescribe(p, drug(:laughing_gas_1000))
+        o = prescribe(p, nil, drug(:laughing_gas_600))
+        o = prescribe(p, nil, drug(:laughing_gas_1000))
         post :void, {:patient_id => p.patient_id, :order_id => o.order_id}
         assert_response :success
         orders = assigns(:orders)

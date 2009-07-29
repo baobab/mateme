@@ -79,22 +79,19 @@ class ActiveSupport::TestCase
      yield block
   end 
   
-  def prescribe(patient, drug, quantity = 1, frequency = "morning: 1; afternoon 1; evening: 1; night: 1")
-    drug_order = nil
+  def prescribe(patient, obs, drug, dose = 1, frequency = "ONCE A DAY", prn = false, start_date = nil, end_date = nil)
+    start_date ||= Time.now
+    end_date ||= Time.now + 3.days
     encounter = patient.current_treatment_encounter
-    ActiveRecord::Base.transaction do
-      order = encounter.orders.create(
-        :order_type_id => 1, 
-        :concept_id => 1, 
-        :orderer => User.current_user.user_id, 
-        :patient_id => patient.id)        
-      drug_order = DrugOrder.new(
-        :drug_inventory_id => drug.id,
-        :quantity => quantity,
-        :frequency => frequency)
-      drug_order.order_id = order.id                
-      drug_order.save!
-    end                  
-    drug_order
+    DrugOrder.write_order(encounter, patient, obs, drug, start_date, end_date, dose, frequency, prn = false)
+  end
+  
+  def diagnose(patient, value_coded, value_coded_name_id = nil)
+    value_coded_name_id ||= Concept.find(value_coded).name.concept_name_id
+    encounter = Encounter.make(:encounter_type => encounter_type(:outpatient_diagnosis), 
+      :patient_id => patient.id)
+    encounter.observations.create(:obs_datetime => Time.now, 
+      :person_id => patient.id, :concept_id => concept(:outpatient_diagnosis), 
+      :value_coded => value_coded, :value_coded_name_id => value_coded_name_id)
   end
 end
