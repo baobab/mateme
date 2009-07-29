@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+    <% @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
@@ -12,7 +12,6 @@
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
     <%= javascript_include_tag "preload" %>
     <%= javascript_include_tag "touchscreenToolkit" %>
-    <%= javascript_include_tag "pmis" %>
     <%= javascript_include_tag "dateselector" %>
   </head>
   <body id="mateme">  
