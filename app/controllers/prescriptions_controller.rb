@@ -21,14 +21,18 @@ class PrescriptionsController < ApplicationController
     @suggestion = params[:suggestion]
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
-    @diagnosis = @patient.current_diagnoses.select{|obs| obs.answer_string == params[:diagnosis]}.first rescue nil
-    if (@suggestion)
+    @diagnosis = Observation.find(params[:diagnosis]) rescue nil
+    unless (@suggestion.blank? || @suggestion == '0')
       @order = DrugOrder.find(@suggestion)
       DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order)
     else
       @formulation = (params[:formulation] || '').upcase
       @drug = Drug.find_by_name(@formulation) rescue nil
-      render :text => "No matching drugs found for #{params[:formulation]}" and return unless @drug
+      unless @drug
+        flash[:notice] = "No matching drugs found for formulation #{params[:formulation]}"
+        render :new
+        return
+      end  
       start_date = Time.now
       auto_expire_date = Time.now + params[:duration].to_i.days
       prn = params[:prn]
@@ -130,9 +134,8 @@ class PrescriptionsController < ApplicationController
   end
   
   def suggested
-    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @diagnosis = @patient.current_diagnoses.select{|obs| obs.answer_string == params[:diagnosis]}.first rescue nil
-    @options = [[0, "New prescription"]]
+    @diagnosis = Observation.find(params[:diagnosis]) rescue nil
+    @options = []
     render :layout => false and return unless @diagnosis && @diagnosis.value_coded
     @orders = DrugOrder.find_common_orders(@diagnosis.value_coded)
     @options = @orders.map{|o| [o.order_id, o.script] } + @options

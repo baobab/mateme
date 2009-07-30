@@ -12,8 +12,13 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
   
+  function changeNextButtonText(text){
+    $('nextButton').innerHTML = "<span>" + text + "</span>";  
+  }
+    
   function set_diagnosis_for_suggestions() {
-    var diagnosis = encodeURIComponent($('diagnosis').value); 
+    changeNextButtonText('Select Prescription');
+    var diagnosis = encodeURIComponent(selectedValue('diagnosis')); 
     $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/suggested?patient_id=<%= @patient.patient_id %>&diagnosis=" + diagnosis + "&search_string=");
     clearInput();  
   }
@@ -101,7 +106,7 @@
     :allowFreeText => 'false',
     :helpText => "Prescribe treatment for which diagnosis?"}%>
   
-  <%= text_field_tag :suggestion, nil, {
+  <%= text_field_tag :suggestion, params[:suggestion] || 0, {
     :tt_onLoad => "set_diagnosis_for_suggestions();",
     :ajaxURL => "", 
     :textCase => "upper", 

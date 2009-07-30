@@ -795,7 +795,6 @@ function highlightSelection(options, inputElement){
     val_arr = inputElement.value.split(tstMultipleSplitChar);
   else
     val_arr.push(inputElement.value);
-	
   for(i=0;i<options.length;i++){
     if(options[i].style){
     //njih
@@ -835,8 +834,14 @@ function handleResult(optionsList, aXMLHttpRequest) {
       var optionNodes = optionsList.getElementsByTagName("li");
       var optionNodeCount = optionNodes.length;
       for(var i=0;i<optionNodeCount;i++){
-        optionNodes[i].setAttribute("onmousedown","updateTouchscreenInput(this)");
-				if (optionNodes[i].innerHTML == tstInputTarget.value) {
+        var onmousedown = optionNodes[i].getAttribute("onmousedown");
+        optionNodes[i].setAttribute("onmousedown", onmousedown + ";updateTouchscreenInput(this);");
+        if (optionNodes[i].getAttribute("tstValue") == tstInputTarget.value) {                                  
+          tstInputTarget.value = optionNodes[i].innerHTML;
+          tstInputTarget.setAttribute('tstValue', optionNodes[i].getAttribute("tstValue"));
+          optionNodes[i].style.backgroundColor = "lightblue";
+          break;
+        } else if (optionNodes[i].innerHTML == tstInputTarget.value) {
 					optionNodes[i].style.backgroundColor = "lightblue";
 				}
       }
