@@ -838,8 +838,9 @@ function handleResult(optionsList, aXMLHttpRequest) {
         optionNodes[i].setAttribute("onmousedown", onmousedown + ";updateTouchscreenInput(this);");
         if (optionNodes[i].getAttribute("tstValue") == tstInputTarget.value) {                                  
           tstInputTarget.value = optionNodes[i].innerHTML;
-          tstInputTarget.setAttribute('tstValue', optionNodes[i].getAttribute("tstValue"));
           optionNodes[i].style.backgroundColor = "lightblue";
+          if (optionNodes[i].hasAttribute("tstValue")) 
+            tstInputTarget.setAttribute('tstValue', optionNodes[i].getAttribute("tstValue"));
           break;
         } else if (optionNodes[i].innerHTML == tstInputTarget.value) {
 					optionNodes[i].style.backgroundColor = "lightblue";
@@ -1019,14 +1020,13 @@ function gotoPage(destPage, validate){
 		}
 	}
   if(destPage < tstPages.length){
-		
 		var condition = tstFormElements[tstPages[destPage]].getAttribute("condition");
 		// skip destination page when a condition is false
 		if (condition) {
 			if (!eval(condition)) {
 				if (currentPage <= destPage) {
 					gotoPage(destPage+1);
-				} else {
+				} else if (destPage > 0) {
 					gotoPage(destPage-1);		// reverse skipping
 				}
 				return;
