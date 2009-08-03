@@ -7,7 +7,11 @@ class PatientsController < ApplicationController
 
   def void 
     @encounter = Encounter.find(params[:encounter_id])
-    @encounter.void!
+    ActiveRecord::Base.transaction do
+      @encounter.observations.each{|obs| obs.void! }    
+      @encounter.orders.each{|order| order.void! }    
+      @encounter.void!
+    end  
     show and return
   end
   
