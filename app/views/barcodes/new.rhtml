@@ -4,6 +4,7 @@
 
 <% form_tag barcodes_path do -%>
   <label for="barcode">Barcode</label>
-  <%= text_field_tag(:barcode, nil, :helpText => "Enter Barcode", :textCase => "lower") %><br>
+  <%= text_field_tag(:barcode, nil, :helpText => "Enter Barcode") %><br>
+  <%= text_field_tag(:label, nil, :helpText => "Enter Label") %><br>
   <%= submit_tag value="Submit"%>
 <% end %>

@@ -1,11 +1,19 @@
+  <%= javascript_include_tag "barcode" %>
   <script>
     var tt_cancel_destination = "/logout"
+    barcodeId = 'touchscreenInput0';
+    barcodeFocusOnce = true;
+    barcodeScanAction = gotoNextPage;
+
+    function inform() {
+      $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";  
+    }           
   </script>
 
   <% form_tag session_path, :method => :put do -%>
 
     <label for="location">Location</label>
-    <%= text_field_tag(:location, nil, :helpText=> "Workstation Location", :field_type => "number") %><br>
+    <%= text_field_tag(:location, nil, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
 
     <%= submit_tag value="Submit"%>
   <% end %>
