@@ -113,7 +113,7 @@
     :field_type => 'boolean',
     :allowFreeText => 'false',
     :condition => "selectedValue('diagnosis') != '0'",
-    :helpText => "Suggested prescriptions for this diagnosis"}%>
+    :helpText => "Common prescriptions for this diagnosis"}%>
   
   <%= text_field_tag :generic, nil, {
     :ajaxURL => "/prescriptions/generics?search_string=", 

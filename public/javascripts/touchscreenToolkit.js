@@ -1372,11 +1372,11 @@ function getQwertyKeyboard(){
 		"</span><span style='padding-left:15px' class='buttonLine'>" +
 		getButtons("ASDFGHJKL") +
 		getButtonString('space','Space') +
-		getButtonString('SHIFT','Upper') +
 		"</span><span style='padding-left:25px' class='buttonLine'>" +
 		getButtons("ZXCVBNM,.") +
 		getButtonString('abc','A-Z') +
 		getButtonString('num','0-9') +
+    getButtonString('SHIFT','Upper') +
 		"</span>" +
 		"</span>"
 	return keyboard;
@@ -1394,10 +1394,10 @@ function getABCKeyboard(){
 		getButtons("IJKLMNOP") +
 		getButtonString('apostrophe',"'") +
 		getButtonString('space','Space') +
-		getButtonString('SHIFT','SHIFT') +
 		getButtonString('Unknown','Unknown') +
 		"</span><span class='buttonLine'>" +
 		getButtons("QRSTUVWXYZ") +
+    getButtonString('SHIFT','SHIFT') +
 		getButtonString('qwerty','qwerty') +
 		"</span>" +
 		"</span>";
@@ -1676,6 +1676,12 @@ function getRightCaseValue(aChar) {
 		case "upper":
 			newChar = aChar.toUpperCase();
 			break;
+    case "mixed":
+      if (tstShiftPressed)
+        newChar = aChar.toUpperCase();
+      else 
+        newChar = aChar.toLowerCase();                                                            
+      break;
 		default:		// Capitalise First Letter
 			if (inputElement.value.length == 0)
 				newChar = aChar.toUpperCase();

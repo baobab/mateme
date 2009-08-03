@@ -18,6 +18,8 @@ Rails::Initializer.run do |config|
   }  
 end
 
+MATEME_SETTINGS = YAML.load_file(File.join(Rails.root, "config", "settings.yml"))[Rails.env] rescue nil
+
 require 'fixtures'
 require 'composite_primary_keys'
 require 'has_many_through_association_extension'
@@ -43,3 +45,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'obs', 'obs'
   inflect.irregular 'concept_class', 'concept_class'
 end  
+
+

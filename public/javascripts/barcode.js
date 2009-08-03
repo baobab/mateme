@@ -4,6 +4,7 @@ var checkForBarcodeTimeout = 1500;
 var barcodeFocusTimeoutId = null;
 var barcodeFocusOnce = false;
 var barcodeId = '';
+var focusOnce = false;
 
 function loadBarcodePage() {
   focusForBarcodeInput()

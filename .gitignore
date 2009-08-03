@@ -2,6 +2,7 @@
 *.swp
 *.swo
 config/database.yml
+config/settings.yml
 notes
 doc
 development.sql
