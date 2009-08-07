@@ -47,7 +47,7 @@ EOF
     
     desc "Symlink shared configurations to current"
     task :localize, :roles => [:app] do
-      %w[database.yml].each do |f|
+      %w[database.yml settings.yml].each do |f|
         run "ln -nsf #{shared_path}/config/#{f} #{current_path}/config/#{f}"
       end
     end 		
