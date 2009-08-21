@@ -4,10 +4,23 @@
     height:8em;
   }
   
-  #tt_page_suggested_prescriptions_for_this_diagnosis .options {
+  #tt_page_common_prescriptions_for_this_diagnosis .options {
     font-size:1em;
-    height:12em;
+    height:24em;
   }
+
+  #tt_page_frequency .options {
+    font-size:1em;
+    height:24em;
+  } 
+
+  .touchscreenTextInput, 
+  .tt_controls_frequency #keyboard, 
+  .tt_controls_frequency #num,
+  .tt_controls_frequency #Unknown {
+    display:none;
+  }
+  
 </style>
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
@@ -151,7 +164,7 @@
     :absoluteMax => should use maximumDailyDose-->    
 
   <% coded = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id rescue nil
-     names = ConceptName.all(:conditions => ['concept_answer.concept_id = ?', coded], :joins => 'INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept') rescue []
+     names = ConceptName.all(:conditions => ['concept_answer.concept_id = ? AND voided = 0', coded], :joins => 'INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept') rescue []
      options = names.map{|n| [n.name, n.name]}
      options << ['', '']
   %>

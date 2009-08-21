@@ -37,9 +37,10 @@ class Encounter < ActiveRecord::Base
       temp = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("TEMPERATURE (C)") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
       weight = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("WEIGHT (KG)") && "#{obs.answer_string}".upcase != '0.0' }
       height = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HEIGHT (CM)") && "#{obs.answer_string}".upcase != '0.0' }
-      vitals = [temp_str = temp.first.answer_string + '°C' rescue 'UNKNOWN TEMP',
-                weight_str = weight.first.answer_string + 'KG' rescue 'UNKNOWN WEIGHT',
+      vitals = [weight_str = weight.first.answer_string + 'KG' rescue 'UNKNOWN WEIGHT',
                 height_str = height.first.answer_string + 'CM' rescue 'UNKNOWN HEIGHT']
+      temp_str = temp.first.answer_string + '°C' rescue nil
+      vitals << temp_str if temp_str                          
       vitals.join(', ')
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
