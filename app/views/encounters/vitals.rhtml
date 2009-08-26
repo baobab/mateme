@@ -5,6 +5,7 @@
 </script>
 
   <%=render :partial=> "vitals_graphs", :locals=>{:fields=>@patient} %>
+  <%=render :partial=> "blood_pressure", :locals=>{:fields=>@patient} %>
  
  
   <form action="/encounters/create/vitals">
@@ -63,7 +64,7 @@
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-      
+     <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :helpText => "Summary", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
     <% if ask_blood_pressure %>
 
       <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
@@ -97,11 +98,8 @@
         <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
+<%= text_field_tag :showBPSummary, nil, { :tt_onLoad => "showBloobPressureGraphs()", :helpText => "Blood Pressure Graph", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
       <% end %>
- 
-    <!--label for='showSummary'>Summary </label-->
-    <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :helpText => "Summary", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
-   
+       
   <%= submit_tag "Finish" %>    
 </form>
