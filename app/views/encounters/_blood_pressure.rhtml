@@ -1,4 +1,8 @@
-
+<style type="text/css">
+#summary {
+      font-size:1.2em;
+    }
+</style>
 <script id="source" language="javascript" type="text/javascript">
   jQuery.noConflict();
 
@@ -7,7 +11,7 @@ var displayTextBP;
 function showBloobPressureGraphs(){
      displayTextBP = 'Blood Pressure Graph';
      displayTextBP += '<div id="weightHistory"></div>';
-     displayTextBP += '<div id="graphholder" style="width: 380px; position: relative; height: 200px;"> </div>';
+     displayTextBP += '<div id="graphholder" style="width: 750px; position: relative; height: 400px;"> </div>';
      $('tt_page_blood_pressure_graph').innerHTML = '<div id="summary">' + displayTextBP + '</div>' ;
      
 function setData() {
