@@ -31,10 +31,15 @@
   </div>
   <div id="menu" style="float:right">
     <a class="button green" href='/encounter_types?patient_id=<%= @patient.id -%>'>Encounters</a>
-    <!--
-    <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Weight/Height</a>
+    <!-- ============================ -->
+    <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
     <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
-    -->
+    <a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a>
+    <a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Prescriptions</a>
+    <a class="button green" href='/report/referral?patient_id=<%= @patient.id -%>'>Referral</a>
+    <a class="button green" href='/encounters/new/examination?patient_id=<%= @patient.id -%>'>Examination</a>
+    <a class="button green" href='/people/new'>Reigster Patient</a>
+    <!-- ============================ -->
     <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Prescriptions</a>
     <a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a>
     <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
