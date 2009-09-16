@@ -1,10 +1,37 @@
+<style type="text/css">
+
+  a.button.green {
+    width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:#00FF00 none repeat scroll 0 0;
+    font-size:1.4em;
+    height:57px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
+  }
+#menu {
+    float:right;
+    overflow:auto;
+    position:relative;
+    height:478px;
+    width:257px;;
+  }
+</style>
+
 <%=stylesheet_link_tag "usermanagement"%>
 <h1 align = "center">User Management Menu</h1>
-<div class = "buttons">
-   
-    <%= link_to_onmousedown 'Create New User', :controller => 'user', :action => 'new'  %>
+<div id="menu" class="button green">
+   <a class="button green" href='/user/new'>Create New User</a>
+   <a class="button green" href='/user/search_user'>Edit User</a>
+   <a class="button green" href='/people/index'>Cancel</a>
 
-    <%= link_to_onmousedown 'Edit User', :controller => 'user', :action => 'search_user'%>
-
-    <%= link_to_onmousedown 'Cancel', {:controller => 'people', :action => 'index'} ,:id => "logout"%>
 </div>

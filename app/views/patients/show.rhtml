@@ -21,7 +21,13 @@
     min-width:48px;
     margin-top:10px
   }
-
+#menu {
+    float:right;
+    overflow:auto;
+    position:relative;
+    height:478px;
+    width:257px;;
+  }
 </style>
 
 <div style="margin:10px;">
@@ -29,7 +35,7 @@
     <%= render :partial => "details" %>
     <%= render :partial => "current_encounters" %>
   </div>
-  <div id="menu" style="float:right">
+  <div id="menu">
     <a class="button green" href='/encounter_types?patient_id=<%= @patient.id -%>'>Encounters</a>
     <!-- ============================ -->
     <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
@@ -39,6 +45,7 @@
     <a class="button green" href='/report/referral?patient_id=<%= @patient.id -%>'>Referral</a>
     <a class="button green" href='/encounters/new/examination?patient_id=<%= @patient.id -%>'>Examination</a>
     <a class="button green" href='/people/new'>Reigster Patient</a>
+    <a class="button green" href='/user/user_menu'>Admnistration</a>
     <!-- ============================ -->
     <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Prescriptions</a>
     <a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a>
