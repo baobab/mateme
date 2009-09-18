@@ -1,5 +1,25 @@
 class PatientsController < ApplicationController
   def show
+    #find the user priviledges
+    @super_user = false
+    @clinician  = false
+    @doctor     = false
+    @regstration_clerk  = false
+
+    @user = User.find(session[:user_id])
+    @user_privilege = @user.user_roles.collect{|x|x.role}
+
+    if @user_privilege.include?("superuser")
+        @super_user = true
+    elsif @user_privilege.include?("clinician")
+        @clinician  = true
+    elsif @user_privilege.include?("doctor")
+        @doctor     = true
+    elsif @user_privilege.include?("regstration_clerk")
+        @regstration_clerk  = true
+    end
+    
+       
     @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
     @encounters = @patient.encounters.current.active.find(:all)
     render :template => 'patients/show', :layout => 'menu' 
