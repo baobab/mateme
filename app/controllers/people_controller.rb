@@ -8,7 +8,7 @@ class PeopleController < ApplicationController
   
   def identifiers
   end
-
+ 
   def demographics
     # Search by the demographics that were passed in and then return demographics
     people = Person.find_by_demographics(params)
@@ -17,21 +17,6 @@ class PeopleController < ApplicationController
   end
  
   def search
-    @people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
-    redirect_to :controller => :encounters, :action => :new, :patient_id => @people.first.id and return unless @people.blank? || @people.size > 1
-
-    @people = Person.find(:all, :joins => [{:names => [:person_name_code]}], :include => [:patient], :conditions => [
-    "gender = ? AND \
-     person.voided = 0 AND \
-     (patient.voided = 0 OR patient.voided IS NULL) AND \
-     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
-     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)", 
-    params[:gender], 
-    params[:given_name], 
-    (params[:given_name] || '').soundex,
-    params[:family_name], 
-    (params[:family_name] || '').soundex,
-    ]) if @people.blank?
     found_person = nil
     if params[:identifier]
       local_results = Person.search_by_identifier(params[:identifier])
@@ -43,13 +28,13 @@ class PeopleController < ApplicationController
         # TODO - figure out how to write a test for this
         # This is sloppy - creating something as the result of a GET
         found_person_data = Person.find_remote_by_identifier(params[:identifier])
-        found_person =  Person.create_from_form(found_person_data) unless found_person_data.nil?
+        found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
       end
       if found_person
-        redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return 
+        redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
       end
     end
-    @people = Person.search(params)    
+    @people = Person.search(params)
   end
  
   # This method is just to allow the select box to submit, we could probably do this better
@@ -68,24 +53,23 @@ class PeopleController < ApplicationController
       redirect_to :action => "index"
     end
   end
-
+ 
   # TODO refactor so this is restful and in the right controller.
   def set_datetime
     if request.post?
       unless params["retrospective_patient_day"]== "" or params["retrospective_patient_month"]== "" or params["retrospective_patient_year"]== ""
         # set for 1 second after midnight to designate it as a retrospective date
         date_of_encounter = Time.mktime(params["retrospective_patient_year"].to_i,
-                                        params["retrospective_patient_month"].to_i,                                
-                                        params["retrospective_patient_day"].to_i,0,0,1) 
-        session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today 
+                                        params["retrospective_patient_month"].to_i,
+                                        params["retrospective_patient_day"].to_i,0,0,1)
+        session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today
       end
       redirect_to :action => "index"
     end
   end
-
+ 
   def reset_datetime
     session[:datetime] = nil
     redirect_to :action => "index" and return
   end
 end
- 
