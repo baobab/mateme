@@ -1,0 +1,8 @@
+production:
+  installation: Production
+
+development:
+  installation: Development
+
+test:
+  installation: Test

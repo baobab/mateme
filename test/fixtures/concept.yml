@@ -1,0 +1,294 @@
+--- 
+outpatient_diagnosis: 
+  datatype_id: 2
+  concept_id: 6098
+  date_created: 2008-03-21 15:02:19 +02:00
+  creator: 15878
+  is_set: false
+  class_id: 7
+  changed_by: 
+  version: 
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+alcohol_counseling: 
+  datatype_id: 4
+  concept_id: 1288
+  date_created: 2005-02-25 11:32:55 +02:00
+  creator: 2
+  is_set: false
+  class_id: 11
+  changed_by: 
+  version: ""
+  description: "Counseling for people addicted to alcohol"
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+muppet_counseling: 
+  datatype_id: 4
+  concept_id: 1289
+  date_created: 2005-02-25 11:32:55 +02:00
+  creator: 2
+  is_set: false
+  class_id: 11
+  changed_by: 
+  version: ""
+  description: "Counseling for people addicted to muppets"
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+extrapulmonary_tuberculosis_without_lymphadenopathy: 
+  datatype_id: 4
+  concept_id: 2892
+  date_created: 2008-01-18 12:24:33 +02:00
+  creator: 15877
+  is_set: false
+  class_id: 4
+  changed_by: 
+  version: ""
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+immune_reconstitution_inflammatory_syndrome_construct: 
+  datatype_id: 4
+  concept_id: 2522
+  date_created: 2007-08-02 15:27:59 +02:00
+  creator: 2053
+  is_set: true
+  class_id: 10
+  changed_by: 2053
+  version: ""
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 2007-08-02 15:36:53 +02:00
+  form_text: 
+  retired: false
+immune_reconstitution_inflammatory_syndrome_date: 
+  datatype_id: 6
+  concept_id: 2524
+  date_created: 2007-08-02 15:35:58 +02:00
+  creator: 2053
+  is_set: false
+  class_id: 11
+  changed_by: 2053
+  version: ""
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 2007-08-02 15:35:58 +02:00
+  form_text: 
+  retired: false
+who_stages_criteria_present: 
+  datatype_id: 2
+  concept_id: 2743
+  date_created: 2007-10-25 13:39:28 +02:00
+  creator: 7
+  is_set: false
+  class_id: 7
+  changed_by: 15877
+  version: ""
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 2008-02-06 08:29:08 +02:00
+  form_text: 
+  retired: false
+height: 
+  datatype_id: 1
+  concept_id: 5090
+  date_created: 2004-08-12 00:00:00 +02:00
+  creator: 2
+  is_set: false
+  class_id: 1
+  changed_by: 2
+  version: ""
+  description: ""
+  short_name: HT
+  default_charge: 
+  date_changed: 2005-02-25 11:43:34 +02:00
+  form_text: 
+  retired: false
+referrals_ordered: 
+  datatype_id: 2
+  concept_id: 1272
+  date_created: 2005-02-22 20:46:03 +02:00
+  creator: 2
+  is_set: false
+  class_id: 7
+  changed_by: 2
+  version: ""
+  description: "Kinds of referrals"
+  short_name: ""
+  default_charge: 
+  date_changed: 2006-02-13 21:45:19 +02:00
+  form_text: 
+  retired: false
+outpatient_diagnosis_non_coded: 
+  datatype_id: 3
+  concept_id: 3106
+  date_created: 2008-05-23 16:26:14 +02:00
+  creator: 7
+  is_set: false
+  class_id: 7
+  changed_by: 
+  version: ""
+  description: 
+  short_name: 
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+treatment: 
+  datatype_id: 4
+  concept_id: 1185
+  date_created: 2005-02-09 00:00:00 +02:00
+  creator: 2
+  is_set: false
+  class_id: 11
+  changed_by: 
+  version: ""
+  description: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 
+  form_text: 
+  retired: false
+triomune: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 7
+  creator: 2
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2008-04-22 09:55:06 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 792
+  date_created: 2004-04-08 00:00:00 -07:00
+# Laughing gas  
+nitrous_oxide: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 7
+  creator: 2
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2008-04-22 09:55:06 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 1000
+  date_created: 2004-04-08 00:00:00 -07:00
+# Valium  
+diazepam: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 7
+  creator: 2
+  date_retired: 
+  class_id: 3
+  version: ""
+  short_name: ""
+  default_charge: 
+  date_changed: 2008-04-22 09:55:06 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 4
+  concept_id: 1001
+  date_created: 2004-04-08 00:00:00 -07:00
+concept_05088: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 2
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: TEMP (C)
+  default_charge: 
+  date_changed: 2005-02-25 06:59:42 -08:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5088
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_05089: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: WT
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5089
+  date_created: 2004-08-12 00:00:00 -07:00
+systolic_blood_pressure: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: SBP
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5085
+  date_created: 2004-08-12 00:00:00 -07:00
+diastolic_blood_pressure: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired: 
+  class_id: 1
+  version: ""
+  short_name: DBP
+  default_charge: 
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text: 
+  description: ""
+  retired: false
+  datatype_id: 1
+  concept_id: 5086
+  date_created: 2004-08-12 00:00:00 -07:00

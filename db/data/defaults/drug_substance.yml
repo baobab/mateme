@@ -1,0 +1,16 @@
+--- 
+drug_substance_00015: 
+  route: 0
+  name: 
+  minimum_daily_dose: 
+  retire_reason: 2000-01-01 10:00:00 +02:00
+  retired_by: 0
+  drug_substance_id: 15
+  dose_strength: 
+  creator: 0
+  units: 
+  maximum_daily_dose: 
+  date_retired: 2000-01-01 10:00:00 +02:00
+  retired: false
+  concept_id: 0
+  date_created: 2000-01-01 10:00:00 +02:00

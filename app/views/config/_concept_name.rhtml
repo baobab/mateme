@@ -1,0 +1,6 @@
+<% fields_for :concept_name do |cn|%>
+	<%= cn.label :name %><br />
+	<%= cn.text_field :name %><br />
+	<%= cn.label :locale%><br />
+	<%= cn.select :locale , ["en","fr"]%><br />
+<% end %>

@@ -1,0 +1,26 @@
+<script type="text/javascript">
+  tt_cancel_destination = '/patients/show/<%= @patient.id %>';
+</script>
+
+<div style="padding: 15px;">
+  <h2>Patient Prescriptions</h2>
+  <div style="font-size: 22pt;">
+    <ul class="list" style="height:270px;width:750px;">
+      <% for order in @orders do %>
+        <li class="data <%= cycle('even', 'odd') %>">
+          <div style="float:right;padding:7px;">
+            <%= img_button_submit_to "/prescriptions/void", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this prescription?"}, {:patient_id => @patient.patient_id, :order_id => order.order_id} -%>
+          </div>
+          <div style="float:left">Prescription</div>
+          <div style="clear:left" class="summary"><%= order.to_s.gsub(/\n/, '<br/>') -%></div>
+        </li>  
+      <% end %>
+      <% if @orders.blank? %>        
+        <li>No prescriptions are available for this patient today</li>
+      <% end %>
+    </ul>
+  </div>
+  <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
+  </div>
+</div>

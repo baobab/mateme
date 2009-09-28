@@ -1,0 +1,961 @@
+--- 
+user_22190: 
+  salt: b9677de49fb5ccac03394f38de365bfeaf16b0
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: cgoliath
+  system_id: 49-7
+  voided_by: 
+  void_reason: ""
+  user_id: 22190
+  date_voided: 
+  date_changed: 2008-08-06 00:00:00 -07:00
+  password: eb7eaf0589ed8ed2e88273925cf015bcbfa81c
+  date_created: 2008-08-06 08:29:23 -07:00
+user_16371: 
+  salt: d28547eaf7d4f78f1404031d45f616b3e17e6d
+  voided: false
+  secret_answer: 
+  changed_by: 15884
+  secret_question: ""
+  creator: 15878
+  username: bkalombo
+  system_id: 28-1
+  voided_by: 
+  void_reason: ""
+  user_id: 16371
+  date_voided: 
+  date_changed: 2008-03-25 15:34:52 -07:00
+  password: 8563de5b15296e86d30174451cc4f1ebeee610
+  date_created: 2008-02-16 12:06:48 -08:00
+user_25246: 
+  salt: 1eed85fc841de738843723c95cfdb2c76149d5
+  voided: false
+  secret_answer: 
+  changed_by: 25246
+  secret_question: ""
+  creator: 15878
+  username: ebird
+  system_id: 59-6
+  voided_by: 
+  void_reason: ""
+  user_id: 25246
+  date_voided: 
+  date_changed: 2008-09-30 11:55:21 -07:00
+  password: a9e6e22d21f1b32de1832260a669e4417e5e1a
+  date_created: 2008-09-24 15:41:37 -07:00
+user_21181: 
+  salt: f0f128bde993367e7ed164f659376e88f97191c6
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: hching
+  system_id: 54-7
+  voided_by: 
+  void_reason: ""
+  user_id: 21181
+  date_voided: 
+  date_changed: 2008-08-16 00:00:00 -07:00
+  password: fff989ce62de67ac0973dda82ecae44cf9ef6a0
+  date_created: 2008-08-16 10:47:51 -07:00
+user_16460: 
+  salt: 30a39f74bdfa6bf83bb6eb314d5b3c6c2e5a618
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: L Tengatenga
+  system_id: 30-7
+  voided_by: 
+  void_reason: ""
+  user_id: 16460
+  date_voided: 
+  date_changed: 2008-03-27 00:00:00 -07:00
+  password: 8f6b93897fe363fdc72d1e4552b2f9ba3b978b5f
+  date_created: 2008-03-27 14:08:37 -07:00
+user_22191: 
+  salt: 48488958f6687ec9ea2443d12285469f314d91
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: chikan
+  system_id: 50-5
+  voided_by: 
+  void_reason: ""
+  user_id: 22191
+  date_voided: 
+  date_changed: 2008-09-22 00:00:00 -07:00
+  password: 416fd8477d647accb147b7e6aff513364ac6
+  date_created: 2008-08-06 08:29:59 -07:00
+user_17075: 
+  salt: 3f682b66b110697a4aa6266a939ce141a12488
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: njero
+  system_id: 40-6
+  voided_by: 
+  void_reason: ""
+  user_id: 17075
+  date_voided: 
+  date_changed: 2008-06-10 00:00:00 -07:00
+  password: 69aa1c24569e1e1c52993a98ab1dffe7fd0cdf2
+  date_created: 2008-06-10 09:00:36 -07:00
+user_15877: 
+  salt: f4b943c6bd213a94144fb8abbbe65da8c29b885c
+  voided: false
+  secret_answer: 
+  changed_by: 8
+  secret_question: ""
+  creator: 8
+  username: cmack
+  system_id: 1015-7
+  voided_by: 
+  void_reason: ""
+  user_id: 15877
+  date_voided: 
+  date_changed: 2007-07-18 15:31:59 -07:00
+  password: 9c2cc0a9c66749de2ca8482524c43c052c35556
+  date_created: 2007-07-18 15:31:44 -07:00
+user_00004: 
+  salt: a4205eff183720fb1222f2b1ea35984b9c6aa12
+  voided: true
+  secret_answer: 
+  changed_by: 4
+  secret_question: ""
+  creator: 2
+  username: burke
+  system_id: 4-2
+  voided_by: 1
+  void_reason: Move to production server
+  user_id: 4
+  date_voided: 2006-09-27 19:42:09 -07:00
+  date_changed: 2006-08-17 15:55:02 -07:00
+  password: c15c7ddbbeb61cca54911ff5888ea549fd0bc
+  date_created: 2005-01-14 00:00:00 -08:00
+user_15680: 
+  salt: a055a45fd9a4c55f714ff8fe1565acac62a47f
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 1128
+  username: asocci
+  system_id: 2113-9
+  voided_by: 
+  void_reason: ""
+  user_id: 15680
+  date_voided: 
+  date_changed: 2007-06-26 11:59:45 -07:00
+  password: e4d789c6dbd1e1e40fca85a1283a784c2cb515
+  date_created: 2007-05-03 20:12:27 -07:00
+user_17086: 
+  salt: 2c36cca8eedb05ed2c83d247d787d867636634a
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: bkapito
+  system_id: 41-4
+  voided_by: 
+  void_reason: ""
+  user_id: 17086
+  date_voided: 
+  date_changed: 2008-08-06 14:57:35 -07:00
+  password: 4eadf997198a4392582f2c892744485f2531a2
+  date_created: 2008-06-11 10:09:11 -07:00
+user_00005: 
+  salt: 1459bff917963b18e75b92358c3ca7f149483747
+  voided: false
+  secret_answer: 
+  changed_by: 5
+  secret_question: ""
+  creator: 1
+  username: hamish
+  system_id: 5-9
+  voided_by: 
+  void_reason: ""
+  user_id: 5
+  date_voided: 
+  date_changed: 2007-09-11 15:40:36 -07:00
+  password: 655d26020a44777ed5a4f8bc7eba5d282e2b06a
+  date_created: 2006-03-14 18:28:40 -08:00
+user_15878: 
+  salt: a1ddb617b95e2a9e2cbefb58ad31ab789b84da
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 1
+  username: ewaters
+  system_id: 18-2
+  voided_by: 
+  void_reason: ""
+  user_id: 15878
+  date_voided: 
+  date_changed: 2008-05-12 15:20:12 -07:00
+  password: dd3e13bc413ccbee48c6af6fa4ad18c056c
+  date_created: 2007-10-29 16:08:02 -07:00
+user_16374: 
+  salt: 37fd1f3094d3d4511a1d20c725cadb7653129af9
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: fmakombe
+  system_id: 29-9
+  voided_by: 
+  void_reason: ""
+  user_id: 16374
+  date_voided: 
+  date_changed: 2008-03-10 00:00:00 -07:00
+  password: b17f444ce8bfae6653d2ff7af16d958929250e5
+  date_created: 2008-03-10 15:07:30 -07:00
+user_22194: 
+  salt: 622a8f381ac7d2b6383ce8540741e76f0fd6
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: chrman
+  system_id: 52-1
+  voided_by: 
+  void_reason: ""
+  user_id: 22194
+  date_voided: 
+  date_changed: 2008-09-22 00:00:00 -07:00
+  password: 3d3cc240ca61a0473bf4e78656d4d2989409e
+  date_created: 2008-08-06 08:32:58 -07:00
+user_00006: 
+  salt: 134f33b6c4c2f7476fc0466cb3798257c4b13e17
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 1
+  username: djazayeri
+  system_id: 6-7
+  voided_by: 
+  void_reason: ""
+  user_id: 6
+  date_voided: 
+  date_changed: 2007-06-11 16:35:14 -07:00
+  password: f4445d676f712ab91016dfb8f96d9155edbfc8a
+  date_created: 2006-04-05 16:15:22 -07:00
+user_01128: 
+  salt: 8ef0e2833aa46bf6c95875a4fc38bc91b873f95
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 6
+  username: callen
+  system_id: 1128-8
+  voided_by: 
+  void_reason: ""
+  user_id: 1128
+  date_voided: 
+  date_changed: 2007-06-18 16:06:34 -07:00
+  password: fe7718ce86ac3315d158f14d5ba1d2167d8a84
+  date_created: 2006-08-17 09:29:42 -07:00
+user_02053: 
+  salt: 222e2032538941dc532871d567aaf5ca17daba
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: What was your favorite activity in high school
+  creator: 1128
+  username: mfranke
+  system_id: 2053-7
+  voided_by: 
+  void_reason: ""
+  user_id: 2053
+  date_voided: 
+  date_changed: 2007-06-18 16:08:31 -07:00
+  password: 9bb523d7adf2213fb01c525fbd542f8e32e262
+  date_created: 2007-02-20 10:09:43 -08:00
+user_16573: 
+  salt: ff775ec7b7fc4f91c5d249c4a6f1d3fcfd7deb
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: drmolly
+  system_id: 33-1
+  voided_by: 
+  void_reason: ""
+  user_id: 16573
+  date_voided: 
+  date_changed: 2008-04-25 00:00:00 -07:00
+  password: 62e46b962d32bb3bfb94d0a2b86efcdda1a07777
+  date_created: 2008-04-25 09:44:36 -07:00
+user_16979: 
+  salt: 94725cf3ee752519e2792eeeb71bea5f2eafc0ec
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: pmzembe
+  system_id: 39-8
+  voided_by: 
+  void_reason: ""
+  user_id: 16979
+  date_voided: 
+  date_changed: 2008-05-28 00:00:00 -07:00
+  password: 6a9b9cd8a4262274467f871e680425610793761
+  date_created: 2008-05-28 11:07:34 -07:00
+user_24019: 
+  salt: f7dfc557fdaf13a4fec362f7b5d0d63b76892d2
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: regmar
+  system_id: 56-2
+  voided_by: 
+  void_reason: ""
+  user_id: 24019
+  date_voided: 
+  date_changed: 2008-09-04 00:00:00 -07:00
+  password: 6893c6db3b894a6a7ab69c432027f587aa3a5580
+  date_created: 2008-09-04 14:56:26 -07:00
+user_16574: 
+  salt: 3ff1acb8ad3e485ed6f194f054ab3b69fdcee4b
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: Dr Molly
+  system_id: 34-9
+  voided_by: 
+  void_reason: ""
+  user_id: 16574
+  date_voided: 
+  date_changed: 2008-04-25 00:00:00 -07:00
+  password: aeac4d17685b5e1c5b045c3423f6a1fee61bb5b
+  date_created: 2008-04-25 09:46:15 -07:00
+user_01954: 
+  salt: 8f6a46926be02ff92b5b39e75b70d0ed332e543c
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 6
+  username: pmanyika
+  system_id: 1954-7
+  voided_by: 
+  void_reason: ""
+  user_id: 1954
+  date_voided: 
+  date_changed: 2007-06-26 12:16:45 -07:00
+  password: ea32755718fd80a268cdae68b5aff35d8c753a
+  date_created: 2006-10-04 14:35:59 -07:00
+user_00007: 
+  salt: b0c560ebfc7e57c4ff2d8c45c424a993e6c1f6
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: First pet
+  creator: 1
+  username: ball
+  system_id: 7-5
+  voided_by: 
+  void_reason: ""
+  user_id: 7
+  date_voided: 
+  date_changed: 2007-06-08 16:22:29 -07:00
+  password: 275b3ca4de802fdda66d274df90543424707e40
+  date_created: 2006-06-13 12:40:05 -07:00
+user_16848: 
+  salt: 14c9cd4f5c7aa15de31563c8e147b97b8b78eb
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: Albert
+  system_id: 37-2
+  voided_by: 
+  void_reason: ""
+  user_id: 16848
+  date_voided: 
+  date_changed: 2008-05-21 00:00:00 -07:00
+  password: e05dab5a18891b459ed3353ac7d15f77f5cf9
+  date_created: 2008-05-21 13:47:51 -07:00
+user_24725: 
+  salt: 60cce2ef5e84fb38c0c17d6cbec81f451d3a5f8
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: amiller
+  system_id: 58-8
+  voided_by: 
+  void_reason: ""
+  user_id: 24725
+  date_voided: 
+  date_changed: 2008-09-18 00:00:00 -07:00
+  password: c9b9a9717ed5102a27b01e1b8fe0883ed438276b
+  date_created: 2008-09-18 10:19:45 -07:00
+user_23692: 
+  salt: 4ef7e38fc2aa1839d451ed9782e1363b0aaea
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: hopche
+  system_id: 55-4
+  voided_by: 
+  void_reason: ""
+  user_id: 23692
+  date_voided: 
+  date_changed: 2008-08-29 00:00:00 -07:00
+  password: 88503f853f4552995db7afe074d56141c14d9327
+  date_created: 2008-08-29 09:50:42 -07:00
+user_16849: 
+  salt: 2865383f888c68d4d7a41fd9f462a18b1cabbeff
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: Ralph
+  system_id: 38-0
+  voided_by: 
+  void_reason: ""
+  user_id: 16849
+  date_voided: 
+  date_changed: 2008-05-21 00:00:00 -07:00
+  password: 41d2ad48e4ff46c4a5def16a7ab5a4cb14ef986c
+  date_created: 2008-05-21 13:50:31 -07:00
+user_16366: 
+  salt: 2945fede7aa8f1eb6e23234d73ccc680e6818427
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: kjoseph
+  system_id: 24-0
+  voided_by: 
+  void_reason: ""
+  user_id: 16366
+  date_voided: 
+  date_changed: 2008-07-22 00:00:00 -07:00
+  password: 782c82b9d6a9515fffc2df41cc7a32bead0a84a
+  date_created: 2008-01-20 19:12:08 -08:00
+user_00008: 
+  salt: 67559d893cf2a66c5bb807364d4bf13818928ac
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 1
+  username: jmiranda
+  system_id: 8-3
+  voided_by: 
+  void_reason: ""
+  user_id: 8
+  date_voided: 
+  date_changed: 2007-06-11 16:40:24 -07:00
+  password: 654419c2907644bc77ee2787be474fa236a543
+  date_created: 2006-06-25 19:16:54 -07:00
+user_20884: 
+  salt: 8ff533df23893abb7742b4757655594a98788
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: snjox
+  system_id: 43-A
+  voided_by: 
+  void_reason: ""
+  user_id: 20884
+  date_voided: 
+  date_changed: 2008-07-20 00:00:00 -07:00
+  password: bc22e0f1287067ccf14ff88f36dba2f81cb79526
+  date_created: 2008-07-20 14:14:54 -07:00
+user_21197: 
+  salt: 8518dbc642982b2491d5c225513c49535295781c
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: artclinic
+  system_id: 44-8
+  voided_by: 
+  void_reason: ""
+  user_id: 21197
+  date_voided: 
+  date_changed: 2008-07-23 00:00:00 -07:00
+  password: aa4ffc418c38e41d64cbc5adbf523d8ea36cd027
+  date_created: 2008-07-23 17:21:21 -07:00
+user_22076: 
+  salt: dc5e6d1499f27f83ce371b6dad235fa0314b17
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: dshulman
+  system_id: 45-5
+  voided_by: 
+  void_reason: ""
+  user_id: 22076
+  date_voided: 
+  date_changed: 2008-08-04 00:00:00 -07:00
+  password: c6ef56d179c7ee38f03df2e840812d15d1279968
+  date_created: 2008-08-04 22:13:56 -07:00
+user_15883: 
+  salt: 23b1be7d42f45a552e0ef7f54ae784af2e29f
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15878
+  username: amahaka
+  system_id: 20-8
+  voided_by: 
+  void_reason: ""
+  user_id: 15883
+  date_voided: 
+  date_changed: 2008-05-12 15:22:19 -07:00
+  password: 6cedc6fe3f4a11e0ef25b1ddc3106fa6e2c17f7e
+  date_created: 2007-12-17 14:30:04 -08:00
+user_00021: 
+  salt: laWkLAw6QB
+  voided: false
+  secret_answer: 
+  changed_by: 1
+  secret_question: 
+  creator: 1
+  username: mikmck
+  system_id: ""
+  voided_by: 
+  void_reason: 
+  user_id: 21
+  date_voided: 
+  date_changed: 2007-10-17 15:01:53 -07:00
+  password: 904bf83b60c821aacc43d601b203b124a63fa08f
+  date_created: 2007-10-17 15:01:53 -07:00
+user_00009: 
+  salt: 8ae1d04645db2b6bcc8a86e95c2a1bc4f2763
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 1
+  username: schoi
+  system_id: 9-1
+  voided_by: 
+  void_reason: ""
+  user_id: 9
+  date_voided: 
+  date_changed: 2007-06-18 16:05:29 -07:00
+  password: 35fcd9961a2c6f30ee93e1538f5538c21cdfe015
+  date_created: 2006-06-26 16:13:28 -07:00
+user_00010: 
+  salt: 346095326874963c2143f4dac4d75512267f9de3
+  voided: true
+  secret_answer: 
+  changed_by: 8
+  secret_question: ""
+  creator: 8
+  username: cseebregts
+  system_id: 10-9
+  voided_by: 1
+  void_reason: Move to production server
+  user_id: 10
+  date_voided: 2006-09-27 19:42:09 -07:00
+  date_changed: 2006-07-11 00:08:03 -07:00
+  password: ae852158ecd2432ccae248a02a925e92530452
+  date_created: 2006-07-11 00:08:03 -07:00
+user_16367: 
+  salt: 5d1ed172daa35f4f76775bcf52bb96a4237bb5b
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: kebjob
+  system_id: 25-7
+  voided_by: 
+  void_reason: ""
+  user_id: 16367
+  date_voided: 
+  date_changed: 2008-09-30 00:00:00 -07:00
+  password: 8b2794fdc99c16491c5794e59ff4ce4f1555c513
+  date_created: 2008-01-20 19:12:49 -08:00
+user_16576: 
+  salt: f1bee3bd77d3e8382331095d43cba906a6b5cfc
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: unknown
+  system_id: 35-6
+  voided_by: 
+  void_reason: ""
+  user_id: 16576
+  date_voided: 
+  date_changed: 2008-04-26 00:00:00 -07:00
+  password: dd1e6e242fc39da7f1f4735e2b2f8f528ff86a22
+  date_created: 2008-04-26 16:52:24 -07:00
+user_22186: 
+  salt: 5c4262f22ca4e897ca8c88df6b6d019175dc6d
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: amphweya
+  system_id: 46-3
+  voided_by: 
+  void_reason: ""
+  user_id: 22186
+  date_voided: 
+  date_changed: 2008-08-06 00:00:00 -07:00
+  password: e89011c76fa81455395b62ccf2966fde29c8e8
+  date_created: 2008-08-06 08:26:53 -07:00
+user_22187: 
+  salt: f73eefbe4902f60dad02aa199ff9b418833e7a9
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15878
+  username: ckamphonje
+  system_id: 47-1
+  voided_by: 
+  void_reason: ""
+  user_id: 22187
+  date_voided: 
+  date_changed: 2008-08-06 10:42:34 -07:00
+  password: 3168a1cb118ac061b45f5256b937c9a3ec2bbfe
+  date_created: 2008-08-06 08:27:44 -07:00
+user_16368: 
+  salt: 16ae258c67ec132e736d2658e31efc1c788ad4e5
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: joncro
+  system_id: 26-5
+  voided_by: 
+  void_reason: ""
+  user_id: 16368
+  date_voided: 
+  date_changed: 2008-10-05 00:00:00 -07:00
+  password: c9b2834dba37e3d19de459dcaa81d682476edf80
+  date_created: 2008-01-20 19:13:15 -08:00
+user_02112: 
+  salt: 8a85a2b5bc8314f39df0bfc68386ef33956d4166
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 1128
+  username: jlewey
+  system_id: 2112-1
+  voided_by: 
+  void_reason: ""
+  user_id: 2112
+  date_voided: 
+  date_changed: 2007-06-18 16:10:58 -07:00
+  password: da9ae79cf23e7db9916e036d3a82d9b63741e8
+  date_created: 2007-04-30 20:54:54 -07:00
+user_00011: 
+  salt: 337838b0f2808141419df2cd7063de45f5e4bea
+  voided: false
+  secret_answer: 
+  changed_by: 7
+  secret_question: ""
+  creator: 1
+  username: cgans
+  system_id: 11-7
+  voided_by: 
+  void_reason: ""
+  user_id: 11
+  date_voided: 
+  date_changed: 2007-06-26 12:22:24 -07:00
+  password: a2c0ee152e1ddcea71314291119b0e8c53fc060
+  date_created: 2006-08-11 11:32:45 -07:00
+user_15884: 
+  salt: 8387bb3fb32674b043c9b1df0a372d0fe246161
+  voided: false
+  secret_answer: 
+  changed_by: 15884
+  secret_question: ""
+  creator: 15878
+  username: qlement
+  system_id: 21-6
+  voided_by: 
+  void_reason: ""
+  user_id: 15884
+  date_voided: 
+  date_changed: 2008-05-28 11:17:38 -07:00
+  password: 9486f1794a8b9b8a147592f35390715625
+  date_created: 2007-12-17 14:32:42 -08:00
+user_22572: 
+  salt: 1334cf82c8fdded81427d3d2b4f8c8b229747d7
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: dthomas
+  system_id: 53-9
+  voided_by: 
+  void_reason: ""
+  user_id: 22572
+  date_voided: 
+  date_changed: 2008-09-23 00:00:00 -07:00
+  password: 3344773b77bbaf30d820d35ec126d8c391f291ce
+  date_created: 2008-08-11 23:00:26 -07:00
+user_20821: 
+  salt: fee597d8a97f7b89e2d15745324d9671141e55
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: adykap
+  system_id: 51-3
+  voided_by: 
+  void_reason: ""
+  user_id: 20821
+  date_voided: 
+  date_changed: 2008-09-22 00:00:00 -07:00
+  password: ce899cc2aec81763d798b4dabeb8c6ffb7f2
+  date_created: 2008-08-06 08:32:18 -07:00
+user_17115: 
+  salt: 37abdd9ef18b142b3af8c1c65e9d1cdcad1fff
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15883
+  username: verkan
+  system_id: 42-2
+  voided_by: 
+  void_reason: ""
+  user_id: 17115
+  date_voided: 
+  date_changed: 2008-09-17 00:00:00 -07:00
+  password: 91788f332078933e68c02b44d1ba30eab09d7041
+  date_created: 2008-06-11 14:25:33 -07:00
+user_00001: 
+  salt: 4ca22db7685192e54a11f4f7bcbad01b14351557
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 1
+  username: admin
+  system_id: 1-8
+  voided_by: 
+  void_reason: ""
+  user_id: 1
+  date_voided: 
+  date_changed: 2008-04-15 00:00:00 -07:00
+  password: e63c3c251738ab3c666a2d51ed0e7ec4e216
+  date_created: 2005-01-01 00:00:00 -08:00
+user_00012: 
+  salt: c21a46f8624117658ab064922489fbc9bf75977c
+  voided: false
+  secret_answer: 
+  changed_by: 12
+  secret_question: ""
+  creator: 1
+  username: mseaton
+  system_id: 12-5
+  voided_by: 
+  void_reason: ""
+  user_id: 12
+  date_voided: 
+  date_changed: 2007-06-29 11:37:47 -07:00
+  password: d8d82bcbb6de68177481fffc3df436b8857b193
+  date_created: 2006-08-11 11:34:18 -07:00
+user_16204: 
+  salt: ae27ac80369c2433f08c4715b4429125b9e1298
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: data.assistant
+  system_id: 23-2
+  voided_by: 
+  void_reason: ""
+  user_id: 16204
+  date_voided: 
+  date_changed: 2008-01-02 00:00:00 -08:00
+  password: 558ec4394fb843af749b1e60a99bd83994231e91
+  date_created: 2007-12-31 17:04:52 -08:00
+user_16369: 
+  salt: aac2ad8d12e2d4857941f9230a8c713e089bc81
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: jchikuntu
+  system_id: 27-3
+  voided_by: 
+  void_reason: ""
+  user_id: 16369
+  date_voided: 
+  date_changed: 2008-01-22 00:00:00 -08:00
+  password: b0867a35bd4e94d82c8fef6ed0fb90561aa8dd93
+  date_created: 2008-01-22 13:42:51 -08:00
+user_17566: 
+  salt: 68e05da63d6b3fdf4d265cf0c337b4ffe97e57
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: macman
+  system_id: 57-0
+  voided_by: 
+  void_reason: ""
+  user_id: 17566
+  date_voided: 
+  date_changed: 2008-09-09 00:00:00 -07:00
+  password: 594e21f8a8b2438c7f9f77dbf6966284247730
+  date_created: 2008-09-09 08:39:33 -07:00
+user_22188: 
+  salt: 40eb7777932c3febc1ce2897d747254fbd918c2
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: gmolowa
+  system_id: 48-9
+  voided_by: 
+  void_reason: ""
+  user_id: 22188
+  date_voided: 
+  date_changed: 2008-08-06 00:00:00 -07:00
+  password: aa16f5c7c26a51dbd135d3ed129b89e18ccabc4
+  date_created: 2008-08-06 08:28:25 -07:00
+user_26543: 
+  salt: ec6393e427ef82a91a18b397619dcdb47d635488
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: chamor
+  system_id: 60-4
+  voided_by: 
+  void_reason: ""
+  user_id: 26543
+  date_voided: 
+  date_changed: 2008-10-14 00:00:00 -07:00
+  password: 3a68b2a65175a86749c1d7724901cedbdc26d5
+  date_created: 2008-10-14 09:16:37 -07:00
+user_16733: 
+  salt: 3f41966f617795ca282fd9a75ee1fecc873041a7
+  voided: false
+  secret_answer: 
+  changed_by: 16733
+  secret_question: ""
+  creator: 15883
+  username: mbearak
+  system_id: 36-4
+  voided_by: 
+  void_reason: ""
+  user_id: 16733
+  date_voided: 
+  date_changed: 2008-05-12 15:22:24 -07:00
+  password: a7f6492f8fecaf8196754df8f630e0ca6d55f47a
+  date_created: 2008-05-12 13:20:51 -07:00
+user_16546: 
+  salt: a4ceffde6ae69314ead237bdb20f7daa1d71476
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: Maggie
+  system_id: 32-3
+  voided_by: 
+  void_reason: ""
+  user_id: 16546
+  date_voided: 
+  date_changed: 2008-04-18 00:00:00 -07:00
+  password: 56cb1f13289675bb6f41d1c421278beaf7f3db96
+  date_created: 2008-04-18 14:15:39 -07:00
+user_15897: 
+  salt: 21b06b6d4d9757aa6a3ee953d5fef5f4c32c10
+  voided: false
+  secret_answer: 
+  changed_by: 15878
+  secret_question: ""
+  creator: 15878
+  username: gchinguwo
+  system_id: 22-4
+  voided_by: 
+  void_reason: ""
+  user_id: 15897
+  date_voided: 
+  date_changed: 2007-12-17 16:58:16 -08:00
+  password: d49276b0c5c7e4d3045e9315f483569c89266
+  date_created: 2007-12-17 16:54:23 -08:00
+user_00002: 
+  salt: 322616e6f9756a567b367fb769d847ec8821b81b
+  voided: true
+  secret_answer: 
+  changed_by: 2
+  secret_question: ""
+  creator: 1
+  username: paul
+  system_id: 2-6
+  voided_by: 1
+  void_reason: Move to production server
+  user_id: 2
+  date_voided: 2006-09-27 19:42:09 -07:00
+  date_changed: 2006-08-17 15:59:30 -07:00
+  password: 596ebdfa203490199613d618cb8b6be0d0b82d4f
+  date_created: 2005-01-01 00:00:00 -08:00
+user_16535: 
+  salt: a3e6eca4c670f8a8cdefcbf9afb622592e655
+  voided: false
+  secret_answer: 
+  changed_by: 15883
+  secret_question: ""
+  creator: 15883
+  username: Gonani
+  system_id: 31-5
+  voided_by: 
+  void_reason: ""
+  user_id: 16535
+  date_voided: 
+  date_changed: 2008-04-24 14:50:17 -07:00
+  password: d629b864f8e37ce7ba748633795b1ac6fe445
+  date_created: 2008-04-17 14:41:17 -07:00

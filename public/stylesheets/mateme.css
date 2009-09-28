@@ -1,0 +1,90 @@
+#mateme {
+  background-color:#000000;
+}
+
+#container {
+  background-color:#000000;
+  display:block;
+  height:1px;
+  left:0;
+  overflow:visible;
+  position:absolute;
+  top:50%;
+  visibility:visible;
+  width:100%;
+}
+
+#content {
+  background:#FFFFFF;
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:800px;
+  height:600px;
+  margin-left:-400px;
+  margin-top:-300px;
+
+}
+
+#footer {
+  background:#BBCCD9;
+  border-top:3px solid :#99AAB7;
+  color:#CADCEA;
+  height:80px;
+  width:100%;
+  bottom:0px;
+  position:absolute;
+  overflow:hidden;
+}
+
+.inputPage {
+  background-color: #FFFFFF; 
+  /*background-image: url(/images/watermark.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 80% 80%*/
+}
+
+.centered {
+  width:400px;
+  height:300px;
+  position:absolute;
+  margin-top:-150px;
+  margin-left:-200px;
+  left:50%;
+  top:50%;
+  text-align:center;
+}
+
+.centered button {
+  display:inline;
+}
+
+.right {
+
+}
+
+ul.list {
+  font-size:0.9em;
+  border:2px solid black;
+  padding:0px;
+  overflow:scroll;
+}  
+ul.list li.data {
+  vertical-align:top;
+  display:block;
+  list-style: none;
+  padding-left:8px;
+  padding-top:8px;
+  line-height:0.7em;
+}
+ul.list li.data .summary {  
+  padding:3px;
+  padding-left:10px;
+  font-size:0.6em;  
+  color:#444;
+}
+ul.list li.odd {
+  background:#eee;
+}
+

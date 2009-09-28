@@ -6,6 +6,7 @@ class Privilege < ActiveRecord::Base
   has_many :roles, :through => :role_privileges
   set_primary_key "privilege"
 
+  # NOT USED
   def self.create_privileges_and_attach_to_roles
     Privilege.find_all.each{|p|puts "Destroying #{p.privilege}";p.destroy}
     tasks = EncounterType.find(:all).collect{|e|e.name}

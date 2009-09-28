@@ -77,25 +77,25 @@ DateSelector.prototype = {
 			<table><tr> \
 			<td valign="top"> \
 			<div style="display: inline;" > \
-				<button id="dateselector_nextYear" onmousedown="ds.incrementYear();">+</button> \
+				<button id="dateselector_nextYear" onmousedown="ds.incrementYear();"><span>+</span></button> \
 				<input id="dateselector_year" type="text" > \
-				<button id="dateselector_preYear" onmousedown="ds.decrementYear();">-</button> \
+				<button id="dateselector_preYear" onmousedown="ds.decrementYear();"><span>-</span></button> \
 			</div> \
 			</td><td> \
 			<div style="display: inline;"> \
-				<button id="dateselector_nextMonth" onmousedown="ds.incrementMonth();">+</button> \
+				<button id="dateselector_nextMonth" onmousedown="ds.incrementMonth();"><span>+</span></button> \
 				<input id="dateselector_month" type="text"> \
-				<button id="dateselector_preMonth" onmousedown="ds.decrementMonth();">-</button> \
+				<button id="dateselector_preMonth" onmousedown="ds.decrementMonth();"><span>-</span></button> \
 			</div> \
 			</td><td> \
 			<div style="display: inline;"> \
-				<button id="dateselector_nextDay" onmousedown="ds.incrementDay();">+</button> \
+				<button id="dateselector_nextDay" onmousedown="ds.incrementDay();"><span>+</span></button> \
 				<input id="dateselector_day" type="text"> \
-				<button id="dateselector_preDay" onmousedown="ds.decrementDay();">-</button> \
+				<button id="dateselector_preDay" onmousedown="ds.decrementDay();"><span>-</span></button> \
 			</div> \
 			</td><td> \
-			<button id="num" onmousedown="updateKeyColor(this);press(this.id);" style="width: 130px;">Num</button> \
-			<button id="Unknown" onmousedown="updateKeyColor(this);press(this.id);" style="width: 130px;">Unknown</button> \
+			<button id="num" onmousedown="updateKeyColor(this);press(this.id);" style="width: 130px;"><span>Num</span></button> \
+			<button id="Unknown" onmousedown="updateKeyColor(this);press(this.id);" style="width: 130px;"><span>Unknown</span></button> \
 			</tr></table> \
 			</div> \
 		';

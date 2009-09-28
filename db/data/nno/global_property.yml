@@ -1,0 +1,775 @@
+--- 
+global_property_00127: 
+  property: mdrtb.other_second_line
+  id: 127
+  property_value: OTHER SECOND-LINE TUBERCULOSIS DRUGS
+  description: Name of the ConceptSet that contains all other second-line Tuberculosis Treatement Drugs
+global_property_00070: 
+  property: patient.defaultPatientIdentifierValidator
+  id: 70
+  property_value: org.openmrs.patient.impl.LuhnIdentifierValidator
+  description: This property sets the default patient identifier validator.  The default validator is only used in a handful of (mostly legacy) instances.  For example, it's used to generate the isValidCheckDigit calculated column and to append the string "(default)" to the name of the default validator on the editPatientIdentifierType form.
+global_property_00013: 
+  property: concept.cd4_count
+  id: 13
+  property_value: "5497"
+  description: Concept id of the concept defining the CD4 count concept
+global_property_00128: 
+  property: mdrtb.discontinue_drug_order_reasons
+  id: 128
+  property_value: REASON TUBERCULOSIS TREATMENT CHANGED OR STOPPED
+  description: |-
+    Name of the ConceptSet that contains all of the value-coded concepts representing reasons why
+    you would want to discontinue a TB drug order.
+global_property_00071: 
+  property: patient.displayAttributeTypes
+  id: 71
+  property_value: Birthplace
+  description: ""
+global_property_00042: 
+  property: formentry.infopath_taskpane_caption
+  id: 42
+  property_value: Welcome!
+  description: The text seen in the infopath taskpane upon first logging in
+global_property_00014: 
+  property: concept.height
+  id: 14
+  property_value: "5090"
+  description: Concept id of the concept defining the HEIGHT concept
+global_property_00072: 
+  property: patient.identifierPrefix
+  id: 72
+  property_value: ""
+  description: This property is only used if patient.identifierRegex is empty.  The string here is prepended to the sql indentifier search string.  The sql becomes "... where identifier like '<PREFIX><QUERY STRING><SUFFIX>';".  Typically this value is either a percent sign (%) or empty.
+global_property_00043: 
+  property: formentry.infopath_taskpane_keepalive_min
+  id: 43
+  property_value: ""
+  description: |-
+    The number of minutes to keep refreshing the taskpane before allowing 
+    the login to lapse
+global_property_00015: 
+  property: concept.medicalRecordObservations
+  id: 15
+  property_value: "1238"
+  description: The concept id of the MEDICAL_RECORD_OBSERVATIONS concept.  This concept_id is presumed to be the generic grouping (obr) concept in hl7 messages.  An obs_group row is not created for this concept.
+global_property_00129: 
+  property: mdrtb.max_num_bacteriologies_or_dsts_to_add_at_once
+  id: 129
+  property_value: "4"
+  description: |-
+    Expects an integer value.  Represents the maximum number of smears, cultures, or DSTs that you would ever want to add at one time 
+    for a given sputum sample.
+global_property_00073: 
+  property: patient.identifierRegex
+  id: 73
+  property_value: ^0*@SEARCH@([A-Z]+-[0-9])?$
+  description: A MySQL regular expression for the patient identifier search strings.  The @SEARCH@ string is replaced at runtime with the user's search string.  An empty regex will cause a simply 'like' sql search to be used
+global_property_00044: 
+  property: formentry.infopath_taskpane_refresh_sec
+  id: 44
+  property_value: ""
+  description: |-
+    The number of seconds between taskpane refreshes.  This keeps the taskpane from
+    logging people out on longer forms
+global_property_00016: 
+  property: concept.none
+  id: 16
+  property_value: "1107"
+  description: Concept id of the concept defining the NONE concept
+global_property_00045: 
+  property: formentry.patientForms.goBackOnEntry
+  id: 45
+  property_value: "false"
+  description: |-
+    'true' means have the browser go back to the find patient page after picking a form
+    from the patientForms tab on the patient dashboard page
+global_property_00100: 
+  property: use_patient_attribute.mothersName
+  id: 100
+  property_value: "false"
+  description: Indicates whether or not mother's name is able to be added/viewed for a patient
+global_property_00017: 
+  property: concept.otherNonCoded
+  id: 17
+  property_value: "5622"
+  description: Concept id of the concept defining the OTHER NON-CODED concept
+global_property_00074: 
+  property: patient.identifierSuffix
+  id: 74
+  property_value: "%"
+  description: This property is only used if patient.identifierRegex is empty.  The string here is prepended to the sql indentifier search string.  The sql becomes "... where identifier like '<PREFIX><QUERY STRING><SUFFIX>';".  Typically this value is either a percent sign (%) or empty.
+global_property_00046: 
+  property: formentry.queue_archive_dir
+  id: 46
+  property_value: formentry\archive\%Y\%M
+  description: |-
+    Directory containing the formentry archive items.  This will contain xml files that have
+    been submitted by infopath and then processed sucessfully into hl7.
+    Certain date parameters will be replaced with the current date:
+    %Y = four digit year
+    %M = two digit month
+    %D = two digit date of the month
+    %w = week of the year
+         %W = week of the month
+global_property_00101: 
+  property: use_patient_attribute.tribe
+  id: 101
+  property_value: "true"
+  description: Indicates whether or not the 'tribe' attribute is shown when viewing/searching for patients
+global_property_00018: 
+  property: concept.patientDied
+  id: 18
+  property_value: "1742"
+  description: Concept id of the concept defining the PATIEND DIED concept
+global_property_00047: 
+  property: formentry.queue_dir
+  id: 47
+  property_value: C:\Documents and Settings\openmrs\formentry\queue
+  description: |-
+    Directory containing the formentry queue items. This will contain xml files submitted by
+    infopath.  These items are awaiting processing to be turned into hl7 queue items
+global_property_00102: 
+  property: smtp_username
+  id: 102
+  property_value: baobabhealth
+  description: ""
+global_property_00019: 
+  property: concept.reasonExitedCare
+  id: 19
+  property_value: "1811"
+  description: Concept id of the concept defining the REASON EXITED CARE concept
+global_property_00075: 
+  property: patient.listingAttributeTypes
+  id: 75
+  property_value: Health Center
+  description: ""
+global_property_00130: 
+  property: mdrtb.organism_type
+  id: 130
+  property_value: TYPE OF ORGANISM
+  description: A concept set of possible TB culture organism types, or a | delimited list of organism concepts
+global_property_00048: 
+  property: formentry.started
+  id: 48
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the formentry module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00103: 
+  property: mdrtb.database_version
+  id: 103
+  property_value: 1.0.3
+  description: DO NOT MODIFY.  Current database version number for the mdrtb module.
+global_property_00076: 
+  property: patient.searchMaxResults
+  id: 76
+  property_value: "1000"
+  description: The maximum number of results returned by patient searches
+global_property_00131: 
+  property: mdrtb.webserver_port
+  id: 131
+  property_value: ":8080"
+  description: This is meant to give you a little bit of flexibility with hosting configurations.  For tomcat, the listener port is :8080 by default.
+global_property_00049: 
+  property: formimportexport.parentConceptServer.batchSize
+  id: 49
+  property_value: "1"
+  description: ""
+global_property_00104: 
+  property: mdrtb.started
+  id: 104
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the mdrtb module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00077: 
+  property: patient.viewingAttributeTypes
+  id: 77
+  property_value: Health Center
+  description: ""
+global_property_00132: 
+  property: mdrtb.positive_culture_concepts
+  id: 132
+  property_value: WEAKLY POSITIVE|STRONGLY POSITIVE|MODERATELY POSITIVE|SCANTY
+  description: These are the concepts that signify a positive bacteriology result.  Pipe delimited.
+global_property_00105: 
+  property: mdrtb.program_name
+  id: 105
+  property_value: MDR-TB PROGRAM
+  description: MDR-TB program name.
+global_property_00078: 
+  property: patientmatching.started
+  id: 78
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the patientmatching module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00133: 
+  property: mdrtb.ART_identifier_type
+  id: 133
+  property_value: ARV Number
+  description: Set this to the patient identifier type for the ART program
+global_property_00106: 
+  property: mdrtb.treatment_supporter_person_attribute_type
+  id: 106
+  property_value: Treatment Supporter
+  description: The person attribute type that corresponds to being a treatment supporter/acompanateur/dots worker.
+global_property_00020: 
+  property: concept.reasonOrderStopped
+  id: 20
+  property_value: "1812"
+  description: Concept id of the concept defining the REASON ORDER STOPPED concept
+global_property_00079: 
+  property: patientsummary.adultconceptIdsToGraph
+  id: 79
+  property_value: "5090,5089,5497"
+  description: |-
+    Ordered, comma separated list of concept ids to graph in patient summary for patients > 5 years old
+    Default: height (5090), weight (5089), cd4 (5497).
+global_property_00134: 
+  property: mdrtb.treatment_supporter_relationship_type
+  id: 134
+  property_value: Treatment Supporter/Treatment Supportee
+  description: The relationship type used to describe the relationship from a treatment supporter (A) to a patient (B)
+global_property_00107: 
+  property: mdrtb.patient_identifier_type_list
+  id: 107
+  property_value: ""
+  description: Pipe delimited list of all patient identifier types associated with the MDRTB program.
+global_property_00050: 
+  property: formimportexport.parentConceptServer.password
+  id: 50
+  property_value: ""
+  description: Password to use when logging in to the parent concept server. Could be blank if the parent allows unauthenticated users to browse the concept dictionary.
+global_property_00021: 
+  property: concept.weight
+  id: 21
+  property_value: "5089"
+  description: Concept id of the concept defining the WEIGHT concept
+global_property_00135: 
+  property: mdrtb.patient_contact_id_attribute_type
+  id: 135
+  property_value: MDR-TB Patient Contact ID Number
+  description: The person attribute type corresponding to a patient contact's ID number.
+global_property_00051: 
+  property: formimportexport.parentConceptServer.url
+  id: 51
+  property_value: http://staging.pih-emr.org:8080/openmrs
+  description: ""
+global_property_00022: 
+  property: concepts.locked
+  id: 22
+  property_value: "false"
+  description: true/false whether or not concepts can be edited in this database.
+global_property_00136: 
+  property: mdrtb.dst_color_coding_red
+  id: 136
+  property_value: RESISTANT TO TUBERCULOSIS DRUG
+  description: The DST result value that will be coded with the color red (Resistant).
+global_property_00108: 
+  property: mdrtb.location_list
+  id: 108
+  property_value: ""
+  description: Pipe delimited list of all locations that you want to choose from in the add patient dialogs in the mdrtb module.  This will generally correspond to the health centers that are participating in an mdrtb program.  If blank, all openMRS locations will be displayed.
+global_property_00052: 
+  property: formimportexport.parentConceptServer.username
+  id: 52
+  property_value: ""
+  description: Username to use when logging in to the parent concept server. Could be blank if the parent allows unauthenticated users to browse the concept dictionary.
+global_property_00023: 
+  property: current_health_center_name
+  id: 23
+  property_value: Neno District Hospital
+  description: Sets the current health center using the health center name for Ror.
+global_property_00137: 
+  property: mdrtb.dst_color_coding_green
+  id: 137
+  property_value: SUSCEPTIBLE TO TUBERCULOSIS DRUG
+  description: The DST result value that will be coded with the color green (Susceptible).
+global_property_00080: 
+  property: patientsummary.adultconceptIdsToWatch
+  id: 80
+  property_value: "12,5497"
+  description: |-
+    Comma delimited list of concept ids to trigger alerts for patients > 5 years old
+    Alerts trigger when concepts are empty or have not been updated in six months.
+    Defaults: x-ray chest (12), cd4 (5497).
+global_property_00109: 
+  property: mdrtb.lab_list
+  id: 109
+  property_value: Unknown Location
+  description: Pipe delimited list of all labs that will be performing any tests associated with MDRTB.  These are expected to be locations in openMRS.
+global_property_00024: 
+  property: dashboard.encounters.showEditLink
+  id: 24
+  property_value: "true"
+  description: true/false whether or not to show the 'Edit Encounter' link on the patient dashboard
+global_property_00138: 
+  property: mdrtb.dst_color_coding_yellow
+  id: 138
+  property_value: INTERMEDIATE TO TUBERCULOSIS DRUG
+  description: The DST result value that will be coded with the color yellow (Intermediate).
+global_property_00081: 
+  property: patientsummary.adverseEffectConceptId
+  id: 81
+  property_value: "1297"
+  description: "Adverse effect concept id. Default: 1297."
+global_property_00025: 
+  property: dashboard.encounters.showEmptyFields
+  id: 25
+  property_value: "true"
+  description: true/false whether or not to show empty fields on the 'View Encounter' window
+global_property_00139: 
+  property: mdrtb.in_mdrtb_program_cohort_definition_id
+  id: 139
+  property_value: "9"
+  description: The ID of the saved cohort definition for all patients in the mdr-tb program.  This is used by the forecasting requirements links on the homepage.
+global_property_00082: 
+  property: patientsummary.arvDrugsConceptId
+  id: 82
+  property_value: "1085"
+  description: "ARV Drugs concept id. Default: 1085."
+global_property_00053: 
+  property: formimportexport.started
+  id: 53
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the formimportexport module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00026: 
+  property: dashboard.encounters.showViewLink
+  id: 26
+  property_value: "true"
+  description: true/false whether or not to show the 'View Encounter' link on the patient dashboard
+global_property_00083: 
+  property: patientsummary.childconceptIdsToGraph
+  id: 83
+  property_value: "5090,5089,5497"
+  description: |-
+    Ordered, comma separated list of concept ids to graph in patient summary. 
+    Default: height (5090), weight (5089), cd4 (5497).
+global_property_00054: 
+  property: gzip.enabled
+  id: 54
+  property_value: "false"
+  description: Set to 'true' to turn on OpenMRS's gzip filter, and have the webapp compress data before sending it to any client that supports it. Generally use this if you are running Tomcat standalone. If you are running Tomcat behind Apache, then you'd want to use Apache to do gzip compression.
+global_property_00027: 
+  property: dashboard.encounters.usePages
+  id: 27
+  property_value: smart
+  description: true/false/smart on how to show the pages on the 'View Encounter' window.  'smart' means that if > 50% of the fields have page numbers defined, show data in pages
+global_property_00084: 
+  property: patientsummary.childconceptIdsToWatch
+  id: 84
+  property_value: "12,730,5497,5089,5090"
+  description: |-
+    Comma delimited list of concept ids to trigger alerts.
+    Alerts trigger when concepts are empty or have not been updated in one month.
+    Defaults: x-ray chest (12), cd4 (5497), cd4% (730), weight (5089), height (5090)
+global_property_00055: 
+  property: last_error_reported
+  id: 55
+  property_value: "2008-10-02T05:32:16+02:00"
+  description: ""
+global_property_00110: 
+  property: mdrtb.culture_method_concept
+  id: 110
+  property_value: TUBERCULOSIS CULTURE METHOD
+  description: The Concept question for which the answers are all possible culture methods.  This must be a ConceptSet.
+global_property_00028: 
+  property: dashboard.encounters.viewWhere
+  id: 28
+  property_value: newWindow
+  description: "Defines how the 'View Encounter' link should act. Known values: 'sameWindow', 'newWindow', 'oneNewWindow'"
+global_property_00085: 
+  property: patientsummary.hivTestResultConceptId
+  id: 85
+  property_value: "2169"
+  description: "HIV Test concept id. Default: 2169."
+global_property_00140: 
+  property: smtp_password
+  id: 140
+  property_value: b40b4bhealth
+  description: ""
+global_property_00056: 
+  property: layout.address.format
+  id: 56
+  property_value: general
+  description: Format in which to display the person addresses.  Valid values are general, kenya, rwanda, usa, and lesotho
+global_property_00111: 
+  property: mdrtb.DST_methods
+  id: 111
+  property_value: TUBERCULOSIS DRUG SENSITIVITY TEST METHOD
+  description: The ConceptSet who's answers are all possible DST laboratory test methods.
+global_property_00029: 
+  property: dashboard.overview.showConcepts
+  id: 29
+  property_value: ""
+  description: Comma delimited list of concepts ids to show on the patient dashboard overview tab
+global_property_00057: 
+  property: layout.name.format
+  id: 57
+  property_value: short
+  description: Format in which to display the person names.  Valid values are short, full
+global_property_00112: 
+  property: mdrtb.smear_method_concept
+  id: 112
+  property_value: TUBERCULOSIS SMEAR MICROSCOPY METHOD
+  description: The Concept question for which the answers are all possible smear laboratory test methods.
+global_property_00086: 
+  property: patientsummary.labTestsConceptId
+  id: 86
+  property_value: "1337"
+  description: "Laboratory examinations construct concept id. Default: 1337."
+global_property_00141: 
+  property: clinic_hours
+  id: 141
+  property_value: 7:30am-3:45pm
+  description: ""
+global_property_00058: 
+  property: log.level.openmrs
+  id: 58
+  property_value: info
+  description: log level used by the logger 'org.openmrs'. This value will override the log4j.xml value. Valid values are trace, debug, info, warn, error or fatal
+global_property_00113: 
+  property: mdrtb.anatomical_locations_concept
+  id: 113
+  property_value: TUBERCULOSIS SAMPLE SOURCE
+  description: |-
+    The Concept question for which the answers are all possible anatomical locations from which an MDR-TB related lab sample can be taken.
+    Probably 'sputum'.  This must be a ConceptSet.
+global_property_00087: 
+  property: patientsummary.previousDiagnosisConceptId
+  id: 87
+  property_value: "992"
+  description: "Problem list construct concept id. Default: 992."
+global_property_00142: 
+  property: clinic_breaks
+  id: 142
+  property_value: 12:30pm-1:00pm,1:00pm-1:15pm
+  description: ""
+global_property_00059: 
+  property: mail.debug
+  id: 59
+  property_value: "false"
+  description: true/false whether to print debugging information during mailing
+global_property_00114: 
+  property: mdrtb.DST_drug_list
+  id: 114
+  property_value: DST TEST COMPONENTS
+  description: The ConceptSet containing all of the ordered drug concepts that are used as a row in a DST test, OR a list of concepts delimited by |.
+global_property_00030: 
+  property: dashboard.regimen.displayDrugSetIds
+  id: 30
+  property_value: ANTIRETROVIRAL DRUGS,TUBERCULOSIS TREATMENT DRUGS
+  description: Drug sets that appear on the Patient Dashboard Regimen tab. Comma separated list of name of concepts that are defined as drug sets.
+global_property_00088: 
+  property: patientsummary.started
+  id: 88
+  property_value: "false"
+  description: DO NOT MODIFY. true/false whether or not the patientsummary module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00143: 
+  property: current_health_center_id
+  id: 143
+  property_value: y
+  description: ""
+global_property_00001: 
+  property: birt.birtHome
+  id: 1
+  property_value: C:/Program Files/eclipse/birt-rcp-report-designer-2_2_2
+  description: Specifies the absolute path to the BIRT Report Engine.  Should include ReportEngine subdirectory. (ex. C:/birt-runtime-2_2_0/ReportEngine)
+global_property_00115: 
+  property: mdrtb.DST_result_list
+  id: 115
+  property_value: TUBERCULOSIS DST RESULT
+  description: ConceptSet containing all possible DST results concepts (in a DST result, the result concept gets the result, the valueCoded concept is the drug).  Can also be a list of concepts by name, delimited by |.
+global_property_00089: 
+  property: patientsummary.symptomPresentConceptId
+  id: 89
+  property_value: "1293"
+  description: "Review of symptoms on presentation concept id. Default: 1293."
+global_property_00144: 
+  property: dataimport.started
+  id: 144
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the dataimport module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00002: 
+  property: birt.database_version
+  id: 2
+  property_value: 1.0.0
+  description: DO NOT MODIFY.  Current database version number for the birt module.
+global_property_00116: 
+  property: mdrtb.culture_result_list
+  id: 116
+  property_value: TUBERCULOSIS CULTURE RESULT
+  description: Concept with possible valueCoded answers that are all possible culture results.  Can also be a list of concepts by name, delimited by |.
+global_property_00145: 
+  property: dataimport.dataImportDir
+  id: 145
+  property_value: ""
+  description: Specifies the absolute path where data import files are uploaded.  (ex. /home/user/dataImports).
+global_property_00003: 
+  property: birt.datasetDir
+  id: 3
+  property_value: C:/Documents and Settings/openmrs/birt/datasets
+  description: Specifies the absolute path to the reports dataset directory (for CSV/XML data sources). (ex. C:/Documents and Settings/USERNAME/OpenMRS/reports/datasets)
+global_property_00117: 
+  property: mdrtb.smear_result_list
+  id: 117
+  property_value: TUBERCULOSIS SMEAR RESULT
+  description: Concept with possible valueCoded answers that are all possible smear results.  Can also be a list of concepts by name, delimited by |.
+global_property_00060: 
+  property: mail.default_content_type
+  id: 60
+  property_value: text/plain
+  description: Content type to append to the mail messages
+global_property_00031: 
+  property: dashboard.regimen.standardRegimens
+  id: 31
+  property_value: <list>  <regimenSuggestion>    <drugComponents>      <drugSuggestion>        <drugId>2</drugId>        <dose>1</dose>        <units>tab(s)</units>        <frequency>2/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>    </drugComponents>    <displayName>3TC + d4T(30) + NVP (Triomune-30)</displayName>    <codeName>standardTri30</codeName>    <canReplace>ANTIRETROVIRAL DRUGS</canReplace>  </regimenSuggestion>  <regimenSuggestion>    <drugComponents>      <drugSuggestion>        <drugId>3</drugId>        <dose>1</dose>        <units>tab(s)</units>        <frequency>2/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>    </drugComponents>    <displayName>3TC + d4T(40) + NVP (Triomune-40)</displayName>    <codeName>standardTri40</codeName>    <canReplace>ANTIRETROVIRAL DRUGS</canReplace>  </regimenSuggestion>  <regimenSuggestion>    <drugComponents>      <drugSuggestion>        <drugId>39</drugId>        <dose>1</dose>        <units>tab(s)</units>        <frequency>2/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>      <drugSuggestion>        <drugId>22</drugId>        <dose>200</dose>        <units>mg</units>        <frequency>2/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>    </drugComponents>    <displayName>AZT + 3TC + NVP</displayName>    <codeName>standardAztNvp</codeName>    <canReplace>ANTIRETROVIRAL DRUGS</canReplace>  </regimenSuggestion>  <regimenSuggestion>    <drugComponents>      <drugSuggestion reference="../../../regimenSuggestion[3]/drugComponents/drugSuggestion"/>      <drugSuggestion>        <drugId>11</drugId>        <dose>600</dose>        <units>mg</units>        <frequency>1/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>    </drugComponents>    <displayName>AZT + 3TC + EFV(600)</displayName>    <codeName>standardAztEfv</codeName>    <canReplace>ANTIRETROVIRAL DRUGS</canReplace>  </regimenSuggestion>  <regimenSuggestion>    <drugComponents>      <drugSuggestion>        <drugId>5</drugId>        <dose>30</dose>        <units>mg</units>        <frequency>2/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>      <drugSuggestion>        <drugId>42</drugId>        <dose>150</dose>        		<units>mg</units>        <frequency>2/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>      <drugSuggestion reference="../../../regimenSuggestion[4]/drugComponents/drugSuggestion[2]"/>    </drugComponents>    <displayName>d4T(30) + 3TC + EFV(600)</displayName>    <codeName>standardD4t30Efv</codeName>    <canReplace>ANTIRETROVIRAL DRUGS</canReplace>  </regimenSuggestion>  <regimenSuggestion>    <drugComponents>      <drugSuggestion>        <drugId>6</drugId>        <dose>40</dose>        <units>mg</units>        <frequency>2/day x 7 days/week</frequency>        <instructions></instructions>      </drugSuggestion>      <drugSuggestion reference="../../../regimenSuggestion[5]/drugComponents/drugSuggestion[2]"/>      <drugSuggestion reference="../../../regimenSuggestion[4]/drugComponents/drugSuggestion[2]"/>    </drugComponents>    <displayName>d4T(40) + 3TC + EFV(600)</displayName>    <codeName>standardD4t40Efv</codeName>    <canReplace>ANTIRETROVIRAL DRUGS</canReplace>  </regimenSuggestion></list>
+  description: XML description of standard drug regimens, to be shown as shortcuts on the dashboard regimen entry tab
+global_property_00146: 
+  property: formentry.infopath_output_dir
+  id: 146
+  property_value: C:\Documents and Settings\openmrs\formentry\output
+  description: ""
+global_property_00004: 
+  property: birt.defaultReportDesignFile
+  id: 4
+  property_value: default.rptdesign
+  description: |-
+    Specifies the name of the default report design file.
+    Example: default.rptdesign
+global_property_00118: 
+  property: mdrtb.test_result_encounter_type_DST
+  id: 118
+  property_value: DST Result
+  description: This should be the name of the encounter type that you want to use for encounters wrapping DST results.
+global_property_00061: 
+  property: mail.from
+  id: 61
+  property_value: info@openmrs.org
+  description: Email address to use as the default from address
+global_property_00032: 
+  property: dashboard.relationships.show_types
+  id: 32
+  property_value: ""
+  description: Types of relationships separated by commas.  Doctor/Patient,Parent/Child
+global_property_00147: 
+  property: formentry.infopath_archive_date_format
+  id: 147
+  property_value: dd-MMM-yyyy-HHmmss
+  description: ""
+global_property_00005: 
+  property: birt.loggingDir
+  id: 5
+  property_value: C:/Documents and Settings/openmrs/birt/logs
+  description: Specifies the absolute path for log files written by BIRT Engine.  (ex. C:/tmp/logs)
+global_property_00090: 
+  property: patientsummary.vitalSigns
+  id: 90
+  property_value: "5089,5090"
+  description: |-
+    Comma delimited list of concept ids for vital signs
+    Defaults: weight (5089), height (5090)
+global_property_00119: 
+  property: mdrtb.test_result_encounter_type_bacteriology
+  id: 119
+  property_value: Bacteriology Result
+  description: This should be the name of the encounter type that you want to use for encounters wrapping bacteriology (smear+culture) results.
+global_property_00062: 
+  property: mail.password
+  id: 62
+  property_value: test
+  description: Password for the SMTP user (if smtp_auth is enabled)
+global_property_00033: 
+  property: database_version
+  id: 33
+  property_value: 1.4.0.20
+  description: ""
+global_property_00006: 
+  property: birt.outputDir
+  id: 6
+  property_value: C:/Documents and Settings/openmrs/birt/reports/output
+  description: Specifies the absolute path to the report output file when reports are generated. (ex. C:/Documents and Settings/USERNAME/OpenMRS/reports/output)
+global_property_00091: 
+  property: patient_identifier.importantTypes
+  id: 91
+  property_value: ARV Number:Malawi,National id:Malawi,Pre ART Number:Malawi,District TB Number:Malawi,EID Number:Malawi
+  description: ""
+global_property_00063: 
+  property: mail.smtp_auth
+  id: 63
+  property_value: "false"
+  description: true/false whether the smtp host requires authentication
+global_property_00034: 
+  property: encounterForm.obsSortOrder
+  id: 34
+  property_value: number
+  description: The sort order for the obs listed on the encounter edit form.  'number' sorts on the associated numbering from the form schema.  'weight' sorts on the order displayed in the form schema.
+global_property_00035: 
+  property: form2program.database_version
+  id: 35
+  property_value: 1.0.0
+  description: DO NOT MODIFY.  Current database version number for the form2program module.
+global_property_00007: 
+  property: birt.reportDir
+  id: 7
+  property_value: C:/Documents and Settings/openmrs/birt/reports
+  description: Specifies the absolute path where report design files are uploaded.  (ex. C:/Documents and Settings/USERNAME/OpenMRS/reports)
+global_property_00092: 
+  property: pihmalawihacks.started
+  id: 92
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the pihmalawihacks module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00036: 
+  property: form2program.started
+  id: 36
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the form2program module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00008: 
+  property: birt.reportOutputFile
+  id: 8
+  property_value: C:/Documents and Settings/openmrs/birt/reports/output/ReportOutput.pdf
+  description: Specifies the absolute path to the reports output file.  (ex. C:/Documents and Settings/USERNAME/OpenMRS/reports/output/ReportOutput.pdf)
+global_property_00093: 
+  property: report.xmlMacros
+  id: 93
+  property_value: ""
+  description: Macros that will be applied to Report Schema XMLs when they are interpreted. This should be java.util.properties format.
+global_property_00064: 
+  property: mail.smtp_host
+  id: 64
+  property_value: localhost
+  description: SMTP host name
+global_property_00037: 
+  property: formdataexport.database_version
+  id: 37
+  property_value: "1.8"
+  description: DO NOT MODIFY.  Current database version number for the formdataexport module.
+global_property_00120: 
+  property: mdrtb.mdrtb_forms_list
+  id: 120
+  property_value: ""
+  description: List all MDR-TB forms by name, pipe delimited.  These will appear in the form list on the MDR-TB home.
+global_property_00094: 
+  property: scheduler.password
+  id: 94
+  property_value: pa55ionFruit
+  description: Password for the OpenMRS user that will perform the scheduler activities
+global_property_00065: 
+  property: mail.smtp_port
+  id: 65
+  property_value: "25"
+  description: SMTP port
+global_property_00009: 
+  property: birt.reportOutputFormat
+  id: 9
+  property_value: pdf
+  description: Specifies the absolute path to the reports output format.(ex. pdf)
+global_property_00038: 
+  property: formdataexport.started
+  id: 38
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the formdataexport module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00121: 
+  property: mdrtb.mdrtb_default_provider
+  id: 121
+  property_value: provider
+  description: This will be used to mark the default provider in MDR-TB related encounters, if none is already provided.
+global_property_00066: 
+  property: mail.transport_protocol
+  id: 66
+  property_value: smtp
+  description: "Transport protocol for the messaging engine. Valid values: smtp"
+global_property_00095: 
+  property: scheduler.username
+  id: 95
+  property_value: admin
+  description: Username for the OpenMRS user that will perform the scheduler activities
+global_property_00039: 
+  property: formentry.database_version
+  id: 39
+  property_value: "2.6"
+  description: DO NOT MODIFY.  Current database version number for the formentry module.
+global_property_00122: 
+  property: mdrtb.birt_report_list
+  id: 122
+  property_value: ""
+  description: List all BIRT reports by name that correspond to the MDR-TB program.  Pipe delimited.
+global_property_00067: 
+  property: mail.user
+  id: 67
+  property_value: test
+  description: Username of the SMTP user (if smtp_auth is enabled)
+global_property_00096: 
+  property: smtp_server
+  id: 96
+  property_value: localhost
+  description: ""
+global_property_00068: 
+  property: module_repository_folder
+  id: 68
+  property_value: modules
+  description: Name of the folder in which to store the modules
+global_property_00123: 
+  property: mdrtb.mdrtb_drugs
+  id: 123
+  property_value: TUBERCULOSIS DRUGS
+  description: Name of the ConceptSet that contains all Tuberculosis Drugs
+global_property_00097: 
+  property: user.listingAttributeTypes
+  id: 97
+  property_value: ""
+  description: ""
+global_property_00069: 
+  property: new_patient_form.showRelationships
+  id: 69
+  property_value: "false"
+  description: true/false whether or not to show the relationship editor on the addPatient.htm screen
+global_property_00010: 
+  property: birt.reportPreviewFile
+  id: 10
+  property_value: C:/Documents and Settings/openmrs/birt/reports/output/ReportPreview.pdf
+  description: Specifies the absolute path to the report preview file.  (ex. C:/Documents and Settings/USERNAME/OpenMRS/reports/output/ReportPreview.pdf)
+global_property_00124: 
+  property: mdrtb.first_line_drugs
+  id: 124
+  property_value: FIRST-LINE TUBERCULOSIS DRUGS
+  description: Name of the ConceptSet that contains all first line Tuberculosis Treatment Drugs
+global_property_00125: 
+  property: mdrtb.injectible_drugs
+  id: 125
+  property_value: INJECTIBLE TUBERCULOSIS DRUGS
+  description: Name of the ConceptSet that contains all injectible Tuberculosis Treatement Drugs
+global_property_00011: 
+  property: birt.started
+  id: 11
+  property_value: "true"
+  description: DO NOT MODIFY. true/false whether or not the birt module has been started.  This is used to make sure modules that were running  prior to a restart are started again
+global_property_00040: 
+  property: formentry.infopath_archive_dir
+  id: 40
+  property_value: ""
+  description: |-
+    This property should point to a filesystem directory. If undefined (empty), XSNs will not be archived.
+    If the directory is defined and available, every time an XSN is uploaded the old XSN
+    will be renamed and copied to this directory.
+global_property_00098: 
+  property: user.viewingAttributeTypes
+  id: 98
+  property_value: ""
+  description: ""
+global_property_00099: 
+  property: use_patient_attribute.healthCenter
+  id: 99
+  property_value: "false"
+  description: Indicates whether or not the 'health center' attribute is shown when viewing/searching for patients
+global_property_00041: 
+  property: formentry.infopath_server_url
+  id: 41
+  property_value: http://localhost:8080/openmrs
+  description: When uploading an XSN, this url is used as the "base path".  (Should be something like http://localhost:8080/openmrs)
+global_property_00012: 
+  property: concept.causeOfDeath
+  id: 12
+  property_value: "5002"
+  description: Concept id of the concept defining the CAUSE OF DEATH concept
+global_property_00126: 
+  property: mdrtb.quinolones
+  id: 126
+  property_value: TUBERCULOSIS QUINOLONES
+  description: Name of the ConceptSet that contains all quinolones Tuberculosis Treatement Drugs

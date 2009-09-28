@@ -1,0 +1,1163 @@
+--- 
+encounter_00622: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 2009-06-18 11:01:28 +02:00
+  location_id: 8
+  encounter_id: 622
+  encounter_datetime: 2009-06-18 10:56:47 +02:00
+  date_created: 2009-06-18 10:58:56 +02:00
+encounter_00643: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:25 +02:00
+  location_id: 8
+  encounter_id: 643
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:55:46 +02:00
+encounter_00664: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 664
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:46:05 +02:00
+encounter_00685: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 685
+  encounter_datetime: 2009-07-02 16:48:29 +02:00
+  date_created: 2009-07-02 16:50:49 +02:00
+encounter_00644: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:26 +02:00
+  location_id: 8
+  encounter_id: 644
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:56:54 +02:00
+encounter_00665: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 665
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:48:23 +02:00
+encounter_00686: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 686
+  encounter_datetime: 2009-07-03 08:53:55 +02:00
+  date_created: 2009-07-03 08:53:55 +02:00
+encounter_00623: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 2009-06-18 11:01:26 +02:00
+  location_id: 8
+  encounter_id: 623
+  encounter_datetime: 2009-06-18 10:56:47 +02:00
+  date_created: 2009-06-18 11:01:14 +02:00
+encounter_00666: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 666
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:49:25 +02:00
+encounter_00687: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 687
+  encounter_datetime: 2009-07-03 08:54:05 +02:00
+  date_created: 2009-07-03 08:57:22 +02:00
+encounter_00624: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 624
+  encounter_datetime: 2009-06-18 11:01:33 +02:00
+  date_created: 2009-06-18 11:02:07 +02:00
+encounter_00645: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:28 +02:00
+  location_id: 8
+  encounter_id: 645
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:58:23 +02:00
+encounter_00688: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 688
+  encounter_datetime: 2009-07-03 08:54:05 +02:00
+  date_created: 2009-07-03 08:59:30 +02:00
+encounter_00625: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 625
+  encounter_datetime: 2009-06-18 11:01:33 +02:00
+  date_created: 2009-06-18 11:36:24 +02:00
+encounter_00646: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:29 +02:00
+  location_id: 8
+  encounter_id: 646
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:59:59 +02:00
+encounter_00667: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 667
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:50:31 +02:00
+encounter_00626: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 626
+  encounter_datetime: 2009-06-18 11:01:33 +02:00
+  date_created: 2009-06-18 11:37:29 +02:00
+encounter_00647: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:30 +02:00
+  location_id: 8
+  encounter_id: 647
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 10:01:11 +02:00
+encounter_00690: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 690
+  encounter_datetime: 2009-07-03 09:01:36 +02:00
+  date_created: 2009-07-03 09:02:12 +02:00
+encounter_00668: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 668
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:51:17 +02:00
+encounter_00689: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 689
+  encounter_datetime: 2009-07-03 08:54:05 +02:00
+  date_created: 2009-07-03 09:00:22 +02:00
+encounter_00627: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 627
+  encounter_datetime: 2009-06-18 11:37:58 +02:00
+  date_created: 2009-06-18 11:38:20 +02:00
+encounter_00648: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:31 +02:00
+  location_id: 8
+  encounter_id: 648
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 10:06:33 +02:00
+encounter_00670: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 670
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:53:04 +02:00
+encounter_00691: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 691
+  encounter_datetime: 2009-07-03 09:07:49 +02:00
+  date_created: 2009-07-03 09:08:09 +02:00
+encounter_00669: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 669
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:52:04 +02:00
+encounter_00628: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 628
+  encounter_datetime: 2009-06-22 11:09:52 +02:00
+  date_created: 2009-06-22 11:09:52 +02:00
+encounter_00650: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:33 +02:00
+  location_id: 8
+  encounter_id: 650
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 10:09:27 +02:00
+encounter_00671: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 671
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:54:59 +02:00
+encounter_00649: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:32 +02:00
+  location_id: 8
+  encounter_id: 649
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 10:08:20 +02:00
+encounter_00692: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 692
+  encounter_datetime: 2009-07-03 09:07:49 +02:00
+  date_created: 2009-07-03 09:39:39 +02:00
+encounter_00630: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 27
+  date_voided: 
+  location_id: 8
+  encounter_id: 630
+  encounter_datetime: 2009-06-22 11:10:07 +02:00
+  date_created: 2009-06-22 11:25:28 +02:00
+encounter_00651: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:34 +02:00
+  location_id: 8
+  encounter_id: 651
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 10:10:37 +02:00
+encounter_00629: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 27
+  date_voided: 
+  location_id: 8
+  encounter_id: 629
+  encounter_datetime: 2009-06-22 11:10:07 +02:00
+  date_created: 2009-06-22 11:22:56 +02:00
+encounter_00672: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 672
+  encounter_datetime: 2009-06-26 10:45:30 +02:00
+  date_created: 2009-06-26 10:55:31 +02:00
+encounter_00693: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 693
+  encounter_datetime: 2009-07-03 09:07:49 +02:00
+  date_created: 2009-07-03 09:40:38 +02:00
+encounter_00631: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 631
+  encounter_datetime: 2009-06-23 02:34:47 +02:00
+  date_created: 2009-06-23 02:34:47 +02:00
+encounter_00652: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:11:59 +02:00
+  location_id: 8
+  encounter_id: 652
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 10:11:29 +02:00
+encounter_00673: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 673
+  encounter_datetime: 2009-06-30 14:45:39 +02:00
+  date_created: 2009-06-30 14:45:39 +02:00
+encounter_00694: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 694
+  encounter_datetime: 2009-07-03 09:07:49 +02:00
+  date_created: 2009-07-03 09:48:50 +02:00
+encounter_00632: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:06 +02:00
+  location_id: 8
+  encounter_id: 632
+  encounter_datetime: 2009-06-23 09:30:03 +02:00
+  date_created: 2009-06-23 09:33:29 +02:00
+encounter_00653: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 26
+  date_voided: 2009-06-23 15:59:25 +02:00
+  location_id: 8
+  encounter_id: 653
+  encounter_datetime: 2009-06-23 13:57:13 +02:00
+  date_created: 2009-06-23 13:57:13 +02:00
+encounter_00674: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 674
+  encounter_datetime: 2009-07-01 11:46:50 +02:00
+  date_created: 2009-07-01 11:46:50 +02:00
+encounter_00695: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 29
+  date_voided: 
+  location_id: 8
+  encounter_id: 695
+  encounter_datetime: 2009-07-03 09:07:49 +02:00
+  date_created: 2009-07-03 09:50:55 +02:00
+encounter_00696: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 
+  location_id: 8
+  encounter_id: 696
+  encounter_datetime: 2009-07-03 09:51:06 +02:00
+  date_created: 2009-07-03 09:51:24 +02:00
+encounter_00633: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:03 +02:00
+  location_id: 8
+  encounter_id: 633
+  encounter_datetime: 2009-06-23 09:30:03 +02:00
+  date_created: 2009-06-23 09:37:03 +02:00
+encounter_00654: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 15:59:24 +02:00
+  location_id: 8
+  encounter_id: 654
+  encounter_datetime: 2009-06-23 15:52:16 +02:00
+  date_created: 2009-06-23 15:52:29 +02:00
+encounter_00675: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 26
+  date_voided: 
+  location_id: 8
+  encounter_id: 675
+  encounter_datetime: 2009-07-01 11:54:45 +02:00
+  date_created: 2009-07-01 11:54:45 +02:00
+encounter_00655: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 15:59:28 +02:00
+  location_id: 8
+  encounter_id: 655
+  encounter_datetime: 2009-06-23 15:57:46 +02:00
+  date_created: 2009-06-23 15:57:50 +02:00
+encounter_00676: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 676
+  encounter_datetime: 2009-07-02 15:40:20 +02:00
+  date_created: 2009-07-02 15:40:20 +02:00
+encounter_00634: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:01 +02:00
+  location_id: 8
+  encounter_id: 634
+  encounter_datetime: 2009-06-23 09:30:03 +02:00
+  date_created: 2009-06-23 09:38:32 +02:00
+encounter_00677: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 677
+  encounter_datetime: 2009-07-02 15:43:54 +02:00
+  date_created: 2009-07-02 15:44:39 +02:00
+encounter_00635: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:05 +02:00
+  location_id: 8
+  encounter_id: 635
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:39:18 +02:00
+encounter_00656: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 15:59:32 +02:00
+  location_id: 8
+  encounter_id: 656
+  encounter_datetime: 2009-06-23 15:57:46 +02:00
+  date_created: 2009-06-23 15:59:10 +02:00
+encounter_00001: 
+  form_id: 1
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 1
+  encounter_id: 1
+  encounter_datetime: 2001-01-01 00:00:00 +02:00
+  date_created: 2000-01-01 00:00:00 +02:00
+encounter_00615: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 615
+  encounter_datetime: 2009-06-12 15:38:22 +02:00
+  date_created: 2009-06-12 15:38:58 +02:00
+encounter_00636: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:09 +02:00
+  location_id: 8
+  encounter_id: 636
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:40:35 +02:00
+encounter_00657: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 
+  location_id: 8
+  encounter_id: 657
+  encounter_datetime: 2009-06-23 16:00:03 +02:00
+  date_created: 2009-06-23 16:00:08 +02:00
+encounter_00678: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 8
+  date_voided: 
+  location_id: 8
+  encounter_id: 678
+  encounter_datetime: 2009-07-02 15:45:12 +02:00
+  date_created: 2009-07-02 15:45:37 +02:00
+encounter_00616: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 7
+  date_voided: 
+  location_id: 8
+  encounter_id: 616
+  encounter_datetime: 2009-06-12 15:38:58 +02:00
+  date_created: 2009-06-12 15:38:58 +02:00
+encounter_00637: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:10 +02:00
+  location_id: 8
+  encounter_id: 637
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:48:49 +02:00
+encounter_00680: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 680
+  encounter_datetime: 2009-07-02 15:45:53 +02:00
+  date_created: 2009-07-02 15:53:35 +02:00
+encounter_00658: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 
+  location_id: 8
+  encounter_id: 658
+  encounter_datetime: 2009-06-23 16:00:16 +02:00
+  date_created: 2009-06-23 16:00:19 +02:00
+encounter_00679: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 679
+  encounter_datetime: 2009-07-02 15:45:53 +02:00
+  date_created: 2009-07-02 15:46:44 +02:00
+encounter_00681: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 681
+  encounter_datetime: 2009-07-02 15:45:53 +02:00
+  date_created: 2009-07-02 16:26:58 +02:00
+encounter_00660: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 660
+  encounter_datetime: 2009-06-25 13:52:29 +02:00
+  date_created: 2009-06-25 13:52:29 +02:00
+encounter_00617: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 617
+  encounter_datetime: 2009-06-12 15:48:59 +02:00
+  date_created: 2009-06-12 15:49:51 +02:00
+encounter_00638: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:11 +02:00
+  location_id: 8
+  encounter_id: 638
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:50:11 +02:00
+encounter_00659: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 659
+  encounter_datetime: 2009-06-24 09:18:28 +02:00
+  date_created: 2009-06-24 09:18:28 +02:00
+encounter_00682: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 682
+  encounter_datetime: 2009-07-02 15:45:53 +02:00
+  date_created: 2009-07-02 16:27:48 +02:00
+encounter_00640: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:21 +02:00
+  location_id: 8
+  encounter_id: 640
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:52:30 +02:00
+encounter_00618: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 618
+  encounter_datetime: 2009-06-12 15:49:52 +02:00
+  date_created: 2009-06-12 15:49:52 +02:00
+encounter_00639: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:19 +02:00
+  location_id: 8
+  encounter_id: 639
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:51:06 +02:00
+encounter_00661: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 
+  location_id: 8
+  encounter_id: 661
+  encounter_datetime: 2009-06-25 13:52:35 +02:00
+  date_created: 2009-06-25 13:53:00 +02:00
+encounter_00662: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 
+  location_id: 8
+  encounter_id: 662
+  encounter_datetime: 2009-06-25 14:54:26 +02:00
+  date_created: 2009-06-25 14:57:04 +02:00
+encounter_00619: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 619
+  encounter_datetime: 2009-06-17 03:23:10 +02:00
+  date_created: 2009-06-17 03:23:10 +02:00
+encounter_00620: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 620
+  encounter_datetime: 2009-06-18 09:28:33 +02:00
+  date_created: 2009-06-18 09:28:33 +02:00
+encounter_00641: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:23 +02:00
+  location_id: 8
+  encounter_id: 641
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:53:35 +02:00
+encounter_00683: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 683
+  encounter_datetime: 2009-07-02 15:45:53 +02:00
+  date_created: 2009-07-02 16:31:39 +02:00
+encounter_00684: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 30
+  date_voided: 
+  location_id: 8
+  encounter_id: 684
+  encounter_datetime: 2009-07-02 16:48:29 +02:00
+  date_created: 2009-07-02 16:48:56 +02:00
+encounter_00642: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 28
+  date_voided: 2009-06-23 10:12:24 +02:00
+  location_id: 8
+  encounter_id: 642
+  encounter_datetime: 2009-06-23 09:38:47 +02:00
+  date_created: 2009-06-23 09:54:45 +02:00
+encounter_00621: 
+  form_id: 
+  voided: true
+  provider_id: 1
+  creator: 1
+  voided_by: 1
+  patient_id: 1
+  void_reason: 
+  encounter_type: 6
+  date_voided: 2009-06-18 11:01:29 +02:00
+  location_id: 8
+  encounter_id: 621
+  encounter_datetime: 2009-06-18 10:56:47 +02:00
+  date_created: 2009-06-18 10:57:30 +02:00
+encounter_00663: 
+  form_id: 
+  voided: false
+  provider_id: 1
+  creator: 1
+  voided_by: 
+  patient_id: 1
+  void_reason: 
+  encounter_type: 5
+  date_voided: 
+  location_id: 8
+  encounter_id: 663
+  encounter_datetime: 2009-06-26 10:02:08 +02:00
+  date_created: 2009-06-26 10:02:08 +02:00

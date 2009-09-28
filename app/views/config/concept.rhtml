@@ -1,0 +1,11 @@
+Concepts
+
+New:
+<% form_for :concept do |form|%>
+	<%= render :partial=> "concept"%>
+	<%= render :partial=> "concept_name" %>
+	<%=form.submit "Create" %>
+<% end %>
+
+<%= select("concepts",nil,@cnames,:html_options=>{:size=>10})%>
+

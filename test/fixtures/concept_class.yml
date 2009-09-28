@@ -1,0 +1,21 @@
+--- 
+drug: 
+  name: Drug
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_class_id: 3
+  description: Drug
+  retired: false
+  date_created: 2004-02-02 00:00:00 -08:00
+diagnosis: 
+  name: Diagnosis
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_class_id: 4
+  description: Conclusion drawn through findings
+  retired: false
+  date_created: 2004-02-02 00:00:00 -08:00

@@ -1,8 +1,13 @@
 -- MySQL dump 10.11
 --
--- Host: localhost    Database: openmrs
+-- Host: localhost    Database: openmrs_test
 -- ------------------------------------------------------
--- Server version	5.0.51a-3ubuntu5.2
+-- Server version	5.0.75-0ubuntu10
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -11,24 +16,10 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `openmrs`
---
-
-/*!40000 DROP DATABASE IF EXISTS `openmrs`*/;
-
-create database openmrs default character set utf8;
-DELETE FROM mysql.user WHERE User='test';
-flush privileges;
-CREATE USER 'test'@'localhost' IDENTIFIED BY 'test';
-GRANT ALL ON openmrs.* TO test;
-
-
-#USE `openmrs`;
-
---
 -- Table structure for table `cohort`
 --
 
+DROP TABLE IF EXISTS `cohort`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cohort` (
@@ -47,8 +38,8 @@ CREATE TABLE `cohort` (
   KEY `cohort_creator` (`creator`),
   KEY `user_who_voided_cohort` (`voided_by`),
   KEY `user_who_changed_cohort` (`changed_by`),
-  CONSTRAINT `user_who_changed_cohort` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `cohort_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_changed_cohort` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_cohort` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -57,6 +48,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `cohort_member`
 --
 
+DROP TABLE IF EXISTS `cohort_member`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `cohort_member` (
@@ -74,6 +66,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `complex_obs`
 --
 
+DROP TABLE IF EXISTS `complex_obs`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `complex_obs` (
@@ -92,6 +85,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `concept`
 --
 
+DROP TABLE IF EXISTS `concept`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept` (
@@ -118,21 +112,19 @@ CREATE TABLE `concept` (
   KEY `concept_datatypes` (`datatype_id`),
   KEY `user_who_changed_concept` (`changed_by`),
   KEY `user_who_retired_concept` (`retired_by`),
-  CONSTRAINT `user_who_retired_concept` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `concept_classes` FOREIGN KEY (`class_id`) REFERENCES `concept_class` (`concept_class_id`),
   CONSTRAINT `concept_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `concept_datatypes` FOREIGN KEY (`datatype_id`) REFERENCES `concept_datatype` (`concept_datatype_id`),
-  CONSTRAINT `user_who_changed_concept` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6099 DEFAULT CHARSET=utf8;
+  CONSTRAINT `user_who_changed_concept` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_retired_concept` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6153 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
-/*!40000 ALTER TABLE `concept` DISABLE KEYS */;
-/*!40000 ALTER TABLE `concept` ENABLE KEYS */;
 
 --
 -- Table structure for table `concept_answer`
 --
 
+DROP TABLE IF EXISTS `concept_answer`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_answer` (
@@ -149,16 +141,14 @@ CREATE TABLE `concept_answer` (
   CONSTRAINT `answer` FOREIGN KEY (`answer_concept`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `answers_for_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `answer_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1021 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
-/*!40000 ALTER TABLE `concept_answer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `concept_answer` ENABLE KEYS */;
 
 --
 -- Table structure for table `concept_class`
 --
 
+DROP TABLE IF EXISTS `concept_class`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_class` (
@@ -177,13 +167,14 @@ CREATE TABLE `concept_class` (
   KEY `concept_class_retired_status` (`retired`),
   CONSTRAINT `concept_class_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_concept_class` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `concept_datatype`
 --
 
+DROP TABLE IF EXISTS `concept_datatype`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_datatype` (
@@ -203,15 +194,14 @@ CREATE TABLE `concept_datatype` (
   KEY `concept_datatype_retired_status` (`retired`),
   CONSTRAINT `concept_datatype_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_concept_datatype` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
-/*!40000 ALTER TABLE `concept_datatype` ENABLE KEYS */;
 
 --
 -- Table structure for table `concept_derived`
 --
 
+DROP TABLE IF EXISTS `concept_derived`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_derived` (
@@ -226,15 +216,42 @@ CREATE TABLE `concept_derived` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `concept_description`
+--
+
+DROP TABLE IF EXISTS `concept_description`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `concept_description` (
+  `concept_description_id` int(11) NOT NULL auto_increment,
+  `concept_id` int(11) NOT NULL default '0',
+  `description` text NOT NULL,
+  `locale` varchar(50) NOT NULL default '',
+  `creator` int(11) NOT NULL default '0',
+  `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `changed_by` int(11) default NULL,
+  `date_changed` datetime default NULL,
+  PRIMARY KEY  (`concept_description_id`),
+  KEY `concept_being_described` (`concept_id`),
+  KEY `user_who_created_description` (`creator`),
+  KEY `user_who_changed_description` (`changed_by`),
+  CONSTRAINT `description_for_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
+  CONSTRAINT `user_who_changed_description` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_created_description` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `concept_map`
 --
 
+DROP TABLE IF EXISTS `concept_map`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_map` (
   `concept_map_id` int(11) NOT NULL auto_increment,
   `source` int(11) default NULL,
-  `source_id` int(11) default NULL,
+  `source_code` varchar(255) default NULL,
   `comment` varchar(255) default NULL,
   `creator` int(11) NOT NULL default '0',
   `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -243,8 +260,8 @@ CREATE TABLE `concept_map` (
   KEY `map_source` (`source`),
   KEY `map_creator` (`creator`),
   KEY `map_for_concept` (`concept_id`),
-  CONSTRAINT `map_for_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `map_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `map_for_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `map_source` FOREIGN KEY (`source`) REFERENCES `concept_source` (`concept_source_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -253,33 +270,80 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `concept_name`
 --
 
+DROP TABLE IF EXISTS `concept_name`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_name` (
   `concept_id` int(11) default NULL,
   `name` varchar(255) NOT NULL default '',
-  `short_name` varchar(255) default NULL,
-  `description` text NOT NULL,
   `locale` varchar(50) NOT NULL default '',
   `creator` int(11) NOT NULL default '0',
   `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
   `concept_name_id` int(11) NOT NULL auto_increment,
+  `voided` tinyint(1) NOT NULL default '0',
+  `voided_by` int(11) default NULL,
+  `date_voided` datetime default NULL,
+  `void_reason` varchar(255) default NULL,
   PRIMARY KEY  (`concept_name_id`),
   UNIQUE KEY `concept_name_id` (`concept_name_id`),
   KEY `user_who_created_name` (`creator`),
   KEY `name_of_concept` (`name`),
-  KEY `short_name_of_concept` (`short_name`),
   KEY `unique_concept_name_id` (`concept_id`),
+  KEY `user_who_voided_name` (`voided_by`),
   CONSTRAINT `name_for_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
-  CONSTRAINT `user_who_created_name` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2449 DEFAULT CHARSET=utf8;
+  CONSTRAINT `user_who_created_name` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_voided_this_name` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1017819588 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
+--
+-- Table structure for table `concept_name_tag`
+--
+
+DROP TABLE IF EXISTS `concept_name_tag`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `concept_name_tag` (
+  `concept_name_tag_id` int(11) NOT NULL auto_increment,
+  `tag` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `creator` int(11) NOT NULL default '0',
+  `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `voided` tinyint(1) NOT NULL default '0',
+  `voided_by` int(11) default NULL,
+  `date_voided` datetime default NULL,
+  `void_reason` varchar(255) default NULL,
+  PRIMARY KEY  (`concept_name_tag_id`),
+  UNIQUE KEY `concept_name_tag_id` (`concept_name_tag_id`),
+  UNIQUE KEY `concept_name_tag_id_2` (`concept_name_tag_id`),
+  UNIQUE KEY `concept_name_tag_id_3` (`concept_name_tag_id`),
+  KEY `user_who_created_name_tag` (`creator`),
+  KEY `user_who_voided_name_tag` (`voided_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `concept_name_tag_map`
+--
+
+DROP TABLE IF EXISTS `concept_name_tag_map`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `concept_name_tag_map` (
+  `concept_name_id` int(11) NOT NULL,
+  `concept_name_tag_id` int(11) NOT NULL,
+  KEY `map_name` (`concept_name_id`),
+  KEY `map_name_tag` (`concept_name_tag_id`),
+  CONSTRAINT `mapped_concept_name` FOREIGN KEY (`concept_name_id`) REFERENCES `concept_name` (`concept_name_id`),
+  CONSTRAINT `mapped_concept_name_tag` FOREIGN KEY (`concept_name_tag_id`) REFERENCES `concept_name_tag` (`concept_name_tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `concept_numeric`
 --
 
+DROP TABLE IF EXISTS `concept_numeric`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_numeric` (
@@ -301,6 +365,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `concept_proposal`
 --
 
+DROP TABLE IF EXISTS `concept_proposal`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_proposal` (
@@ -317,6 +382,7 @@ CREATE TABLE `concept_proposal` (
   `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
   `changed_by` int(11) default NULL,
   `date_changed` datetime default NULL,
+  `locale` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`concept_proposal_id`),
   KEY `encounter_for_proposal` (`encounter_id`),
   KEY `concept_for_proposal` (`concept_id`),
@@ -334,9 +400,27 @@ CREATE TABLE `concept_proposal` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `concept_proposal_tag_map`
+--
+
+DROP TABLE IF EXISTS `concept_proposal_tag_map`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `concept_proposal_tag_map` (
+  `concept_proposal_id` int(11) NOT NULL,
+  `concept_name_tag_id` int(11) NOT NULL,
+  KEY `map_proposal` (`concept_proposal_id`),
+  KEY `map_name_tag` (`concept_name_tag_id`),
+  CONSTRAINT `mapped_concept_proposal` FOREIGN KEY (`concept_proposal_id`) REFERENCES `concept_proposal` (`concept_proposal_id`),
+  CONSTRAINT `mapped_concept_proposal_tag` FOREIGN KEY (`concept_name_tag_id`) REFERENCES `concept_name_tag` (`concept_name_tag_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `concept_set`
 --
 
+DROP TABLE IF EXISTS `concept_set`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_set` (
@@ -354,11 +438,11 @@ CREATE TABLE `concept_set` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
-
 --
 -- Table structure for table `concept_set_derived`
 --
 
+DROP TABLE IF EXISTS `concept_set_derived`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_set_derived` (
@@ -369,11 +453,11 @@ CREATE TABLE `concept_set_derived` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
-
 --
 -- Table structure for table `concept_source`
 --
 
+DROP TABLE IF EXISTS `concept_source`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_source` (
@@ -390,6 +474,7 @@ CREATE TABLE `concept_source` (
   PRIMARY KEY  (`concept_source_id`),
   KEY `concept_source_creator` (`creator`),
   KEY `user_who_voided_concept_source` (`voided_by`),
+  KEY `unique_hl7_code` (`hl7_code`,`voided`),
   CONSTRAINT `concept_source_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_concept_source` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -399,6 +484,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `concept_state_conversion`
 --
 
+DROP TABLE IF EXISTS `concept_state_conversion`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_state_conversion` (
@@ -421,6 +507,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `concept_synonym`
 --
 
+DROP TABLE IF EXISTS `concept_synonym`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_synonym` (
@@ -437,11 +524,11 @@ CREATE TABLE `concept_synonym` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
-
 --
 -- Table structure for table `concept_word`
 --
 
+DROP TABLE IF EXISTS `concept_word`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `concept_word` (
@@ -449,17 +536,20 @@ CREATE TABLE `concept_word` (
   `word` varchar(50) NOT NULL default '',
   `synonym` varchar(255) NOT NULL default '',
   `locale` varchar(20) NOT NULL default '',
+  `concept_name_id` int(11) NOT NULL,
   PRIMARY KEY  (`concept_id`,`word`,`synonym`,`locale`),
   KEY `word_in_concept_name` (`word`),
-  CONSTRAINT `word_for` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`)
+  KEY `word_for_name` (`concept_name_id`),
+  CONSTRAINT `word_for` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
+  CONSTRAINT `word_for_name` FOREIGN KEY (`concept_name_id`) REFERENCES `concept_name` (`concept_name_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
 
 --
 -- Table structure for table `drug`
 --
 
+DROP TABLE IF EXISTS `drug`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `drug` (
@@ -490,30 +580,33 @@ CREATE TABLE `drug` (
   CONSTRAINT `drug_retired_by` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `primary_drug_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `route_concept` FOREIGN KEY (`route`) REFERENCES `concept` (`concept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
 
 --
 -- Table structure for table `drug_ingredient`
 --
 
+DROP TABLE IF EXISTS `drug_ingredient`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `drug_ingredient` (
-  `concept_id` int(11) NOT NULL default '0',
-  `ingredient_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`ingredient_id`,`concept_id`),
-  KEY `combination_drug` (`concept_id`),
-  CONSTRAINT `combination_drug` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
-  CONSTRAINT `ingredient` FOREIGN KEY (`ingredient_id`) REFERENCES `concept` (`concept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL auto_increment,
+  `drug_id` int(11) NOT NULL,
+  `drug_substance_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `drugs_and_drug_substance` (`drug_id`,`drug_substance_id`),
+  KEY `drug_substance` (`drug_substance_id`),
+  CONSTRAINT `drug` FOREIGN KEY (`drug_id`) REFERENCES `drug` (`drug_id`),
+  CONSTRAINT `drug_substance` FOREIGN KEY (`drug_substance_id`) REFERENCES `drug_substance` (`drug_substance_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `drug_order`
 --
 
+DROP TABLE IF EXISTS `drug_order`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `drug_order` (
@@ -534,9 +627,40 @@ CREATE TABLE `drug_order` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `drug_substance`
+--
+
+DROP TABLE IF EXISTS `drug_substance`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `drug_substance` (
+  `drug_substance_id` int(11) NOT NULL auto_increment,
+  `concept_id` int(11) NOT NULL default '0',
+  `name` varchar(50) default NULL,
+  `dose_strength` double default NULL,
+  `maximum_daily_dose` double default NULL,
+  `minimum_daily_dose` double default NULL,
+  `route` int(11) default NULL,
+  `units` varchar(50) default NULL,
+  `creator` int(11) NOT NULL default '0',
+  `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `retired` tinyint(1) NOT NULL default '0',
+  `retired_by` int(11) default NULL,
+  `date_retired` datetime default NULL,
+  `retire_reason` datetime default NULL,
+  PRIMARY KEY  (`drug_substance_id`),
+  KEY `drug_ingredient_creator` (`creator`),
+  KEY `primary_drug_ingredient_concept` (`concept_id`),
+  KEY `route_concept` (`route`),
+  KEY `user_who_retired_drug` (`retired_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=159 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `encounter`
 --
 
+DROP TABLE IF EXISTS `encounter`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `encounter` (
@@ -561,20 +685,21 @@ CREATE TABLE `encounter` (
   KEY `encounter_creator` (`creator`),
   KEY `encounter_form` (`form_id`),
   KEY `user_who_voided_encounter` (`voided_by`),
-  CONSTRAINT `encounter_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `encounter_form` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`),
   CONSTRAINT `encounter_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `encounter_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
+  CONSTRAINT `encounter_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `encounter_provider` FOREIGN KEY (`provider_id`) REFERENCES `users` (`user_id`),
   CONSTRAINT `encounter_type_id` FOREIGN KEY (`encounter_type`) REFERENCES `encounter_type` (`encounter_type_id`),
   CONSTRAINT `user_who_voided_encounter` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=601 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `encounter_type`
 --
 
+DROP TABLE IF EXISTS `encounter_type`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `encounter_type` (
@@ -593,14 +718,14 @@ CREATE TABLE `encounter_type` (
   KEY `retired_status` (`retired`),
   CONSTRAINT `user_who_created_type` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_encounter_type` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
 
 --
 -- Table structure for table `field`
 --
 
+DROP TABLE IF EXISTS `field`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `field` (
@@ -633,14 +758,14 @@ CREATE TABLE `field` (
   CONSTRAINT `user_who_changed_field` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_created_field` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_field` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
 
 --
 -- Table structure for table `field_answer`
 --
 
+DROP TABLE IF EXISTS `field_answer`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `field_answer` (
@@ -662,6 +787,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `field_type`
 --
 
+DROP TABLE IF EXISTS `field_type`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `field_type` (
@@ -674,14 +800,14 @@ CREATE TABLE `field_type` (
   PRIMARY KEY  (`field_type_id`),
   KEY `user_who_created_field_type` (`creator`),
   CONSTRAINT `user_who_created_field_type` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
-
 
 --
 -- Table structure for table `form`
 --
 
+DROP TABLE IF EXISTS `form`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `form` (
@@ -711,15 +837,40 @@ CREATE TABLE `form` (
   CONSTRAINT `user_who_created_form` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_last_changed_form` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_form` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
+--
+-- Table structure for table `form2program_map`
+--
 
+DROP TABLE IF EXISTS `form2program_map`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `form2program_map` (
+  `program` int(11) NOT NULL,
+  `encounter_type` int(11) NOT NULL,
+  `creator` int(11) NOT NULL,
+  `date_created` datetime NOT NULL,
+  `changed_by` int(11) NOT NULL,
+  `date_changed` datetime NOT NULL,
+  `applied` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`program`,`encounter_type`),
+  KEY `encounter_type` (`encounter_type`),
+  KEY `user_who_created_form2program` (`creator`),
+  KEY `user_who_changed_form2program` (`changed_by`),
+  CONSTRAINT `form2program_map_ibfk_1` FOREIGN KEY (`program`) REFERENCES `program` (`program_id`),
+  CONSTRAINT `form2program_map_ibfk_2` FOREIGN KEY (`encounter_type`) REFERENCES `encounter_type` (`encounter_type_id`),
+  CONSTRAINT `user_who_changed_form2program` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_created_form2program` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `form_field`
 --
 
+DROP TABLE IF EXISTS `form_field`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `form_field` (
@@ -749,23 +900,6 @@ CREATE TABLE `form_field` (
   CONSTRAINT `form_field_hierarchy` FOREIGN KEY (`parent_form_field`) REFERENCES `form_field` (`form_field_id`),
   CONSTRAINT `user_who_created_form_field` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_last_changed_form_field` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
-SET character_set_client = @saved_cs_client;
-
---
--- Table structure for table `formentry_archive`
---
-
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-CREATE TABLE `formentry_archive` (
-  `formentry_archive_id` int(11) NOT NULL auto_increment,
-  `form_data` mediumtext NOT NULL,
-  `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
-  `creator` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`formentry_archive_id`),
-  KEY `User who created formentry_archive` (`creator`),
-  CONSTRAINT `User who created formentry_archive` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -773,6 +907,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `formentry_error`
 --
 
+DROP TABLE IF EXISTS `formentry_error`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `formentry_error` (
@@ -789,17 +924,28 @@ CREATE TABLE `formentry_error` (
 SET character_set_client = @saved_cs_client;
 
 --
--- Table structure for table `formentry_queue`
+-- Table structure for table `formentry_xsn`
 --
 
+DROP TABLE IF EXISTS `formentry_xsn`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-CREATE TABLE `formentry_queue` (
-  `formentry_queue_id` int(11) NOT NULL auto_increment,
-  `form_data` mediumtext NOT NULL,
+CREATE TABLE `formentry_xsn` (
+  `formentry_xsn_id` int(11) NOT NULL auto_increment,
+  `form_id` int(11) NOT NULL,
+  `xsn_data` longblob NOT NULL,
   `creator` int(11) NOT NULL default '0',
   `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`formentry_queue_id`)
+  `archived` int(1) NOT NULL default '0',
+  `archived_by` int(11) default NULL,
+  `date_archived` datetime default NULL,
+  PRIMARY KEY  (`formentry_xsn_id`),
+  KEY `User who created formentry_xsn` (`creator`),
+  KEY `Form with which this xsn is related` (`form_id`),
+  KEY `User who archived formentry_xsn` (`archived_by`),
+  CONSTRAINT `Form with which this xsn is related` FOREIGN KEY (`form_id`) REFERENCES `form` (`form_id`),
+  CONSTRAINT `User who archived formentry_xsn` FOREIGN KEY (`archived_by`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `User who created formentry_xsn` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -807,20 +953,23 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `global_property`
 --
 
+DROP TABLE IF EXISTS `global_property`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `global_property` (
   `property` varchar(255) NOT NULL default '',
   `property_value` mediumtext,
   `description` text,
-  PRIMARY KEY  (`property`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=889598257 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `hl7_in_archive`
 --
 
+DROP TABLE IF EXISTS `hl7_in_archive`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `hl7_in_archive` (
@@ -837,6 +986,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `hl7_in_error`
 --
 
+DROP TABLE IF EXISTS `hl7_in_error`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `hl7_in_error` (
@@ -855,6 +1005,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `hl7_in_queue`
 --
 
+DROP TABLE IF EXISTS `hl7_in_queue`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `hl7_in_queue` (
@@ -876,6 +1027,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `hl7_source`
 --
 
+DROP TABLE IF EXISTS `hl7_source`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `hl7_source` (
@@ -887,13 +1039,14 @@ CREATE TABLE `hl7_source` (
   PRIMARY KEY  (`hl7_source_id`),
   KEY `creator` (`creator`),
   CONSTRAINT `creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `location`
 --
 
+DROP TABLE IF EXISTS `location`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `location` (
@@ -919,20 +1072,41 @@ CREATE TABLE `location` (
   `retired_by` int(11) default NULL,
   `date_retired` datetime default NULL,
   `retire_reason` varchar(255) default NULL,
+  `parent_location_id` int(11) default NULL,
+  `location_type_id` int(11) default NULL,
   PRIMARY KEY  (`location_id`),
   KEY `user_who_created_location` (`creator`),
   KEY `name_of_location` (`name`),
   KEY `user_who_retired_location` (`retired_by`),
   KEY `retired_status` (`retired`),
+  KEY `parent_location_for_location` (`parent_location_id`),
+  KEY `type_of_location` (`location_type_id`),
+  CONSTRAINT `location_type` FOREIGN KEY (`location_type_id`) REFERENCES `location_type` (`location_type_id`),
+  CONSTRAINT `parent_location` FOREIGN KEY (`parent_location_id`) REFERENCES `location` (`location_id`),
   CONSTRAINT `user_who_created_location` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_location` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `merged_patients`
+--
+
+DROP TABLE IF EXISTS `merged_patients`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `merged_patients` (
+  `patient_id` int(11) NOT NULL,
+  `merged_to_id` int(11) NOT NULL,
+  PRIMARY KEY  (`patient_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `mime_type`
 --
 
+DROP TABLE IF EXISTS `mime_type`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `mime_type` (
@@ -948,6 +1122,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `note`
 --
 
+DROP TABLE IF EXISTS `note`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `note` (
@@ -970,10 +1145,10 @@ CREATE TABLE `note` (
   KEY `user_who_created_note` (`creator`),
   KEY `user_who_changed_note` (`changed_by`),
   KEY `note_hierarchy` (`parent`),
-  CONSTRAINT `patient_note` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `encounter_note` FOREIGN KEY (`encounter_id`) REFERENCES `encounter` (`encounter_id`),
   CONSTRAINT `note_hierarchy` FOREIGN KEY (`parent`) REFERENCES `note` (`note_id`),
   CONSTRAINT `obs_note` FOREIGN KEY (`obs_id`) REFERENCES `obs` (`obs_id`),
+  CONSTRAINT `patient_note` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `user_who_changed_note` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_created_note` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -983,6 +1158,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `notification_alert`
 --
 
+DROP TABLE IF EXISTS `notification_alert`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `notification_alert` (
@@ -1010,6 +1186,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `notification_alert_recipient`
 --
 
+DROP TABLE IF EXISTS `notification_alert_recipient`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `notification_alert_recipient` (
@@ -1020,8 +1197,8 @@ CREATE TABLE `notification_alert_recipient` (
   PRIMARY KEY  (`alert_id`,`user_id`),
   KEY `alert_read_by_user` (`user_id`),
   KEY `id_of_alert` (`alert_id`),
-  CONSTRAINT `id_of_alert` FOREIGN KEY (`alert_id`) REFERENCES `notification_alert` (`alert_id`),
-  CONSTRAINT `alert_read_by_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `alert_read_by_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `id_of_alert` FOREIGN KEY (`alert_id`) REFERENCES `notification_alert` (`alert_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1029,6 +1206,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `notification_template`
 --
 
+DROP TABLE IF EXISTS `notification_template`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `notification_template` (
@@ -1047,6 +1225,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `obs`
 --
 
+DROP TABLE IF EXISTS `obs`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `obs` (
@@ -1062,6 +1241,7 @@ CREATE TABLE `obs` (
   `value_group_id` int(11) default NULL,
   `value_boolean` tinyint(1) default NULL,
   `value_coded` int(11) default NULL,
+  `value_coded_name_id` int(11) default NULL,
   `value_drug` int(11) default NULL,
   `value_datetime` datetime default NULL,
   `value_numeric` double default NULL,
@@ -1076,6 +1256,7 @@ CREATE TABLE `obs` (
   `voided_by` int(11) default NULL,
   `date_voided` datetime default NULL,
   `void_reason` varchar(255) default NULL,
+  `value_location` int(11) default NULL,
   PRIMARY KEY  (`obs_id`),
   KEY `answer_concept` (`value_coded`),
   KEY `encounter_observations` (`encounter_id`),
@@ -1087,16 +1268,46 @@ CREATE TABLE `obs` (
   KEY `user_who_voided_obs` (`voided_by`),
   KEY `answer_concept_drug` (`value_drug`),
   KEY `obs_grouping_id` (`obs_group_id`),
-  CONSTRAINT `obs_grouping_id` FOREIGN KEY (`obs_group_id`) REFERENCES `obs` (`obs_id`),
+  KEY `obs_name_of_coded_value` (`value_coded_name_id`),
+  KEY `location_for_value` (`value_location`),
   CONSTRAINT `answer_concept` FOREIGN KEY (`value_coded`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `answer_concept_drug` FOREIGN KEY (`value_drug`) REFERENCES `drug` (`drug_id`),
   CONSTRAINT `encounter_observations` FOREIGN KEY (`encounter_id`) REFERENCES `encounter` (`encounter_id`),
+  CONSTRAINT `location_for_value` FOREIGN KEY (`value_location`) REFERENCES `location` (`location_id`),
   CONSTRAINT `obs_concept` FOREIGN KEY (`concept_id`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `obs_enterer` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `obs_grouping_id` FOREIGN KEY (`obs_group_id`) REFERENCES `obs` (`obs_id`),
   CONSTRAINT `obs_location` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`),
+  CONSTRAINT `obs_name_of_coded_value` FOREIGN KEY (`value_coded_name_id`) REFERENCES `concept_name` (`concept_name_id`),
   CONSTRAINT `obs_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
   CONSTRAINT `person_obs` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `user_who_voided_obs` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=543 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `order_extension`
+--
+
+DROP TABLE IF EXISTS `order_extension`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `order_extension` (
+  `order_extension_id` int(11) NOT NULL auto_increment,
+  `order_id` int(11) NOT NULL,
+  `value` varchar(50) NOT NULL default '',
+  `creator` int(11) NOT NULL default '0',
+  `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `voided` tinyint(1) NOT NULL default '0',
+  `voided_by` int(11) default NULL,
+  `date_voided` datetime default NULL,
+  `void_reason` varchar(255) default NULL,
+  PRIMARY KEY  (`order_extension_id`),
+  KEY `user_who_created_ext` (`creator`),
+  KEY `user_who_retired_ext` (`voided_by`),
+  KEY `retired_status` (`voided`),
+  CONSTRAINT `user_who_created_extension` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `user_who_voided_extension` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1104,6 +1315,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `order_type`
 --
 
+DROP TABLE IF EXISTS `order_type`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `order_type` (
@@ -1122,13 +1334,14 @@ CREATE TABLE `order_type` (
   KEY `retired_status` (`retired`),
   CONSTRAINT `type_created_by` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_order_type` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `orders`
 --
 
+DROP TABLE IF EXISTS `orders`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `orders` (
@@ -1151,6 +1364,7 @@ CREATE TABLE `orders` (
   `date_voided` datetime default NULL,
   `void_reason` varchar(255) default NULL,
   `patient_id` int(11) NOT NULL,
+  `accession_number` varchar(255) default NULL,
   PRIMARY KEY  (`order_id`),
   KEY `order_creator` (`creator`),
   KEY `orderer_not_drug` (`orderer`),
@@ -1160,25 +1374,26 @@ CREATE TABLE `orders` (
   KEY `user_who_voided_order` (`voided_by`),
   KEY `discontinued_because` (`discontinued_reason`),
   KEY `order_for_patient` (`patient_id`),
-  CONSTRAINT `order_for_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `discontinued_because` FOREIGN KEY (`discontinued_reason`) REFERENCES `concept` (`concept_id`),
   CONSTRAINT `orderer_not_drug` FOREIGN KEY (`orderer`) REFERENCES `users` (`user_id`),
   CONSTRAINT `orders_in_encounter` FOREIGN KEY (`encounter_id`) REFERENCES `encounter` (`encounter_id`),
   CONSTRAINT `order_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `order_for_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `type_of_order` FOREIGN KEY (`order_type_id`) REFERENCES `order_type` (`order_type_id`),
   CONSTRAINT `user_who_discontinued_order` FOREIGN KEY (`discontinued_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_order` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=267 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `patient`
 --
 
+DROP TABLE IF EXISTS `patient`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `patient` (
-  `patient_id` int(11) NOT NULL auto_increment,
+  `patient_id` int(11) NOT NULL,
   `tribe` int(11) default NULL,
   `creator` int(11) NOT NULL default '0',
   `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -1198,13 +1413,14 @@ CREATE TABLE `patient` (
   CONSTRAINT `user_who_changed_pat` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_created_patient` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_patient` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9349 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `patient_identifier`
 --
 
+DROP TABLE IF EXISTS `patient_identifier`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `patient_identifier` (
@@ -1225,10 +1441,10 @@ CREATE TABLE `patient_identifier` (
   KEY `identifier_voider` (`voided_by`),
   KEY `identifier_location` (`location_id`),
   KEY `identifier_name` (`identifier`),
-  CONSTRAINT `identifies_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `defines_identifier_type` FOREIGN KEY (`identifier_type`) REFERENCES `patient_identifier_type` (`patient_identifier_type_id`),
   CONSTRAINT `identifier_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `identifier_voider` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `identifies_patient` FOREIGN KEY (`patient_id`) REFERENCES `patient` (`patient_id`) ON UPDATE CASCADE,
   CONSTRAINT `patient_identifier_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -1237,6 +1453,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `patient_identifier_type`
 --
 
+DROP TABLE IF EXISTS `patient_identifier_type`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `patient_identifier_type` (
@@ -1260,13 +1477,14 @@ CREATE TABLE `patient_identifier_type` (
   KEY `retired_status` (`retired`),
   CONSTRAINT `type_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_patient_identifier_type` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `patient_program`
 --
 
+DROP TABLE IF EXISTS `patient_program`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `patient_program` (
@@ -1301,6 +1519,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `patient_state`
 --
 
+DROP TABLE IF EXISTS `patient_state`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `patient_state` (
@@ -1323,18 +1542,32 @@ CREATE TABLE `patient_state` (
   KEY `patient_state_creator` (`creator`),
   KEY `patient_state_changer` (`changed_by`),
   KEY `patient_state_voider` (`voided_by`),
-  CONSTRAINT `state_for_patient` FOREIGN KEY (`state`) REFERENCES `program_workflow_state` (`program_workflow_state_id`),
   CONSTRAINT `patient_program_for_state` FOREIGN KEY (`patient_program_id`) REFERENCES `patient_program` (`patient_program_id`),
-  CONSTRAINT `patient_state_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `patient_state_changer` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
-  CONSTRAINT `patient_state_voider` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
+  CONSTRAINT `patient_state_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `patient_state_voider` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `state_for_patient` FOREIGN KEY (`state`) REFERENCES `program_workflow_state` (`program_workflow_state_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `patients_to_merge`
+--
+
+DROP TABLE IF EXISTS `patients_to_merge`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `patients_to_merge` (
+  `patient_id` int(11) default NULL,
+  `to_merge_to_id` int(11) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `person`
 --
 
+DROP TABLE IF EXISTS `person`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `person` (
@@ -1364,13 +1597,14 @@ CREATE TABLE `person` (
   CONSTRAINT `user_who_changed_person` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_created_person` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_person` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=501 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=915 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `person_address`
 --
 
+DROP TABLE IF EXISTS `person_address`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `person_address` (
@@ -1403,13 +1637,14 @@ CREATE TABLE `person_address` (
   CONSTRAINT `address_for_person` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `patient_address_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `patient_address_void` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9348 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=786 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `person_attribute`
 --
 
+DROP TABLE IF EXISTS `person_attribute`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `person_attribute` (
@@ -1431,10 +1666,10 @@ CREATE TABLE `person_attribute` (
   KEY `attribute_creator` (`creator`),
   KEY `attribute_changer` (`changed_by`),
   KEY `attribute_voider` (`voided_by`),
-  CONSTRAINT `defines_attribute_type` FOREIGN KEY (`person_attribute_type_id`) REFERENCES `person_attribute_type` (`person_attribute_type_id`),
-  CONSTRAINT `attribute_voider` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `attribute_changer` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `attribute_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `attribute_voider` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `defines_attribute_type` FOREIGN KEY (`person_attribute_type_id`) REFERENCES `person_attribute_type` (`person_attribute_type_id`),
   CONSTRAINT `identifies_person` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -1443,6 +1678,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `person_attribute_type`
 --
 
+DROP TABLE IF EXISTS `person_attribute_type`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `person_attribute_type` (
@@ -1470,13 +1706,14 @@ CREATE TABLE `person_attribute_type` (
   CONSTRAINT `attribute_type_changer` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `attribute_type_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_retired_person_attribute_type` FOREIGN KEY (`retired_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `person_name`
 --
 
+DROP TABLE IF EXISTS `person_name`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `person_name` (
@@ -1509,13 +1746,39 @@ CREATE TABLE `person_name` (
   CONSTRAINT `name for person` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `user_who_made_name` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_name` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9349 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1164 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `person_name_code`
+--
+
+DROP TABLE IF EXISTS `person_name_code`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `person_name_code` (
+  `person_name_code_id` int(11) NOT NULL auto_increment,
+  `person_name_id` int(11) default NULL,
+  `given_name_code` varchar(50) default NULL,
+  `middle_name_code` varchar(50) default NULL,
+  `family_name_code` varchar(50) default NULL,
+  `family_name2_code` varchar(50) default NULL,
+  `family_name_suffix_code` varchar(50) default NULL,
+  PRIMARY KEY  (`person_name_code_id`),
+  KEY `name_for_patient` (`person_name_id`),
+  KEY `given_name_code` (`given_name_code`),
+  KEY `middle_name_code` (`middle_name_code`),
+  KEY `family_name_code` (`family_name_code`),
+  KEY `given_family_name_code` (`given_name_code`,`family_name_code`),
+  CONSTRAINT `code for name` FOREIGN KEY (`person_name_id`) REFERENCES `person_name` (`person_name_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1601 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `privilege`
 --
 
+DROP TABLE IF EXISTS `privilege`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `privilege` (
@@ -1529,6 +1792,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `program`
 --
 
+DROP TABLE IF EXISTS `program`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `program` (
@@ -1555,6 +1819,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `program_workflow`
 --
 
+DROP TABLE IF EXISTS `program_workflow`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `program_workflow` (
@@ -1582,6 +1847,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `program_workflow_state`
 --
 
+DROP TABLE IF EXISTS `program_workflow_state`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `program_workflow_state` (
@@ -1611,6 +1877,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `relationship`
 --
 
+DROP TABLE IF EXISTS `relationship`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `relationship` (
@@ -1630,8 +1897,8 @@ CREATE TABLE `relationship` (
   KEY `relationship_type` (`relationship`),
   KEY `relation_creator` (`creator`),
   KEY `relation_voider` (`voided_by`),
-  CONSTRAINT `person_b` FOREIGN KEY (`person_b`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `person_a` FOREIGN KEY (`person_a`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
+  CONSTRAINT `person_b` FOREIGN KEY (`person_b`) REFERENCES `person` (`person_id`) ON UPDATE CASCADE,
   CONSTRAINT `relationship_type_id` FOREIGN KEY (`relationship`) REFERENCES `relationship_type` (`relationship_type_id`),
   CONSTRAINT `relation_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `relation_voider` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
@@ -1642,6 +1909,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `relationship_type`
 --
 
+DROP TABLE IF EXISTS `relationship_type`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `relationship_type` (
@@ -1656,13 +1924,32 @@ CREATE TABLE `relationship_type` (
   PRIMARY KEY  (`relationship_type_id`),
   KEY `user_who_created_rel` (`creator`),
   CONSTRAINT `user_who_created_rel` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `report_def`
+--
+
+DROP TABLE IF EXISTS `report_def`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `report_def` (
+  `report_def_id` int(11) NOT NULL auto_increment,
+  `name` mediumtext NOT NULL,
+  `date_created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `creator` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`report_def_id`),
+  KEY `User who created report_def` (`creator`),
+  CONSTRAINT `User who created report_def` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `report_object`
 --
 
+DROP TABLE IF EXISTS `report_object`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `report_object` (
@@ -1694,6 +1981,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `report_schema_xml`
 --
 
+DROP TABLE IF EXISTS `report_schema_xml`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `report_schema_xml` (
@@ -1709,6 +1997,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `role`
 --
 
+DROP TABLE IF EXISTS `role`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `role` (
@@ -1722,6 +2011,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `role_privilege`
 --
 
+DROP TABLE IF EXISTS `role_privilege`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `role_privilege` (
@@ -1738,6 +2028,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `role_role`
 --
 
+DROP TABLE IF EXISTS `role_role`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `role_role` (
@@ -1754,6 +2045,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `scheduler_task_config`
 --
 
+DROP TABLE IF EXISTS `scheduler_task_config`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `scheduler_task_config` (
@@ -1775,13 +2067,14 @@ CREATE TABLE `scheduler_task_config` (
   KEY `schedule_changer` (`changed_by`),
   CONSTRAINT `scheduler_changer` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `scheduler_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `scheduler_task_config_property`
 --
 
+DROP TABLE IF EXISTS `scheduler_task_config_property`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `scheduler_task_config_property` (
@@ -1796,9 +2089,39 @@ CREATE TABLE `scheduler_task_config_property` (
 SET character_set_client = @saved_cs_client;
 
 --
+-- Table structure for table `schema_info`
+--
+
+DROP TABLE IF EXISTS `schema_info`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `schema_info` (
+  `version` int(11) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `sessions`
+--
+
+DROP TABLE IF EXISTS `sessions`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL auto_increment,
+  `session_id` varchar(255) default NULL,
+  `data` text,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `sessions_session_id_index` (`session_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `tribe`
 --
 
+DROP TABLE IF EXISTS `tribe`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `tribe` (
@@ -1806,13 +2129,14 @@ CREATE TABLE `tribe` (
   `retired` tinyint(1) NOT NULL default '0',
   `name` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`tribe_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `user_property`
 --
 
+DROP TABLE IF EXISTS `user_property`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `user_property` (
@@ -1828,6 +2152,7 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `user_role`
 --
 
+DROP TABLE IF EXISTS `user_role`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `user_role` (
@@ -1844,10 +2169,11 @@ SET character_set_client = @saved_cs_client;
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL,
   `system_id` varchar(50) NOT NULL default '',
   `username` varchar(50) default NULL,
   `password` varchar(50) default NULL,
@@ -1870,14 +2196,86 @@ CREATE TABLE `users` (
   CONSTRAINT `user_creator` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_changed_user` FOREIGN KEY (`changed_by`) REFERENCES `users` (`user_id`),
   CONSTRAINT `user_who_voided_user` FOREIGN KEY (`voided_by`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
+--
+-- Table structure for table `weight_for_height`
+--
+
+DROP TABLE IF EXISTS `weight_for_height`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `weight_for_height` (
+  `supinecm` double default NULL,
+  `medianwtht` double default NULL,
+  `sdlowwtht` double default NULL,
+  `sdhighwtht` double default NULL,
+  `sex` smallint(6) default NULL,
+  `heightsex` char(5) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `weight_for_heights`
+--
+
+DROP TABLE IF EXISTS `weight_for_heights`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `weight_for_heights` (
+  `supinecm` double NOT NULL,
+  `median_weight_height` double NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `weight_height_for_age`
+--
+
+DROP TABLE IF EXISTS `weight_height_for_age`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `weight_height_for_age` (
+  `agemths` smallint(6) default NULL,
+  `sex` smallint(6) default NULL,
+  `medianht` double default NULL,
+  `sdlowht` double default NULL,
+  `sdhighht` double default NULL,
+  `medianwt` double default NULL,
+  `sdlowwt` double default NULL,
+  `sdhighwt` double default NULL,
+  `agesex` char(4) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `weight_height_for_ages`
+--
+
+DROP TABLE IF EXISTS `weight_height_for_ages`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `weight_height_for_ages` (
+  `age_in_months` smallint(6) default NULL,
+  `sex` char(12) default NULL,
+  `median_height` double default NULL,
+  `standard_low_height` double default NULL,
+  `standard_high_height` double default NULL,
+  `median_weight` double default NULL,
+  `standard_low_weight` double default NULL,
+  `standard_high_weight` double default NULL,
+  `age_sex` char(4) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2008-07-25  2:12:39
+-- Dump completed on 2009-06-02 13:20:39

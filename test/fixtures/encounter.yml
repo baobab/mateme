@@ -1,0 +1,10 @@
+evan_vitals:
+  encounter_id: 1
+  encounter_type: 6
+  patient_id: 1
+  provider_id: 1
+  location_id: 1
+  form_id: 1
+  encounter_datetime: 2001-01-01 00:00:00
+  creator: 1
+  date_created: 2000-01-01 00:00:00

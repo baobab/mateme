@@ -1,0 +1,28 @@
+  <%= javascript_include_tag "barcode" %>
+  <script>
+    var tt_cancel_destination = "/logout"
+    barcodeFocusOnce = true;
+    barcodeScanAction = gotoNextPage;
+
+    function inform() {
+      $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";  
+    }           
+  </script>
+
+  <%= error_messages_for 'user' %>
+  
+  <% form_tag session_path do -%>
+
+    <label for="login">Username</label>
+    <%= text_field_tag(:login, nil, :helpText => "Enter user name", :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput0';") %><br>
+
+    <label for="password">Password</label>
+    <%= password_field_tag(:password, nil, :helpText => "Enter password", :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput1';") %><br>
+
+    <%= submit_tag value="Submit"%>
+  <% end %>
+
+  <div id="popupBox"  align="center">
+    <p id="p1">Verifying your username and password</p>
+    <p id="p2">Please wait......</p>
+  </div>

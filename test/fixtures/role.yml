@@ -1,0 +1,13 @@
+role_1:
+  role: superuser
+  description: System developers..
+
+role_2:
+  role: clinician
+  description: Diagonises Patients
+role_3:
+  role: Nurse
+  description: Takes Care of Patients
+role_4:
+  role: reg_clerk
+  description: Health care provider.

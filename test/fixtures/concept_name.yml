@@ -1,0 +1,132 @@
+--- 
+immune_reconstitution_inflammatory_syndrome_date: 
+  name: IMMUNE RECONSTITUTION INFLAMMATORY SYNDROME DATE
+  concept_id: 2524
+  date_created: 2007-08-02 15:35:58 +02:00
+  creator: 2053
+  locale: en
+immune_reconstitution_inflammatory_syndrome_construct: 
+  name: IMMUNE RECONSTITUTION INFLAMMATORY SYNDROME CONSTRUCT
+  concept_id: 2522
+  date_created: 2007-08-02 15:27:59 +02:00
+  creator: 2053
+  locale: en
+outpatient_diagnosis: 
+  name: OUTPATIENT DIAGNOSIS
+  concept_id: 6098
+  date_created: 2008-03-21 15:08:47 +02:00
+  creator: 15878
+  locale: en
+alcohol_counseling: 
+  name: ALCOHOL COUNSELING
+  concept_id: 1288
+  date_created: 2005-02-25 11:32:55 +02:00
+  creator: 2
+  locale: en
+muppet_counseling: 
+  name: MUPPET COUNSELING
+  concept_id: 1289
+  date_created: 2007-10-25 13:39:28 +02:00
+  creator: 7
+  locale: en
+extrapulmonary_tuberculosis_without_lymphadenopathy: 
+  name: EXTRAPULMONARY TUBERCULOSIS WITHOUT LYMPHADENOPATHY
+  concept_id: 2892
+  date_created: 2008-01-18 12:24:33 +02:00
+  creator: 15877
+  locale: en
+height: 
+  name: HEIGHT (CM)
+  concept_id: 5090
+  date_created: 2004-08-12 00:00:00 +02:00
+  creator: 2
+  locale: en
+referrals_ordered: 
+  name: REFERRALS ORDERED
+  concept_id: 1272
+  date_created: 2005-02-22 20:46:03 +02:00
+  creator: 2
+  locale: en
+outpatient_diagnosis_non_coded: 
+  name: OUTPATIENT DIAGNOSIS, NON-CODED
+  concept_id: 3106
+  date_created: 2008-05-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+treatment: 
+  name: TREATMENT
+  concept_id: 1185
+  date_created: 2005-02-09 00:00:00 +02:00
+  creator: 2
+  locale: en  
+stavudine_lamivudine_nevirapine: 
+  name: STAVUDINE LAMIVUDINE AND NEVIRAPINE
+  creator: 4
+  concept_name_id: 809
+  locale: en
+  concept_id: 792
+  date_created: 2004-04-08 00:00:00 -07:00  
+nitrous_oxide: 
+  name: NITROUS OXIDE
+  creator: 4
+  concept_name_id: 1000
+  locale: en
+  concept_id: 1000
+  date_created: 2004-04-08 00:00:00 -07:00    
+valium: 
+  name: VALIUM
+  creator: 4
+  concept_name_id: 1001
+  locale: en
+  concept_id: 1001
+  date_created: 2004-04-08 00:00:00 -07:00
+concept_name_03454: 
+  name: TEMPERATURE (C)
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3454
+  locale: en
+  concept_id: 5088
+  date_created: 2004-08-12 00:00:00 -07:00
+concept_name_03455: 
+  name: WEIGHT (KG)
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3455
+  locale: en
+  concept_id: 5089
+  date_created: 2004-08-12 00:00:00 -07:00
+drug_frequency_coded: 
+  name: DRUG FREQUENCY CODED
+  concept_id: 3320
+  date_created: 2008-05-23 16:26:14 +02:00
+  creator: 7
+  locale: en
+systolic_blood_pressure: 
+  name: SYSTOLIC BLOOD PRESSURE
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3450
+  locale: en
+  concept_id: 5085
+  date_created: 2004-08-12 00:00:00 -07:00
+diastolic_blood_pressure: 
+  name: DIASTOLIC BLOOD PRESSURE
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 3451
+  locale: en
+  concept_id: 5086
+  date_created: 2004-08-12 00:00:00 -07:00

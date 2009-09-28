@@ -1,4 +1,14 @@
 --- 
+encounter_type_00030: 
+  name: EXAMINATION
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 30
+  creator: 1
+  date_retired: 
+  description: EXAMINATION
+  retired: false
+  date_created: 2009-07-02 15:46:37 +02:00
 encounter_type_00008: 
   name: OUTPATIENT DIAGNOSIS
   retire_reason: 
@@ -9,6 +19,26 @@ encounter_type_00008:
   description: Outpatient diagnosis encounter
   retired: false
   date_created: 2008-05-03 01:04:54 +02:00
+encounter_type_00020: 
+  name: EID_INITIAL
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 20
+  creator: 15878
+  date_retired: 
+  description: Initial visit for Early Infant Diagnosis Program
+  retired: false
+  date_created: 2008-09-12 20:29:14 +02:00
+encounter_type_00021: 
+  name: EID_FOLLOWUP
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 21
+  creator: 15878
+  date_retired: 
+  description: Followup visit for Early Infant Diagnosis program
+  retired: false
+  date_created: 2008-09-12 20:29:33 +02:00
 encounter_type_00010: 
   name: ART_FOLLOWUP
   retire_reason: 
@@ -39,6 +69,26 @@ encounter_type_00011:
   description: Initial Pre-ART visit
   retired: false
   date_created: 2008-06-04 18:31:08 +02:00
+encounter_type_00022: 
+  name: Bacteriology Result
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 22
+  creator: 22572
+  date_retired: 
+  description: A smear or culture lab result wrapper.  Used by th
+  retired: false
+  date_created: 2008-09-24 08:14:52 +02:00
+encounter_type_00023: 
+  name: DST Result
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 23
+  creator: 22572
+  date_retired: 
+  description: A DST result wrapper.  Used by the mdrtb module.
+  retired: false
+  date_created: 2008-09-24 08:15:25 +02:00
 encounter_type_00012: 
   name: PART_FOLLOWUP
   retire_reason: 
@@ -79,6 +129,16 @@ encounter_type_00013:
   description: Lab test
   retired: false
   date_created: 2008-06-04 18:31:43 +02:00
+encounter_type_00024: 
+  name: CHEMOTHERAPY
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 24
+  creator: 15878
+  date_retired: 
+  description: Chemotherapy encounter
+  retired: false
+  date_created: 2008-09-25 19:44:22 +02:00
 encounter_type_00014: 
   name: TB_INITIAL
   retire_reason: 
@@ -99,6 +159,16 @@ encounter_type_00003:
   description: Outpatient Pediatric Initial Visit
   retired: false
   date_created: 2005-02-24 10:00:00 +02:00
+encounter_type_00026: 
+  name: TREATMENT
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 26
+  creator: 21
+  date_retired: 
+  description: TREATMENT ENCOUNTER
+  retired: false
+  date_created: 2008-12-02 10:23:36 +02:00
 encounter_type_00004: 
   name: PEDSRETURN
   retire_reason: 
@@ -119,16 +189,6 @@ encounter_type_00015:
   description: Followup visit for TB Patient
   retired: false
   date_created: 2008-07-15 19:00:39 +02:00
-encounter_type_00016: 
-  name: REFERRED
-  retire_reason: 
-  retired_by: 
-  encounter_type_id: 16
-  creator: 15878
-  date_retired: 
-  description: Refer patient to another HC
-  retired: false
-  date_created: 2008-05-03 01:04:20 +02:00
 encounter_type_00005: 
   name: REGISTRATION
   retire_reason: 
@@ -139,6 +199,36 @@ encounter_type_00005:
   description: Patient Registration Encounter
   retired: false
   date_created: 2008-05-03 01:03:48 +02:00
+encounter_type_00027: 
+  name: DIABETES HYPERTENSION INITIAL VISIT
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 27
+  creator: 1
+  date_retired: 
+  description: DIABETES HYPERTENSION INITIAL VISIT
+  retired: false
+  date_created: 2009-06-22 11:22:29 +02:00
+encounter_type_00028: 
+  name: MEDICAL HISTORY
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 28
+  creator: 1
+  date_retired: 
+  description: MEDICAL HISTORY
+  retired: false
+  date_created: 2009-06-23 09:33:01 +02:00
+encounter_type_00017: 
+  name: PATIENT EVALUATION
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 17
+  creator: 15878
+  date_retired: 
+  description: Patient evaluation encounter
+  retired: false
+  date_created: 2008-09-11 22:47:09 +02:00
 encounter_type_00006: 
   name: VITALS
   retire_reason: 
@@ -159,3 +249,13 @@ encounter_type_00007:
   description: New appointment encounter
   retired: false
   date_created: 2008-05-03 01:04:20 +02:00
+encounter_type_00029: 
+  name: COMPLICATIONS
+  retire_reason: 
+  retired_by: 
+  encounter_type_id: 29
+  creator: 1
+  date_retired: 
+  description: COMPLICATIONS ENCOUNTER
+  retired: false
+  date_created: 2009-06-26 10:45:58 +02:00

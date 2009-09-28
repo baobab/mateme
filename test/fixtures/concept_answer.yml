@@ -1,0 +1,15 @@
+--- 
+alcohol_counseling: 
+  concept_answer_id: 1
+  concept_id: 1272
+  date_created: 2005-02-25 11:33:23 +02:00
+  creator: 2
+  answer_drug: 
+  answer_concept: 1288
+muppet_counseling: 
+  concept_answer_id: 2
+  concept_id: 1272
+  date_created: 2005-02-25 11:33:23 +02:00
+  creator: 2
+  answer_drug: 
+  answer_concept: 1289

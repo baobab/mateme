@@ -1,10 +1,13 @@
 .DS_Store
-.*swp
-.*swo
+*.swp
+*.swo
 config/database.yml
+config/settings.yml
 notes
 doc
 development.sql
 development_structure.sql
-schema.sql
 schema.rb
+*~
+mockups
+nbproject

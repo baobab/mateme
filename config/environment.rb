@@ -1,31 +1,31 @@
+# Specifies gem version of Rails to use when vendor/rails is not present
+RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
+MATEME_VERSION = '1.0'
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-  # Settings in config/environments/* take precedence over those specified here
-  
-  # Skip frameworks you're not going to use (only works if using vendor/rails)
-  config.frameworks -= [ :action_web_service, :action_mailer ]
-  
-  # Force all environments to use the same logger level 
-  # (by default production uses :info, the others :debug)
+  config.frameworks -= [ :action_web_service, :action_mailer, :active_resource ]
   config.log_level = :debug
-
-  # Use the database for sessions instead of the file system
-  # (create the session table with 'rake db:sessions:create')
   config.action_controller.session_store = :active_record_store
-
-  # Use SQL instead of Active Record's schema dumper when creating the test database.
-  # This is necessary if your schema can't be completely dumped by the schema dumper, 
-  # like if you have constraints or database-specific column types
   config.active_record.schema_format = :sql
-
+  # config.time_zone = 'UTC'
+  
+  config.action_controller.session = {
+    :session_key => 'mateme_session',
+    :secret      => '8sgdhr431ba87cfd9bea177ba3d344a67acb0f179753f37d28db8bd102134261cdb4b1dbacccb126435631686d66e148a203fac1c5d71eea6abf955a66a472ce'
+  }  
 end
+
+MATEME_SETTINGS = YAML.load_file(File.join(Rails.root, "config", "settings.yml"))[Rails.env] rescue nil
 
 require 'fixtures'
 require 'composite_primary_keys'
 require 'has_many_through_association_extension'
 require 'bantu_soundex'
+require 'json'
+require 'colorfy_strings'
 
 # Foreign key checks use a lot of resources but are useful during development
 module ActiveRecord
@@ -45,3 +45,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'obs', 'obs'
   inflect.irregular 'concept_class', 'concept_class'
 end  
+
+

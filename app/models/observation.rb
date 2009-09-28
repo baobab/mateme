@@ -5,8 +5,9 @@ class Observation < ActiveRecord::Base
 
   belongs_to :concept
   belongs_to :answer_concept, :class_name => "Concept", :foreign_key => "value_coded"
+  belongs_to :answer_concept_name, :class_name => "ConceptName", :foreign_key => "value_coded_name_id"
   has_many :concept_names, :through => :concept
-  named_scope :active, :conditions => ['voided = 0']
+  named_scope :active, :conditions => ['obs.voided = 0']
 
 
   def patient_id=(patient_id)
@@ -15,17 +16,19 @@ class Observation < ActiveRecord::Base
 
   def concept_name=(concept_name)
     self.concept_id = ConceptName.find_by_name(concept_name).concept_id
+    rescue
+      raise "\"#{concept_name}\" does not exist in the concept_name table"
   end
 
-
   def value_coded_or_text=(value_coded_or_text)
-    value_coded = ConceptName.find_by_name(value_coded_or_text).concept_id rescue nil
-    if value_coded.nil?
+    value_coded_name = ConceptName.find_by_name(value_coded_or_text)
+    if value_coded_name.nil?
       # TODO: this should not be done this way with a brittle hard ref to concept name
       self.concept_name = "OUTPATIENT DIAGNOSIS, NON-CODED" if self.concept && self.concept.name && self.concept.name.name == "OUTPATIENT DIAGNOSIS"
       self.value_text = value_coded_or_text
     else
-      self.value_coded = value_coded
+      self.value_coded_name_id = value_coded_name.concept_name_id
+      self.value_coded = value_coded_name.concept_id
       self.value_coded
     end
   end
@@ -66,6 +69,6 @@ class Observation < ActiveRecord::Base
   end
 
   def answer_string
-    "#{self.answer_concept.name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
   end
 end

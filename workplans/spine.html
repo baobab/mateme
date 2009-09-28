@@ -1,0 +1,303 @@
+<style> code{ background-color: black; color: white; display: block;
+margin-top: 15px; margin-bottom: 15px; padding-top: 15px; padding-bottom: 15px;
+padding-left: 30px; border: 2px solid gray; font-family: monospace; } </style>
+<pre> <img width="300px" src="../public/images/BaobabHealth.png">
+<h1>Mateme / SPINE Roadmap</h1>
+
+<h2>Security</h2>
+<p>Users will need to login to gain access to the system. This will require
+entering a username and password. Once these are accepted the location will
+be determined (and will be used for guiding workflow and limiting access).</p>
+<img src='./images/Picture%201.png' width=400 height=340>
+<img src='./images/Picture%202.png' width=400 height=340>
+<img src='./images/Picture%203.png' width=400 height=340>
+<p>Following the login, administrators will be taken to an administrator dashboard.
+Access to additional features can be found here (including barcode creation,
+user management and reporting).</p>
+<img src='./images/Picture%204.png' width=400 height=340>
+<p>The clinic will have its own "clinical dashboard." From here a user can
+scan a barcode, find a patient by name, or find a patient by identifier.
+Additionally, the screen informs the user of some basic clinic level
+statistics for the day.</p>
+<img src='./images/Picture%205.png' width=400 height=340>
+
+
+<h2>Registration and Patient Search (demographics)</h2>
+<p>When looking up a patient by name, the first name, last name, and
+gender are entered to filter the list of possible matches.
+<img src='./images/Picture%206.png' width=400 height=340>
+<p>Notice that when typing, names matching the typed information appear near
+the top. Also, notice that phonetic "sound-alike" terms are defined within the
+local context.</p>
+<img src='./images/Picture%207.png' width=400 height=340>
+<img src='./images/Picture%208.png' width=400 height=340>
+<img src='./images/Picture%209.png' width=400 height=340>
+<img src='./images/Picture%2010.png' width=400 height=340>
+<p>Once the filter information is submitted, the user can choose one of the 
+matching patients or select that the want to enter the information as part of
+a new patient.</p>
+<img src='./images/Picture%2011.png' width=400 height=340>
+<img src='./images/Picture%2012.png' width=400 height=340>
+<p>If you create a patient, you must add additional registration information.
+A careful distinction should be made about information that is inteneded
+for patient re-identification and information intended for followup. This 
+information is intended for the former and not the latter. Because of this
+the number of data points collected should be limited to items (where possible)
+that do not change frequently (such as birthdate).</p>
+<img src='./images/Picture%2013.png' width=400 height=340>
+<img src='./images/Picture%2014.png' width=400 height=340>
+<img src='./images/Picture%2015.png' width=400 height=340>
+<p>Patient birthdates also allow the user to input "Unknown" which, if chosen
+will ask the user to estimate the patient's age and an estimated birthdate
+will be chosen.</p>
+<p>Current address information is collected, similarily it is optional to 
+collect other relevant census information such as Ancestral TA, district and
+village.</p>
+<img src='./images/Picture%2016.png' width=400 height=340>
+<img src='./images/Picture%2017.png' width=400 height=340>
+
+
+<h2>Vitals</h2>
+<p>Vital information can be inserted in the workflow where appropriate and it
+can be repeated as necessary. It consists of Height, Weight, 
+Temperature (optional), Middle Upper Arm Circumference (optional), and 
+Systolic and Diastolic Blood Pressure (optional).</p>
+<img src='./images/Picture%2021.png' width=400 height=340>
+<img src='./images/Picture%2020.png' width=400 height=340>
+<p>For all vital information it is confirgurable to require precision numbers
+(force use of decimal point) or not, as well as the allowable ranges and
+normal ranges for the values. For height and weight ranges these checks are 
+implemented using weight for height and weight height for age tables.</p>
+<img src='./images/Picture%2018.png' width=400 height=340>
+<img src='./images/Picture%2019.png' width=400 height=340>
+<p>Graphs showing vitals history are available as new inputs are made. These 
+graphs will also be made available on the patient dashboard.</p>
+<img src='./images/Picture%2022.png' width=400 height=340>
+
+
+<h2>Diagnosis</h2>
+<p>A primary and secondary diagnosis is collected and the list of possible
+diagnoses is specific to the clinic (a subset of the master list that is
+maintained centrally). Non-coded diagnoses are also permitted. After
+indicating a diagnosis the user is asked to specify the confirmation (or
+confidence). If the diagnosis is suspected the user may be prompted to 
+order a confirmatory lab test. If the diagnosis is confirmed then the 
+user is prompted to choose the related (completed) lab order during this
+visit that can be shown as evidence for the diagnosis.</p>
+<img src='./images/Picture%2038.png' width=400 height=340>
+<img src='./images/Picture%2039.png' width=400 height=340>
+<img src='./images/Picture%2040.png' width=400 height=340>
+<img src='./images/Picture%2041.png' width=400 height=340>
+<img src='./images/Picture%2044.png' width=400 height=340>
+<img src='./images/Picture%2043.png' width=400 height=340>
+<img src='./images/Picture%2042.png' width=400 height=340>
+
+
+<h2>Lab order</h2>
+<p>A list of available labs is collected from the database as a specified 
+set of concepts that represent labs</p>
+<img src='./images/Picture%2045.png' width=400 height=340>
+<p style="color:silver">TODO: insert laboratory destination here</p>
+<p style="color:silver">TODO: insert accession number here</p>
+<p>On choosing which kind of lab is being ordered, the user can choose the
+priority level for the order and optionally print a specimen label.</p>
+<img src='./images/Picture%2046.png' width=400 height=340>
+<img src='./images/Picture%2047.png' width=400 height=340>
+
+
+<h2>Lab input</h2>
+<p>When inputing data, a specific lab is selected (usually by accession number)
+from the list of orders (either for the patient if done in the clinic, or for
+the lab itself if done in the lab). In order to be entered a lab result must
+have a corresponding order, so a new one can be immediately created if the order
+is lost.</p>
+<p style="color:silver">NOTE: this interface may eventually approximate the prescriptions listing</p>
+<img src='./images/Picture%2048.png' width=400 height=340>
+<p>The variables associated with each lab are configured in the database and 
+the questions are asked in order.</p>
+<img src='./images/Picture%2049.png' width=400 height=340>
+<img src='./images/Picture%2050.png' width=400 height=340>
+
+<h2>Treatment</h2>
+<p>The treatment workflow will generally be performed by clinicians after
+a diagnosis has been made. The user selects this workflow (or it is 
+automatically selected) and they are first asked for which diagnosis the
+treatment is being made (unknown is an allowable answer).</p>
+<img src='./images/Picture%2023.png' width=400 height=340>
+<p>If a diagnosis is chosen then the system, then the system will suggest 
+popular treatment protocols for that diagnosis based on historical information
+collected in the system. It is possible that the user will not want to use
+this and will instead choose to create a new prescription.</p>
+<img src='./images/Picture%2032.png' width=400 height=340>
+<p>When building a prescription the user must first choose the generic drug and
+then a filtered list of formulations of that drug.</p>
+<img src='./images/Picture%2024.png' width=400 height=340>
+<img src='./images/Picture%2025.png' width=400 height=340>
+<p>Two types of prescription are allowed "Standard" and "Variable". A standard 
+prescription means that each dose that is given is the same (for example 
+2 tablets in the morning, 2 tablets in the evening). The user should choose
+"Variable" when the dose strength is different at different times in the 
+day (for example: 1 table in the morning 1/2 tablet in the afternoon, 2 tablets
+at night).</p>
+<img src='./images/Picture%2026.png' width=400 height=340>
+<p>The dose strength allows the user to input how much (in specified units that 
+the drug is delivered in) each dose should be. So in the case of somehting like
+Cipro the drug is dosed in mg, however in other drugs it might use "tablets" or
+"vials" or "mL" for the units.</p>
+<img src='./images/Picture%2027.png' width=400 height=340>
+<img src='./images/Picture%2028.png' width=400 height=340>
+<img src='./images/Picture%2029.png' width=400 height=340>
+<img src='./images/Picture%2030.png' width=400 height=340>
+<p>New prescriptions are listed in the prescription dashboard. Tracking which
+orders are filled (dispensed) is not currently part of the treatment workflow.</p>
+<img src='./images/Picture%2031.png' width=400 height=340>
+<h2>Discharge</h2>
+<p>A patient will only be discharged from the hospital (ending their visit to 
+the hospital), they will not be discharged from each ward. The final primary
+diagnosis at the time of discharge is the discharge diagnosis, so the 
+diagnosis should be entered as appropriate. Following this, the user 
+will choose the appropriate diganosis.</p>
+<img src='./images/Picture%2035.png' width=400 height=340>
+<p>If the user has specified the outcome as refer, addtional referral 
+information is collected.</p>
+<img src='./images/Picture%2036.png' width=400 height=340>
+<img src='./images/Picture%2037.png' width=400 height=340>
+<p>Appointments can be scheduled (for this clinic or the referred to clinic).
+a generic "Time until next appointment" is asked initially to simplify the
+date entry but the answer is not stored.</p>
+<img src='./images/Picture%2033.png' width=400 height=340>
+<img src='./images/Picture%2034.png' width=400 height=340>
+
+
+<h3>Steps required to implement SPINE and harmonize various Mateme installs</h3>
+<p>Going forward maintaining a single line of code will be beneficial to Baobab.
+in order to accomplish this we will need to add additional areas for 
+confirguration. In the near term, for SPINE, the configurable pieces must
+include:</p>
+<pre>
+New Demographics
+  - Editing of demographics must be tested
+  - Specify the names of fields in global properties
+  - Specify which fields should be entered in global property
+  - Specify which fields should be filters in a global property
+Diagnosis global properties
+  - Global property limiting diagnosis concept answers to a specific concept set
+  - Global property indicating whether previous answers should be included in the list of diagnoses
+Vitals global properties
+  - Global property vitals.systolic_blood_pressure
+  - Global property vitals.diastolic_blood_pressure
+  - Global property vitals.temperature
+  - Global property vitals.middle_upper_arm_circumference 
+Patient dashboard redesign
+  - Global property for specific graph
+  - Encounter sorting
+  - Historical encounters
+  - Program listing
+  - Program specific dashboard?
+  - Clinic level dashboard?
+Retrospective entry
+  - Move to /retrospective (so that it can be controlled restfully)
+  - Control with global property
+  - Define dashboard behavior when retrospective
+</pre>
+<p>Additionally, Baobab will need to adopt a concept (and data configuration
+table) strategy. Once this decision is finalized, existing sites such as
+CMERD and ANC at Bwaila will need to have their existing set of data
+migrating.</p>
+<pre>
+Data Migration
+  - Visits must be created for historical encounters
+  - Existing reports should be rewritten to account for the visits table
+  - Exsiting CMERD concepts and observations must be migrated to the master concept set
+</pre>  
+
+  
+<h3>Moving to a visits hierarchy in the data model</h3>
+<p>Because of the inpatient module, visits can now (often) last more than 
+on day. To enable tracking of this a new table must be introduced. This will
+require code and reporting changes (but should result in significantly increased
+performance and code-simplication).</p>
+<pre>
+Visits
+  - Observation should set its datetime like encounter does, using retrospective date if present
+  - Encounter datetime should use retrospective date if present
+  - Encounter.current must consider current visit not current date and must consider retrospective
+Registration 
+  Confirm new visit if last visit has not ended
+</pre>
+
+<h3>After merging the code bases there are areas that need further testing or refactoring</h3>
+<p>Baobab should ensure that after the merging of various forks that code is 
+still working functionally as expected. There are various areas that need
+refactoring or improved testing:<p> 
+<pre>
+Login and location via barcode 
+  - Must be tested with actual "$" at end
+  - Must have initial focus
+Heartbeat controller
+  - Better define the motivations for this and simplify
+Remote Demographic rewrite
+  - Use autossh?
+  - Use Net::SSH?
+  - Use .to_json
+  - Make restful
+</pre>  
+
+<h3>Program workflows</h3>
+<p>To work in the same application as UNION the code base should be refactored
+to support program enrollment and workflows<p> 
+<pre>
+  Program specific registration (e.g. HIV registration)
+  Program workflow configuration (move next_task into data model)
+  Program specific dashboards
+  Refactor Encounter type selection
+</pre>
+
+<h3>Lab system</h3>
+<p>Sample mockups of a lab system are in the above set of screenshots.
+In general the lab system should be compatabile with existing systems 
+and will need the following behavior/modelling:</p>
+<pre>
+Labs require completed status 
+  - orders.date_completed (this would also be used for drug dispensation)
+</pre>
+<ul>  
+<li>Available lab types should be represented by concepts have the concept_class LabSet</li>
+<li>Additionally a subset of labs may be created by creating a specific concept_set such as "DISTRICT LABS" and "CLINIC LEVEL LABS" according to the request at spine</li>
+<li>Each available lab will also be a set (for example CD4 PANEL is a concept which has a set)</li>
+<li>The set of concepts will include all of the variables per lab (CD4 COUNT, CD4 PERCENT).</li>
+<li>The datatype_id of these concepts will suit their entry (in the above example datatype would be numeric)</li>
+<li>In cases of numeric variables, the concept should have an associated concept_numeric which specifies precision (decimal point or not) and allowable ranges</li>
+<li>The concepts can have concept_description to support the requests from SPINE </li>
+</ul>
+<p>When ordering the order will be created and linked to the original obs that 
+required it (for example, the suspected diagnosis that prompted the order). The
+accession number and workflow will look like the above screenshots.</p>
+<p>Lab results will be entered as an encounter with the variables being stored
+as observations</p>
+
+
+<h3>Admission/Discharge encounters</h3>
+<p>As specified in the mockups above, discharge encounters will track the
+patients leaving and finalize the visit. Admission encounters will 
+initially be added when the patient arrives in each ward. This will
+provide the effective location of where the patient is at any given time.</p>
+<pre>
+Outcome/Dischared Encounter
+  Outcome
+  Referral 
+  Reason for referral/appointment
+  Appointment
+</pre>  
+  
+<h3>Reporting</h3>
+<p>A short investigation occured to determine if openmrs should be used for
+reporting in SPINE. It was determined that the current reporting facilities
+in openmrs are not sufficient to provide the necessary reports. A new 
+reporting module is due to be released that may resolve this problem but
+SPINE should not add a dependency on it.</p>
+
+<code>
+./support/features_to_doc.rb > features.html
+</code>
+</pre>

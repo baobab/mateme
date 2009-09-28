@@ -1,0 +1,28 @@
+<style type="text/css"> 
+  #SHIFT, 
+  #space, 
+  #lessthan, 
+  #greaterthan, 
+  #star,
+  #abc,
+  #date,
+  #minus,
+  #plus,
+  #decimal,
+  #slash,
+  #equals,
+  #comma,
+  #percent { display: inline; }
+  #Unknown, #unknown { display: none; }
+</style>
+
+<script>
+  var tt_cancel_destination = "/admin"
+</script>
+
+<% form_tag barcodes_path do -%>
+  <label for="barcode">Barcode</label>
+  <%= text_field_tag(:barcode, nil, :helpText => "Enter Barcode", :textCase => 'mixed') %><br>
+  <%= text_field_tag(:label, nil, :helpText => "Enter Label") %><br>
+  <%= submit_tag value="Submit"%>
+<% end %>

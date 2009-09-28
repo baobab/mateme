@@ -8,6 +8,6 @@ class ConceptAnswer < ActiveRecord::Base
   belongs_to :concept
 
   def name
-    self.answer.name.name
+    self.answer.name.name rescue ''
   end
 end

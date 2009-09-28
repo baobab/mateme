@@ -1,0 +1,21 @@
+--- 
+person_name_00001: 
+  voided: false
+  preferred: false
+  prefix: Dr.
+  family_name_prefix: 
+  changed_by: 1
+  family_name_suffix: 
+  family_name2: 
+  degree: His Excellency, the President
+  creator: 1
+  voided_by: 
+  void_reason: 
+  family_name: Waters
+  date_voided: 
+  person_name_id: 1
+  person_id: 1
+  date_changed: 2000-01-01 00:00:00 +02:00
+  given_name: Evan
+  middle_name: Joseph Murray
+  date_created: 2000-01-01 00:00:00 +02:00

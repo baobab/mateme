@@ -1,0 +1,31 @@
+--- 
+order_type_00003: 
+  name: Test
+  retire_reason: 
+  retired_by: 
+  creator: 2
+  date_retired: 
+  order_type_id: 3
+  description: New test order
+  retired: false
+  date_created: 2005-08-08 16:07:53 +02:00
+order_type_00001: 
+  name: Drug Order
+  retire_reason: 
+  retired_by: 
+  creator: 2
+  date_retired: 
+  order_type_id: 1
+  description: Drug information captured from patient historically
+  retired: false
+  date_created: 2005-08-08 16:06:12 +02:00
+order_type_00002: 
+  name: Drug
+  retire_reason: 
+  retired_by: 
+  creator: 2
+  date_retired: 
+  order_type_id: 2
+  description: New drug order
+  retired: false
+  date_created: 2005-08-08 16:07:20 +02:00

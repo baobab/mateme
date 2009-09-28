@@ -1,0 +1,122 @@
+--- 
+concept_datatype_00010: 
+  name: Boolean
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 10
+  hl7_abbreviation: BIT
+  description: Boolean value (yes/no, true/false)
+  retired: false
+  date_created: 2004-08-26 00:00:00 +02:00
+concept_datatype_00011: 
+  name: Rule
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 11
+  hl7_abbreviation: ZZ
+  description: Value derived from other data
+  retired: false
+  date_created: 2006-09-11 13:22:00 +02:00
+concept_datatype_00012: 
+  name: Structured Numeric
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 12
+  hl7_abbreviation: SN
+  description: Complex numeric values possible (ie, <5, 1-10, etc.)
+  retired: false
+  date_created: 2005-08-06 00:00:00 +02:00
+concept_datatype_00001: 
+  name: Numeric
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 1
+  hl7_abbreviation: NM
+  description: Numeric value, including integer or float (e.g., creatinine, weight)
+  retired: false
+  date_created: 2004-02-02 00:00:00 +02:00
+concept_datatype_00002: 
+  name: Coded
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 2
+  hl7_abbreviation: CWE
+  description: Value determined by term dictionary lookup (i.e., term identifier)
+  retired: false
+  date_created: 2004-02-02 00:00:00 +02:00
+concept_datatype_00003: 
+  name: Text
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 3
+  hl7_abbreviation: ST
+  description: Free text
+  retired: false
+  date_created: 2004-02-02 00:00:00 +02:00
+concept_datatype_00004: 
+  name: N/A
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 4
+  hl7_abbreviation: ZZ
+  description: Not associated with a datatype (e.g., term answers, sets)
+  retired: false
+  date_created: 2004-02-02 00:00:00 +02:00
+concept_datatype_00005: 
+  name: Document
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 5
+  hl7_abbreviation: RP
+  description: Pointer to a binary or text-based document (e.g., clinical document, RTF, XML, EKG, image, etc.) stored in complex_obs table
+  retired: false
+  date_created: 2004-04-15 00:00:00 +02:00
+concept_datatype_00006: 
+  name: Date
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 6
+  hl7_abbreviation: DT
+  description: Absolute date
+  retired: false
+  date_created: 2004-07-22 00:00:00 +02:00
+concept_datatype_00007: 
+  name: Time
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 7
+  hl7_abbreviation: TM
+  description: Absolute time of day
+  retired: false
+  date_created: 2004-07-22 00:00:00 +02:00
+concept_datatype_00008: 
+  name: Datetime
+  retire_reason: 
+  retired_by: 
+  creator: 1
+  date_retired: 
+  concept_datatype_id: 8
+  hl7_abbreviation: TS
+  description: Absolute date and time
+  retired: false
+  date_created: 2004-07-22 00:00:00 +02:00

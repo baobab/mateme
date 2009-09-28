@@ -2,25 +2,27 @@ var patnum = ""
 var setFocusTimeout = 5000;
 var checkForBarcodeTimeout = 1500;
 var barcodeFocusTimeoutId = null;
-
+var barcodeFocusOnce = false;
+var barcodeId = '';
+var focusOnce = false;
 
 function loadBarcodePage() {
   focusForBarcodeInput()
   checkForBarcode()
 }
 
-function focusForBarcodeInput(barcodeId){
+function focusForBarcodeInput(){
 	if (!barcodeId) {
 		barcodeId = "barcode";
 	}
   var barcode = document.getElementById("barcode");
 	if (barcode) {
 		barcode.focus();
-		barcodeFocusTimeoutId = window.setTimeout("focusForBarcodeInput()", setFocusTimeout);
+		if (!focusOnce) barcodeFocusTimeoutId = window.setTimeout("focusForBarcodeInput()", setFocusTimeout);
 	}
 }
 
-function checkForBarcode(barcodeId, validAction){
+function checkForBarcode(validAction){
 	if (!barcodeId) {
 		barcodeId = "barcode";
 	}
@@ -31,16 +33,12 @@ function checkForBarcode(barcodeId, validAction){
   // Look for anything with a dollar sign at the end
   if (barcode_element.value.match(/.+\$$/i) != null){
     barcode_element.value = barcode_element.value.substring(0,barcode_element.value.length-1)
-
-		if (typeof validAction == "string" && barcodeId != "barcode")
-			eval(validAction);
-		else if (typeof barcodeScanAction != "undefined")
+		if (typeof barcodeScanAction != "undefined")
 			barcodeScanAction();
 		else
     	document.getElementById('barcodeForm').submit();
-    return
   }
-  window.setTimeout("checkForBarcode('"+barcodeId+"', '" + validAction + "')", checkForBarcodeTimeout);
+  window.setTimeout("checkForBarcode('" + validAction + "')", checkForBarcodeTimeout);
 }
 
 
