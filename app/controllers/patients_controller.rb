@@ -22,7 +22,8 @@ class PatientsController < ApplicationController
        
     @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
     @encounters = @patient.encounters.current.active.find(:all)
-    render :template => 'patients/show', :layout => 'menu' 
+    render :template => 'patients/show', :layout => 'menu'
+    
   end
 
   def void 
