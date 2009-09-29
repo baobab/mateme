@@ -8,7 +8,7 @@ class PeopleController < ApplicationController
   
   def identifiers
   end
-
+ 
   def demographics
     # Search by the demographics that were passed in and then return demographics
     people = Person.find_by_demographics(params)
@@ -28,13 +28,13 @@ class PeopleController < ApplicationController
         # TODO - figure out how to write a test for this
         # This is sloppy - creating something as the result of a GET
         found_person_data = Person.find_remote_by_identifier(params[:identifier])
-        found_person =  Person.create_from_form(found_person_data) unless found_person_data.nil?
+        found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
       end
       if found_person
-        redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return 
+        redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
       end
     end
-    @people = Person.search(params)    
+    @people = Person.search(params)
   end
  
   # This method is just to allow the select box to submit, we could probably do this better
@@ -53,24 +53,23 @@ class PeopleController < ApplicationController
       redirect_to :action => "index"
     end
   end
-
+ 
   # TODO refactor so this is restful and in the right controller.
   def set_datetime
     if request.post?
       unless params["retrospective_patient_day"]== "" or params["retrospective_patient_month"]== "" or params["retrospective_patient_year"]== ""
         # set for 1 second after midnight to designate it as a retrospective date
         date_of_encounter = Time.mktime(params["retrospective_patient_year"].to_i,
-                                        params["retrospective_patient_month"].to_i,                                
-                                        params["retrospective_patient_day"].to_i,0,0,1) 
-        session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today 
+                                        params["retrospective_patient_month"].to_i,
+                                        params["retrospective_patient_day"].to_i,0,0,1)
+        session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today
       end
       redirect_to :action => "index"
     end
   end
-
+ 
   def reset_datetime
     session[:datetime] = nil
     redirect_to :action => "index" and return
   end
 end
- 

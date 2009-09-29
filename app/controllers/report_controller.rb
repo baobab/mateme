@@ -5,11 +5,12 @@ class ReportController < ApplicationController
   def weekly_report
     @start_date = Date.new(params[:start_year].to_i,params[:start_month].to_i,params[:start_day].to_i) rescue nil
     @end_date = Date.new(params[:end_year].to_i,params[:end_month].to_i,params[:end_day].to_i) rescue nil
-    if @start_date > @end_date
-      flash[:notice] = 'Start date is greater that end date'
+    if (@start_date > @end_date) || (@start_date > Date.today)
+      flash[:notice] = 'Start date is greater than end date or Start date is greater than today'
       redirect_to :action => 'select'
       return
     end
+    
     @diagnoses = ConceptName.find(:all,
                                   :joins =>
                                         "INNER JOIN obs ON
@@ -96,8 +97,8 @@ class ReportController < ApplicationController
 
   @start_date = Date.new(params[:start_year].to_i,params[:start_month].to_i,params[:start_day].to_i) rescue nil
   @end_date = Date.new(params[:end_year].to_i,params[:end_month].to_i,params[:end_day].to_i) rescue nil
-   if @start_date > @end_date
-      flash[:notice] = 'Start date is greater that end date'
+   if (@start_date > @end_date) || (@start_date > Date.today)
+      flash[:notice] = 'Start date is greater than end date or Start date is greater than today'
       redirect_to :action => 'select'
       return
     end
@@ -152,8 +153,8 @@ class ReportController < ApplicationController
   def referral
      @start_date = Date.new(params[:start_year].to_i,params[:start_month].to_i,params[:start_day].to_i) rescue nil
     @end_date = Date.new(params[:end_year].to_i,params[:end_month].to_i,params[:end_day].to_i) rescue nil
-      if @start_date > @end_date
-        flash[:notice] = 'Start date is greater that end date'
+      if (@start_date > @end_date) || (@start_date > Date.today)
+        flash[:notice] = 'Start date is greater than end date or Start date is greater than today'
         redirect_to :action => 'select'
         return
       end
