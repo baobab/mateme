@@ -4,6 +4,10 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <% @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+
+  <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
+  <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
+
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
