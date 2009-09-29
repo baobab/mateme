@@ -33,6 +33,8 @@
 <div style="margin:10px;">
   <div id="details" style="float:left">
     <%= render :partial => "details" %>
+    <%=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
+    <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
     <%= render :partial => "current_encounters" %>
   </div>
   <div id="menu">
@@ -40,6 +42,7 @@
     <a class="button green" href='/encounter_types?patient_id=<%= @patient.id -%>'>Encounters</a>
     -->
     <!-- ============================ -->
+
 
   <%if @doctor%>
       <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
