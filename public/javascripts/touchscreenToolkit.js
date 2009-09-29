@@ -106,6 +106,11 @@ function loadTouchscreenToolkit() {
 	disableTextSelection(); //For Opera
 
 	addLaunchButton();
+
+  if (typeof($) == 'undefined') {
+  $ = function(elementId) {return document.getElementById(elementId);};
+}
+
 	enableTouchscreenInterface();
 
 	tstKeyboard = $('keyboard');
