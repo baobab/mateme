@@ -63,14 +63,14 @@
   <%end %>
 
   <%if @regstration_clerk%>
-      <a class="button green" href='/people/new'>Reigster Patient</a>
+      <a class="button green" href='/people/new'>Register Patient</a>
       <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
       <a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a>
   <%end %>
 
 
     <%if @super_user%>
-      <a class="button green" href='/people/new'>Reigster Patient</a>
+      <a class="button green" href='/people/new'>Register Patient</a>
       <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
       <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
       <a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a>
