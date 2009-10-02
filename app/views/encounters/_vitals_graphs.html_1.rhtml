@@ -1,0 +1,171 @@
+<style type="text/css">
+    #summary {
+      padding:10px;
+      font-size:1.8em;
+    }
+    #weightHistory {
+      margin-top:20px;
+      padding-top:10px;
+      margin-bottom:15px;
+      border-top:1px solid black;
+      font-size:1.2em;
+    }
+    .gridLabel {
+      text-align:center;
+      min-width:33px;
+      font-size:10pt;
+      margin-top:17px;
+    }
+    .xLabel {
+      margin-top:-17px;
+    }
+    .lowWeightForHeight{color:black;background:red;}
+    .medWeightForHeight {color:black;background:yellow;}
+    .lowBMI {color:black;background:red;}
+    .lowWeightForAge {color:black;background:red;}
+    .medWeightForAge {color:black;background:yellow;}
+    .goodWeightForAge {color:black;}
+    .lowHeightForAge {color:black;background:red;}
+    .medHeightForAge {color:black;background:yellow;}
+    .goodHeightForAge {color:black;}
+  </style>
+
+  <script language="javascript">
+  jQuery.noConflict();
+
+  var currentBmi;
+  var currentWeight;
+  var currentHeight;
+  var currentHeightPercentile;
+  var currentWeightPercentile;
+  var displayText;
+  var medianWeightHeight;
+
+  function growthIndicators(){
+     //These values pulled from the tt_onLoad bit in the third form...
+     currentHeight = $('height').value;
+     currentWeight = $('weight').value;
+     medianWeightHeight = [<%= WeightHeightForAge.median_weight_height(@patient.person.age, @patient.person.gender).join(',') rescue nil -%>];
+     currentWeightPercentile = (currentWeight/(medianWeightHeight[0])*100).toFixed(0);
+     currentHeightPercentile = (currentHeight/(medianWeightHeight[1])*100).toFixed(0);
+     if (('<%= @patient.person.age %>') > 14) {
+       showBMI();
+     } else {
+       showWeightHeightForAge();
+       showWeightForHeight();
+     }
+     displayText += '<div id="weightHistory">Weight history graph:</div>';
+     displayText += '<div id="placeholder" style="width:300px;height:150px;"></div><div id="overview" style="width:500px;height:140px;"></div>';
+     $('tt_page_summary_').innerHTML = '<div id="summary">' + displayText + '</div>' ;
+     drawGraph();
+   }
+
+  function showWeightHeightForAge(){
+    displayText = "Weight for age:";
+    if (currentWeightPercentile >= 80){
+      displayText += "<span class='goodWeightForAge'>" + currentWeightPercentile + "%</span><br>";
+    } else if (currentWeightPercentile >= 75) {
+      displayText += "<span class='medWeightForAge'>" + currentWeightPercentile + "%</span>" + " <span class='recommendation'> Moderate wasting </span><br>";
+    } else {
+      displayText += "<span class='lowWeightForAge'>" + currentWeightPercentile + "%</span>" + " <span class='recommendation'> Severe wasting,</span><br>";
+    }
+
+    displayText += "Height for age:";
+    if (currentHeightPercentile >= 80){
+      displayText += "<span class='goodHeightForAge'>" + currentHeightPercentile + "%</span><br>";
+    } else if (currentHeightPercentile >= 75) {
+      displayText += "<span class='medHeightForAge'>" + currentHeightPercentile + "%</span>" + " <span class='recommendation'> Moderate stunted growth </span><br>";
+    } else {
+      displayText += "<span class='lowHeightForAge'>" + currentHeightPercentile + "%</span>" + " <span class='recommendation'> Severe stunted growth </span><br>";
+    }
+
+  }
+
+  function showWeightForHeight() {
+    var currentHeightRounded = (currentHeight % Math.floor(currentHeight) < 0.5 ? 0 : 0.5) + Math.floor(currentHeight);
+    var weightForHeights = <%= WeightForHeight.patient_weight_for_height_values.to_json -%>;
+    var medianWeightHeight = weightForHeights[currentHeightRounded];
+    var weightForHeightPercentile = (currentWeight/(medianWeightHeight)*100).toFixed(0);
+
+    displayText += "Weight for height:";
+
+    if (weightForHeightPercentile >= 80) {
+      displayText += "<span class='goodWeightForHeight'>" + weightForHeightPercentile + "%</span><br>";
+    } else if (weightForHeightPercentile >= 75) {
+      displayText += "<span class='medWeightForHeight'>" + weightForHeightPercentile + "%</span>" + " <span class='recommendation'> Moderate wasting</span><br>";
+    } else {
+      displayText += "<span class='lowWeightForHeight'>" + weightForHeightPercentile + "%</span> <br/><span class='recommendation'>Severe wasting</span><br>";
+    }
+
+  }
+
+  function showBMI() {
+      currentBmi = (currentWeight/(currentHeight*currentHeight)*10000).toFixed(1);
+      displayText = "BMI: ";
+      if (currentBmi > 18.5) {
+        displayText += currentBmi;
+      } else if (currentBmi > 17.0) {
+        displayText += "<span class='lowBMI'>" + currentBmi + "</span>" + "<br/><span class='recommendation'> Eligible for counseling</span>";
+      } else {
+       displayText += "<span class='lowBMI'>" + currentBmi + "</span><br/><span class='recommendation'>Eligible for therapeutic feeding</span>";
+      }
+   }
+
+function drawGraph() {
+    var patient_weight = [
+      <% @min = Time.now
+         @max = Time.now
+         @obs = @patient.person.observations.find_by_concept_name("WEIGHT (KG)")
+         @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+           @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= obs.obs_datetime.to_f -%>, <%= obs.value_numeric -%>],<% end %>
+    ];
+
+    var patient_height = [
+      <% @obs = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
+         @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+         @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= obs.obs_datetime.to_f -%>, <%= obs.value_numeric -%>],<% end %>
+    ];
+
+    <% @min = @max - 1.year if @min > @max - 1.year %>
+
+    var patient_ticks = [
+      <%
+         @first = Time.mktime(@min.year, @min.month, 1) # move to the start of the month
+         @last = Time.mktime(@max.year + (@max.month == 12 ? 1 : 0), @max.month + (@max.month < 12 ? 1 : -11), 1)
+         while (@first <= @last) do
+       %>
+        [<%= @first.to_f -%>, "<div class='xLabel'><%= @first.strftime(" ") -%><br/><b><%= @first.strftime("%Y") if @first.month == 1 -%></b></div>"],
+       <% @first = Time.mktime(@first.year + (@first.month == 12 ? 1 : 0), @first.month + (@first.month < 12 ? 1 : -11), 1) %>
+       <% end %>
+    ];
+
+    var range = <%= 1.year.to_f -%>;
+    var min = <%= @min.to_f -%>;
+    var max = <%= @max.to_f -%>;
+    var max_tick = "<%= @max.strftime("%d-%b") -%>";
+    patient_weight.push([max, currentWeight]);
+    patient_height.push([max, currentHeight]);
+
+    function get_data(x1, x2) {
+      return [{
+        /*label: "Weight",*/
+        color: "green",
+        data: patient_weight,
+        points: { show: true},
+        lines: { show: true}
+        /*bars: { show: true }*/
+      }]
+    }
+
+    var plot_options = {
+      grid: { clickable: true },
+      /*yaxis: { ticks:[20,40,60,80,100]},*/
+      xaxis: { min: max-range, max: max, ticks: patient_ticks}
+    }
+
+    var plot = jQuery.plot(jQuery("#placeholder"), get_data(null, null), plot_options);
+
+  }
+  </script>

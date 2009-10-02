@@ -32,8 +32,12 @@
 
 <div style="margin:10px;">
   <div id="details" style="float:left">
+<form>
+<%=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
+</form>
     <%= render :partial => "details" %>
-    <%=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
+    
+    <label for='showSummary'>Summary </label>
     <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
     <%= render :partial => "current_encounters" %>
   </div>

@@ -1,0 +1,13 @@
+
+<div id="placeholder" style="width:600px;height:300px;"></div>
+<script id="source" language="javascript" type="text/javascript">
+  //var data = [[0, 0.3], [0.4, 0.8], [8, 5], [9, 13]];
+  var data = <%= @graph_data %>;
+
+  var options = {xaxis: {
+    mode: "time",
+    timeformat: "%y %b"/*,
+    monthNames: ["january", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]*/
+  }};
+  jQuery.plot(jQuery("#placeholder"), [data], options);
+</script>

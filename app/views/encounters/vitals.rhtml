@@ -30,7 +30,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "TEMPERATURE (C)") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-    <% end %>  
+     
          
     <label for='weight'>Weight (KG)</label>
       <%= text_field_tag "observations[][value_numeric]", nil,
@@ -63,7 +63,7 @@
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
+<% end %> 
     <% if ask_blood_pressure %>
 
       <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
