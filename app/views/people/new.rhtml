@@ -32,7 +32,13 @@
   <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/person_addresses/traditional_authority?search_string=', :allowFreeText => true }%>
 
   <%= text_field_tag "person[addresses][city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/person_addresses/village?search_string=', :allowFreeText => true }%>
-  
+
+  <%= text_field_tag "person[addresses][district]",  params[:district], {:field_type => 'alpha', :helpText => 'District', :ajaxURL => '/person_addresses/district?search_string=', :allowFreeText => true }%>
+
+  <%= text_field_tag "person[addresses][place_of_birth]",  params[:place_of_birth], {:field_type => 'alpha', :helpText => 'Place of birth)', :ajaxURL => '/person_addresses/place_of_birth?search_string=', :allowFreeText => true }%>
+
+  <%= text_field_tag "person[occupation]",  params[:occupation], {:field_type => 'alpha', :helpText => 'Occupation', :ajaxURL => '/occupation?search_string=', :allowFreeText => true }%>
+
   <!-- Make sure patient is created -->
 
   <%= hidden_field_tag "person[patient]", "" %>
