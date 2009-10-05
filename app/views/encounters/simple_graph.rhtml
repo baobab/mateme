@@ -1,13 +1,27 @@
 
-<div id="placeholder" style="width:600px;height:300px;"></div>
+<div id="placeholder" style="width:350px;height:150px;"></div>
 <script id="source" language="javascript" type="text/javascript">
   //var data = [[0, 0.3], [0.4, 0.8], [8, 5], [9, 13]];
-  var data = <%= @graph_data %>;
+  
+  //var data =
 
-  var options = {xaxis: {
-    mode: "time",
-    timeformat: "%y %b"/*,
-    monthNames: ["january", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]*/
-  }};
-  jQuery.plot(jQuery("#placeholder"), [data], options);
+function set_data() {
+    var graph_data;
+
+    graph_data = [{color: "green", data: <%= @graph_data %>}];
+
+
+    return graph_data;
+  }
+function set_plot_options()  {
+    var options = {
+                    grid: { clickable: true },
+                    xaxis: {mode: "time",timeformat: "%y %b"/*,
+                            monthNames: ["january", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]*/
+                          }
+                  };
+                  
+     return options;
+    }
+  jQuery.plot(jQuery("#placeholder"),set_data(), set_plot_options());
 </script>
