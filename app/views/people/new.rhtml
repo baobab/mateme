@@ -37,7 +37,8 @@
 
   <%= text_field_tag "person[addresses][place_of_birth]",  params[:place_of_birth], {:field_type => 'alpha', :helpText => 'Place of birth)', :ajaxURL => '/person_addresses/place_of_birth?search_string=', :allowFreeText => true }%>
 
-  <%= text_field_tag "person[occupation]",  params[:occupation], {:field_type => 'alpha', :helpText => 'Occupation', :ajaxURL => '/occupation?search_string=', :allowFreeText => true }%>
+  <%= select_tag "person[occupation]", options_for_select([" ", "Housewife", "Farmer", "Police", "Soldier", "Business", "Teacher", "Student", "Healthcare Worker"].sort.concat(["Other"]) ,params[:occupation]), {:helpText => 'Occupation'}%>
+}%>
 
   <!-- Make sure patient is created -->
 
