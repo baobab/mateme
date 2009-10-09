@@ -76,10 +76,9 @@ class EncountersController < ApplicationController
 
   def simple_graph
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
-    @graph_data = @patient.person.observations.find_by_concept_name("WEIGHT (KG)").sort_by{|obs|
-      obs.obs_datetime}.map{|x|
-        [x.obs_datetime.to_i, x.value_numeric]
-      }.to_json
+    @graph_data = @patient.person.observations.find_by_concept_name("WEIGHT (KG)").
+                sort_by{|obs| obs.obs_datetime}.
+                map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
     #render :layout => false
   end
 end
