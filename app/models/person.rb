@@ -7,6 +7,7 @@ class Person < ActiveRecord::Base
   has_one :patient, :foreign_key => :patient_id, :dependent => :destroy
   has_many :names, :class_name => 'PersonName', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_name.voided = 0', :order => 'person_name.preferred DESC'
   has_many :addresses, :class_name => 'PersonAddress', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_address.voided = 0', :order => 'person_address.preferred DESC'
+  has_many :person_attributes, :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_name.voided = 0'
   has_many :observations, :class_name => 'Observation', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'obs.voided = 0' do
 
 
@@ -221,6 +222,8 @@ class Person < ActiveRecord::Base
     address_params = params["addresses"]
     names_params = params["names"]
     patient_params = params["patient"]
+    person_attribute_params = params["attributes"]
+
     params_to_process = params.reject{|key,value| key.match(/addresses|patient|names/) }
     birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
     person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate/) }
@@ -235,6 +238,12 @@ class Person < ActiveRecord::Base
     person.save
     person.names.create(names_params)
     person.addresses.create(address_params)
+    
+    # add person attributes
+      person_attribute_params.each{|attribute_type_name, attribute|
+        attribute_type = PersonAttributeType.find_by_name(attribute_type_name) || PersonAttributeType.find_by_name("Unknown id")
+        person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
+      } if person_attribute_params
  
 # TODO handle the birthplace attribute
  
@@ -245,7 +254,9 @@ class Person < ActiveRecord::Base
         identifier_type = PatientIdentifierType.find_by_name(identifier_type_name) || PatientIdentifierType.find_by_name("Unknown id")
         patient.patient_identifiers.create("identifier" => identifier, "identifier_type" => identifier_type.patient_identifier_type_id)
       } if patient_params["identifiers"]
-  
+
+
+      
       # This might actually be a national id, but currently we wouldn't know
       #patient.patient_identifiers.create("identifier" => patient_params["identifier"], "identifier_type" => PatientIdentifierType.find_by_name("Unknown id")) unless params["identifier"].blank?
     end
