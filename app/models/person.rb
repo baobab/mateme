@@ -215,6 +215,9 @@ class Person < ActiveRecord::Base
   end
 
   def self.create_from_form(params)
+    if params.has_key?('person')
+      params = params['person']
+    end
     address_params = params["addresses"]
     names_params = params["names"]
     patient_params = params["patient"]
@@ -222,7 +225,7 @@ class Person < ActiveRecord::Base
     birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
     person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate/) }
 
-    person = Person.create(person_params)
+    person = Person.create(person_params[:person])
 
     if birthday_params["birth_year"] == "Unknown"
       person.set_birthdate_by_age(birthday_params["age_estimate"])
@@ -251,7 +254,7 @@ class Person < ActiveRecord::Base
 
   def self.find_remote_by_identifier(identifier)
     known_demographics = {:person => {:patient => { :identifiers => {"National id" => identifier }}}}
-    Person.find_remote(known_demographics)
+    result = Person.find_remote(known_demographics)
   end
 
   def self.find_remote(known_demographics)
