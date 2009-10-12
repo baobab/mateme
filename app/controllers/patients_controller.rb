@@ -55,4 +55,13 @@ class PatientsController < ApplicationController
     print_string = Patient.find(params[:patient_id]).visit_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
+
+  def simple_graph
+    @patient = Patient.find(params[:patient_id] || session[:patient_id])
+    @graph_data = @patient.person.observations.find_by_concept_name("WEIGHT (KG)").
+                sort_by{|obs| obs.obs_datetime}.
+                map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
+    #render :text => @graph_data and return
+    @graph_data =[["53.2","152.3"], ["54.5","154.2"]].to_json
+  end
 end
