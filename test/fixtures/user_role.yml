@@ -7,3 +7,6 @@ registration:
 ceekays:
   user_id: 3
   role: doctor
+edithk:
+  user_id: 4
+  role: superuser

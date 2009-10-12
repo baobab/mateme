@@ -1,0 +1,25 @@
+<div id="placeholder" style="width:350px;height:150px;"></div>
+<script id="source" language="javascript" type="text/javascript">
+  jQuery.noConflict();
+<% @graph_data =[[53.2,152.3], [54.5,154.2]].to_json%>
+
+function setData() {
+    var graphData;
+    var dataToGraph = <%=@graph_data %> ;
+    graphData = [{color: "green", data: dataToGraph}];
+
+
+    return graphData;
+  }
+function setPlotOptions()  {
+    var options = {
+                    grid: { clickable: true },
+                    xaxis: {mode: "time",timeformat: "%y %b"/*,
+                            monthNames: ["january", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]*/
+                          }
+                  };
+                  
+     return options;
+    }
+  jQuery.plot(jQuery("#placeholder"),setData(), setPlotOptions());
+</script>
