@@ -224,11 +224,16 @@ class Person < ActiveRecord::Base
     patient_params = params["patient"]
     person_attribute_params = params["attributes"]
 
-    params_to_process = params.reject{|key,value| key.match(/addresses|patient|names/) }
+    params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|attributes/) }
     birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
     person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate/) }
-
-    person = Person.create(person_params[:person])
+       
+    if params.has_key?('person')
+      person = Person.create(person_params[:person])
+    else
+      person = Person.create(person_params)
+    end
+    
 
     if birthday_params["birth_year"] == "Unknown"
       person.set_birthdate_by_age(birthday_params["age_estimate"])
