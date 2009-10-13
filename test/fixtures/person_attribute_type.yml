@@ -1,0 +1,207 @@
+race:
+  person_attribute_type_id: 1
+  name: Race
+  description: Group of persons related by common descent or heredity
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2007-11-28 08:11:37
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+birthplace:
+  person_attribute_type_id: 2
+  name: Birthplace
+  description: Location of persons birth
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2007-11-28 08:11:37
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+citizenship:
+  person_attribute_type_id: 3
+  name: Citizenship
+  description: Country of which this person is a member
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2007-11-28 08:11:37
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+mothers_name:
+  person_attribute_type_id: 4
+  name: Mother's Name
+  description: First or last name of this person's mother
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2007-11-28 08:11:37
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+civil_status:
+  person_attribute_type_id: 5
+  name: Civil Status
+  description: Marriage status of this person
+  format: org.openmrs.Concept
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2007-11-28 08:11:37
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+health_district:
+  person_attribute_type_id: 6
+  name: Health District
+  description: District/region in which this patient's home health center resides
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2007-11-28 08:11:37
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+health_center:
+  person_attribute_type_id: 7
+  name: Health Center
+  description: Specific Location of this person's home health center.
+  format: org.openmrs.Location
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2007-11-28 08:11:37
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+treatment_supporter:
+  person_attribute_type_id: 8
+  name: Treatment Supporter
+  description: Treatment Supporter
+  format: java.lang.String
+  foreign_key:
+  searchable: 1
+  creator: 1
+  date_created: 2008-09-23 23:12:59
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+mdr_tb_patient_contact_id_number:
+  person_attribute_type_id: 9
+  name: MDR-TB Patient Contact ID Number
+  description: Used by the mdrtb module to give non-patient contacts an ID number.
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2008-09-23 23:35:12
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+home_village:
+  person_attribute_type_id: 10
+  name: Home Village
+  description: The person's home village or place of origin
+  format: org.openmrs.Location
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2008-11-20 10:07:03
+  changed_by:  1
+  date_changed:  2008-11-20 10:08:14
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+mothers_maiden_name:
+  person_attribute_type_id: 11
+  name: Mother's Maiden Name
+  description: The maiden name of the person's mother.
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2008-11-20 10:07:58
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+cell_phone_number:
+  person_attribute_type_id: 12
+  name: Cell Phone Number
+  description: Person primary cell phone number
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2009-10-07 15:44:33
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:
+
+occupation:
+  person_attribute_type_id: 13
+  name: Occupation
+  description: This is the current patient occupation
+  format: java.lang.String
+  foreign_key:
+  searchable: 0
+  creator: 1
+  date_created: 2009-10-09 15:45:21
+  changed_by:
+  date_changed:
+  retired: 0
+  retired_by:
+  date_retired:
+  retire_reason:  
