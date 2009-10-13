@@ -55,4 +55,8 @@ class PatientsController < ApplicationController
     print_string = Patient.find(params[:patient_id]).visit_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
+
+  def hiv_status
+    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
+  end
 end
