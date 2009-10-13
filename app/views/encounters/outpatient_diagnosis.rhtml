@@ -32,9 +32,9 @@
     // Every 500 milliseconds update the Next/Finish button
     function updateNextFinish(){
       if (tstInputTarget.value == '')
-        $('nextButton').innerHTML = 'Finish';
+      $('nextButton').innerHTML = '<span>Finish</span>';
       else
-        $('nextButton').innerHTML = 'Next';
+      $('nextButton').innerHTML = '<span>Next</span>';
       setTimeout(updateNextFinish, 500)
     }
   </script>
