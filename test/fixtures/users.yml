@@ -28,3 +28,13 @@ ceekays:
   creator: 1
   changed_by: 1
   system_id: Baobab User
+edith:
+  user_id: 4
+  username: edithk
+  salt: CeoEjB5cXH8xo3Jx0XDgeQNaeZggLgz0jXrJYfV7
+  password: 20d3cf328c6f3c3441c8353afa8eaaa360887450 # savedi
+  date_created: <%= 1.days.ago.to_s :db %>
+  date_changed: <%= 1.days.ago.to_s :db %>
+  creator: 1
+  changed_by: 1
+  system_id: Baobab User
