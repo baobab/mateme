@@ -309,6 +309,7 @@ class Person < ActiveRecord::Base
     result ? JSON.parse(result) : nil
 
   end
+  
   def formatted_gender
 
     if self.gender == "F" then "Female"
