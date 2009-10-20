@@ -57,6 +57,9 @@ class PatientsController < ApplicationController
   end
 
   def hiv_status
-    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
+    #find patient object and arv number
+    @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
+    @arv_number = @patient.arv_number rescue nil 
+    render :template => 'patients/hiv_status', :layout => 'menu'
   end
 end
