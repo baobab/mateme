@@ -27,7 +27,7 @@
 }
 
 #footer {
-  background:#BBCCD9 url(../images/spine_logo.png) no-repeat scroll 50% 50%;
+  background:#BBCCD9;
   border-top:3px solid :#99AAB7;
   color:#CADCEA;
   height:80px;
