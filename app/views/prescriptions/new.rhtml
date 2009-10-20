@@ -167,7 +167,7 @@
      options = names.map{|n| [n.name, n.name]}
      options << ['', '']
   %>
-  <%= select_tag :frequency, options_for_select(['1/day x 7 days/week','2/day x 7 days/week','3/day x 7 days/week','4/day x 7 days/week'], ''), 
+  <%= select_tag :frequency, options_for_select(options, ''), 
     {:tt_onLoad => "set_info_for_frequency();",     
      :helpText => "Frequency",
      :condition => "selectedValue('suggestion') == '0' && selectedValue('type_of_prescription') == 'Standard Dose'"} %> 
