@@ -3,13 +3,14 @@
     font-weight:bold;
   }
 </style>
-<div style="font-size:1.2em;">
+
+<div style="font-size:1.1em;">
 <h2><%= @patient.person.name %></h2>
-<p>
-<span class='title'>National id:</span> <%= @patient.national_id_with_dashes rescue '' %><br/>
-<span class='title'>Birthdate:</span> <%= @patient.person.birthdate_formatted rescue '' %><br/>
-<span class='title'>Mother's Surname:</span> <%= @patient.person.names.first.family_name2 rescue '' %><br/>
-<span class='title'>Home Village:</span> <%= @patient.person.addresses.first.address2 rescue '' %><br/>
-<span class='title'>Current Village:</span> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
-</p>
+<table cellpadding="2" cellspacing="0">
+<tr> <td> <span class='title'> National id: </span> </td> <td> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Birthdate: </span> </td> <td> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Gender: </span> </td> <td> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Current Village: </span> </td> <td> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
+</table>
 </div>

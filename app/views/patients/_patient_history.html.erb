@@ -1,0 +1,22 @@
+
+<style type="text/css" >
+.mytableborder {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+/*background-color: #660000;*/
+}
+</style>
+<div style="font-size: 1.2em;">
+  <ul class="list" style="height:270px;width:500px;">
+    <table cellpadding="2" cellspacing="0" border ="1">
+      <% for observation in @observations do %>
+      <tr class ="data <%= cycle('even', 'odd')%>" >
+        <td class="mytableborder"> <%=h("#{observation.obs_datetime.strftime("%d-%b-%Y")}") %></td>
+        <td class="mytableborder"> <%= h("#{observation.to_s}") %></td>
+      </tr>
+      <% end %>
+  </table>
+  </ul>
+  </div>
