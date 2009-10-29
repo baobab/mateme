@@ -41,7 +41,7 @@
 
   <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %> 
 
-  <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")', :tt_onLoad => "makeKeysToggleBlue()" %>
+  <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :absoluteMin => 1, :absoluteMax => 31, :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")', :tt_onLoad => "makeKeysToggleBlue()" %>
 
   <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true }%>
 
