@@ -6,3 +6,7 @@ global_property_00001:
   property: remote_demographics_servers
   description: Indicates hostnames for retrieving patient demographics
   property_value: "localhost"
+global_property_00002:
+  property: vitals.blood_pressure
+  description: Indicates whether blood pressure should be captured or not
+  property_value: "yes"
