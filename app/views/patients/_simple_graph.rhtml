@@ -1,13 +1,13 @@
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
 
-<div id="title" style="position: relative; right: -331px; bottom: 490px;" label="Weight">
-  <center><h3> Weight</h3> </center>
-  <p id="choices">Show:</p>
+<div id="title" style="position: relative; right: -331px; bottom: 520px;  height: 30px;" label="Weight">
+  <center><h3> Graphical Visualization</h3> </center>
+  <div id="choices" style="height: 10px; position: relative; bottom: 16px; right: -27px;"> <b>Show:</b> </div>
 </div>
 >
 <div id="simplegraphholder"
-style="width: 380px; position: relative; right: -331px; height: 175px; bottom: 535px;">
+style="width: 380px; position: relative; right: -331px; height: 200px; bottom: 525px;">
    
 </div>
 <script id="source" language="javascript" type="text/javascript">
@@ -60,8 +60,13 @@ function setPlotOptions()  {
 
     // insert checkboxes
     var choiceContainer = jQuery("#choices");
+    var key_note = 0;
     jQuery.each(datasets, function(key, val) {
-        choiceContainer.append('<br/><input type="checkbox" name="' + key +
+
+      if(key == 0)
+        key_note = key;
+
+        choiceContainer.append(' <input type="radio"'+ 'value = "'+ key +'" name="' + key_note+
                                '" checked="checked" >' + val.label + '</input>');
     });
     choiceContainer.find("input").click(plotAccordingToChoices);
@@ -72,7 +77,7 @@ function setPlotOptions()  {
         
 
         choiceContainer.find("input:checked").each(function () {
-            var key = jQuery(this).attr("name");
+            var key = jQuery(this).attr("value");
             if (key && datasets[key])
                 data.push(datasets[key]);
         });
