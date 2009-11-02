@@ -86309,3 +86309,39 @@ concept_02174:
   datatype_id: 4
   concept_id: 2174
   date_created: 2007-05-13 03:15:03 +02:00
+concept_16138: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1128
+  creator: 1128
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2009-11-02 09:00:42 +02:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 16138
+  date_created: 2009-11-02 09:00:42 +02:00
+concept_16139: 
+  retire_reason: 
+  retired_by: 
+  is_set: false
+  changed_by: 1128
+  creator: 1128
+  date_retired: 
+  class_id: 11
+  version: ""
+  short_name: 
+  default_charge: 
+  date_changed: 2009-11-02 09:00:42 +02:00
+  form_text: 
+  description: 
+  retired: false
+  datatype_id: 4
+  concept_id: 16139
+  date_created: 2009-11-02 09:00:42 +02:00

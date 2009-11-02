@@ -28,18 +28,29 @@
     height:478px;
     width:257px;;
   }
+
+  #content {
+  background:#FFFFFF;
+  position:absolute;
+  left:43%;
+  top:50%;
+  width:1000px;
+  height:600px;
+  margin-left:-400px;
+  margin-top:-300px;
+}
 </style>
 
 <div style="margin:10px;">
   <div id="details" style="float:left">
-<form>
-<%=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
-</form>
-    <%= render :partial => "details" %>
-    
-
-
+    <form>
+    <%=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
+    </form>
+    <%= render :partial => "details" %>    
     <%= render :partial => "current_encounters" %>
+    <% if @super_user%>
+      <%= render :partial => "patient_history"%>
+    <%end%>
   </div>
   <div id="menu">
     <!--
@@ -49,10 +60,12 @@
 
 
   <%if @doctor%>
-      <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
-      <!--<a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a> -->
+    <%= render :partial => "patient_history" %>
+     <!-- <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>-->
+     <a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a>
+     <a class="button green" href='/encounters/new/lab_results?patient_id=<%= @patient.id -%>'>Lab Results</a>
       <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Prescriptions</a>
-      <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+      <!-- <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a> -->
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
       <!--<a class="button green" href='/report/referral?patient_id=<%= @patient.id -%>'>Referral</a> -->
       <!-- <a class="button green" href='/encounters/new/examination?patient_id=<%= @patient.id -%>'>Examination</a> -->
@@ -63,28 +76,22 @@
     <%if @clinician%>
 
       <a class="button green" href='/encounters/new/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
-    <!--  <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a> -->
+       <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
   <%end %>
 
   <%if @regstration_clerk%>
     <!--  <a class="button green" href='/people/new'>Register Patient</a> -->
     <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
-      <!-- <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a> -->
+    <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
       <!-- <a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a>-->
   <%end %>
 
 
   <%if @super_user%>
-    <!--<a class="button green" href='/people/new'>Register Patient</a>-->
-      <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
-      <!-- <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a> -->
-      <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
-      <!--<a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a> -->
-      <!--<a class="button green" href='/encounters/new/examination?patient_id=<%= @patient.id -%>'>Examination</a> -->
+      <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
+      <a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a>
+      <a class="button green" href='/encounters/new/lab_results?patient_id=<%= @patient.id -%>'>Lab Results</a>
       <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Prescriptions</a>
-      <!-- <a class="button green" href='/report/referral?patient_id=<%= @patient.id -%>'>Referral</a> -->
-      <!-- <a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a> -->
-      <!--<a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a> -->
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
       <a class="button green" href='/user/user_menu'>Admnistration</a>
     <%end %>

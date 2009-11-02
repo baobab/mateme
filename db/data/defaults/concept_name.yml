@@ -27667,7 +27667,7 @@ concept_name_05533:
   concept_id: 2389
   date_created: 2007-05-26 15:23:50 -07:00
 concept_name_03450: 
-  name: SYSTOLIC BLOOD PRESSURE
+  name: SYSTOLIC BLOOD PRESSURE (?/Y)
   voided: false
   creator: 2
   voided_by: 
@@ -27722,7 +27722,7 @@ concept_name_05534:
   concept_id: 2391
   date_created: 2007-05-26 15:28:35 -07:00
 concept_name_03451: 
-  name: DIASTOLIC BLOOD PRESSURE
+  name: DIASTOLIC BLOOD PRESSURE (X/?)
   voided: false
   creator: 2
   voided_by: 
@@ -81865,3 +81865,25 @@ concept_name_04851:
   locale: en
   concept_id: 3499
   date_created: 2008-07-28 14:37:52 -07:00
+concept_name_17520: 
+  name: Fasting Blood Sugar
+  voided: false
+  creator: 15878
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 17520
+  locale: en
+  concept_id: 16138
+  date_created: 2009-11-02 09:00:42 +02:00
+concept_name_17521: 
+  name: Random Blood Sugar
+  voided: false
+  creator: 15878
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 17521
+  locale: en
+  concept_id: 16139
+  date_created: 2009-11-02 09:00:42 +02:00
