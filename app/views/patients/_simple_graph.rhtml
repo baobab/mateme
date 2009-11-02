@@ -3,7 +3,12 @@
 
 <div id="title" style="position: relative; right: -331px; bottom: 520px;  height: 30px;" label="Weight">
   <center><h3> Graphical Visualization</h3> </center>
-  <div id="choices" style="height: 10px; position: relative; bottom: 16px; right: -27px;"> <b>Show:</b> </div>
+  <div id="choices" style="height: 10px; position: relative; bottom: 16px; right: -27px;"> <b>Show:</b>
+    <input type="radio" name="vitals" value="0"/>
+    Weight
+    <input type="radio" checked="checked" name="vitals" value="1"/>
+    Blood Sugar
+  </div>
 </div>
 >
 <div id="simplegraphholder"
@@ -60,17 +65,7 @@ function setPlotOptions()  {
 
     // insert checkboxes
     var choiceContainer = jQuery("#choices");
-    var key_note = 0;
-    jQuery.each(datasets, function(key, val) {
-
-      if(key == 0)
-        key_note = key;
-
-        choiceContainer.append(' <input type="radio"'+ 'value = "'+ key +'" name="' + key_note+
-                               '" checked="checked" >' + val.label + '</input>');
-    });
     choiceContainer.find("input").click(plotAccordingToChoices);
-
 
     function plotAccordingToChoices() {
         var data = [];
