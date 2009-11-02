@@ -3,7 +3,7 @@
 </script>
 
 
-  <form>
+  <form action="/encounters/create/lab_results">
 
   <% default={
     :allowFreeText => 'true',
@@ -24,9 +24,9 @@
     "Fasting Blood Sugar",
     "Random Blood Sugar"
   ]), options) %>
- <%= hidden_field_tag("observations[][concept_name]", "BLOOD SUGAR TYPE") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+ <%#= hidden_field_tag("observations[][concept_name]", "BLOOD SUGAR TYPE") %>
+  <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 <!-- bcbcbcbcbcbcb -->
 
 
@@ -40,7 +40,8 @@
            #:units => 'Celcuis',
            :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
            :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
-           :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
+           :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+           :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value" } %>
         <%= hidden_field_tag("observations[][concept_name]", "") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
