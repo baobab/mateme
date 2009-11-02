@@ -44,13 +44,15 @@
 <div style="margin:10px;">
   <div id="details" style="float:left">
     <form>
-    <%=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
+    <%#=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
     </form>
     <%= render :partial => "details" %>    
     <%= render :partial => "current_encounters" %>
-    <% if @super_user or @doctor%>
-      <%= render :partial => "patient_history"%>
+
+    <% if @super_user || @doctor%>
+      <%= render :partial => "patient_history"%>      
     <%end%>
+    <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  %>
   </div>
   <div id="menu">
     <!--

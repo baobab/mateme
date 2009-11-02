@@ -1,0 +1,46 @@
+<script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
+
+<div id="title" style="position: relative; right: -331px; bottom: 490px;" label="Weight">
+  <center><h3> Weight</h3> </center>
+</div>
+>
+<div id="simplegraphholder"
+style="width: 380px; position: relative; right: -331px; height: 175px; bottom: 535px;">
+   
+</div>
+<script id="source" language="javascript" type="text/javascript">
+  jQuery.noConflict();
+<% @graph_data =[[153.0, 53.2], [153.0, 54.5]].to_json%>
+
+function setData() {
+    var graphData;
+        var patient_weight = [
+      <% @min = Time.now
+         @max = Time.now
+         @obs = @patient.person.observations.find_by_concept_name("WEIGHT (KG)")
+         @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+           @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+         <%= obs.value_numeric -%>],<% end %>
+    ];
+    
+    graphData = [{color: "green", data: patient_weight,  label: "Weight"}];
+
+
+    return graphData;
+  }
+function setPlotOptions()  {
+    var options = {
+                    grid: { clickable: true },
+                    lines: { show: true },
+                    points: { show: true },
+                    xaxis: {mode: "time",timeformat: "%y %b"/*,
+                            monthNames: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]*/
+                          }
+                  };
+                  
+     return options;
+    }
+  jQuery.plot(jQuery("#simplegraphholder"),setData(), setPlotOptions());
+</script>

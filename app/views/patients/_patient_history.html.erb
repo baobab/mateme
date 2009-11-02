@@ -8,9 +8,13 @@ border-left:1px dotted ;
 /*background-color: #660000;*/
 }
 </style>
-<!-- History -->
+
+ <div id =" patient_history" style="position: relative; right: -341px; top: 15px;">
+   <center><h3> Medical History</h3></center>
+ </div>
+
 <div style="font-size: 1.2em;">
-  <ul class="list" style="height: 270px; position: relative; width: 350px; right: -361px; top: 8px;">
+  <ul class="list" style="height: 220px; position: relative; width: 350px; right: -361px; top: 3px;">
     <table cellpadding="2" cellspacing="0" border ="1">
       <% for observation in @observations do %>
       <tr class ="data <%= cycle('even', 'odd')%>" >
