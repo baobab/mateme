@@ -42,7 +42,11 @@ class Encounter < ActiveRecord::Base
       temp_str = temp.first.answer_string + '°C' rescue nil
       vitals << temp_str if temp_str                          
       vitals.join(', ')
-    else  
+    elsif name == "LAB RESULTS"
+      self.observations.map{|o| o.concept.name.name.split(' ').map(&:chars).map(&:first).join + ': ' + o.answer_string}.join(', ')
+    elsif name == "COMPLICATIONS"
+      observations.collect{|observation| observation.to_s}.join(", ")
+    else
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  
   end
