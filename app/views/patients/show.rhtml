@@ -62,7 +62,6 @@
 
 
   <%if @doctor%>
-    <%= render :partial => "patient_history" %>
      <!-- <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>-->
      <a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a>
      <a class="button green" href='/encounters/new/lab_results?patient_id=<%= @patient.id -%>'>Lab Results</a>
