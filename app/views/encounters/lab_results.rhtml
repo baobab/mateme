@@ -20,7 +20,7 @@
           :field_type => 'text',
           :id => "blood_sugar_type"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "blood_sugar_type", options_for_select([
     "Fasting Blood Sugar",
     "Random Blood Sugar"
   ]), options) %>

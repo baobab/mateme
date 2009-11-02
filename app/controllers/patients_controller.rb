@@ -63,4 +63,32 @@ class PatientsController < ApplicationController
     @arv_number = @patient.arv_number rescue nil 
     render :template => 'patients/hiv_status', :layout => 'menu'
   end
+
+  def dashboard
+     #find the user priviledges
+    @super_user = false
+    @clinician  = false
+    @doctor     = false
+    @regstration_clerk  = false
+
+    @user = User.find(session[:user_id])
+    @user_privilege = @user.user_roles.collect{|x|x.role}
+
+    if @user_privilege.include?("superuser")
+        @super_user = true
+    elsif @user_privilege.include?("clinician")
+        @clinician  = true
+    elsif @user_privilege.include?("doctor")
+        @doctor     = true
+    elsif @user_privilege.include?("regstration_clerk")
+        @regstration_clerk  = true
+    end
+    
+       
+    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
+    @encounters = @patient.encounters.current.active.find(:all)
+    @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
+    render :template => 'patients/dashboard', :layout => 'menu'
+
+  end
 end

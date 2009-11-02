@@ -81887,3 +81887,146 @@ concept_name_17521:
   locale: en
   concept_id: 16139
   date_created: 2009-11-02 09:00:42 +02:00
+concept_name_17535:
+  name: 'EYE COMPLICATIONS: Vision Changes/Blurry Vision'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17535
+  locale: en
+  concept_id: 16179
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17536:
+  name: 'EYE COMPLICATIONS: How Frequent are Vision Changes'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17536
+  locale: en
+  concept_id: 16180
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17537:
+  name: 'NEOROLOGIC/EXTREMETIES: Numbness or Tingling in Hand, Feet, Legs'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17537
+  locale: en
+  concept_id: 16181
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17538:
+  name: 'NEOROLOGIC/EXTREMETIES: Non Healing Sores on Feet/Ankles'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17538
+  locale: en
+  concept_id: 16182
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17539:
+  name: 'CARDIOVASCULAR: Chest Pains'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17539
+  locale: en
+  concept_id: 16183
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17540:
+  name: 'CARDIOVASCULAR: Shortness of Breath'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17540
+  locale: en
+  concept_id: 16184
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17541:
+  name: 'RENAL: Urine Output'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17541
+  locale: en
+  concept_id: 16185
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17542:
+  name: 'HYPERGLYCEMIA SYMPTOMS: Polyuria'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17542
+  locale: en
+  concept_id: 16186
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17543:
+  name: 'HYPERGLYCEMIA SYMPTOMS: Polydipsia'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17543
+  locale: en
+  concept_id: 16187
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17544:
+  name: 'HYPOGLYMECIA SYMPTOMS: Dizziness'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17544
+  locale: en
+  concept_id: 16188
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17545:
+  name: 'HYPOGLYMECIA SYMPTOMS: Sweating/Feeling Clammy'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17545
+  locale: en
+  concept_id: 16189
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17546:
+  name: 'HYPOGLYMECIA SYMPTOMS: Loss of Consciousness'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17546
+  locale: en
+  concept_id: 16190
+  date_created: 2009-11-02 11:10:26 +0200
+concept_name_17547:
+  name: 'HYPOGLYMECIA SYMPTOMS: General body weakness'
+  voided: false
+  creator: 1
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 17547
+  locale: en
+  concept_id: 16191
+  date_created: 2009-11-02 11:10:26 +0200
