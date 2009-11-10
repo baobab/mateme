@@ -51,6 +51,8 @@
 
   <%= text_field_tag "person[addresses][address2]",  params[:address2], {:field_type => 'alpha', :helpText => 'Place of birth', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
 
+  <%= text_field_tag "person[addresses][postal_code]",  nil, :field_type => 'number', :helpText => 'Cellphone Number', :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number", :tt_onLoad => "makeKeysToggleBlue()" %>
+
   <%= select_tag "person[attributes][occupation]", options_for_select([" ", "Housewife", "Farmer", "Police", "Soldier", "Business", "Teacher", "Student", "Healthcare Worker"].sort.concat(["Other"]), params[:occupation]), {:helpText => 'Occupation'}%>
 
   <!-- Make sure patient is created -->
