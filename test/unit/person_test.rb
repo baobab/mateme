@@ -200,17 +200,17 @@ class PersonTest < ActiveSupport::TestCase
 
     should "not crash if there are no demographic servers specified" do
       should_not_raise do
-        GlobalProperty.delete_all(:property => 'remote_demographics_servers')
+        GlobalProperty.delete_all(:property => 'remote_servers.all')
         Person.find_remote(person(:evan).demographics)
       end
     end
 
     should "include a remote demographics servers global property" do
-      assert !GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).nil?, "Current GlobalProperties #{GlobalProperty.find(:all).map{|gp|gp.property}.inspect}"
+      assert !GlobalProperty.find(:first, :conditions => {:property => "remote_servers.all"}).nil?, "Current GlobalProperties #{GlobalProperty.find(:all).map{|gp|gp.property}.inspect}"
     end
 
     should "be able to ssh without password to remote demographic servers" do
-      GlobalProperty.find(:first, :conditions => {:property => "remote_demographics_servers"}).property_value.split(/,/).each{|hostname|
+      GlobalProperty.find(:first, :conditions => {:property => "remote_servers.all"}).property_value.split(/,/).each{|hostname|
         ssh_result = `ssh -o ConnectTimeout=2 #{hostname} wget --version `
         assert ssh_result.match /GNU Wget/
       }
