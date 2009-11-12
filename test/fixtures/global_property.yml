@@ -3,7 +3,7 @@ global_property_00000:
   description: Indicates whether or not the 'tribe' attribute is shown when viewing/searching for patients
   property_value: "true"
 global_property_00001: 
-  property: remote_demographics_servers
+  property: remote_servers.all
   description: Indicates hostnames for retrieving patient demographics
   property_value: "localhost"
 global_property_00002:
