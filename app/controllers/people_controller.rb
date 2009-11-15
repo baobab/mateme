@@ -48,6 +48,14 @@ class PeopleController < ApplicationController
   end
  
   def create
+   if  params['person']['patient'].nil? || params['person']['patient'].empty?
+      found_person_data = Person.create_remote(params)
+      found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
+
+    redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
+
+   end
+
     person = Person.create_from_form(params[:person])
 
     if params[:person][:patient]
