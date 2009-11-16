@@ -52,8 +52,10 @@ class PeopleController < ApplicationController
       found_person_data = Person.create_remote(params)
       found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
 
-    redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
-
+      if found_person
+        found_person.patient.national_id_label
+        print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient)) and return
+      end
    end
 
     person = Person.create_from_form(params[:person])

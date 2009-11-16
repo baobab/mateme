@@ -234,12 +234,13 @@ class Person < ActiveRecord::Base
       person = Person.create(person_params)
     end
     
-
+    
     if birthday_params["birth_year"] == "Unknown"
       person.set_birthdate_by_age(birthday_params["age_estimate"])
     else
       person.set_birthdate(birthday_params["birth_year"], birthday_params["birth_month"], birthday_params["birth_day"])
     end
+    person.birthdate_estimated = 1 if params["birthdate_estimated"] == 'true'
     person.save
     person.names.create(names_params)
     person.addresses.create(address_params)
@@ -306,6 +307,7 @@ class Person < ActiveRecord::Base
     # Can't return multiple results because there will be redundant data from sites
     result = results.sort{|a,b|b.length <=> a.length}.first
 
+
     result ? JSON.parse(result) : nil
 
   end
@@ -317,6 +319,89 @@ class Person < ActiveRecord::Base
         else "Unknown"
     end
     
+  end
+
+  def self.create_remote(received_params)
+    #raise known_demographics.to_yaml
+
+    #Format params for BART
+     new_params = received_params[:person]
+     known_demographics = Hash.new()
+     new_params['gender'] == 'F' ? new_params['gender'] = "Female" : new_params['gender'] = "Male"
+
+       known_demographics = {
+                  "occupation"=>"#{new_params[:attributes][:occupation]}",
+                   "patient_year"=>"#{new_params[:birth_year]}",
+                   "patient"=>{
+                    "gender"=>"#{new_params[:gender]}",
+                    "birthplace"=>"#{new_params[:addresses][:address2]}",
+                    "creator" => 1,
+                    "changed_by" => 1
+                    },
+                   "p_address"=>{
+                    "identifier"=>"#{new_params[:addresses][:state_province]}"},
+                   "home_phone"=>{
+                    "identifier"=>"#{new_params[:attributes][:home_phone_number]}"},
+                   "cell_phone"=>{
+                    "identifier"=>"#{new_params[:attributes][:cell_phone_number]}"},
+                   "office_phone"=>{
+                    "identifier"=>"#{new_params[:attributes][:office_phone_number]}"},
+                   "patient_id"=>"",
+                   "patient_day"=>"#{new_params[:birth_day]}",
+                   "patientaddress"=>{"city_village"=>"#{new_params[:addresses][:city_village]}"},
+                   "patient_name"=>{
+                    "family_name"=>"#{new_params[:names][:family_name]}",
+                    "given_name"=>"#{new_params[:names][:given_name]}", "creator" => 1
+                    },
+                   "patient_month"=>"#{new_params[:birth_month]}",
+                   "patient_age"=>{
+                    "age_estimate"=>"#{new_params[:age_estimate]}"
+                    },
+                   "age"=>{
+                    "identifier"=>""
+                    },
+                   "current_ta"=>{
+                    "identifier"=>"#{new_params[:addresses][:county_district]}"}
+                  }
+
+    servers = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value.split(/,/) rescue nil
+    return nil if servers.blank?
+
+    wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt"
+
+    login = "mikmck"
+    password = "mike"
+    location = 8
+
+    post_data = known_demographics
+    post_data["_method"]="put"
+
+    local_demographic_lookup_steps = [ 
+      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost/session\"",
+      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost/session\"",
+      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost/patient/create_remote\""
+    ]
+    results = []
+    servers.each{|server|
+      command = "ssh #{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      output = `#{command}`
+      results.push output if output and output.match /person/
+    }
+    result = results.sort{|a,b|b.length <=> a.length}.first
+
+
+    result ? JSON.parse(result) : nil
+
+  end
+
+  def phone_numbers
+    phone_numbers = {}
+    ["Cell phone number","Home phone number","Office phone number"].each{|attribute_type_name|
+      number = PersonAttribute.find(:first,:conditions => ["voided = 0 AND person_attribute_type_id = ? AND person_id = ?", PersonAttributeType.find_by_name("#{attribute_type_name}").id, self.id]).value
+      phone_numbers[attribute_type_name] = number 
+    }
+    phone_numbers
+   phone_numbers.delete_if {|key, value| value == "" } 
   end
   
 end
