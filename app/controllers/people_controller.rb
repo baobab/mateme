@@ -56,8 +56,7 @@ class PeopleController < ApplicationController
         found_person.patient.national_id_label
         print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient)) and return
       end
-   end
-
+   else
     person = Person.create_from_form(params[:person])
 
     if params[:person][:patient]
@@ -66,6 +65,7 @@ class PeopleController < ApplicationController
     else
       redirect_to :action => "index"
     end
+   end
   end
  
   # TODO refactor so this is restful and in the right controller.
