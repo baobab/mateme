@@ -298,7 +298,7 @@ class Person < ActiveRecord::Base
     ]
     results = []
     servers.each{|server|
-      command = "ssh #{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
       results.push output if output and output.match /person/
     }
@@ -383,7 +383,7 @@ class Person < ActiveRecord::Base
     ]
     results = []
     servers.each{|server|
-      command = "ssh #{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
       results.push output if output and output.match /person/
     }
