@@ -43,13 +43,13 @@
 
   <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :absoluteMin => 1, :absoluteMax => 31, :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")', :tt_onLoad => "makeKeysToggleBlue()" %>
 
-  <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true }%>
-
   <%= text_field_tag "person[addresses][city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/search/village?search_string=', :allowFreeText => true }%>
+
+  <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true }%>
 
   <%= text_field_tag "person[addresses][state_province]",  params[:state_province], {:field_type => 'alpha', :helpText => 'District', :ajaxURL => '/search/district?search_string=', :allowFreeText => true }%>
 
-  <%= text_field_tag "person[addresses][address2]",  params[:address2], {:field_type => 'alpha', :helpText => 'Place of birth', :ajaxURL => '/search/place_of_birth?value=', :allowFreeText => true }%>
+  <%= text_field_tag "person[addresses][address2]",  params[:address2], {:field_type => 'alpha', :helpText => 'Home district', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
 
 <%if @ask_cell_phone == 'true'%>
   <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Cell Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number", :tt_onLoad => "makeKeysToggleBlue()" %>
