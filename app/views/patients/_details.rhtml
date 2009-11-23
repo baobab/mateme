@@ -10,7 +10,8 @@
 <tr> <td> <span class='title'> National id: </span> </td> <td> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
 <tr> <td> <span class='title'> Birthdate: </span> </td> <td> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
 <tr> <td> <span class='title'> Gender: </span> </td> <td> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr>
+<!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
 <tr> <td> <span class='title'> Current Village: </span> </td> <td> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
+<!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
 </table>
 </div>

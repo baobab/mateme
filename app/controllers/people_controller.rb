@@ -4,6 +4,9 @@ class PeopleController < ApplicationController
   end
  
   def new
+    @ask_cell_phone = GlobalProperty.find_by_property("use_patient_attribute.cellPhone").property_value rescue nil
+    @ask_home_phone = GlobalProperty.find_by_property("use_patient_attribute.homePhone").property_value rescue nil 
+    @ask_office_phone = GlobalProperty.find_by_property("use_patient_attribute.officePhone").property_value rescue nil
   end
   
   def identifiers
@@ -45,6 +48,15 @@ class PeopleController < ApplicationController
   end
  
   def create
+   if  params['person']['patient'].nil? || params['person']['patient'].empty?
+      found_person_data = Person.create_remote(params)
+      found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
+
+      if found_person
+        found_person.patient.national_id_label
+        print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient)) and return
+      end
+   else
     person = Person.create_from_form(params[:person])
 
     if params[:person][:patient]
@@ -53,6 +65,7 @@ class PeopleController < ApplicationController
     else
       redirect_to :action => "index"
     end
+   end
   end
  
   # TODO refactor so this is restful and in the right controller.

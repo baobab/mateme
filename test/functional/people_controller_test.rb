@@ -27,7 +27,7 @@ class PeopleControllerTest < ActionController::TestCase
     end
 
     should "lookup people by national id that has no associated record and return them in the search results" do
-      GlobalProperty.delete_all(:property => 'remote_demographics_servers')
+      GlobalProperty.delete_all(:property => 'remote_servers.all')
       logged_in_as :mikmck, :registration do
         get :search, {:identifier => 'P16666666666'}
         assert_response :success
