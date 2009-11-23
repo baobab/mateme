@@ -291,3 +291,21 @@ diastolic_blood_pressure:
   datatype_id: 1
   concept_id: 5086
   date_created: 2004-08-12 00:00:00 -07:00
+lab_results:
+  retire_reason:
+  retired_by:
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired:
+  class_id: 1
+  version: ""
+  short_name: LAB
+  default_charge:
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text:
+  description: "Lab results"
+  retired: false
+  datatype_id: 1
+  concept_id: 5086
+  date_created: 2004-08-12 00:00:00 -07:00
