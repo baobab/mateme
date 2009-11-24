@@ -51,7 +51,7 @@
 
     <% if @super_user || @doctor%>
       <%= render :partial => "patient_history"%>      
-      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  %>
+      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
     <%end%>
   </div>
   <div id="menu">
