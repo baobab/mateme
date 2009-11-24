@@ -52,3 +52,9 @@ diabetes_hypertenstion_initial_visit:
   creator: 1
   encounter_type_id: 9
   description: ""
+lab_results:
+  name: LAB RESULTS
+  date_created: 2009-10-30 00:00:00 +02:00
+  creator: 1
+  encounter_type_id: 10
+  description: ""
