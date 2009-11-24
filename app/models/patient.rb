@@ -104,6 +104,7 @@ class Patient < ActiveRecord::Base
   
   def arv_number
     arv_number = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("ARV Number").id).identifier rescue nil
+    return nil if arv_number.empty?
   end
   
 end
