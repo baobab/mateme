@@ -38,13 +38,13 @@
   <%= select(:user_role ,:role_id, @roles,:include_blank => "true", :value => @user_role)%>
   <%else%>
     <p><label for="person_name_given_name">First name</label><br/>
-      <%= text_field 'person_name', 'given_name', :ajaxURL => '/search/PersonName?field=given_name&value=', :value => @user_first_name ,:allowFreeText => true%></p>
+      <%= text_field 'person_name', 'given_name', :ajaxURL => '/person_names/given_names?search_string=', :value => @user_first_name ,:allowFreeText => true%></p>
 
       <p><label for="user_middle_name">Middle name</label><br/>
       <%#= text_field 'user', 'middle_name', :xhelpText => 'Middle name', :ajaxURL => '/search/User?field=middle_name&value=' ,:optional => true, :value => @user_middle_name, :allowFreeText => true %></p>
 
       <p><label for="person_name_family_name">Last name</label><br/>
-      <%= text_field 'person_name', 'family_name', :ajaxURL => '/search/PersonName?field=family_name&value=', :value => @user_last_name, :allowFreeText => true%></p>
+      <%= text_field 'person_name', 'family_name', :ajaxURL => '/person_names/family_names?search_string=', :value => @user_last_name, :allowFreeText => true%></p>
 
       <p><label for="user_role_role_id">User Role</label></br>
       <%= text_field 'user_role', 'role_id', :xhelpText => 'User role', :ajaxURL => '/search/Role?field=role&value='%></p>
