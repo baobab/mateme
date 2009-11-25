@@ -11,6 +11,9 @@
   </form>
   <div class="centered">
     <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+    <% if @super_user%>
+      <button id="admin_button" class="button green" onclick="window.location = '/user/user_menu'"><span>Administration</span></button>
+    <%end%>
     <br/>
     <br/>
     <!-- <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
