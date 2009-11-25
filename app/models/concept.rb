@@ -21,4 +21,25 @@ class Concept < ActiveRecord::Base
   has_one :name, :class_name => 'ConceptName'
   has_many :drugs
   has_many :concept_sets #, :class_name => 'ConceptSet'
+
+   def self.get_concept_names
+    @concept_names = Hash.new
+    @concept_ids = Hash.new
+    
+    self.find(:all).each{|concept|
+      @concept_names[concept.name.name.downcase] = concept.name.name
+      @concept_ids[concept.name.name.downcase] = concept
+    }
+  end
+
+   self.get_concept_names
+
+  def self.find_by_name(concept_name)
+    
+    return @concept_ids[concept_name.to_s.downcase]
+  end
+
+  def self.concept_name(concept_name)
+    return @concept_names[concept_name.to_s.downcase] 
+  end
 end

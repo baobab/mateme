@@ -300,7 +300,7 @@ class Person < ActiveRecord::Base
     servers.each{|server|
       command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
-      results.push output if output and output.match /person/
+      results.push output if output and output.match(/person/)
     }
     # TODO need better logic here to select the best result or merge them
     # Currently returning the longest result - assuming that it has the most information
@@ -385,7 +385,7 @@ class Person < ActiveRecord::Base
     servers.each{|server|
       command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
-      results.push output if output and output.match /person/
+      results.push output if output and output.match(/person/)
     }
     result = results.sort{|a,b|b.length <=> a.length}.first
 
