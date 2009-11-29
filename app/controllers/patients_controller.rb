@@ -63,4 +63,10 @@ class PatientsController < ApplicationController
     @arv_number = @patient.arv_number rescue nil 
     render :template => 'patients/hiv_status', :layout => 'menu'
   end
+
+  def discharge
+    
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
+    render :template => 'patients/discharge', :layout => 'menu'
+  end
 end
