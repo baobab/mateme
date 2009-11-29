@@ -90,5 +90,9 @@ class PatientsController < ApplicationController
     @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
     render :template => 'patients/dashboard', :layout => 'menu'
 
+  def discharge
+    
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
+    render :template => 'patients/discharge', :layout => 'menu'
   end
 end
