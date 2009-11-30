@@ -20,9 +20,12 @@ class PatientsController < ApplicationController
     end
     
        
-    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
-    @encounters = @patient.encounters.current.active.find(:all)
-    @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
+    @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
+    @encounters   = @patient.encounters.current.active.find(:all)
+    @observations = Observation.find(:all, :order => 'obs_datetime DESC', 
+                      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? ",
+                        @patient.patient_id, Time.now.to_date])
+
     render :template => 'patients/show', :layout => 'menu'
     
   end
@@ -87,7 +90,11 @@ class PatientsController < ApplicationController
        
     @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
     @encounters = @patient.encounters.current.active.find(:all)
-    @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
+    @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
+    @encounters   = @patient.encounters.current.active.find(:all)
+    @observations = Observation.find(:all, :order => 'obs_datetime DESC',
+                      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? ",
+                        @patient.patient_id, Time.now.to_date])
     render :template => 'patients/dashboard', :layout => 'menu'
 
   def discharge

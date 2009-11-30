@@ -5,7 +5,8 @@
 </script>
 
   <%=render :partial=> "vitals_graphs", :locals=>{:fields=>@patient} %>
- 
+  <%=render :partial=> "blood_pressure", :locals=>{:fields=>@patient} %>
+
  
   <form action="/encounters/create/vitals">
      
@@ -47,7 +48,8 @@
       <%= hidden_field_tag("observations[][concept_name]", "WEIGHT (KG)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  
+
+    <% if ((@patient_height.blank?) || (@patient.person.age < 14))%>
     <label for='height'>Height (CM)</label>
       <%= text_field_tag "observations[][value_numeric]", nil,
         {:id => "height",
@@ -63,7 +65,8 @@
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-      
+     <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :helpText => "Summary", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
+     <%end%>
     <% if ask_blood_pressure %>
 
       <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
@@ -78,7 +81,7 @@
            :validationRule => "^([0-9]+)|Unknown$",
            :validationMessage => "You must enter numbers only (for example 157)",
            :tt_pageStyleClass => "Numeric NumbersOnly"} %>
-        <%= hidden_field_tag("observations[][concept_name]", "SYSTOLIC BLOOD PRESSURE (?/Y)") %>
+        <%= hidden_field_tag("observations[][concept_name]", "SYSTOLIC BLOOD PRESSURE") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
@@ -93,15 +96,13 @@
            # :units => 'cm',
            :validationRule => "^([0-9]+)|Unknown$",
            :validationMessage => "You must enter numbers only (for example 157)",
-           :tt_pageStyleClass => "Numeric NumbersOnly"} %>
-        <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE (X/?)") %>
+           :tt_pageStyleClass => "Numeric NumbersOnly",
+           :tt_onLoad => "$('touchscreenInput'+tstCurrentPage).setAttribute('max', $('systolic_blood_pressure').value);$('helpText'+tstCurrentPage).innerHTML = 'DIASTOLIC BLOOD PRESSURE (' + $('systolic_blood_pressure').value + '/?)'"} %>
+        <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
+<%= text_field_tag :showBPSummary, nil, { :tt_onLoad => "showBloodPressureGraphs()", :helpText => "Blood Pressure Graph", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
       <% end %>
- 
-    <!--label for='showSummary'>Summary </label-->
-    <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :helpText => "Summary", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
-   
+       
   <%= submit_tag "Finish" %>    
 </form>

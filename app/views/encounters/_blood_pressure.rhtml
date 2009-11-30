@@ -1,0 +1,65 @@
+<style type="text/css">
+#summary {
+      font-size:1.2em;
+    }
+</style>
+<script id="source" language="javascript" type="text/javascript">
+  jQuery.noConflict();
+
+var displayTextBP;
+
+function showBloodPressureGraphs(){
+     displayTextBP = 'Blood Pressure Graph';
+     displayTextBP += '<div id="weightHistory"></div>';
+     displayTextBP += '<div id="graphholder" style="width: 750px; position: relative; height: 400px;"> </div>';
+     $('tt_page_blood_pressure_graph').innerHTML = '<div id="summary">' + displayTextBP + '</div>' ;
+     
+function setData() {
+
+    var systolic = [
+      <% @min = Time.now
+         @max = Time.now
+         @obs = @patient.person.observations.find_by_concept_name("SYSTOLIC BLOOD PRESSURE")
+         @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+           @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+         <%= obs.value_numeric -%>],<% end %>
+    ];
+
+    var diastolic = [
+      <% @min = Time.now
+         @max = Time.now
+         @obs = @patient.person.observations.find_by_concept_name("DIASTOLIC BLOOD PRESSURE")
+         @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+           @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+         <%= obs.value_numeric -%>],<% end %>
+    ];
+
+    var now = new Date().getTime();
+    diastolic.push([now, $('diastolic_blood_pressure').value]);
+    systolic.push([now, $('systolic_blood_pressure').value]);
+
+    graphData = [{color: "green", data: systolic,  label: "Systolic"},
+                 {color: "red", data: diastolic ,  label: "Diastolic"}];
+
+
+    return graphData;
+  }
+
+function setPlotOptions()  {
+    var options = {
+                    grid: { clickable: true },
+                    lines: { show: true },
+                    points: { show: true },
+                    xaxis: {mode: "time",timeformat: "%y %b"}
+                  };
+
+     return options;
+    }
+
+    dataset = setData();
+    jQuery.plot(jQuery("#graphholder"),dataset, setPlotOptions());
+}
+//showBloodPressureGraphs();
+</script>
