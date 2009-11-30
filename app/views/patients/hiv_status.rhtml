@@ -35,9 +35,25 @@
 <form>
 </form>
 <%= render :partial => "details" %>
-HIV STATUS : <%=@arv_number? "<span style='color:red;font-weight:bold;'>POSITIVE</span> <div>ARV NUMBER : #{@arv_number}</div>" :  
-"<span style='color:green;font-weight:bold;'>UNKNOWN</span>"
+<%
+  status = 'UNKNOWN'
+  if @arv_number
+    status = 'POSITIVE'
+  elsif @status
+    status = @status.to_s
+  end
 %>
-
+HIV STATUS :
+<%if @arv_number%>
+  <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
+<%elsif status.to_s == 'POSITIVE'%>
+  <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> 
+<%else%>
+  <span style='color:green;font-weight:bold;'><%="#{status}"%></span>
+<%end%>
+</div>
+<div id="menu">
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
+</div>
 </div>
 
