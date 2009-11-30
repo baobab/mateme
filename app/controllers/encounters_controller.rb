@@ -2,7 +2,7 @@ class EncountersController < ApplicationController
 
   def create
     encounter = Encounter.new(params[:encounter])
-    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
+    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
 
     (params[:observations] || []).each{|observation|

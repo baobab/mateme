@@ -94,11 +94,12 @@
            # :units => 'cm',
            :validationRule => "^([0-9]+)|Unknown$",
            :validationMessage => "You must enter numbers only (for example 157)",
-           :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+           :tt_pageStyleClass => "Numeric NumbersOnly",
+           :tt_onLoad => "$('touchscreenInput'+tstCurrentPage).setAttribute('max', $('systolic_blood_pressure').value);$('helpText'+tstCurrentPage).innerHTML = 'DIASTOLIC BLOOD PRESSURE (' + $('systolic_blood_pressure').value + '/?)'"} %>
         <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-<%= text_field_tag :showBPSummary, nil, { :tt_onLoad => "showBloobPressureGraphs()", :helpText => "Blood Pressure Graph", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
+<%= text_field_tag :showBPSummary, nil, { :tt_onLoad => "showBloodPressureGraphs()", :helpText => "Blood Pressure Graph", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
       <% end %>
        
   <%= submit_tag "Finish" %>    

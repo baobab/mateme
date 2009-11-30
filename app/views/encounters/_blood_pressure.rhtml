@@ -8,7 +8,7 @@
 
 var displayTextBP;
 
-function showBloobPressureGraphs(){
+function showBloodPressureGraphs(){
      displayTextBP = 'Blood Pressure Graph';
      displayTextBP += '<div id="weightHistory"></div>';
      displayTextBP += '<div id="graphholder" style="width: 750px; position: relative; height: 400px;"> </div>';
@@ -58,5 +58,5 @@ function setPlotOptions()  {
     dataset = setData();
     jQuery.plot(jQuery("#graphholder"),dataset, setPlotOptions());
 }
-//showBloobPressureGraphs();
+//showBloodPressureGraphs();
 </script>
