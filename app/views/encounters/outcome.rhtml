@@ -1,0 +1,46 @@
+<script>
+  var tt_cancel_destination = "/patients/discharge/<%= @patient.id %>"
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='outcome' action="/encounters/create" method='post'>
+
+    
+  <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+   <% options = {:allowFreeText => 'false', :allowFreeText => 'false', :ajaxURL => "/encounters/diagnoses?search_string=", :textCase => "upper",:condition => "($('select').value == 'option2')" } %>
+
+
+
+ 
+
+  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "ALIVE","DEAD", "REFFERED", "ABSCONDED"]), {:helpText => 'Discharge outcome'})%>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "OUTCOME", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+   <% options = {
+	:id => "refer", 
+	:field_type => 'text', 
+	:helptext =>"Refer to clinic", 
+	:condition => "($('observations__value_coded_or_text').value == 'REFFERED')",
+	:allowFreeText => 'true', 
+	:ajaxURL => "/search/clinics?search_string=", 
+	:textCase => "upper"
+	} %>
+    <%= text_field_tag "observations[][value_text]", nil, options %>
+    <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER CLINIC", options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= submit_tag "Finish" %>    
+ </form>
+
+ 
+

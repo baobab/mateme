@@ -1,0 +1,97 @@
+<script>
+  var tt_cancel_destination = "/patients/discharge/<%= @patient.id %>"
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='inpatient_diagnosis' action="/encounters/create" method='post'>
+
+    
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OUTPATIENT DIAGNOSIS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+ 
+
+  <%= select_tag "ward", options_for_select(["","WARD 3A","WARD 3B","WARD 4A","WARD 4B"]), {:helpText => 'Ward discharging from', :tt_onLoad => "updateWardNextButton();" }%>
+
+  <%
+    options = {
+    :helpText => 'Primary diagnosis',
+    :allowFreeText => 'true',
+    :ajaxUrl=> "/search/diagnosis?search_string=",
+    :field_type => 'alpha',
+    :tt_onLoad => "updateNextButton();setTimeout(updateNextFinish, 20);",
+    :textCase => "upper" } %>
+
+    <% 7.times do |counter| %>
+      <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
+      <% options[:optional] = 'true' %>
+      <% counter += 1 %>
+      <% options[:id] = "level_" + counter.to_s if counter > 0 %>
+      <% options[:tt_onLoad] = "updateNextButton(#{counter});setTimeout(updateNextFinish, 20);" %>
+
+      <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+      <%= hidden_field_tag("observations[][value_text]", nil) %>
+      <%= hidden_field_tag("observations[][concept_name]", "OUTPATIENT DIAGNOSIS", options) %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <% end %>
+
+  <%= submit_tag "Finish" %>    
+  
+ </form>
+
+ 
+ <script type='text/javascript'>
+  var counter = 0
+   function updateNextButton(aCounter) {
+     counter = aCounter;
+     $('nextButton').setAttribute("onmousedown", "setAjaxUrl(counter);gotoNextPage();");
+
+}
+
+function setAjaxUrl(counter) {
+  //var level = tstInputTarget.name;
+  var counter = counter;
+  var level = tstFormElements[counter].id;
+
+  var selected = $(level).value;
+  updateAjaxUrl(selected,level);
+}
+           
+function updateAjaxUrl(selected, level) {
+  var url = '/search/diagnosis?level=' + level + '&selected=' + selected + '&search_string=';
+  var nextLevel = 'level_' + (parseInt(level.split('')[level.split('').length - 1]) + 1)
+  $(nextLevel).setAttribute("ajaxURL", url);
+
+}
+
+ // Every 500 milliseconds update the Next/Finish button
+    function updateNextFinish(){
+      if (tstInputTarget.value == '')
+      $('nextButton').innerHTML = '<span>Finish</span>';
+      else
+      $('nextButton').innerHTML = '<span>Next</span>';
+      setTimeout(updateNextFinish, 500)
+    }
+
+function updateWardNextButton() {
+     $('nextButton').setAttribute("onmousedown", "setInitualAjaxUrl();gotoNextPage();");
+ }
+
+function setInitualAjaxUrl() {
+  var selected = $('ward').value;
+  updateInitualAjaxUrl(selected);
+}
+
+function updateInitualAjaxUrl(value) {
+  var url = '/search/diagnosis?location='+ value + '&search_string=';
+  $('level_1').setAttribute("ajaxURL", url);
+
+}
+
+
+</script>
+
