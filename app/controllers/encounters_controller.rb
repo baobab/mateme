@@ -82,4 +82,12 @@ class EncountersController < ApplicationController
                 map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
     #render :layout => false
   end
+
+   def diagnoses_index
+    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @obs = @patient.current_diagnoses rescue []
+    redirect_to "/encounters/new/inpatient_diagnosis?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @obs.blank?
+    render :template => 'encounters/diagnoses_index', :layout => 'menu'
+  end
+
 end
