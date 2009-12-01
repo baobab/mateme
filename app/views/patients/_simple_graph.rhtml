@@ -64,7 +64,7 @@
         <%= obs.value_numeric -%>],<% end %>
         ];
 
-var random = [
+    var random = [
         <% @min = Time.now
         @max = Time.now
         @obs = @patient.person.observations.find_by_concept_name("RANDOM")
@@ -74,13 +74,24 @@ var random = [
         <%= obs.value_numeric -%>],<% end %>
         ];
 
-    bpGraphData = [{color: "green", points: { show: true }, data: systolic,  label: "Systolic"},
-                   {color: "red", points: { show: true }, data: diastolic ,  label: "Diastolic"}];
+    var glycated = [
+        <% @min = Time.now
+        @max = Time.now
+        @obs = @patient.person.observations.find_by_concept_name("HbA1c")
+        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+        @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+        <%= obs.value_numeric -%>],<% end %>
+        ];
 
-    bsGraphData = [//{color: "black", points: { show: true }, lines: {show: true}, data: random,  label: "Random"},
-                   {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"}];
+    bpGraphData = [{color: "green", points: { show: true }, lines: {show: true}, data: systolic,  label: "Systolic"},
+                   {color: "red", points: { show: true }, lines: {show: true}, data: diastolic ,  label: "Diastolic"}];
 
-    weightGraphData = [{data: patient_weight, points: { show: true },  label: "Weight"}];
+    bsGraphData = [ {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"},
+                    {color: "red", bars: {show: true, fill:true, lineWidth: 10}, data: glycated,  label: "HbA1c"},
+                    {color: "green", bars: {show: true, fill:true, lineWidth: 10}, data: random,  label: "Random"},];
+
+    weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label: "Weight"}];
 
 
     return weightGraphData;
@@ -91,7 +102,8 @@ var random = [
     var options;
 
     options = {
-          grid: { clickable: true }, 
+          grid: { clickable: true },
+          legend: {position:"nw"},
           xaxis: {mode: "time",timeformat: "%y %b"}
         };
 
