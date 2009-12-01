@@ -64,6 +64,8 @@ class PatientsController < ApplicationController
     #find patient object and arv number
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
     @arv_number = @patient.arv_number rescue nil 
+    @status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",16, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
+
     render :template => 'patients/hiv_status', :layout => 'menu'
   end
 
@@ -97,5 +99,9 @@ class PatientsController < ApplicationController
                         @patient.patient_id, Time.now.to_date])
     render :template => 'patients/dashboard', :layout => 'menu'
 
+  def discharge
+    
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
+    render :template => 'patients/discharge', :layout => 'menu'
   end
 end
