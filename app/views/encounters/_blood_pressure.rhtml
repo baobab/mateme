@@ -36,6 +36,9 @@ function setData() {
          <%= obs.value_numeric -%>],<% end %>
     ];
 
+    var now = new Date().getTime();
+    diastolic.push([now, $('diastolic_blood_pressure').value]);
+    systolic.push([now, $('systolic_blood_pressure').value]);
 
     graphData = [{color: "green", data: systolic,  label: "Systolic"},
                  {color: "red", data: diastolic ,  label: "Diastolic"}];
