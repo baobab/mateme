@@ -82,4 +82,23 @@ class EncountersController < ApplicationController
                 map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
     #render :layout => false
   end
+
+  def complications
+    @patient = Patient.find(params[:patient_id] || session[:patient_id])
+    if request.post?
+      params[:patient_id] = @patient.patient_id
+      #raise "#{params[:patient_id]}"
+      if params[:select_complication_type] == "Cardiovascular"
+        redirect_to :action => "new",:encounter_type =>"cardiovascular_complications", :patient_id => @patient.patient_id and return
+      elsif params[:select_complication_type]== "Endocrine"
+        redirect_to :action => "new",:encounter_type =>"endocrine_complications", :patient_id => @patient.patient_id and return
+      elsif params[:select_complication_type] == "Eyes"
+        redirect_to :action => "new",:encounter_type =>"eye_complications", :patient_id => @patient.patient_id and return
+      elsif params[:select_complication_type] == "Neuralgic"
+        redirect_to :action => "new",:encounter_type =>"neuralgic_complications", :patient_id => @patient.patient_id and return
+      elsif params[:select_complication_type] == "Renal"
+        redirect_to :action => "new",:encounter_type =>"renal_complications", :patient_id => @patient.patient_id and return
+      end
+    end
+  end
 end

@@ -1,0 +1,55 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+	<%= hidden_field_tag "encounter[encounter_type_name]", "NEURALGIC COMPLICATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+<label for='complication_neorologic_numbness'>Numbness or tingling in extremities?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_neorologic_numbness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No",
+    "Unsure"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "NUMBNESS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_neorologic_soles'>Non-healing sores on feet/ankles?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_neorologic_soles"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "NON HEALING SORES ON FEET OR ANKLES") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_neorologic_soles'>Amputations?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_neorologic_soles"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "AMPUTATION") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= submit_tag "Finish" %>
+</form>

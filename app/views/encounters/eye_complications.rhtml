@@ -1,0 +1,43 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+	<%= hidden_field_tag "encounter[encounter_type_name]", "EYE COMPLICATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <label for='complication_eyes_vision'>Vision Changes/Blurry Vision</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_eyes_vision"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "VISION DIFFICULTIES") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_eyes_vision_frequency'>How Frequent are Vision Changes?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :condition=>"$('complication_eyes_vision').value == 'Yes'",
+     :id => "complication_eyes_vision_frequency"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "All the Time",
+    "Intermittent"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "VISION CHANGES") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+  <%= submit_tag "Finish" %>    
+</form>
