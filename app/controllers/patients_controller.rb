@@ -2,6 +2,7 @@ class PatientsController < ApplicationController
   def show
     #find the user priviledges
     @super_user = false
+    @nurse = false
     @clinician  = false
     @doctor     = false
     @regstration_clerk  = false
@@ -13,6 +14,8 @@ class PatientsController < ApplicationController
         @super_user = true
     elsif @user_privilege.include?("clinician")
         @clinician  = true
+    elsif @user_privilege.include?("nurse")
+        @nurse  = true
     elsif @user_privilege.include?("doctor")
         @doctor     = true
     elsif @user_privilege.include?("regstration_clerk")
