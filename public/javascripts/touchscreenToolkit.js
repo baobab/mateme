@@ -1042,6 +1042,10 @@ function gotoPage(destPage, validate){
 			var pageWrapper = thisPage.parentNode;
 			pageWrapper.parentNode.removeChild(pageWrapper);
 		} catch(e) {
+      var pages = document.getElementsByClassName('inputPage');
+      for(var i=0; i<pages.length; i++) {
+        pages[i].parentNode.removeChild(pages[i]);
+      }
 		}
 	
     inputTargetPageNumber = destPage;
