@@ -1,0 +1,105 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+	<%= hidden_field_tag "encounter[encounter_type_name]", "ENDOCRINE COMPLICATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <label for='complication_hyperglycemia_polyuria'>HYPERGLYCEMIA SYMPTOMS:<br>Polyuria?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hyperglycemia_polyuria"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "POLYURIA") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hyperglycemia_polydipsia'>HYPERGLYCEMIA SYMPTOMS:<br>Polydipsia?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hyperglycemia_polydipsia"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "POLYDIPSIA") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hypoglycemia_dizziness'>HYPOGLYMECIA SYMPTOMS: <br>Dizziness?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hypoglycemia_dizziness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIZZINESS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hypoglycemia_sweating'>HYPOGLYMECIA SYMPTOMS:<br>Sweating or Feeling Clammy?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hypoglycemia_sweating"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SWEATING") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hypoglycemia_loseconsciousness'>HYPOGLYMECIA SYMPTOMS:<br>Loss of Consciousness?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hypoglycemia_loseconsciousness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "LOSS OF CONSCIOUSNESS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS:<br>General body weakness?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hyperglycemia_weakness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS:<br>Erectile or sexual dysfunction?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_hyperglycemia_weakness"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SEXUAL DYSFUNCTION") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  
+<%= submit_tag "Finish" %>    
+</form>

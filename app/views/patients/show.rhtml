@@ -53,6 +53,10 @@
       <%= render :partial => "patient_history"%>      
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
     <%end%>
+    
+    <% if @nurse%>
+      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
+    <%end%>
   </div>
   <div id="menu">
     <!--
@@ -78,6 +82,10 @@
     <%if @clinician%>
 
       <a class="button green" href='/encounters/new/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+       <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
+  <%end %>
+    <%if @nurse%>
+
        <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</a>
   <%end %>
 

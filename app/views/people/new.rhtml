@@ -47,7 +47,7 @@
 
   <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true }%>
 
-  <%= text_field_tag "person[addresses][state_province]",  params[:state_province], {:field_type => 'alpha', :helpText => 'District', :ajaxURL => '/search/district?search_string=', :allowFreeText => true }%>
+  <%= text_field_tag "person[addresses][state_province]",  params[:state_province], {:field_type => 'alpha', :helpText => 'Current District', :ajaxURL => '/search/district?search_string=', :allowFreeText => true }%>
 
   <%= text_field_tag "person[addresses][address2]",  params[:address2], {:field_type => 'alpha', :helpText => 'Home district', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
 

@@ -17,7 +17,7 @@
   jQuery.noConflict();
 
   var bpGraphData;
-  var weightOrBloodSugarGraphData;
+  var weightGraphData;
 
     function setData() {
 
@@ -54,15 +54,36 @@
         <%= obs.value_numeric -%>],<% end %>
         ];
 
+    var fasting = [
+        <% @min = Time.now
+        @max = Time.now
+        @obs = @patient.person.observations.find_by_concept_name("FASTING")
+        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+        @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+        <%= obs.value_numeric -%>],<% end %>
+        ];
 
-    bpGraphData = [{color: "green", data: systolic,  label: "Systolic"},
-                   {color: "red", data: diastolic ,  label: "Diastolic"}];
+var random = [
+        <% @min = Time.now
+        @max = Time.now
+        @obs = @patient.person.observations.find_by_concept_name("RANDOM")
+        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+        @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+        <%= obs.value_numeric -%>],<% end %>
+        ];
 
-    weightOrBloodSugarGraphData = [{data: patient_weight,  label: "Weight"},
-                                   {data: patient_blood_sugar ,  label: "Blood Sugar"}];
+    bpGraphData = [{color: "green", points: { show: true }, data: systolic,  label: "Systolic"},
+                   {color: "red", points: { show: true }, data: diastolic ,  label: "Diastolic"}];
+
+    bsGraphData = [//{color: "black", points: { show: true }, lines: {show: true}, data: random,  label: "Random"},
+                   {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"}];
+
+    weightGraphData = [{data: patient_weight, points: { show: true },  label: "Weight"}];
 
 
-    return weightOrBloodSugarGraphData;
+    return weightGraphData;
   }
 
     function setPlotOptions()  {
@@ -70,8 +91,8 @@
     var options;
 
     options = {
-          grid: { clickable: true }, lines: { show: true },
-          points: { show: true }, xaxis: {mode: "time",timeformat: "%y %b"}
+          grid: { clickable: true }, 
+          xaxis: {mode: "time",timeformat: "%y %b"}
         };
 
     return options;
@@ -110,6 +131,9 @@
     /* draw the BP graph*/
     if (key == 2)
       jQuery.plot(jQuery("#simplegraphholder"),bpGraphData, setPlotOptions());
+
+    if (key == 1)
+      jQuery.plot(jQuery("#simplegraphholder"),bsGraphData, setPlotOptions());
 
     /* draw either the weight or blood sugar graph*/
     else if (weightOrBloodSugarData.length > 0)

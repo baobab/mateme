@@ -1,0 +1,29 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+	<%= hidden_field_tag "encounter[encounter_type_name]", "RENAL COMPLICATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <label for='complication_renal_urine'>Decrease in urine output?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_renal_urine"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DECREASE IN URINE OUTPUT") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= submit_tag "Finish" %>
+</form>
