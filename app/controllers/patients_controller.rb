@@ -98,9 +98,9 @@ class PatientsController < ApplicationController
                       :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? ",
                         @patient.patient_id, Time.now.to_date])
     render :template => 'patients/dashboard', :layout => 'menu'
+  end
 
   def discharge
-    
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     render :template => 'patients/discharge', :layout => 'menu'
   end
