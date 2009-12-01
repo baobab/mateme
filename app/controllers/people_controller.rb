@@ -62,6 +62,8 @@ class PeopleController < ApplicationController
           redirect_to :action => "index"
         end
       end
+      person = Person.create_from_form(params[:person])
+      redirect_to :action => "index"
 
     else
       person = Person.create_from_form(params[:person])
