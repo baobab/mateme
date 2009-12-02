@@ -39,6 +39,29 @@
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
     <% end %>
 
+     <%
+    options = {
+    :helpText => 'Secondary diagnosis',
+    :allowFreeText => 'true',
+    :ajaxUrl=> "/search/diagnosis?search_string=",
+    :field_type => 'alpha',
+    :tt_onLoad => "updateNextButton();setTimeout(updateNextFinish, 20);",
+    :textCase => "upper" } %>
+
+    <% 7.times do |counter| %>
+      <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
+      <% options[:optional] = 'true' %>
+      <% counter += 1 %>
+      <% options[:id] = "level_" + counter.to_s if counter > 0 %>
+      <% options[:tt_onLoad] = "updateNextButton(#{counter});setTimeout(updateNextFinish, 20);" %>
+
+      <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+      <%= hidden_field_tag("observations[][value_text]", nil) %>
+      <%= hidden_field_tag("observations[][concept_name]", "OUTPATIENT DIAGNOSIS", options) %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <% end %>
+
   <%= submit_tag "Finish" %>    
   
  </form>

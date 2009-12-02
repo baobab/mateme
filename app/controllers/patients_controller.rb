@@ -104,7 +104,6 @@ class PatientsController < ApplicationController
   end
 
   def discharge
-    
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     render :template => 'patients/discharge', :layout => 'menu'
   end
