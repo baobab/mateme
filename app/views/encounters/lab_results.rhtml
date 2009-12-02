@@ -23,11 +23,6 @@
   <% @blood_sugar_types = Concept.find_by_name("BLOOD SUGAR TEST TYPE").concept_answers.map(&:name) %>
   
   <%= select_tag( "blood_sugar_type", options_for_select(@blood_sugar_types), options) %>
- <%#= hidden_field_tag("observations[][concept_name]", "BLOOD SUGAR TYPE") %>
-  <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-<!-- bcbcbcbcbcbcb -->
-
 
         <%= text_field_tag "observations[][value_numeric]", nil,
           {:id => "blood_sugar_value",
