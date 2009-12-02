@@ -1,7 +1,7 @@
-<script>
+<script type="text/javascript">
   var tt_cancel_destination = "/patients/discharge/<%= @patient.id %>"
 </script>
-<style>
+<style type="text/css">
   #space { display:inline; font-size:1.2em; }
 </style>
 <form id='inpatient_diagnosis' action="/encounters/create" method='post'>
@@ -26,18 +26,19 @@
     :textCase => "upper" } %>
 
     <% 7.times do |counter| %>
-      <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
+      <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter].value] == null" if counter > 0 %>
       <% options[:optional] = 'true' %>
       <% counter += 1 %>
       <% options[:id] = "level_" + counter.to_s if counter > 0 %>
       <% options[:tt_onLoad] = "updateNextButton(#{counter});setTimeout(updateNextFinish, 20);" %>
+      <%= text_field_tag("level" + counter.to_s, nil, options) %>
+    <% end %>
 
-      <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+      <%= hidden_field_tag("observations[][value_coded_or_text]", nil, {:id => "final_diagnosis"}) %>
       <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", @diagnosis_type, options) %>
+      <%= hidden_field_tag("observations[][concept_name]", @diagnosis_type) %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-    <% end %>
 
   <%= submit_tag "Finish" %>    
   
@@ -46,11 +47,23 @@
  
  <script type='text/javascript'>
   var counter = 0
-   function updateNextButton(aCounter) {
-     counter = aCounter;
-     $('nextButton').setAttribute("onmousedown", "setAjaxUrl(counter);gotoNextPage();");
+  var finalAnswers = [<%= DiagnosisTree.other_wards.final_keysr.to_json %>,
+                      <%= DiagnosisTree.fourb_wards.final_keysr.to_json %>
+                     ];
 
-}
+  function wardType(ward) {
+    type = 0
+    if (ward == 'WARD 4B') {
+      type= 1
+    }
+    return type;
+  }
+
+  function updateNextButton(aCounter) {
+     counter = aCounter;
+     $('nextButton').setAttribute("onmousedown", "setAjaxUrl(counter);console.log(tstFormElements[2]); gotoNextPage();");
+
+  }
 function setAjaxUrl(counter) {
   //var level = tstInputTarget.name;
   var counter = counter;
@@ -58,17 +71,20 @@ function setAjaxUrl(counter) {
   var ward = $('ward').value;
   var selected = $(level).value;
   updateAjaxUrl(selected,level,ward);
+  $('final_diagnosis').value = tstInputTarget.value;
+
 }
            
 function updateAjaxUrl(selected, level, ward) {
   var url = '/search/diagnosis?location=' + ward + '&level=' + level + '&selected=' + selected + '&search_string=';
-  var nextLevel = 'level_' + (parseInt(level.split('')[level.split('').length - 1]) + 1)
+  var nextLevel = 'level_' + (parseInt(level.split('')[level.split('').length - 1]) + 1);
+    console.log(nextLevel);
   $(nextLevel).setAttribute("ajaxURL", url);
 
 }
  // Every 500 milliseconds update the Next/Finish button
     function updateNextFinish(){
-      if (tstInputTarget.value == '')
+      if (typeof(finalAnswers[wardType($('ward').value)][tstInputTarget.value]) != 'undefined')
       $('nextButton').innerHTML = '<span>Finish</span>';
       else
       $('nextButton').innerHTML = '<span>Next</span>';
