@@ -20,7 +20,7 @@ class PatientsController < ApplicationController
     end
     
        
-    @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     @encounters = @patient.encounters.current.active.find(:all)
     @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
     render :template => 'patients/show', :layout => 'menu'
