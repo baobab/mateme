@@ -26,6 +26,7 @@ class EncountersController < ApplicationController
 
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
+    @diagnosis_type = params[:diagnosis_type]
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
@@ -83,10 +84,22 @@ class EncountersController < ApplicationController
   end
 
    def diagnoses_index
+    @diagnosis_type = 'PRIMARY DIAGNOSIS'
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @obs = @patient.current_diagnoses rescue []
-    redirect_to "/encounters/new/inpatient_diagnosis?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @obs.blank?
+    #diagnosis_encounter =  @patient.encounters.current.find_by_encounter_type( EncounterType.find_by_name("DIAGNOSIS").id) rescue nil
+    diagnosis_encounters =  @patient.encounters.current.all(:conditions => ["encounter_type = ? ", EncounterType.find_by_name("DIAGNOSIS").id]) rescue []
+    @primary_diagnosis = []
+
+    diagnosis_encounters.each{|encounter|
+      @primary_diagnosis = encounter.observations.all(:conditions => ["obs.concept_id = ?", ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).compact rescue []
+    }
+    @diagnosis_type = 'SECONDARY DIAGNOSIS' if !@primary_diagnosis.empty?
+    redirect_to "/encounters/new/inpatient_diagnosis?diagnosis_type=#{@diagnosis_type}&patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @primary_diagnosis.empty?
     render :template => 'encounters/diagnoses_index', :layout => 'menu'
   end
+
+   def confirmatory_evidence
+    @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
+   end
 
 end
