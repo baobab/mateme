@@ -258,6 +258,7 @@ class Person < ActiveRecord::Base
 
       patient_params["identifiers"].each{|identifier_type_name, identifier|
         identifier_type = PatientIdentifierType.find_by_name(identifier_type_name.gsub('_', ' ')) || PatientIdentifierType.find_by_name("Unknown id")
+        next if identifier.empty?
         patient.patient_identifiers.create("identifier" => identifier, "identifier_type" => identifier_type.patient_identifier_type_id)
       } if patient_params["identifiers"]
 
