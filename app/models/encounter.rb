@@ -27,6 +27,11 @@ class Encounter < ActiveRecord::Base
   end
 
   def to_s
+
+    @concept_list = ["EYE COMPLICATIONS","NEURALGIC COMPLICATIONS",
+                     "CARDIOVASCULAR COMPLICATIONS","RENAL COMPLICATIONS",
+                     "ENDOCRINE COMPLICATIONS", "COMPLICATIONS"]
+
     if name == 'REGISTRATION'
       "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
     elsif name == 'TREATMENT'
@@ -34,18 +39,32 @@ class Encounter < ActiveRecord::Base
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'VITALS'
-      temp = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("TEMPERATURE (C)") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
-      weight = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("WEIGHT (KG)") && "#{obs.answer_string}".upcase != '0.0' }
-      height = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HEIGHT (CM)") && "#{obs.answer_string}".upcase != '0.0' }
-      vitals = [weight_str = weight.first.answer_string + 'KG' rescue 'UNKNOWN WEIGHT',
-                height_str = height.first.answer_string + 'CM' rescue 'UNKNOWN HEIGHT']
+      temp      = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("TEMPERATURE (C)") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
+      weight    = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("WEIGHT (KG)") && "#{obs.answer_string}".upcase != '0.0' }
+      height    = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HEIGHT (CM)") && "#{obs.answer_string}".upcase != '0.0' }
+      diastolic = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("DIASTOLIC BLOOD PRESSURE") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
+      systolic  = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("SYSTOLIC BLOOD PRESSURE") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
+
+      bp_str      = "BP: "+(systolic.first.answer_string rescue '?')+'/' + (diastolic.first.answer_string rescue '?')
+      weight_str  = weight.first.answer_string + 'KG' rescue "unknown"
+      height_str  = height.first.answer_string + 'CM' rescue nil
+
+      vitals = []
+
+      vitals << weight_str if weight_str
+      vitals << height_str if height_str
+      vitals << bp_str if bp_str
+
       temp_str = temp.first.answer_string + '°C' rescue nil
       vitals << temp_str if temp_str                          
       vitals.join(', ')
+
     elsif name == "LAB RESULTS"
       self.observations.map{|o| o.concept.name.name.split(' ').map(&:chars).map(&:first).join + ': ' + o.answer_string}.join(', ')
-    elsif name == "COMPLICATIONS"
+
+    elsif @concept_list.include? name
       observations.collect{|observation| observation.to_s}.join(", ")
+
     else
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  

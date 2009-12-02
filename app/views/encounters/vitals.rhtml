@@ -65,8 +65,10 @@
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-     <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :helpText => "Summary", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
+      <%else%>
+        <%= hidden_field_tag('height', @patient_height.last.value_numeric)%>
      <%end%>
+     <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :helpText => "Summary", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
     <% if ask_blood_pressure %>
 
       <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
