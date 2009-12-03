@@ -1,0 +1,28 @@
+<style type="text/css" >
+.mytableborder {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+/*background-color: #660000;*/
+}
+</style>
+
+ <div id =" patient_history" style="position: relative; right: -341px; top: 15px;">
+   <center><h3> Vitals History</h3></center>
+ </div>
+
+<div style="font-size: 1.2em;">
+  <ul class="list" style="height: 220px; position: relative; width: 350px; right: -361px; top: 3px;">
+    <table cellpadding="2" cellspacing="0" border ="1">
+      <% for vital in @vitals do %>
+        <%if (vital.name.to_s.upcase == "VITALS")%>
+      <tr class ="data <%= cycle('even', 'odd')%>" >
+        <td class="mytableborder"> <%=h("#{vital.encounter_datetime.strftime("%d-%b-%Y")}") %></td>
+        <td class="mytableborder"> <%= h("#{vital.to_s}") %></td>
+      </tr>
+      <%end%>
+      <% end %>
+  </table>
+  </ul>
+  </div>
