@@ -1790,6 +1790,10 @@ TTInput.prototype = {
       errorMsg = this.validateRule();
       if (errorMsg.length > 0) return errorMsg;
 
+      // check validation code
+      errorMsg = this.validateCode();
+      if (errorMsg.length > 0) return errorMsg;
+
       // check ranges
       errorMsg = this.validateRange();
       if (errorMsg.length > 0) return errorMsg;
@@ -1823,6 +1827,18 @@ TTInput.prototype = {
   // 
   validateRule: function() {
    return validateRule(this.element)    
+  },
+  
+  // validate using specified JS code
+  validateCode: function() {
+    var code = this.element.getAttribute('validationCode');
+    var msg = this.element.getAttribute('validationMessage') || "Please enter a valid value";
+
+    if (!code || eval(code)) {
+      return "";
+    } else {
+      return msg;
+    }
   },
 
 	validateRange: function() {
