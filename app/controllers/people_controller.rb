@@ -61,11 +61,6 @@ class PeopleController < ApplicationController
         else
           redirect_to :action => "index"
         end
-<<<<<<< HEAD:app/controllers/people_controller.rb
-      end
-
-=======
->>>>>>> 4f72d8a... Assign diabetes number if available and avoid saving an emty identifier:app/controllers/people_controller.rb
     else
       person = Person.create_from_form(params[:person])
       
