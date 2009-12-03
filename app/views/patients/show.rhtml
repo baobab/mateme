@@ -55,6 +55,7 @@
     <%end%>
     
     <% if @nurse%>
+      <%= render :partial => "vitals_history"%>
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
     <%end%>
   </div>
