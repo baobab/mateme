@@ -86,13 +86,9 @@ class EncountersController < ApplicationController
    def diagnoses_index
     @diagnosis_type = 'PRIMARY DIAGNOSIS'
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    #diagnosis_encounter =  @patient.encounters.current.find_by_encounter_type( EncounterType.find_by_name("DIAGNOSIS").id) rescue nil
-    diagnosis_encounters =  @patient.encounters.current.all(:conditions => ["encounter_type = ? ", EncounterType.find_by_name("DIAGNOSIS").id]) rescue []
-    @primary_diagnosis = []
+    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]) rescue []
+    @secondary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id]) rescue []
 
-    diagnosis_encounters.each{|encounter|
-      @primary_diagnosis = encounter.observations.all(:conditions => ["obs.concept_id = ?", ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).compact rescue []
-    }
     @diagnosis_type = 'SECONDARY DIAGNOSIS' if !@primary_diagnosis.empty?
     redirect_to "/encounters/new/inpatient_diagnosis?diagnosis_type=#{@diagnosis_type}&patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @primary_diagnosis.empty?
     render :template => 'encounters/diagnoses_index', :layout => 'menu'
@@ -100,6 +96,27 @@ class EncountersController < ApplicationController
 
    def confirmatory_evidence
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
+    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
+    render :template => 'encounters/confirmatory_evidence', :layout => 'menu'
+   end
+
+   def create_observation
+      observation = Hash.new()
+
+      observation[:patient_id] = params[:patient_id]
+      observation[:concept_name] = params[:concept_name]
+      observation[:person_id] = params[:person_id] 
+      observation[:obs_datetime] = params[:obs_datetime]
+      observation[:encounter_id] = params[:encounter_id]
+      observation[:value_coded_or_text] = params[:value_coded_or_text]
+
+      Observation.create(observation)
+
+     confirmatory_evidence and return
+   end
+
+   def outcome
+     session[:auto_load_forms] = true
    end
 
 end

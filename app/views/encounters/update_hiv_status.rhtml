@@ -14,7 +14,7 @@
 
   <% options = {}%>
 
-  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "POSITIVE","NEGATIVE",]), {:helpText => 'Update HIV status'})%>
+  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "POSITIVE","NEGATIVE","UNKNOWN"]), {:helpText => 'Update HIV status'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "HIV STATUS", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>

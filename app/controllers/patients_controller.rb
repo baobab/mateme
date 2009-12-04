@@ -17,12 +17,17 @@ class PatientsController < ApplicationController
         @doctor     = true
     elsif @user_privilege.include?("regstration_clerk")
         @regstration_clerk  = true
-    end
-    
+    end  
        
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     @encounters = @patient.encounters.current.active.find(:all)
     @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
+    session[:auto_load_forms] = false if params[:auto_load_forms] == 'false'
+    session[:confirmed] = true if params[:confirmed] == 'true'
+    session[:diagnosis_done] = true if params[:diagnosis_done] == 'true'
+    #raise params.to_yaml and return
+  # raise session.to_yaml and return 
+    redirect_to next_discharge_task(@patient) and return if session[:auto_load_forms] == true
     render :template => 'patients/show', :layout => 'menu'
     
   end
@@ -67,8 +72,10 @@ class PatientsController < ApplicationController
   end
 
   def discharge
-    
-    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
-    render :template => 'patients/discharge', :layout => 'menu'
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    session[:auto_load_forms] = true
+    session[:confirmed] = false
+    session[:diagnosis_done] = false
+    redirect_to next_discharge_task(@patient)
   end
 end

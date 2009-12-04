@@ -1,0 +1,96 @@
+<script type="text/javascript">
+  tt_cancel_destination = '/patients/show/<%= @patient.id %>?confirmed=true';
+</script>
+
+<% best_tests_hash = {"PRESUMED SEPSIS ON CLINICAL GROUNDS ONLY" => ['Blood culture'], "NON-TYPHI SALMONELLA (NTS) ISOLATED" => ['Blood culture'],
+			"S PNEUMONIAE ISOLATED" => ['Blood culture'], "OTHER ORGANISM ISOLATED" => ['Blood culture'], "UNCOMPLICATED MALARIA" => ['Blood film'],
+		"SEVERE MALARIA" => ['Blood film'], "SEPTIC SHOCK" => ['Blood film'], "UNEXPLAINED SHOCK"  => ['Blood film'],
+    "PYOGENIC MENINGITIS WITH S PNEUMONIAE PROVEN BY GRAM STAIN OR CULTURE" => ['CSF Lab'],
+			"PYOGENIC MENINGITIS WITH E COLI PROVEN BY CULTURE" => ['CSF Lab'],
+			"PYOGENIC MENINGITIS WITH N MENINGITIDIS PROVEN BY GRAM STAIN OR CULTURE" => ['CSF Lab'],
+			"PYOGENIC MENINGITIS WITH OTHER ORGANISM" => ['CSF LAb'],
+			"PYOGENIC MENINGITIS WITH NO ORGANISM IDENTIFIED (CSF EXAMINED)" => ['CSF Lab'],
+			"CRYPTOCOCCAL MENINGITIS PROVEN BY INDIAN INK, CULTURE OR CRAG" => ['CSF Lab'],
+			"CRYPTOCOCCAL MENINGITIS ASSUMED ON SYMPTOMS, CELL COUNT" => ['CSF Lab'],
+			"TUBERCULOUS MENINGITIS PROVEN BY ZN OR CULTURE" => ['CSF Lab'],
+			"TUBERCULOUS MENINGITIS ASSUMED ON BASIS OF CLINICAL CONTEXT OR CSF CELL-COUNT" => ['CSF Lab'],
+	    "OTHER ENCEPHALITIS"  => ['CSF Lab'], "STROKE WITH BOTH HYPERTENSION AND DIABETES" => ['CT', 'MRI'],
+		"STROKE WITH HYPERTENSION (NO DIABETES)" => ['CT', 'MRI'],
+		"STROKE WITH DIABETES (NO HYPERTENSION)" => ['CT', 'MRI'],
+		"STROKE, LIKELY EMBOLIC" => ['Cardiac US'],
+		"STROKE WITH HIV THE ONLY RISK FACTOR" => ['CT, MRI'],
+		"STROKE WITH OTHER IDENTIFIED CAUSE" => ['CT', 'MRI'],
+		"UNEXPLAINED STROKE" => ['CT', 'MRI'],
+		"TUBERCULOUS PARAPLEGIA" => ['Xray', 'CT', 'MRI'],
+		"PYOGENIC PARAPLEGIA" => ['Xray', 'CT', 'MRI'],
+		"TRANSVERSE MYELITIS" => ['Xray', 'CT', 'MRI'],
+		"SYPHILIS" => ['Serology'],
+		"SCHISTOSOMIASIS" => ['Xray', 'CT', 'MRI'],
+		"NEOPLASTIC PARAPLEGIA" => ['Xray', 'CT', 'MRI'],
+		"PARAPLEGIA WITH OTHER IDENTIFIED CAUSE" => ['Xray', 'CT', 'MRI'],
+		"UNEXPLAINED PARAPLEGIA"  => ['Xray', 'CT', 'MRI'],
+		"INTRACEREBRAL TUMOUR" => ['CT', 'MRI'],
+		"INTRACEREBRAL ABSCESS" => ['CT', 'MRI'],
+		"TOXOPLASMOSIS" => ['CT', 'MRI'],
+		"HAEMATOMA" => ['CT', 'MRI'],
+		"OTHER IDENTIFIED INTRACEREBRAL LESION" => ['CT', 'MRI'],
+		"RECENT ONSET CONVULSIONS, NOT EXPLAINED BY OTHER DIAGNOSIS" => ['CT', 'MRI'],
+		"ACUTE CONFUSIONAL STATE" => ['CT', 'MRI'],
+		"CHRONIC PSYCHOSIS" => ['CT', 'MRI'],
+		"CARDIOMYOPATHY" => ['US'],
+			"CARDIOMYOPATHY WITH UNKNOWN CAUSE" => ['US'],
+			"PERI-PARTUM CARDIOMYOPATHY" => ['US'],
+			"NUTRITIONAL CARDIOMYOPATHY" => ['US'],
+			"ALCOHOLIC CARDIOMYOPATHY" => ['US'],
+			"OTHER CARDIOMYOPATHY" => ['US', 'ECG'],
+		"HEART FAILURE SECONDARY TO HYPERTENSION" => ['US', 'ECG'],
+		"COR PULMONALE" => ['US', 'ECG'],
+		"VALVULAR DISEASE" => ['US', 'ECG'],
+		"OTHER CAUSE OF HEART FAILURE"  => ['US', 'ECG'],
+		"UNEXPLAINED HEART FAILURE" => ['US', 'ECG'],
+		"MALIGNANT HYPERTENSION" => ['Opthalmoscopy'],
+			"RENAL DISEASE" => ['U&E', 'US'],
+			"COARCTATION OF AORTA"  => ['Xray'],
+			"ENDOCRINE SECONDARY HYPERTENSION" => ['Biochem'],
+		"ASSUMED TUBERCULOUS PERICARDIAL EFFUSION" => ['US'],
+		"PYOGENIC PERICARDIAL EFFUSION" => ['US', 'Sample'],
+		"MALIGNANT PERICARDIAL EFFUSION" => ['US', 'Sample'],
+		"URAEMIC PERICARDIAL EFFUSION" => ['US', 'U&E'],
+		"OTHER PERICARDIAL EFFUSION" => ['US'],
+    "ISCHAEMIC HEART DISEASE" => ['ECG'] }
+
+diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'
+
+best_tests = best_tests_hash[diagnosis_name]
+best_tests = [] if best_tests.nil?
+  
+  %>
+
+
+<div style="padding: 15px;">
+  <div  style="width:750px;"><h2>Confirmatory Evidennce
+      <span  style="float:right;padding:7px;font-size: 10pt"><table>
+          <tr><td align='center'>Requested</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td align='center'>Requested</td></tr>
+          <tr><td align='center'>Result Available</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td align='center'>Result NOT Available</td></tr></table> 
+      </span>
+  </h2>
+</div>
+<div>DIAGNOSIS: <b><%=diagnosis_name %></b></div>
+  <div style="font-size: 22pt;">
+    <ul class="list" style="height:445px;width:750px;">
+      <% for observation in best_tests do %>
+        <li class="data <%= cycle('even', 'odd') %>">
+        <span style="float:right;">
+          <%= img_button_submit_to "/encounters/create_observation", "/images/cancel_flat_small.png", {}, {:patient_id => @patient.id, :concept_name => observation.to_s, :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded_or_text => 'REQUESTED BUT RESULT NOT AVAILABLE'} -%>
+        </span>
+        <span style="float:right;padding:7px;"> <========> </span>
+        <span style="float:right;">
+          <%= img_button_submit_to "", "/images/ok.png", {}, {} -%>
+          </span>
+
+          <div style="clear:left" class="summary"><%= observation.to_s -%></div>
+        </li>  
+      <% end %>
+    </ul>
+  </div>
+</div>

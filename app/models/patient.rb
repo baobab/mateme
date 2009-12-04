@@ -12,12 +12,10 @@ class Patient < ActiveRecord::Base
     end
   end
 
-  def current_diagnoses
+  def current_diagnoses(concept_ids = [ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id, ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id])
     self.encounters.current.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
-        :conditions => ["obs.concept_id = ? OR obs.concept_id = ?", 
-        ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id,
-        ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id])
+        :conditions => ["obs.concept_id IN (?)", concept_ids])
     }.flatten.compact
   end
 
@@ -106,5 +104,23 @@ class Patient < ActiveRecord::Base
     arv_number = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("ARV Number").id).identifier rescue nil
     return nil if arv_number.empty?
   end
+
+  def current_outcome
+    self.encounters.current.all(:include => [:observations]).map{|encounter| 
+      encounter.observations.active.all(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("OUTCOME").concept_id,])
+    }.flatten.compact.last.answer_concept_name.name rescue nil
+  end
+
+  def hiv_status
+     self.encounters.current.all(:include => [:observations]).map{|encounter| 
+      encounter.observations.active.all(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id,])
+    }.flatten.compact.last.answer_concept_name.name rescue 'UNKNOWN'
+  end
   
+  def diagnosis_confirmatory_evidence
+    (self.encounters.current.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?",  
+      EncounterType.find_by_name("DIAGNOSIS")]).map{|encounter| encounter.observations.active.all()}.flatten.compact - self.current_diagnoses).last rescue nil 
+  end  
 end

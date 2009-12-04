@@ -22,7 +22,7 @@
   
 </style>
 <script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>?auto_load_forms=false"
   
   function changeNextButtonText(text){
     $('nextButton').innerHTML = "<span>" + text + "</span>";  
