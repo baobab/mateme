@@ -10,15 +10,15 @@ class PatientsController < ApplicationController
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role}
 
-    if @user_privilege.include?("superuser")
+    if @user_privilege.first.downcase.include?("superuser")
         @super_user = true
-    elsif @user_privilege.include?("clinician")
+    elsif @user_privilege.first.downcase.include?("clinician")
         @clinician  = true
-    elsif @user_privilege.include?("nurse")
+    elsif @user_privilege.first.downcase.include?("nurse")
         @nurse  = true
-    elsif @user_privilege.include?("doctor")
+    elsif @user_privilege.first.downcase.include?("doctor")
         @doctor     = true
-    elsif @user_privilege.include?("regstration_clerk")
+    elsif @user_privilege.first.downcase.include?("regstration_clerk")
         @regstration_clerk  = true
     end
     
