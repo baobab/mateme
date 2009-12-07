@@ -384,7 +384,9 @@ class Person < ActiveRecord::Base
     ]
     results = []
     servers.each{|server|
-      command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      server = 'meduser@' + server unless server.include?('@')
+      #command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      command = "ssh #{server} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
       results.push output if output and output.match(/person/)
     }
