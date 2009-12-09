@@ -58,7 +58,7 @@ class PrescriptionsController < ApplicationController
       :select => "concept_name.name", 
       :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0", 
       :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
-    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.join("</li><li>") + "</li>"
+    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.sort.join("</li><li>") + "</li>"
   end
   
   # Look up all of the matching drugs for the given generic drugs

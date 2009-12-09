@@ -82,7 +82,7 @@ else
 
 end
 
-render :text => @results.collect{|k,v|"<li>#{k}</li>"}.join("\n")
+render :text => @results.collect{|k,v|"<li>#{k}</li>"}.sort.join("\n")
 
 end
 

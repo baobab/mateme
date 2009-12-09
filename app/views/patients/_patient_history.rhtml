@@ -15,9 +15,9 @@ border-left:1px dotted ;
 <div style="font-size: 1.2em;">
   <ul class="list" style="height: 220px; position: relative; width: 350px; right: -361px; top: 8px;">
     <table cellpadding="2" cellspacing="0" border ="1">
-      <% for observation in @observations do %>
+      <% for observation in @past_diagnosis_and_treatment do %>
       <tr class ="data <%= cycle('even', 'odd')%>" >
-        <td class="mytableborder"> <%=h("#{observation.obs_datetime.strftime("%d-%b-%Y")}") %></td>
+        <td class="mytableborder"> <%=h("#{observation.obs_datetime.strftime("%d-%b-%Y") rescue observation.encounter.encounter_datetime.strftime("%d-%b-%Y")}")%></td>
         <td class="mytableborder"> <%= h("#{observation.to_s}") %></td>
       </tr>
       <% end %>

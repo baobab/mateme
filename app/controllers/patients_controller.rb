@@ -22,6 +22,7 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     @encounters = @patient.encounters.current.active.find(:all)
     @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
+    @past_diagnosis_and_treatment = @patient.previous_diagnoses + @patient.previous_treatments
     session[:auto_load_forms] = false if params[:auto_load_forms] == 'false'
     session[:confirmed] = true if params[:confirmed] == 'true'
     session[:diagnosis_done] = true if params[:diagnosis_done] == 'true'
@@ -65,9 +66,8 @@ class PatientsController < ApplicationController
   def hiv_status
     #find patient object and arv number
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
-    @arv_number = @patient.arv_number rescue nil 
-    @status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",16, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
-
+    @arv_number = @patient.arv_number 
+    @status = @patient.hiv_status
     render :template => 'patients/hiv_status', :layout => 'menu'
   end
 
