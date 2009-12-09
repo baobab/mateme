@@ -2,7 +2,7 @@
   tt_cancel_destination = '/people';
 </script>
 <style type="text/css">
-
+ 
   a.button.green {
     width:220px;
     -moz-user-select:none;
@@ -28,29 +28,38 @@
     height:478px;
     width:257px;;
   }
+ 
+  #content {
+  background:#FFFFFF;
+  position:absolute;
+  left:43%;
+  top:50%;
+  width:1000px;
+  height:600px;
+  margin-left:-400px;
+  margin-top:-300px;
+}
 </style>
-
+ 
 <div style="margin:10px;">
   <div id="details" style="float:left">
-<form>
-<%=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
-</form>
+    <form>
+    <%#=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
+    </form>
     <%= render :partial => "details" %>
-    
-
-
     <%= render :partial => "current_encounters" %>
+ 
     <% if @super_user || @doctor%>
-      <%= render :partial => "patient_history"%>      
+      <%= render :partial => "patient_history"%>
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
+    <%end%>
+    
+    <% if @nurse%>
+      <%= render :partial => "vitals_history"%>
+      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient} rescue nil%>
     <%end%>
   </div>
   <div id="menu">
-    <!--
-    <a class="button green" href='/encounter_types?patient_id=<%= @patient.id -%>'>Encounters</a>
-    -->
-    <!-- ============================ -->
-
 
   <%if @doctor%>
       <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
