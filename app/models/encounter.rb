@@ -42,6 +42,8 @@ class Encounter < ActiveRecord::Base
       temp_str = temp.first.answer_string + '°C' rescue nil
       vitals << temp_str if temp_str                          
       vitals.join(', ')
+    elsif name == 'UPDATE HIV STATUS'
+      'Patient\'s HIV Status was updated today'
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  
