@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/new/outcome?patient_id=#{patient.id}" if patient.current_outcome.nil?
 
-    return "/patients/hiv_status?patient_id=#{patient.id}" if ['UNKNOWN','NEGATIVE'].include?(patient.hiv_status)
+    return "/patients/hiv_status?patient_id=#{patient.id}" if ['UNKNOWN','NEGATIVE'].include?(patient.hiv_status) and !patient.encounters.current.all(:conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS")]).empty?
 
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false
 
