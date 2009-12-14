@@ -69,7 +69,8 @@ class Patient < ActiveRecord::Base
     label.left_margin = 50
     encs = encounters.current.active.find(:all)
     return nil if encs.blank?
-    
+
+    label.draw_multi_text("#{self.person.name.titleize.delete("'")} (#{self.national_id_with_dashes})")
     label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)    
     encs.each {|encounter|
       next if encounter.name.humanize == "Registration"

@@ -69,6 +69,13 @@ class Observation < ActiveRecord::Base
   end
 
   def answer_string
-    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+    string_len = self.value_numeric.to_s.length
+
+     if (self.value_numeric.to_s.last(2) == ".0")
+       numeric_value = self.value_numeric.to_s.first(string_len - 2)
+     else
+       numeric_value = self.value_numeric.to_s
+     end
+    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{numeric_value}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
   end
 end
