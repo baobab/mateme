@@ -1,0 +1,27 @@
+<style>
+.options{
+    height:11em;
+  }
+</style>
+<script>
+var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=false"
+</script>
+<form id='outcome' action="/encounters/create" method='post'>
+ <% options = {} %>
+
+    
+  <%= hidden_field_tag "encounter[encounter_type_name]", "ADMIT PATIENT" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "WARD 3A","WARD 3B", "WARD 4A", "WARD 2A", "OTHER"]), {:helpText => 'Admit to ward'})%>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ADMIT TO WARD", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= submit_tag "Finish" %>    
+ </form>
+
+

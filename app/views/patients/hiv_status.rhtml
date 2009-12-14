@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>?auto_load_forms=false"; 
+  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>?hiv_status_updated=true"; 
 </script>
 <style type="text/css">
 
@@ -32,13 +32,16 @@
 
 <div style="margin:10px;">
   <div id="details" style="float:left">
-<form>
+    <form>
+       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
 </form>
 <%= render :partial => "details" %>
 <%
   status = 'UNKNOWN'
   if @arv_number
-    status = 'POSITIVE'
+    status = 'REACTIVE'
   elsif @status
     status = @status.to_s
   end
@@ -46,14 +49,21 @@
 HIV STATUS :
 <%if @arv_number%>
   <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
-<%elsif status.to_s == 'POSITIVE'%>
+<%elsif status.to_s == 'REACTIVE'%>
   <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> 
 <%else%>
   <span style='color:green;font-weight:bold;'><%="#{status}"%></span>
 <%end%>
 </div>
+<%if status !='REACTIVE'%>
 <div id="menu">
     <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
+  </div>
+<%end%>
 </div>
-</div>
+
+
+          <div style="bottom:35px; height: 254px; width: 435px; left: 8px; right: -66px; position: absolute;">
+            <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Cancel</span></button></div>
+    
 

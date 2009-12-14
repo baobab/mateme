@@ -11,19 +11,22 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= select_tag "ward", options_for_select(["","WARD 3A","WARD 3B","WARD 4A","WARD 4B"]), {:helpText => 'Ward discharging from', :tt_onLoad => "updateWardNextButton();" }%>
+  <%= hidden_field_tag(:ward, session[:ward], :helpText=> "Ward discharging from", :field_type => "alpha", :tt_onLoad => "updateWardNextButton();") %>
+
+  <%#= select_tag "ward", options_for_select(["","WARD 3A","WARD 3B","WARD 4A","WARD 4B"]), {:helpText => 'Ward discharging from', :tt_onLoad => "updateWardNextButton();" }%>
+ 
 
   <%
   options = {
     :helpText => @diagnosis_type,
     :allowFreeText => 'true',
-    :ajaxUrl=> "/search/diagnosis?search_string=",
+    :ajaxUrl=> "/search/diagnosis?location=#{session[:ward]}&search_string=",
     :field_type => 'alpha',
     :tt_onLoad => "updateNextButton();setTimeout(updateNextFinish, 20);",
     :textCase => "upper" } %>
 
   <% 7.times do |counter| %>
-    <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter].value] == null" if counter > 0 %>
+    <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter-1].value] == null" if counter > 0 %>
     <% options[:optional] = 'true' %>
     <% counter += 1 %>
     <% options[:id] = "level_" + counter.to_s if counter > 0 %>
@@ -64,8 +67,8 @@
  function setAjaxUrl(counter) {
    //var level = tstInputTarget.name;
    var counter = counter;
-   var level = tstFormElements[counter].id;
-   var ward = $('ward').value;
+   var level = tstFormElements[counter-1].id;
+   var ward = '<%=session[:ward]%>';
    var selected = $(level).value;
    updateAjaxUrl(selected,level,ward);
    $('final_diagnosis').value = tstInputTarget.value;

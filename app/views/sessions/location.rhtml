@@ -15,6 +15,10 @@
     <label for="location">Location</label>
     <%= hidden_field_tag(:location, 4, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
 
+    
+    <label for="ward">Ward</label>
+    <%= text_field_tag(:ward, nil, :helpText => "Enter or Scan Ward", :textCase => "upper", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput1';") %><br>
+
     <%= submit_tag value="Submit"%>
   <% end %>
 

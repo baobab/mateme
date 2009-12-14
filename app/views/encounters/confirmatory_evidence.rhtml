@@ -1,3 +1,22 @@
+<style type="text/css" >
+.mytableborder {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+font-size:12pt;
+/*background-color: #660000;*/
+}
+.testname {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+font-size:18pt;
+/*background-color: #660000;*/
+}
+
+</style>
 <script type="text/javascript">
   tt_cancel_destination = '/patients/show/<%= @patient.id %>?confirmed=true';
 </script>
@@ -9,34 +28,48 @@ diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'
 best_tests = Array.new()
 
 best_tests_hash.each{|test,diagnoses| best_tests << test if diagnoses.include?("#{diagnosis_name}")}
-  
+
+test_vs_result = Hash.new()
+
+for observation in @requested_test_obs do
+  test_vs_result[observation.answer_string] = observation.concept.name.name
+end
+
+#raise test_vs_result.to_yaml
   %>
 
 
 <div style="padding: 15px;">
-  <div  style="width:750px;"><h2>Confirmatory Evidennce
-      <span  style="float:right;padding:7px;font-size: 10pt"><table>
-          <tr><td align='center'>Requested</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td align='center'>Requested</td></tr>
-          <tr><td align='center'>Result Available</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td align='center'>Result NOT Available</td></tr></table> 
-      </span>
+  <div  style="width:750px;"><h2>Confirmatory Evidence
   </h2>
 </div>
 <div>DIAGNOSIS: <b><%=diagnosis_name %></b></div>
   <div style="font-size: 40pt;">
-    <ul class="list" style="height:445px;width:750px;">
-      <% for test in best_tests do %>
-        <li class="data <%= cycle('even', 'odd') %>">
-        <span style="float:right;">
-          <%= img_button_submit_to "/encounters/create_observation", "/images/cancel_flat_small.png", {}, {:patient_id => @patient.id, :concept_name => 'REQUESTED BUT RESULT NOT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded_or_text => test.to_s} -%>
-        </span>
-        <span style="float:right;padding:7px;width:150px">&nbsp;</span>
-        <span style="float:right;">
-          <%= img_button_submit_to "", "/images/ok.png", {}, {} -%>
-          </span>
+    <ul class="list" style="height:410px;width:750px;">
+       <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+      <tr>
+        <th align="left" valign="top" class="mytableborder" width="50%">TEST</th>
+        <th class="mytableborder" width="25%">REQUESTED</th>
+        <th class="mytableborder" width="25%">RESULT AVAILABLE</th>
+      </tr>
+       <tr>
+        <td class="mytableborder">&nbsp;</td>
+        <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
+        <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
+      </tr>
 
-          <div style="clear:left" class="summary"><%= test.to_s -%></div>
-        </li>  
-      <% end %>
+      <%for test in best_tests do%>
+
+      <tr>
+        <td class="testname"><%=test.to_s%></td>
+        <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+        <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+      </tr>
+
+    <%end%>
+
+     </table>
+
     </ul>
   </div>
 </div>

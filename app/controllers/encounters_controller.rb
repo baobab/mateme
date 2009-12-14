@@ -89,20 +89,24 @@ class EncountersController < ApplicationController
     @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]) rescue []
     @secondary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id]) rescue []
     @additional_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]) rescue []
+    @syndromic_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("SYNDROMIC DIAGNOSIS").concept_id]) rescue []
 
     if !@primary_diagnosis.empty? and !@secondary_diagnosis.empty?
       @diagnosis_type = 'ADDITIONAL DIAGNOSIS'
     elsif !@primary_diagnosis.empty? 
        @diagnosis_type = 'SECONDARY DIAGNOSIS' 
     end
+
+    @diagnosis_type = 'SYNDROMIC DIAGNOSIS' if session[:admitted] == true
     
-    redirect_to "/encounters/new/inpatient_diagnosis?diagnosis_type=#{@diagnosis_type}&patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @primary_diagnosis.empty?
+   # redirect_to "/encounters/new/inpatient_diagnosis?diagnosis_type=#{@diagnosis_type}&patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @primary_diagnosis.empty?
     render :template => 'encounters/diagnoses_index', :layout => 'menu'
   end
 
    def confirmatory_evidence
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
-    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
+    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id]).last rescue nil
+    @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('REQUESTED AND RESULT AVAILABLE').concept_id, ConceptName.find_by_name('REQUESTED BUT RESULT NOT AVAILABLE').concept_id]) rescue []
     render :template => 'encounters/confirmatory_evidence', :layout => 'menu'
    end
 
@@ -122,6 +126,10 @@ class EncountersController < ApplicationController
    end
 
    def outcome
+     session[:auto_load_forms] = true
+   end
+   
+   def admit_patient
      session[:auto_load_forms] = true
    end
 

@@ -22,10 +22,13 @@ class ApplicationController < ActionController::Base
   def next_task(patient)
     current_location_name = Location.current_location.name
     todays_encounters = patient.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name}
+    current_visit_encounters = patient.current_visit.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name} rescue []
     # Registration clerk needs to do registration if it hasn't happened yet
-    return "/encounters/new/registration?patient_id=#{patient.id}" if current_location_name.match(/Registration/) && !todays_encounters.include?("REGISTRATION")
+    return "/encounters/new/registration?patient_id=#{patient.id}" if !current_visit_encounters.include?("REGISTRATION")
     # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
-    return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
+    #return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
+    
+    return "/encounters/new/registration?patient_id=#{patient.id}" if patient.current_visit.nil? || patient.current_visit.end_date != nil
     # Sometimes we won't have a vitals stage, when we do we need to do it        
     return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/Vitals/) && !todays_encounters.include?("VITALS")
     # Outpatient diagnosis needs outpatient diagnosis to be done!        
@@ -44,19 +47,23 @@ class ApplicationController < ActionController::Base
   end
 
   def next_discharge_task(patient)
+    #raise session.to_yaml
+    #raise patient.current_outcome.to_s
+    outcome = patient.current_outcome
+    current_visit_encounters = patient.current_visit.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name} rescue []
 
-    return "/encounters/new/outcome?patient_id=#{patient.id}" if patient.current_outcome.nil?
+    return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
 
-    return "/patients/hiv_status?patient_id=#{patient.id}" if ['UNKNOWN','NEGATIVE'].include?(patient.hiv_status) and !patient.encounters.current.all(:conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS")]).empty?
+    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
 
-    return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false
+    return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
 
-
-    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false
+    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['ALIVE', 'ABSCONDED'].include?(outcome)
 
     orders = patient.current_orders rescue []
 
-    return "/prescriptions/?patient_id=#{patient.id}" if orders.length <= patient.current_diagnoses.length
+    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
+
 =begin
     # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
     return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
@@ -73,4 +80,23 @@ class ApplicationController < ActionController::Base
     return "/patients/show/#{patient.id}" 
 
   end
+
+   def next_admit_task(patient)
+
+    outcome = patient.current_outcome
+    return "/encounters/new/admit_patient?patient_id=#{patient.id}" if  session[:diagnosis_done] == false
+    return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
+    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false
+    orders = patient.current_orders rescue []
+    return "/prescriptions/?patient_id=#{patient.id}" if ['ALIVE', 'ABSCONDED'].include?(outcome)
+    session[:auto_load_forms] = false
+    return "/patients/show/#{patient.id}" 
+
+  end
+
+   def close_visit
+     return "/people"
+   end
+
 end

@@ -5,6 +5,7 @@ class Patient < ActiveRecord::Base
 
   has_one :person, :foreign_key => :person_id
   has_many :patient_identifiers, :foreign_key => :patient_id, :dependent => :destroy, :conditions => 'patient_identifier.voided = 0'
+  has_many :visits, :dependent => :destroy, :conditions => 'visit.voided = 0' 
   has_many :encounters, :conditions => 'encounter.voided = 0' do 
     def find_by_date(encounter_date)
       encounter_date = Date.today unless encounter_date
@@ -12,16 +13,16 @@ class Patient < ActiveRecord::Base
     end
   end
 
-  def current_diagnoses(concept_ids = [ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id, ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id])
-    self.encounters.current.all(:include => [:observations]).map{|encounter| 
+  def current_diagnoses(concept_ids = [ConceptName.find_by_name('OUTPATIENT DIAGNOSIS').concept_id, ConceptName.find_by_name('OUTPATIENT DIAGNOSIS, NON-CODED').concept_id, ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id, ConceptName.find_by_name('SECONDARY DIAGNOSIS').concept_id, ConceptName.find_by_name('ADDITIONAL DIAGNOSIS').concept_id, ConceptName.find_by_name('SYNDROMIC DIAGNOSIS').concept_id])
+    self.current_visit.encounters.active.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id IN (?)", concept_ids])
     }.flatten.compact
   end
 
   def current_treatment_encounter
-    type = EncounterType.find_by_name("TREATMENT")
-    encounter = encounters.current.find_by_encounter_type(type.id)
+    type = EncounterType.find_by_name('TREATMENT')
+    encounter = self.current_visit.encounters.current.find_by_encounter_type(type.id)
     encounter ||= encounters.create(:encounter_type => type.id)
   end
   
@@ -105,14 +106,14 @@ class Patient < ActiveRecord::Base
   end
 
   def current_outcome
-    self.encounters.current.all(:include => [:observations]).map{|encounter| 
+    self.current_visit.encounters.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("OUTCOME").concept_id,])
     }.flatten.compact.last.answer_concept_name.name rescue nil
   end
 
   def hiv_status
-    return 'POSITIVE' if self.arv_number
+    return 'REACTIVE' if self.arv_number
      self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter| 
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
@@ -134,8 +135,43 @@ class Patient < ActiveRecord::Base
    def previous_treatments
     treatment_encounters = encounters.find_by_encounter_type(EncounterType.find_by_name("TREATMENT").id)
 
-    self.encounters.all(:include => [:orders], :conditions => ["DATE(encounter.encounter_datetime) < ?", Date.today]).map{|encounter| 
-       encounter.orders.active.all}.flatten.compact
+    self.previous_visits.map{|visit| visit.encounters.all(:include => [:orders]).map{|encounter| 
+       encounter.orders.active.all}}.flatten.compact
   end
 
+   def current_visit
+     current_visit = self.visits.current.last
+   end
+
+   def previous_visits
+     previous_visits = self.visits.all - self.visits.current
+   end
+
+   def previous_visits_diagnoses(concept_ids = [ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id, ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id])
+     self.previous_visits.map{|visit| visit.encounters.active.map{|encounter| 
+      encounter.observations.active.all(
+        :conditions => ["obs.concept_id IN (?)", concept_ids])
+    }}.flatten.compact
+   end
+
+   def visit_diagnoses
+     concept_ids = [ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id, ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]
+     visit_hash = Hash.new()
+     self.previous_visits.each{|visit| 
+     visit_hash[visit.visit_id] = visit.encounters.active.map{|encounter| 
+      encounter.observations.active.all(
+        :conditions => ["obs.concept_id IN (?)", concept_ids])
+    }.flatten.compact
+     }
+     return visit_hash
+   end
+
+   def visit_treatments
+       visit_hash = Hash.new()
+    self.previous_visits.each{|visit| 
+     visit_hash[visit.visit_id] = visit.encounters.all(:include => [:orders]).map{|encounter| 
+       encounter.orders.active.all}.flatten.compact
+    }
+    return visit_hash
+  end
 end
