@@ -1,11 +1,24 @@
 <style type="text/css">
   #space { display: inline;}
+  #Unknown { display: none;}
 </style>
-<script>
+<script type="text/javascript">
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
 
   function updateEncounterDate() {
-    $('encounter_encounter_datetime').value = $('diabetes_test_year').value + '-' + $('diabetes_test_month').value + '-01 00:00:01'
+    $('encounter_encounter_datetime').value = $('diabetes_test_year').value + 
+      '-' + $('diabetes_test_month').value + '-' + $('diabetes_test_day').value +
+      ' 00:00:01';
+  }
+
+  function validateCreatinine() {
+    if ((tstInputTarget.value >= 0.1 && tstInputTarget.value <= 1.2) ||
+        (tstInputTarget.value >= 9.1 && tstInputTarget.value <= 110) ||
+        (tstInputTarget.value >= 1   && tstInputTarget.value <= 25)
+       ) {
+       return true;
+    }
+    return false;
   }
 </script>
 
@@ -27,39 +40,278 @@
       :field_type => 'text',
       :id => "diabetes_test_type"
   }) %>
-  <% @diabetes_test_types = Concept.find_by_name("DIABETES TEST TYPE").concept_answers.map(&:name) rescue ['Creatinine',
-'Urine Protein',
-'Visual acuity',
-'Fundoscopy',
-'Foot Check']
+  <% 
+  #@diabetes_test = Concept.find_by_name("xDIABETES TEST TYPE").concept_answers.map(&:name) rescue 
+  @diabetes_test_types = ['', 'CREATININE',
+'URINE PROTEIN',
+'VISUAL ACUITY',
+'FUNDOSCOPY',
+'FOOT CHECK']
   %>
-  
-  <%= select_tag( "diabetes_test_result", options_for_select(@diabetes_test_types), options) %>
 
-  <%= text_field_tag "observations[][value_text]", nil,
+
+  <%= select_tag( "diabetes_test_type", options_for_select(@diabetes_test_types), options) %>
+
+  <%= text_field_tag "observations[][value_numeric]", nil,
     {:id => "diabetes_test_result",
-     :helptext =>"Diabetes Test Result",
+     :helptext =>"Creatinine Result",
      :allowFreeText => 'true',
-     :min => 50,
-     :max => 500,
-     #:tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-     :tt_onload => "$('observations__concept_name').value = $('diabetes_test_type').value" } %>
-  <%= hidden_field_tag("observations[][concept_name]", "") %>
+     :disabled => true,
+     :condition => "$('diabetes_test_type').value.toLowerCase() == 'creatinine'",
+     :validationCode => 'validateCreatinine()',
+     :field_type => 'number',
+     :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+     :tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
+                    $('diabetes_test_result').disabled = false;
+                    $('diabetes_type_concept').disabled = false;" } %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'diabetes_type_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]", '') %>
+
+  <% urine_protein_options = [['', ''],['NEGATIVE', 'NEG'],['TRACE', 'TRACE'],['POS (+)', 'POS (+)'],['POS (++)', 'POS (++)'],['POS (+++)', 'POS (+++)']] %>
+  <%# urine_protein_options = Concept.find_by_name('URINE PROTEIN').concept_answers %>
+  <%= select_tag("observations[][value_coded_or_text]",
+  #             options_from_collecion_for_select(urine_protein_options, id, name), {
+                options_for_select(urine_protein_options), {
+    :id => 'urine_protein_result',
+    :helpText => 'Urine Protein Result',
+    :disabled => true,
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'urine protein'",
+    :tt_onload => "$('urine_protein_concept').value = $('diabetes_test_type').value;
+                   $('urine_protein_result').disabled = false;
+                   $('urine_protein_concept').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'urine_protein_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%#= hidden_field_tag("observations[][patient_id]", @patient.id, {:id => 'urine_protein_patient'}) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]", '') %>
+
+  <%= select_tag("visual_acuity_side",
+                 options_for_select([['LEFT EYE','LEFT EYE VISUAL ACUITY'], ['RIGHT EYE','RIGHT EYE VISUAL ACUITY']]), {
+    :id => 'visual_acuity_side',
+    :helpText => 'Visual Acuity Side',
+    :disabled => true,
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'visual acuity'",
+    :tt_onload => "$('visual_acuity_concept').value = $('diabetes_test_type').value;
+                   $('visual_acuity_side').disabled = false;
+                   $('visual_acuity_concept').disabled = false;"
+    }) %>
+  <% visual_acuity_options = ['','CORRECTED','6/6','6/9','6/12','6/36', '6/60',
+                              'COUNTING FINGERS', 'HAND MOVEMENTS', 'NO PERCEPTION OF LIGHT',
+                              'ABLE TO READ SMALL PRINT','ABLE TO READ LARGE PRINT'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(visual_acuity_options), {
+    :id => 'visual_acuity_result',
+    :helpText => 'VISUAL ACUITY SIDE',
+    :disabled => true,
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'visual acuity'",
+    :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = $('visual_acuity_side').value;
+                   $('visual_acuity_concept').value = $('visual_acuity_side').value;
+                   $('visual_acuity_concept').disabled = false;
+                   $('visual_acuity_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'visual_acuity_concept',
+                                                            :disabled => true
+                                                            }) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+ <%= select_tag("fundoscopy_side",
+                 options_for_select([['LEFT EYE','LEFT EYE FUNDOSCOPY'], ['RIGHT EYE','RIGHT EYE FUNDOSCOPY']]), {
+    :id => 'fundoscopy_side',
+    :helpText => 'Fundoscopy Side',
+    :disabled => true,
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'fundoscopy'",
+    :tt_onload => "$('fundoscopy_concept').value = $('diabetes_test_type').value;
+                   $('fundoscopy_side').disabled = false;
+                   $('fundoscopy_concept').disabled = false;"
+    }) %>
+  <% fundoscopy_options = ['','CATARACT','BACKGROUND RETINOPATHY',
+                           'PROLIFERATVE RETINOPATHY','END STAGE EYE DISEASE',
+                           'HYPERTENSIVE RETINOPATHY'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(fundoscopy_options), {
+    :id => 'fundoscopy_result',
+    :helpText => 'FUNDOSCOPY SIDE',
+    :disabled => true,
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'fundoscopy'",
+    :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = $('fundoscopy_side').value;
+                   $('fundoscopy_concept').value = $('fundoscopy_side').value;
+                   $('fundoscopy_concept').disabled = false;
+                   $('fundoscopy_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'fundoscopy_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+  <% end_stage_eye_disease_options = ['','RETINAL','VITREOUS HAEMORRHAGE',
+                           'RETINAL DETACHMENT'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(end_stage_eye_disease_options), {
+    :id => 'end_stage_eye_disease_result',
+    :helpText => 'END STAGE EYE DISEASE',
+    :disabled => true,
+    :condition => "$('fundoscopy_result').value.toLowerCase() == 'end stage eye disease'",
+    :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('fundoscopy_side').value;
+                   $('end_stage_eye_disease_concept').value = 'END STAGE EYE DISEASE';
+                   $('end_stage_eye_disease_concept').disabled = false;
+                   $('end_stage_eye_disease_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'end_stage_eye_disease_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+  <%# hypertensive_retinopathy_options = ['','1','2', '3', '4'] %>
+  <%#= select_tag("observations[][numeric]",
+                 options_for_select(hypertensive_retinopathy_options), {
+
+  %>
+  <%= text_field_tag("observations[][numeric]", "", {
+    :id => 'hypertensive_retinopathy_result',
+    :helpText => 'HYPERTENSIVE RETINOPATHY',
+    :min => 1,
+    :max => 4,
+    :field_type => 'number',
+    :tt_pageStyleClass => "Numeric NumbersOnly",
+    :disabled => true,
+    :condition => "$('fundoscopy_result').value.toLowerCase() == 'hypertensive retinopathy'",
+    :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('fundoscopy_side').value;
+                   $('hypertensive_retinopathy_concept').value = 'HYPERTENSIVE RETINOPATHY';
+                   $('hypertensive_retinopathy_concept').disabled = false;
+                   $('hypertensive_retinopathy_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'hypertensive_retinopathy_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+  <%= select_tag("foot_check_side",
+                 options_for_select([['LEFT FOOT/LEG','LEFT FOOT/LEG'],
+                                     ['RIGHT FOOT/LEG','RIGHT FOOT/LEG'],
+                                     ['BOTH FEET/LEGS','BOTH FEET/LEGS'] #,
+                                     #['HANDS','HANDS']
+                                    ]), {
+    :id => 'foot_check_side',
+    :helpText => 'Foot Check Side',
+    :disabled => true,
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'foot check'",
+    :tt_onload => "$('foot_check_concept').value = $('diabetes_test_type').value;
+                   $('foot_check_side').disabled = false;
+                   $('foot_check_concept').disabled = false;"
+    }) %>
+  <% foot_check_options = ['','NUMBNESS IN HANDS, FEET OR LEGS','PULSES PRESENT',
+                           'GENERAL CONDITION','AMPUTATION'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(foot_check_options), {
+    :id => 'foot_check_result',
+    :helpText => 'FUNDOSCOPY SIDE',
+    :disabled => true,
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'foot check'",
+    :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = $('foot_check_side').value;
+                   $('foot_check_concept').value = $('foot_check_side').value;
+                   $('foot_check_concept').disabled = false;
+                   $('foot_check_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'foot_check_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  
+  <% dorsalis_pedis_options = ['','YES','NO'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(dorsalis_pedis_options), {
+    :id => 'dorsalis_pedis_result',
+    :helpText => 'DORSALIS PEDIS',
+    :disabled => true,
+    :condition => "$('foot_check_result').value.toLowerCase() == 'pulses present'",
+    :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
+                   $('dorsalis_pedis_concept').value = 'DORSALIS PEDIS';
+                   $('dorsalis_pedis_concept').disabled = false;
+                   $('dorsalis_pedis_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'dorsalis_pedis_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  
+  <% posterior_tibial_options = ['','YES','NO'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(posterior_tibial_options), {
+    :id => 'posterior_tibial_result',
+    :helpText => 'POSTERIOR TIBIAL',
+    :disabled => true,
+    :condition => "$('foot_check_result').value.toLowerCase() == 'pulses present'",
+    :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
+                   $('posterior_tibial_concept').value = 'POSTERIOR TIBIAL';
+                   $('posterior_tibial_concept').disabled = false;
+                   $('posterior_tibial_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'posterior_tibial_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+
+  <% general_condition_options = ['','GOOD','MINOR SKIN LESIONS/FUNGAL INFECTIONS',
+                                  'CURRENT FOOT ULCERATION'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(general_condition_options), {
+    :id => 'general_condition_result',
+    :helpText => 'GENERAL CONDITION',
+    :disabled => true,
+    :condition => "$('foot_check_result').value.toLowerCase() == 'general condition'",
+    :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
+                   $('general_condition_concept').value = 'GENERAL CONDITION';
+                   $('general_condition_concept').disabled = false;
+                   $('general_condition_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'general_condition_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+  <% amputation_options = ['','TOE(S) ONLY','BELOW KNEE',
+                                  'ABOVE KNEE'] %>
+  <%= select_tag("observations[][value_coded_or_text]",
+                 options_for_select(amputation_options), {
+    :id => 'amputation_result',
+    :helpText => 'AMPUTATION',
+    :disabled => true,
+    :condition => "$('foot_check_result').value.toLowerCase() == 'amputation'",
+    :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
+                   $('amputation_concept').value = 'AMPUTATION';
+                   $('amputation_concept').disabled = false;
+                   $('amputation_result').disabled = false;"
+    }) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'amputation_concept',
+                                                            :disabled => true
+                                                            }) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
 
   <%= text_field_tag "diabetes[test_year]", nil, {
     :helpText => 'Test Year', :field_type => 'number', :absoluteMin => "1890",
     :min => "1940", :absoluteMax => Date.today.year,
     :tt_pageStyleClass => "Numeric NumbersOnly",
-    :tt_onLoad => 'seen(tstCurrentPage);' }  %>
+  }  %>
 
   <%= select_tag "diabetes[test_month]", month_name_options, {
     :helpText => 'Test Month',
-    :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"',
-    :tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
+    :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"'#,
+    #:tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
   }%>
 
-  <%= hidden_field_tag("observations[][obs_datetime]", '') %>
+  <%= text_field_tag "diabetes[test_day]", '', {
+    :helpText => 'Test Day',
+    :field_type => 'number',
+    :absoluteMin => 1, :absoluteMax => 31,
+    :condition => '($("diabetes_test_year").value != "Unknown") && ($("diabetes_test_month").value != "Unknown")',
+    :tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
+  }%>
 
   <%= submit_tag "Finish" %>
 </form>
