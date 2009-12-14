@@ -87,7 +87,6 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     if request.post?
       params[:patient_id] = @patient.patient_id
-      #raise "#{params[:patient_id]}"
       if params[:select_complication_type] == "Cardiovascular"
         redirect_to :action => "new",:encounter_type =>"cardiovascular_complications", :patient_id => @patient.patient_id and return
       elsif params[:select_complication_type]== "Endocrine"
