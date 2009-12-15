@@ -4,7 +4,7 @@
   }
 </style>
 
-<div style="font-size:1.1em;">
+<div style="font-size:1em;">
 <h2><%= @patient.person.name %></h2>
 <table cellpadding="2" cellspacing="0">
 <tr> <td> <span class='title'> National id: </span> </td> <td> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
@@ -13,5 +13,6 @@
 <!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
 <tr> <td> <span class='title'> Current Village: </span> </td> <td> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
 <tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>
+<tr> <td> <span class='title'> DC Number: </span> </td> <td> <%= @patient.diabetic_number rescue 'Unknown' %><br/> </td></tr>
 </table>
 </div>

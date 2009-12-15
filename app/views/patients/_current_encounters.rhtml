@@ -1,8 +1,7 @@
-<div id =" patient_history" style="bottom:135px; height: 220px; width: 350px; left: 8px; right: -66px; position: absolute;">
+<div id =" visit_summary" style="top:230px;width: 350px; left: 8px; right: -66px; position: absolute;">
    <center><h3> Visit Summary</h3></center>
- </div>
 <div style="font-size: 22pt;">
-  <ul class="list" style="bottom:56px; height: 220px; width: 350px; left: 8px; right: -66px; position: absolute;">
+  <ul class="list" style="height: 210px; width: 350px;">
     <% for encounter in @encounters do %>
       <li class="data <%= cycle('even', 'odd') %>">
         <div style="float:right;padding:7px;">
@@ -13,4 +12,5 @@
       </li>  
     <% end %>
   </ul>
+</div>
 </div>
