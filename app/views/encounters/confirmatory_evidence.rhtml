@@ -32,10 +32,10 @@ best_tests_hash.each{|test,diagnoses| best_tests << test if diagnoses.include?("
 test_vs_result = Hash.new()
 
 for observation in @requested_test_obs do
-  test_vs_result[observation.answer_string] = observation.concept.name.name
+  test_vs_result[observation.answer_string] = Array.new() if not test_vs_result[observation.answer_string]
+  test_vs_result[observation.answer_string] << observation.concept.name.name
 end
 
-#raise test_vs_result.to_yaml
   %>
 
 
@@ -58,7 +58,10 @@ end
         <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
       </tr>
 
-      <%for test in best_tests do%>
+      <%for test in best_tests do
+          #if test_vs_result.has_key?("#{test.to_s}")
+           # if test_vs_result["#{test.to_s}"].include?('RESULT AVAILABLE')
+      %>
 
       <tr>
         <td class="testname"><%=test.to_s%></td>
