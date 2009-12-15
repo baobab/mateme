@@ -91,6 +91,7 @@ class PatientsController < ApplicationController
     session[:auto_load_forms] = true
     session[:diagnosis_done] = false
     session[:admitted] = true
+    session[:prescribed] = false
     redirect_to next_admit_task(@patient)
   end
 
