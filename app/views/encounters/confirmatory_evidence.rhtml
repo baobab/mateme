@@ -1,20 +1,20 @@
 <style type="text/css" >
-.mytableborder {
-border-top:1px dotted ;
-border-right:1px dotted ;
-border-bottom:1px dotted ;
-border-left:1px dotted ;
-font-size:12pt;
-/*background-color: #660000;*/
-}
-.testname {
-border-top:1px dotted ;
-border-right:1px dotted ;
-border-bottom:1px dotted ;
-border-left:1px dotted ;
-font-size:18pt;
-/*background-color: #660000;*/
-}
+  .mytableborder {
+    border-top:1px dotted ;
+    border-right:1px dotted ;
+    border-bottom:1px dotted ;
+    border-left:1px dotted ;
+    font-size:12pt;
+    /*background-color: #660000;*/
+  }
+  .testname {
+    border-top:1px dotted ;
+    border-right:1px dotted ;
+    border-bottom:1px dotted ;
+    border-left:1px dotted ;
+    font-size:18pt;
+    /*background-color: #660000;*/
+  }
 
 </style>
 <script type="text/javascript">
@@ -36,42 +36,42 @@ for observation in @requested_test_obs do
   test_vs_result[observation.answer_string] << observation.concept.name.name
 end
 
-  %>
+%>
 
 
 <div style="padding: 15px;">
   <div  style="width:750px;"><h2>Confirmatory Evidence
-  </h2>
-</div>
-<div>DIAGNOSIS: <b><%=diagnosis_name %></b></div>
+    </h2>
+  </div>
+  <div>DIAGNOSIS: <b><%=diagnosis_name %></b></div>
   <div style="font-size: 40pt;">
     <ul class="list" style="height:410px;width:750px;">
-       <table cellpadding="2" cellspacing="0" border ="1" width="100%">
-      <tr>
-        <th align="left" valign="top" class="mytableborder" width="50%">TEST</th>
-        <th class="mytableborder" width="25%">REQUESTED</th>
-        <th class="mytableborder" width="25%">RESULT AVAILABLE</th>
-      </tr>
-       <tr>
-        <td class="mytableborder">&nbsp;</td>
-        <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
-        <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
-      </tr>
+      <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+        <tr>
+          <th align="left" valign="top" class="mytableborder" width="50%">TEST</th>
+          <th class="mytableborder" width="25%">REQUESTED</th>
+          <th class="mytableborder" width="25%">RESULT AVAILABLE</th>
+        </tr>
+        <tr>
+          <td class="mytableborder">&nbsp;</td>
+          <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
+          <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
+        </tr>
 
-      <%for test in best_tests do
+        <%for test in best_tests do
           #if test_vs_result.has_key?("#{test.to_s}")
-           # if test_vs_result["#{test.to_s}"].include?('RESULT AVAILABLE')
-      %>
+          # if test_vs_result["#{test.to_s}"].include?('TEST REQUESTED')
+        %>
 
-      <tr>
-        <td class="testname"><%=test.to_s%></td>
-        <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
-        <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
-      </tr>
+          <tr>
+            <td class="testname"><%=test.to_s%></td>
+            <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+            <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+          </tr>
 
-    <%end%>
+        <%end%>
 
-     </table>
+      </table>
 
     </ul>
   </div>
