@@ -105,9 +105,9 @@ class PatientsController < ApplicationController
       current_visit.ended_by = session[:user_id]
       current_visit.end_date = treatment.encounter_datetime
       current_visit.save
-      print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit)
+      print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
     end
-      redirect_to close_vist
+      redirect_to close_vist and return
   end
 
 
