@@ -107,7 +107,7 @@ class PatientsController < ApplicationController
       current_visit.save
       print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit)
     end
-      return '/people'
+      redirect_to close_vist
   end
 
 
