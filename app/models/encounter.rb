@@ -63,7 +63,6 @@ class Encounter < ActiveRecord::Base
 
   def after_save
     current_visit = self.patient.current_visit
-  #  raise self.to_yaml
     if (current_visit.nil? or current_visit.end_date != nil )
       visit = Visit.new({:patient_id => self.patient_id, :start_date => self.encounter_datetime})
       visit.save
@@ -73,13 +72,6 @@ class Encounter < ActiveRecord::Base
    
     visit_encounter = VisitEncounter.new({:visit_id => current_visit.visit_id, :encounter_id => self.encounter_id})
     visit_encounter.save
-=begin
-    if self.name == 'TREATMENT'
-     current_visit.ended_by = self.provider_id
-     current_visit.end_date = self.encounter_datetime
-     current_visit.save
-    end
-=end
 
   end
 
