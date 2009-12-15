@@ -7,7 +7,7 @@ class Person < ActiveRecord::Base
   has_one :patient, :foreign_key => :patient_id, :dependent => :destroy
   has_many :names, :class_name => 'PersonName', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_name.voided = 0', :order => 'person_name.preferred DESC'
   has_many :addresses, :class_name => 'PersonAddress', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_address.voided = 0', :order => 'person_address.preferred DESC'
-  has_many :person_attributes, :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_name.voided = 0'
+  has_many :person_attributes, :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_attribute.voided = 0'
   has_many :observations, :class_name => 'Observation', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'obs.voided = 0' do
 
 
