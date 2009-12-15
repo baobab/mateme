@@ -60,22 +60,8 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['ALIVE', 'ABSCONDED'].include?(outcome)
 
-    orders = patient.current_orders rescue []
-
     return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
-
-=begin
-    # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
-    return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
-    # Sometimes we won't have a vitals stage, when we do we need to do it        
-    return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/Vitals/) && !todays_encounters.include?("VITALS")
-    # Outpatient diagnosis needs outpatient diagnosis to be done!        
-    return "/encounters/new/outpatient_diagnosis?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("OUTPATIENT DIAGNOSIS")
-    # There may not be a treatment location, can we make this automatic for the clinic room?
-    return "/encounters/new/treatment?patient_id=#{patient.id}" if current_location_name.match(/Treatment/) && !todays_encounters.include?("TREATMENT")
-    # Everything seems to be done... show the dashboard
-
-=end
+    
     session[:auto_load_forms] = false
     return "/patients/show/#{patient.id}" 
 
@@ -88,8 +74,8 @@ class ApplicationController < ActionController::Base
     return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
     return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false
-    orders = patient.current_orders rescue []
-    return "/prescriptions/?patient_id=#{patient.id}" if ['ALIVE', 'ABSCONDED'].include?(outcome)
+    
+    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
     session[:auto_load_forms] = false
     return "/patients/show/#{patient.id}" 
 
