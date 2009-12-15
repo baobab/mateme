@@ -106,7 +106,7 @@ class EncountersController < ApplicationController
    def confirmatory_evidence
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
     @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id]).last rescue nil
-    @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('REQUESTED AND RESULT AVAILABLE').concept_id, ConceptName.find_by_name('REQUESTED BUT RESULT NOT AVAILABLE').concept_id]) rescue []
+    @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('TEST REQUESTED').concept_id, ConceptName.find_by_name('RESULT AVAILABLE').concept_id]) rescue []
     render :template => 'encounters/confirmatory_evidence', :layout => 'menu'
    end
 
