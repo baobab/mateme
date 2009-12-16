@@ -17,7 +17,8 @@
 
     
     <label for="ward">Ward</label>
-    <%= text_field_tag(:ward, nil, :helpText => "Enter or Scan Ward", :textCase => "upper", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput1';") %><br>
+    <%= select_tag("ward", options_for_select(["", "WARD 3A","WARD 3B", "WARD 4A", "WARD 4B"]), {:helpText => 'Select Ward'})%> <br>
+
 
     <%= submit_tag value="Submit"%>
   <% end %>
