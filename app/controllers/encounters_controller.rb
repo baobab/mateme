@@ -18,6 +18,14 @@ class EncountersController < ApplicationController
       observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
       observation[:person_id] ||= encounter.patient_id
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
+
+      # convert values from 'mmol/litre' to 'mg/declitre'
+      if(observation[:concept_name] == "HbA1c")
+        if(observation[:value_numeric].to_f > 4 && observation[:value_numeric].to_f < 20)
+          observation[:value_numeric] = observation[:value_numeric].to_f * 18
+        end
+      end
+
       Observation.create(observation)
     }
     @patient = Patient.find(params[:encounter][:patient_id])
