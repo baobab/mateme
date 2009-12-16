@@ -54,13 +54,13 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
 
-    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome)
 
-    return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
 
     return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['ALIVE', 'ABSCONDED'].include?(outcome)
 
-    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
     
     session[:auto_load_forms] = false
     return "/patients/show/#{patient.id}" 
