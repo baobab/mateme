@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# wget http://ow.ly/MQMy
+# sudo +x prepare_ubuntu_for_deploy.sh
+# sudo ./prepare_ubunt_for_deploy.sh
 
 if [ -z "$SUDO_USER" ]; then
     echo "$0 must be called from sudo. Try: 'sudo ${0}'"
@@ -24,6 +28,13 @@ adduser -d /home/deploy -m deploy
 
 echo "Giving deploy sudo"
 echo "deploy          ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+su deploy -c "mkdir /home/deploy/.ssh"
+
+# keys to login with
+wget -qO- /tmp/allowed_public_keys http://github.com/mikeymckay/mateme/raw/master/script/allowed_public_keys >> /home/deploy/.ssh/authorized_keys
+
+chmod 755 /home/deploy/.ssh/authorized_keys
 
 apt-get --assume-yes install build-essential apache2 mysql-server openssh-server git-core wget ruby libxml2-dev libxslt1-dev ruby1.8-dev rdoc1.8 irb1.8 libopenssl-ruby1.8 rsnapshot nginx
 
