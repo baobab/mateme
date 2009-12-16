@@ -36,7 +36,7 @@
            :validationCode => "($('blood_sugar_type').value == 'HbA1c') && (tstInputTarget.value > 4 && tstInputTarget.value < 20) || (tstInputTarget.value > 76 && tstInputTarget.value < 347)",
            :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
            :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-           :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value" } %>
+           :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value; if ($('blood_sugar_type').value == 'HbA1c') $('touchscreenInput'+tstCurrentPage).setAttribute('min', 4); if ($('blood_sugar_type').value == 'HbA1c') $('touchscreenInput'+tstCurrentPage).setAttribute('max', 347);" } %>
         <%= hidden_field_tag("observations[][concept_name]", "") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
