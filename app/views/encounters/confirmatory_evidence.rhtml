@@ -21,7 +21,8 @@
   tt_cancel_destination = '/patients/show/<%= @patient.id %>?confirmed=true';
 </script>
 
-<% best_tests_hash = DiagnosisTree.best_tests
+<%
+best_tests_hash = DiagnosisTree.best_tests
 
 diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'
 
@@ -29,13 +30,25 @@ best_tests = Array.new()
 
 best_tests_hash.each{|test,diagnoses| best_tests << test if diagnoses.include?("#{diagnosis_name}")}
 
-test_vs_result = Hash.new()
+test_result = Hash.new()
+result_available = Hash.new()
 
-for observation in @requested_test_obs do
-  test_vs_result[observation.answer_string] = Array.new() if not test_vs_result[observation.answer_string]
-  test_vs_result[observation.answer_string] << observation.concept.name.name
+for test_observation in @requested_test_obs do
+
+  #test_vs_result[observation.answer_string] = Array.new() if not test_vs_result[observation.answer_string]
+  #test_vs_result[observation.answer_string] << observation.concept.name.name
+  test_result[test_observation.answer_concept.concept_id] = {test_observation.concept.name.name => 'YES'} if test_observation.value_text == 'YES'
+  test_result[test_observation.answer_concept.concept_id] = {test_observation.concept.name.name => 'NO'} if test_observation.value_text == 'NO'
 end
+#raise test_result.to_yaml
 
+for result_observation in @result_available_obs do
+  #test_vs_result[observation.answer_string] = Array.new() if not test_vs_result[observation.answer_string]
+  #test_vs_result[observation.answer_string] << observation.concept.name.nam
+  result_available[result_observation.answer_concept.concept_id] = {result_observation.concept.name.name => 'YES'} if result_observation.value_text == 'YES'
+  result_available[result_observation.answer_concept.concept_id] = {result_observation.concept.name.name => 'NO'} if result_observation.value_text == 'NO'
+end
+#raise test_result.to_yaml
 %>
 
 
@@ -58,18 +71,124 @@ end
           <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
         </tr>
 
-        <%for test in best_tests do
-          #if test_vs_result.has_key?("#{test.to_s}")
-          # if test_vs_result["#{test.to_s}"].include?('TEST REQUESTED')
-        %>
+        <%
 
-          <tr>
-            <td class="testname"><%=test.to_s%></td>
-            <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
-            <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/ok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
-          </tr>
+        for test in best_tests do
+          concept_id = Concept.find_by_name("#{test.to_s}").concept_id rescue Concept.find_by_name('UNKNOWN').concept_id
 
-        <%end%>
+          if test_result.has_key?(concept_id)
+          %>
+            <tr>
+              <td class="testname"><%=test.to_s%></td>
+
+              <%
+              if test_result[concept_id]['TEST REQUESTED'] == 'YES'
+              %>
+                <td class="testname">
+                  <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                    <tr>
+                      <td>
+                        <img src="/images/ok.png">
+                      </td>
+                      <td>
+                        <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <%
+                if result_available.has_key?(concept_id)
+                  if result_available[concept_id]['RESULT AVAILABLE'] == 'YES'
+                  %>
+                    <td class="testname">
+                      <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                        <tr>
+                          <td>
+                            <img src="/images/ok.png">
+                          </td>
+                          <td>
+                            <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+
+                  <%
+                  elsif result_available[concept_id]['RESULT AVAILABLE'] == 'NO'
+                  %>
+                    <td class="testname">
+                      <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                        <tr>
+                          <td>
+<%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%>
+                          </td>
+                          <td>
+                            <img src="/images/ok.png">
+                              </td>
+                              </tr>
+                              </table>
+                              </td>
+                  <%else%>
+                    <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%></td></tr></table></td>
+                  <%
+                  end
+                else
+                %>
+                  <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%></td></tr></table></td>
+
+
+                <%
+                end
+              elsif  test_result[concept_id]['TEST REQUESTED'] == 'NO'
+              %>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><img src="/images/ok.png"></td></tr></table></td>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/inactiveok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+              <%else%>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%></td></tr></table></td>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/inactiveok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+
+
+              <%
+
+              end
+            %>
+
+            </tr>
+          <%
+          else
+          %>
+            <tr>
+              <td class="testname"><%=test.to_s%></td>
+              <td class="testname">
+                <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                  <tr>
+                    <td>
+                      <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%>
+                    </td>
+                    <td>
+                      <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td class="testname">
+                <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                  <tr>
+                    <td>
+                      <img src="/images/inactiveok.png">
+                    </td>
+                    <td>
+                      <img src="/images/inactiveok.png">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+          <%
+          end
+        end
+      %>
 
       </table>
 
