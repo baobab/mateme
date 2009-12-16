@@ -1,7 +1,8 @@
 #!/bin/sh
 #
-# wget http://ow.ly/MQMy
-# sudo +x prepare_ubuntu_for_deploy.sh
+# MQMy - pneumonic: Make My
+# wget ow.ly/MQMy
+# chmod +x prepare_ubuntu_for_deploy.sh
 # sudo ./prepare_ubunt_for_deploy.sh
 
 if [ -z "$SUDO_USER" ]; then
@@ -23,8 +24,8 @@ if [ ! "$PRODUCTION_PASSWORD" ]; then
   read PRODUCTION_PASSWORD
 fi
 
-echo "Creating deploy user"
-adduser -d /home/deploy -m deploy
+echo "Creating user: deploy"
+useradd -d /home/deploy -m deploy
 
 echo "Giving deploy sudo"
 echo "deploy          ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
