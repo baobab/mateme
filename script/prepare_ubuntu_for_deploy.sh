@@ -14,13 +14,18 @@ set_mysql_root_password () {
 
 if [ ! "$MYSQL_ROOT_PASSWORD" ]; then set_mysql_root_password; fi
 
-#if [ ! "$CHITS_LIVE_PASSWORD" ]; then 
-#  echo "Enter password for database user chits_live:"
-#  read CHITS_LIVE_PASSWORD
-#fi
+if [ ! "$PRODUCTION_PASSWORD" ]; then 
+  echo "Enter password for production database user mateme:"
+  read PRODUCTION_PASSWORD
+fi
 
-apt-get --assume-yes install build-essential
-apt-get --assume-yes install apache2 mysql-server openssh-server git-core wget ruby libxml2-dev libxslt1-dev ruby1.8-dev rdoc1.8 irb1.8 libopenssl-ruby1.8 rsnapshot nginx
+echo "Creating deploy user"
+adduser -d /home/deploy -m deploy
+
+echo "Giving deploy sudo"
+echo "deploy          ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+apt-get --assume-yes install build-essential apache2 mysql-server openssh-server git-core wget ruby libxml2-dev libxslt1-dev ruby1.8-dev rdoc1.8 irb1.8 libopenssl-ruby1.8 rsnapshot nginx
 
 create_database() {
   local db_name=$1
@@ -29,13 +34,13 @@ create_database() {
   echo "Creating database '${db_name}' with username '${user_name}' and password '${user_password}'"
 
   echo "CREATE DATABASE ${db_name};" | mysql -u root -p$MYSQL_ROOT_PASSWORD
-  mysql -u root -p$MYSQL_ROOT_PASSWORD ${db_name} < /var/www/chits/db/core_data.sql
+#  mysql -u root -p$MYSQL_ROOT_PASSWORD ${db_name} < /var/www/chits/db/core_data.sql
   echo "INSERT INTO user SET user='${user_name}',password=password('${user_password}'),host='localhost';
   FLUSH PRIVILEGES;
   GRANT ALL PRIVILEGES ON ${db_name}.* to ${user_name}@'%' IDENTIFIED BY '${user_password}';" | mysql -u root mysql -p$MYSQL_ROOT_PASSWORD
 }
 
-#create_database "mateme_production" "chits_developer" "password"
+create_database "mateme_production" "mateme" "${PRODUCTION_PASSWORD}"
 #create_database "mateme_development" "chits_live" "${CHITS_LIVE_PASSWORD}"
 # TODO use a core DB without users
 #create_database "chits_testing" "chits_tester" "useless_password"
@@ -67,6 +72,6 @@ ruby /tmp/rubygems-1.3.5/setup.rb
 ln -s /usr/bin/gem1.8 /usr/bin/gem
 gem sources -a http://gems.github.com
 echo "Installing testing tools"
-gem install gemcutter --no-ri
-gem tumble --no-ri
-gem install rails passenger mongrel rack cucumber mechanize rspec webrat --no-ri
+gem install gemcutter
+gem tumble
+gem install rails passenger mongrel rack cucumber mechanize rspec webrat
