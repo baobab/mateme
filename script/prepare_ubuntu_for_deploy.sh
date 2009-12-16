@@ -19,7 +19,7 @@ if [ ! "$MYSQL_ROOT_PASSWORD" ]; then set_mysql_root_password; fi
 #  read CHITS_LIVE_PASSWORD
 #fi
 
-apt-get --assume-yes build-essential
+apt-get --assume-yes install build-essential
 apt-get --assume-yes install apache2 mysql-server openssh-server git-core wget ruby libxml2-dev libxslt1-dev ruby1.8-dev rdoc1.8 irb1.8 libopenssl-ruby1.8 rsnapshot nginx
 
 create_database() {
