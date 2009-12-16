@@ -299,7 +299,9 @@ class Person < ActiveRecord::Base
     ]
     results = []
     servers.each{|server|
-      command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      # Use ssh-copy-id to copy keys around
+      ssh_options = "-oPasswordAuthentication=no"
+      command = "ssh #{ssh_options} meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
       results.push output if output and output.match(/person/)
     }
