@@ -115,4 +115,27 @@ class EncountersController < ApplicationController
     redirect_to "/encounters/new/inpatient_diagnosis?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @obs.blank?
     render :template => 'encounters/diagnoses_index', :layout => 'menu'
   end
+
+  def first_time_visit_questions
+    @patient = Patient.find(params[:patient_id] || session[:patient_id])
+    if request.post?
+      params[:patient_id] = @patient.patient_id
+      if params[:select_question_type] == "Diabetes History"
+        redirect_to :action => "new",:encounter_type =>"diabetes_history", :patient_id => @patient.patient_id and return
+      elsif params[:select_question_type]== "Diabetes Treatments"
+        redirect_to :action => "new",:encounter_type =>"diabetes_treatments", :patient_id => @patient.patient_id and return
+      elsif params[:select_question_type] == "Hospital Admissions due to Diabetes"
+        redirect_to :action => "new",:encounter_type =>"hospital_admissions", :patient_id => @patient.patient_id and return
+      elsif params[:select_question_type] == "Past Medical History"
+        redirect_to :action => "new",:encounter_type =>"past_medical_history", :patient_id => @patient.patient_id and return
+      elsif params[:select_question_type] == "Complications"
+        redirect_to :action => "new",:encounter_type =>"complications", :patient_id => @patient.patient_id and return
+      elsif params[:select_question_type] == "Hypertension Management"
+        redirect_to :action => "new",:encounter_type =>"hypertension_management", :patient_id => @patient.patient_id and return
+      elsif params[:select_question_type] == "General Health"
+        redirect_to :action => "new",:encounter_type =>"general_health", :patient_id => @patient.patient_id and return
+      end
+    end
+  end
+
 end
