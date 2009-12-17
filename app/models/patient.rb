@@ -113,7 +113,7 @@ class Patient < ActiveRecord::Base
   end
 
   def hiv_status
-    return 'REACTIVE' if self.arv_number
+    return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
      self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter| 
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])

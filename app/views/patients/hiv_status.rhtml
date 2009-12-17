@@ -41,14 +41,14 @@
     <%= render :partial => "details" %>
     <%
     status = 'UNKNOWN'
-    if @arv_number
+    if @arv_number && !@arv_number.empty?
       status = 'REACTIVE'
     elsif @status
       status = @status.to_s
     end
   %>
     HIV STATUS :
-    <%if @arv_number%>
+    <%if @arv_number && !@arv_number.empty?%>
       <span style='font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
     <%elsif status.to_s == 'REACTIVE'%>
       <span style='font-weight:bold;'><%= "#{status}"%></span>
