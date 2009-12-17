@@ -19,6 +19,7 @@
 </style>
 <script type="text/javascript">
   tt_cancel_destination = '/patients/show/<%= @patient.id %>?confirmed=true';
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
 </script>
 
 <%
@@ -120,14 +121,14 @@ end
                       <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
                         <tr>
                           <td>
-<%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%>
+                            <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%>
                           </td>
                           <td>
                             <img src="/images/ok.png">
-                              </td>
-                              </tr>
-                              </table>
-                              </td>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
                   <%else%>
                     <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%></td></tr></table></td>
                   <%
@@ -194,4 +195,12 @@ end
 
     </ul>
   </div>
+</div>
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
+    <span>
+      Cancel
+    </span>
+  </button>
 </div>
