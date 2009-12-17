@@ -1,5 +1,6 @@
 <script type="text/javascript">
   tt_cancel_destination = '/patients/show/<%= @patient.id %>?diagnosis_done=true';
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
 </script>
 
 <div style="padding: 15px;">
@@ -7,21 +8,29 @@
   <div style="font-size: 22pt;">
     <ul class="list" style="height:270px;width:750px;">
       <% diagnoses = @primary_diagnosis + @secondary_diagnosis + @additional_diagnosis + @syndromic_diagnosis
-        for observation in diagnoses do %>
+      for observation in diagnoses do %>
         <li class="data <%= cycle('even', 'odd') %>">
-        <div style="float:right;padding:7px;">
-          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => observation.encounter_id} -%>
+          <div style="float:right;padding:7px;">
+            <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => observation.encounter_id} -%>
           </div>
           <div style="float:left">Diagnosis</div>
           <div style="clear:left" class="summary"><%= observation.to_s.gsub(/\n/, '<br/>') -%></div>
-        </li>  
+        </li>
       <% end %>
-      <% if diagnoses.blank? %>        
-        <li>No Diagnosis are available for this patient today</li>
+      <% if diagnoses.blank? %>
+        <li>No Diagnoses are available for in current visit</li>
       <% end %>
     </ul>
   </div>
   <div style="float:right;padding-right:20px;margin-top:-15px;">
     <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
   </div>
+</div>
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
+    <span>
+      Cancel
+    </span>
+  </button>
 </div>
