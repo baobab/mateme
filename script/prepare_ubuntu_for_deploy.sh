@@ -1,7 +1,6 @@
 #!/bin/sh
 #
-# MQMy - pneumonic: Make My
-# wget ow.ly/MQMy
+# wget ow.ly/MQMy # MQMy - pneumonic: Make My
 # chmod +x prepare_ubuntu_for_deploy.sh
 # sudo ./prepare_ubunt_for_deploy.sh
 
@@ -86,4 +85,8 @@ gem sources -a http://gems.github.com
 echo "Installing testing tools"
 gem install gemcutter
 gem tumble
-gem install rails passenger mongrel rack cucumber mechanize rspec webrat
+gem install -v=2.3.2 rails
+gem install passenger mongrel rack cucumber mechanize rspec webrat
+
+mkdir --parents /var/www/mateme
+chown deploy:deploy /var/www/mateme
