@@ -101,7 +101,7 @@ class PatientsController < ApplicationController
     primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue []
     treatment = @patient.current_treatment_encounter rescue nil
     session[:admitted] = false
-    if (primary_diagnosis && treatment) or ['DEAD', 'REFERRED'].include?(@patient.current_outcome)
+    if (primary_diagnosis && treatment) or ['REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
       current_visit.end_date = treatment.encounter_datetime
       current_visit.save
