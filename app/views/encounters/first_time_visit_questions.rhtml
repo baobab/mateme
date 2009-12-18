@@ -2,6 +2,21 @@
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
 </script>
 
+<style type="text/css">
+.keyboard{
+  position:absolute;
+  display: none;
+  z-index: 10;
+  bottom: 85px;
+  left: 30px;
+}
+
+.options {
+height:auto;
+overflow:auto;
+}
+</style>
+
 <form id='question_type' action="/encounters/first_time_visit_questions" method='post'>
   <%= select_tag(:select_question_type,
     options_for_select([
@@ -13,7 +28,7 @@
           "Hospital Admissions due to Diabetes",
           "Hypertension Management",
           "Past Medical History"].sort),
-    :helpText => "Select the catergory of questions:")%>
+    :helpText => "MEDICAL HISTORY<br/>Select the catergory of questions:")%>
   <%= hidden_field_tag("[patient_id]", @patient.patient_id) %>
   <%= submit_tag("Next", :id => "nextButton") %>
 </form>
