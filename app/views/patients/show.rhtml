@@ -22,11 +22,12 @@
     margin-top:10px
   }
 #menu {
-    float:right;
     overflow:auto;
-    position:relative;
-    height:478px;
-    width:257px;;
+    position:absolute;
+    height:210px;
+    width:257px;
+    top: 0px;
+    right: 1px;
   }
  
   #content {
@@ -42,10 +43,11 @@
 </style>
  
 <div style="margin:10px;">
-  <div id="details" style="float:left">
+  <div id="details" style="height:250; position: relative; width: 510px; right: -440px; bottom: -17px;">
     <form>
     <%#=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
     </form>
+  </div>
     <%= render :partial => "details" %>
     <%= render :partial => "current_encounters" %>
  
@@ -58,7 +60,6 @@
       <%= render :partial => "vitals_history"%>
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient} rescue nil%>
     <%end%>
-  </div>
   <div id="menu">
 
   <%if @doctor%>
