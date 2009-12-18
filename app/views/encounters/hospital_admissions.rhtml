@@ -1,0 +1,144 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+  <label for='hyperglycemia'>DKA/DONK/Hyperglycemia</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "hyperglycemia"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "hyperglycemia[number_of_admissions]", nil,
+  {:helpText => 'Number of Admissions', :field_type => 'number', :absoluteMin => "0",
+    :min => "0",
+    :max => "20",
+    :condition => '$("hyperglycemia").value.toLowerCase() == "yes"',
+    :tt_pageStyleClass => "Numeric NumbersOnly"
+  }  %>
+
+  <label for='hyperglycemia_years_of_admission'>Select Years</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "hyperglycemia_years_of_admission",
+    :condition => '$("hyperglycemia").value.toLowerCase() == "yes"',
+    :optional => true,
+    :multiple => true,
+    :validationCode => "selectedValue('hyperglycemia_years_of_admission').split(';').length <= $('hyperglycemia_number_of_admissions').value",
+    :validationMessage =>"You cannot select years more than the number of admissions"
+  }) %>
+
+<%
+  @select_years = []
+  this_year     = Date.today.year
+  begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
+%>
+<%= select_tag "hyperglycemia [years_of_admission]", options_for_select(@select_years),options %>
+
+  <label for='hypoglycemia'>Hypoglycemia</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "hypoglycemia"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "hypoglycemia[number_of_admissions]", nil,
+  {:helpText => 'Number of Admissions', :field_type => 'number', :absoluteMin => "0",
+    :min => "0",
+    :max => "20",
+    :condition => '$("hypoglycemia").value.toLowerCase() == "yes"',
+    :tt_pageStyleClass => "Numeric NumbersOnly"
+  }  %>
+
+  <label for='hypoglycemia_years_of_admission'>Select Years</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "hypoglycemia_years_of_admission",
+    :condition => '$("hypoglycemia").value.toLowerCase() == "yes"',
+    :optional => true,
+    :multiple => true
+  }) %>
+  
+<%= select_tag "hypoglycemia [years_of_admission]", options_for_select(@select_years),options %>
+
+  <label for='amputations'>Amputations/foot ulcers/infections</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "amputations"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "amputations[number_of_admissions]", nil,
+  {:helpText => 'Number of Admissions', :field_type => 'number', :absoluteMin => "0",
+    :min => "0",
+    :max => "20",
+    :condition => '$("amputations").value.toLowerCase() == "yes"',
+    :tt_pageStyleClass => "Numeric NumbersOnly"
+  }  %>
+
+  <label for='amputations_year_of_admission'>Select Years</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "amputations_year_of_admission",
+    :optional => true,
+    :multiple => true
+  }) %>
+  
+<%= select_tag "amputations [year_of_admission]", options_for_select(@select_years),options %>
+
+  <label for='skin_infections'>Skin infections/abbesses/severe UTIs</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "skin_infections"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "skin_infections[number_of_admissions]", nil,
+  {:helpText => 'Number of Admissions', :field_type => 'number', :absoluteMin => "0",
+    :min => "0",
+    :max => "20",
+    :condition => '$("skin_infections").value.toLowerCase() == "yes"',
+    :tt_pageStyleClass => "Numeric NumbersOnly"
+  }  %>
+
+  <label for='skin_infections_year_of_admission'>Select Years</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "skin_infections_year_of_admission",
+    :optional => true,
+    :multiple => true
+  }) %>
+  
+<%= select_tag "skin_infections [year_of_admission]", options_for_select(@select_years),options %>
+
+<%= submit_tag "Finish" %>
+</form>
