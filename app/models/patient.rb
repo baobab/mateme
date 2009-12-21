@@ -107,5 +107,12 @@ class Patient < ActiveRecord::Base
     arv_number = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("ARV Number").id).identifier rescue nil
     return nil if arv_number.empty?
   end
-  
+
+  def diabetes_number
+    identifier_type = PatientIdentifierType.find_by_name("Diabetes Number").id
+    test_condtion   = ["voided = 0 AND identifier_type = ? AND patient_id = ?", identifier_type, self.id]
+    diabetes_number = PatientIdentifier.find(:first,:conditions => test_condtion).identifier rescue "Unknown"
+
+    return diabetes_number
+  end
 end

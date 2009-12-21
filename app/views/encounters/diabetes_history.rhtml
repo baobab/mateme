@@ -1,0 +1,81 @@
+<script>
+  var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
+</script>
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true'
+  } %>
+
+<label for='year_of_initial_diagnosis'>Date of initial diagnosis</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "year_of_initial_diagnosis"
+  }) %>
+  <%= text_field_tag "observations[][value_text]", nil,
+  {:helpText => 'Year of Initial Diagnosis', :field_type => 'number', 
+    :id => "year_of_initial_diagnosis",
+    :absoluteMin => "1890",
+    :min => "1940", :absoluteMax => Date.today.year,
+    :tt_pageStyleClass => "Numeric NumbersOnly" }  %>
+
+  <%= select_tag "observations[][value_text]", month_name_options,
+    {:helpText => 'Month of Diagnosis',
+      :id => "month_of_initial_diagnosis",
+      :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown"'}%>
+
+  <%= text_field_tag "observations[][value_text]",  nil, :field_type => 'number',
+      :helpText => 'Day of Diagnosis', :absoluteMin => 1, :absoluteMax => 31,
+      :condition => '($("year_of_initial_diagnosis").value != "Unknown") && ($("month_of_initial_diagnosis").value != "Unknown")'%>
+      
+  <%= hidden_field_tag("observations[][concept_name]", "POLYDIPSIA") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<label for='diabetes_type'>Type of diabetes</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "diabetes_type"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Type 1",
+    "Type 2",
+    "Unclear"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<label for='secondary_diabetes'>Secondary diabetes?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "secondary_diabetes"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "observations[][value_text]", params[:given_name],
+{:id => 'given_name', :field_type => 'alpha', :helpText => 'Due to what?',
+  :allowFreeText => true,
+  :id => "reason_for_secondary_diabetes",
+  :condition => '($("secondary_diabetes").value.toLowerCase() == "yes")' } %>
+  
+<label for='blood_relatives'>FH (blood relatives only)</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "blood_relatives"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Positive",
+    "Negative"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= submit_tag "Finish" %>
+</form>

@@ -66,9 +66,9 @@
 
 ul.list {
   font-size:0.9em;
-  border:2px solid black;
+  border:3px solid black;
   padding:0px;
-  overflow:scroll;
+  overflow:auto;
 }  
 ul.list li.data {
   vertical-align:top;

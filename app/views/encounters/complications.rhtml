@@ -1,6 +1,22 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+
 </script>
+
+<style type="text/css">
+.keyboard{
+  position:absolute;
+  display: none;
+  z-index: 10;
+  bottom: 85px;
+  left: 30px;
+}
+
+.options {
+height:auto;
+overflow:auto;
+}
+</style>
 
 <form id='complication_type' action="/encounters/complications" method='post'>
   <%= select_tag(:select_complication_type,
@@ -10,9 +26,8 @@
           "Endocrine",
           "Eyes",
           "Neuralgic",
-          "Renal"].sort,
-      params[:complication_type]),
-    :helpText => "Select the type of complication:")%>
+          "Renal"].sort),
+    :helpText => "COMPLICATIONS<br/>Select the type of complication:")%>
   <%= hidden_field_tag("[patient_id]", @patient.patient_id) %>
-  <%= submit_tag "Finish" %>    
+  <%= submit_tag("Next", :id => "nextButton") %>
 </form>

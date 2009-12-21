@@ -1,0 +1,43 @@
+
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+	<%= hidden_field_tag "encounter[encounter_type_name]", "CARDIOVASCULAR COMPLICATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+<label for='complication_cardiovascular_chest_pains'>Chest Pains?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_cardiovascular_chest_pains"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "CHEST PAIN") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='complication_cardiovascular_short_breath'>Shortness of Breath?</label>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "complication_cardiovascular_short_breath"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SHORTNESS OF BREATH") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= submit_tag "Finish" %> 
+</form>

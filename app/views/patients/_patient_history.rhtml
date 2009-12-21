@@ -9,12 +9,10 @@ border-left:1px dotted ;
 }
 </style>
 
- <div id =" patient_history" style="position: relative; right: -341px; top: 20px;">
+ <div id =" patient_history" style="position: relative; right: -361px; top: 0px;">
    <center><h3> Medical History</h3></center>
- </div>
-
-<div style="font-size: 1.2em;">
-  <ul class="list" style="height: 220px; position: relative; width: 350px; right: -361px; top: 8px;">
+ <div style="font-size: 1.2em;">
+  <ul class="list" style="height: 210px; width: 350px;">
     <table cellpadding="2" cellspacing="0" border ="1">
       <% for observation in @observations do %>
       <tr class ="data <%= cycle('even', 'odd')%>" >
@@ -24,4 +22,5 @@ border-left:1px dotted ;
       <% end %>
   </table>
   </ul>
+  </div>
   </div>
