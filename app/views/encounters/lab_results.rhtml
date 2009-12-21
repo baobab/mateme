@@ -20,26 +20,59 @@
           :field_type => 'text',
           :id => "blood_sugar_type"
   }) %>
-  <% @blood_sugar_types = Concept.find_by_name("BLOOD SUGAR TEST TYPE").concept_answers.map(&:name) %>
+  <% @blood_sugar_types = [""]
+  @blood_sugar_types += Concept.find_by_name("BLOOD SUGAR TEST TYPE").concept_answers.map(&:name) %>
   
   <%= select_tag( "blood_sugar_type", options_for_select(@blood_sugar_types), options) %>
 
-        <%= text_field_tag "observations[][value_numeric]", nil,
-          {:id => "blood_sugar_value",
-           :field_type => 'number',
-           :helptext =>"Blood Sugar Value",
-           :allowFreeText => 'true',
-           :min => 50,
-           :max => 500,
-           #:units => 'Celcuis',
-           :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
-           :validationCode => "($('blood_sugar_type').value == 'HbA1c') && (tstInputTarget.value > 4 && tstInputTarget.value < 20) || (tstInputTarget.value > 76 && tstInputTarget.value < 347)",
-           :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
-           :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-           :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value; if ($('blood_sugar_type').value == 'HbA1c') $('touchscreenInput'+tstCurrentPage).setAttribute('min', 4); if ($('blood_sugar_type').value == 'HbA1c') $('touchscreenInput'+tstCurrentPage).setAttribute('max', 347); if ($('blood_sugar_type').value == 'HbA1c' && (tstInputTarget.value <= 4 || (tstInputTarget.value > 20 && tstInputTarget.value < 76))) $('touchscreenInput'+tstCurrentPage).setAttribute('validationMessage', 'Value is out range: <br />4 - 19.3 (for mmol/litre) <br />or <br />76 - 347 (for mg/decilitre)');if (($('blood_sugar_type').value != 'HbA1c' && (tstInputTarget.value < 50 || tstInputTarget.value > 500 ))) $('touchscreenInput'+tstCurrentPage).setAttribute('validationMessage', 'Value is out range: 50 - 500');" } %>
-        <%= hidden_field_tag("observations[][concept_name]", "") %>
-        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+<% options=default.merge({
+          :field_type => 'text',
+          :id => "blood_sugar_unit",
+          :helptext =>"Select blood sugar units of measure"
+  }) %>
+  <%= select_tag("blood_sugar_unit", options_for_select([
+      "",
+      "mmol/l",
+      "mg/dl"
+    ]), options ) %>
+
+  <%= text_field_tag "observations[][value_numeric]", nil,
+    {:id => "blood_sugar_value",
+     :field_type => 'number',
+     :helptext =>"Blood Sugar Value",
+     :allowFreeText => 'true',
+     :min => 50,
+     :max => 500,
+     :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
+     #:validationCode => "($('blood_sugar_unit').value == 'mmol/l') && (tstInputTarget.value > 4 && tstInputTarget.value < 20) || (tstInputTarget.value > 76 && tstInputTarget.value < 347)",
+     :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
+     :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+     :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value;
+                    if ($('blood_sugar_unit').value == 'mmol/l'){
+                         if ($('blood_sugar_type').value == 'HbA1c') {
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 3.6);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 23.2);
+                            }
+                         else {
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 2.7);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 27.8);
+                            }
+                      }
+
+                    else if ($('blood_sugar_unit').value == 'mg/dl') {
+                          if ($('blood_sugar_type').value == 'HbA1c') {
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 65);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 418);
+                            }
+                         else {
+                            $('touchscreenInput'+tstCurrentPage).setAttribute('min', 50);
+                            $('touchscreenInput'+tstCurrentPage).setAttribute('max', 500);
+                          }
+                      }
+  " } %>
+  <%= hidden_field_tag("observations[][concept_name]", "") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 
     
