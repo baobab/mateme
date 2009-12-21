@@ -53,7 +53,9 @@
     <%#=render :partial=> "encounters/vitals_graphs", :locals=>{:fields=>@patient} %>
     </form>
   </div>
+  <div style="font-size:1.1em; position:relative;top: 0px; right: -344px;">
     <%= render :partial => "details" %>
+  </div>
     <%= render :partial => "current_encounters" %>
  
     <% if @super_user || @doctor%>
