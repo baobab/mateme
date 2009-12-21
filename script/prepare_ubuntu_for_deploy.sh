@@ -36,7 +36,7 @@ wget -qO- /tmp/allowed_public_keys http://github.com/mikeymckay/mateme/raw/maste
 
 chmod 755 /home/deploy/.ssh/authorized_keys
 
-apt-get --assume-yes install build-essential apache2 mysql-server openssh-server git-core wget ruby libxml2-dev libxslt1-dev ruby1.8-dev rdoc1.8 irb1.8 libopenssl-ruby1.8 rsnapshot nginx
+apt-get --assume-yes install build-essential apache2 mysql-server openssh-server git-core wget ruby libxml2-dev libxslt1-dev ruby1.8-dev rdoc1.8 irb1.8 libopenssl-ruby1.8 rsnapshot nginx libmysqlclient15-dev irb
 
 create_database() {
   local db_name=$1
@@ -86,7 +86,7 @@ echo "Installing testing tools"
 gem install gemcutter
 gem tumble
 gem install -v=2.3.2 rails
-gem install passenger mongrel rack cucumber mechanize rspec webrat
+gem install passenger mongrel rack cucumber mechanize rspec webrat mysql fastercsv rcov
 
 mkdir --parents /var/www/mateme
 chown deploy:deploy /var/www/mateme
