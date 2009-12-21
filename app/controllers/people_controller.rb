@@ -51,7 +51,7 @@ class PeopleController < ApplicationController
  
   def create
     remote_parent_server = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value
-    if !remote_parent_server.empty?
+    if !remote_parent_server.blank?
         found_person_data = Person.create_remote(params)
         found_person = nil
         if found_person_data
