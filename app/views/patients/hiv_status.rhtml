@@ -32,28 +32,41 @@
 
 <div style="margin:10px;">
   <div id="details" style="float:left">
-<form>
-</form>
-<%= render :partial => "details" %>
-<%
-  status = 'UNKNOWN'
-  if @arv_number
-    status = 'POSITIVE'
-  elsif @status
-    status = @status.to_s
-  end
-%>
-HIV STATUS :
-<%if @arv_number%>
-  <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
-<%elsif status.to_s == 'POSITIVE'%>
-  <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> 
-<%else%>
-  <span style='color:green;font-weight:bold;'><%="#{status}"%></span>
-<%end%>
-</div>
-<div id="menu">
-    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
-</div>
+    <form>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    </form>
+    <%= render :partial => "details" %>
+    <%
+    status = 'UNKNOWN'
+    if @arv_number && !@arv_number.empty?
+      status = 'REACTIVE'
+    elsif @status
+      status = @status.to_s
+    end
+  %>
+    HIV STATUS :
+    <%if @arv_number && !@arv_number.empty?%>
+      <span style='font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
+    <%elsif status.to_s == 'REACTIVE'%>
+      <span style='font-weight:bold;'><%= "#{status}"%></span>
+    <%else%>
+      <span style='font-weight:bold;'><%="#{status}"%></span>
+    <%end%>
+  </div>
+  <%if status !='REACTIVE'%>
+    <div id="menu">
+      <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
+    </div>
+  <%end%>
 </div>
 
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
+    <span>
+      Cancel
+    </span>
+  </button>
+</div>
