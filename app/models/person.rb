@@ -279,9 +279,9 @@ class Person < ActiveRecord::Base
 
     # TODO fix login/pass and location with something better
 
-    login = "eds"
-    password = "edith1"
-    location = "WARD 3A"
+    login = "mikmck"
+    password = "mike"
+    location = "8"
 
     post_data = known_demographics.merge({"_method"=>"put"})
 
