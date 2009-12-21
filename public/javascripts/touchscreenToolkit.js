@@ -1896,7 +1896,7 @@ TTInput.prototype = {
 
 		} else if (this.element.getAttribute("field_type") == "number") { 
 			//this.value = this.getNumberFromString(this.value);
-			var numValue = null;
+      var numValue = null;
 			if (!isNaN(this.getNumberFromString(this.element.value)))
 				numValue = this.getNumberFromString(this.element.value);
 			else if (!isNaN(this.getNumberFromString(this.formElement.value)))
@@ -2000,7 +2000,7 @@ TTInput.prototype = {
 	getNumberFromString: function(strValue) {
 		var num = "";
 		if (strValue != null && strValue.length > 0) {
-			strValue.match(/(\d+)/);
+      strValue.match(/(\d+\.*\d*)/);
 			num = RegExp.$1;
 		}
 		return parseFloat(num);
