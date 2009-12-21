@@ -276,42 +276,43 @@ class Person < ActiveRecord::Base
   end
 
   def self.find_remote(known_demographics)
-    servers = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.all"}).property_value.split(/,/) rescue nil
-    return nil if servers.blank?
 
-    wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt"
-    # use ssh to establish a secure connection then query the localhost
-    # use wget to login (using cookies and sessions) and set the location
-    # then pull down the demographics
     # TODO fix login/pass and location with something better
 
-    login = "mikmck"
-    password = "mike"
-    location = 8
+    login = "eds"
+    password = "edith1"
+    location = "WARD 3A"
 
-    post_data = known_demographics
-    post_data["_method"]="put"
+    post_data = known_demographics.merge({"_method"=>"put"})
 
-    local_demographic_lookup_steps = [ 
-      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost/people/demographics\""
-    ]
     results = []
-    servers.each{|server|
-      # Use ssh-copy-id to copy keys around
-      ssh_options = "-oPasswordAuthentication=no"
-      command = "ssh #{ssh_options} meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+
+    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
+    demographic_servers.each{|demographic_server, local_port|
+
+      wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt -O"
+      # use the autossh tunnels setup in environment.rb to query the demographics servers
+      # use wget to login (using cookies and sessions) and set the location
+      # then pull down the demographics
+
+      local_demographic_lookup_steps = [ 
+        "#{wget_base_command} /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost:#{local_port}/session\"",
+        "#{wget_base_command} /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost:#{local_port}/session\"",
+        "#{wget_base_command} - --post-data=\"#{post_data.to_param}\" \"http://localhost:#{local_port}/people/demographics\""
+      ]
+
+      command = local_demographic_lookup_steps.join(";\n")
+      puts command
       output = `#{command}`
       results.push output if output and output.match(/person/)
+
     }
-    # TODO need better logic here to select the best result or merge them
-    # Currently returning the longest result - assuming that it has the most information
-    # Can't return multiple results because there will be redundant data from sites
-    result = results.sort{|a,b|b.length <=> a.length}.first
+      # TODO need better logic here to select the best result or merge them
+      # Currently returning the longest result - assuming that it has the most information
+      # Can't return multiple results because there will be redundant data from sites
+      result = results.sort{|a,b|b.length <=> a.length}.first
 
-
-    result ? JSON.parse(result) : nil
+      result ? JSON.parse(result) : nil
 
   end
   
