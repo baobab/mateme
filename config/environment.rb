@@ -26,6 +26,7 @@ require 'has_many_through_association_extension'
 require 'bantu_soundex'
 require 'json'
 require 'colorfy_strings'
+require 'mechanize'
 
 # Foreign key checks use a lot of resources but are useful during development
 module ActiveRecord

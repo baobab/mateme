@@ -275,44 +275,41 @@ class Person < ActiveRecord::Base
     result = Person.find_remote(known_demographics)
   end
 
+  # use the autossh tunnels setup in environment.rb to query the demographics servers
+  # then pull down the demographics
   def self.find_remote(known_demographics)
 
-    # TODO fix login/pass and location with something better
+    # TODO make these global properties
+    login_params = {
+      :login=>"mikmck",
+      :password=>"mike", 
+      :location=>"8",
+      :ward=>"WARD 3A"
+    }
 
-    login = "mikmck"
-    password = "mike"
-    location = "8"
+    known_demographics.merge!({"_method"=>"put"})
+    # Some strange parsing to get the params formatted right for mechanize
+    demographics_params = [CGI.unescape(known_demographics.to_param).split('=')]
 
-    post_data = known_demographics.merge({"_method"=>"put"})
-
-    results = []
+    # Could probably define this in environment.rb and reuse to improve speed
+    mechanize_browser = WWW::Mechanize.new
 
     demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
-    demographic_servers.each{|demographic_server, local_port|
 
-      wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt -O"
-      # use the autossh tunnels setup in environment.rb to query the demographics servers
-      # use wget to login (using cookies and sessions) and set the location
-      # then pull down the demographics
+    result = demographic_servers.map{|demographic_server, local_port|
 
-      local_demographic_lookup_steps = [ 
-        "#{wget_base_command} /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost:#{local_port}/session\"",
-        "#{wget_base_command} /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost:#{local_port}/session\"",
-        "#{wget_base_command} - --post-data=\"#{post_data.to_param}\" \"http://localhost:#{local_port}/people/demographics\""
-      ]
+      # Note: we don't use the demographic_server because it is port forwarded to localhost
+      mechanize_browser.post("http://localhost:#{local_port}/session", login_params)
+      output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
 
-      command = local_demographic_lookup_steps.join(";\n")
-      puts command
-      output = `#{command}`
-      results.push output if output and output.match(/person/)
+      output if output and output.match(/person/)
 
-    }
-      # TODO need better logic here to select the best result or merge them
-      # Currently returning the longest result - assuming that it has the most information
-      # Can't return multiple results because there will be redundant data from sites
-      result = results.sort{|a,b|b.length <=> a.length}.first
+    # TODO need better logic here to select the best result or merge them
+    # Currently returning the longest result - assuming that it has the most information
+    # Can't return multiple results because there will be redundant data from sites
+    }.sort{|a,b|b.length <=> a.length}.first
 
-      result ? JSON.parse(result) : nil
+    result ? JSON.parse(result) : nil
 
   end
   
