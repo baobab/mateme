@@ -1,5 +1,5 @@
 <script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/encounters/new/complications?patient_id=<%= @patient.patient_id %>"
 </script>
 
 <form id='complications' action="/encounters/create" method='post'>

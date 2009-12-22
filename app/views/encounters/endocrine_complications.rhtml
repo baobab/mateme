@@ -1,5 +1,5 @@
 <script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/encounters/new/complications?patient_id=<%= @patient.patient_id %>"
 </script>
 <form id='complications' action="/encounters/create" method='post'>
   <% default={
@@ -88,10 +88,10 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS:<br>Erectile or sexual dysfunction?</label>
+  <label for='complication_hyperglycemia_sexual_dysfunction'>HYPOGLYMECIA SYMPTOMS:<br>Erectile or sexual dysfunction?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hyperglycemia_weakness"
+    :id => "complication_hyperglycemia_sexual_dysfunction"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
