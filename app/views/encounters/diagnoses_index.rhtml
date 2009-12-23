@@ -22,10 +22,40 @@
       <% end %>
     </ul>
   </div>
-  <div style="float:right;padding-right:20px;margin-top:-15px;">
-    <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
-  </div>
+  <%if @primary_diagnosis.last && @primary_diagnosis.last.answer_concept_name.name%>
+    <div style="float:right;padding-right:20px;margin-top:-15px;">
+      <button class="button gray" ><span>New Diagnosis</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button gray"><span>Uknown Diagnosis</span></button>
+
+    </div>
+  <%else%>
+    <div style="float:right;padding-right:20px;margin-top:-15px;">
+      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button green" onclick="submitForm();"><span>Unknown Diagnosis</span></button>
+
+    </div>
+  <%end%>
+
 </div>
+
+<form method='post' action='/encounters/create' id="unknown_diagnosis">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= hidden_field_tag("observations[][value_coded_or_text]", 'UNKNOWN') %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "PRIMARY DIAGNOSIS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+</form>
 
 <div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
   <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
@@ -34,3 +64,9 @@
     </span>
   </button>
 </div>
+
+<script>
+  function submitForm(){
+  document.getElementById('unknown_diagnosis').submit();
+  }
+</script>
