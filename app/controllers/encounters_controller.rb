@@ -129,7 +129,7 @@ class EncountersController < ApplicationController
       elsif params[:select_question_type] == "Past Medical History"
         redirect_to :action => "new",:encounter_type =>"past_medical_history", :patient_id => @patient.patient_id and return
       elsif params[:select_question_type] == "Complications"
-        redirect_to :action => "new",:encounter_type =>"complications", :patient_id => @patient.patient_id and return
+        redirect_to :action => "new",:encounter_type =>"initial_complications", :patient_id => @patient.patient_id and return
       elsif params[:select_question_type] == "Hypertension Management"
         redirect_to :action => "new",:encounter_type =>"hypertension_management", :patient_id => @patient.patient_id and return
       elsif params[:select_question_type] == "General Health"
