@@ -1,0 +1,175 @@
+<script>
+  var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
+</script>
+<%
+    @select_years = []
+    this_year     = Date.today.year
+    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
+  %>
+  
+<form id='medical_history' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "PAST MEDICAL HISTORY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Strokes",
+    :id => "strokes"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "STROKES") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :id => "years_of_strokes",
+    :condition => '$("strokes").value.toLowerCase() == "yes"',
+    :helpText => "Years of strokes",
+    :optional => true,
+    :multiple => true
+  }) %>
+
+ 
+  <%= select_tag "hyperglycemia [years_of_admission]", options_for_select(@select_years),options %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Serious cardiac problems",
+    :id => "serious_cardiac_problems"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SERIOUS CARDIAC PROBLEMS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "What cardiac problem?",
+    :id => "selected_cardiac_problems",
+    :condition => "$('serious_cardiac_problems').value.toLowerCase() == 'yes'"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "CCF",
+    "IHD",
+    "Other(specify)"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= text_field_tag "observations[][value_text]", nil,
+      {
+        :helpText => 'Specify any other cardiac problem',
+        :field_type => 'text',
+        :id => "other_cardiac_problem",
+        :condition => "$('serious_cardiac_problems').value.toLowerCase() =='yes' && $('selected_cardiac_problems').value.toLowerCase() == 'other(specify)'"
+      }%>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Hypertension?",
+    :id => "hypertension"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HYPERTENSION") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Year of Hypertension diagnosis",
+    :id => "hypertension_year_of_diagnosis",
+    :condition => '$("hypertension").value.toLowerCase() == "yes"',
+    :optional => true,
+    :multiple => true
+  }) %>
+
+<%= select_tag "hypertension [year_of_diagnosis]", options_for_select(@select_years),options %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Tuberculosis?",
+    :id => "tuberculosis"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "TUBERCULOSIS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Select type of Tuberculosis",
+    :id => "type_of_tuberculosis",
+    :condition => "$('tuberculosis').value.toLowerCase() == 'yes'"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "SM positive",
+    "SM negative",
+    "EPTB"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options=default.merge({
+      :field_type => 'text',
+      :helpText => "Year of Tuberculosis diagnosis",
+      :id => "tuberculosis_year_of_diagnosis",
+      :condition => '$("tuberculosis").value.toLowerCase() == "yes"',
+      :optional => true,
+      :multiple => true
+    }) %>
+
+  <%= select_tag "tuberculosis[year_of_diagnosis]", options_for_select(@select_years),options %>
+  <% options=default.merge({
+      :field_type => 'text',
+      :id => "has_other_medical_conditions",
+      :helpText => "Any other medical conditions?",
+      :tt_onLoad=> "addOnMouseDownAction('No')"
+    }) %>
+   <%= select_tag( "observations[][value_text]", options_for_select([
+     "",
+     "Yes",
+     "No"
+   ]), options ) %>
+   <%= hidden_field_tag("observations[][concept_name]", "OTHER MEDICAL CONDITIONS") %>
+   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+   <%= text_field_tag "observations[][value_text]", nil,
+     {
+       :helpText => 'Specify',
+       :field_type => 'text',
+       :id => "specified_medical_conditions",
+       :condition => "$('has_other_medical_conditions').value == 'Yes'"
+     }%>
+   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+
+   <%= submit_tag "Finish" %>
+</form>
+ 
