@@ -125,7 +125,7 @@ class EncountersController < ApplicationController
 
       Observation.create(observation)
 
-     confirmatory_evidence and return
+     redirect_to next_discharge_task(Patient.find(params[:patient_id])) 
    end
 
    def outcome
