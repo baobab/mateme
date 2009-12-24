@@ -1,0 +1,97 @@
+<script>
+  var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
+</script>
+<form id='complications' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true'
+  } %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "GENERAL HEALTH" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <% options=default.merge({
+      :field_type => 'text',
+      :id => "smoking",
+      :helpText => "Smoking?"
+    }) %>
+    <%= select_tag( "observations[][value_text]", options_for_select([
+      "",
+      "Previous",
+      "Current",
+      "Never"
+    ]), options )
+
+%>
+    <%= hidden_field_tag("observations[][concept_name]", "SMOKING") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    
+    <%= text_field_tag "observations[][value_text]", nil,
+      {
+        :helpText => 'Number of cigarretes per day', :field_type => 'number',
+        :id => "cigarretes_per_day",
+        :absoluteMin => "1",
+        :max => "20",
+        :absoluteMax => "50",
+        :tt_pageStyleClass => "Numeric NumbersOnly",
+        :condition => "$('smoking').value != 'Never'"
+      }%>
+
+    <% options=default.merge({
+      :field_type => 'text',
+      :id => "alcohol",
+      :helpText => "Alcohol?"
+    }) %>
+    <%= select_tag( "observations[][value_text]", options_for_select([
+      "",
+      "Previous",
+      "Current",
+      "Never"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][concept_name]", "ALCOHOL") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    
+    <% options=default.merge({
+      :field_type => 'text',
+      :id => "alcohol_frequency",
+      :helpText => "Alcohol absoption frequency",
+      :condition => "$('alcohol').value != 'Never'"
+    }) %>
+    <%= select_tag( "observations[][value_text]", options_for_select([
+      "",
+      "Light",
+      "Heavy",
+      "Unknown"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+ <% options=default.merge({
+      :field_type => 'text',
+      :id => "drug_allergy_side_affects",
+      :helpText => "Drug allergy side affects",
+      :tt_onLoad=> "addOnMouseDownAction('Aspirin')"
+    }) %>
+    <%= select_tag( "observations[][value_text]", options_for_select([
+      "",
+      "Aspirin",
+      "Other(Specify)"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][concept_name]", "DRUG ALLERGY") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    
+    <%= text_field_tag "observations[][value_text]", nil,
+      {
+        :helpText => 'Specify any other drug allegy',
+        :field_type => 'text',
+        :id => "other_allegy",
+        :condition => "$('drug_allergy_side_affects').value == 'Other(Specify)'"
+      }%>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    
+ </form>
+ 
