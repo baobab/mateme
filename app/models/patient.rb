@@ -174,4 +174,8 @@ class Patient < ActiveRecord::Base
     }
     return visit_hash
   end
+  def treatment_not_done
+    self.current_treatment_encounter.observations.active.all(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("TREATMENT").concept_id]).last rescue nil
+  end
 end
