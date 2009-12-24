@@ -71,6 +71,7 @@
                       }
   " } %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
+  <%= hidden_field_tag("observations[][type]", "BLOOD SUGAR TEST TYPE") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
