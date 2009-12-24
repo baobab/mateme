@@ -7,6 +7,17 @@
   <h2>Patient Prescriptions</h2>
   <div style="font-size: 22pt;">
     <ul class="list" style="height:270px;width:750px;">
+
+          <%if @patient.treatment_not_done%>
+        <li class="data <%= cycle('even', 'odd') %>">
+          <div style="float:right;padding:7px;">
+           <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => @patient.treatment_not_done.encounter_id} -%>
+          </div>
+          <div style="float:left">Prescription</div>
+          <div style="clear:left" class="summary">TREATMENT NOT DONE</div>
+        </li>
+      <% else %>
+
       <% for order in @orders do %>
         <li class="data <%= cycle('even', 'odd') %>">
           <div style="float:right;padding:7px;">
@@ -16,15 +27,55 @@
           <div style="clear:left" class="summary"><%= order.to_s.gsub(/\n/, '<br/>') -%></div>
         </li>  
       <% end %>
-      <% if @orders.blank? %>        
+      <%end%>
+      <% if @orders.blank? && !@patient.treatment_not_done%>
         <li>No prescriptions are available for this patient today</li>
       <% end %>
     </ul>
   </div>
-  <div style="float:right;padding-right:20px;margin-top:-15px;">
+<%if !@orders.empty?%>
+
+    <div style="float:right;padding-right:20px;margin-top:-15px;">
     <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
-  </div>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button gray" onclick=""><span>Treatment not done</span></button>
+    </div>
+
+  <%elsif @patient.treatment_not_done%>
+
+<div style="float:right;padding-right:20px;margin-top:-15px;">
+    <button class="button gray" ><span>Prescribe</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button gray" onclick=""><span>Treatment not done</span></button>
+    </div>
+
+<%else%>
+
+    <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button green" onclick="submitForm();"><span>Treatment not done</span></button>
+    </div>
+
+  <%end%>
+
 </div>
+
+<form method='post' action='/encounters/create_observation' id="treatment_not_done">
+
+  <%= hidden_field_tag("patient_id", @patient.id) %>
+  <%= hidden_field_tag("concept_name", 'TREATMENT') %>
+  <%= hidden_field_tag("person_id", @patient.id) %>
+  <%= hidden_field_tag("obs_datetime", Time.now()) %>
+  <%= hidden_field_tag("encounter_id", @patient.current_treatment_encounter.encounter_id) %>
+  <%= hidden_field_tag("value_coded", 'NOT DONE') %>
+</form>
 
 <div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
   <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
@@ -33,3 +84,10 @@
     </span>
   </button>
 </div>
+
+<script>
+  function submitForm(){
+  document.getElementById('treatment_not_done').submit();
+  }
+</script>
+
