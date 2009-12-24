@@ -20,8 +20,8 @@ class EncountersController < ApplicationController
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
 
       # convert values from 'mmol/litre' to 'mg/declitre'
-      if(observation[:concept_name] == "HbA1c")
-        if(observation[:value_numeric].to_f > 4 && observation[:value_numeric].to_f < 20)
+      if(observation[:type] && observation[:type] == "BLOOD SUGAR TEST TYPE")
+        if(observation[:value_numeric].to_f > 2 && observation[:value_numeric].to_f < 30)
           observation[:value_numeric] = observation[:value_numeric].to_f * 18
         end
       end
