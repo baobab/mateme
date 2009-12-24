@@ -22,15 +22,26 @@
       <% end %>
     </ul>
   </div>
-  <%if @primary_diagnosis.last && @primary_diagnosis.last.answer_concept_name.name%>
+  <%if @primary_diagnosis.last && @primary_diagnosis.last.answer_concept_name.name == 'UNKNOWN'%>
+
     <div style="float:right;padding-right:20px;margin-top:-15px;">
       <button class="button gray" ><span>New Diagnosis</span></button><br/>
     </div>
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">
       <button class="button gray"><span>Uknown Diagnosis</span></button>
-
     </div>
+
+<%elsif @primary_diagnosis.last or @syndromic_diagnosis.last %>
+
+<div style="float:right;padding-right:20px;margin-top:-15px;">
+      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button gray"><span>Uknown Diagnosis</span></button>
+    </div>
+
   <%else%>
     <div style="float:right;padding-right:20px;margin-top:-15px;">
       <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
@@ -38,7 +49,6 @@
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">
       <button class="button green" onclick="submitForm();"><span>Unknown Diagnosis</span></button>
-
     </div>
   <%end%>
 
