@@ -1,0 +1,188 @@
+<script>
+  var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
+</script>
+<%
+    @select_years = [""]
+    this_year     = Date.today.year
+    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
+  %>
+
+<form id='medical_history' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+	<%= hidden_field_tag "encounter[encounter_type_name]", "PAST MEDICAL HISTORY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% options=default.merge({
+      :field_type => 'text',
+      :helpText => "Peripheral neuropathy",
+      :id => "peripheral_neuropathy"
+    }) %>
+    <%= select_tag("observations[][value_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][concept_name]", "PERIPHERAL NEUROPATHY") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options=default.merge({
+      :field_type => 'text',
+      :helpText => "Year started",
+      :id => "peripheral_neuropathy_year_started",
+      :condition => '$("peripheral_neuropathy").value.toLowerCase() == "yes"',
+      :optional => true,
+      :tt_pageStyleClass => "LongSelectList",
+      :multiple => false
+    }) %>
+
+  <%= select_tag "peripheral_neuropathy[year_started]", options_for_select(@select_years),options %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Suspected PVD",
+    :id => "suspected_pvd"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SUSPECTED PVD") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Amputations",
+    :id => "amputations"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Left foot",
+    "Right foot",
+    "None"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "AMPUTATIONS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :id => "years_of_surgery",
+    :condition => '$("amputations").value.toLowerCase() != "none"',
+    :helpText => "Year of Surgery",
+    :optional => true,
+      :tt_pageStyleClass => "LongSelectList",
+      :multiple => false
+  }) %>
+<%= select_tag "amputations[years_of_surgery]", options_for_select(@select_years),options %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Impotence",
+    :id => "impotence"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "IMPOTENCE") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Retinopathy",
+    :id => "retinopathy"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "RETINOPATHY") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :id => "year_first_diagnosed",
+    :condition => '$("retinopathy").value.toLowerCase() == "yes"',
+    :helpText => "Year first diagnosed",
+    :optional => true,
+      :tt_pageStyleClass => "LongSelectList",
+      :multiple => false
+  }) %>
+<%= select_tag "retinopathy[years_first_diagnosed]", options_for_select(@select_years),options %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Cataracts",
+    :id => "cataracts"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Left eye",
+    "Right eye",
+    "None"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "CATARACTS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :id => "year_of_operations",
+    :condition => '$("cataracts").value.toLowerCase() != "none"',
+    :helpText => "Year of operations",
+    :optional => true,
+      :tt_pageStyleClass => "LongSelectList",
+      :multiple => false
+  }) %>
+<%= select_tag "cataracts[year_of_operations]", options_for_select(@select_years),options %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Suspected nephropathy",
+    :id => "suspected_nephropathy",
+    :tt_onLoad => "addOnMouseDownAction('No')"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SUSPECTED NEPHROPATHY") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :id => "year_proteinuria_first_noted",
+    :condition => '$("suspected_nephropathy").value.toLowerCase() == "yes"',
+    :helpText => "Year proteinuria first noted",
+    :optional => true,
+      :tt_pageStyleClass => "LongSelectList",
+      :multiple => false
+  }) %>
+<%= select_tag "suspected_nephropathy[year_proteinuria_first_noted]", options_for_select(@select_years),options %>
+
+<% options=default.merge({
+    :field_type => 'text',
+    :id => "year_raised_creatinine_first_noted",
+    :condition => '$("suspected_nephropathy").value.toLowerCase() == "yes"',
+    :helpText => "Year raised creatinine first noted",
+    :optional => true,
+      :tt_pageStyleClass => "LongSelectList",
+      :multiple => false
+  }) %>
+<%= select_tag "suspected_nephropathy[year_raised_creatinine_first_noted]", options_for_select(@select_years),options %>
+
+   <%= submit_tag "Finish" %>
+</form>
