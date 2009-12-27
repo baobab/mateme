@@ -30,6 +30,8 @@ class PatientsController < ApplicationController
                       :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? ",
                         @patient.patient_id, Time.now.to_date])
 
+    @observations.delete_if { |obs| obs.value_text.downcase == "no" rescue nil }
+
     @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
 
     @vitals = Encounter.find(:all, :order => 'encounter_datetime DESC',
