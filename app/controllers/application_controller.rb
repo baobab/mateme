@@ -50,7 +50,6 @@ class ApplicationController < ActionController::Base
     #raise session.to_yaml
     #raise patient.current_outcome.to_s
     outcome = patient.current_outcome
-    current_visit_encounters = patient.current_visit.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name} rescue []
 
     return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
 
@@ -58,7 +57,7 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
 
-    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome)
 
     return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
     
