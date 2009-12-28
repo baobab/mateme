@@ -105,7 +105,6 @@ class Patient < ActiveRecord::Base
   
   def arv_number
     arv_number = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("ARV Number").id).identifier rescue nil
-    return nil if arv_number.empty?
   end
 
   def diabetes_number
@@ -117,11 +116,11 @@ class Patient < ActiveRecord::Base
   end
 
    def hiv_status
-    return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
+      return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
      self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter| 
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
     }.flatten.compact.last.answer_concept_name.name rescue 'UNKNOWN'
-  end
+   end
 
 end
