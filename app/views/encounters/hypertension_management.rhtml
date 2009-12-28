@@ -1,105 +1,131 @@
 <script>
-  var tt_cancel_destination = "/encounters/new/complications?patient_id=<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
 </script>
 <form id='complications' action="/encounters/create" method='post'>
   <% default={
-    :allowFreeText => 'true',
+    :allowFreeText => 'true'
   } %>
 
-	<%= hidden_field_tag "encounter[encounter_type_name]", "ENDOCRINE COMPLICATIONS" %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "HYPERTENSION MANAGEMENT" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
-  <label for='complication_hyperglycemia_polyuria'>HYPERGLYCEMIA SYMPTOMS:<br>Polyuria?</label>
+
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hyperglycemia_polyuria"
+    :id => "low_salt_diet_recommended",
+    :helpText => "Low salt diet recommended?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "POLYURIA") %>
+  <%= hidden_field_tag("observations[][concept_name]", "LOW SALT DIET RECOMMENDED") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hyperglycemia_polydipsia'>HYPERGLYCEMIA SYMPTOMS:<br>Polydipsia?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hyperglycemia_polydipsia"
+    :id => "sartan",
+    :helpText => "Ace I/Sartan?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "POLYDIPSIA") %>
+  <%= hidden_field_tag("observations[][concept_name]", "ACE I/SARTAN") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hypoglycemia_dizziness'>HYPOGLYMECIA SYMPTOMS: <br>Dizziness?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hypoglycemia_dizziness"
+    :id => "thiazide",
+    :helpText => "Thiazide?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "DIZZINESS") %>
+  <%= hidden_field_tag("observations[][concept_name]", "THIAZIDE") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hypoglycemia_sweating'>HYPOGLYMECIA SYMPTOMS:<br>Sweating or Feeling Clammy?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hypoglycemia_sweating"
+    :id => "frusemide",
+    :helpText => "Frusemide?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "SWEATING") %>
+  <%= hidden_field_tag("observations[][concept_name]", "FRUSEMIDE") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hypoglycemia_loseconsciousness'>HYPOGLYMECIA SYMPTOMS:<br>Loss of Consciousness?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hypoglycemia_loseconsciousness"
+    :id => "methyldopa",
+    :helpText => "Methyldopa?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "LOSS OF CONSCIOUSNESS") %>
+  <%= hidden_field_tag("observations[][concept_name]", "METHYLDOPA") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS:<br>General body weakness?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hyperglycemia_weakness"
+    :id => "beta_blocker",
+    :helpText => "Beta Blocker?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <%= hidden_field_tag("observations[][concept_name]", "BETA BLOCKER") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hyperglycemia_sexual_dysfunction'>HYPOGLYMECIA SYMPTOMS:<br>Erectile or sexual dysfunction?</label>
+
   <% options=default.merge({
     :field_type => 'text',
-    :id => "complication_hyperglycemia_sexual_dysfunction"
+    :id => "calcium_channel_blocker",
+    :helpText => "Calcium channel blocker?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "SEXUAL DYSFUNCTION") %>
+  <%= hidden_field_tag("observations[][concept_name]", "CALCIUM CHANNEL BLOCKER") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  
-<%= submit_tag "Finish" %>    
+
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "aspirin",
+    :helpText => "Aspirin?"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ASPIRIN") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "observations[][value_text]", nil,
+  {
+    :helpText => 'Other (specify)',
+    :field_type => 'text',
+    :id => "other_hypertension_medication"
+  }%>
+<%= hidden_field_tag("observations[][concept_name]", "OTHER HYPERTENSION MEDICATION") %>
+<%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+<%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= submit_tag "Finish" %>
 </form>

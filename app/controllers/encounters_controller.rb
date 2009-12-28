@@ -20,8 +20,8 @@ class EncountersController < ApplicationController
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
 
       # convert values from 'mmol/litre' to 'mg/declitre'
-      if(observation[:concept_name] == "HbA1c")
-        if(observation[:value_numeric].to_f > 4 && observation[:value_numeric].to_f < 20)
+      if(observation[:type] && observation[:type] == "BLOOD SUGAR TEST TYPE")
+        if(observation[:value_numeric].to_f > 2 && observation[:value_numeric].to_f < 30)
           observation[:value_numeric] = observation[:value_numeric].to_f * 18
         end
       end
@@ -129,7 +129,7 @@ class EncountersController < ApplicationController
       elsif params[:select_question_type] == "Past Medical History"
         redirect_to :action => "new",:encounter_type =>"past_medical_history", :patient_id => @patient.patient_id and return
       elsif params[:select_question_type] == "Complications"
-        redirect_to :action => "new",:encounter_type =>"complications", :patient_id => @patient.patient_id and return
+        redirect_to :action => "new",:encounter_type =>"initial_complications", :patient_id => @patient.patient_id and return
       elsif params[:select_question_type] == "Hypertension Management"
         redirect_to :action => "new",:encounter_type =>"hypertension_management", :patient_id => @patient.patient_id and return
       elsif params[:select_question_type] == "General Health"
