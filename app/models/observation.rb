@@ -70,7 +70,7 @@ class Observation < ActiveRecord::Base
 
   def to_s_formatted
     text = "#{self.concept.name.name rescue 'Unknown concept name'}"
-    text += ": #{self.answer_string}" if(self.answer_string.downcase != "yes")
+    text += ": #{self.answer_string}" if(self.answer_string.downcase != "yes" || self.answer_string.downcase != "unknown")
     text
   end
 
