@@ -20,15 +20,17 @@ class Patient < ActiveRecord::Base
     }.flatten.compact
   end
 
-  def current_treatment_encounter
+  def current_treatment_encounter(force = false)
     type = EncounterType.find_by_name('TREATMENT')
-    encounter = self.current_visit.encounters.current.find_by_encounter_type(type.id)
+    encounter = self.current_visit.encounters.current.find_by_encounter_type(type.id) rescue nil
+    return encounter unless force
     encounter ||= encounters.create(:encounter_type => type.id)
+    encounter
   end
   
   def current_orders
     encounter = current_treatment_encounter 
-    orders = encounter.orders.active
+    orders = encounter.orders.active rescue []
     orders
   end
 
