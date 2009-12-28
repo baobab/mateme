@@ -1015,6 +1015,9 @@ function gotoPage(destPage, validate){
 		}
 		tt_update(currentInput);
 		tstPageValues[currentPage] = currentInput.value;
+
+    // Progress Indicator -- disabled
+    /*
 		var currentPageIndex = $("progressAreaPage"+currentPage);
 		if (currentPageIndex) {
 			// remove current index mark
@@ -1023,6 +1026,14 @@ function gotoPage(destPage, validate){
 								 ": <div class='progressInputValue'>"+progressAreaFormat(currentInput)+"</div>";
 			currentPageIndex.removeAttribute("class");
 		}
+    */
+   
+    // tt_OnUnload
+    var onUnloadCode = tstInputTarget.getAttribute('tt_OnUnload');
+    if (onUnloadCode) {
+      eval(onUnloadCode);
+    }
+
 	}
   if(destPage < tstPages.length){
 		var condition = tstFormElements[tstPages[destPage]].getAttribute("condition");
