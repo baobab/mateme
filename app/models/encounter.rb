@@ -29,9 +29,10 @@ class Encounter < ActiveRecord::Base
 
   def to_s
     if name == 'REGISTRATION'
-      "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
+      'Patient was seen at the registration desk on' 
     elsif name == 'TREATMENT'
       o = orders.active.collect{|order| order.to_s}.join("\n")
+      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'VITALS'
