@@ -65,6 +65,8 @@ class Encounter < ActiveRecord::Base
     elsif @concept_list.include? name
       observations.collect{|observation| observation.to_s}.join(", ")
 
+    elsif name == "DIABETES TEST"
+      observations.collect{|observation| observation.to_s}.join(", ")
     else
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  

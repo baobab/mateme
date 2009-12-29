@@ -1,6 +1,7 @@
 <style type="text/css">
   #space { display: inline;}
   #Unknown { display: none;}
+  .LongSelectList #viewport{ overflow: auto; height: 18em;}
 </style>
 <script type="text/javascript">
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
@@ -12,10 +13,19 @@
   }
 
   function validateCreatinine() {
-    if ((tstInputTarget.value >= 0.1 && tstInputTarget.value <= 1.2) ||
-        (tstInputTarget.value >= 9.1 && tstInputTarget.value <= 110) ||
-        (tstInputTarget.value >= 1   && tstInputTarget.value <= 25)
+    var unit = $('creatinine_unit').value;
+    var minimums = {'mg/dl': 0, 'µmol/l': 0, 'UREA (mg/dl)': 0};
+    var maximums = {'mg/dl': 1.2, 'µmol/l': 111.0, 'UREA (mg/dl)': 25};
+
+    if ((tstInputTarget.value >= minimums[unit] &&
+         tstInputTarget.value <= maximums[unit])
        ) {
+
+       // convert μmol/l to mg/dl
+       if (unit == 'µmol/l') {
+         tstInputTarget.value = parseFloat(tstInputTarget.value / 91).toFixed(1);
+         $('creatinine_unit').value = 'mg/dl';
+       }
        return true;
     }
     return false;
@@ -31,17 +41,17 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIABETES TEST" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", '' %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
     
   <label for="diabetes_test_type">Diabetes Test Type</label>
   <% options=default.merge({
       :field_type => 'text',
-      :id => "diabetes_test_type"
+      :id => "diabetes_test_type",
+      :tt_pageStyleClass => 'LongSelectList'
   }) %>
   <% 
-  #@diabetes_test = Concept.find_by_name("xDIABETES TEST TYPE").concept_answers.map(&:name) rescue 
   @diabetes_test_types = ['', 'CREATININE',
 'URINE PROTEIN',
 'VISUAL ACUITY',
@@ -51,6 +61,11 @@
 
 
   <%= select_tag( "diabetes_test_type", options_for_select(@diabetes_test_types), options) %>
+
+  <%= select_tag( "creatinine_unit", options_for_select(['', 'mg/dl', 'µmol/l', 'UREA mg/dl']), {
+    :helpText => 'Unit for Creatinine Value',
+    :condition => "$('diabetes_test_type').value.toLowerCase() == 'creatinine'"
+    }) %>
 
   <%= text_field_tag "observations[][value_numeric]", nil,
     {:id => "diabetes_test_result",
@@ -63,7 +78,9 @@
      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
      :tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
                     $('diabetes_test_result').disabled = false;
-                    $('diabetes_type_concept').disabled = false;" } %>
+                    $('diabetes_type_concept').disabled = false;
+                    $('infoBar'+tstCurrentPage).innerHTML = 'Creatinine (' + $('creatinine_unit').value + ')';
+                   " } %>
   <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'diabetes_type_concept',
                                                             :disabled => true
                                                             }) %>
@@ -293,25 +310,28 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
 
 
-  <%= text_field_tag "diabetes[test_year]", nil, {
-    :helpText => 'Test Year', :field_type => 'number', :absoluteMin => "1890",
-    :min => "1940", :absoluteMax => Date.today.year,
-    :tt_pageStyleClass => "Numeric NumbersOnly",
-  }  %>
+  <% if User.current_user.user_roles.map(&:role).include?('superuser') %>
+    <%= text_field_tag "diabetes[test_year]", nil, {
+      :helpText => 'Test Year', :field_type => 'number', :absoluteMin => "1890",
+      :min => "1940", :absoluteMax => Date.today.year,
+      :tt_pageStyleClass => "Numeric NumbersOnly",
+    }  %>
 
-  <%= select_tag "diabetes[test_month]", month_name_options, {
-    :helpText => 'Test Month',
-    :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"'#,
-    #:tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
-  }%>
+    <%= select_tag "diabetes[test_month]", month_name_options, {
+      :helpText => 'Test Month',
+      :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"'#,
+      #:tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
+    }%>
 
-  <%= text_field_tag "diabetes[test_day]", '', {
-    :helpText => 'Test Day',
-    :field_type => 'number',
-    :absoluteMin => 1, :absoluteMax => 31,
-    :condition => '($("diabetes_test_year").value != "Unknown") && ($("diabetes_test_month").value != "Unknown")',
-    :tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
-  }%>
+    <%= text_field_tag "diabetes[test_day]", '', {
+      :helpText => 'Test Day',
+      :field_type => 'number',
+      :absoluteMin => 1, :absoluteMax => 31,
+      :condition => '($("diabetes_test_year").value != "Unknown") && ($("diabetes_test_month").value != "Unknown")',
+      :tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")',
+      :tt_onUnload => 'updateEncounterDate();'
+    }%>
 
+  <% end %>
   <%= submit_tag "Finish" %>
 </form>
