@@ -115,4 +115,13 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     render :template => 'patients/discharge', :layout => 'menu'
   end
+
+  def mastercard
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @person = @patient.person
+    @encounters = @patient.encounters.find_all_by_encounter_type(EncounterType.find_by_name('DIABETES TEST').id)
+    @observations = @encounters.map(&:observations).flatten
+    @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
+    render :layout => 'menu'
+  end
 end
