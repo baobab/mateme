@@ -5,21 +5,26 @@ border-top:1px dotted ;
 border-right:1px dotted ;
 border-bottom:1px dotted ;
 border-left:1px dotted ;
-/*background-color: #660000;*/
 }
 </style>
 
  <div id =" patient_history" style="position: relative; right: -361px; top: 0px;">
    <center><h3> Medical History</h3></center>
- <div style="font-size: 1.2em;">
+ <div style="font-size: 0.9em;">
   <ul class="list" style="height: 210px; width: 350px;">
-    <table cellpadding="2" cellspacing="0" border ="1">
-      <% for observation in @observations do %>
-      <tr class ="data <%= cycle('even', 'odd')%>" >
-        <td class="mytableborder"> <%=h("#{observation.obs_datetime.strftime("%d-%b-%Y")}") %></td>
-        <td class="mytableborder"> <%= h("#{observation.to_s}") %></td>
+    <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+      <%@obs_datetimes.each { |observation_datetime|%>
+       <tr class ="data <%= cycle('even', 'odd')%>" >
+       <td class="mytableborder"> <%=h(observation_datetime)%></td>
+       <td class="mytableborder">
+       <%for observation in @observations do%>
+        <%if(observation.obs_datetime.strftime("%d-%b-%Y") == observation_datetime)%>
+         <%= h("#{observation.to_s_formatted};") %>
+        <%end%>
+      <%end%>
+      </td>
       </tr>
-      <% end %>
+    <%}%>
   </table>
   </ul>
   </div>
