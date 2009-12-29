@@ -1,59 +1,75 @@
 <script type="text/javascript">
-  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>"; 
+  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
 </script>
 <style type="text/css">
 
-  a.button.green {
-    width:220px;
-    -moz-user-select:none;
-    border:0 none;
-    color:white;
-    cursor:pointer;
-    display:block;
-    font-weight:bold;
-    padding:0 8px 0 0;
-    text-align:center;
-    text-decoration:none;
-    background:#00FF00 none repeat scroll 0 0;
-    font-size:1.4em;
-    height:57px;
-    line-height:57px;
-    min-width:48px;
-    margin-top:10px
-  }
-#menu {
-    float:right;
-    overflow:auto;
-    position:relative;
-    height:478px;
-    width:257px;;
-  }
+    a.button.green {
+      width:220px;
+      -moz-user-select:none;
+      border:0 none;
+      color:white;
+      cursor:pointer;
+      display:block;
+      font-weight:bold;
+      padding:0 8px 0 0;
+      text-align:center;
+      text-decoration:none;
+      background:#00FF00 none repeat scroll 0 0;
+      font-size:1.4em;
+      height:57px;
+      line-height:57px;
+      min-width:48px;
+      margin-top:10px
+    }
+    #menu {
+      float:right;
+      overflow:auto;
+      position:relative;
+      height:478px;
+      width:257px;;
+    }
 </style>
 
 <div style="margin:10px;">
   <div id="details" style="float:left">
-<form>
-</form>
-<%= render :partial => "details" %>
-<%
-  status = 'UNKNOWN'
-  if @arv_number
-    status = 'POSITIVE'
-  elsif @status
-    status = @status.to_s
-  end
-%>
-HIV STATUS :
-<%if @arv_number%>
-  <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
-<%elsif status.to_s == 'POSITIVE'%>
-  <span style='color:red;font-weight:bold;'><%= "#{status}"%></span> 
-<%else%>
-  <span style='color:green;font-weight:bold;'><%="#{status}"%></span>
-<%end%>
+    <form>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    </form>
+    <%= render :partial => "details" %>
+    <%
+    status = 'UNKNOWN'
+    if @arv_number && !@arv_number.empty?
+      status = 'REACTIVE'
+    elsif @status
+      status = @status.to_s
+    end
+  %>
+    HIV STATUS :
+    <%if @arv_number && !@arv_number.empty?%>
+      <span style='font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
+    <%elsif status.to_s == 'REACTIVE'%>
+      <span style='font-weight:bold;'><%= "#{status}"%></span>
+    <%else%>
+      <span style='font-weight:bold;'><%="#{status}"%></span>
+    <%end%>
+  </div>
+  <%if status !='REACTIVE'%>
+    <div id="menu">
+      <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
+    </div>
+  <%end%>
 </div>
-<div id="menu">
-    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
+
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
+    <span>
+      Cancel
+    </span>
+  </button>
 </div>
-</div>
+
+
 
