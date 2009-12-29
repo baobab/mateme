@@ -47,7 +47,7 @@
       <%= text_field 'person_name', 'family_name', :ajaxURL => '/person_names/family_names?search_string=', :value => @user_last_name, :allowFreeText => true%></p>
 
       <p><label for="user_role_role_id">User Role</label></br>
-      <%= text_field 'user_role', 'role_id', :xhelpText => 'User role', :ajaxURL => '/search/Role?field=role&value='%></p>
+      <%= text_field 'user_role', 'role_id', :xhelpText => 'User role', :ajaxURL => '/search/role?search_string=', :allowFreeText => true%></p>
         
 
       <!--p><label for="user_role_admin_role">Is user a system administrator?</label><br/-->
