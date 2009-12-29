@@ -4,7 +4,7 @@
   .LongSelectList #viewport{ overflow: auto; height: 18em;}
 </style>
 <script type="text/javascript">
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/patients/mastercard/<%= @patient.patient_id %>"
 
   function updateEncounterDate() {
     $('encounter_encounter_datetime').value = $('diabetes_test_year').value + 
@@ -116,7 +116,7 @@
                    $('visual_acuity_side').disabled = false;
                    $('visual_acuity_concept').disabled = false;"
     }) %>
-  <% visual_acuity_options = ['','CORRECTED','6/6','6/9','6/12','6/36', '6/60',
+  <% visual_acuity_options = ['','CORRECTED','6/6','6/9','6/12','6/24','6/36','6/60',
                               'COUNTING FINGERS', 'HAND MOVEMENTS', 'NO PERCEPTION OF LIGHT',
                               'ABLE TO READ SMALL PRINT','ABLE TO READ LARGE PRINT'] %>
   <%= select_tag("observations[][value_coded_or_text]",

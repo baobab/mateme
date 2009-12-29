@@ -1,0 +1,102 @@
+<style type="text/css">
+  td {
+    background: #EEEEEE;
+  }
+  .label {
+    font-weight: bold;
+  }
+
+  .mytableborder {
+    border-top:1px dotted ;
+    border-right:1px dotted ;
+    border-bottom:1px dotted ;
+    border-left:1px dotted ;
+  }
+
+  #patient_history {
+    margin: auto;
+    left: 5px;
+  }
+
+  a.button.green {
+    width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:#00FF00 none repeat scroll 0 0;
+    font-size:1.4em;
+    height:57px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
+  }
+  #menu {
+    float:right;
+    overflow:auto;
+    position:relative;
+    height:478px;
+    width:257px;;
+  }
+
+</style>
+
+<script type="text/javascript">
+  tt_cancel_destination = '<%=  "/patients/show/#{@patient.id}" %>';
+</script>
+
+<h2>DIABETES CLINIC</h2>
+<table>
+  <tr>
+    <td class="label">NAME OF PATIENT:</td><td><%= @person.name %></td>
+    <td class="label">CARD NO:</td><td><%= @patient.diabetes_number %></td>
+  </tr>
+  <tr>
+    <td class="label">DISTRICT:</td><td></td>
+    <td class="label">AGE:</td><td><%= @person.age %></td>
+  </tr>
+  <tr>
+    <td class="label">CONTACT ADDRESS/PHONE NO:</td><td><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></td>
+    <td class="label">GENDER:</td><td><%= @person.gender %></td>
+  </tr>
+  <tr>
+    <td colspan="2"></td>
+    <td class="label">HIV STATUS:</td><td><%= @patient.hiv_status %></td>
+  </tr
+</table>
+
+<%#= render :partial => "patient_history"%>
+
+<div id ="patient_history" style="left: 10px; width: 500px;/*position: relative; right: -361px; top: 0px;*/">
+ <div style="font-size: 0.9em;">
+  <ul class="list" style="height: 210px; width: 550px;">
+    <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+      <%@obs_datetimes.each { |observation_datetime|%>
+       <tr class ="data <%= cycle('even', 'odd')%>" >
+       <td class="mytableborder"> <%=h(observation_datetime)%></td>
+       <td class="mytableborder">
+       <%for observation in @observations do%>
+        <%if(observation.obs_datetime.strftime("%d-%b-%Y") == observation_datetime)%>
+         <%= h("#{observation.to_s_formatted};") %>
+        <%end%>
+      <%end%>
+      </td>
+      </tr>
+    <%}%>
+  </table>
+  </ul>
+  </div>
+  </div>
+
+<div id="menu">
+  <a class="button green" href='/encounters/new/diabetes_test?patient_id=<%= @patient.id -%>'>Screen Complications</a>
+</div>
+<p/>
+
+<form action=<%="/patient/show/#{@patient.id}"%>>
+</form>
