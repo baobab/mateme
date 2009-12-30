@@ -6,10 +6,10 @@
     :allowFreeText => 'true'
   } %>
 
-<label for='year_of_initial_diagnosis'>Date of initial diagnosis</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "year_of_initial_diagnosis"
+    :id => "year_of_initial_diagnosis",
+    :helpText => "Date of initial diagnosis"
   }) %>
   <%= text_field_tag "observations[][value_text]", nil,
   {:helpText => 'Year of Initial Diagnosis', :field_type => 'number', 
@@ -31,10 +31,10 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<label for='diabetes_type'>Type of diabetes</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "diabetes_type"
+    :id => "diabetes_type",
+    :helpText =>"Type of diabetes"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Type 1",
@@ -45,10 +45,10 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<label for='secondary_diabetes'>Secondary diabetes?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "secondary_diabetes"
+    :id => "secondary_diabetes",
+    :helpText => "Secondary diabetes?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
@@ -64,10 +64,11 @@
   :id => "reason_for_secondary_diabetes",
   :condition => '($("secondary_diabetes").value.toLowerCase() == "yes")' } %>
   
-<label for='blood_relatives'>FH (blood relatives only)</label>
+
   <% options=default.merge({
     :field_type => 'text',
-    :id => "blood_relatives"
+    :id => "blood_relatives",
+    :helpText => "Family History (blood relatives only)"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Positive",
