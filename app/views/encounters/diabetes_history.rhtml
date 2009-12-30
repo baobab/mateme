@@ -78,6 +78,9 @@
   :allowFreeText => true,
   :id => "cause_of_secondary_diabetes",
   :condition => '($("secondary_diabetes").value.toLowerCase() == "yes")' } %>
+  <%= hidden_field_tag("observations[][concept_name]", "CAUSE OF SECONDARY DIABETES") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
