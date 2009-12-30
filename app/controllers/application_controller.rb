@@ -56,9 +56,9 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
 
-    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome) && !patient.current_diagnoses.empty?
 
-    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)  && !patient.current_diagnoses.empty?
     
     session[:auto_load_forms] = false
     return "/patients/show/#{patient.id}" 
