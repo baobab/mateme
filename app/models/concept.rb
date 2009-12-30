@@ -18,7 +18,8 @@ class Concept < ActiveRecord::Base
 
   has_many :concept_names
   has_many :answer_concept_names, :class_name => 'ConceptName'
-  has_one :name, :class_name => 'ConceptName'
+  has_one :name, :class_name => 'ConceptName', :conditions => 'concept_name.voided = 0'
+
   has_many :drugs
   has_many :concept_sets #, :class_name => 'ConceptSet'
 
