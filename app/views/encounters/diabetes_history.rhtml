@@ -73,9 +73,10 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 <%= text_field_tag "observations[][value_text]", params[:given_name],
-{:id => 'given_name', :field_type => 'alpha', :helpText => 'Due to what?',
+{:id => 'given_name', :field_type => 'alpha',
+  :helpText => 'Cause of Secondary Diabetes',
   :allowFreeText => true,
-  :id => "reason_for_secondary_diabetes",
+  :id => "cause_of_secondary_diabetes",
   :condition => '($("secondary_diabetes").value.toLowerCase() == "yes")' } %>
 
   <% options=default.merge({
