@@ -51,12 +51,11 @@
     :id => "diabetes_type",
     :helpText =>"Type of diabetes"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
-    "Type 1",
-    "Type 2",
-    "Unclear"
-  ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <% @diabetes_types  = [""]
+     @diabetes_types += Concept.find_by_name("TYPE OF DIABETES").concept_answers.map(&:name) %>
+
+  <%= select_tag( "observations[][value_text]", options_for_select(@diabetes_types.sort), options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "TYPE OF DIABETES") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
