@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  
   def index
     @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role}.include?("superuser") rescue nil
     @regstration_clerk = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role}.include?("regstration_clerk") rescue nil

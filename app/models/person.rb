@@ -279,14 +279,6 @@ class Person < ActiveRecord::Base
   # then pull down the demographics
   def self.find_remote(known_demographics)
 
-    # TODO make these global properties
-    login_params = {
-      :login=>"mikmck",
-      :password=>"mike", 
-      :location=>"8",
-      :ward=>"WARD 3A"
-    }
-
     known_demographics.merge!({"_method"=>"put"})
     # Some strange parsing to get the params formatted right for mechanize
     demographics_params = [CGI.unescape(known_demographics.to_param).split('=')]
@@ -299,7 +291,6 @@ class Person < ActiveRecord::Base
     result = demographic_servers.map{|demographic_server, local_port|
 
       # Note: we don't use the demographic_server because it is port forwarded to localhost
-      mechanize_browser.post("http://localhost:#{local_port}/session", login_params)
       output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
 
       output if output and output.match(/person/)
@@ -391,7 +382,6 @@ class Person < ActiveRecord::Base
       results.push output if output and output.match(/person/)
     }
     result = results.sort{|a,b|b.length <=> a.length}.first
-
 
     result ? JSON.parse(result) : nil
 
