@@ -180,4 +180,12 @@ class Patient < ActiveRecord::Base
     self.current_treatment_encounter.observations.active.all(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("TREATMENT").concept_id]).last rescue nil
   end
+
+   def admitted_to_ward
+     self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("ADMIT PATIENT").id]).map{|encounter| 
+      encounter.observations.active.last(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("ADMIT TO WARD").concept_id])
+     }.flatten.compact.last rescue nil
+  end
+
 end

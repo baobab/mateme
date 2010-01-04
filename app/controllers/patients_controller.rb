@@ -106,6 +106,9 @@ class PatientsController < ApplicationController
       current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime
       current_visit.save
       print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
+      elsif @patient.admitted_to_ward && session[:ward] == 'WARD 4B'
+      print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", close_visit) and return
+
     end
       redirect_to close_visit and return
   end
