@@ -115,6 +115,8 @@ class UserController < ApplicationController
     params[:user][:user_id] = person.id
     @user = User.new(params[:user])
     @user.id = person.id
+    @user.date_created = Time.now()
+    @user.creator = session[:user_id]
     if @user.save
      # if params[:user_role_admin][:role] == "Yes"  
       #  @roles = Array.new.push params[:user_role][:role_id] 

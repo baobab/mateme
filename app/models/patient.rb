@@ -20,15 +20,17 @@ class Patient < ActiveRecord::Base
     }.flatten.compact
   end
 
-  def current_treatment_encounter
+  def current_treatment_encounter(force = false)
     type = EncounterType.find_by_name('TREATMENT')
-    encounter = self.current_visit.encounters.current.find_by_encounter_type(type.id)
+    encounter = self.current_visit.encounters.current.find_by_encounter_type(type.id) rescue nil
+    return encounter unless force
     encounter ||= encounters.create(:encounter_type => type.id)
+    encounter
   end
   
   def current_orders
     encounter = current_treatment_encounter 
-    orders = encounter.orders.active
+    orders = encounter.orders.active rescue []
     orders
   end
 
@@ -113,7 +115,7 @@ class Patient < ActiveRecord::Base
   end
 
   def hiv_status
-    return 'REACTIVE' if self.arv_number
+    return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
      self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter| 
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
@@ -174,4 +176,16 @@ class Patient < ActiveRecord::Base
     }
     return visit_hash
   end
+  def treatment_not_done
+    self.current_treatment_encounter.observations.active.all(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("TREATMENT").concept_id]).last rescue nil
+  end
+
+   def admitted_to_ward
+     self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("ADMIT PATIENT").id]).map{|encounter| 
+      encounter.observations.active.last(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("ADMIT TO WARD").concept_id])
+     }.flatten.compact.last rescue nil
+  end
+
 end

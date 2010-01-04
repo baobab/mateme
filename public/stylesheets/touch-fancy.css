@@ -682,3 +682,20 @@ display:block;
   width:750px;  
   border-bottom:2px dotted;
 }  
+
+.LongSelectList #viewport,
+.LongSelectList #options{
+  -moz-user-select:none;
+  height: 17em;
+}
+
+.LongSelectList #keyboard{
+  display:none;
+}
+
+.LongSelectList #li {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

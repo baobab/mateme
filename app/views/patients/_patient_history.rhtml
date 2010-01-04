@@ -9,23 +9,23 @@ font-size:9pt;
 }
 </style>
  
- <div id =" patient_history" style="position: relative; right: -440px; top: -21px;">
+ <div id ="patient_history" style="position: relative; right: -345px; bottom: 35px;">
    <h3> Medical History</h3>
  </div>
  
 <div style="font-size: 1.2em;">
-  <ul class="list" style="height: 254px; position: relative; width: 510px; right: -440px; top: -22px;">
+  <ul class="list" style="height: 278px; position: relative; width: 614px; right: -345px; bottom: 54px;">
     <table cellpadding="2" cellspacing="0" border ="1" width="100%">
       <tr>
-        <th valign="top" class="mytableborder"> DATE</td>
-        <th class="mytableborder"> DIAGNOSIS</td>
-        <th class="mytableborder">TREATMENT</td>
+        <th valign="top" class="mytableborder"> DATE</th>
+        <th class="mytableborder"> DIAGNOSIS</th>
+        <th class="mytableborder">TREATMENT</th>
       </tr>
-      <% @past_diagnosis.each{|id,data|%>
+      <%@past_diagnosis.keys.sort.reverse.each{|visit_id|%>
       <tr class ="data <%= cycle('even', 'odd')%>" >
-        <td valign="top" class="mytableborder"> <%= Visit.find(id).end_date.strftime("%d-%b-%Y")%></td>
-        <td class="mytableborder"> <%= data.each{|observation| observation.to_s}%></td>
-        <td class="mytableborder"> <%= @past_treatments[id].each{|observation| observation.to_s}%></td>
+        <td valign="top" class="mytableborder"> <%= Visit.find(visit_id).end_date.strftime("%d-%b-%Y")%></td>
+      <td class="mytableborder"> <% @past_diagnosis[visit_id].each{|observation| %> <%= observation.to_s %> <br><%}%></td>
+        <td class="mytableborder"> <% @past_treatments[visit_id].each{|observation|%> <%= observation.to_s %> <br> <%}%></td>
       </tr>
     <%}%>
   </table>

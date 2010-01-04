@@ -98,17 +98,19 @@ class PatientsController < ApplicationController
   def end_visit
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
     current_visit = @patient.current_visit
-    primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue []
-    treatment = @patient.current_treatment_encounter rescue nil
+    primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
+    treatment = @patient.current_treatment_encounter.orders.active rescue []
     session[:admitted] = false
-    if (primary_diagnosis && treatment) or ['DEAD', 'REFERRED'].include?(@patient.current_outcome)
+    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
-      current_visit.end_date = treatment.encounter_datetime
+      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime
       current_visit.save
       print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
+      elsif @patient.admitted_to_ward && session[:ward] == 'WARD 4B'
+      print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", close_visit) and return
+
     end
       redirect_to close_visit and return
   end
-
 
 end

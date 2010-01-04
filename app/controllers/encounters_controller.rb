@@ -106,7 +106,8 @@ class EncountersController < ApplicationController
    def confirmatory_evidence
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
     @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id]).last rescue nil
-    @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('TEST REQUESTED').concept_id, ConceptName.find_by_name('RESULT AVAILABLE').concept_id]) rescue []
+    @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('TEST REQUESTED').concept_id]) rescue []
+    @result_available_obs = @patient.current_diagnoses([ConceptName.find_by_name('RESULT AVAILABLE').concept_id]) rescue []
     render :template => 'encounters/confirmatory_evidence', :layout => 'menu'
    end
 
@@ -118,11 +119,13 @@ class EncountersController < ApplicationController
       observation[:person_id] = params[:person_id] 
       observation[:obs_datetime] = params[:obs_datetime]
       observation[:encounter_id] = params[:encounter_id]
-      observation[:value_coded_or_text] = params[:value_coded_or_text]
+      #observation[:value_coded_or_text] = params[:value_coded_or_text]
+      observation[:value_coded] = Concept.find_by_name(params[:value_coded]).concept_id rescue Concept.find_by_name('UNKNOWN').concept_id
+      observation[:value_text] = params[:value_text]
 
       Observation.create(observation)
 
-     confirmatory_evidence and return
+     redirect_to next_discharge_task(Patient.find(params[:patient_id])) 
    end
 
    def outcome
