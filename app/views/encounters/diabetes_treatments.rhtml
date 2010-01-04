@@ -8,9 +8,10 @@
     :allowFreeText => 'true'
   } %>
 
-  <label for='on_diet'>Diet only?</label>
+
   <% options=default.merge({
     :field_type => 'text',
+    :helpText => "Diet only?",
     :id => "on_diet"
   }) %>
   <%= select_tag("observations[][value_text]", options_for_select([
