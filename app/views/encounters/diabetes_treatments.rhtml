@@ -8,9 +8,10 @@
     :allowFreeText => 'true'
   } %>
 
-  <label for='on_diet'>Diet only?</label>
+
   <% options=default.merge({
     :field_type => 'text',
+    :helpText => "Diet only?",
     :id => "on_diet"
   }) %>
   <%= select_tag("observations[][value_text]", options_for_select([
@@ -66,9 +67,9 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
   
-  <label for='glibenclamide'>Glibenclamide</label>
   <% options=default.merge({
     :field_type => 'text',
+    :helpText => "Glibenclamide",
     :id => "glibenclamide"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
@@ -80,8 +81,10 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 <%= text_field_tag "glibenclamide[year_started]", nil,
-  {:helpText => 'GLIBENCLAMIDE: Year started', :field_type => 'number', :absoluteMin => "1890",
-    :min => "1940", :absoluteMax => Date.today.year,
+  {:helpText => 'GLIBENCLAMIDE: Year started',
+  :field_type => 'number',
+    :absoluteMin => "1890", :absoluteMax => Date.today.year,
+    :min => "1940", 
     :condition => '$("glibenclamide").value.toLowerCase() == "yes"',
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }  %>
@@ -92,8 +95,10 @@
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
     }%>
 
-  <%= text_field_tag "glibenclamide[day_started]",  nil, :field_type => 'number',
-      :helpText => 'GLIBENCLAMIDE: Day started', :absoluteMin => 1, :absoluteMax => 31,
+  <%= text_field_tag "glibenclamide[day_started]",  nil,
+      :field_type => 'number',
+      :helpText => 'GLIBENCLAMIDE: Day started',
+      :absoluteMin => 1, :absoluteMax => 31,
       :condition => "$('glibenclamide').value.toLowerCase() == 'yes' && ($('glibenclamide_year_started').value.toLowerCase() != 'unknown') && ($('glibenclamide_month_started').value.toLowerCase() != 'unknown');",
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-' + months[$('glibenclamide_month_started').value - 1] + '-<font color=#FF0000>DD</font>' "
   %>
@@ -103,15 +108,15 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
 
   <%= select_tag( "observations[][value_text]", options_for_select([
-    "Yes",
-    "No"
-  ]), 
-  {
-    :helpText => 'GLIBENCLAMIDE: Taking now',
-    :field_type => 'text',
-    :id => "glibenclamide_taking_now",
-    :condition => '$("glibenclamide").value.toLowerCase() == "yes"'
-  } ) %>
+        "Yes",
+        "No"
+      ]),
+      {
+        :helpText => 'GLIBENCLAMIDE: Taking now',
+        :field_type => 'text',
+        :id => "glibenclamide_taking_now",
+        :condition => '$("glibenclamide").value.toLowerCase() == "yes"'
+      } ) %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -122,15 +127,16 @@
     :id => "metformin"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
-    "Yes",
-    "No"
-  ]), options ) %>
+      "Yes",
+      "No"
+    ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 <%= text_field_tag "metformin[year_started]", nil,
-  {:helpText => 'METFORMIN: Year started', :field_type => 'number', :absoluteMin => "1890",
+  {:helpText => 'METFORMIN: Year started',
+    :field_type => 'number', :absoluteMin => "1890",
     :min => "1940", :absoluteMax => Date.today.year,
     :condition => '$("metformin").value.toLowerCase() == "yes"',
     :tt_pageStyleClass => "Numeric NumbersOnly" }  %>
@@ -142,7 +148,8 @@
       }
   %>
 
-  <%= text_field_tag "metformin[day_started]",  nil, :field_type => 'number',
+  <%= text_field_tag "metformin[day_started]",  nil,
+      :field_type => 'number',
       :helpText => 'METFORMIN: Day started', :absoluteMin => 1, :absoluteMax => 31,
       :condition => "$('metformin').value.toLowerCase() == 'yes' && ($('metformin_year_started').value.toLowerCase() != 'unknown') && ($('metformin_month_started').value != 'unknown')",
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_started').value + '-' + months[$('metformin_month_started').value - 1] + '-<font color=#FF0000>DD</font>' " %>
@@ -151,22 +158,23 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
 
-  <%= select_tag( "observations[][value_text]", options_for_select([
-    "Yes",
-    "No"
-  ]),
-   {
+<% options=default.merge({
     :helpText => 'METFORMIN: Taking now',
     :field_type => 'text',
     :condition => '$("metformin").value.toLowerCase() == "yes"'
   } ) %>
+
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "Yes",
+    "No"
+  ]),options) %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   
-<label for='insulin'>Insulin</label>
   <% options=default.merge({
     :field_type => 'text',
+    :hepText => "Insulin",
     :id => "insulin"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
@@ -178,7 +186,8 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 <%= text_field_tag "insulin[year_started]", nil,
-  {:helpText => 'INSULIN: Year started', :field_type => 'number', :absoluteMin => "1890",
+  {:helpText => 'INSULIN: Year started',
+    :field_type => 'number', :absoluteMin => "1890",
     :min => "1940", :absoluteMax => Date.today.year,
     :condition => '$("insulin").value.toLowerCase() == "yes"',
     :tt_pageStyleClass => "Numeric NumbersOnly"    
@@ -191,8 +200,10 @@
     }
   %>
 
-  <%= text_field_tag "insulin[day_started]",  nil, :field_type => 'number',
-      :helpText => 'INSULIN: Day started', :absoluteMin => 1, :absoluteMax => 31,
+  <%= text_field_tag "insulin[day_started]",  nil,
+      :field_type => 'number',
+      :helpText => 'INSULIN: Day started',
+      :absoluteMin => 1, :absoluteMax => 31,
       :condition => '$("insulin").value.toLowerCase() == "yes" && ($("insulin_year_started").value.toLowerCase() != "unknown") && ($("insulin_month_started").value.toLowerCase() != "unknown")',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_started').value + '-' + months[$('insulin_month_started').value - 1] + '-<font color=#FF0000>DD</font>' "
   %>

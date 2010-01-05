@@ -6,74 +6,92 @@
     :allowFreeText => 'true'
   } %>
 
-<label for='year_of_initial_diagnosis'>Date of initial diagnosis</label>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "DIABETES HISTORY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
   <% options=default.merge({
     :field_type => 'text',
-    :id => "year_of_initial_diagnosis"
+    :id => "year_of_initial_diagnosis",
+    :helpText => "Date of initial diagnosis"
   }) %>
-  <%= text_field_tag "observations[][value_text]", nil,
-  {:helpText => 'Year of Initial Diagnosis', :field_type => 'number', 
+  <%= text_field_tag "year_of_initial_diagnosis", nil,
+  {:helpText => 'Year of Initial Diagnosis', :field_type => 'number',
     :id => "year_of_initial_diagnosis",
     :absoluteMin => "1890",
     :min => "1940", :absoluteMax => Date.today.year,
     :tt_pageStyleClass => "Numeric NumbersOnly" }  %>
 
-  <%= select_tag "observations[][value_text]", month_name_options,
+  <%= select_tag "month_of_initial_diagnosis", month_name_options,
     {:helpText => 'Month of Diagnosis',
+      :tt_pageStyleClass => 'LongSelectList',
       :id => "month_of_initial_diagnosis",
       :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown"'}%>
 
-  <%= text_field_tag "observations[][value_text]",  nil, :field_type => 'number',
-      :helpText => 'Day of Diagnosis', :absoluteMin => 1, :absoluteMax => 31,
-      :condition => '($("year_of_initial_diagnosis").value != "Unknown") && ($("month_of_initial_diagnosis").value != "Unknown")'%>
-      
-  <%= hidden_field_tag("observations[][concept_name]", "POLYDIPSIA") %>
+  <%= text_field_tag "day_of_initial_diagnosis",  nil,
+      :field_type => 'number',
+      :id => "day_of_initial_diagnosis",
+      :helpText => 'Day of Diagnosis',
+      :absoluteMin => 1, :absoluteMax => 31,
+      :condition => '($("year_of_initial_diagnosis").value != "Unknown") && ($("month_of_initial_diagnosis").value != "Unknown")',
+      :tt_onUnLoad => "$('observations__value_datetime').value =
+                            $('year_of_initial_diagnosis').value + '-'
+                          + $('month_of_initial_diagnosis').value + '-'
+                          + $('day_of_initial_diagnosis').value"
+  %>
+  <%= hidden_field_tag("observations[][value_datetime]", "") %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES DIAGNOSIS DATE") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<label for='diabetes_type'>Type of diabetes</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "diabetes_type"
+    :id => "diabetes_type",
+    :helpText =>"Type of diabetes"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
-    "Type 1",
-    "Type 2",
-    "Unclear"
-  ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <% @diabetes_types  = [""]
+     @diabetes_types += Concept.find_by_name("TYPE OF DIABETES").concept_answers.map(&:name) %>
+
+  <%= select_tag( "observations[][value_text]", options_for_select(@diabetes_types.sort), options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "TYPE OF DIABETES") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<label for='secondary_diabetes'>Secondary diabetes?</label>
   <% options=default.merge({
     :field_type => 'text',
-    :id => "secondary_diabetes"
+    :id => "secondary_diabetes",
+    :helpText => "Secondary diabetes?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+  <%= hidden_field_tag("observations[][concept_name]", "SECONDARY DIABETES") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 <%= text_field_tag "observations[][value_text]", params[:given_name],
-{:id => 'given_name', :field_type => 'alpha', :helpText => 'Due to what?',
+{:id => 'given_name', :field_type => 'alpha',
+  :helpText => 'Cause of Secondary Diabetes',
   :allowFreeText => true,
-  :id => "reason_for_secondary_diabetes",
+  :id => "cause_of_secondary_diabetes",
   :condition => '($("secondary_diabetes").value.toLowerCase() == "yes")' } %>
-  
-<label for='blood_relatives'>FH (blood relatives only)</label>
+  <%= hidden_field_tag("observations[][concept_name]", "CAUSE OF SECONDARY DIABETES") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
   <% options=default.merge({
     :field_type => 'text',
-    :id => "blood_relatives"
-  }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
-    "Positive",
-    "Negative"
-  ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "GENERAL BODY WEAKNESS") %>
+    :id => "family_history",
+    :helpText => "Family History (blood relatives only)"
+    }) %>
+  <% @diabetes_family_history  = [""]
+     @diabetes_family_history += Concept.find_by_name("DIABETES FAMILY HISTORY").concept_answers.map(&:name) %>
+
+  <%= select_tag( "observations[][value_text]", options_for_select(@diabetes_family_history.sort), options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIABETES FAMILY HISTORY") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 

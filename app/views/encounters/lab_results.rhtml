@@ -28,6 +28,7 @@
 <% options=default.merge({
           :field_type => 'text',
           :id => "blood_sugar_unit",
+          :condition => "$('blood_sugar_type').value != 'HbA1c'",
           :helptext =>"Select blood sugar units of measure"
   }) %>
   <%= select_tag("blood_sugar_unit", options_for_select([
@@ -48,21 +49,14 @@
      :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
      :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
      :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value;
-                    if ($('blood_sugar_unit').value == 'mmol/l'){
                          if ($('blood_sugar_type').value == 'HbA1c') {
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 3.6);
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 23.2);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 0);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 100);
                             }
                          else {
+                            if ($('blood_sugar_unit').value == 'mmol/l'){
                               $('touchscreenInput'+tstCurrentPage).setAttribute('min', 2.7);
                               $('touchscreenInput'+tstCurrentPage).setAttribute('max', 27.8);
-                            }
-                      }
-
-                    else if ($('blood_sugar_unit').value == 'mg/dl') {
-                          if ($('blood_sugar_type').value == 'HbA1c') {
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 65);
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 418);
                             }
                          else {
                             $('touchscreenInput'+tstCurrentPage).setAttribute('min', 50);

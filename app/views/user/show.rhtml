@@ -8,8 +8,8 @@
   </p>
   <% end %>
   <% end %>
-   <p><b>Role: </b><%=@user.roles.collect{|r|r.role}.join(",")%></p>
-   <p><b>Privileges: </b><%=@user.privileges.collect{|p|p.privilege}.join(",")%></p>
+   <p><b>Role: </b><%=@user.user_roles.collect{|r|r.role}.join(",")%></p>
+   <p><b>Privileges: </b><%#=@user.privileges.collect{|p|p.privilege}.join(",")%></p>
 </div>  
 <div id="navigationLinks" class="buttonsDiv">
   <%= link_to_onmousedown 'Edit', :action => 'edit', :id => @user  %> 
