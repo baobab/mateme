@@ -16,7 +16,7 @@
       :id => "smoking",
       :helpText => "Smoking?"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Previous",
       "Current",
@@ -24,11 +24,13 @@
     ]), options )
 
 %>
-    <%= hidden_field_tag("observations[][concept_name]", "SMOKING") %>
+    <%= hidden_field_tag("observations[][concept_name]", "SMOKING HISTORY") %>
+    <%= hidden_field_tag("observations[][obs_group_id]", Concept.find_by_name("SMOKING HISTORY").id) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
     
-    <%= text_field_tag "observations[][value_text]", nil,
+    
+    <%= text_field_tag "observations[][value_numeric]", nil,
       {
         :helpText => 'Number of cigarretes per day', :field_type => 'number',
         :id => "cigarretes_per_day",
@@ -39,18 +41,24 @@
         :condition => "$('smoking').value != 'Never'"
       }%>
 
+    <%= hidden_field_tag("observations[][concept_name]", "SMOKING HISTORY") %>
+    <%= hidden_field_tag("observations[][obs_group_id]", Concept.find_by_name("SMOKING HISTORY").id) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    
     <% options=default.merge({
       :field_type => 'text',
       :id => "alcohol",
       :helpText => "Alcohol?"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Previous",
       "Current",
       "Never"
     ]), options ) %>
-    <%= hidden_field_tag("observations[][concept_name]", "ALCOHOL") %>
+    <%= hidden_field_tag("observations[][concept_name]", "DOES THE PATIENT DRINK ALCOHOL?") %>
+    <%= hidden_field_tag("observations[][obs_group_id]", Concept.find_by_name("DOES THE PATIENT DRINK ALCOHOL?").id) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
     
@@ -60,38 +68,66 @@
       :helpText => "Alcohol absoption frequency",
       :condition => "$('alcohol').value != 'Never'"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Light",
       "Heavy",
       "Unknown"
     ]), options ) %>
+    <%= hidden_field_tag("observations[][concept_name]", "DOES THE PATIENT DRINK ALCOHOL?") %>
+    <%= hidden_field_tag("observations[][obs_group_id]", Concept.find_by_name("DOES THE PATIENT DRINK ALCOHOL?").id) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
  <% options=default.merge({
       :field_type => 'text',
       :id => "drug_allergy_side_affects",
-      :helpText => "Drug allergy side affects",
-      :tt_onLoad=> "addOnMouseDownAction('Aspirin')"
+      :helpText => "Drug allergy side affects"#,
+      #:tt_onLoad=> "addOnMouseDownAction('Aspirin')"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Aspirin",
       "Other(Specify)"
     ]), options ) %>
-    <%= hidden_field_tag("observations[][concept_name]", "DRUG ALLERGY") %>
-    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
     
-    <%= text_field_tag "observations[][value_text]", nil,
+    <%= text_field_tag "observations[][value_coded_or_text]", nil,
       {
         :helpText => 'Specify any other drug allegy',
         :field_type => 'text',
         :id => "other_allegy",
         :condition => "$('drug_allergy_side_affects').value == 'Other(Specify)'"
       }%>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= hidden_field_tag("observations[][concept_name]", "DRUG ALLERGY") %>
+    <%= hidden_field_tag("observations[][obs_group_id]", Concept.find_by_name("DRUG ALLERGY").id) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <% options=default.merge({
+      :field_type => 'text',
+      :helpText => 'Any other medication?',
+      :tt_onLoad=> "addOnMouseDownAction('No')",
+      :id => "on_medication"
+    }) %>
+    <%= select_tag("observations[][value_text]", options_for_select([
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][concept_name]", "PREVIOUS TREATMENT WITH OTHER MEDICATIONS NON-CODED") %>
+    <%= hidden_field_tag("observations[][obs_group_id]", Concept.find_by_name("PREVIOUS TREATMENT WITH OTHER MEDICATIONS NON-CODED").id) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= text_field_tag "observations[][value_coded_or_text]", nil,
+    {
+      :helpText => 'Any other medication?',
+      :field_type => 'text',
+      :id => "other_allegy",
+      :condition => "$('on_medication').value == 'Yes'"
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]", "PREVIOUS TREATMENT WITH OTHER MEDICATIONS NON-CODED") %>
+    <%= hidden_field_tag("observations[][obs_group_id]", Concept.find_by_name("PREVIOUS TREATMENT WITH OTHER MEDICATIONS NON-CODED").id) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
  </form>
  

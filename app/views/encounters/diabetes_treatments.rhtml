@@ -4,10 +4,15 @@
                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
 </script>
 <form id='complications' action="/encounters/create" method='post'>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "DIABETES TREATMENTS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
   <% default={
     :allowFreeText => 'true'
   } %>
-
 
   <% options=default.merge({
     :field_type => 'text',
@@ -15,6 +20,7 @@
     :id => "on_diet"
   }) %>
   <%= select_tag("observations[][value_text]", options_for_select([
+    "",
     "Yes",
     "No"
   ]), options ) %>
@@ -66,13 +72,14 @@
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
-  
+
   <% options=default.merge({
     :field_type => 'text',
     :helpText => "Glibenclamide",
     :id => "glibenclamide"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
+    "",
     "Yes",
     "No"
   ]), options ) %>
@@ -84,7 +91,7 @@
   {:helpText => 'GLIBENCLAMIDE: Year started',
   :field_type => 'number',
     :absoluteMin => "1890", :absoluteMax => Date.today.year,
-    :min => "1940", 
+    :min => "1940",
     :condition => '$("glibenclamide").value.toLowerCase() == "yes"',
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }  %>
@@ -108,6 +115,7 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
 
   <%= select_tag( "observations[][value_text]", options_for_select([
+        "",
         "Yes",
         "No"
       ]),
@@ -127,6 +135,7 @@
     :id => "metformin"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
+      "",
       "Yes",
       "No"
     ]), options ) %>
@@ -165,22 +174,24 @@
   } ) %>
 
   <%= select_tag( "observations[][value_text]", options_for_select([
+    "",
     "Yes",
     "No"
   ]),options) %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  
+
   <% options=default.merge({
     :field_type => 'text',
-    :hepText => "Insulin",
+    :helpText => "Insulin",
     :id => "insulin"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
+    "",
     "Yes",
     "No"
-  ]), options ) %>
+  ]), options) %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -190,7 +201,7 @@
     :field_type => 'number', :absoluteMin => "1890",
     :min => "1940", :absoluteMax => Date.today.year,
     :condition => '$("insulin").value.toLowerCase() == "yes"',
-    :tt_pageStyleClass => "Numeric NumbersOnly"    
+    :tt_pageStyleClass => "Numeric NumbersOnly"
   }  %>
 
   <%= select_tag "insulin[month_started]", month_name_options,
@@ -213,24 +224,26 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
 
   <%= select_tag( "observations[][value_text]", options_for_select([
+    "",
     "Yes",
     "No"
   ]),
    {
-    :helpText => 'INSULIN: Taking now',
+    :helpText => 'INSULIN: Taking now?',
     :field_type => 'text',
     :condition => '$("insulin").value.toLowerCase() == "yes"'
   } ) %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  
+
   <%= select_tag "insulin[type]", options_for_select([
+    "",
     "Long",
     "Short",
     "Both"
   ]),
-    {:helpText => 'Type of Insulin',
+    {:helpText => 'Select type of Insulin',
       :condition => '$("insulin").value.toLowerCase() == "yes"'
     }
   %>
