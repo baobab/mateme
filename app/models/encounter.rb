@@ -59,13 +59,10 @@ class Encounter < ActiveRecord::Base
       vitals << temp_str if temp_str                          
       vitals.join(', ')
 
-    elsif name == "LAB RESULTS"
-      self.observations.map{|o| o.concept.name.name.split(' ').map(&:chars).map(&:first).join + ': ' + o.answer_string}.join(', ')
-
     elsif @concept_list.include? name
       observations.collect{|observation| observation.to_s}.join(", ")
 
-    elsif name == "DIABETES TEST"
+    elsif ['DIABETES TEST','LAB RESULTS'].include?(name)
       observations.collect{|observation| observation.to_s}.join(", ")
     else
       observations.collect{|observation| observation.answer_string}.join(", ")
