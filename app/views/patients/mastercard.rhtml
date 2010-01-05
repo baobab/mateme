@@ -53,8 +53,8 @@
 <h2>DIABETES CLINIC</h2>
 <table>
   <tr>
-    <td class="label">NAME OF PATIENT:</td><td><%= @person.name %></td>
-    <td class="label">CARD NO:</td><td><%= @patient.diabetes_number %></td>
+    <td class="label">NAME OF PATIENT:</td><td><a href='/person_names/edit/<%= @patient.id%>'><%= @person.name %></td>
+    <td class="label">CARD NO:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=14'><%= @patient.diabetes_number %></a></td>
   </tr>
   <tr>
     <td class="label">DISTRICT:</td><td></td>
