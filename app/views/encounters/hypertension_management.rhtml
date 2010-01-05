@@ -125,13 +125,13 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<%= text_field_tag "observations[][value_text]", nil,
+<%= text_field_tag "observations[][value_coded_or_text]", nil,
   {
     :helpText => 'Other (specify)',
     :field_type => 'text',
     :id => "other_hypertension_medication"
   }%>
-<%= hidden_field_tag("observations[][concept_name]", "OTHER HYPERTENSION MEDICATION") %>
+<%= hidden_field_tag("observations[][concept_name]", "CARDIAC MEDICATION") %>
 <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
