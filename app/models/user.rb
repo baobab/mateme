@@ -12,7 +12,8 @@ class User < ActiveRecord::Base
   has_many :user_roles, :foreign_key => :user_id, :dependent => :delete_all
 
   def name
-    self.first_name + " " + self.last_name
+    #self.first_name + " " + self.last_name
+    Person.find(self.user_id).name
   end
     
   def before_create    

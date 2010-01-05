@@ -10,13 +10,13 @@ class PatientsController < ApplicationController
     @user_privilege = @user.user_roles.collect{|x|x.role}
 
     if @user_privilege.include?("superuser")
-        @super_user = true
+      @super_user = true
     elsif @user_privilege.include?("clinician")
-        @clinician  = true
+      @clinician  = true
     elsif @user_privilege.include?("doctor")
-        @doctor     = true
+      @doctor     = true
     elsif @user_privilege.include?("regstration_clerk")
-        @regstration_clerk  = true
+      @regstration_clerk  = true
     end  
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     outcome = @patient.current_outcome
@@ -101,16 +101,21 @@ class PatientsController < ApplicationController
     primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
     treatment = @patient.current_treatment_encounter.orders.active rescue []
     session[:admitted] = false
+
     if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
       current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime
       current_visit.save
       print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
-      elsif @patient.admitted_to_ward && session[:ward] == 'WARD 4B'
+
+    elsif @patient.admitted_to_ward && session[:ward] == 'WARD 4B'
+
       print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", close_visit) and return
 
     end
-      redirect_to close_visit and return
+
+    redirect_to close_visit and return
+    
   end
 
 end

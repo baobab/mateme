@@ -1,0 +1,13 @@
+<style type="text/css">
+  .title {
+    font-weight:bold;
+  }
+</style>
+
+<div >
+<h2><%= @user.username%></h2>
+<table cellpadding="2" cellspacing="0">
+  <tr> <td> <span class='title'> Name: </span> </td> <td> <%= @user.name rescue 'Unknown' %><br/> </td></tr>
+  <tr> <td> <span class='title'> Role: </span> </td> <td> <%= @user.user_roles.collect{|r|r.role}.join(",") rescue 'Unknown' %><br/> </td></tr>
+</table>
+</div>
