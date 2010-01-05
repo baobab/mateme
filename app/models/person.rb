@@ -283,7 +283,7 @@ class Person < ActiveRecord::Base
     # Some strange parsing to get the params formatted right for mechanize
     demographics_params = [CGI.unescape(known_demographics.to_param).split('=')]
 
-    # Could probably define this in environment.rb and reuse to improve speed
+    # Could probably define this in environment.rb and reuse to improve speed if necessary
     mechanize_browser = WWW::Mechanize.new
 
     demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
