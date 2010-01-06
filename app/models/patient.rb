@@ -72,7 +72,7 @@ class Patient < ActiveRecord::Base
 
     if(self.diabetes_number && self.diabetes_number.to_s.downcase != "unknown")
       dc_number = ";QECH DC "+ self.diabetes_number
-      elsif
+    else
         dc_number = ""
     end
 
