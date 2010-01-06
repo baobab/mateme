@@ -1,6 +1,6 @@
 <script>
   var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
-  var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
 </script>
 <form id='complications' action="/encounters/create" method='post'>
@@ -13,6 +13,12 @@
   <% default={
     :allowFreeText => 'true'
   } %>
+<%
+    @select_years = ["", "Unknown"]
+    this_year = Date.today.year
+    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1949)
+  %>
+
 
   <% options=default.merge({
     :field_type => 'text',
@@ -28,15 +34,22 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%= text_field_tag "diet[year_started]", nil,
-  {:helpText => 'DIET: Year started', :field_type => 'number', :absoluteMin => "1890",
-    :min => "1940", :absoluteMax => Date.today.year,
-    :condition => '$("on_diet").value.toLowerCase() == "yes"',
-    :tt_pageStyleClass => "Numeric NumbersOnly"
-  }  %>
+  <% options=default.merge(
+    {:helpText => 'DIET: Year started',
+      :id => "diet_year_started",
+     :field_type => 'number', :absoluteMin => "1890",
+     :min => "1940", :absoluteMax => Date.today.year,
+     :condition => '$("on_diet").value.toLowerCase() == "yes"',
+     :optional => true,  :multiple => false,
+     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+     :tt_pageStyleClass => "LongSelectList"
+  } ) %>
+
+  <%= select_tag "diet_year_started", options_for_select(@select_years),options %>
 
   <%= select_tag "diet[month_started]", month_name_options,
     {:helpText => 'DIET: Month started',
+      :tt_pageStyleClass => "LongSelectList",
       :condition => '$("on_diet").value.toLowerCase() == "yes" && $("diet_year_started").value.toLowerCase() != "unknown"',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
     }%>
@@ -44,30 +57,37 @@
   <%= text_field_tag "diet[day_started]",  nil, :field_type => 'number',
       :helpText => 'DIET: Day started', :absoluteMin => 1, :absoluteMax => 31,
       :condition => "$('on_diet').value.toLowerCase() == 'yes' && ($('diet_year_started').value.toLowerCase() != 'unknown') && ($('diet_month_started').value.toLowerCase() != 'unknown');",
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-' + months[$('diet_month_started').value - 1] + '-<font color=#FF0000>DD</font>' "
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-' + months[$('diet_month_started').value] + '-<font color=#FF0000>DD</font>' "
   %>
 
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
 
-  <%= text_field_tag "medication[year_added]", nil,
-  {:helpText => 'MEDICATION: Year added', :field_type => 'number', :absoluteMin => "1890",
-    :min => "1940", :absoluteMax => Date.today.year,
-    :condition => '$("on_diet").value.toLowerCase() == "yes"',
-    :tt_pageStyleClass => "Numeric NumbersOnly"
-  }  %>
+  <% options=default.merge(
+    {:helpText => 'MEDICATION: Year added',
+     :id => "medication_year_added",
+     :field_type => 'number', :absoluteMin => "1890",
+     :min => "1940", :absoluteMax => Date.today.year,
+     :optional => true,  :multiple => false,
+     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+     :tt_pageStyleClass => "LongSelectList"
+  } ) %>
+
+  <%= select_tag "medication_year_added", options_for_select(@select_years),options %>
 
   <%= select_tag "medication[month_added]", month_name_options,
     {:helpText => 'MEDICATION: Month added',
+      :id => "medication_month_added",
+      :tt_pageStyleClass => "LongSelectList",
       :condition => '$("on_diet").value.toLowerCase() == "yes" && $("medication_year_added").value.toLowerCase() != "unknown"',
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'MEDICATION: Month added(' + $('medication_year_added').value + '-<font color=#FF0000>MMM</font>-DD)'"
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'MEDICATION: ' + $('medication_year_added').value + '-<font color=#FF0000>MMM</font>-DD'"
     }%>
 
   <%= text_field_tag "medication[day_added]",  nil, :field_type => 'number',
       :helpText => 'MEDICATION: Day added', :absoluteMin => 1, :absoluteMax => 31,
       :condition => "$('on_diet').value.toLowerCase() == 'yes' && ($('medication_year_added').value.toLowerCase() != 'unknown') && ($('medication_month_added').value.toLowerCase() != 'unknown');",
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'MEDICATION: Day added (' + $('medication_year_added').value + '-' + months[$('medication_month_added').value - 1] + '-<font color=#FF0000>DD</font>)'"%>
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'MEDICATION: ' + $('medication_year_added').value + '-' + months[$('medication_month_added').value] + '-<font color=#FF0000>DD</font>'"%>
 
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
@@ -87,17 +107,23 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<%= text_field_tag "glibenclamide[year_started]", nil,
-  {:helpText => 'GLIBENCLAMIDE: Year started',
-  :field_type => 'number',
-    :absoluteMin => "1890", :absoluteMax => Date.today.year,
-    :min => "1940",
-    :condition => '$("glibenclamide").value.toLowerCase() == "yes"',
-    :tt_pageStyleClass => "Numeric NumbersOnly"
-  }  %>
+  <% options=default.merge(
+    {:helpText => 'GLIBENCLAMIDE: Year started',
+     :id => "glibenclamide_year_started",
+     :field_type => 'number', :absoluteMin => "1890",
+     :min => "1940", :absoluteMax => Date.today.year,
+     :optional => true,  :multiple => false,
+     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+     :condition => '$("glibenclamide").value.toLowerCase() == "yes"',
+     :tt_pageStyleClass => "LongSelectList"
+  } ) %>
+
+  <%= select_tag "glibenclamide_year_started", options_for_select(@select_years),options %>
 
   <%= select_tag "glibenclamide[month_started]", month_name_options,
     {:helpText => 'GLIBENCLAMIDE: Month started',
+      :id => "glibenclamide_month_started",
+      :tt_pageStyleClass => "LongSelectList",
       :condition => '$("glibenclamide").value.toLowerCase() == "yes" && $("glibenclamide_year_started").value.toLowerCase() != "unknown"',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
     }%>
@@ -107,7 +133,7 @@
       :helpText => 'GLIBENCLAMIDE: Day started',
       :absoluteMin => 1, :absoluteMax => 31,
       :condition => "$('glibenclamide').value.toLowerCase() == 'yes' && ($('glibenclamide_year_started').value.toLowerCase() != 'unknown') && ($('glibenclamide_month_started').value.toLowerCase() != 'unknown');",
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-' + months[$('glibenclamide_month_started').value - 1] + '-<font color=#FF0000>DD</font>' "
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-' + months[$('glibenclamide_month_started').value] + '-<font color=#FF0000>DD</font>' "
   %>
 
   <%= hidden_field_tag("observations[][concept_name]", "") %>
@@ -143,15 +169,22 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<%= text_field_tag "metformin[year_started]", nil,
-  {:helpText => 'METFORMIN: Year started',
-    :field_type => 'number', :absoluteMin => "1890",
-    :min => "1940", :absoluteMax => Date.today.year,
-    :condition => '$("metformin").value.toLowerCase() == "yes"',
-    :tt_pageStyleClass => "Numeric NumbersOnly" }  %>
+  <% options=default.merge(
+    {:helpText => 'METFORMIN: Year started',
+     :id => "metformin_year_started",
+     :field_type => 'number', :absoluteMin => "1890",
+     :min => "1940", :absoluteMax => Date.today.year,
+     :optional => true,  :multiple => false,
+     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+     :condition => '$("metformin").value.toLowerCase() == "yes"',
+     :tt_pageStyleClass => "LongSelectList"
+  } ) %>
 
+  <%= select_tag "metformin_year_started", options_for_select(@select_years),options %>
+  
   <%= select_tag "metformin[month_started]", month_name_options,
     {:helpText => 'METFORMIN: Month started',
+      :tt_pageStyleClass => "LongSelectList",
       :condition => '$("metformin").value.toLowerCase() == "yes" && $("metformin_year_started").value.toLowerCase() != "unknown"',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
       }
@@ -161,7 +194,7 @@
       :field_type => 'number',
       :helpText => 'METFORMIN: Day started', :absoluteMin => 1, :absoluteMax => 31,
       :condition => "$('metformin').value.toLowerCase() == 'yes' && ($('metformin_year_started').value.toLowerCase() != 'unknown') && ($('metformin_month_started').value != 'unknown')",
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_started').value + '-' + months[$('metformin_month_started').value - 1] + '-<font color=#FF0000>DD</font>' " %>
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_started').value + '-' + months[$('metformin_month_started').value] + '-<font color=#FF0000>DD</font>' " %>
 
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
@@ -196,16 +229,22 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<%= text_field_tag "insulin[year_started]", nil,
-  {:helpText => 'INSULIN: Year started',
-    :field_type => 'number', :absoluteMin => "1890",
-    :min => "1940", :absoluteMax => Date.today.year,
-    :condition => '$("insulin").value.toLowerCase() == "yes"',
-    :tt_pageStyleClass => "Numeric NumbersOnly"
-  }  %>
+  <% options=default.merge(
+    {:helpText => 'INSULIN: Year started',
+     :id => "insulin_year_started",
+     :field_type => 'number', :absoluteMin => "1890",
+     :min => "1940", :absoluteMax => Date.today.year,
+     :optional => true,  :multiple => false,
+     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+     :condition => '$("insulin").value.toLowerCase() == "yes"',
+     :tt_pageStyleClass => "LongSelectList"
+  } ) %>
+
+  <%= select_tag "insulin_year_started", options_for_select(@select_years),options %>
 
   <%= select_tag "insulin[month_started]", month_name_options,
     {:helpText => 'INSULIN: Month started',
+      :tt_pageStyleClass => "LongSelectList",
       :condition => '$("insulin").value.toLowerCase() == "yes" && $("insulin_year_started").value.toLowerCase() != "unknown"',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
     }
@@ -216,7 +255,7 @@
       :helpText => 'INSULIN: Day started',
       :absoluteMin => 1, :absoluteMax => 31,
       :condition => '$("insulin").value.toLowerCase() == "yes" && ($("insulin_year_started").value.toLowerCase() != "unknown") && ($("insulin_month_started").value.toLowerCase() != "unknown")',
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_started').value + '-' + months[$('insulin_month_started').value - 1] + '-<font color=#FF0000>DD</font>' "
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_started').value + '-' + months[$('insulin_month_started').value] + '-<font color=#FF0000>DD</font>' "
   %>
 
   <%= hidden_field_tag("observations[][concept_name]", "") %>

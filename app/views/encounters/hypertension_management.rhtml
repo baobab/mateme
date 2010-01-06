@@ -14,7 +14,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "low_salt_diet_recommended",
-    :helpText => "Low salt diet recommended?"
+    :helpText => "Ever had Low salt diet recommended?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -28,7 +28,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "sartan",
-    :helpText => "Ace I/Sartan?"
+    :helpText => "Ever had Ace I/Sartan?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -42,7 +42,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "thiazide",
-    :helpText => "Thiazide?"
+    :helpText => "Ever had Thiazide?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -56,7 +56,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "frusemide",
-    :helpText => "Frusemide?"
+    :helpText => "Ever had Frusemide?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -70,7 +70,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "methyldopa",
-    :helpText => "Methyldopa?"
+    :helpText => "Ever had Methyldopa?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -84,7 +84,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "beta_blocker",
-    :helpText => "Beta Blocker?"
+    :helpText => "Ever had Beta Blocker?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -99,7 +99,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "calcium_channel_blocker",
-    :helpText => "Calcium channel blocker?"
+    :helpText => "Ever had Calcium channel blocker?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -114,7 +114,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "aspirin",
-    :helpText => "Aspirin?"
+    :helpText => "Ever had Aspirin?"
   }) %>
   <%= select_tag( "observations[][value_text]", options_for_select([
     "",
@@ -122,6 +122,20 @@
     "No"
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "ASPIRIN") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "on_aspirin",
+    :helpText => "Currently Taking Aspirin?"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ON ASPIRIN") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 

@@ -12,10 +12,16 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <label for='hyperglycemia'>DKA/DONK/Hyperglycemia</label>
+<%
+  @select_years = []
+  this_year     = Date.today.year
+  begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
+%>
+
   <% options=default.merge({
     :field_type => 'text',
-    :id => "hyperglycemia"
+    :id => "hyperglycemia",
+    :helpText => "DKA/HONK/Hyperglycemia"
   }) %>
   <%= select_tag("observations[][value_text]", options_for_select([
     "",
@@ -37,22 +43,18 @@
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }  %>
 
-  <label for='hyperglycemia_years_of_admission'>Select Years</label>
+  
   <% options=default.merge({
     :field_type => 'text',
+    :helpText => "Select Years",
     :id => "hyperglycemia_years_of_admission",
-    :condition => '$("hyperglycemia").value.toLowerCase() == "yes" && $("hyperglycemia_number_of_admissions").value.toLowerCase() == "Unknown"',
+    :condition => '$("hyperglycemia").value.toLowerCase() == "yes" && $("hyperglycemia_number_of_admissions").value.toLowerCase() != "Unknown"',
     :optional => true,
     :multiple => true,
     :validationCode => "selectedValue('hyperglycemia_years_of_admission').split(';').length <= $('hyperglycemia_number_of_admissions').value",
     :validationMessage =>"You cannot select years more than the number of admissions"
   }) %>
 
-<%
-  @select_years = []
-  this_year     = Date.today.year
-  begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
-%>
 <%= select_tag "hyperglycemia [years_of_admission]", options_for_select(@select_years),options %>
 
   <label for='hypoglycemia'>Hypoglycemia</label>
@@ -84,23 +86,23 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "hypoglycemia_years_of_admission",
-    :condition => '$("hypoglycemia").value.toLowerCase() == "yes" && $("hypoglycemia_number_of_admissions").value.toLowerCase() == "Unknown"',
+    :condition => '$("hypoglycemia").value.toLowerCase() == "yes" && $("hypoglycemia_number_of_admissions").value.toLowerCase() != "Unknown"',
     :optional => true,
     :multiple => true
   }) %>
   
-<%= select_tag "hypoglycemia [years_of_admission]", options_for_select(@select_years),options %>
+<%= select_tag "hypoglycemia[years_of_admission]", options_for_select(@select_years),options %>
 
-  <label for='amputations'>Amputations/foot ulcers/infections</label>
   <% options=default.merge({
     :field_type => 'text',
+    :helpText => "Amputations/foot ulcers",
     :id => "amputations"
   }) %>
   <%= select_tag("observations[][value_text]", options_for_select([
     "",
     "Yes",
     "No"
-  ]), options ) %>
+  ]), options) %>
   <%= hidden_field_tag("observations[][concept_name]", "") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -114,18 +116,54 @@
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }  %>
 
-  <label for='amputations_year_of_admission'>Select Years</label>
   <% options=default.merge({
     :field_type => 'text',
+    :helpText => "Select Years",
     :id => "amputations_year_of_admission",
-    :condition => '$("amputations").value.toLowerCase() == "yes" && $("amputations_number_of_admissions").value.toLowerCase() == "Unknown"',
+    :condition => '$("amputations").value.toLowerCase() == "yes" && $("amputations_number_of_admissions").value.toLowerCase() != "Unknown"',
     :optional => true,
     :multiple => true
   }) %>
-  
-<%= select_tag "amputations [year_of_admission]", options_for_select(@select_years),options %>
 
-  <label for='skin_infections'>Skin infections/abbesses/severe UTIs</label>
+<%= select_tag "amputations[year_of_admission]", options_for_select(@select_years),options %>
+
+
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Foot infections",
+    :id => "foot_infections"
+  }) %>
+  <%= select_tag("observations[][value_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "foot_infections[number_of_admissions]", nil,
+  {:helpText => 'Number of Admissions', :field_type => 'number', :absoluteMin => "0",
+    :min => "0",
+    :id => "foot_infections_number_of_admissions",
+    :max => "20",
+    :condition => '$("foot_infections").value.toLowerCase() == "yes"',
+    :tt_pageStyleClass => "Numeric NumbersOnly"
+  }  %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Select Years",
+    :id => "foot_infections_year_of_admission",
+    :condition => '$("foot_infections").value.toLowerCase() == "yes" && $("foot_infections_number_of_admissions").value.toLowerCase() != "Unknown"',
+    :optional => true,
+    :multiple => true
+  }) %>
+
+<%= select_tag "foot_infections[year_of_admission]", options_for_select(@select_years),options %>
+
+  <label for='skin_infections'>Skin Infections/Abcesses/Severe UTIs/Pneumonia</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "skin_infections"
@@ -154,7 +192,7 @@
     :field_type => 'text',
     :helpText => 'Select Years',
     :id => "skin_infections_year_of_admission",
-    :condition => '$("skin_infections").value.toLowerCase() == "yes" && $("skin_infections_number_of_admissions").value.toLowerCase() == "Unknown"',
+    :condition => '$("skin_infections").value.toLowerCase() == "yes" && $("skin_infections_number_of_admissions").value.toLowerCase() != "Unknown"',
     :optional => true,
     :multiple => true
   }) %>

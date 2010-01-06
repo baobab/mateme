@@ -26,6 +26,7 @@
     this_year = Date.today.year
     begin @select_init_diagnosis_year << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1949)
   %>
+  
   <%= select_tag "year_of_initial_diagnosis", options_for_select(@select_init_diagnosis_year),options %>
 
   <%= select_tag "month_of_initial_diagnosis", month_name_options,
@@ -77,12 +78,29 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-<%= text_field_tag "observations[][value_text]", params[:given_name],
-{:id => 'given_name', :field_type => 'alpha',
-  :helpText => 'Cause of Secondary Diabetes',
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "cause_of_secondary_diabetes",
+    :helpText => "Cause of Secondary Diabetes"
+  }) %>
+  <%= select_tag( "observations[][value_text]", options_for_select([
+    "ART",
+    "Thiazide diuretics",
+    "Gestational diabetes",
+    "Other(specify)"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "CAUSE OF SECONDARY DIABETES") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= text_field_tag "observations[][value_text]",nil,
+{ :field_type => 'alpha',
+  :helpText => 'Specify any other Cause of Secondary Diabetes',
   :allowFreeText => true,
-  :id => "cause_of_secondary_diabetes",
-  :condition => '($("secondary_diabetes").value.toLowerCase() == "yes")' } %>
+  :id => "other_cause_of_secondary_diabetes",
+  :condition => '($("cause_of_secondary_diabetes").value.toLowerCase() == "other(specify)")'
+} %>
+
   <%= hidden_field_tag("observations[][concept_name]", "CAUSE OF SECONDARY DIABETES") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
