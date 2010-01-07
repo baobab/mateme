@@ -51,6 +51,6 @@ module ApplicationHelper
   end
   
   def welcome_message
-    "Muli bwanji, enter your user information or scan your id card. <span style='font-size:0.6em;float:right'>(Version: #{MATEME_VERSION}#{' ' + MATEME_SETTINGS['installation'] if MATEME_SETTINGS}, #{File.ctime(File.join(RAILS_ROOT, 'config', 'environment.rb')).strftime('%d-%b-%Y')})</span>"  
+    "Scan your id card or touch on Next to enter your user information. <span style='font-size:0.6em;float:right'>(Version: #{MATEME_VERSION}#{' ' + MATEME_SETTINGS['installation'] if MATEME_SETTINGS}, #{File.ctime(File.join(RAILS_ROOT, 'config', 'environment.rb')).strftime('%d-%b-%Y')})</span>"  
   end
 end
