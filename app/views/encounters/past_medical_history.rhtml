@@ -1,5 +1,7 @@
 <script>
   var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
+  var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
 </script>
 <%
     @select_years = []
@@ -21,7 +23,7 @@
     :helpText => "Strokes",
     :id => "strokes"
   }) %>
-  <%= select_tag("observations[][value_text]", options_for_select([
+  <%= select_tag("observations[][value_corded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
@@ -47,7 +49,7 @@
     :helpText => "Serious cardiac problems",
     :id => "serious_cardiac_problems"
   }) %>
-  <%= select_tag("observations[][value_text]", options_for_select([
+  <%= select_tag("observations[][value_corded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
@@ -59,10 +61,10 @@
 <% options=default.merge({
     :field_type => 'text',
     :helpText => "What cardiac problem?",
-    :id => "selected_cardiac_problems",
+    :id => "selected_cardiac_problem",
     :condition => "$('serious_cardiac_problems').value.toLowerCase() == 'yes'"
   }) %>
-  <%= select_tag("observations[][value_text]", options_for_select([
+  <%= select_tag("observations[][value_corded_or_text]", options_for_select([
     "",
     "CCF",
     "IHD",
@@ -71,12 +73,60 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%= text_field_tag "observations[][value_text]", nil,
+  <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Proven by Echo?",
+    :condition => "$('selected_cardiac_problem').value == 'CCF'",
+    :id => "proven_by_echo"
+  }) %>
+  <%= select_tag("observations[][value_corded_or_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "PROVEN BY ECHO") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options=default.merge(
+    {:helpText => 'Select Year of Echo',
+      :id => "year_of_echo",
+     :field_type => 'number', :absoluteMin => "1890",
+     :min => "1940", :absoluteMax => Date.today.year,
+     :condition => '$("proven_by_echo").value.toLowerCase() == "yes"',
+     :optional => true,  :multiple => false,
+     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+     :tt_pageStyleClass => "LongSelectList"
+  } ) %>
+
+  <%= select_tag "year_of_echo", options_for_select(@select_years),options %>
+
+  <%= select_tag "month_of_echo", month_name_options,
+    {:helpText => 'Month of Echo',
+      :tt_pageStyleClass => "LongSelectList",
+      :condition => '$("proven_by_echo").value.toLowerCase() == "yes" && $("year_of_echo").value.toLowerCase() != "unknown"',
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'Month of Echo: ' + $('year_of_echo').value + '-<font color=#FF0000>MMM</font>-DD'"
+    }%>
+
+  <%= text_field_tag "echo[day_proven]",  nil, :field_type => 'number',
+      :helpText => 'Day of Echo', :absoluteMin => 1, :absoluteMax => 31,
+      :condition => "$('proven_by_echo').value.toLowerCase() == 'yes' && ($('year_of_echo').value.toLowerCase() != 'unknown') && ($('month_of_echo').value.toLowerCase() != 'unknown');",
+      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'Day of Echo: ' + $('year_of_echo').value + '-' + months[$('month_of_echo').value] + '-<font color=#FF0000>DD</font>' ",
+      :tt_onUnLoad => "$('observations__value_datetime').value =
+                            $('year_of_echo').value + '-' + $('month_of_echo').value + '-' + $('day_of_echo').value"
+  %>
+
+  <%= hidden_field_tag("observations[][value_datetime]", "") %>
+  <%= hidden_field_tag("observations[][concept_name]", "YEAR OF ECHO") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now())%>
+
+  <%= text_field_tag "observations[][value_corded_or_text]", nil,
       {
         :helpText => 'Specify any other cardiac problem',
         :field_type => 'text',
         :id => "other_cardiac_problem",
-        :condition => "$('serious_cardiac_problems').value.toLowerCase() =='yes' && $('selected_cardiac_problems').value.toLowerCase() == 'other(specify)'"
+        :condition => "$('serious_cardiac_problems').value.toLowerCase() =='yes' && $('selected_cardiac_problem').value.toLowerCase() == 'other(specify)'"
       }%>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
@@ -86,7 +136,7 @@
     :helpText => "Hypertension?",
     :id => "hypertension"
   }) %>
-  <%= select_tag("observations[][value_text]", options_for_select([
+  <%= select_tag("observations[][value_corded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
@@ -111,7 +161,7 @@
     :helpText => "Tuberculosis?",
     :id => "tuberculosis"
   }) %>
-  <%= select_tag("observations[][value_text]", options_for_select([
+  <%= select_tag("observations[][value_corded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
@@ -126,7 +176,7 @@
     :id => "type_of_tuberculosis",
     :condition => "$('tuberculosis').value.toLowerCase() == 'yes'"
   }) %>
-  <%= select_tag("observations[][value_text]", options_for_select([
+  <%= select_tag("observations[][value_corded_or_text]", options_for_select([
     "",
     "SM positive",
     "SM negative",
@@ -151,7 +201,7 @@
       :helpText => "Any other medical conditions?",
       :tt_onLoad=> "addOnMouseDownAction('No')"
     }) %>
-   <%= select_tag( "observations[][value_text]", options_for_select([
+   <%= select_tag( "observations[][value_corded_or_text]", options_for_select([
      "",
      "Yes",
      "No"
@@ -160,7 +210,7 @@
    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-   <%= text_field_tag "observations[][value_text]", nil,
+   <%= text_field_tag "observations[][value_corded_or_text]", nil,
      {
        :helpText => 'Specify',
        :field_type => 'text',

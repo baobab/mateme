@@ -63,8 +63,9 @@
   }) %>
   <%= select_tag("observations[][value_text]", options_for_select([
     "",
-    "Left foot",
-    "Right foot",
+    "Left Foot",
+    "Right Foot",
+    "Both Feet",
     "None"
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "AMPUTATIONS") %>
@@ -123,13 +124,14 @@
 
   <% options=default.merge({
     :field_type => 'text',
-    :helpText => "Cataracts",
+    :helpText => "Past Cataract Surgery",
     :id => "cataracts"
   }) %>
   <%= select_tag("observations[][value_text]", options_for_select([
     "",
-    "Left eye",
-    "Right eye",
+    "Left Eye",
+    "Right Eye",
+    "Both Eyes",
     "None"
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "CATARACTS") %>
