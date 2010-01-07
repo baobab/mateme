@@ -1,0 +1,14 @@
+<h3>Update the patient's attribute</h3>
+<script type="text/javascript">
+  tt_cancel_destination = '/patients/mastercard/<%= @patient.id %>'
+</script>
+<form id="search" action="/person_attributes/edit/<%= @patient.id %>" method="post">
+  <p>
+    <label for="attribute"><%= @attribute_type.name %></label>
+    <%= text_field_tag :attribute, (@attribute.value rescue nil),
+                       :field_type => 'number',
+                       :allowFreeText => "true" %>
+  </p>
+  <%= hidden_field_tag :type, @attribute_type.id %>
+
+</form>

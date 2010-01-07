@@ -1,0 +1,13 @@
+<h3>Update the patient's addresses</h3>
+<script type="text/javascript">
+  tt_cancel_destination = '/patients/mastercard/<%= @patient.id %>'
+</script>
+<form action="/person_addresses/edit/<%= @patient.id %>" method="post">
+  <%= text_field_tag "person[addresses][city_village]",  @address.city_village, {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/search/village?search_string=', :allowFreeText => true }%>
+
+  <%= text_field_tag "person[addresses][county_district]",  @address.county_district, {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true }%>
+
+  <%= text_field_tag "person[addresses][state_province]",  @address.state_province, {:field_type => 'alpha', :helpText => 'Current District', :ajaxURL => '/search/district?search_string=', :allowFreeText => true }%>
+
+  <%= text_field_tag "person[addresses][address2]",  @address.address2, {:field_type => 'alpha', :helpText => 'Home district', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
+</form>
