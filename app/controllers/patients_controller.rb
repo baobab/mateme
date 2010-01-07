@@ -122,6 +122,7 @@ class PatientsController < ApplicationController
     @encounters = @patient.encounters.find_all_by_encounter_type(EncounterType.find_by_name('DIABETES TEST').id)
     @observations = @encounters.map(&:observations).flatten
     @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
+    @address = @person.addresses.last
     render :layout => 'menu'
   end
 end
