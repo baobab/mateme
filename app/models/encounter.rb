@@ -45,7 +45,7 @@ class Encounter < ActiveRecord::Base
       vitals << temp_str if temp_str                          
       vitals.join(', ')
     elsif name == 'UPDATE HIV STATUS'
-      'Patient\'s HIV Status was updated today'
+      'Patient\'s HIV Status was updated'
     elsif name == 'DIAGNOSIS'
       if observations.map{|ob| ob.concept.name.name}.include?('PRIMARY DIAGNOSIS')
         diagnosis_text = ''
