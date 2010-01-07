@@ -1027,7 +1027,6 @@ function gotoPage(destPage, validate){
 			currentPageIndex.removeAttribute("class");
 		}
     */
-   
     // tt_OnUnload
     var onUnloadCode = tstInputTarget.getAttribute('tt_OnUnload');
     if (onUnloadCode) {
@@ -1040,6 +1039,7 @@ function gotoPage(destPage, validate){
 		// skip destination page when a condition is false
 		if (condition) {
 			if (!eval(condition)) {
+        tstCurrentPage = destPage;
 				if (currentPage <= destPage) {
 					gotoPage(destPage+1);
 				} else if (destPage > 0) {
