@@ -7,7 +7,13 @@ class SessionsController < ApplicationController
 
   def create
     logout_keeping_session!
-    user = User.authenticate(params[:login], params[:password])
+
+    if !params[:login_barcode].empty?
+      user = User.decode_hash(params[:login_barcode])
+    else
+      user = User.authenticate(params[:login], params[:password])
+    end
+    
     if user
       self.current_user = user
       url = self.current_user.admin? ? '/admin' : '/'
@@ -48,7 +54,7 @@ class SessionsController < ApplicationController
     redirect_back_or_default('/')
   end
 
-protected
+  protected
   # Track failed login attempts
   def note_failed_signin
     flash[:error] = "Invalid user name or password"
