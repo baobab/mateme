@@ -62,7 +62,7 @@ class Encounter < ActiveRecord::Base
     elsif @concept_list.include? name
       observations.collect{|observation| observation.to_s}.join(", ")
 
-    elsif ['DIABETES TEST','LAB RESULTS'].include?(name)
+    elsif ['DIABETES TEST','LAB RESULTS', 'DIABETES TREATMENTS'].include?(name)
       observations.collect{|observation| observation.to_s}.join(", ")
     else
       observations.collect{|observation| observation.answer_string}.join(", ")
