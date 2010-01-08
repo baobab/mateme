@@ -76,7 +76,7 @@ ul.list{
   <%if @doctor%>
       <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
     <!--  <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a> -->
-    <%if session[:ward] == 'WARD 4B'%>
+    <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward%>
       <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
     <%end%>
       <a class="button green" href='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</a>
