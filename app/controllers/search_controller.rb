@@ -31,7 +31,7 @@ class SearchController < ApplicationController
 
   def diagnosis
 
-  if params[:location] == 'WARD 4B'
+  if params[:location] == 'WARD 4B' && params[:diagnosis] == 'SYNDROMIC DIAGNOSIS'
 
     syndromic_diagnoses = DiagnosisTree.fourb_wards
 
