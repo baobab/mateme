@@ -11,11 +11,11 @@ function addOnMouseDownAction(optionText){
   for(var i = 0; i < choices.length; i++){
     var onMouseDown = choices[i].getAttribute('onmousedown');
 
-    if(choices[i].innerHTML == optionText){
-      choices[i].setAttribute('onmousedown', onMouseDown + " setNextButtonText('Finish')");
+    if((optionText.join(';')+';').match(choices[i].innerHTML +';')){
+      choices[i].setAttribute('onmousedown', onMouseDown + " setNextButtonText('Finish');");
     }
     else{
-      choices[i].setAttribute('onmousedown', onMouseDown + " setNextButtonText('Next')");
+      choices[i].setAttribute('onmousedown', onMouseDown + " setNextButtonText('Next');");
     }
   }
 }
