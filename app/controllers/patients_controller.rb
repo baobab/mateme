@@ -26,7 +26,7 @@ class PatientsController < ApplicationController
     @past_treatments = @patient.visit_treatments
     session[:auto_load_forms] = false if params[:auto_load_forms] == 'false'
     session[:outcome_updated] = true if !outcome.nil?
-    #session[:auto_load_forms] = true if !outcome.nil? && session[:prescribed] == false
+    session[:admitted] = false if params[:admitted] == 'false'
     session[:confirmed] = true if params[:confirmed] == 'true'
     session[:diagnosis_done] = true if params[:diagnosis_done] == 'true'
     session[:hiv_status_updated] = true if params[:hiv_status_updated] == 'true'
@@ -91,7 +91,6 @@ class PatientsController < ApplicationController
     session[:auto_load_forms] = true
     session[:diagnosis_done] = false
     session[:admitted] = true
-    session[:prescribed] = false
     redirect_to next_admit_task(@patient)
   end
 
