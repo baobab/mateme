@@ -20,7 +20,7 @@
   options = {
     :helpText => @diagnosis_type,
     :allowFreeText => 'true',
-    :ajaxUrl=> "/search/diagnosis?location=#{session[:ward]}&search_string=",
+    :ajaxUrl=> "/search/diagnosis?diagnosis=#{@diagnosis_type}&location=#{session[:ward]}&search_string=",
     :field_type => 'alpha',
     :tt_onLoad => "updateNextButton();setTimeout(updateNextFinish, 20);",
     :textCase => "upper" } %>
@@ -52,8 +52,10 @@
                      ];
 
  function wardType(ward) {
-   type = 0
-   if (ward == 'WARD 4B') {
+   var type = 0;
+   var diagnosis = '<%=@diagnosis_type%>';
+
+   if (ward == 'WARD 4B' && diagnosis == 'SYNDROMIC DIAGNOSIS') {
      type= 1
    }
    return type;
@@ -76,7 +78,7 @@
  }
            
  function updateAjaxUrl(selected, level, ward) {
-   var url = '/search/diagnosis?location=' + ward + '&level=' + level + '&selected=' + selected + '&search_string=';
+   var url = '/search/diagnosis?diagnosis=<%=@diagnosis_type%>&location=' + ward + '&level=' + level + '&selected=' + selected + '&search_string=';
    var nextLevel = 'level_' + (parseInt(level.split('')[level.split('').length - 1]) + 1);
    $(nextLevel).setAttribute("ajaxURL", url);
  }
@@ -100,7 +102,7 @@
  }
 
  function updateInitualAjaxUrl(value) {
-   var url = '/search/diagnosis?location='+ value + '&search_string=';
+   var url = '/search/diagnosis?diagnosis=<%=@diagnosis_type%>&location='+ value + '&search_string=';
    $('level_1').setAttribute("ajaxURL", url);
  }
 
