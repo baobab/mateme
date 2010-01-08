@@ -26,6 +26,12 @@ class EncountersController < ApplicationController
         end
       end
 
+      if(observation[:parent_concept_name])
+        concept_id = Concept.find_by_name(observation[:parent_concept_name]).id rescue nil
+        observation[:obs_group_id] = Observation.find(:first, :conditions=> ['concept_id = ? AND encounter_id = ?',concept_id, encounter.id]).id rescue ""
+        observation.delete(:parent_concept_name)
+      end
+
       Observation.create(observation)
     }
     @patient = Patient.find(params[:encounter][:patient_id])
