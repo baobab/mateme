@@ -19,3 +19,46 @@ function addOnMouseDownAction(optionText){
     }
   }
 }
+
+/* format date by either estimating it or giving it a valid format*/
+  function formatDate(main_date, sub_str, pos){
+
+    var formatted_date = [];
+
+    formatted_date['value_modifier'] = ''; /*assume the date is not estimated*/
+
+    if(pos == 0) /*year*/
+      {
+        if (sub_str.toLowerCase() != 'unknown') {
+            formatted_date['value_datetime'] = sub_str;
+          }
+       else{
+          formatted_date['value_datetime'] = null; /* since year is unknown, leave the date 'null'*/
+        }
+      }
+
+    else if(pos == 1) /*month*/
+      {
+
+        if (sub_str.toLowerCase() != 'unknown') {
+            formatted_date['value_datetime'] = main_date +'-'+ sub_str;
+          }
+       else{
+          formatted_date['value_datetime'] = main_date +'-07-01'; /* since month is unknown, estimate date*/
+          formatted_date['value_modifier'] = 'ES';
+        }
+      }
+
+    else if(pos == 2) /*day*/
+      {
+        if (sub_str.toLowerCase() != 'unknown') {
+             formatted_date['value_datetime'] = main_date +'-'+ sub_str;
+          }
+       else{
+          formatted_date['value_datetime'] = main_date +'-15'; /* since day is unknown, estimate date*/
+          formatted_date['value_modifier'] = 'ES';
+        }
+      }
+
+    return formatted_date;
+   }
