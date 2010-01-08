@@ -36,18 +36,18 @@ class DrugOrder < ActiveRecord::Base
       :order => "COUNT(*) DESC")
   end
   
-  def self.clone_order(encounter, patient, obs, drug_order)
+  def self.clone_order(encounter, patient, obs, drug_order, order_type)
     write_order(encounter, patient, obs, drug_order.drug, Time.now, 
       Time.now + drug_order.duration.days, drug_order.dose, drug_order.frequency, 
-      drug_order.prn?)
+      drug_order.prn?, order_type)
   end
   
-  def self.write_order(encounter, patient, obs, drug, start_date, auto_expire_date, dose, frequency, prn)
+  def self.write_order(encounter, patient, obs, drug, start_date, auto_expire_date, dose, frequency, prn, order_type)
     encounter ||= patient.current_treatment_encounter
     drug_order = nil
     ActiveRecord::Base.transaction do
       order = encounter.orders.create(
-        :order_type_id => 1, 
+        :order_type_id => order_type.to_i, 
         :concept_id => drug.concept_id, 
         :orderer => User.current_user.user_id, 
         :patient_id => patient.id,
