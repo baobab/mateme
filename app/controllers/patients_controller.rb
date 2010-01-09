@@ -26,9 +26,11 @@ class PatientsController < ApplicationController
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     @encounters   = @patient.encounters.current.active.find(:all)
     @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+    ignored_concept_id = Concept.find_by_name("NO").id;
+    
     @observations = Observation.find(:all, :order => 'obs_datetime DESC', 
-                      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? ",
-                        @patient.patient_id, Time.now.to_date])
+                      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? AND value_coded != ?",
+                        @patient.patient_id, Time.now.to_date, ignored_concept_id])
 
     @observations.delete_if { |obs| obs.value_text.downcase == "no" rescue nil }
 
