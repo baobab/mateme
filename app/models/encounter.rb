@@ -28,9 +28,13 @@ class Encounter < ActiveRecord::Base
 
   def to_s
 
-    @concept_list = ["EYE COMPLICATIONS","NEURALGIC COMPLICATIONS",
-                     "CARDIOVASCULAR COMPLICATIONS","RENAL COMPLICATIONS",
-                     "ENDOCRINE COMPLICATIONS", "COMPLICATIONS"]
+    @encounter_types = ["CARDIOVASCULAR COMPLICATIONS", "COMPLICATIONS",
+                        "DIABETES ADMISSIONS", "DIABETES ADMISSIONS",
+                        "DIABETES TEST", "DIABETES TREATMENTS",
+                        "DIABETES TREATMENTS", "ENDOCRINE COMPLICATIONS",
+                        "EYE COMPLICATIONS","LAB RESULTS",
+                        "NEURALGIC COMPLICATIONS",
+                        "PAST DIABETES MEDICAL HISTORY", "RENAL COMPLICATIONS"]
 
     if name == 'REGISTRATION'
       "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
@@ -59,11 +63,11 @@ class Encounter < ActiveRecord::Base
       vitals << temp_str if temp_str                          
       vitals.join(', ')
 
-    elsif @concept_list.include? name
+    elsif @encounter_types.include? name
       observations.collect{|observation| observation.to_s}.join(", ")
 
-    elsif ['DIABETES TEST','LAB RESULTS', 'DIABETES TREATMENTS','DIABETES ADMISSIONS'].include?(name)
-      observations.collect{|observation| observation.to_s}.join(", ")
+    #elsif ['DIABETES TEST'].include?(name)
+     # observations.collect{|observation| observation.to_s}.join(", ")
     else
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  
