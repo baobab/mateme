@@ -32,7 +32,16 @@ class EncountersController < ApplicationController
         observation.delete(:parent_concept_name)
       end
 
-      Observation.create(observation)
+      extracted_value_numerics = observation[:value_numeric]
+      if (extracted_value_numerics.class == Array)
+
+        extracted_value_numerics.each do |value_numeric|
+          observation[:value_numeric] = value_numeric
+          Observation.create(observation)
+        end
+      else
+        Observation.create(observation)
+      end
     }
     @patient = Patient.find(params[:encounter][:patient_id])
     redirect_to next_task(@patient) 
