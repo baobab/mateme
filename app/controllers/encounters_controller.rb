@@ -108,6 +108,15 @@ class EncountersController < ApplicationController
     @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id]).last rescue nil
     @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('TEST REQUESTED').concept_id]) rescue []
     @result_available_obs = @patient.current_diagnoses([ConceptName.find_by_name('RESULT AVAILABLE').concept_id]) rescue []
+    
+    best_tests_hash = DiagnosisTree.best_tests
+    @diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'
+    @best_tests = Array.new()
+    best_tests_hash.each{|test,diagnoses| @best_tests << test if diagnoses.include?("#{@diagnosis_name}")}
+
+    #dont show confirmatory evidence page if the diagnosis does not have a test
+    redirect_to "/prescriptions/?patient_id=#{@patient.id}" and return if @best_tests.empty? 
+
     render :template => 'encounters/confirmatory_evidence', :layout => 'menu'
    end
 
