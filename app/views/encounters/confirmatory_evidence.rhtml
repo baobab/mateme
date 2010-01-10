@@ -5,7 +5,6 @@
     border-bottom:1px dotted ;
     border-left:1px dotted ;
     font-size:12pt;
-    /*background-color: #660000;*/
   }
   .testname {
     border-top:1px dotted ;
@@ -13,7 +12,6 @@
     border-bottom:1px dotted ;
     border-left:1px dotted ;
     font-size:18pt;
-    /*background-color: #660000;*/
   }
 
 </style>
@@ -23,41 +21,26 @@
 </script>
 
 <%
-best_tests_hash = DiagnosisTree.best_tests
-
-diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'
-
-best_tests = Array.new()
-
-best_tests_hash.each{|test,diagnoses| best_tests << test if diagnoses.include?("#{diagnosis_name}")}
 
 test_result = Hash.new()
 result_available = Hash.new()
 
 for test_observation in @requested_test_obs do
-
-  #test_vs_result[observation.answer_string] = Array.new() if not test_vs_result[observation.answer_string]
-  #test_vs_result[observation.answer_string] << observation.concept.name.name
   test_result[test_observation.answer_concept.concept_id] = {test_observation.concept.name.name => 'YES'} if test_observation.value_text == 'YES'
   test_result[test_observation.answer_concept.concept_id] = {test_observation.concept.name.name => 'NO'} if test_observation.value_text == 'NO'
 end
-#raise test_result.to_yaml
 
 for result_observation in @result_available_obs do
-  #test_vs_result[observation.answer_string] = Array.new() if not test_vs_result[observation.answer_string]
-  #test_vs_result[observation.answer_string] << observation.concept.name.nam
   result_available[result_observation.answer_concept.concept_id] = {result_observation.concept.name.name => 'YES'} if result_observation.value_text == 'YES'
   result_available[result_observation.answer_concept.concept_id] = {result_observation.concept.name.name => 'NO'} if result_observation.value_text == 'NO'
 end
-#raise test_result.to_yaml
 %>
-
 
 <div style="padding: 15px;">
   <div  style="width:750px;"><h2>Confirmatory Evidence
     </h2>
   </div>
-  <div>DIAGNOSIS: <b><%=diagnosis_name %></b></div>
+  <div>DIAGNOSIS: <b><%=@diagnosis_name %></b></div>
   <div style="font-size: 40pt;">
     <ul class="list" style="height:410px;width:750px;">
       <table cellpadding="2" cellspacing="0" border ="1" width="100%">
@@ -74,7 +57,7 @@ end
 
         <%
 
-        for test in best_tests do
+        for test in @best_tests do
           concept_id = Concept.find_by_name("#{test.to_s}").concept_id rescue Concept.find_by_name('UNKNOWN').concept_id
 
           if test_result.has_key?(concept_id)
