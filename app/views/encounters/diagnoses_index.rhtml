@@ -22,7 +22,8 @@
       <% end %>
     </ul>
   </div>
-  <%if @primary_diagnosis.last && @primary_diagnosis.last.answer_concept_name.name == 'UNKNOWN'%>
+  <%recorded_diagnosis =  @primary_diagnosis.last.answer_concept_name.name rescue  @primary_diagnosis.last.value_text if  @primary_diagnosis.last
+    if @primary_diagnosis.last && recorded_diagnosis == 'UNKNOWN'%>
 
     <div style="float:right;padding-right:20px;margin-top:-15px;">
       <button class="button gray" ><span>New Diagnosis</span></button><br/>
