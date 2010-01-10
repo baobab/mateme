@@ -7,7 +7,7 @@ class PatientsController < ApplicationController
     @regstration_clerk  = false
 
     @user = User.find(session[:user_id])
-    @user_privilege = @user.user_roles.collect{|x|x.role}
+    @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
 
     if @user_privilege.include?("superuser")
       @super_user = true
