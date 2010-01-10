@@ -46,8 +46,6 @@ class ApplicationController < ActionController::Base
   end
 
   def next_discharge_task(patient)
-    #raise session.to_yaml
-    #raise patient.current_outcome.to_s
     outcome = patient.current_outcome
 
     return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
@@ -56,7 +54,7 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
 
-    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && session[:ward] != 'WARD 4B' && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome) && !patient.current_diagnoses.empty?
+    return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome) && !patient.current_diagnoses.empty?
 
     return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)  && !patient.current_diagnoses.empty?
     
