@@ -53,7 +53,7 @@ class Encounter < ActiveRecord::Base
         myh = {}
         observations.each{|observe|
           #diagnosis_text = "#{observe.concept.name.name}: #{observe.answer_concept.name.name}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
-          diagnosis_text = "#{observe.answer_concept.name.name}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
+          diagnosis_text = "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
           next if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
           myh[observe.answer_concept.name.name] = {} if not myh[observe.answer_concept.name.name]
           myh[observe.answer_concept.name.name]['TEST REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'YES'
