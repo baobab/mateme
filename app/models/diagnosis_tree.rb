@@ -130,7 +130,7 @@ class DiagnosisTree
 		"OTHER PERICARDIAL EFFUSION" => {}
 		},
 	"ISCHAEMIC HEART DISEASE" => {},
-	"OTHER CARDIOVASCUALR CONDITION" => {}
+	"OTHER CARDIOVASCULAR CONDITION" => {}
 	},
 	
 "RESPIRATORY" => {
@@ -212,7 +212,8 @@ class DiagnosisTree
 		"MANSONI" => {},
 		"CYSTICERCOSIS" => {},
 		"HYDATID" => {}
-		}
+		},
+  "OTHER GASTROINTESTINAL CONDITION" => {}
 	},
 
 "RENAL, GU" => {
@@ -298,7 +299,8 @@ class DiagnosisTree
 		"BLEEDING DUE TO IDIOPATHIC THROMBOCYTOPENIA" => {},
 		"BLEEDING DUE TO DIC" => {},
 		"BLEEDING DUE TO OTHER CAUSE" => {}
-		}
+		},
+  "OTHER HAEMATOLOGICAL CONDITION" => {}
 	},
 
 "MUSCULOSKELETAL, DERMATOLOGICAL"  => {
