@@ -1039,7 +1039,7 @@ function gotoPage(destPage, validate){
 		// skip destination page when a condition is false
 		if (condition) {
 			if (!eval(condition)) {
-        tstCurrentPage = destPage;
+       // tstCurrentPage = destPage;
 				if (currentPage <= destPage) {
 					gotoPage(destPage+1);
 				} else if (destPage > 0) {
