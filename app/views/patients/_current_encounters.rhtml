@@ -1,16 +1,24 @@
-<div id =" patient_history" style="bottom:135px; height: 220px; width: 350px; left: 8px; right: -66px; position: absolute;">
-   <center><h3> Visit Summary</h3></center>
+  <div id =" patient_history" style="position: relative; left: 0px; top: -200px;">
+
+  <h3> Visit Summary</h3>
  </div>
 <div style="font-size: 22pt;">
-  <ul class="list" style="bottom:56px; height: 220px; width: 350px; left: 8px; right: -66px; position: absolute;">
-    <% for encounter in @encounters do %>
+  <ul class="list" style="bottom:54px; height: 485px; width: 322px; left: 8px; right: -66px; position: absolute;">
+    <%@encounter_names.each{|encounter_name|
+     header = 'true' 
+     for encounter in @encounters do %>
+      <%if encounter.name == encounter_name%> 
       <li class="data <%= cycle('even', 'odd') %>">
-        <div style="float:right;padding:7px;">
+      <div style="float:right;padding:7px;">
           <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
-        </div>
-        <div style="float:left"><%=h encounter.name.humanize %></div>
-        <div style="clear:left" class="summary"><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></div>
+       </div>
+       
+      <%if header == 'true' %><div style="float:left"><%=h encounter.name.humanize %></div><%end; header = 'false'%>
+        <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M")%></span>
+</div>
       </li>  
-    <% end %>
+    <%end 
+    end 
+    }%>
   </ul>
 </div>

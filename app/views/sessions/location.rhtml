@@ -15,6 +15,11 @@
     <label for="location">Location</label>
     <%= hidden_field_tag(:location, 4, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
 
+    
+    <label for="ward">Ward</label>
+    <%= select_tag("ward", options_for_select(["", "WARD 3A","WARD 3B", "WARD 4A", "WARD 4B"]), {:helpText => 'Select Ward'})%> <br>
+
+
     <%= submit_tag value="Submit"%>
   <% end %>
 

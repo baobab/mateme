@@ -7,27 +7,31 @@ class PatientsController < ApplicationController
     @regstration_clerk  = false
 
     @user = User.find(session[:user_id])
-    @user_privilege = @user.user_roles.collect{|x|x.role}
+    @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
 
     if @user_privilege.include?("superuser")
-        @super_user = true
+      @super_user = true
     elsif @user_privilege.include?("clinician")
-        @clinician  = true
+      @clinician  = true
     elsif @user_privilege.include?("doctor")
-        @doctor     = true
+      @doctor     = true
     elsif @user_privilege.include?("regstration_clerk")
-        @regstration_clerk  = true
+      @regstration_clerk  = true
     end  
-       
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
-    @encounters = @patient.encounters.current.active.find(:all)
-    @observations = Observation.find(:all, :order => 'obs_datetime DESC', :limit => 50, :conditions => ["person_id= ? ",@patient.patient_id])
-    @past_diagnosis_and_treatment = @patient.previous_diagnoses + @patient.previous_treatments
+    outcome = @patient.current_outcome
+    @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
+    @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+    @past_diagnosis = @patient.visit_diagnoses
+    @past_treatments = @patient.visit_treatments
     session[:auto_load_forms] = false if params[:auto_load_forms] == 'false'
+    session[:outcome_updated] = true if !outcome.nil?
+    session[:admitted] = false if params[:admitted] == 'false'
     session[:confirmed] = true if params[:confirmed] == 'true'
     session[:diagnosis_done] = true if params[:diagnosis_done] == 'true'
-    #raise params.to_yaml and return
-  # raise session.to_yaml and return 
+    session[:hiv_status_updated] = true if params[:hiv_status_updated] == 'true'
+    session[:prescribed] = true if params[:prescribed] == 'true'
+    #print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", next_task(@patient)) and return if session[:prescribed] = true 
     redirect_to next_discharge_task(@patient) and return if session[:auto_load_forms] == true
     render :template => 'patients/show', :layout => 'menu'
     
@@ -74,8 +78,43 @@ class PatientsController < ApplicationController
   def discharge
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
     session[:auto_load_forms] = true
+    session[:outcome_updated] = false
+    session[:hiv_status_updated] = false
     session[:confirmed] = false
     session[:diagnosis_done] = false
+    session[:prescribed] = false
     redirect_to next_discharge_task(@patient)
   end
+
+  def admit
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    session[:auto_load_forms] = true
+    session[:diagnosis_done] = false
+    session[:admitted] = true
+    redirect_to next_admit_task(@patient)
+  end
+
+  def end_visit
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    current_visit = @patient.current_visit
+    primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
+    treatment = @patient.current_treatment_encounter.orders.active rescue []
+    session[:admitted] = false
+
+    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['REFERRED'].include?(@patient.current_outcome)
+      current_visit.ended_by = session[:user_id]
+      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime
+      current_visit.save
+      print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
+
+    elsif @patient.admitted_to_ward && session[:ward] == 'WARD 4B'
+
+      print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", close_visit) and return
+
+    end
+
+    redirect_to close_visit and return
+    
+  end
+
 end

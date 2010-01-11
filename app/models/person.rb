@@ -399,8 +399,8 @@ class Person < ActiveRecord::Base
 
   def phone_numbers
     phone_numbers = {}
-    ["Cell phone number","Home phone number","Office phone number"].each{|attribute_type_name|
-      number = PersonAttribute.find(:first,:conditions => ["voided = 0 AND person_attribute_type_id = ? AND person_id = ?", PersonAttributeType.find_by_name("#{attribute_type_name}").id, self.id]).value
+    ["Cell Phone Number","Home Phone Number","Office Phone Number"].each{|attribute_type_name|
+      number = PersonAttribute.find(:first,:conditions => ["voided = 0 AND person_attribute_type_id = ? AND person_id = ?", PersonAttributeType.find_by_name("#{attribute_type_name}").id, self.id]).value rescue ""
       phone_numbers[attribute_type_name] = number 
     }
     phone_numbers

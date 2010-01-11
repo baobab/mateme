@@ -89,20 +89,34 @@ class EncountersController < ApplicationController
     @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]) rescue []
     @secondary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id]) rescue []
     @additional_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]) rescue []
+    @syndromic_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("SYNDROMIC DIAGNOSIS").concept_id]) rescue []
 
     if !@primary_diagnosis.empty? and !@secondary_diagnosis.empty?
       @diagnosis_type = 'ADDITIONAL DIAGNOSIS'
     elsif !@primary_diagnosis.empty? 
        @diagnosis_type = 'SECONDARY DIAGNOSIS' 
     end
+
+    @diagnosis_type = 'SYNDROMIC DIAGNOSIS' if session[:admitted] == true
     
-    redirect_to "/encounters/new/inpatient_diagnosis?diagnosis_type=#{@diagnosis_type}&patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @primary_diagnosis.empty?
+   # redirect_to "/encounters/new/inpatient_diagnosis?diagnosis_type=#{@diagnosis_type}&patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @primary_diagnosis.empty?
     render :template => 'encounters/diagnoses_index', :layout => 'menu'
   end
 
    def confirmatory_evidence
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
-    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
+    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id]).last rescue nil
+    @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('TEST REQUESTED').concept_id]) rescue []
+    @result_available_obs = @patient.current_diagnoses([ConceptName.find_by_name('RESULT AVAILABLE').concept_id]) rescue []
+    
+    best_tests_hash = DiagnosisTree.best_tests
+    @diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'
+    @best_tests = Array.new()
+    best_tests_hash.each{|test,diagnoses| @best_tests << test if diagnoses.include?("#{@diagnosis_name}")}
+
+    #dont show confirmatory evidence page if the diagnosis does not have a test
+    redirect_to "/prescriptions/?patient_id=#{@patient.id}" and return if @best_tests.empty? 
+
     render :template => 'encounters/confirmatory_evidence', :layout => 'menu'
    end
 
@@ -114,14 +128,20 @@ class EncountersController < ApplicationController
       observation[:person_id] = params[:person_id] 
       observation[:obs_datetime] = params[:obs_datetime]
       observation[:encounter_id] = params[:encounter_id]
-      observation[:value_coded_or_text] = params[:value_coded_or_text]
+      #observation[:value_coded_or_text] = params[:value_coded_or_text]
+      observation[:value_coded] = Concept.find_by_name(params[:value_coded]).concept_id rescue Concept.find_by_name('UNKNOWN').concept_id
+      observation[:value_text] = params[:value_text]
 
       Observation.create(observation)
 
-     confirmatory_evidence and return
+     redirect_to next_discharge_task(Patient.find(params[:patient_id])) 
    end
 
    def outcome
+     session[:auto_load_forms] = true
+   end
+   
+   def admit_patient
      session[:auto_load_forms] = true
    end
 

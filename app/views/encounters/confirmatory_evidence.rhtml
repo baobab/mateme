@@ -1,42 +1,189 @@
+<style type="text/css" >
+  .mytableborder {
+    border-top:1px dotted ;
+    border-right:1px dotted ;
+    border-bottom:1px dotted ;
+    border-left:1px dotted ;
+    font-size:12pt;
+  }
+  .testname {
+    border-top:1px dotted ;
+    border-right:1px dotted ;
+    border-bottom:1px dotted ;
+    border-left:1px dotted ;
+    font-size:18pt;
+  }
+
+</style>
 <script type="text/javascript">
   tt_cancel_destination = '/patients/show/<%= @patient.id %>?confirmed=true';
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
 </script>
 
-<% best_tests_hash = DiagnosisTree.best_tests
+<%
 
-diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'
+test_result = Hash.new()
+result_available = Hash.new()
 
-best_tests = Array.new()
+for test_observation in @requested_test_obs do
+  test_result[test_observation.answer_concept.concept_id] = {test_observation.concept.name.name => 'YES'} if test_observation.value_text == 'YES'
+  test_result[test_observation.answer_concept.concept_id] = {test_observation.concept.name.name => 'NO'} if test_observation.value_text == 'NO'
+end
 
-best_tests_hash.each{|test,diagnoses| best_tests << test if diagnoses.include?("#{diagnosis_name}")}
-  
-  %>
-
+for result_observation in @result_available_obs do
+  result_available[result_observation.answer_concept.concept_id] = {result_observation.concept.name.name => 'YES'} if result_observation.value_text == 'YES'
+  result_available[result_observation.answer_concept.concept_id] = {result_observation.concept.name.name => 'NO'} if result_observation.value_text == 'NO'
+end
+%>
 
 <div style="padding: 15px;">
-  <div  style="width:750px;"><h2>Confirmatory Evidennce
-      <span  style="float:right;padding:7px;font-size: 10pt"><table>
-          <tr><td align='center'>Requested</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td align='center'>Requested</td></tr>
-          <tr><td align='center'>Result Available</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td align='center'>Result NOT Available</td></tr></table> 
-      </span>
-  </h2>
-</div>
-<div>DIAGNOSIS: <b><%=diagnosis_name %></b></div>
+  <div  style="width:750px;"><h2>Confirmatory Evidence
+    </h2>
+  </div>
+  <div>DIAGNOSIS: <b><%=@diagnosis_name %></b></div>
   <div style="font-size: 40pt;">
-    <ul class="list" style="height:445px;width:750px;">
-      <% for test in best_tests do %>
-        <li class="data <%= cycle('even', 'odd') %>">
-        <span style="float:right;">
-          <%= img_button_submit_to "/encounters/create_observation", "/images/cancel_flat_small.png", {}, {:patient_id => @patient.id, :concept_name => 'REQUESTED BUT RESULT NOT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded_or_text => test.to_s} -%>
-        </span>
-        <span style="float:right;padding:7px;width:150px">&nbsp;</span>
-        <span style="float:right;">
-          <%= img_button_submit_to "", "/images/ok.png", {}, {} -%>
-          </span>
+    <ul class="list" style="height:410px;width:750px;">
+      <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+        <tr>
+          <th align="left" valign="top" class="mytableborder" width="50%">TEST</th>
+          <th class="mytableborder" width="25%">REQUESTED</th>
+          <th class="mytableborder" width="25%">RESULT AVAILABLE</th>
+        </tr>
+        <tr>
+          <td class="mytableborder">&nbsp;</td>
+          <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
+          <td class="mytableborder"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td>YES</td><td>NO</td></tr></table></td>
+        </tr>
 
-          <div style="clear:left" class="summary"><%= test.to_s -%></div>
-        </li>  
-      <% end %>
+        <%
+
+        for test in @best_tests do
+          concept_id = Concept.find_by_name("#{test.to_s}").concept_id rescue Concept.find_by_name('UNKNOWN').concept_id
+
+          if test_result.has_key?(concept_id)
+          %>
+            <tr>
+              <td class="testname"><%=test.to_s%></td>
+
+              <%
+              if test_result[concept_id]['TEST REQUESTED'] == 'YES'
+              %>
+                <td class="testname">
+                  <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                    <tr>
+                      <td>
+                        <img src="/images/ok.png">
+                      </td>
+                      <td>
+                        <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <%
+                if result_available.has_key?(concept_id)
+                  if result_available[concept_id]['RESULT AVAILABLE'] == 'YES'
+                  %>
+                    <td class="testname">
+                      <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                        <tr>
+                          <td>
+                            <img src="/images/ok.png">
+                          </td>
+                          <td>
+                            <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+
+                  <%
+                  elsif result_available[concept_id]['RESULT AVAILABLE'] == 'NO'
+                  %>
+                    <td class="testname">
+                      <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                        <tr>
+                          <td>
+                            <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%>
+                          </td>
+                          <td>
+                            <img src="/images/ok.png">
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  <%else%>
+                    <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%></td></tr></table></td>
+                  <%
+                  end
+                else
+                %>
+                  <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'RESULT AVAILABLE', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%></td></tr></table></td>
+
+
+                <%
+                end
+              elsif  test_result[concept_id]['TEST REQUESTED'] == 'NO'
+              %>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><img src="/images/ok.png"></td></tr></table></td>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/inactiveok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+              <%else%>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%></td><td><%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%></td></tr></table></td>
+                <td class="testname"><table  cellpadding="2" cellspacing="0" border ="0" width="100%"><tr><td><img src="/images/inactiveok.png"></td><td><img src="/images/inactiveok.png"></td></tr></table></td>
+
+
+              <%
+
+              end
+            %>
+
+            </tr>
+          <%
+          else
+          %>
+            <tr>
+              <td class="testname"><%=test.to_s%></td>
+              <td class="testname">
+                <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                  <tr>
+                    <td>
+                      <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'YES'} -%>
+                    </td>
+                    <td>
+                      <%= img_button_submit_to "/encounters/create_observation", "/images/inactiveok.png", {}, {:patient_id => @patient.id, :concept_name => 'TEST REQUESTED', :person_id =>@patient.id , :obs_datetime => Time.now(), :encounter_id => @primary_diagnosis.encounter_id, :value_coded => test.to_s, :value_text => 'NO'} -%>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td class="testname">
+                <table  cellpadding="2" cellspacing="0" border ="0" width="100%">
+                  <tr>
+                    <td>
+                      <img src="/images/inactiveok.png">
+                    </td>
+                    <td>
+                      <img src="/images/inactiveok.png">
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+          <%
+          end
+        end
+      %>
+
+      </table>
+
     </ul>
   </div>
+</div>
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
+    <span>
+      Cancel
+    </span>
+  </button>
 </div>

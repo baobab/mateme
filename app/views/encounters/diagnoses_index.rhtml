@@ -1,26 +1,83 @@
 <script type="text/javascript">
-  tt_cancel_destination = '/patients/show/<%= @patient.id %>?diagnosis_done=true';
+  tt_cancel_destination = '/patients/show/<%= @patient.id %>?diagnosis_done=true&admitted=false';
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false&admitted=false';
 </script>
 
 <div style="padding: 15px;">
   <h2>Patient Diagnoses</h2>
   <div style="font-size: 22pt;">
     <ul class="list" style="height:270px;width:750px;">
-      <% for observation in (@primary_diagnosis + @secondary_diagnosis + @additional_diagnosis) do %>
+      <% diagnoses = @primary_diagnosis + @secondary_diagnosis + @additional_diagnosis + @syndromic_diagnosis
+      for observation in diagnoses do %>
         <li class="data <%= cycle('even', 'odd') %>">
-        <div style="float:right;padding:7px;">
-          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => observation.encounter_id} -%>
+          <div style="float:right;padding:7px;">
+            <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => observation.encounter_id} -%>
           </div>
           <div style="float:left">Diagnosis</div>
           <div style="clear:left" class="summary"><%= observation.to_s.gsub(/\n/, '<br/>') -%></div>
-        </li>  
+        </li>
       <% end %>
-      <% if @primary_diagnosis.blank? %>        
-        <li>No Diagnosis are available for this patient today</li>
+      <% if diagnoses.blank? %>
+        <li>No Diagnoses are available for in current visit</li>
       <% end %>
     </ul>
   </div>
-  <div style="float:right;padding-right:20px;margin-top:-15px;">
-    <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
-  </div>
+  <%recorded_diagnosis =  @primary_diagnosis.last.answer_concept_name.name rescue  @primary_diagnosis.last.value_text if  @primary_diagnosis.last
+    if @primary_diagnosis.last && recorded_diagnosis == 'UNKNOWN'%>
+
+    <div style="float:right;padding-right:20px;margin-top:-15px;">
+      <button class="button gray" ><span>New Diagnosis</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button gray"><span>Uknown Diagnosis</span></button>
+    </div>
+
+<%elsif @primary_diagnosis.last or @syndromic_diagnosis.last %>
+
+<div style="float:right;padding-right:20px;margin-top:-15px;">
+      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button gray"><span>Uknown Diagnosis</span></button>
+    </div>
+
+  <%else%>
+    <div style="float:right;padding-right:20px;margin-top:-15px;">
+      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+    </div>
+
+    <div style="float:left;padding-right:20px;margin-top:-15px;">
+      <button class="button green" onclick="submitForm();"><span>Unknown Diagnosis</span></button>
+    </div>
+  <%end%>
+
 </div>
+
+<form method='post' action='/encounters/create' id="unknown_diagnosis">
+  <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= hidden_field_tag("observations[][value_coded_or_text]", 'UNKNOWN') %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "PRIMARY DIAGNOSIS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+</form>
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
+    <span>
+      Cancel
+    </span>
+  </button>
+</div>
+
+<script>
+  function submitForm(){
+  document.getElementById('unknown_diagnosis').submit();
+  }
+</script>

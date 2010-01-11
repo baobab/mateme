@@ -11,19 +11,22 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= select_tag "ward", options_for_select(["","WARD 3A","WARD 3B","WARD 4A","WARD 4B"]), {:helpText => 'Ward discharging from', :tt_onLoad => "updateWardNextButton();" }%>
+  <%= hidden_field_tag(:ward, session[:ward], :helpText=> "Ward discharging from", :field_type => "alpha", :tt_onLoad => "updateWardNextButton();") %>
+
+  <%#= select_tag "ward", options_for_select(["","WARD 3A","WARD 3B","WARD 4A","WARD 4B"]), {:helpText => 'Ward discharging from', :tt_onLoad => "updateWardNextButton();" }%>
+
 
   <%
   options = {
     :helpText => @diagnosis_type,
     :allowFreeText => 'true',
-    :ajaxUrl=> "/search/diagnosis?search_string=",
+    :ajaxUrl=> "/search/diagnosis?diagnosis=#{@diagnosis_type}&location=#{session[:ward]}&search_string=",
     :field_type => 'alpha',
     :tt_onLoad => "updateNextButton();setTimeout(updateNextFinish, 20);",
     :textCase => "upper" } %>
 
   <% 7.times do |counter| %>
-    <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter].value] == null" if counter > 0 %>
+    <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter-1].value] == null" if counter > 0 %>
     <% options[:optional] = 'true' %>
     <% counter += 1 %>
     <% options[:id] = "level_" + counter.to_s if counter > 0 %>
@@ -37,6 +40,16 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
+  <%= text_field_tag "other_diagnosis", nil,
+    {:id => 'optional_diagnosis',
+    :field_type => 'alpha',
+    :tt_onLoad => 'setHelpTextForOther();',
+    :allowFreeText => true,
+    :condition => "$('final_diagnosis').value.match(/OTHER/)",
+    :tt_onUnload => "$('final_diagnosis').value = $('optional_diagnosis').value"
+  } %>
+
+
   <%= submit_tag "Finish" %>
 
 </form>
@@ -45,12 +58,14 @@
 <script type='text/javascript'>
   var counter = 0
   var finalAnswers = [<%= DiagnosisTree.other_wards.final_keysr.to_json %>,
-                      <%= DiagnosisTree.fourb_wards.final_keysr.to_json %>
+<%= DiagnosisTree.fourb_wards.final_keysr.to_json %>
                      ];
 
  function wardType(ward) {
-   type = 0
-   if (ward == 'WARD 4B') {
+   var type = 0;
+   var diagnosis = '<%=@diagnosis_type%>';
+
+   if (ward == 'WARD 4B' && diagnosis == 'SYNDROMIC DIAGNOSIS') {
      type= 1
    }
    return type;
@@ -64,23 +79,23 @@
  function setAjaxUrl(counter) {
    //var level = tstInputTarget.name;
    var counter = counter;
-   var level = tstFormElements[counter].id;
-   var ward = $('ward').value;
+   var level = tstFormElements[counter-1].id;
+   var ward = '<%=session[:ward]%>';
    var selected = $(level).value;
    updateAjaxUrl(selected,level,ward);
    $('final_diagnosis').value = tstInputTarget.value;
 
  }
-           
+
  function updateAjaxUrl(selected, level, ward) {
-   var url = '/search/diagnosis?location=' + ward + '&level=' + level + '&selected=' + selected + '&search_string=';
+   var url = '/search/diagnosis?diagnosis=<%=@diagnosis_type%>&location=' + ward + '&level=' + level + '&selected=' + selected + '&search_string=';
    var nextLevel = 'level_' + (parseInt(level.split('')[level.split('').length - 1]) + 1);
    $(nextLevel).setAttribute("ajaxURL", url);
  }
 
  // Every 500 milliseconds update the Next/Finish button
  function updateNextFinish(){
-   if (typeof(finalAnswers[wardType($('ward').value)][tstInputTarget.value]) != 'undefined')
+   if (typeof(finalAnswers[wardType($('ward').value)][tstInputTarget.value]) != 'undefined' && !tstInputTarget.value.match(/OTHER/) || tstInputTarget.name == 'other_diagnosis')
      $('nextButton').innerHTML = '<span>Finish</span>';
    else
      $('nextButton').innerHTML = '<span>Next</span>';
@@ -97,9 +112,14 @@
  }
 
  function updateInitualAjaxUrl(value) {
-   var url = '/search/diagnosis?location='+ value + '&search_string=';
+   var url = '/search/diagnosis?diagnosis=<%=@diagnosis_type%>&location='+ value + '&search_string=';
    $('level_1').setAttribute("ajaxURL", url);
  }
+
+function setHelpTextForOther(){
+  var helpText = $('helpText'+tstCurrentPage);
+    helpText.innerHTML = 'Specify: '+ $('final_diagnosis').value
+  }
 
 </script>
 
