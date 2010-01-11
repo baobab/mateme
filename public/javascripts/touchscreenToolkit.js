@@ -1027,20 +1027,30 @@ function gotoPage(destPage, validate){
 			currentPageIndex.removeAttribute("class");
 		}
     */
-    // tt_OnUnload
-    var onUnloadCode = tstInputTarget.getAttribute('tt_OnUnload');
+  }
+
+  // tt_OnUnload
+  var unloadElementId = 'touchscreenInput';
+  if (currentPage < destPage) {
+    unloadElementId = 'touchscreenInput'+(destPage-1);
+  } else if (currentPage > destPage) {
+    unloadElementId = 'touchscreenInput'+(destPage+1);
+  }
+  
+  var unloadElement = $(unloadElementId);
+  if (unloadElement) {
+    var onUnloadCode = unloadElement.getAttribute('tt_OnUnload');
     if (onUnloadCode) {
       eval(onUnloadCode);
     }
+  }
 
-	}
   if(destPage < tstPages.length){
 		var condition = tstFormElements[tstPages[destPage]].getAttribute("condition");
 		// skip destination page when a condition is false
 		if (condition) {
 			if (!eval(condition)) {
-        tstCurrentPage = destPage;
-				if (currentPage <= destPage) {
+        if (currentPage <= destPage) {
 					gotoPage(destPage+1);
 				} else if (destPage > 0) {
 					gotoPage(destPage-1);		// reverse skipping
