@@ -116,9 +116,9 @@
                    $('visual_acuity_side').disabled = false;
                    $('visual_acuity_concept').disabled = false;"
     }) %>
-  <% visual_acuity_options = ['','CORRECTED','6/6','6/9','6/12','6/24','6/36','6/60',
+  <% visual_acuity_options = ['','6/6','6/9','6/12','6/24','6/36','6/60',
                               'COUNTING FINGERS', 'HAND MOVEMENTS', 'NO PERCEPTION OF LIGHT',
-                              'ABLE TO READ SMALL PRINT','ABLE TO READ LARGE PRINT'] %>
+                              'ABLE TO READ SMALL PRINT','ABLE TO READ LARGE PRINT', 'EYE REMOVED','NOT CORRECTED'] %>
   <%= select_tag("observations[][value_coded_or_text]",
                  options_for_select(visual_acuity_options), {
     :id => 'visual_acuity_result',
@@ -147,7 +147,7 @@
     }) %>
   <% fundoscopy_options = ['','CATARACT','BACKGROUND RETINOPATHY',
                            'PROLIFERATVE RETINOPATHY','END STAGE EYE DISEASE',
-                           'HYPERTENSIVE RETINOPATHY'] %>
+                           'HYPERTENSIVE RETINOPATHY', 'NORMAL'] %>
   <%= select_tag("observations[][value_coded_or_text]",
                  options_for_select(fundoscopy_options), {
     :id => 'fundoscopy_result',
