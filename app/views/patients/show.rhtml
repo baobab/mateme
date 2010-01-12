@@ -1,5 +1,6 @@
 <script type="text/javascript">
   tt_cancel_destination = '/patients/end_visit?patient_id=<%= @patient.patient_id%>';
+  tt_cancel_to_peole_index = '/people/index';
 </script>
 <style type="text/css">
  
@@ -100,4 +101,17 @@ ul.list{
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
     <%end %>
   </div>
-</div>  
+</div>
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 100px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_to_peole_index) window.location = tt_cancel_to_peole_index;">
+    <span>
+      Cancel
+    </span>
+  </button>
+</div>
+
+ <div style="z-index:11;bottom:1px; height: 64px; width: 435px; left: 120px; position: absolute;"><table><tr><td>Location</td><td>: <span style='font-color:green'><span style='font-color:green'><%=session[:ward]%></span></td></tr>
+      <tr><td>User </td><td>: <span style='font-color:green'><%=User.find(session[:user_id]).name rescue 'User' %></span></td></tr></table></div>
+
+
