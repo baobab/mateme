@@ -58,8 +58,8 @@ class User < ActiveRecord::Base
 
   def username_hash(login)
     u = User.find(:first, :conditions => {:username => login})
-    user_salt = u.salt.scan(/./)
-    secret_name = GlobalProperty.find_by_property('server.secret_name').property_value.scan(/./)
+    user_salt = u.salt.scan(/./)[0..3]
+    secret_name = GlobalProperty.find_by_property('server.secret_name').property_value.scan(/./)[0..2]
     user_name = login.scan(/./)
     space = GlobalProperty.find_by_property('server.secret_name_space').property_value.to_i
 
@@ -125,7 +125,7 @@ class User < ActiveRecord::Base
     label.font_horizontal_multiplier = 2
     label.font_vertical_multiplier = 2
     label.left_margin = 50
-    label.draw_barcode(50,180,0,1,1,3,120,false,"#{barcode_to_print.to_s}")
+    label.draw_barcode(40, 180, 0, 1, 5, 15, 120, false, "#{barcode_to_print.to_s}")
     label.draw_multi_text("#{self.name.titleize}")
     label.draw_multi_text('QECH')
     label.print(1)
