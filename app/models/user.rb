@@ -125,9 +125,10 @@ class User < ActiveRecord::Base
     label.font_horizontal_multiplier = 2
     label.font_vertical_multiplier = 2
     label.left_margin = 50
-    label.draw_barcode(40, 180, 0, 1, 5, 15, 120, false, "#{barcode_to_print.to_s}")
+    label.draw_barcode(50,180,0,1,5,15,120,false,"#{barcode_to_print.to_s}")
     label.draw_multi_text("#{self.name.titleize}")
     label.draw_multi_text('QECH')
+    label.draw_multi_text(' ')
     label.print(1)
   end
 
