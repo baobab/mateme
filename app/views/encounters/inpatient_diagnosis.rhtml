@@ -46,7 +46,8 @@
     :tt_onLoad => 'setHelpTextForOther();',
     :allowFreeText => true,
     :condition => "$('final_diagnosis').value.match(/OTHER/)",
-    :tt_onUnload => "$('final_diagnosis').value = $('optional_diagnosis').value"
+    :tt_onUnload => "$('final_diagnosis').value = $('optional_diagnosis').value",
+    :textCase => "upper"
   } %>
 
 
