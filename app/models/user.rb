@@ -121,7 +121,7 @@ class User < ActiveRecord::Base
     barcode_to_print = self.username_hash(self.username) rescue nil
     return unless barcode_to_print
     label = ZebraPrinter::StandardLabel.new
-    label.font_size = 1
+    label.font_size = 2
     label.font_horizontal_multiplier = 2
     label.font_vertical_multiplier = 2
     label.left_margin = 50
