@@ -101,4 +101,42 @@ class Encounter < ActiveRecord::Base
 
   end
 
+  def to_print
+   if name == 'TREATMENT'
+      o = orders.active.collect{|order| order.to_s}.join("\n")
+      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done
+      o = "No prescriptions have been made" if o.blank?
+      o
+    elsif name == 'UPDATE HIV STATUS'
+      'Patient HIV Status was updated'
+    elsif name == 'DIAGNOSIS'
+      if observations.map{|ob| ob.concept.name.name}.include?('PRIMARY DIAGNOSIS')
+        diagnosis_text = ''
+        test_text = ''
+        myh = {}
+        observations.each{|observe|
+          diagnosis_text = "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
+          next if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
+          myh[observe.answer_concept.name.name] = {} if not myh[observe.answer_concept.name.name]
+          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'YES'
+          myh[observe.answer_concept.name.name]['TEST NOT REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'NO'
+          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = 'RESULT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'YES'
+          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = 'RESULT NOT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'NO'
+        }
+        myh.each{|k,v|
+          test_text = test_text + "#{k}: #{v.keys.to_s} #{v.values.to_s}"
+        }
+        diagnosis_text + ' ' + test_text
+      else
+
+        observations.collect{|observation| observation.answer_string}.join(", ")
+
+      end
+
+    else  
+      observations.collect{|observation| observation.answer_string}.join(", ")
+    end  
+  end
+
+
 end
