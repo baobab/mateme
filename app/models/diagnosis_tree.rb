@@ -813,7 +813,7 @@ class Hash
   def final_keysr
     self.each do |k,v|
       if v.blank?
-        @@deep_list[k] = 0
+        @@deep_list[k.split(' ').join(' ')] = 0
       elsif v.class == Hash
         v.final_keysr
       end
