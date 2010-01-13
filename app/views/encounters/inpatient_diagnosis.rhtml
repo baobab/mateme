@@ -96,7 +96,7 @@
 
  // Every 500 milliseconds update the Next/Finish button
  function updateNextFinish(){
-   if ((typeof(finalAnswers[wardType($('ward').value)][tstInputTarget.value]) != 'undefined' && !tstInputTarget.value.match(/OTHER/)) || tstInputTarget.name == 'other_diagnosis')
+   if ((typeof(finalAnswers[wardType($('ward').value)][tstInputTarget.value]) != 'undefined' && tstInputTarget.value.search(/OTHER/) == -1) || tstInputTarget.name == 'other_diagnosis')
      $('nextButton').innerHTML = '<span>Finish</span>';
    else
      $('nextButton').innerHTML = '<span>Next</span>';
