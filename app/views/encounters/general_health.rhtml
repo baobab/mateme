@@ -30,7 +30,7 @@
     <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
     
     
-    <%= text_field_tag "observations[][value_numeric]", nil,
+    <%= text_field_tag "cigarretes_per_day[value_numeric]", nil,
       {
         :helpText => 'Number of cigarretes per day', :field_type => 'number',
         :id => "cigarretes_per_day",
@@ -51,7 +51,8 @@
     <% options=default.merge({
       :field_type => 'text',
       :id => "alcohol",
-      :helpText => "Alcohol?"
+      :helpText => "Alcohol?",
+       :tt_onUnLoad => "$('alcohol_value_coded_or_text').value = $('alcohol').value"
     }) %>
     <%= select_tag( "alcohol[value_coded_or_text]", options_for_select([
       "",
