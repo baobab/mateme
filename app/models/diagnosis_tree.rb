@@ -804,8 +804,20 @@ class DiagnosisTree
     @@best_tests
   end
 
+  def self.final_keysr(diagnosis_hash = self.other_wards, deep_list = {})
+    diagnosis_hash.each do |k,v|
+      if v.blank?
+        deep_list[k] = 0
+      else 
+        final_keysr(v, deep_list)
+      end
+    end
+    deep_list
+  end
+
 end
 
+=begin
 class Hash
 
   @@deep_list = {}
@@ -821,3 +833,4 @@ class Hash
     @@deep_list
   end
 end
+=end
