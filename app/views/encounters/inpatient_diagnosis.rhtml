@@ -55,10 +55,10 @@
 
 </form>
 
-
+<%# raise DiagnosisTree.other_wards.final_keysr.to_yaml%>
 <script type='text/javascript'>
   var counter = 0
-  var finalAnswers = [<%= DiagnosisTree.other_wards.final_keysr.to_json %>,<%= DiagnosisTree.fourb_wards.final_keysr.to_json %>];
+  var finalAnswers = [<%= DiagnosisTree.final_keysr.to_json %>,<%= DiagnosisTree.final_keysr(DiagnosisTree.fourb_wards).to_json %>];
 
  function wardType(ward) {
    var type = 0;
