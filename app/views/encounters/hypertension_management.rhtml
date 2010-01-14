@@ -6,148 +6,159 @@
     :allowFreeText => 'true'
   } %>
 
-  <%= hidden_field_tag "encounter[encounter_type_name]", "HYPERTENSION MANAGEMENT" %>
-  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%= hidden_field_tag "encounter[encounter_type_name]",  "HYPERTENSION MANAGEMENT" %>
+  <%= hidden_field_tag "encounter[patient_id]",           @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]",   DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]",          session[:user_id] %>
 
   <% options=default.merge({
     :field_type => 'text',
-    :id => "low_salt_diet_recommended",
+    :id => "low_salt_diet",
+    :tt_onUnLoad => "$('low_salt_diet_value_coded_or_text').value = $('low_salt_diet').value",
     :helpText => "Ever had Low salt diet recommended?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "low_salt_diet[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "LOW SALT DIET RECOMMENDED") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",  "LOW SALT DIET RECOMMENDED") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]",  "",  {:id => "low_salt_diet_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "sartan",
+    :tt_onUnLoad => "$('sartan_value_coded_or_text').value = $('sartan').value",
     :helpText => "Ever had Ace I/Sartan?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "sartan[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "ACE I/SARTAN") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",  "ACE I/SALTAN") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]",  "",  {:id => "sartan_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "thiazide",
+    :tt_onUnLoad => "$('thiazide_value_coded_or_text').value = $('thiazide').value",
     :helpText => "Ever had Thiazide?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "thiazide[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "THIAZIDE") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "THIAZIDE") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "thiazide_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "frusemide",
+    :tt_onUnLoad => "$('frusemide_value_coded_or_text').value = $('frusemide').value",
     :helpText => "Ever had Frusemide?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "frusemide[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "FRUSEMIDE") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "FRUSEMIDE") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "frusemide_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "methyldopa",
+    :tt_onUnLoad => "$('methyldopa_value_coded_or_text').value = $('methyldopa').value",
     :helpText => "Ever had Methyldopa?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "methyldopa[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "METHYLDOPA") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "METHYLDOPA") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "methyldopa_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "beta_blocker",
+    :tt_onUnLoad => "$('beta_blocker_value_coded_or_text').value = $('beta_blocker').value",
     :helpText => "Ever had Beta Blocker?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "beta_blocker[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "BETA BLOCKER") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",  "BETA BLOCKER") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]",  "",  {:id => "beta_blocker_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "calcium_channel_blocker",
+    :tt_onUnLoad => "$('calcium_channel_blocker_value_coded_or_text').value = $('calcium_channel_blocker').value",
     :helpText => "Ever had Calcium channel blocker?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "calcium_channel_blocker[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "CALCIUM CHANNEL BLOCKER") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "CALCIUM CHANNEL BLOCKER") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "calcium_channel_blocker_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "aspirin",
+    :tt_onUnLoad => "$('aspirin_value_coded_or_text').value = $('aspirin').value",
+    :tt_onLoad=> "addOnMouseDownAction(['No'])",
     :helpText => "Ever had Aspirin?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "aspirin[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "ASPIRIN") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "ASPIRIN") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "aspirin_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "on_aspirin",
+    :tt_onUnLoad => "$('on_aspirin_value_coded_or_text').value = $('on_aspirin').value",
+    :condition => "$('aspirin').value == 'Yes'",
     :helpText => "Currently Taking Aspirin?"
   }) %>
-  <%= select_tag( "observations[][value_text]", options_for_select([
+  <%= select_tag( "on_aspirin[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "ON ASPIRIN") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
-<%= text_field_tag "observations[][value_coded_or_text]", nil,
-  {
-    :helpText => 'Other (specify)',
-    :field_type => 'text',
-    :id => "other_hypertension_medication"
-  }%>
-<%= hidden_field_tag("observations[][concept_name]", "CARDIAC MEDICATION") %>
-<%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-<%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "TAKING MEDICATION") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "on_aspirin_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "ASPIRIN") %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
 <%= submit_tag "Finish" %>
 </form>

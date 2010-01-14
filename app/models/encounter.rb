@@ -32,7 +32,8 @@ class Encounter < ActiveRecord::Base
                         "DIABETES ADMISSIONS", "DIABETES ADMISSIONS",
                         "DIABETES TEST", "DIABETES TREATMENTS",
                         "DIABETES TREATMENTS", "ENDOCRINE COMPLICATIONS",
-                        "EYE COMPLICATIONS","LAB RESULTS",
+                        "EYE COMPLICATIONS","HYPERTENSION MANAGEMENT",
+                        "LAB RESULTS",
                         "NEURALGIC COMPLICATIONS",
                         "PAST DIABETES MEDICAL HISTORY", "RENAL COMPLICATIONS"]
 
