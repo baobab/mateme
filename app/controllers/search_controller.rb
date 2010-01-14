@@ -109,7 +109,7 @@ end
 
   def final_diagnosis
     diagnosis_hash = {}
-    params[:diagnosis] == 'SYNDROMIC DIAGNOSIS' ? diganosis_hash = DiagnosisTree.final_keysr(DiagnosisTree.fourb_wards) : diagnosis_hash = DiagnosisTree.final_keysr    
+    params[:diagnosis] == 'SYNDROMIC DIAGNOSIS' ? diagnosis_hash = DiagnosisTree.final_keysr(DiagnosisTree.fourb_wards) : diagnosis_hash = DiagnosisTree.final_keysr    
     search_string = params[:search_string]
 
     diagnosis_list = diagnosis_hash.collect{|k,v| k}.compact.sort
