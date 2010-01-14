@@ -107,4 +107,18 @@ end
    render :text => @results.collect{|role|"<li>#{role}</li>"}.join("\n")
   end
 
+  def final_diagnosis
+    diagnosis_hash = {}
+    params[:diagnosis] == 'SYNDROMIC DIAGNOSIS' ? diganosis_hash = DiagnosisTree.final_keysr(DiagnosisTree.fourb_wards) : diagnosis_hash = DiagnosisTree.final_keysr    
+    search_string = params[:search_string]
+
+    diagnosis_list = diagnosis_hash.collect{|k,v| k}.compact.sort
+    
+    @results = diagnosis_list.grep(/#{search_string}/i).compact.sort_by{|diagnosis|
+      diagnosis.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
+    }[0..15]
+
+    render :text => @results.collect{|diagnosis|"<li>#{diagnosis}</li>"}.join("\n")
+  end
+
 end

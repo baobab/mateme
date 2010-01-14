@@ -3,6 +3,7 @@
 </script>
 <style type="text/css">
   #space { display:inline; font-size:1.2em; }
+  #helpText0 { width:680px}
 </style>
 <form id='inpatient_diagnosis' action="/encounters/create" method='post'>
 
@@ -15,19 +16,28 @@
 
   <%#= select_tag "ward", options_for_select(["","WARD 3A","WARD 3B","WARD 4A","WARD 4B"]), {:helpText => 'Ward discharging from', :tt_onLoad => "updateWardNextButton();" }%>
 
+   <%= text_field_tag "select_final_diagnosis", nil,
+    {:id => 'select_final_diagnosis',
+    :field_type => 'alpha',
+    :allowFreeText => false,
+    :ajaxUrl => "/search/final_diagnosis?diagnosis=#{@diagnosis_type}&search_string=",
+    :tt_onUnload => "$('final_diagnosis').value = $('select_final_diagnosis').value",
+    :textCase => "upper",
+    :helpText => "<span style='font-size:0.6em;'>#{@diagnosis_type}:</span> <span style='font-size:0.6em'>Select from list or touch on Next for diagnosis tree</span>",
+    :optional => 'true',
+    :tt_onLoad => "setTimeout(updateNextFinish, 20);",
+  } %>
 
   <%
   options = {
     :helpText => @diagnosis_type,
-    :allowFreeText => 'true',
+    :allowFreeText => false,
     :ajaxUrl=> "/search/diagnosis?diagnosis=#{@diagnosis_type}&location=#{session[:ward]}&search_string=",
     :field_type => 'alpha',
-    :tt_onLoad => "updateNextButton();setTimeout(updateNextFinish, 20);",
     :textCase => "upper" } %>
 
   <% 7.times do |counter| %>
-    <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter-1].value] == null" if counter > 0 %>
-    <% options[:optional] = 'true' %>
+    <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter].value] == null && $('select_final_diagnosis').value == ''"%>
     <% counter += 1 %>
     <% options[:id] = "level_" + counter.to_s if counter > 0 %>
     <% options[:tt_onLoad] = "updateNextButton(#{counter});setTimeout(updateNextFinish, 20);" %>
@@ -45,7 +55,7 @@
     :field_type => 'alpha',
     :tt_onLoad => 'setHelpTextForOther();',
     :allowFreeText => true,
-    :condition => "$('final_diagnosis').value.match(/OTHER/)",
+    :condition => "$('final_diagnosis').value.search(/OTHER/) != -1",
     :tt_onUnload => "$('final_diagnosis').value = $('optional_diagnosis').value",
     :textCase => "upper"
   } %>
@@ -78,7 +88,7 @@
  function setAjaxUrl(counter) {
    //var level = tstInputTarget.name;
    var counter = counter;
-   var level = tstFormElements[counter-1].id;
+   var level = tstFormElements[counter].id;
    var ward = '<%=session[:ward]%>';
    var selected = $(level).value;
    updateAjaxUrl(selected,level,ward);
