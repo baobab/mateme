@@ -133,7 +133,20 @@ class User < ActiveRecord::Base
     label.print(1)
   end
 
+  def self.save_property(user_id, property, property_value)
+    u = User.find(user_id)
+    user_property = UserProperty.find_by_property_and_user_id(property, user_id) rescue nil
 
-
+    if user_property
+      user_property.property_value = property_value
+      user_property.save
+    else 
+      user_property = UserProperty.new()
+      user_property.user_id = user_id
+      user_property.property = property
+      user_property.property_value = property_value
+      user_property.save
+    end
+  end
 
 end
