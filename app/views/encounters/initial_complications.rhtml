@@ -242,32 +242,32 @@ cataract_surgery_value_coded_or_text
 
   <% options=default.merge({
     :field_type => 'text',
-    :helpText => "Suspected Nephropathy",
-    :id => "suspected_nephropathy",
-    :tt_onUnLoad => "$('suspected_nephropathy_value_coded_or_text').value = $('suspected_nephropathy').value",
+    :helpText => "Suspected Neuropathy",
+    :id => "suspected_neuropathy",
+    :tt_onUnLoad => "$('suspected_neuropathy_value_coded_or_text').value = $('suspected_neuropathy').value",
     :tt_onLoad => "addOnMouseDownAction(['No'])"
   }) %>
-  <%= select_tag("suspected_nephropathy[value_coded_or_text]", options_for_select([
+  <%= select_tag("suspected_neuropathy[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "SUSPECTED NEPHROPATHY") %>
-  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "suspected_nephropathy_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "SUSPECTED NEUROPATHY") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "suspected_neuropathy_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
 <% options=default.merge({
     :field_type => 'text',
     :id => "proteinuria",
-    :condition => "$('suspected_nephropathy').value == 'Yes'",
+    :condition => "$('suspected_neuropathy').value == 'Yes'",
     :tt_onUnLoad => "$('proteinuria_value_numeric').value = $('proteinuria').value",
     :helpText => "SUSPECTED NEPHROPATHY: Year Proteinuria first noted",
     :optional => false,
     :tt_pageStyleClass => "LongSelectList",
     :multiple => false
   }) %>
-  <%= select_tag "suspected_nephropathy[proteinuria]", options_for_select(@select_years),options %>
+  <%= select_tag "suspected_neuropathy[proteinuria]", options_for_select(@select_years),options %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "YEAR PROTEINURIA FIRST NOTED") %>
   <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "proteinuria_value_numeric"}) %>
@@ -278,14 +278,14 @@ cataract_surgery_value_coded_or_text
   <% options=default.merge({
       :field_type => 'text',
       :id => "creatinine",
-      :condition => "$('suspected_nephropathy').value == 'Yes'",
+      :condition => "$('suspected_neuropathy').value == 'Yes'",
       :helpText => "SUSPECTED NEPHROPATHY: Year raised Creatinine first noted",
       :optional => false,
       :tt_onUnLoad => "$('creatinine_value_numeric').value = $('creatinine').value",
       :tt_pageStyleClass => "LongSelectList",
       :multiple => false
     }) %>
-  <%= select_tag "suspected_nephropathy[creatinine]", options_for_select(@select_years),options %>
+  <%= select_tag "suspected_neuropathy[creatinine]", options_for_select(@select_years),options %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "YEAR  RAISED CREATININE FIRST NOTED") %>
   <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "creatinine_value_numeric"}) %>
