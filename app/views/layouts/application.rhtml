@@ -11,6 +11,15 @@
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
+      tstUserKeyboardPref = "<%= qwerty_or_abc_keyboard %>";
+
+      function saveUserKeyboardPref(keyboardPref){
+        var aUrl = "/user/add_update_property?property=keyboard&property_value=" + keyboardPref;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('POST', aUrl, true);
+        xmlhttp.send(null);
+
+      }
     </script>
     <%= stylesheet_link_tag "mateme" %>
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
