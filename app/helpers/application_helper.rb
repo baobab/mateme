@@ -53,4 +53,10 @@ module ApplicationHelper
   def welcome_message
     "Scan your id card or touch on Next to enter your user information. <span style='font-size:0.6em;float:right'>(Version: #{MATEME_VERSION}#{' ' + MATEME_SETTINGS['installation'] if MATEME_SETTINGS}, #{File.ctime(File.join(RAILS_ROOT, 'config', 'environment.rb')).strftime('%d-%b-%Y')})</span>"  
   end
+
+   def qwerty_or_abc_keyboard
+    qwerty = UserProperty.find_by_property_and_user_id('keyboard',session[:user_id]).property_value == 'qwerty' rescue false
+    qwerty ? "qwerty" : "abc"
+  end
+
 end
