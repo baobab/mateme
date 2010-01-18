@@ -1152,7 +1152,7 @@ function confirmValue() {
 		var popupKeyboard = document.createElement("div");
 		popupKeyboard.setAttribute("id", "popupKeyboard");
 		popupKeyboard.setAttribute("class", "keyboard");
-		popupKeyboard.innerHTML = getABCKeyboard();
+		popupKeyboard.innerHTML = getPreferredKeyboard();
 		contentContainer.appendChild(popupKeyboard);
 	}
 	$("backspace").style.display = "inline";
@@ -1267,7 +1267,7 @@ function showBestKeyboard(aPageNum) {
 	
 	switch (inputElement.getAttribute("field_type")) {
 		case "alpha":
-			$("keyboard").innerHTML = getABCKeyboard();
+			$("keyboard").innerHTML = getPreferredKeyboard();
 			break;
 		case "number": 
 			$("keyboard").innerHTML = getNumericKeyboard();
@@ -1279,7 +1279,7 @@ function showBestKeyboard(aPageNum) {
 			$("keyboard").innerHTML = "";
 			break;
 		default:
-			$("keyboard").innerHTML = getABCKeyboard();
+			$("keyboard").innerHTML = getPreferredKeyboard();
 			break;
 	}
 }
@@ -1388,8 +1388,9 @@ function createKeyboardDiv(){
 }
 
 function getQwertyKeyboard(){
-	var keyboard = createKeyboardDiv();
-	keyboard.innerHTML += 
+	//var keyboard = createKeyboardDiv();
+	//keyboard.innerHTML += 
+	keyboard = 
 		"<span class='qwertyKeyboard'>" +
 		"<span class='buttonLine'>" +
 		getButtons("QWERTYUIOP") +
@@ -1397,7 +1398,9 @@ function getQwertyKeyboard(){
 //		getButtonString('date','Date') +
 		"</span><span style='padding-left:15px' class='buttonLine'>" +
 		getButtons("ASDFGHJKL") +
+    getButtonString('apostrophe',"'") +
 		getButtonString('space','Space') +
+    getButtonString('Unknown','Unknown') +
 		"</span><span style='padding-left:25px' class='buttonLine'>" +
 		getButtons("ZXCVBNM,.") +
 		getButtonString('abc','A-Z') +
@@ -1572,10 +1575,18 @@ function press(pressedChar){
 				inputTarget.value += "'";
 				break;
 			case 'abc':
-				$('keyboard').innerHTML = getABCKeyboard();
+        tstUserKeyboardPref = 'abc';
+				$('keyboard').innerHTML = getPreferredKeyboard();
+        if (typeof(saveUserKeyboardPref) != 'undefined'){
+          saveUserKeyboardPref('abc');
+        }
 				break;
 			case 'qwerty':
-				$('keyboard').innerHTML = getQwertyKeyboard();
+        tstUserKeyboardPref = 'qwerty';
+				$('keyboard').innerHTML = getPreferredKeyboard();
+         if (typeof(saveUserKeyboardPref) != 'undefined'){
+          saveUserKeyboardPref('qwerty');
+        }        
 				break;
 			case 'num':
 				$('keyboard').innerHTML = getNumericKeyboard();
@@ -1762,7 +1773,15 @@ function checkKey(anEvent) {
 	tstLastPressTime = new Date();  
 }
 
-
+function getPreferredKeyboard(){
+  if (typeof(tstUserKeyboardPref) != 'undefined' && tstUserKeyboardPref == 'qwerty') {
+    return getQwertyKeyboard()
+  }
+  else{
+    return getABCKeyboard()
+  }
+}
+ 
 function validateRule(aNumber) {
   var aRule = aNumber.getAttribute("validationRule")
   if (aRule==null) return ""
