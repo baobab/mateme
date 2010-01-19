@@ -1844,6 +1844,7 @@ TTInput.prototype = {
   validateCode: function() {
     var code = this.element.getAttribute('validationCode');
     var msg = this.element.getAttribute('validationMessage') || "Please enter a valid value";
+      msg  += "<br> <a onmousedown='javascript:confirmValue()' href='javascript:;'>Authorise</a> </br>";
 
     if (!code || eval(code)) {
       return "";
