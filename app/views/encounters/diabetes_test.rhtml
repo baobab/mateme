@@ -323,7 +323,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
 
 
-  <% if User.current_user.user_roles.map(&:role).include?('superuser') %>
+  <% if User.current_user.user_roles.map(&:role).map { |each_role| each_role.downcase}.include?('superuser') %>
     <%= text_field_tag "diabetes[test_year]", nil, {
       :helpText => 'Test Year', :field_type => 'number', :absoluteMin => "1890",
       :min => "1940", :absoluteMax => Date.today.year,
