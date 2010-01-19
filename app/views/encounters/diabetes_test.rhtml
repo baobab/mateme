@@ -206,6 +206,19 @@
                                                             }) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
 
+  <%= select_tag("observations[][value_coded_or_text]",
+               options_for_select([['YES','YES'],
+                                   ['NORMAL','NORMAL']
+                                  ]), {
+  :id => 'numbness_symptoms',
+  :helpText => 'Numbness Symptoms',
+  :disabled => true,
+  :condition => "$('diabetes_test_type').value.toLowerCase() == 'foot check'",
+  :tt_onload => "$('foot_check_concept').value = $('diabetes_test_type').value;
+                 $('foot_check_side').disabled = false;
+                 $('foot_check_concept').disabled = false;"
+  }) %>
+
   <%= select_tag("foot_check_side",
                  options_for_select([['LEFT FOOT/LEG','LEFT FOOT/LEG'],
                                      ['RIGHT FOOT/LEG','RIGHT FOOT/LEG'],
@@ -225,7 +238,7 @@
   <%= select_tag("observations[][value_coded_or_text]",
                  options_for_select(foot_check_options), {
     :id => 'foot_check_result',
-    :helpText => 'FUNDOSCOPY SIDE',
+    :helpText => 'Foot Check SIDE',
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'foot check'",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = $('foot_check_side').value;
