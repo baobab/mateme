@@ -53,11 +53,23 @@ class PrescriptionsController < ApplicationController
   # drug list so we don't pick something we don't have.
   def generics
     search_string = (params[:search_string] || '').upcase
-    filter_list = params[:filter_list].split(/, */) rescue []    
-    @drug_concepts = ConceptName.find(:all, 
-      :select => "concept_name.name", 
-      :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0", 
-      :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
+    filter_list = params[:filter_list].split(/, */) rescue []
+    diagnosis_name = params[:diagnosis] rescue ""
+
+    if(!diagnosis_name.blank?)
+      diagnosis_id = Concept.find_by_name(diagnosis_name).id
+      @drug_concepts = ConceptName.find(:all,
+        :select => "concept_name.name",
+        :joins => "INNER JOIN concept_set ON concept_set.concept_id = concept_name.concept_id AND concept_set.concept_set = #{diagnosis_id}
+                   INNER JOIN drug ON drug.concept_id = concept_set.concept_id AND drug.retired = 0",
+        :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
+    else
+      @drug_concepts = ConceptName.find(:all,
+        :select => "concept_name.name",
+        :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0",
+        :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
+    end
+
     render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.join("</li><li>") + "</li>"
   end
   
