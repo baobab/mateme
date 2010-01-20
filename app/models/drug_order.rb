@@ -31,17 +31,20 @@ class DrugOrder < ActiveRecord::Base
              INNER JOIN drug ON drug.drug_id = drug_order.drug_inventory_id"             
     self.all( 
       :joins => joins, 
-      :select => "*, MIN(drug_order.order_id) as order_id, COUNT(*) as number, CONCAT(drug.name, ':', dose, ' ', drug_order.units, ' ', frequency, ' for ', DATEDIFF(auto_expire_date, start_date), ' days', IF(prn, ' prn', '')) as script", 
+     #:select => "*, MIN(drug_order.order_id) as order_id, COUNT(*) as number, CONCAT(drug.name, ':', dose, ' ', drug_order.units, ' ', frequency, ' for ', DATEDIFF(auto_expire_date, start_date), ' days', IF(prn, ' prn', '')) as script", 
+      :select => "*, MIN(drug_order.order_id) as order_id, COUNT(*) as number, CONCAT(drug.name, ':', dose, ' ', drug_order.units, '') as script", 
       :group => ['drug.name, dose, drug_order.units, frequency, prn, DATEDIFF(start_date, auto_expire_date)'], 
       :order => "COUNT(*) DESC")
   end
-  
+
+=begin  
   def self.clone_order(encounter, patient, obs, drug_order, order_type)
     write_order(encounter, patient, obs, drug_order.drug, Time.now, 
       Time.now + drug_order.duration.days, drug_order.dose, drug_order.frequency, 
       drug_order.prn?, order_type)
   end
-  
+=end
+
   def self.write_order(encounter, patient, obs, drug, start_date, auto_expire_date, dose, frequency, prn, order_type)
     encounter ||= patient.current_treatment_encounter
     drug_order = nil
