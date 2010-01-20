@@ -74,8 +74,7 @@ class Patient < ActiveRecord::Base
     
     label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)    
     encs.each {|encounter|
-      next if encounter.name.humanize == "Registration"
-      next if processed_enc_names.include?(encounter.name)
+      next if (encounter.name.humanize == "Registration" || processed_enc_names.include?(encounter.name))
       processed_enc_names << encounter.name
       label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_print}", :font_reverse => false)
     }
