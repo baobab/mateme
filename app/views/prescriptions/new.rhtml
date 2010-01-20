@@ -22,7 +22,7 @@
 
 </style>
 <script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>?auto_load_forms=false";
+  var tt_cancel_destination = "/prescriptions/?patient_id=<%= @patient.patient_id %>?auto_load_forms=false";
   var selectedSuggetion = '';
 
   function changeNextButtonText(text){
