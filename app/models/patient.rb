@@ -68,7 +68,7 @@ class Patient < ActiveRecord::Base
     label.font_horizontal_multiplier = 1
     label.font_vertical_multiplier = 1
     label.left_margin = 50
-    encs = current_visit.encounters.active.find(:all)
+    encs = self.current_visit.encounters.active.find(:all)
     return nil if encs.blank?
     processed_enc_names = [] #will be used to track already processed encounters. eg Diagnosis because this is taken care of in encounter.to_print
     
