@@ -68,12 +68,15 @@ class Patient < ActiveRecord::Base
     label.font_horizontal_multiplier = 1
     label.font_vertical_multiplier = 1
     label.left_margin = 50
-    encs = encounters.current.active.find(:all)
+    encs = current_visit.encounters.active.find(:all)
     return nil if encs.blank?
+    processed_enc_names = [] #will be used to track already processed encounters. eg Diagnosis because this is taken care of in encounter.to_print
     
     label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)    
     encs.each {|encounter|
       next if encounter.name.humanize == "Registration"
+      next if processed_enc_names.include?(encounter.name)
+      processed_enc_names << encounter.name
       label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_print}", :font_reverse => false)
     }
     label.print(1)
