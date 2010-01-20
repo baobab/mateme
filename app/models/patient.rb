@@ -22,7 +22,7 @@ class Patient < ActiveRecord::Base
 
   def current_treatment_encounter(force = false)
     type = EncounterType.find_by_name('TREATMENT')
-    encounter = self.current_visit.encounters.current.find_by_encounter_type(type.id) rescue nil
+    encounter = self.current_visit.encounters.active.find_by_encounter_type(type.id) rescue nil
     return encounter unless force
     encounter ||= encounters.create(:encounter_type => type.id)
     encounter
