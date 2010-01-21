@@ -25,6 +25,12 @@
 
 <% form_for :person, @person, :url => { :action => "create" } do |f| %>
 
+  <%
+    @select_years = ["", "Unknown"]
+    this_year = Date.today.year
+    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1890)
+  %>
+
   <%= text_field_tag "person[names][given_name]", params[:given_name], {:id => 'given_name', :field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true, :condition => '$("given_name").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } %>
   
   <%= text_field_tag "person[names][family_name]", params[:family_name], {:id => 'family_name', :field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true, :condition => '$("family_name").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } %>
@@ -35,11 +41,11 @@
 
   <%= text_field_tag "person[addresses][address2]", params[:address2], {:id => 'address2', :field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :condition => '$("address2").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } if ask_home_village %>
 
-  <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
+  <%= select_tag "person[birth_year]", options_for_select(@select_years), {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "LongSelectList", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
-  <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth', :condition => '$("person_birth_year").value.toLowerCase() != "unknown"'}%>
+  <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth', :tt_pageStyleClass => "LongSelectList", :condition => '$("person_birth_year").value.toLowerCase() != "unknown"'}%>
 
-  <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %> 
+  <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %>
 
   <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :absoluteMin => 1, :absoluteMax => 31, :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")', :tt_onLoad => "makeKeysToggleBlue()" %>
 
