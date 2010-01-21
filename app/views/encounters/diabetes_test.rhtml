@@ -6,14 +6,7 @@
 <script type="text/javascript">
   var tt_cancel_destination = "/patients/mastercard/<%= @patient.patient_id %>"
 
-  var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
-
-  function updateEncounterDate() {
-    $('encounter_encounter_datetime').value = $('diabetes_test_year').value + 
-      '-' + $('diabetes_test_month').value + '-' + $('diabetes_test_day').value +
-      ' 00:00:01';
-  }
+  var my_date =[];
 
   function validateCreatinine() {
     var unit = $('creatinine_unit').value;
@@ -339,6 +332,11 @@
        :field_type => 'number', :absoluteMin => "1890",
        :min => "1940", :absoluteMax => Date.today.year,
        :multiple => false,
+       :tt_onLoad => "addOnMouseDownAction(['Unknown'])",
+       :tt_onUnLoad => "if($('diabetes_test_year').value != 'Unknown'){
+                          my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_year').value,0);
+                          $('encounter_encounter_datetime').value = my_date['value_datetime'];
+                        }",
        :tt_pageStyleClass => "LongSelectList"
     } ) %>
 
@@ -347,8 +345,10 @@
     <%= select_tag "diabetes[test_month]", month_name_options, {
       :helpText => 'Test Month',
       :tt_pageStyleClass => "LongSelectList",
-      :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"'#,
-      #:tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
+      :tt_onLoad => "addOnMouseDownAction(['Unknown'])",
+      :tt_onUnLoad => "my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_month').value,1);
+                       $('encounter_encounter_datetime').value = my_date['value_datetime'];",
+      :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"'     
     }%>
 
     <%= text_field_tag "diabetes[test_day]", '', {
@@ -356,8 +356,8 @@
       :field_type => 'number',
       :absoluteMin => 1, :absoluteMax => 31,
       :condition => '($("diabetes_test_year").value != "Unknown") && ($("diabetes_test_month").value != "Unknown")',
-      :tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")',
-      :tt_onUnload => 'updateEncounterDate();'
+      :tt_onUnLoad => "my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_day').value,2);
+                                  $('encounter_encounter_datetime').value = my_date['value_datetime'];"
     }%>
 
   <% end %>
