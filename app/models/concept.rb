@@ -21,6 +21,7 @@ class Concept < ActiveRecord::Base
   has_one :name, :class_name => 'ConceptName'
   has_many :drugs
   has_many :concept_sets #, :class_name => 'ConceptSet'
+  has_many :concept_members, :class_name => 'ConceptSet', :foreign_key => :concept_set
 
   def self.find_by_name(concept_name)
     Concept.find(:first, :joins => 'INNER JOIN concept_name on concept_name.concept_id = concept.concept_id', :conditions => ["concept.retired = 0 AND concept_name.voided = 0 AND concept_name.name =?", "#{concept_name}"])  

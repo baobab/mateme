@@ -105,15 +105,22 @@
       el.innerHTML += (" in " + units);
     }
   }
-  
+
+    function set_prescriptions_by_diagnosis() {
+    var diagnosis_name = $('diagnosis').value;
+    $('generic').setAttribute('ajaxURL', "/prescriptions/generics?diagnosis=" + diagnosis_name + "&search_string=");
+  }
+
 </script>
 <form id='prescription' action="/prescriptions/create" method='post'>
  
   <%= hidden_field_tag :patient_id, @patient.id %>
 
-  <%= select_tag :diagnosis, options_for_select(['','DIABETES','HYPERTENSION', 'PERIPHERAL NEUROPATHY']), 
+  <%= select_tag :diagnosis, options_for_select([['',''],['DIABETES', 'PATIENT HAS DIABETES'],['HYPERTENSION','HYPERTENSION'], ['PERIPHERAL NEUROPATHY', 'PERIPHERAL NEUROPATHY']]),
     {
-    :helpText => "Prescribe treatment for which diagnosis?"} %> 
+    :helpText => "Prescribe treatment for which diagnosis?",
+    :tt_onUnLoad => "set_prescriptions_by_diagnosis()"
+  } %>
 
 
 
@@ -134,9 +141,10 @@
     :helpText => "Common prescriptions for this diagnosis"}%>
   
   <%= text_field_tag :generic, nil, {
-    :ajaxURL => "/prescriptions/generics?search_string=", 
+    :ajaxURL => "/prescriptions/generics?search_string=",
     :textCase => "upper", 
-    :condition => "selectedValue('suggestion') == '0'",    
+    :condition => "selectedValue('suggestion') == '0'",
+    :tt_onLoad => "set_prescriptions_by_diagnosis()",
     :helpText => "Generic Drug"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>

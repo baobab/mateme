@@ -1,16 +1,11 @@
 <style type="text/css">
   #space { display: inline;}
   #Unknown { display: none;}
-  .LongSelectList #viewport{ overflow: auto; height: 18em;}
 </style>
 <script type="text/javascript">
   var tt_cancel_destination = "/patients/mastercard/<%= @patient.patient_id %>"
 
-  function updateEncounterDate() {
-    $('encounter_encounter_datetime').value = $('diabetes_test_year').value + 
-      '-' + $('diabetes_test_month').value + '-' + $('diabetes_test_day').value +
-      ' 00:00:01';
-  }
+  var my_date =[];
 
   function validateCreatinine() {
     var unit = $('creatinine_unit').value;
@@ -44,6 +39,11 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
+  <%
+    @select_years = ["", "Unknown"]
+    this_year = Date.today.year
+    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1949)
+  %>
     
   <label for="diabetes_test_type">Diabetes Test Type</label>
   <% options=default.merge({
@@ -324,16 +324,30 @@
 
 
   <% if User.current_user.user_roles.map(&:role).map { |each_role| each_role.downcase}.include?('superuser') %>
-    <%= text_field_tag "diabetes[test_year]", nil, {
-      :helpText => 'Test Year', :field_type => 'number', :absoluteMin => "1890",
-      :min => "1940", :absoluteMax => Date.today.year,
-      :tt_pageStyleClass => "Numeric NumbersOnly",
-    }  %>
+
+  <% options=default.merge(
+      {:helpText => 'Test Year',
+        :id => "diabetes_test_year",
+       :field_type => 'number', :absoluteMin => "1890",
+       :min => "1940", :absoluteMax => Date.today.year,
+       :multiple => false,
+       :tt_onLoad => "addOnMouseDownAction(['Unknown'])",
+       :tt_onUnLoad => "if($('diabetes_test_year').value != 'Unknown'){
+                          my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_year').value,0);
+                          $('encounter_encounter_datetime').value = my_date['value_datetime'];
+                        }",
+       :tt_pageStyleClass => "LongSelectList"
+    } ) %>
+
+    <%= select_tag "diabetes[test_year]", options_for_select(@select_years),options %>
 
     <%= select_tag "diabetes[test_month]", month_name_options, {
       :helpText => 'Test Month',
-      :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"'#,
-      #:tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")'
+      :tt_pageStyleClass => "LongSelectList",
+      :tt_onLoad => "addOnMouseDownAction(['Unknown'])",
+      :tt_onUnLoad => "my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_month').value,1);
+                       $('encounter_encounter_datetime').value = my_date['value_datetime'];",
+      :condition => '$("diabetes_test_year").value.toLowerCase() != "unknown"'     
     }%>
 
     <%= text_field_tag "diabetes[test_day]", '', {
@@ -341,8 +355,8 @@
       :field_type => 'number',
       :absoluteMin => 1, :absoluteMax => 31,
       :condition => '($("diabetes_test_year").value != "Unknown") && ($("diabetes_test_month").value != "Unknown")',
-      :tt_onLoad => '$("nextButton").setAttribute("onmousedown", "updateEncounterDate(); gotoNextPage();")',
-      :tt_onUnload => 'updateEncounterDate();'
+      :tt_onUnLoad => "my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_day').value,2);
+                                  $('encounter_encounter_datetime').value = my_date['value_datetime'];"
     }%>
 
   <% end %>
