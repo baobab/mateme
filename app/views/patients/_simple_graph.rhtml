@@ -1,25 +1,36 @@
+<style type="text/css">
+  .graph-button {
+    display: inline;
+    background: #fff;
+    font-size: 20px;
+    color: #008;
+    text-decoration: underline;
+  }
+
+  .active{
+    background: #eee;
+  }
+</style>
+
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
 
 <div id="title" style="position: relative; right: -331px; bottom: 510px;">
   <center><h3></h3> </center>
   <div id="choices" style="height: 10px; position: relative;  right: 12px;"> <b>Show:</b>
-    <input type="radio" name="vitals" value="0"/> Weight
-    <input type="radio" checked="checked" name="vitals" value="1"/> Blood Sugar
-    <input type="radio" name="vitals" value="2"/> Blood Pressure
+    <div id="graph0" onmousedown="plotAccordingToChoices(0);">Blood Sugar</div>
+    <div id="graph1" onmousedown="plotAccordingToChoices(1);">Blood Pressure</div>
+    <div id="graph2" onmousedown="plotAccordingToChoices(2);">Weight</div>
   </div>
 </div>
 <br/>
 <div id="simplegraphholder"style="width: 380px; position: relative; right: -331px; height: 190px; bottom: 510px;">
    
 </div>
-<script id="source" language="javascript" type="text/javascript">
+<script type="text/javascript">
   jQuery.noConflict();
 
-  var bpGraphData;
-  var weightGraphData;
-
-    function setData() {
+  function setData() {
 
     var patient_weight = [
         <% @min = Time.now
@@ -30,9 +41,6 @@
         [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
         <%= obs.value_numeric -%>],<% end %>
         ];
-
-    var patient_blood_sugar = [[1256909708000, 150.0],[1257153256000, 255.0],[1257153256000, 353.0]];
-
 
     var systolic = [
         <% @min = Time.now
@@ -84,29 +92,25 @@
         <%= obs.value_numeric -%>],<% end %>
         ];
 
-    bpGraphData = [{color: "green", points: { show: true }, lines: {show: true}, data: systolic,  label: "Systolic"},
+    var bpGraphData = [{color: "green", points: { show: true }, lines: {show: true}, data: systolic,  label: "Systolic"},
                    {color: "red", points: { show: true }, lines: {show: true}, data: diastolic ,  label: "Diastolic"}];
 
-    bsGraphData = [ {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"},
+    var bsGraphData = [ {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"},
                     {color: "red", bars: {show: true, fill:true, lineWidth: 10}, data: glycated,  label: "HbA1c"},
                     {color: "green", bars: {show: true, fill:true, lineWidth: 10}, data: random,  label: "Random"},];
 
-    weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label: "Weight"}];
+    var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label: "Weight"}];
 
-
-    return weightGraphData;
+    return [bsGraphData, bpGraphData, weightGraphData];
   }
 
-    function setPlotOptions()  {
-    
+  function setPlotOptions() {  
     var options;
-
     options = {
-          grid: { clickable: true },
-          legend: {position:"nw"},
-          xaxis: {mode: "time",timeformat: "%y %b"}
-        };
-
+      grid: { clickable: true },
+      legend: {position:"nw"},
+      xaxis: {mode: "time",timeformat: "%y %b"}
+    };
     return options;
   }
 
@@ -114,47 +118,20 @@
    the user switches among the graphs */
 
   var i = 0;
-  var datasets =[];
-
-  datasets = setData();
+  var datasets = setData();
 
   jQuery.each(datasets, function(key, val) {
-
     val.color = i;
     ++i;
   });
 
-  // insert checkboxes
-  var choiceContainer = jQuery("#choices");
-  choiceContainer.find("input").click(plotAccordingToChoices);
-
-  var key;
-
-  function plotAccordingToChoices() {
-
-  var weightOrBloodSugarData = [];
-
-  choiceContainer.find("input:checked").each(function () {
-  
-    key = jQuery(this).attr("value");
-    if (key && datasets[key])
-      weightOrBloodSugarData.push(datasets[key]);
-
-    /* draw the BP graph*/
-    if (key == 2)
-      jQuery.plot(jQuery("#simplegraphholder"),bpGraphData, setPlotOptions());
-
-    if (key == 1)
-      jQuery.plot(jQuery("#simplegraphholder"),bsGraphData, setPlotOptions());
-
-    /* draw either the weight or blood sugar graph*/
-    else if (weightOrBloodSugarData.length > 0)
-      jQuery.plot(jQuery("#simplegraphholder"),weightOrBloodSugarData, setPlotOptions());
-  });
-
-
+  function plotAccordingToChoices(key) {
+    if (typeof(key) == 'undefined') key = 0;
+    jQuery('#choices div').attr('class', 'graph-button');
+    jQuery('#graph'+key).attr('class', 'graph-button active');
+    jQuery.plot(jQuery("#simplegraphholder"), datasets[key], setPlotOptions());
   }
 
-  plotAccordingToChoices();
+  plotAccordingToChoices(0);
 
 </script>
