@@ -61,22 +61,22 @@ class Patient < ActiveRecord::Base
     label.draw_multi_text("#{address}")
     label.print(1)
   end
-  
+
   def visit_label
     label = ZebraPrinter::StandardLabel.new
     label.font_size = 3
     label.font_horizontal_multiplier = 1
     label.font_vertical_multiplier = 1
     label.left_margin = 50
-    encs = self.current_visit.encounters.active.find(:all)
-    return nil if encs.blank?
+    encs = current_visit.encounters.active.find(:all)
     processed_enc_names = [] #will be used to track already processed encounters. eg Diagnosis because this is taken care of in encounter.to_print
+    return nil if encs.blank?
     
-    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)    
+    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
     encs.each {|encounter|
       next if (encounter.name.humanize == "Registration" || processed_enc_names.include?(encounter.name))
-      processed_enc_names << encounter.name
       label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_print}", :font_reverse => false)
+      processed_enc_names << encounter.name
     }
     label.print(1)
   end
