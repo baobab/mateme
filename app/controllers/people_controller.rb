@@ -73,6 +73,37 @@ class PeopleController < ApplicationController
     end
   
   end
+
+  def edit
+    # only allow these fields to prevent dangerous 'fields' e.g. 'destroy!'
+    valid_fields = ['birthdate','gender']
+    unless valid_fields.include? params[:field]
+      redirect_to :controller => 'patients', :action => 'mastercard', :id => params[:id]
+      return
+    end
+
+    @person = Person.find(params[:id])
+    if request.post? && params[:field]
+      if params[:field]== 'gender'
+        @person.gender = params[:person][:gender]
+      elsif params[:field] == 'birthdate'
+        if params[:person][:birth_year] == "Unknown"
+          @person.set_birthdate_by_age(params[:person]["age_estimate"])
+        else
+          @person.set_birthdate(params[:person]["birth_year"],
+                                params[:person]["birth_month"],
+                                params[:person]["birth_day"])
+        end
+        @person.birthdate_estimated = 1 if params[:person]["birthdate_estimated"] == 'true'
+        @person.save
+      end
+      @person.save
+      redirect_to :controller => :patients, :action => :mastercard, :id => @person.id
+    else
+      @field = params[:field]
+      @field_value = @person.send(@field)
+    end
+  end
  
   # TODO refactor so this is restful and in the right controller.
   def set_datetime
