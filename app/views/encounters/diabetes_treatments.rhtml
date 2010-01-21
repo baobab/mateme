@@ -15,7 +15,7 @@
   <% default={
     :allowFreeText => 'true'
   } %>
-<%
+  <%
     @select_years = ["", "Unknown"]
     this_year = Date.today.year
     begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1949)
