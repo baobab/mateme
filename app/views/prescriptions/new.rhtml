@@ -133,7 +133,7 @@
   
   <%= text_field_tag :suggestion, params[:suggestion] || 0, {
     :tt_onLoad => "set_diagnosis_for_suggestions();",
-    :ajaxURL => "/prescriptions/suggested?patient_id=#{@patient.id}&search_string=", 
+    :ajaxURL => "/prescriptions/suggested_by_diagnosis_name?patient_id=#{@patient.id}&search_string=",
     :textCase => "upper", 
     :field_type => 'boolean',
     :allowFreeText => 'false',
