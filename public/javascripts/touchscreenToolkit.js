@@ -1391,12 +1391,12 @@ function getQwertyKeyboard(){
 //		getButtonString('date','Date') +
 		"</span><span style='padding-left:15px' class='buttonLine'>" +
 		getButtons("ASDFGHJKL") +
-		getButtonString('space','Space') +
+		getButtonString('space','&nbsp;') +
 		"</span><span style='padding-left:25px' class='buttonLine'>" +
 		getButtons("ZXCVBNM,.") +
 		getButtonString('abc','A-Z') +
 		getButtonString('num','0-9') +
-    getButtonString('SHIFT','Upper') +
+    getButtonString('SHIFT','aA') +
 		"</span>" +
 		"</span>"
 	return keyboard;
@@ -1413,11 +1413,11 @@ function getABCKeyboard(){
 		"</span><span class='buttonLine'>" +
 		getButtons("IJKLMNOP") +
 		getButtonString('apostrophe',"'") +
-		getButtonString('space','Space') +
+		getButtonString('SHIFT','aA') +
 		getButtonString('Unknown','Unknown') +
 		"</span><span class='buttonLine'>" +
 		getButtons("QRSTUVWXYZ") +
-    getButtonString('SHIFT','SHIFT') +
+    getButtonString('space','&nbsp;') +
 		getButtonString('qwerty','qwerty') +
 		"</span>" +
 		"</span>";
@@ -1449,7 +1449,7 @@ function getNumericKeyboard(){
 		getCharButtonSetID(",","comma") +
 		getButtonString('backspace','Delete') +
 		getButtonString('Unknown','Unknown') +
-		getButtonString('SHIFT','SHIFT') +
+		getButtonString('SHIFT','aA') +
 		"</span>"
 	return keyboard;
 }
@@ -1578,13 +1578,14 @@ function press(pressedChar){
 				getDatePicker();
 				break;
 			case 'SHIFT':
-				toggleShift();
+        toggleShift();
 				break;
 			case 'Unknown':
 				inputTarget.value = "Unknown";
 				break;
 		
 			default:
+        if (tstShiftPressed) pressedChar = pressedChar.toUpperCase();
 				inputTarget.value += pressedChar;
 		}
 	}
@@ -1703,7 +1704,7 @@ function getRightCaseValue(aChar) {
         newChar = aChar.toLowerCase();                                                            
       break;
 		default:		// Capitalise First Letter
-			if (inputElement.value.length == 0)
+			if (inputElement.value.length == 0 || tstShiftPressed)
 				newChar = aChar.toUpperCase();
 			else 
 				newChar = aChar.toLowerCase();
