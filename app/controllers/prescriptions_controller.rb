@@ -176,5 +176,14 @@ class PrescriptionsController < ApplicationController
     @options = @orders.map{|o| [o.order_id, o.script] } + @options
     render :layout => false
   end
-  
+
+  def suggested_by_diagnosis_name
+    @diagnosis = Concept.find_by_name(params[:diagnosis]).concept_id rescue nil
+    @options = []
+    render :layout => false and return unless @diagnosis
+    @orders = DrugOrder.find_common_orders(@diagnosis)
+    @options = @orders.map{|o| [o.order_id, o.script] } + @options
+    render :layout => false
+  end
+
 end
