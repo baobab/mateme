@@ -31,7 +31,7 @@
   function set_diagnosis_for_suggestions() {
     changeNextButtonText('Select Prescription');
     var diagnosis = encodeURIComponent($('diagnosis').value);
-    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/suggested?patient_id=<%= @patient.patient_id %>&diagnosis=" + diagnosis + "&search_string=");
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/suggested_by_diagnosis_name?patient_id=<%= @patient.patient_id %>&diagnosis=" + diagnosis + "&search_string=");
     clearInput();  
   }
 
