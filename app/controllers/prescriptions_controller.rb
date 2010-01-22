@@ -21,6 +21,29 @@ class PrescriptionsController < ApplicationController
     @suggestion = params[:suggestion]
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
+
+    if(params[:observations])
+
+      params[:observations].each{ |observation|
+
+        # Check to see if any values are part of this observation to avoid saving empty observations
+        values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+          observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
+        }.compact
+
+        next if values.length == 0
+        observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
+
+        observation[:encounter_id]  = @encounter.encounter_id
+        observation[:obs_datetime]  = @encounter.encounter_datetime ||= Time.now()
+        observation[:person_id]     = @encounter.patient_id
+
+        diagnosis_observation = Observation.create(observation)
+        params[:diagnosis]    = diagnosis_observation.id
+      }
+
+    end
+
     @diagnosis = Observation.find(params[:diagnosis]) rescue nil
     unless (@suggestion.blank? || @suggestion == '0')
       @order = DrugOrder.find(@suggestion)
