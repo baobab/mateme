@@ -119,7 +119,7 @@
   <%= select_tag :diagnosis, options_for_select([['',''],['DIABETES', 'PATIENT HAS DIABETES'],['HYPERTENSION','HYPERTENSION'], ['PERIPHERAL NEUROPATHY', 'PERIPHERAL NEUROPATHY']]),
     {
     :helpText => "Prescribe treatment for which diagnosis?",
-    :tt_onUnLoad => "set_prescriptions_by_diagnosis()"
+    :tt_onUnLoad => "set_prescriptions_by_diagnosis(); $('diagnosis_value_coded_or_text').value = $('diagnosis').value;"
   } %>
 
 
@@ -254,6 +254,9 @@
      :condition => "selectedValue('suggestion') == '0'",    
      :helpText => "Take as needed (PRN)?"} %> 
 
+  <%= hidden_field_tag("observations[][concept_name]",        "DIAGNOSIS") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'diagnosis_value_coded_or_text'} ) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <!-- label for='showSummary'></label -->
   <%#= text_field_tag :showSummary, nil, { :optional => "true", :tt_pageStyleClass => "NoControls prescription" } %>
 </form>
