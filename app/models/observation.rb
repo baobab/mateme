@@ -4,6 +4,7 @@ class Observation < ActiveRecord::Base
   include Openmrs
 
   belongs_to :concept
+  belongs_to :encounter
   belongs_to :answer_concept, :class_name => "Concept", :foreign_key => "value_coded"
   belongs_to :answer_concept_name, :class_name => "ConceptName", :foreign_key => "value_coded_name_id"
   has_many :concept_names, :through => :concept
