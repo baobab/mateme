@@ -56,11 +56,9 @@
       <span style='font-weight:bold;'><%="#{status}"%></span>
     <%end%>
   </div>
-  <%if status !='REACTIVE'%>
     <div id="menu">
       <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
     </div>
-  <%end%>
 </div>
 
 
