@@ -30,7 +30,7 @@
 
     
     <label for="ward">Ward</label>
-    <%= select_tag("ward", options_for_select(["", "WARD 3A","WARD 3B", "WARD 4A", "WARD 4B"]), {:helpText => 'Select Ward', :tt_onload => 'updateNextButton();'})%> <br>
+    <%= select_tag("ward", options_for_select([' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',')), {:helpText => 'Select Ward', :tt_onload => 'updateNextButton();'})%> <br>
 
 
     <%= submit_tag value="Submit"%>
