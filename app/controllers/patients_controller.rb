@@ -32,7 +32,8 @@ class PatientsController < ApplicationController
     session[:hiv_status_updated] = true if params[:hiv_status_updated] == 'true'
     session[:prescribed] = true if params[:prescribed] == 'true'
     #print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", next_task(@patient)) and return if session[:prescribed] = true 
-    redirect_to next_discharge_task(@patient) and return if session[:auto_load_forms] == true
+    redirect_to next_discharge_task(@patient) and return if session[:auto_load_forms] == true && session[:admit] == false
+    redirect_to next_admit_task(@patient) and return if session[:auto_load_forms] == true && session[:admit] == true
     render :template => 'patients/show', :layout => 'menu'
     
   end
@@ -83,6 +84,7 @@ class PatientsController < ApplicationController
     session[:confirmed] = false
     session[:diagnosis_done] = false
     session[:prescribed] = false
+    session[:admit] = false
     redirect_to next_discharge_task(@patient)
   end
 
@@ -91,6 +93,7 @@ class PatientsController < ApplicationController
     session[:auto_load_forms] = true
     session[:diagnosis_done] = false
     session[:admitted] = true
+    session[:admit] = true
     redirect_to next_admit_task(@patient)
   end
 
@@ -103,7 +106,7 @@ class PatientsController < ApplicationController
 
     if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
-      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime
+      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
       current_visit.save
       print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
 
