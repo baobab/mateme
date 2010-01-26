@@ -7,7 +7,20 @@
 
     function inform() {
       $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";  
-    }           
+    }  
+
+    function updateUserProperty(){
+      var aUrl = "/user/add_update_property?username="+ tstUsername + "&property=last_login_location&property_value=" + $('ward').value;
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', aUrl, true);
+      xmlhttp.send(null);    
+      //aalert('TT')
+    }    
+
+    function updateNextButton() {
+      $('nextButton').setAttribute("onmousedown", "updateUserProperty(); gotoNextPage();");
+    }
+    
   </script>
 
   <% form_tag session_path, :method => :put do -%>
@@ -17,7 +30,7 @@
 
     
     <label for="ward">Ward</label>
-    <%= select_tag("ward", options_for_select(["", "WARD 3A","WARD 3B", "WARD 4A", "WARD 4B"]), {:helpText => 'Select Ward'})%> <br>
+    <%= select_tag("ward", options_for_select(["", "WARD 3A","WARD 3B", "WARD 4A", "WARD 4B"]), {:helpText => 'Select Ward', :tt_onload => 'updateNextButton();'})%> <br>
 
 
     <%= submit_tag value="Submit"%>
