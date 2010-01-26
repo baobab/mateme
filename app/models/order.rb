@@ -12,7 +12,7 @@ class Order < ActiveRecord::Base
   named_scope :active, :conditions => ['voided = 0 AND discontinued = 0']
   
   def to_s
-    "#{drug_order}"
+    "#{drug_order} (#{OrderType.find(self.order_type).name rescue ''})"
   end
 end
 
