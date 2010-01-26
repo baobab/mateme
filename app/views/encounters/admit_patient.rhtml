@@ -15,7 +15,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "WARD 3A","WARD 3B", "WARD 4A", "WARD 2A", "OTHER"]), {:helpText => 'Admit to ward'})%>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select([' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',')), {:helpText => 'Admit to ward'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "ADMIT TO WARD", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
