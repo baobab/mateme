@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
 
   helper :all
   filter_parameter_logging :password
-  before_filter :login_required, :except => ['login', 'logout','demographics']
-  before_filter :location_required, :except => ['login', 'logout', 'location','demographics']
+  before_filter :login_required, :except => ['login', 'logout','demographics', 'add_update_property']
+  before_filter :location_required, :except => ['login', 'logout', 'location','demographics', 'add_update_property']
 
   
   def rescue_action_in_public(exception)
@@ -64,11 +64,8 @@ class ApplicationController < ActionController::Base
   end
 
    def next_admit_task(patient)
-
-    outcome = patient.current_outcome
-    return "/encounters/new/admit_patient?patient_id=#{patient.id}" if  session[:diagnosis_done] == false
-    return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
-    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['ALIVE', 'ABSCONDED'].include?(outcome)
+    
+    return "/encounters/new/admit_patient?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && !patient.admitted_to_ward
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false
     session[:auto_load_forms] = false
     return "/patients/show/#{patient.id}" 
