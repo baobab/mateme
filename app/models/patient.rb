@@ -61,6 +61,24 @@ class Patient < ActiveRecord::Base
     label.draw_multi_text("#{address}")
     label.print(1)
   end
+=begin
+  def visit_label
+    label = ZebraPrinter::StandardLabel.new
+    label.font_size = 3
+    label.font_horizontal_multiplier = 1
+    label.font_vertical_multiplier = 1
+    label.left_margin = 50
+    encs = encounters.current.active.find(:all)
+    return nil if encs.blank?
+    
+    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
+    encs.each {|encounter|
+      next if encounter.name.humanize == "Registration"
+      label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_print}", :font_reverse => false)
+    }
+    label.print(1)
+  end
+=end
 
   def visit_label
     label = ZebraPrinter::StandardLabel.new
@@ -68,18 +86,46 @@ class Patient < ActiveRecord::Base
     label.font_horizontal_multiplier = 1
     label.font_vertical_multiplier = 1
     label.left_margin = 50
-    encs = current_visit.encounters.active.find(:all)
-    processed_enc_names = [] #will be used to track already processed encounters. eg Diagnosis because this is taken care of in encounter.to_print
+    encs = self.last_visit.encounters.active
+    enc_names = encs.map{|encounter| encounter.name}.uniq rescue []
     return nil if encs.blank?
     
-    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
-    encs.each {|encounter|
-      next if (encounter.name.humanize == "Registration" || processed_enc_names.include?(encounter.name))
-      label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_print}", :font_reverse => false)
-      processed_enc_names << encounter.name
+    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")} - #{encs.last.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
+    
+    enc_names.each{|name|
+      next if name.humanize == "Registration"
+      header = true
+      if name.humanize == 'Diagnosis'
+
+        for encounter in encs do
+        if encounter.name == name
+        if header
+          label.draw_multi_text("#{name.humanize}: ", :font_reverse => false)
+          label.draw_multi_text("#{encounter.to_print}", :font_reverse => false)
+        else
+          label.draw_multi_text("#{encounter.to_print}", :font_reverse => false)
+        end
+        header = false
+        end
+      end
+
+      else
+      for encounter in encs do
+        if encounter.name == name
+        if header
+          label.draw_multi_text("#{name.humanize}: #{encounter.to_print}", :font_reverse => false)
+        else
+          label.draw_multi_text("#{encounter.to_print}", :font_reverse => false)
+        end
+        header = false
+        end
+      end
+      end
     }
+    label.draw_multi_text("Seen by: #{User.current_user.name rescue ''} at #{GlobalProperty.find_by_property('facility.short_name').property_value rescue ''} #{UserProperty.find_by_property_and_user_id('last_login_location', User.current_user.user_id).property_value rescue ''}", :font_reverse => true)
     label.print(1)
   end
+
   
   def location_identifier
     id = nil
@@ -189,5 +235,10 @@ class Patient < ActiveRecord::Base
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("ADMIT TO WARD").concept_id])
      }.flatten.compact.last rescue nil
   end
+
+   def last_visit
+     last_visit = self.visits.last
+   end
+
 
 end
