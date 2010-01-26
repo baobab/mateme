@@ -27,4 +27,8 @@ class Concept < ActiveRecord::Base
     Concept.find(:first, :joins => 'INNER JOIN concept_name on concept_name.concept_id = concept.concept_id', :conditions => ["concept.retired = 0 AND concept_name.voided = 0 AND concept_name.name =?", "#{concept_name}"])  
   end
 
+  def short_name
+    self.concept_names.collect{|c| c.name}.sort{|a,b| a.length <=> b.length}.first
+  end
+
 end
