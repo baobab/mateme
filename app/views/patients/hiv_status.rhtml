@@ -4,31 +4,31 @@
 </script>
 <style type="text/css">
 
-    a.button.green {
-      width:220px;
-      -moz-user-select:none;
-      border:0 none;
-      color:white;
-      cursor:pointer;
-      display:block;
-      font-weight:bold;
-      padding:0 8px 0 0;
-      text-align:center;
-      text-decoration:none;
-      background:#00FF00 none repeat scroll 0 0;
-      font-size:1.4em;
-      height:57px;
-      line-height:57px;
-      min-width:48px;
-      margin-top:10px
-    }
-    #menu {
-      float:right;
-      overflow:auto;
-      position:relative;
-      height:478px;
-      width:257px;;
-    }
+      a.button.green {
+        width:220px;
+        -moz-user-select:none;
+        border:0 none;
+        color:white;
+        cursor:pointer;
+        display:block;
+        font-weight:bold;
+        padding:0 8px 0 0;
+        text-align:center;
+        text-decoration:none;
+        background:#00FF00 none repeat scroll 0 0;
+        font-size:1.4em;
+        height:57px;
+        line-height:57px;
+        min-width:48px;
+        margin-top:10px
+      }
+      #menu {
+        float:right;
+        overflow:auto;
+        position:relative;
+        height:478px;
+        width:257px;;
+      }
 </style>
 
 <div style="margin:10px;">
@@ -47,18 +47,20 @@
       status = @status.to_s
     end
   %>
-    HIV STATUS :
+    <span style='font-weight:bold;'>HIV Status :</span>
     <%if @arv_number && !@arv_number.empty?%>
-      <span style='font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
+      <span><%= "#{status}".humanize%></span> <div><span style='font-weight:bold;'>ARV Number : </span><%="#{@arv_number}"%></div>
     <%elsif status.to_s == 'REACTIVE'%>
-      <span style='font-weight:bold;'><%= "#{status}"%></span>
+      <span><%= "#{status}".humanize%></span>
     <%else%>
-      <span style='font-weight:bold;'><%="#{status}"%></span>
+      <span><%="#{status}".humanize%></span>
     <%end%>
+    <div><span style='font-weight:bold;'>HIV test date :</span> <span><%=@hiv_test_date%></span></div>
+    
   </div>
-    <div id="menu">
-      <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
-    </div>
+  <div id="menu">
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
+  </div>
 </div>
 
 

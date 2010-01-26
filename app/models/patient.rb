@@ -240,5 +240,13 @@ class Patient < ActiveRecord::Base
      last_visit = self.visits.last
    end
 
+    def hiv_test_date    
+      self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter| 
+      encounter.observations.active.last(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV TEST DATE").concept_id])
+    }.flatten.compact.last.value_datetime.strftime("%d/%b/%Y") rescue 'Unknown'
+  end
+
+
 
 end
