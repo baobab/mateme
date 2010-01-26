@@ -45,7 +45,7 @@ class Encounter < ActiveRecord::Base
       vitals << temp_str if temp_str                          
       vitals.join(', ')
     elsif name == 'UPDATE HIV STATUS'
-      'Patient\'s HIV Status was updated'
+      observations.collect{|observation| observation.answer_string}.join(", ")
     elsif name == 'DIAGNOSIS'
       if observations.map{|ob| ob.concept.name.name}.include?('PRIMARY DIAGNOSIS')
         diagnosis_text = ''
@@ -108,28 +108,30 @@ class Encounter < ActiveRecord::Base
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'UPDATE HIV STATUS'
-      'Patient HIV Status was updated'
+      #'Patient HIV Status was updated'
+      patient.hiv_status
     elsif name == 'DIAGNOSIS'
       if observations.map{|ob| ob.concept.name.name}.include?('PRIMARY DIAGNOSIS')
         diagnosis_text = ''
         test_text = ''
         myh = {}
         observations.each{|observe|
-          diagnosis_text = "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
+          diagnosis_text = "#{observe.concept.name.name} - #{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
           next if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
-          myh[observe.answer_concept.name.name] = {} if not myh[observe.answer_concept.name.name]
-          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'YES'
-          myh[observe.answer_concept.name.name]['TEST NOT REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'NO'
-          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = 'RESULT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'YES'
-          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = 'RESULT NOT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'NO'
+          short_name = observe.answer_concept.short_name
+          myh[short_name] ||= {} #if not myh[observe.answer_concept.name.name]
+          myh[short_name]['REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'YES'
+          myh[short_name]['NOT REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'NO'
+          myh[short_name]['REQUESTED'] = 'RESULT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'YES'
+          myh[short_name]['REQUESTED'] = 'RESULT NOT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'NO'
         }
         myh.each{|k,v|
-          test_text = test_text + "#{k}: #{v.keys.to_s} #{v.values.to_s}"
+          test_text = test_text + "#{k.humanize}: #{v.keys.to_s.humanize} #{v.values.to_s.humanize};"
         }
-        diagnosis_text + ' ' + test_text
+        diagnosis_text + ': ' + test_text
       else
 
-        observations.collect{|observation| observation.answer_string}.join(", ")
+        observations.collect{|observation| observation.concept.name.name + ' - ' + observation.answer_string}.join(', ')
 
       end
 
