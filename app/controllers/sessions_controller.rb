@@ -27,6 +27,7 @@ class SessionsController < ApplicationController
 
   # Form for entering the location information
   def location
+    @login_wards = [' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
   end
 
   # Update the session with the location information
