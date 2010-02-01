@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  
   def index
     @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
     @regstration_clerk = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
@@ -51,7 +52,7 @@ class PeopleController < ApplicationController
  
   def create
     remote_parent_server = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value
-    if !remote_parent_server.empty?
+    if !remote_parent_server.blank?
         found_person_data = Person.create_remote(params)
         found_person = nil
         if found_person_data
