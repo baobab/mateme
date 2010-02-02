@@ -1,15 +1,16 @@
 <style type="text/css">
   .graph-button {
     display: inline;
-    background: #fff;
+    background: #dedede;
     font-size: 20px;
     color: #008;
-    text-decoration: underline;
+    padding: 8px;
   }
 
   .active{
     background: #eee;
   }
+  #simplegraphholder { border: 1px solid #eee;}
 </style>
 
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
@@ -17,9 +18,9 @@
 
 <div id="title" style="position: relative; right: -331px; bottom: 510px;">
   <center><h3></h3> </center>
-  <div id="choices" style="height: 10px; position: relative;  right: 12px;"> <b>Show:</b>
+  <div id="choices" style="height: 10px; position: relative;  right: 0px;">
     <div id="graph0" onmousedown="plotAccordingToChoices(0);">Blood Sugar</div>
-    <div id="graph1" onmousedown="plotAccordingToChoices(1);">Blood Pressure</div>
+    <div id="graph1" onmousedown="plotAccordingToChoices(1);">BP</div>
     <div id="graph2" onmousedown="plotAccordingToChoices(2);">Weight</div>
   </div>
 </div>
