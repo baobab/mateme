@@ -73,6 +73,8 @@ ul.list{
     <%end%>
   <div id="menu">
 
+      <a class="button green" href='/encounters/new/label_specimens/?patient_id=<%= @patient.id -%>'>Label Specimens</a>
+
   <%if @doctor%>
       <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
     <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward%>

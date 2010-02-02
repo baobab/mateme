@@ -1,0 +1,79 @@
+<script>
+var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=false"
+
+// Every 500 milliseconds update the Next/Finish button
+function updateNextFinish(){
+  if (tstInputTarget.value == 'Finished')
+    $('nextButton').innerHTML = '<span>Finish</span>';
+  else
+    $('nextButton').innerHTML = '<span>Next</span>';
+    setTimeout(updateNextFinish, 500)
+  }
+
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+  #Unknown { display: none}
+</style>
+<form id='label_specimens' action="/encounters/create" method='post'>
+    
+  <%= hidden_field_tag "encounter[encounter_type_name]", "LABEL SPECIMENS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+
+   <%
+    tests = ["","Finished"] + "
+Full blood count
+Malaria parasite
+Group & cross m__
+Urea & electrol__
+CD4 count
+Viral load
+Cryptococcal An__
+Lactate
+Fasting blood sugar
+Random blood sugar
+Liver function test
+Hepatitis test
+Sickling test
+ESR (erythrocyte sedimentation rate)
+Culture & sensiti__
+Widal test
+ELISA (enzyme-linked immunosorbent assay)
+ASO (Antistreptolysin-O) titre
+Rheumatoid fact__
+Cholesterol
+Tryglicerides
+Calcium
+Creatinine
+VDRL (venereal disease research laboratory)
+Direct Coombs
+Indirect Coombs
+Blood Test NOS
+    ".split("\n").sort
+
+   options = {
+#     :optional => 'true',
+     :helpText => 'Test Required',
+     :allowFreeText => 'false', 
+#     :ajaxURL => "/encounters/diagnoses?search_string=", 
+     :textCase => "upper",
+     :tt_onLoad => "updateNextFinish()" ,
+     :tt_OnUnload => "if (tstInputTarget.value == 'Finished') {$('value_coded_or_text_#{}').value = ''}" ,
+   } %>
+
+  <% 15.times do |iteration| %>
+    <% options[:condition] = "tstPageValues[tstCurrentPage] != 'Finished'" if iteration > 0 %>
+    <% options[:tt_OnUnload] = "$('value_coded_or_text_#{iteration}').value = (tstInputTarget.value == 'Finished' ? '' : tstInputTarget.value)" %>
+    <%= select_tag ("unused_placeholder", options_for_select(tests), options)%>
+    <%= hidden_field_tag ("observations[][value_coded_or_text]", nil, {:id => "value_coded_or_text_#{iteration}"}) %>
+    <%= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "TESTS ORDERED", options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= submit_tag "Finish" %>    
+  <% end %>
+
+ </form>
