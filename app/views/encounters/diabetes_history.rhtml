@@ -14,8 +14,9 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <% options=default.merge(
-    {:helpText => 'Year of Initial Diagnosis',
-      :field_type => 'text',  :id => "year_of_initial_diagnosis",
+    {:tt_requireNextClick => false,
+     :helpText => 'Year of Initial Diagnosis',
+     :field_type => 'text',  :id => "year_of_initial_diagnosis",
      :optional => true,  :multiple => false,
      :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
      :tt_pageStyleClass => "LongSelectList"
@@ -30,7 +31,8 @@
   <%= select_tag "year_of_initial_diagnosis", options_for_select(@select_init_diagnosis_year),options %>
 
   <%= select_tag "month_of_initial_diagnosis", month_name_options,
-    {:helpText => 'Month of Diagnosis',
+    {:tt_requireNextClick => false,
+      :helpText => 'Month of Diagnosis',
       :tt_pageStyleClass => 'LongSelectList',
       :id => "month_of_initial_diagnosis",
       :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown"'}%>
@@ -55,6 +57,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "diabetes_type",
+    :tt_requireNextClick => false,
     :helpText =>"Type of diabetes"
   }) %>
   <% @diabetes_types  = [""]
@@ -68,9 +71,11 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "secondary_diabetes",
+    :tt_requireNextClick => false,
     :helpText => "Secondary diabetes?"
   }) %>
   <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+    "",
     "Yes",
     "No"
   ]), options ) %>
@@ -82,10 +87,13 @@
     :field_type => 'text',
     :id => "cause_of_secondary_diabetes",
     :tt_onUnLoad => "$('final_cause').value = $('cause_of_secondary_diabetes').value",
+    :tt_requireNextClick => false,
+    :condition => "$('secondary_diabetes').value != 'No'",
     :helpText => "Cause of Secondary Diabetes"
 
   }) %>
   <%= select_tag( "cause_of_secondary_diabetes", options_for_select([
+    "",
     "ART",
     "Thiazide diuretics",
     "Gestational diabetes",
@@ -94,6 +102,7 @@
   
 <%= text_field_tag "specify_other_cause_of_secondary_diabetes",nil,
 { :field_type => 'alpha',
+  :tt_requireNextClick => false,
   :helpText => 'Specify any other Cause of Secondary Diabetes',
   :allowFreeText => true,
   :tt_onUnLoad => "$('final_cause').value = $('other_cause_of_secondary_diabetes').value",
