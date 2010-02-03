@@ -1,5 +1,6 @@
+<%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
 <script>
-  var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
+  var tt_cancel_destination = "<%= @destination_page -%>"
   var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
 </script>
@@ -302,7 +303,8 @@
  <%= hidden_field_tag("observations[][value_corded_or_text]", "", {:id => "medical_condition_value_coded_or_text"}) %>
  <%= hidden_field_tag("observations[][patient_id]",           @patient.id) %>
  <%= hidden_field_tag("observations[][obs_datetime]",         DateTime.now()) %>
+
+  <%= hidden_field_tag("next_url",@destination_page) %>
    
-   <%= submit_tag "Finish" %>
+ <%= submit_tag "Finish" %>
 </form>
- 

@@ -1,5 +1,6 @@
+<%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
 <script>
-  var tt_cancel_destination = "/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>"
+  var tt_cancel_destination = "<%= @destination_page -%>"
 </script>
 
 <form id='complications' action="/encounters/create" method='post'>
@@ -315,6 +316,8 @@
   <%= hidden_field_tag("observations[][parent_concept_name]", "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+
+  <%= hidden_field_tag("next_url",@destination_page) %>
   
 <%= submit_tag "Finish" %>
 </form>
