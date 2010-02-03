@@ -2,8 +2,9 @@
   #space { display: inline;}
   #Unknown { display: none;}
 </style>
-<script type="text/javascript">
-  var tt_cancel_destination = "/patients/mastercard/<%= @patient.patient_id %>"
+<%= @destination_page =  "/patients/mastercard/" + @patient.id.to_s %>
+<script>
+  var tt_cancel_destination = "<%= @destination_page -%>"
 
   var my_date =[];
 
@@ -360,5 +361,7 @@
     }%>
 
   <% end %>
+
+  <%= hidden_field_tag("next_url",@destination_page) %>
   <%= submit_tag "Finish" %>
 </form>
