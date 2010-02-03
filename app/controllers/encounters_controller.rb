@@ -44,7 +44,14 @@ class EncountersController < ApplicationController
       end
     }
     @patient = Patient.find(params[:encounter][:patient_id])
-    redirect_to next_task(@patient) 
+
+    # redirect to a custom destination page 'next_url' 
+    if(params[:next_url])
+      redirect_to params[:next_url] and return
+    else
+      redirect_to next_task(@patient)
+    end
+    
   end
 
   def new
