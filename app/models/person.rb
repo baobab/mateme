@@ -275,39 +275,30 @@ class Person < ActiveRecord::Base
     result = Person.find_remote(known_demographics)
   end
 
+  # use the autossh tunnels setup in environment.rb to query the demographics servers
+  # then pull down the demographics
   def self.find_remote(known_demographics)
-    servers = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.all"}).property_value.split(/,/) rescue nil
-    return nil if servers.blank?
 
-    wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt"
-    # use ssh to establish a secure connection then query the localhost
-    # use wget to login (using cookies and sessions) and set the location
-    # then pull down the demographics
-    # TODO fix login/pass and location with something better
+    known_demographics.merge!({"_method"=>"put"})
+    # Some strange parsing to get the params formatted right for mechanize
+    demographics_params = [CGI.unescape(known_demographics.to_param).split('=')]
 
-    login = "mikmck"
-    password = "mike"
-    location = 8
+    # Could probably define this in environment.rb and reuse to improve speed if necessary
+    mechanize_browser = WWW::Mechanize.new
 
-    post_data = known_demographics
-    post_data["_method"]="put"
+    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
 
-    local_demographic_lookup_steps = [ 
-      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost/people/demographics\""
-    ]
-    results = []
-    servers.each{|server|
-      command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
-      output = `#{command}`
-      results.push output if output and output.match(/person/)
-    }
+    result = demographic_servers.map{|demographic_server, local_port|
+
+      # Note: we don't use the demographic_server because it is port forwarded to localhost
+      output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
+
+      output if output and output.match(/person/)
+
     # TODO need better logic here to select the best result or merge them
     # Currently returning the longest result - assuming that it has the most information
     # Can't return multiple results because there will be redundant data from sites
-    result = results.sort{|a,b|b.length <=> a.length}.first
-
+    }.sort{|a,b|b.length <=> a.length}.first
 
     result ? JSON.parse(result) : nil
 
@@ -391,7 +382,6 @@ class Person < ActiveRecord::Base
       results.push output if output and output.match(/person/)
     }
     result = results.sort{|a,b|b.length <=> a.length}.first
-
 
     result ? JSON.parse(result) : nil
 
