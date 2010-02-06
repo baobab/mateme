@@ -216,6 +216,11 @@ class Person < ActiveRecord::Base
   end
 
   def self.create_from_form(params)
+    #return rescue text if remote timed out or creation of patient on remote failed
+    if params.to_s == 'timeout' || params.to_s == 'creationfailed'
+      return params.to_s
+    end
+
     if params.has_key?('person')
       params = params['person']
     end
@@ -290,9 +295,17 @@ class Person < ActiveRecord::Base
 
     result = demographic_servers.map{|demographic_server, local_port|
 
+      begin
       # Note: we don't use the demographic_server because it is port forwarded to localhost
       output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
 
+       rescue Timeout::Error 
+        return 'timeout'
+      rescue
+        return 'creationfailed'
+      end
+
+      
       output if output and output.match(/person/)
 
     # TODO need better logic here to select the best result or merge them
@@ -361,7 +374,15 @@ class Person < ActiveRecord::Base
 
     result = demographic_servers.map{|demographic_server, local_port|
 
-    output = mechanize_browser.post("http://localhost:#{local_port}/patient/create_remote", demographics_params).body
+      begin
+
+      output = mechanize_browser.post("http://localhost:#{local_port}/patient/create_remote", demographics_params).body 
+
+      rescue Timeout::Error 
+        return 'timeout'
+      rescue
+        return 'creationfailed'
+      end
 
       output if output and output.match(/person/)
 
