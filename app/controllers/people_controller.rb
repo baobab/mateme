@@ -3,6 +3,11 @@ class PeopleController < ApplicationController
   def index
     @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
     @regstration_clerk = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
+    
+    @show_set_date = false
+    session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
+    @show_set_date = true unless session[:datetime].blank? 
+
     render :layout => "menu"
   end
  
@@ -34,7 +39,15 @@ class PeopleController < ApplicationController
         # TODO - figure out how to write a test for this
         # This is sloppy - creating something as the result of a GET
         found_person_data = Person.find_remote_by_identifier(params[:identifier])
-        found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
+         if found_person_data.to_s ==  'timeout' || found_person_data.to_s == 'creationfailed'
+          
+          flash[:error] = "Could not create patient due to loss of connection to server" if found_person_data.to_s == 'timeout'
+          flash[:error] = "Was unable to create patient with the given details" if found_person_data.to_s == 'creationfailed'
+          redirect_to :action => "index" and return
+         else
+
+          found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
+         end
       end
       if found_person
         redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
@@ -54,6 +67,14 @@ class PeopleController < ApplicationController
     remote_parent_server = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value
     if !remote_parent_server.blank?
         found_person_data = Person.create_remote(params)
+        #redirect to people index with flash notice if remote timed out or creation of patient on remote failed
+        if found_person_data.to_s ==  'timeout' || found_person_data.to_s == 'creationfailed'
+          
+          flash[:error] = "Could not create patient due to loss of connection to server" if found_person_data.to_s == 'timeout'
+          flash[:error] = "Was unable to create patient with the given details" if found_person_data.to_s == 'creationfailed'
+          redirect_to :action => "index" and return
+        end
+
         found_person = nil
         if found_person_data
           diabetes_number = params[:person][:patient][:identifiers][:diabetes_number] rescue nil
