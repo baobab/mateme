@@ -10,9 +10,27 @@
     <div style="color:gray">scan a barcode</div>
   </form>
   <div class="centered">
-  <% if @super_user or @regstration_clerk%>
+    <% date = session[:datetime] ||= Date.today 
+    if @super_user or @regstration_clerk %>
+    <%if !@show_set_date%>
+      <span style="font-size: 16pt">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+        </span>
+      <%else%>
+      <span style="font-size: 16pt; background-color: red">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+        </span>
+      <%end%>
+
+
     <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+    <%if !@show_set_date%>
+      <button id="set_date_button" class="button green" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
+      <%else%>
+      <button id="reset_date_button" class="button green" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+      <%end%>
     <%end%>
+    <br />
     <% if @super_user%>
       <button id="admin_button" class="button green" onclick="window.location = '/user/user_menu'"><span>Administration</span></button>
     <%end%>
