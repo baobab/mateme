@@ -24,6 +24,7 @@
 <script>
   var tt_cancel_destination = "/prescriptions/?patient_id=<%= @patient.patient_id %>?auto_load_forms=false";
   var selectedSuggetion = '';
+  var showCommonPrescriptions = false;
 
   function changeNextButtonText(text){
     $('nextButton').innerHTML = "<span>" + text + "</span>";
@@ -125,6 +126,25 @@
     }
   }
 
+  function common_prescritions_present() {
+    var diagnosis = encodeURIComponent(selectedValue('diagnosis'));
+   
+    var aUrl = "/prescriptions/suggested?patient_id=<%= @patient.patient_id %>&diagnosis=" + diagnosis + "&search_string=";
+    var xmlhttp = new XMLHttpRequest();
+    
+    showCommonPrescriptions = false;
+    xmlhttp.onreadystatechange = function(){
+      if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+        if (xmlhttp.responseText.split(" ").join("").split("\n").join("") != '<lionmousedown=""tstValue="0">NewPrescription</li>'){
+          showCommonPrescriptions = true;                
+        }
+      }
+    };
+
+    xmlhttp.open('GET', aUrl, true);
+    xmlhttp.send(null);
+  }
+
 </script>
 <form id='prescription' action="/prescriptions/create" method='post'>
 
@@ -140,7 +160,8 @@
   <%= select_tag :selected_order_type, options_for_select(
     ["", "Treatment given","Treatment prescribed"]),
     {:condition => "selectedValue('diagnosis') != '0'",
-    :helpText => 'Specify treatment type'
+      :helpText => 'Specify treatment type',
+      :tt_onLoad => "common_prescritions_present();"
   }%>
 
 
@@ -150,7 +171,8 @@
     :textCase => "upper",
     :field_type => 'boolean',
     :allowFreeText => 'false',
-    :condition => "selectedValue('selected_order_type') != '0'",
+    #:condition => "selectedValue('selected_order_type') != '0'",
+    :condition => "selectedValue('selected_order_type') != '0' && showCommonPrescriptions",
     :helpText => "Common prescriptions for this diagnosis",
     :tt_onUnLoad => "selectedSuggetion = $('touchscreenInput'+tstCurrentPage).value"}%>
 
