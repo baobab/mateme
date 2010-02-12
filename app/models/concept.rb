@@ -20,7 +20,8 @@ class Concept < ActiveRecord::Base
   has_many :answer_concept_names, :class_name => 'ConceptName'
   has_one :name, :class_name => 'ConceptName'
   has_many :drugs
-  has_many :concept_sets #, :class_name => 'ConceptSet'
+  has_many :concept_sets, :class_name => 'ConceptSet', :foreign_key => "concept_set"
+  has_many :concepts, :through => :concept_sets, :foreign_key => 'set'
   has_many :concept_members, :class_name => 'ConceptSet', :foreign_key => :concept_set
 
   def self.find_by_name(concept_name)
