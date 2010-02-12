@@ -75,25 +75,20 @@ class PrescriptionsController < ApplicationController
   # limit the list to only the list of drugs that are actually in the 
   # drug list so we don't pick something we don't have.
   def generics
-    search_string = (params[:search_string] || '').upcase
-    filter_list = params[:filter_list].split(/, */) rescue []
-    diagnosis_name = params[:diagnosis] rescue ""
+    search_string   = (params[:search_string] || '').upcase
+    filter_list     = params[:filter_list].split(/, */) rescue []
+    diagnosis_name  = params[:diagnosis] rescue ""
+    
+    expression_to_search = Regexp.new(search_string)
 
-    if(!diagnosis_name.blank?)
-      diagnosis_id = Concept.find_by_name(diagnosis_name).id
-      @drug_concepts = ConceptName.find(:all,
-        :select => "concept_name.name",
-        :joins => "INNER JOIN concept_set ON concept_set.concept_id = concept_name.concept_id AND concept_set.concept_set = #{diagnosis_id}
-                   INNER JOIN drug ON drug.concept_id = concept_set.concept_id AND drug.retired = 0",
-        :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
+    if(!diagnosis_name.blank?)      
+      @drug_concepts  = Concept.find_by_name(diagnosis_name).concepts.map{|drug|drug.name.name}.sort.grep(expression_to_search)
     else
-      @drug_concepts = ConceptName.find(:all,
-        :select => "concept_name.name",
-        :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0",
-        :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
+      drug_class_id   = ConceptClass.find_by_name("Drug").concept_class_id
+      @drug_concepts  = Concept.find(:all, :conditions => ["class_id = ?", drug_class_id]).map{|drug| drug.name.name}.sort.grep(expression_to_search)
     end
 
-    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.join("</li><li>") + "</li>"
+    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept}.uniq.join("</li><li>") + "</li>"
   end
   
   # Look up all of the matching drugs for the given generic drugs
