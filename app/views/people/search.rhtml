@@ -36,7 +36,7 @@
     <% else -%>
       <label for="person">Select the patient from the following</label>
     <% end -%>
-    <select name="person" id="person">
+    <select name="person" id="person" tt_pageStyleClass = "LongSelectList">
       <% @people.each do |person| -%>
         <option value="<%= person.id %>" onmousedown="changeNextButtonText('Select Patient')">
           <%=h person.name -%>, 
