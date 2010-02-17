@@ -128,7 +128,16 @@ class Person < ActiveRecord::Base
   end
 
   def self.search_by_identifier(identifier)
-    PatientIdentifier.find_all_by_identifier(identifier).map{|id| id.patient.person} unless identifier.blank?
+    people = PatientIdentifier.find_all_by_identifier(identifier).map{|id| id.patient.person} unless identifier.blank?
+
+    #find by DC Number
+    if people.blank? and (!identifier.to_s.include? "P")
+      identifier_type = PatientIdentifierType.find_by_name("Diabetes Number").id
+      dc_number       = identifier.to_s.split(/DC/).to_s.to_i
+      people          = PatientIdentifier.find_all_by_identifier_and_identifier_type(dc_number,identifier_type).map{|id| id.patient.person} unless identifier.blank?
+    end
+
+    return people
   end
 
   def self.search(params)
