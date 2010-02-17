@@ -22,6 +22,7 @@
     <div id="graph0" onmousedown="plotAccordingToChoices(0);">Blood Sugar</div>
     <div id="graph1" onmousedown="plotAccordingToChoices(1);">BP</div>
     <div id="graph2" onmousedown="plotAccordingToChoices(2);">Weight</div>
+    <div id="graph3" onmousedown="plotAccordingToChoices(3);">HbA1c</div>
   </div>
 </div>
 <br/>
@@ -97,12 +98,13 @@
                    {color: "red", points: { show: true }, lines: {show: true}, data: diastolic ,  label: "Diastolic"}];
 
     var bsGraphData = [ {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"},
-                    {color: "red", bars: {show: true, fill:true, lineWidth: 10}, data: glycated,  label: "HbA1c"},
-                    {color: "green", bars: {show: true, fill:true, lineWidth: 10}, data: random,  label: "Random"},];
+                    {color: "green", bars: {show: true, fill:true, lineWidth: 10}, data: random,  label: "Random"}];
 
     var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label: "Weight"}];
 
-    return [bsGraphData, bpGraphData, weightGraphData];
+    var hba1cGraphData  = [{color: "rgb( 0, 205, 0)", points: { show: true },lines: {show: true}, data: glycated,  label: "HbA1c"}];
+
+    return [bsGraphData, bpGraphData, weightGraphData, hba1cGraphData];
   }
 
   function setPlotOptions() {  
