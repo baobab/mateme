@@ -15,6 +15,11 @@
 </script>
 
 <% form_tag "search", :method => :get do %>
-  <%= text_field_tag :identifier,  params[:identifier], {:field_type => 'alpha', :helpText => 'Identifier', :allowFreeText => true, :textCase => 'upper' } %>
+  <%#= text_field_tag :identifier,  params[:identifier], {:field_type => 'alpha', :helpText => 'Identifier', :allowFreeText => true, :textCase => 'upper' } %>
+  <%= text_field_tag :identifier,  params[:identifier],
+    { :field_type => 'number',
+      :helpText => "Enter Patient's DC Number",
+      :allowFreeText => true,
+      :textCase => 'upper'} %>
   <%= submit_tag "Find identifier" %>
 <% end -%>
