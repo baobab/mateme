@@ -1,8 +1,24 @@
 class PeopleController < ApplicationController
   
   def index
-    @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
-    @regstration_clerk = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
+    user =  User.find(session[:user_id])
+    @password_expired = false
+
+    password_expiry_date = UserProperty.find_by_property_and_user_id('password_expiry_date', user.user_id).property_value.to_date rescue nil
+
+    if password_expiry_date
+      @days_left = (password_expiry_date - Date.today).to_i
+    else
+      password_expiry_date = Date.today + 4.months
+      User.save_property(user.user_id, 'password_expiry_date', password_expiry_date)
+      @days_left = (password_expiry_date - Date.today).to_i 
+    end
+
+    @password_expired = true if @days_left < 0
+
+
+    @super_user = true  if user.user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
+    @regstration_clerk = true  if user.user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
     
     @show_set_date = false
     session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil

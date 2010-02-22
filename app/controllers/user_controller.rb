@@ -85,7 +85,7 @@ class UserController < ApplicationController
     unless session[:user_edit].nil?
       @user = User.find(session[:user_edit])
     else
-      @user = User.find(:first, :order => 'date_created DESC')
+      @user = User.find(session[:user_id])
       session[:user_edit]=@user.user_id
     end  
   end
@@ -207,6 +207,7 @@ class UserController < ApplicationController
   end
   
   def user_menu
+    @super_user = true if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
     render(:layout => "layouts/menu")
   end
  
@@ -219,7 +220,7 @@ class UserController < ApplicationController
   end
   
   def change_password
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id] || params[:id]) rescue nil
    
     unless request.get? 
       if (params[:user][:password] != params[:user_confirm][:password])

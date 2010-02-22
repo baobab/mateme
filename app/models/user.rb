@@ -149,4 +149,24 @@ class User < ActiveRecord::Base
     end
   end
 
+  def before_update  
+    self.salt = User.random_string(10) if !self.salt?
+    self.password = encrypt(self.password, self.salt) #if self.plain_password
+  end
+
+  def password_expiry
+    property = last_password_update
+    user_id = self.id
+
+    expiry_date = UserProperty.find_by_property_and_user_id(property, user_id).property_value rescue nil
+
+    if expiry_date
+
+    else
+     self.save_property(user_id, property, Date.today)     
+    end
+    
+  end
+
+
 end

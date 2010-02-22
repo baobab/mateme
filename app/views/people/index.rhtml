@@ -3,6 +3,19 @@
   tt_cancel_destination = '/logout';  
 </script>
 
+<%if @password_expired%>
+
+  <div style="text-align:center;margin:10px;">
+    <span style="font-size: 24pt">Your password has expired</span>
+    <div class="centered">
+      <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
+        <span>Change Password</span>
+      </button>
+    </div>
+  </div>
+
+<%else%>
+
 <div style="text-align:center;margin:10px;">
   <form id='barcodeForm' action="/people/search">
     <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
@@ -10,6 +23,12 @@
     <div style="color:gray">scan a barcode</div>
   </form>
   <div class="centered">
+    <%if @days_left <= 7%>
+      <span style="font-size: 16pt"> <%= "Your password will expire in #{@days_left} days" %> </span> <br />
+      <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
+        <span>Change Password</span>
+      </button> <br />
+    <%end%>
     <% date = session[:datetime] ||= Date.today 
     if @super_user or @regstration_clerk %>
     <%if !@show_set_date%>
@@ -52,4 +71,6 @@
       <% end %>
     </table>
   </div>  
-</div>  
+</div> 
+
+<%end%>

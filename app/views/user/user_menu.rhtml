@@ -36,8 +36,10 @@
 </form>
 <h1 align = "center">User Management Menu</h1>
 <div id="menu" class="button green">
+  <%if @super_user%>
    <a class="button green" href='/user/new'>Create New User</a>
    <a class="button green" href='/user/search_user'>Edit User</a>
+ <%end%>
    <a class="button green" href='/people/index'>Cancel</a>
 
 </div>

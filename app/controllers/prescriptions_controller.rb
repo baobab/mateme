@@ -178,5 +178,9 @@ class PrescriptionsController < ApplicationController
     @options += []    
     render :layout => false
   end
+
+  def drug_list
+    
+  end
   
 end
