@@ -1,7 +1,7 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
 </script>
-
+<!--
 <style type="text/css">
 .keyboard{
   position:absolute;
@@ -16,9 +16,10 @@ height:auto;
 overflow:auto;
 }
 </style>
+-->
 
-<form id='question_type' action="/encounters/first_time_visit_questions" method='post'>
-  <%= select_tag(:select_question_type,
+<!-- <form id='question_type' action="/encounters/first_time_visit_questions" method='post'> -->
+  <%#= select_tag(:select_question_type,
     options_for_select([
           " ",
           "Diabetes History",
@@ -30,6 +31,69 @@ overflow:auto;
           "General Health"
           ]),
     :helpText => "MEDICAL HISTORY<br/>Select the catergory of questions:")%>
-  <%= hidden_field_tag("[patient_id]", @patient.patient_id) %>
-  <%= submit_tag("Next", :id => "nextButton") %>
-</form>
+  <%#= hidden_field_tag("[patient_id]", @patient.patient_id) %>
+  <%#= submit_tag("Next", :id => "nextButton") %>
+<!--</form> -->
+
+<style type="text/css">
+
+  a.button.green {
+    width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:#00FF00 none repeat scroll 0 0;
+    font-size:1.4em;
+    height:57px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
+  }
+#menu {
+    float:right;
+    overflow:auto;
+    position:relative;
+    height:478px;
+    width:257px;;
+  }
+
+  #content {
+  background:#FFFFFF;
+  position:absolute;
+  left:43%;
+  top:50%;
+  width:1000px;
+  height:600px;
+  margin-left:-400px;
+  margin-top:-300px;
+}
+</style>
+
+<div style="margin:10px;">
+  <div id="details" style="float:left">
+    <%= render :partial => "patient_medical_history"%>
+  </div>
+
+  <div id="menu">
+    <a class="button green" href='/encounters/diabetes_history?patient_id=<%= @patient.id -%>'>Diabetes History</a>
+    <a class="button green" href='/encounters/diabetes_treatments?patient_id=<%= @patient.id -%>'>Diabetes Treatments</a>
+    <a class="button green" href='/encounters/hospital_admissions?patient_id=<%= @patient.id -%>'>Hospital Admissions</a>
+    <a class="button green" href='/encounters/past_medical_history?patient_id=<%= @patient.id -%>'>Past Medical History</a>
+    <a class="button green" href='/encounters/initial_complications?patient_id=<%= @patient.id -%>'>Complications</a>
+    <a class="button green" href='/encounters/hypertension_management?patient_id=<%= @patient.id -%>'>Hypertension Mgt</a>
+    <a class="button green" href='/encounters/general_health?patient_id=<%= @patient.id -%>'>General Health</a>
+  </div>
+</div>
+
+<!-- setup the finish button -->
+<div id="footer">
+<div id="buttons" class="buttonsDiv" style="top:0px">
+  <button id="finishButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Finish</span></button></div>
+  <div id="tt_extraButtons"/>
+</div>
