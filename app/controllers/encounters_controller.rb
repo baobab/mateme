@@ -1,5 +1,7 @@
 class EncountersController < ApplicationController
 
+ before_filter :set_patient_details
+
   def create
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
@@ -140,24 +142,39 @@ class EncountersController < ApplicationController
 
   def first_time_visit_questions
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
-    if request.post?
-      params[:patient_id] = @patient.patient_id
-      if params[:select_question_type] == "Diabetes History"
-        redirect_to :action => "new",:encounter_type =>"diabetes_history", :patient_id => @patient.patient_id and return
-      elsif params[:select_question_type]== "Diabetes Treatments"
-        redirect_to :action => "new",:encounter_type =>"diabetes_treatments", :patient_id => @patient.patient_id and return
-      elsif params[:select_question_type] == "Hospital Admissions due to Diabetes"
-        redirect_to :action => "new",:encounter_type =>"hospital_admissions", :patient_id => @patient.patient_id and return
-      elsif params[:select_question_type] == "Past Medical History"
-        redirect_to :action => "new",:encounter_type =>"past_medical_history", :patient_id => @patient.patient_id and return
-      elsif params[:select_question_type] == "Complications"
-        redirect_to :action => "new",:encounter_type =>"initial_complications", :patient_id => @patient.patient_id and return
-      elsif params[:select_question_type] == "Hypertension Management"
-        redirect_to :action => "new",:encounter_type =>"hypertension_management", :patient_id => @patient.patient_id and return
-      elsif params[:select_question_type] == "General Health"
-        redirect_to :action => "new",:encounter_type =>"general_health", :patient_id => @patient.patient_id and return
-      end
-    end
+
+    ignored_concept_id = Concept.find_by_name("NO").id;
+
+    @observations = Observation.find(:all, :order => 'obs_datetime DESC',
+                      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? AND value_coded != ?",
+                        @patient.patient_id, Time.now.to_date, ignored_concept_id])
+
+    @observations.delete_if { |obs| obs.value_text.downcase == "no" rescue nil }
+
+    @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
+
   end
 
+  def set_patient_details
+    if (params[:patient_id] || session[:patient_id])
+      @patient = Patient.find(params[:patient_id] || session[:patient_id]) if (!@patient)
+
+    @encounter_type_ids = []
+    encounters_list = ["initial diabetes complications",
+                      "diabetes history", "diabetes treatments",
+                      "diabetes admissions", "general health",
+                      "hypertension management",
+                      "past diabetes medical history"]
+
+    @encounter_type_ids = EncounterType.find_all_by_name(encounters_list).each{|e| e.encounter_type_id}
+
+     @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
+                      :conditions => ["patient_id= ? AND encounter_type in (?)",
+                        @patient.patient_id,@encounter_type_ids])
+    @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+
+    @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%d-%b-%Y")}.uniq
+
+    end
+  end
 end
