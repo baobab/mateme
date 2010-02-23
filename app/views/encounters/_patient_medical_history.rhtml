@@ -1,0 +1,66 @@
+
+<style type="text/css" >
+.mytableborder {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+}
+
+ul.list li.data .summary {
+font-size:0.7em;
+}
+
+</style>
+
+<div id =" patient_history" style="position: relative;  top: 0px;">
+  <h2> Medical History</h2>
+  <table cellpadding="2" cellspacing="0" width="100%" bgcolor="#808080">
+    <tr>
+      <td style="font-size: 1.2em;"> <font color="#FFFFFF"> <b>Date</b> </font></td>
+      <td style="font-size: 1.2em;"> <font color="#FFFFFF"> <b>Medical History Observed</b> </font></td>
+    </tr>
+  </table>
+
+  <ul class="list" style="height: 390px; width: 700px;">
+    <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+
+      <%@encounter_datetimes.each { |encounter_datetime|%>
+        <tr>
+          <td class="mytableborder" style="font-size: 1.2em;">
+            <%=h(encounter_datetime)%>
+          </td>
+
+          <td class="mytableborder" style="font-size: 1.5em;">
+            <ul class="list" style="border:medium none;">
+
+              <%@encounter_names.each{|encounter_name|
+                header = 'true'
+                for encounter in @encounters do %>
+
+                  <%if (encounter.name == encounter_name) && ((encounter.encounter_datetime.strftime("%d-%b-%Y") == encounter_datetime))%>
+                    <li class="data">
+                      
+                      <%if header == 'true' %><div style="float:left">
+                        <%=h encounter.name.humanize %></div>
+                      <%end; header = 'false'%>
+
+                      <div style="clear:left" class="summary">
+                        <span>
+                          <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>').titleize  -%>
+                        </span>
+
+                      </div>
+                      
+                    </li>
+                  <%end
+                end
+                
+              }%>
+            </ul>
+          </td>
+        </tr>
+      <%}%>
+    </table>
+  </ul>
+</div>
