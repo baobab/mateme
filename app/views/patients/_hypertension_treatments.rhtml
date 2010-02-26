@@ -1,0 +1,59 @@
+<style type="text/css" >
+  .mytableborder {
+  border-top:1px solid ;
+  border-right:1px solid ;
+  border-bottom:1px solid ;
+  border-left:1px solid ;
+  }
+
+  ul.list li.data .summary {
+  font-size:0.7em;
+  }
+
+  .textLabel {
+    /*border: 1px solid green;*/
+    position: relative;
+    right:24px;
+    top:75px;
+  } /* just borders to see it */
+</style>
+
+<div id =" patient_history" style="position: relative;  top: 0px; left:360px" >
+  <h3> Hypertension Medicine</h3>
+  <ul class="list" style="background-attachment:scroll;  background-color:Beige;
+  background-image:none;  background-position:0 0;  background-repeat:repeat;
+  height: 210px;   width: 350px;">
+    <div style="position: absolute; right: 10px">
+      <%if !@patient_hypertension_treatements.blank? then%>
+    <h3>Current Drugs </h3>
+<table cellpadding="2" cellspacing="0" width="90%" >
+    <tr bgcolor="#808080">
+      <td class="mytableborder" style="font-size: 1em;"> <font color="#FFFFFF"> <b>Date Started </b> </font></td>
+      <td class="mytableborder" style="font-size: 1em;"> <font color="#FFFFFF"> <b>Drug</b> </font></td>
+      <td class="mytableborder" style="font-size: 1em;"> <font color="#FFFFFF"> <b>Length</b> </font></td>
+    </tr>
+
+    <%@patient_diabetes_treatements.map{|treatment| %>
+      <tr>
+      <td class="mytableborder" style="font-size: 1em;"><%=treatment.start_date.strftime("%d-%b-%Y")%></td>
+      <td class="mytableborder" style="font-size: 1em;"><%=treatment.drug_name.titleize%></td>
+      <td class="mytableborder" style="font-size: 1em;"> <%=treatment.days%> days </td>
+    </tr>
+    <%}%>
+  </table>
+
+  <p style="word-break:break-all; width:90%">
+    The patient has been on hypertension medicine for <%=@patient_medication_period%>
+  </p>
+  </div>
+  <%else%>
+ <div class="textLabel" style="display: table;width:100%">
+    <div style=" #position: absolute; #top: 50%;display: table-cell; vertical-align: middle;">
+  <p>
+    <i>The patient has <b> never</b> been on hypertension medicine </i>
+  </p>
+  </div>
+</div>
+  <%end%>
+  </ul>
+</div>
