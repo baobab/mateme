@@ -129,4 +129,24 @@ class Patient < ActiveRecord::Base
     }.flatten.compact.last.answer_concept_name.name rescue 'UNKNOWN'
    end
 
+  def treatments
+
+    treatment_encouter_id   = EncounterType.find_by_name("TREATMENT").id
+    drug_order_id           = OrderType.find_by_name("DRUG ORDER").id
+    diabetes_id             = Concept.find_by_name("PATIENT HAS DIABETES").id
+    hypertensition_id       = Concept.find_by_name("HYPERTENSION").id
+
+    Order.find_by_sql("SELECT orders.concept_id,name AS drug_name,obs.value_coded AS diagnosis_id,
+                        MAX(auto_expire_date) AS end_date, MIN(start_date) AS start_date,
+                        DATEDIFF(MAX(auto_expire_date), MIN(start_date))AS days FROM orders
+                      INNER JOIN encounter ON orders.encounter_id = encounter.encounter_id
+                      INNER JOIN concept_name ON concept_name.concept_id = orders.concept_id
+                      INNER JOIN obs ON orders.obs_id = obs.obs_id
+                      WHERE encounter_type = #{treatment_encouter_id} AND encounter.patient_id = #{self.patient_id} AND encounter.voided = 0
+                        AND orders.order_type_id = #{drug_order_id} AND obs.value_coded IN (#{diabetes_id}, #{hypertensition_id})
+                      GROUP BY orders.concept_id, obs.value_coded
+                      ORDER BY end_date DESC")
+
+   end
+
 end
