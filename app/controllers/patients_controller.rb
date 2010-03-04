@@ -36,11 +36,33 @@ class PatientsController < ApplicationController
 
     @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
 
+
     @vitals = Encounter.find(:all, :order => 'encounter_datetime DESC',
                       :limit => 50, :conditions => ["patient_id= ? AND encounter_datetime < ? ",
                         @patient.patient_id, Time.now.to_date])
-    render :template => 'patients/show', :layout => 'menu'
+
+    @patient_treatements = @patient.treatments
+
+    diabetes_id       = Concept.find_by_name("PATIENT HAS DIABETES").id
+
+    @patient_diabetes_treatements     = []
+    @patient_hypertension_treatements = []
+
+    @patient.treatments.map{|treatement|
+
+      if (treatement.diagnosis_id.to_i == diabetes_id)
+        @patient_diabetes_treatements << treatement
+      else
+        @patient_hypertension_treatements << treatement
+      end
+    }
+
+
+    # set the patient's medication period
+    @patient_medication_period = "3 years"
     
+    render :template => 'patients/show', :layout => 'menu'
+
   end
 
   def void 
