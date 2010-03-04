@@ -194,4 +194,18 @@ class PrescriptionsController < ApplicationController
     render :layout => false
   end
 
+  def drug_formulations
+
+    drug_name = (params[:generic] || '')
+
+    drugs     = Array.new
+    drug_list = DrugList.new()
+
+    drug_list.diabetes_drugs[drug_name].each do |drug, empty_value|
+      drugs << drug if(!drug.blank?)
+    end
+
+    render :text => "<li>" + drugs.map{|drug| drug}.join("</li><li>") + "</li>"
+  end
+
 end
