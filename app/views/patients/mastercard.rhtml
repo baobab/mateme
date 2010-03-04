@@ -1,6 +1,7 @@
 <style type="text/css">
+  table { margin: 15px;}
   td {
-    background: #EEEEEE;
+    background: #EEEEEE; 
   }
   .label {
     font-weight: bold;
@@ -73,10 +74,10 @@
 
 <%#= render :partial => "patient_history"%>
 
-<div id ="patient_history" style="left: 10px; width: 500px;/*position: relative; right: -361px; top: 0px;*/">
+<!--div id ="patient_history" style="left: 10px; width: 500px;/*position: relative; right: -361px; top: 0px;*/"-->
  <div style="font-size: 0.9em;">
   <div class="list" style="height: 210px; width: 550px;">
-    <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+    <!--table cellpadding="2" cellspacing="0" border ="1" width="100%">
       <%@obs_datetimes.each { |observation_datetime|%>
        <tr class ="data <%= cycle('even', 'odd')%>" >
        <td class="mytableborder"> <%=h(observation_datetime)%></td>
@@ -89,10 +90,58 @@
       </td>
       </tr>
     <%}%>
+  </table-->
+    <p/>
+    <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+       <tr class ="data <%= cycle('even', 'odd')%>" >
+         <td class="mytableborder"> CREATININE </td>
+         <td class="mytableborder">
+         <%for observation in @creatinine_obs do%>
+           <%= h("#{observation.answer_string}") %>
+           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
+        <%end%>
+        </td>
+      </tr>
+      <tr class ="data <%= cycle('even', 'odd')%>" >
+         <td class="mytableborder"> URINE PROTEIN </td>
+         <td class="mytableborder">
+         <%for observation in @urine_protein_obs do%>
+           <%= h("#{observation.to_s_formatted}") %>
+           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
+        <%end%>
+        </td>
+      </tr>
+      <tr class ="data <%= cycle('even', 'odd')%>" >
+         <td class="mytableborder"> VISUAL ACUITY </td>
+         <td class="mytableborder">
+         <%for observation in @visual_acuity_obs do%>
+           <%= h("#{observation.to_s_formatted}") %>
+           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
+        <%end%>
+        </td>
+      </tr>
+      <tr class ="data <%= cycle('even', 'odd')%>" >
+         <td class="mytableborder"> FUNDOSCOPY </td>
+         <td class="mytableborder">
+         <%for observation in @fundoscopy_obs do%>
+           <%= h("#{observation.to_s_formatted}") %>
+           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
+        <%end%>
+        </td>
+      </tr>
+      <tr class ="data <%= cycle('even', 'odd')%>" >
+         <td class="mytableborder"> FOOT CHECK </td>
+         <td class="mytableborder">
+         <%for observation in @foot_check_obs do%>
+           <%= h("#{observation.to_s_formatted}") %>
+           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
+        <%end%>
+        </td>
+      </tr>
   </table>
   </div>
   </div>
-  </div>
+  <!--/div-->
 
 <div id="menu">
   <a class="button green" href='/encounters/new/diabetes_test?patient_id=<%= @patient.id -%>'>Screen Complications</a>
