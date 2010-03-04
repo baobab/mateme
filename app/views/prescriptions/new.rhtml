@@ -43,6 +43,13 @@
     clearInput();
   }
 
+  function set_drug_formulation() {
+    var generic = encodeURIComponent($('generic').value);
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', "/prescriptions/drug_formulations?generic=" + generic + "&search_string=");
+    /*$('infoBar'+tstCurrentPage).innerHTML = $('generic').value;*/
+    clearInput();
+  }
+
   function set_formulation_for_type() {
     $('infoBar'+tstCurrentPage).innerHTML = $('formulation').value;  
   }
@@ -118,8 +125,10 @@
 
   <%= select_tag :diagnosis, options_for_select([['',''],['DIABETES', 'PATIENT HAS DIABETES'],['HYPERTENSION','HYPERTENSION'], ['PERIPHERAL NEUROPATHY', 'PERIPHERAL NEUROPATHY']]),
     {
-    :helpText => "Prescribe treatment for which diagnosis?",
-    :tt_onUnLoad => "set_prescriptions_by_diagnosis(); $('diagnosis_value_coded_or_text').value = $('diagnosis').value;"
+      :tt_requireNextClick => false,
+      :helpText => "Prescribe treatment for which diagnosis?",
+      :tt_pageStyleClass => "LongSelectList",
+      :tt_onUnLoad => "set_prescriptions_by_diagnosis(); $('diagnosis_value_coded_or_text').value = $('diagnosis').value;"
   } %>
 
 
@@ -132,6 +141,7 @@
     :helpText => "Prescribe treatment for which diagnosis?"}%>
   
   <%= text_field_tag :suggestion, params[:suggestion] || 0, {
+    :tt_requireNextClick => false,
     :tt_onLoad => "set_diagnosis_for_suggestions();",
     :ajaxURL => "/prescriptions/suggested_by_diagnosis_name?patient_id=#{@patient.id}&search_string=",
     :textCase => "upper", 
@@ -140,30 +150,42 @@
     :condition => "selectedValue('diagnosis') != '0'",
     :helpText => "Common prescriptions for this diagnosis"}%>
   
-  <%= text_field_tag :generic, nil, {
+  <%#= text_field_tag :generic, nil, {
     :ajaxURL => "/prescriptions/generics?search_string=",
     :textCase => "upper", 
     :condition => "selectedValue('suggestion') == '0'",
     :tt_onLoad => "set_prescriptions_by_diagnosis()",
     :helpText => "Generic Drug"}%>
 
+<%= text_field_tag :generic, nil, {
+    :tt_requireNextClick => false,
+    :ajaxURL => "/prescriptions/generics?search_string=",
+    :textCase => "upper",
+    :condition => "selectedValue('suggestion') == '0'",
+    :tt_onLoad => "set_prescriptions_by_diagnosis()",
+    :tt_pageStyleClass => "LongSelectList",
+    :helpText => "Select a drug name"}%>
+    
   <% # Set ajaxURL in the script, but need to start it blank %>
   <%= text_field_tag :formulation, nil, {
-    :tt_onLoad => "set_generic_drug_for_formulation();",
+    :tt_requireNextClick => false,
+    :tt_onLoad => "set_drug_formulation();",
     :ajaxURL => "", 
     :textCase => "upper", 
-    :condition => "selectedValue('suggestion') == '0'",    
-    :helpText => "Formulation"}%>
+    :condition => "selectedValue('suggestion') == '0'",
+    :tt_pageStyleClass => "LongSelectList",
+    :helpText => "Select Drug formulation"}%>
 
-  <%= select_tag :type_of_prescription, options_for_select(
+  <%#= select_tag :type_of_prescription, options_for_select(
     {"Standard Dose" => "standard",
      "Variable Dose" => "variable"}), 
     {:tt_onLoad => "set_formulation_for_type();",
      :condition => "selectedValue('suggestion') == '0'",    
-     :helpText => "Type of Prescription"} %> 
+     :helpText => "Type of Prescription"} %>
+  <%= hidden_field_tag(:type_of_prescription,        "standard") %>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
-  <%= text_field_tag :dose_strength, nil, {
+  <%#= text_field_tag :dose_strength, nil, {
     :tt_onLoad => "set_generic_drug_and_formulation_for_dose(); set_units_for_dose_strength('Dose Strength');",
     :ajaxURL => "", 
     :field_type => 'number',
@@ -181,7 +203,7 @@
      options = names.map{|n| [n.name, n.name]}
      options << ['', '']
   %>
-  <%= select_tag :frequency, options_for_select(options, ''), 
+  <%#= select_tag :frequency, options_for_select(options, ''),
     {:tt_onLoad => "set_info_for_frequency();",     
      :helpText => "Frequency",
      :condition => "selectedValue('suggestion') == '0' && selectedValue('type_of_prescription') == 'Standard Dose'"} %> 
@@ -236,8 +258,8 @@
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
   <% # Set ajaxURL in the script, but need to start it blank %>
-  <%= text_field_tag :duration, nil, { 
-    :tt_onLoad => "set_generic_drug_and_formulation_for_duration();",
+  <%#= text_field_tag :duration, nil, {
+    #:tt_onLoad => "set_generic_drug_and_formulation_for_duration();",
     :ajaxURL => "", 
     :field_type => 'number',
     :units => 'days',
@@ -247,7 +269,17 @@
     :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
     :tt_pageStyleClass => "NumbersOnlyWithDecimal"}%>
 
-  <%= select_tag :prn, options_for_select(
+
+ <%= select_tag :duration, options_for_select([["", ""], ["1 WEEK","7"], 
+     ["2 WEEKS","14"], ["1 MONTH","30"], ["2 MONTHS","60"], ["3 MONTHS","90"], 
+     ["4 MONTHS","120"], ["5 MONTHS","150"], ["6 MONTHS", "180"]]),{    
+      :field_type => 'number',
+      :units => 'days',
+      :condition => "selectedValue('suggestion') == '0'",
+      :helpText => "Duration",      
+      :tt_pageStyleClass => "LongSelectList"}%>
+
+  <%#= select_tag :prn, options_for_select(
     {"No" => "0", 
      "Yes" => "1"}), 
     {:tt_onLoad => "set_info_for_prn();",
