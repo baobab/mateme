@@ -19,8 +19,10 @@ class PrescriptionsController < ApplicationController
   
   def create
     @suggestion = params[:suggestion]
-    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @encounter = @patient.current_treatment_encounter
+    @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @encounter  = @patient.current_treatment_encounter
+    diagnosis_name = params[:diagnosis]
+    diabetes_clinic = false
 
     if(params[:observations])
 
@@ -45,6 +47,17 @@ class PrescriptionsController < ApplicationController
     end
 
     @diagnosis = Observation.find(params[:diagnosis]) rescue nil
+    diabetes_clinic = true if (['PATIENT HAS DIABETES','HYPERTENSION','PERIPHERAL NEUROPATHY'].include?(diagnosis_name))
+
+    if diabetes_clinic
+      drug_info = @patient.drug_details(params[:formulation], diagnosis_name).first
+
+      params[:formulation]    = drug_info[:drug_formulation]
+      params[:frequency]      = drug_info[:drug_frequency]
+      params[:prn]            = drug_info[:drug_prn]
+      params[:dose_strength]  = drug_info[:drug_strength]
+    end
+
     unless (@suggestion.blank? || @suggestion == '0')
       @order = DrugOrder.find(@suggestion)
       DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order)
