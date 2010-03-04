@@ -149,4 +149,46 @@ class Patient < ActiveRecord::Base
 
    end
 
+  def drug_details(drug_info, diagnosis_name)
+
+    string = drug_info.split(/ /)
+
+    # do not remove the '(' in the following string
+    name = "%("+string.second+"%"
+    drug_frequency = string.last.upcase
+
+    diagnosis_id = Concept.find_by_name(diagnosis_name)
+
+    drugs = Drug.find(:all,:select => "concept.concept_id AS concept_id, concept_name.name AS name,
+        drug.dose_strength AS strength, drug.name AS formulation",
+      :joins => "INNER JOIN concept       ON drug.concept_id = concept.concept_id
+               INNER JOIN concept_set   ON concept.concept_id = concept_set.concept_id
+               INNER JOIN concept_name  ON concept_name.concept_id = concept.concept_id",
+      :conditions => ["concept_set.concept_set = ? AND drug.name LIKE ?", diagnosis_id, name],
+      :group => "concept.concept_id, drug.name, drug.dose_strength")
+
+    drug_details = Array.new
+
+    concept_name_id = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id
+    preferred_concept_name_id = Concept.find_by_name(drug_frequency).concept_id
+
+    drug_frequency = ConceptName.find(:first, :select => "concept_name.name",
+                      :joins => "INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept
+                                INNER JOIN concept_name_tag_map cnmp
+                                  ON  cnmp.concept_name_id = concept_name.concept_name_id
+                                  AND cnmp.concept_name_tag_id = 4",
+                      :conditions => ["concept_answer.concept_id = ? AND concept_name.concept_id = ? AND voided = 0", concept_name_id, preferred_concept_name_id])
+
+    if (string.count == 3)
+      drugs.each do |drug|
+
+        drug_details += [:drug_concept_id => drug.concept_id,
+           :drug_name => drug.name, :drug_strength => drug.strength,
+           :drug_formulation => drug.formulation, :drug_prn => 0, :drug_frequency => drug_frequency.name]
+
+      end
+    end
+
+    drug_details
+  end
 end
