@@ -19,7 +19,7 @@
 <% form_tag session_path do -%>
 
   <label for="login">Barcode</label>
-  <%= text_field_tag(:login_barcode, nil, :helpText => "Scan barcode", :optional => true, :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput0';") %><br>
+  <%= text_field_tag(:login_barcode, nil, :helpText => "Scan your login barcode", :optional => true, :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput0';") %><br>
 
   <label for="login">Username</label>
   <%= text_field_tag(:login, nil, :helpText => "Enter user name", :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput1';", :condition => "$('login_barcode').value == ''") %><br>
