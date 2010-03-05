@@ -1,16 +1,6 @@
 <style>
-  #space {
-    display:inline; font-size:1.2em;
-  }
-
-  .tt_controls_month_of_birth #keyboard{
-    display: none;
-  }
-  #tt_page_month_of_birth .options{
-    height:17em;
-  }
-  .tt_controls_occupation #keyboard{
-    display: none;
+  .inputFrameClass{
+    display: block;
   }
 </style>
 <script>
@@ -26,53 +16,26 @@
 
 <form id='hiv_status' action="/encounters/create" method='post'>
 
-
   <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE HIV STATUS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <% options = {}%>
-
-  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "REACTIVE","NON-REACTIVE","UNKNOWN"]), {:helpText => 'Update HIV status'})%>
+  <%= hidden_field_tag ("observations[][value_coded_or_text]", @new_hiv_status)%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "HIV STATUS", options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HIV STATUS", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <%= hidden_field_tag("observations[][value_datetime]", nil) %>
 
-
   <%= select_tag("hiv_status_update_visit", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit' })%>
 
-  <%= text_field_tag "hiv_test_year", nil, {
-    :helpText => 'Year of Test',
-    :field_type => 'number',
-    :absoluteMin => "1890",
-    :min => "1940",
-    :absoluteMax => Date.today.year,
-    :tt_pageStyleClass => "Numeric NumbersOnly",
-    :tt_onLoad => 'seen(tstCurrentPage);' ,
-    :condition => '$("hiv_status_update_visit").value.toLowerCase() == "previous visit"',
-    :tt_onUnLoad => 'setDate("year");'
-  }  %>
-  <%= select_tag "hiv_test_month", month_name_options, {
-    :helpText => 'Month of Test',
-    :condition => '$("hiv_test_year").value.toLowerCase() != "unknown" && $("hiv_status_update_visit").value.toLowerCase() == "previous visit"',
-    :tt_onUnLoad => 'setDate("month");'
-  }%>
-  <%= text_field_tag "hiv_test_day",  nil, {
-    :field_type => 'number',
-    :helpText => 'Test Day',
-    :absoluteMin => 1,
-    :absoluteMax => 31,
-    :condition => '($("hiv_test_year").value.toLowerCase() != "unknown") && ($("hiv_test_month").value.toLowerCase() != "unknown" && $("hiv_status_update_visit").value.toLowerCase() == "previous visit")',
-    :tt_onUnLoad => 'setDate("day");'
-  }%>
+  <%= text_field_tag("hiv_test_date", nil, {:field_type => 'date', :id => "hiv_test_date",:tt_onUnLoad => 'setDate();', :helpText => 'Hiv test date'}) %>
 
   <%= hidden_field_tag("observations[][value_datetime]", DateTime.now(), {:id => "hiv_test_date_value_datetime"}) %>
   <%= hidden_field_tag("observations[][value_text]", nil,{:id =>  "hiv_test_date_value_text"}) %>
   <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
-  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', options) %>
+  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
@@ -80,47 +43,19 @@
 </form>
 
 <script type="text/javascript">
-  var finalDatetime = '';
+  function setDate(){
 
- function setDate(position) {
-      var pos = position;
-
-      if (pos == 'year'){
-        finalDatetime = '';
-
-          if ($('hiv_test_year').value.toLowerCase() == 'unknown'){
+          if ($('hiv_test_date').value.toLowerCase() == 'unknown'){
             $('hiv_test_date_value_text').value = 'Unknown';
             $('hiv_test_date_value_datetime').value = null;
             $('hiv_test_date_value_modifier').value = null;
             }
-          else
-            finalDatetime += $('hiv_test_year').value;
-          }
-
-    else if (pos == 'month'){
-
-        if ($('hiv_test_month').value.toLowerCase() == 'unknown'){
-            finalDatetime += '/07/01';
-            $('hiv_test_date_value_datetime').value = new Date(finalDatetime);
-            $('hiv_test_date_value_modifier').value = 'es';
+          else{
+            $('hiv_test_date_value_datetime').value = new Date($('hiv_test_date').value.replace(/-/g, '/'));
+            $('hiv_test_date_value_text').value = null;
             }
-        else
-            finalDatetime += '/' + $('hiv_test_month').value;
+  }
 
-        }
+  </script>
 
-    else if (pos == 'day'){
-
-         if ($('hiv_test_day').value.toLowerCase() == 'unknown'){
-            finalDatetime += '/15'
-            $('hiv_test_date_value_datetime').value = new Date(finalDatetime);
-            $('hiv_test_date_value_modifier').value = 'es';
-            }
-        else{
-            finalDatetime += '/' + $('hiv_test_day').value;
-            $('hiv_test_date_value_datetime').value = new Date(finalDatetime);
-            }
-        }
-    }
-</script>
 

@@ -25,6 +25,7 @@ class EncountersController < ApplicationController
   end
 
   def new
+    @new_hiv_status = params[:new_hiv_status]
     @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
     @diagnosis_type = params[:diagnosis_type]

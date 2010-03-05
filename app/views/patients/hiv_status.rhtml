@@ -47,19 +47,32 @@
       status = @status.to_s
     end
   %>
-    <span style='font-weight:bold;'>HIV Status :</span>
-    <%if @arv_number && !@arv_number.empty?%>
-      <span><%= "#{status}".humanize%></span> <div><span style='font-weight:bold;'>ARV Number : </span><%="#{@arv_number}"%></div>
-    <%elsif status.to_s == 'REACTIVE'%>
-      <span><%= "#{status}".humanize%></span>
-    <%else%>
-      <span><%="#{status}".humanize%></span>
-    <%end%>
-    <div><span style='font-weight:bold;'>HIV test date :</span> <span><%=@hiv_test_date%></span></div>
+
+<table cellpadding="2" cellspacing="0">
+  <tr> <td> <span class='title'>&nbsp;</span> </td> <td>&nbsp;<br/></td></tr> 
+  <tr> <td> <span class='title'> HIV Status: </span> </td> <td> <%= status.humanize rescue '' %><br/></td></tr> 
+<%if @arv_number && !@arv_number.empty?%>
+  <tr> <td> <span class='title'> ARV Number: </span> </td> <td> <%= @arv_number rescue '' %><br/></td></tr> 
+<%end%>
+<tr> <td> <span class='title'> HIV test date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
+
+<%if @remote_art_info%>
+
+<tr> <td> <span class='title'> ART start date: </span> </td> <td> <%= @remote_art_info['person']['art_start_date'] rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Date tested positive: </span> </td> <td> <%=@remote_art_info['person']['date_tested_positive']  rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Dates of visit to clinic: </span> </td> <td> <%= "#{@remote_art_info['person']['first_visit_date']} to #{@remote_art_info['person']['last_visit_date']}" rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> CD4 trail: </span> </td> <td> <%= @remote_art_info['person']['cd4_data'] rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Last given drugs: </span> </td> <td> <%=@remote_art_info['person']['last_given_drugs']  rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> ART clinic outcome: </span> </td> <td> <%=@remote_art_info['person']['art_clinic_outcome']  rescue '' %><br/></td></tr>
+
+<%end%>
+</table>
     
   </div>
   <div id="menu">
-    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=REACTIVE'>Reactive</a>
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=NON-REACTIVE'>Non-Reactive</a>
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=UNKNOWN'>Unknown</a>
   </div>
 </div>
 

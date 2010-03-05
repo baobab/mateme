@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
 
-    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome)
+    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['DEAD', 'ALIVE', 'ABSCONDED'].include?(outcome) && !patient.current_visit.encounters.map{|enc| enc.name}.include?('UPDATE HIV STATUS')
 
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['DEAD','ALIVE', 'ABSCONDED'].include?(outcome)
 
