@@ -18,7 +18,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 
  
 
-  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "ALIVE","DEAD", "REFERRED", "ABSCONDED"]), {:helpText => 'Discharge outcome'})%>
+   <%= select_tag ("observations[][value_coded_or_text]", options_for_select(@facility_outcomes), {:helpText => 'Discharge outcome'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "OUTCOME", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>

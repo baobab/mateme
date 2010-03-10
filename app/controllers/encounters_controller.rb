@@ -25,6 +25,8 @@ class EncountersController < ApplicationController
   end
 
   def new
+    @facility_outcomes =  JSON.parse(GlobalProperty.find_by_property("facility.outcomes").property_value) rescue {}
+    #raise @facility_outcomes.to_yaml
     @new_hiv_status = params[:new_hiv_status]
     @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
