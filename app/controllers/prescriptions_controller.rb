@@ -48,7 +48,7 @@ class PrescriptionsController < ApplicationController
     end
 
     @diagnosis = Observation.find(params[:diagnosis]) rescue nil
-    diabetes_clinic = true if (['PATIENT HAS DIABETES','HYPERTENSION','PERIPHERAL NEUROPATHY'].include?(diagnosis_name))
+    diabetes_clinic = true if (['DIABETES MEDICATION','HYPERTENSION','PERIPHERAL NEUROPATHY'].include?(diagnosis_name))
 
     if diabetes_clinic
       drug_amount =  (params[:drug_amount] || '')
