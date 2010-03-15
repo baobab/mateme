@@ -18,6 +18,7 @@ class PrescriptionsController < ApplicationController
   end
   
   def create
+    raise "#{params.to_yaml}"
     @suggestion = params[:suggestion]
     @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter  = @patient.current_treatment_encounter
@@ -50,7 +51,8 @@ class PrescriptionsController < ApplicationController
     diabetes_clinic = true if (['PATIENT HAS DIABETES','HYPERTENSION','PERIPHERAL NEUROPATHY'].include?(diagnosis_name))
 
     if diabetes_clinic
-      drug_info = @patient.drug_details(params[:formulation], diagnosis_name).first
+      drug_amount =  (params[:drug_amount] || '')
+      drug_info = @patient.drug_details(params[:formulation], diagnosis_name,drug_amount).first
 
       params[:formulation]    = drug_info[:drug_formulation]
       params[:frequency]      = drug_info[:drug_frequency]
