@@ -43,7 +43,7 @@ class PatientsController < ApplicationController
 
     @patient_treatements = @patient.treatments
 
-    diabetes_id       = Concept.find_by_name("PATIENT HAS DIABETES").id
+    diabetes_id       = Concept.find_by_name("DIABETES MEDICATION").id
 
     @patient_diabetes_treatements     = []
     @patient_hypertension_treatements = []
