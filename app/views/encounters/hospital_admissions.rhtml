@@ -23,6 +23,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "hyperglycemia",
+    :tt_requireNextClick => false,
     :helpText => "DKA/HONK/Hyperglycemia",
     :tt_onUnLoad => "$('hyperglycemia_value_coded_or_text').value = $('hyperglycemia').value"
   }) %>
@@ -76,6 +77,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :helpText => "Hypoglycemia",
+    :tt_requireNextClick => false,
     :tt_onUnLoad => "$('hypoglycemia_value_coded_or_text').value = $('hypoglycemia').value",
     :id => "hypoglycemia"
   }) %>
@@ -130,6 +132,7 @@
 
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "Amputations/foot ulcers",
     :tt_onUnLoad => "$('amputations_value_coded_or_text').value = $('amputations').value",
     :id => "amputations"
@@ -146,6 +149,7 @@
 
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "AMPUTATION/FOOT ULCERS: Side affeted",
     :condition => '$("amputations").value == "Yes"',
     :tt_onUnLoad => "if($('amputations_side').value == 'Left'){$('amputations_concept_name').value = 'LEFT FOOT/LEG'}
@@ -160,6 +164,7 @@
   
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "AMPUTATION/FOOT ULCERS: Limb Amputated",
     :condition => '$("amputations").value == "Yes"',
     :tt_onUnLoad => "$('amputated_part_value_coded_or_text').value = $('amputated_part').value",
@@ -214,6 +219,7 @@
 
     <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :id => "foot_infections",
     :helpText => "Foot Infections",
     :tt_onUnLoad => "$('foot_infections_value_coded_or_text').value = $('foot_infections').value"
@@ -266,6 +272,7 @@
 
     <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :id => "skin_infections",
     :helpText => "Skin Infections/abcesses/severe UTIs/Pneumonia",
     :tt_onLoad => "addOnMouseDownAction(['No'])",
