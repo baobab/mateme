@@ -18,7 +18,7 @@ class PrescriptionsController < ApplicationController
   end
   
   def create
-    raise "#{params.to_yaml}"
+    #raise "#{params.to_yaml}"
     @suggestion = params[:suggestion]
     @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter  = @patient.current_treatment_encounter
