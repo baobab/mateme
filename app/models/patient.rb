@@ -149,13 +149,23 @@ class Patient < ActiveRecord::Base
 
    end
 
-  def drug_details(drug_info, diagnosis_name)
+  def drug_details(drug_info, diagnosis_name, dose_strength)
 
     string = drug_info.split(/ /)
+
+    lowercase_string = Array.new
+    lowercase_string += string.map{|str| str.downcase}
 
     # do not remove the '(' in the following string
     name = "%("+string.second+"%"
     drug_frequency = string.last.upcase
+
+    insulin = false
+     if (lowercase_string.include? "insulin") && ((lowercase_string.include? "lente") || (lowercase_string.include? "soluble"))
+       name = "%" + string.first + " " +string.second + "%"
+       insulin = true
+     end
+
 
     diagnosis_id = Concept.find_by_name(diagnosis_name)
 
@@ -186,9 +196,11 @@ class Patient < ActiveRecord::Base
            :drug_name => drug.name, :drug_strength => drug.strength,
            :drug_formulation => drug.formulation, :drug_prn => 0, :drug_frequency => drug_frequency.name]
 
-      end
+      drug_details.map{|d| d[:drug_strength] = dose_strength if(insulin)}
     end
 
     drug_details
   end
 end
+end
+
