@@ -21,6 +21,7 @@
 
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :id => "strokes",
     :helpText => "Strokes",
     :tt_onUnLoad => "$('strokes_value_coded_or_text').value = $('strokes').value"
@@ -55,6 +56,7 @@
 
     <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :id => "cardiac_problem",
     :helpText => "Serious cardiac problems",
     :tt_onUnLoad => "$('cardiac_problem_value_coded_or_text').value = $('cardiac_problem').value"
@@ -72,6 +74,7 @@
 
   <% options = default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "What Cardiac Problem?",
     :id => "type_of_cardiac_problem",
     :condition => "$('cardiac_problem').value == 'Yes'",
@@ -101,6 +104,7 @@
 
   <% options = default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "CCF: Proven by Echo?",
     :condition => "$('type_of_cardiac_problem').value == 'CCF'",
     :id => "proven_by_echo",
@@ -119,6 +123,7 @@
 
     <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "Select Year of Echo",
     :id => "year_of_echo",
     :condition => "$('type_of_cardiac_problem').value == 'CCF' && $('proven_by_echo').value == 'Yes'",
@@ -138,6 +143,7 @@
 
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "Hypertension?",
     :tt_onUnLoad => "$('hypertension_value_coded_or_text').value = $('hypertension').value",
     :id => "hypertension"
