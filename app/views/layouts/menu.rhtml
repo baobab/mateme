@@ -12,6 +12,7 @@
     <%= stylesheet_link_tag "mateme" %>
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
     <%= javascript_include_tag "preload" %>
+    <%= javascript_include_tag "logout_timer"%>
   </head>
   <body id="mateme">  
     <div id="container">
@@ -33,7 +34,9 @@
           <% unless flash[:error].nil? %>
             <p id="flash_error" style="color: red"><%= flash[:error] %></p>
           <% end %>
-        </div>  
+        </div> 
+        <div id='logoutMessage' class='messageBar' style='display:none'>
+        </div> 
         <%= yield %>  
         <div id="footer">
           <div id="buttons" class="buttonsDiv" style="top:0px">

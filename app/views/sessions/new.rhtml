@@ -12,6 +12,11 @@
     function inform() {
       $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";
     }
+
+    function hideMessage(){ 
+      document.getElementById('loggedOutMessage').style.display = 'none';
+    }
+
 </script>
 
 <%= error_messages_for 'user' %>
@@ -34,3 +39,14 @@
   <p id="p1">Verifying your username and password</p>
   <p id="p2">Please wait......</p>
 </div>
+
+<% if @auto_logged_out %>
+
+<div id='loggedOutMessage' class='messageBar' style='display:block'>
+  You have been logged out <br /> 
+  after 3.5 minutes of inactivity <br />
+  <button onmousedown='hideMessage();'><span>OK</span></button>
+</div> 
+
+<%end%>
+

@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
   skip_before_filter :location_required
 
   def new
+    @auto_logged_out = true if params['auto_logout'] == 'true'
   end
 
   def create
