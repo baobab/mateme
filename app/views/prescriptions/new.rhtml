@@ -176,6 +176,17 @@
     :tt_pageStyleClass => "LongSelectList",
     :helpText => "Select Drug formulation"}%>
 
+  <%= text_field_tag :drug_amount, nil,{
+    :field_type => 'number',
+    :helpText => "Enter drug amount:",
+    :absoluteMin => 1,
+    :absoluteMax => 50,
+    :units => 'sc',
+    :condition => "",
+    :validationRule => "([0-9]+.[0-9])|Unknown$",
+    :validationMessage => "You must enter a decimal between 0 and 9 (for example: 54<b>.6</b>)",
+    :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
+
   <%#= select_tag :type_of_prescription, options_for_select(
     {"Standard Dose" => "standard",
      "Variable Dose" => "variable"}), 
