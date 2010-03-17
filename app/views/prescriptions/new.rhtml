@@ -123,7 +123,7 @@
  
   <%= hidden_field_tag :patient_id, @patient.id %>
 
-  <%= select_tag :diagnosis, options_for_select([['',''],['DIABETES', 'PATIENT HAS DIABETES'],['HYPERTENSION','HYPERTENSION'], ['PERIPHERAL NEUROPATHY', 'PERIPHERAL NEUROPATHY']]),
+  <%= select_tag :diagnosis, options_for_select([['',''],['DIABETES', 'DIABETES MEDICATION'],['HYPERTENSION','HYPERTENSION'], ['PERIPHERAL NEUROPATHY', 'PERIPHERAL NEUROPATHY']]),
     {
       :tt_requireNextClick => false,
       :helpText => "Prescribe treatment for which diagnosis?",

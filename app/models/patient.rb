@@ -133,7 +133,7 @@ class Patient < ActiveRecord::Base
 
     treatment_encouter_id   = EncounterType.find_by_name("TREATMENT").id
     drug_order_id           = OrderType.find_by_name("DRUG ORDER").id
-    diabetes_id             = Concept.find_by_name("PATIENT HAS DIABETES").id
+    diabetes_id             = Concept.find_by_name("DIABETES MEDICATION").id
     hypertensition_id       = Concept.find_by_name("HYPERTENSION").id
 
     Order.find_by_sql("SELECT orders.concept_id,name AS drug_name,obs.value_coded AS diagnosis_id,
