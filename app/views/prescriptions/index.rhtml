@@ -1,3 +1,9 @@
+<style type="text/css" >
+  ul.list{
+    overflow-x: hidden;
+  }
+</style>
+
 <script type="text/javascript">
   tt_cancel_destination = '/patients/show/<%= @patient.id -%>?auto_load_forms=false&prescribed=true';
   tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
@@ -6,7 +12,7 @@
 <div style="padding: 15px;">
   <h2>Patient Prescriptions</h2>
   <div style="font-size: 22pt;">
-    <ul class="list" style="height:270px;width:750px;">
+    <ul class="list" style="height:400px;width:940px;">
 
           <%if @patient.treatment_not_done%>
         <li class="data <%= cycle('even', 'odd') %>">

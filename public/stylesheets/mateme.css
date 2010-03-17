@@ -13,7 +13,7 @@
   visibility:visible;
   width:100%;
 }
-
+/*
 #content {
   background:#FFFFFF;
   position:absolute;
@@ -23,7 +23,17 @@
   height:600px;
   margin-left:-400px;
   margin-top:-300px;
+*/
 
+#content {
+  background:#FFFFFF;
+  position:absolute;
+  left:1%;
+  /*top:50%;*/
+  width:1000px;
+  height:712px;
+  /*margin-left:-400px;*/
+  margin-top:-360px;
 }
 
 #footer {
@@ -52,7 +62,7 @@
   margin-top:-150px;
   margin-left:-200px;
   left:50%;
-  top:50%;
+  top:40%;
   text-align:center;
 }
 
