@@ -1,0 +1,41 @@
+<style type="text/css">
+  .title {
+    font-weight:bold;
+  }
+</style>
+
+<script type="text/javascript">
+  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
+</script>
+
+<div style="margin:10px;">
+  <div id="details" style="float:none">
+    <form>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  </form>
+
+<div>
+<h2><%= "Demographics for #{@patient.person.name}"%></h2>
+<h5>(You can update/change any detail by touching on the indicator and going through the update process)</h5>
+<table cellpadding="2" cellspacing="2" width=100%>
+<tr> <td> <span class='title'> National id </span> </td> <td> &nbsp;</td></tr>
+<tr style="background-color:#ADD8E6"> <td> <span class='title'><%=@national_id%></span> </td> <td>&nbsp;</td></tr>
+<tr style="background-color:#ADD8E6"> <td> <span class='title'><%=@national_id%></span> </td> <td>&nbsp;</td></tr>
+<tr> <td> <span class='title'>First Name </span> </td> <td> <span class='title'> Last Name</td></tr>
+<tr style="background-color:#ADD8E6"> <td><%=@first_name -%> </td> <td><%=@last_name%><br/></td></tr>
+<tr> <td> <span class='title'> Birthdate </span> </td> <td>  <span class='title'>Gender</span></td></tr>
+<tr style="background-color:#ADD8E6"> <td><%=@birthdate%> </td> <td><%=@gender%></td></tr>
+<tr> <td> <span class='title'> Current Residence </span> </td> <td> <span class='title'> Current Traditional Authority</span> </td></tr>
+<tr style="background-color:#ADD8E6"> <td><%=@current_village%></td> <td><%=@current_ta%></td></tr>
+<tr> <td> <span class='title'> Current District </span> </td> <td>  <span class='title'>Home District</span> </td></tr>
+<tr style="background-color:#ADD8E6"> <td> <%=@current_district%> </td> <td><%=@home_district%></td></tr>
+<tr> <td> <span class='title'> Primary Phone </span> </td> <td> <span class='title'> Secondary Phone</span> </td></tr>
+<tr style="background-color:#ADD8E6"> <td><%=@primary_phone%></span> </td> <td><%=@secondary_phone%></td></tr>
+<tr> <td> <span class='title'> Occupation </span> </td> <td>&nbsp;<br/> </td></tr>
+<tr style="background-color:#ADD8E6"> <td><%=@occupation%></span> </td> <td>&nbsp;</td></tr>
+</table>
+</div>
+
+
+</div>
+</div>
