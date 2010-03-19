@@ -400,5 +400,9 @@ class Person < ActiveRecord::Base
     phone_numbers
    phone_numbers.delete_if {|key, value| value == "" } 
   end
+
+  def occupation
+    occupation = PersonAttribute.find(:first,:conditions => ["voided = 0 AND person_attribute_type_id = ? AND person_id = ?", PersonAttributeType.find_by_name('Occupation').id, self.id]).value rescue 'Uknown'
+  end
   
 end

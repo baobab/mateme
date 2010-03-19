@@ -122,4 +122,26 @@ class PatientsController < ApplicationController
     
   end
 
+  def demographics
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @national_id = @patient.national_id_with_dashes rescue nil 
+    
+    @first_name = @patient.person.names.first.given_name
+    @last_name = @patient.person.names.first.family_name rescue nil
+    @birthdate = @patient.person.birthdate_formatted rescue nil
+    @gender = @patient.person.formatted_gender rescue ''
+
+    @current_village = @patient.person.addresses.first.city_village rescue ''
+    @current_ta = @patient.person.addresses.first.county_district rescue ''
+    @current_district = @patient.person.addresses.first.state_province rescue ''
+    @home_district = @patient.person.addresses.first.address2 rescue ''
+
+    @primary_phone = @patient.person.phone_numbers["Cell Phone Number"]
+    @secondary_phone = @patient.person.phone_numbers["Home Phone Number"]
+    
+    @occupation = @patient.person.occupation
+    render :template => 'patients/demographics', :layout => 'menu'
+
+  end
+
 end

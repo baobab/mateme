@@ -68,6 +68,7 @@ ul.list{
       <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
     <%end%>
       <a class="button green" href='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</a>
+      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
     <%end %>
 
     <%if @clinician%>
