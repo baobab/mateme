@@ -44,6 +44,21 @@
         <%= obs.value_numeric -%>],<% end %>
         ];
 
+   var patient_height = [
+        <% @min = Time.now
+        @max = Time.now
+        @obs = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
+        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+        @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+        <%= obs.value_numeric -%>],<% end %>
+        ];
+
+    var currrentWeight  = patient_weight[patient_weight.length - 1][1];
+    var currrentHeight  = patient_height[patient_height.length - 1][1];
+
+    var patientBmi = showBMI(currrentHeight, currrentWeight);
+
     var systolic = [
         <% @min = Time.now
         @max = Time.now
@@ -100,12 +115,27 @@
     var bsGraphData = [ {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"},
                     {color: "green", bars: {show: true, fill:true, lineWidth: 10}, data: random,  label: "Random"}];
 
-    var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label: "Weight"}];
+    var weightLabel = "Weight <br/>("+ patientBmi +")";
+    var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label:weightLabel}];
 
     var hba1cGraphData  = [{color: "rgb( 0, 205, 0)", points: { show: true },lines: {show: true}, data: glycated,  label: "HbA1c"}];
 
     return [bsGraphData, bpGraphData, weightGraphData, hba1cGraphData];
   }
+
+  function showBMI(height, weight) {
+      var dispCurrentBmi = (weight/(height*height)*10000).toFixed(1);
+      var displayBmiInfo = "BMI: ";
+      if (dispCurrentBmi > 18.5) {
+        displayBmiInfo += dispCurrentBmi;
+      } else if (dispCurrentBmi > 17.0) {
+        displayBmiInfo += "<font color ='red'><b>" + dispCurrentBmi + "--Eligible for counseling</b></font>";
+      } else {
+        displayBmiInfo += "<font color ='red'><b>" + dispCurrentBmi + "--Eligible for therapeutic feeding</b></font>";
+      }
+
+      return displayBmiInfo;
+   }
 
   function setPlotOptions() {  
     var options;
