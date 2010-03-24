@@ -196,11 +196,33 @@ class Patient < ActiveRecord::Base
            :drug_name => drug.name, :drug_strength => drug.strength,
            :drug_formulation => drug.formulation, :drug_prn => 0, :drug_frequency => drug_frequency.name]
 
-      drug_details.map{|d| d[:drug_strength] = dose_strength if(insulin)}
-    end
+        drug_details.map{|d| d[:drug_strength] = dose_strength if(insulin)}
+      end
 
-    drug_details
+      drug_details
+    end
+  end
+
+  def self.remote_art_info(national_id)
+    given_params = {:person => {:patient => { :identifiers => {"National id" => national_id }}}}
+
+    national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+    #raise national_id_params.inspect
+    mechanize_browser = Mechanize.new
+    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
+
+    result = demographic_servers.map{|demographic_server, local_port|
+      output = mechanize_browser.post("http://localhost:#{local_port}/people/art_information", national_id_params).body
+      output if output and output.match(/person/)
+    }.sort{|a,b|b.length <=> a.length}.first
+
+    result ? JSON.parse(result) : nil
+  end
+  
+  def hiv_test_date
+    self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
+      encounter.observations.active.last(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV TEST DATE").concept_id])
+    }.flatten.compact.last.value_datetime.strftime("%d/%b/%Y") rescue 'Unknown'
   end
 end
-end
-
