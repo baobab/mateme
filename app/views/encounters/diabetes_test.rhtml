@@ -61,7 +61,9 @@
   %>
 
 
-  <%= select_tag( "diabetes_test_type", options_for_select(@diabetes_test_types), options) %>
+  <%#= select_tag( "diabetes_test_type", options_for_select(@diabetes_test_types), options) %>
+
+  <%= hidden_field_tag( "diabetes_test_type",params[:diabetes_test_type],{:id=>"diabetes_test_type"}) %>
 
   <%= select_tag( "creatinine_unit", options_for_select(['', 'mg/dl', 'µmol/l', 'UREA mg/dl']), {
     :helpText => 'Unit for Creatinine Value',
