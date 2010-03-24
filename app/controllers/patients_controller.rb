@@ -71,10 +71,11 @@ class PatientsController < ApplicationController
   def hiv_status
     #find patient object and arv number
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
-    @arv_number = @patient.arv_number 
-    @status = @patient.hiv_status
+    @remote_art_info = @patient.remote_art_info rescue {}
+    @arv_number = @remote_art_info['person']['arv_number'] 
     @hiv_test_date = @patient.hiv_test_date
-    @remote_art_info = Patient.remote_art_info(@patient.national_id) rescue {}
+    @status = @patient.hiv_status
+    
     render :template => 'patients/hiv_status', :layout => 'menu'
   end
 
