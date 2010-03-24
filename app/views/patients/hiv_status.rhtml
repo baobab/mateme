@@ -1,33 +1,34 @@
 <script type="text/javascript">
-  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
+  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>?hiv_status_updated=true";
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
 </script>
 <style type="text/css">
 
-    a.button.green {
-      width:220px;
-      -moz-user-select:none;
-      border:0 none;
-      color:white;
-      cursor:pointer;
-      display:block;
-      font-weight:bold;
-      padding:0 8px 0 0;
-      text-align:center;
-      text-decoration:none;
-      background:#00FF00 none repeat scroll 0 0;
-      font-size:1.4em;
-      height:57px;
-      line-height:57px;
-      min-width:48px;
-      margin-top:10px
-    }
-    #menu {
-      float:right;
-      overflow:auto;
-      position:relative;
-      height:478px;
-      width:257px;;
-    }
+      a.button.green {
+        width:220px;
+        -moz-user-select:none;
+        border:0 none;
+        color:white;
+        cursor:pointer;
+        display:block;
+        font-weight:bold;
+        padding:0 8px 0 0;
+        text-align:center;
+        text-decoration:none;
+        background:#00FF00 none repeat scroll 0 0;
+        font-size:1.4em;
+        height:57px;
+        line-height:57px;
+        min-width:48px;
+        margin-top:10px
+      }
+      #menu {
+        float:right;
+        overflow:auto;
+        position:relative;
+        height:478px;
+        width:257px;;
+      }
 </style>
 
 <div style="margin:10px;">
@@ -46,30 +47,40 @@
       status = @status.to_s
     end
   %>
-    HIV STATUS :
-    <%if @arv_number && !@arv_number.empty?%>
-      <span style='font-weight:bold;'><%= "#{status}"%></span> <div>ARV NUMBER : <%="#{@arv_number}"%></div>
-    <%elsif status.to_s == 'REACTIVE'%>
-      <span style='font-weight:bold;'><%= "#{status}"%></span>
-    <%else%>
-      <span style='font-weight:bold;'><%="#{status}"%></span>
-    <%end%>
+
+<table cellpadding="2" cellspacing="0">
+  <tr> <td> <span class='title'>&nbsp;</span> </td> <td>&nbsp;<br/></td></tr>
+  <tr> <td> <span class='title'> HIV Status: </span> </td> <td> <%= status.humanize rescue '' %><br/></td></tr>
+<%if @arv_number && !@arv_number.empty?%>
+  <tr> <td> <span class='title'> ARV Number: </span> </td> <td> <%= @arv_number rescue '' %><br/></td></tr>
+<%end%>
+<tr> <td> <span class='title'> HIV test date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
+
+<%if @remote_art_info%>
+
+<tr> <td> <span class='title'> ART start date: </span> </td> <td> <%= @remote_art_info['person']['art_start_date'] rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Date tested positive: </span> </td> <td> <%=@remote_art_info['person']['date_tested_positive']  rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Dates of visit to clinic: </span> </td> <td> <%= "#{@remote_art_info['person']['first_visit_date']} to #{@remote_art_info['person']['last_visit_date']}" rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> CD4 trail: </span> </td> <td> <%= @remote_art_info['person']['cd4_data'] rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Last given drugs: </span> </td> <td> <%=@remote_art_info['person']['last_given_drugs']  rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> ART clinic outcome: </span> </td> <td> <%=@remote_art_info['person']['art_clinic_outcome']  rescue '' %><br/></td></tr>
+
+<%end%>
+</table>
+
   </div>
-  <%if status !='REACTIVE'%>
-    <div id="menu">
-      <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>'>Update Status</a>
-    </div>
-  <%end%>
+  <div id="menu">
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=REACTIVE'>Reactive</a>
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=NON-REACTIVE'>Non-Reactive</a>
+    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=UNKNOWN'>Unknown</a>
+  </div>
 </div>
 
 
 <div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
-  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
     <span>
       Cancel
     </span>
   </button>
 </div>
-
-
-
