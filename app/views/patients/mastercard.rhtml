@@ -10,12 +10,21 @@
   .mytableborder {
     border:1px dotted #AAA;
     background: #FFFFFF;
+    min-width:175px;
+    /*font-size:25px;*/
   }
 
   #patient_history {
     margin: auto;
     left: 5px;
   }
+  #header_row_font{
+    font-size: 20px;
+  }
+#non_header_row_font{
+    font-size: 0.7em;
+  }
+
 
   a.button.green {
     width:220px;
@@ -49,7 +58,8 @@
   tt_cancel_destination = '<%=  "/patients/show/#{@patient.id}" %>';
 </script>
 
-<h2>DIABETES CLINIC</h2>
+<center><h2>DIABETES CLINIC</h2></center>
+<!--
 <table>
   <tr>
     <td class="label">NAME OF PATIENT:</td><td><a href='/person_names/edit/<%= @patient.id%>'><%= @person.name %></a></td>
@@ -70,81 +80,159 @@
   </tr
 </table>
 
+-->
+
 <%#= render :partial => "patient_history"%>
 
 <!--div id ="patient_history" style="left: 10px; width: 500px;/*position: relative; right: -361px; top: 0px;*/"-->
- <div style="font-size: 0.9em;">
-  <div class="list" style="height: 210px; width: 550px;">
-    <!--table cellpadding="2" cellspacing="0" border ="1" width="100%">
-      <%@obs_datetimes.each { |observation_datetime|%>
-       <tr class ="data <%= cycle('even', 'odd')%>" >
-       <td class="mytableborder"> <%=h(observation_datetime)%></td>
-       <td class="mytableborder">
-       <%for observation in @observations do%>
-        <%if(observation.obs_datetime.strftime("%d-%b-%Y") == observation_datetime)%>
-         <%= h("#{observation.to_s_formatted};") %>
-        <%end%>
-      <%end%>
-      </td>
-      </tr>
-    <%}%>
-  </table-->
-    <p/>
-    <table cellpadding="2" cellspacing="0" border ="1" width="100%">
-       <tr class ="data <%= cycle('even', 'odd')%>" >
-         <td class="mytableborder"> CREATININE </td>
-         <td class="mytableborder">
-         <%for observation in @creatinine_obs do%>
-           <%= h("#{observation.answer_string}") %>
-           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
-        <%end%>
-        </td>
-      </tr>
-      <tr class ="data <%= cycle('even', 'odd')%>" >
-         <td class="mytableborder"> URINE PROTEIN </td>
-         <td class="mytableborder">
-         <%for observation in @urine_protein_obs do%>
-           <%= h("#{observation.to_s_formatted}") %>
-           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
-        <%end%>
-        </td>
-      </tr>
-      <tr class ="data <%= cycle('even', 'odd')%>" >
-         <td class="mytableborder"> VISUAL ACUITY </td>
-         <td class="mytableborder">
-         <%for observation in @visual_acuity_obs do%>
-           <%= h("#{observation.to_s_formatted}") %>
-           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
-        <%end%>
-        </td>
-      </tr>
-      <tr class ="data <%= cycle('even', 'odd')%>" >
-         <td class="mytableborder"> FUNDOSCOPY </td>
-         <td class="mytableborder">
-         <%for observation in @fundoscopy_obs do%>
-           <%= h("#{observation.to_s_formatted}") %>
-           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
-        <%end%>
-        </td>
-      </tr>
-      <tr class ="data <%= cycle('even', 'odd')%>" >
-         <td class="mytableborder"> FOOT CHECK </td>
-         <td class="mytableborder">
-         <%for observation in @foot_check_obs do%>
-           <%= h("#{observation.to_s_formatted}") %>
-           <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i><br/>
-        <%end%>
-        </td>
-      </tr>
-  </table>
-  </div>
-  </div>
-  <!--/div-->
 
+    <table class="list"  cellpadding="4" cellspacing="-1" border ="1">
+      <!-- creatinine column-->
+      <%
+        row_heading = 'CREATININE'
+        header = false
+      %>
+       <%if @creatinine_obs.blank?%>
+          <tr class ="data <%= cycle('even', 'odd')%>" >
+            <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+            <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+        </tr>
+      <%else%>
+      <%for observation in @creatinine_obs do%>
+        <tr class ="data <%= cycle('even', 'odd')%>" >
+          <% @diabetes_test_type = 'CREATININE' %>
+          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <%= h("#{observation.answer_string}") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+        </tr>
+
+      <%
+          header = true
+        end
+
+        header = false
+       end
+      %>
+
+    <!-- urine protein column-->
+      <%
+        row_heading = 'URINE PROTEIN'
+        header = false
+      %>
+       <%if @urine_protein_obs.blank?%>
+          <tr class ="data <%= cycle('even', 'odd')%>" >
+            <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+            <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+        </tr>
+      <%else%>
+      <%for observation in @urine_protein_obs do%>
+
+        <tr class ="data <%= cycle('even', 'odd')%>" >
+          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <%= h("#{observation.answer_string}") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+        </tr>
+
+      <%
+          header = true
+        end
+        header = false
+      end
+      %>
+
+      <!-- visual acuity column-->
+      <%
+        row_heading = 'VISUAL ACUITY'
+        header = false
+      %>
+       <%if @visual_acuity_obs.blank?%>
+          <tr class ="data <%= cycle('even', 'odd')%>" >
+            <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL ACUITY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+            <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+        </tr>
+      <%else%>
+      <%for observation in @visual_acuity_obs do%>
+
+        <tr class ="data <%= cycle('even', 'odd')%>" >
+          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL ACUITY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <%= h("#{observation.answer_string}") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+        </tr>
+
+      <%
+          header = true
+        end
+        header = false
+      end
+      %>
+
+      <!-- fundoscopy column-->
+      <%
+        row_heading = 'FUNDOSCOPY'
+        header = false
+      %>
+        <%if @fundoscopy_obs.blank?%>
+           <tr class ="data <%= cycle('even', 'odd')%>" >
+          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+        </tr>
+          <%else%>
+      <%for observation in @fundoscopy_obs do%>
+
+        <tr class ="data <%= cycle('even', 'odd')%>" >
+          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <%= h("#{observation.answer_string}") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+        </tr>
+
+      <%
+          header = true
+        end #end of for loop
+        header = false
+
+    end #end of if statement
+      %>
+
+<!-- foot check column-->
+      <%
+        row_heading = 'FOOT CHECK'
+        header = false
+      %>
+          <%if @foot_check_obs.blank?%>
+           <tr class ="data <%= cycle('even', 'odd')%>" >
+          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+        </tr>
+          <%else%>
+      <%for observation in @foot_check_obs do%>
+
+        <tr class ="data <%= cycle('even', 'odd')%>" >
+          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <%= h("#{observation.to_s_formatted}") %> </td>
+          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+        </tr>
+
+      <%
+          header = true
+        end
+        
+        header = false
+       end
+      %>
+      
+  </table>
+  
+  <!--/div-->
+<!--
 <div id="menu">
   <a class="button green" href='/encounters/new/diabetes_test?patient_id=<%= @patient.id -%>'>Screen Complications</a>
 </div>
 <p/>
-
+-->
 <form action=<%="/patient/show/#{@patient.id}"%>>
 </form>
