@@ -58,6 +58,7 @@ class EncountersController < ApplicationController
 
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
+    @diabetes_test_type = params[:diabetes_test_type] rescue ""
     @patient_height = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
