@@ -17,7 +17,7 @@ class EncountersController < ApplicationController
       observation[:encounter_id] = encounter.id
       observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
       observation[:person_id] ||= encounter.patient_id
-      observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
+      observation[:concept_name] ||= "DIAGNOSIS" if encounter.type.name == "DIAGNOSIS"
       Observation.create(observation)
     }
     @patient = Patient.find(params[:encounter][:patient_id])
@@ -40,7 +40,7 @@ class EncountersController < ApplicationController
   def diagnoses
     search_string = (params[:search_string] || '').upcase
     filter_list = params[:filter_list].split(/, */) rescue []
-    outpatient_diagnosis = ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept
+    outpatient_diagnosis = ConceptName.find_by_name("DIAGNOSIS").concept
     diagnosis_concepts = ConceptClass.find_by_name("DIAGNOSIS", :include => {:concepts => :name}).concepts rescue []    
     # TODO Need to check a global property for which concept set to limit things to
     if (false)
