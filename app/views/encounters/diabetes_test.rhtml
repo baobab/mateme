@@ -67,6 +67,7 @@
 
   <%= select_tag( "creatinine_unit", options_for_select(['', 'mg/dl', 'µmol/l', 'UREA mg/dl']), {
     :helpText => 'Unit for Creatinine Value',
+    :tt_requireNextClick => false,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'creatinine'"
     }) %>
 
@@ -96,6 +97,7 @@
   #             options_from_collecion_for_select(urine_protein_options, id, name), {
                 options_for_select(urine_protein_options), {
     :id => 'urine_protein_result',
+    :tt_requireNextClick => false,
     :helpText => 'Urine Protein Result',
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'urine protein'",
@@ -113,6 +115,7 @@
                  options_for_select([['LEFT EYE','LEFT EYE VISUAL ACUITY'], ['RIGHT EYE','RIGHT EYE VISUAL ACUITY']]), {
     :id => 'visual_acuity_side',
     :helpText => 'Visual Acuity Side',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'visual acuity'",
     :tt_onload => "$('visual_acuity_concept').value = $('diabetes_test_type').value;
@@ -126,6 +129,7 @@
                  options_for_select(visual_acuity_options), {
     :id => 'visual_acuity_result',
     :helpText => 'VISUAL ACUITY SIDE',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'visual acuity'",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = $('visual_acuity_side').value;
@@ -142,6 +146,7 @@
                  options_for_select([['LEFT EYE','LEFT EYE FUNDOSCOPY'], ['RIGHT EYE','RIGHT EYE FUNDOSCOPY']]), {
     :id => 'fundoscopy_side',
     :helpText => 'Fundoscopy Side',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'fundoscopy'",
     :tt_onload => "$('fundoscopy_concept').value = $('diabetes_test_type').value;
@@ -155,6 +160,7 @@
                  options_for_select(fundoscopy_options), {
     :id => 'fundoscopy_result',
     :helpText => 'FUNDOSCOPY SIDE',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'fundoscopy'",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = $('fundoscopy_side').value;
@@ -215,6 +221,7 @@
                                   ]), {
   :id => 'numbness_symptoms',
   :helpText => 'Numbness Symptoms',
+  :tt_requireNextClick => false,
   :disabled => true,
   :condition => "$('diabetes_test_type').value.toLowerCase() == 'foot check'",
   :tt_onload => "$('foot_check_concept').value = $('diabetes_test_type').value;
@@ -230,6 +237,7 @@
                                     ]), {
     :id => 'foot_check_side',
     :helpText => 'Foot Check Side',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'foot check'",
     :tt_onload => "$('foot_check_concept').value = $('diabetes_test_type').value;
@@ -242,6 +250,7 @@
                  options_for_select(foot_check_options), {
     :id => 'foot_check_result',
     :helpText => 'Foot Check SIDE',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'foot check'",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = $('foot_check_side').value;
@@ -259,6 +268,7 @@
                  options_for_select(dorsalis_pedis_options), {
     :id => 'dorsalis_pedis_result',
     :helpText => 'DORSALIS PEDIS',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('foot_check_result').value.toLowerCase() == 'pulses present'",
     :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
@@ -276,6 +286,7 @@
                  options_for_select(posterior_tibial_options), {
     :id => 'posterior_tibial_result',
     :helpText => 'POSTERIOR TIBIAL',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('foot_check_result').value.toLowerCase() == 'pulses present'",
     :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
@@ -295,6 +306,7 @@
                  options_for_select(general_condition_options), {
     :id => 'general_condition_result',
     :helpText => 'GENERAL CONDITION',
+    :tt_requireNextClick => false,
     :disabled => true,
     :condition => "$('foot_check_result').value.toLowerCase() == 'general condition'",
     :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
@@ -314,6 +326,7 @@
     :id => 'amputation_result',
     :helpText => 'AMPUTATION',
     :disabled => true,
+    :tt_requireNextClick => false,
     :condition => "$('foot_check_result').value.toLowerCase() == 'amputation'",
     :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = $('foot_check_side').value;
                    $('amputation_concept').value = 'AMPUTATION';
@@ -331,6 +344,7 @@
   <% options=default.merge(
       {:helpText => 'Test Year',
         :id => "diabetes_test_year",
+        :tt_requireNextClick => false,
        :field_type => 'number', :absoluteMin => "1890",
        :min => "1940", :absoluteMax => Date.today.year,
        :multiple => false,
@@ -346,6 +360,7 @@
 
     <%= select_tag "diabetes[test_month]", month_name_options, {
       :helpText => 'Test Month',
+      :tt_requireNextClick => false,
       :tt_pageStyleClass => "LongSelectList",
       :tt_onLoad => "addOnMouseDownAction(['Unknown'])",
       :tt_onUnLoad => "my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_month').value,1);
