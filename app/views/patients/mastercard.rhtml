@@ -16,7 +16,9 @@
 
   #patient_history {
     margin: auto;
-    left: 5px;
+    overflow: auto;
+    height:27em;
+    /*left: 5px;*/
   }
   #header_row_font{
     font-size: 20px;
@@ -84,7 +86,7 @@
 
 <%#= render :partial => "patient_history"%>
 
-<!--div id ="patient_history" style="left: 10px; width: 500px;/*position: relative; right: -361px; top: 0px;*/"-->
+<div id ="patient_history" >
 
     <table class="list"  cellpadding="4" cellspacing="-1" border ="1">
       <!-- creatinine column-->
@@ -227,7 +229,7 @@
       
   </table>
   
-  <!--/div-->
+  </div>
 <!--
 <div id="menu">
   <a class="button green" href='/encounters/new/diabetes_test?patient_id=<%= @patient.id -%>'>Screen Complications</a>
