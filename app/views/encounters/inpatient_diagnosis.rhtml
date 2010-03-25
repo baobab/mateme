@@ -25,7 +25,7 @@
     :textCase => "upper",
     :helpText => "<span style='font-size:0.6em;'>#{@diagnosis_type}:</span> <span style='font-size:0.6em'>Select from list or touch on Next for diagnosis tree</span>",
     :optional => 'true',
-    :tt_onLoad => "setTimeout(updateNextFinish, 20);",
+    :tt_onLoad => "setTimeout(updateNextFinish, 20);"
   } %>
 
   <%
@@ -34,7 +34,9 @@
     :allowFreeText => false,
     :ajaxUrl=> "/search/diagnosis?diagnosis=#{@diagnosis_type}&location=#{session[:ward]}&search_string=",
     :field_type => 'alpha',
-    :textCase => "upper" } %>
+    :textCase => "upper",
+    :tt_requireNextClick => 'false'
+  } %>
 
   <% 7.times do |counter| %>
     <% options[:condition] = "finalAnswers[wardType($('ward').value)][tstFormElements[counter].value] == null && $('select_final_diagnosis').value == ''"%>

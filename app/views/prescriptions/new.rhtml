@@ -155,13 +155,16 @@
     :textCase => "upper",
     :field_type => 'boolean',
     :allowFreeText => 'false',
-    :helpText => "Prescribe treatment for which diagnosis?"}%>
+    :helpText => "Prescribe treatment for which diagnosis?",
+    :tt_requireNextClick => 'false'
+  }%>
 
   <%= select_tag :selected_order_type, options_for_select(
     ["", "Treatment given","Treatment prescribed"]),
     {:condition => "selectedValue('diagnosis') != '0'",
       :helpText => 'Specify treatment type',
-      :tt_onLoad => "common_prescritions_present();"
+      :tt_onLoad => "common_prescritions_present();",
+      :tt_requireNextClick => 'false'
   }%>
 
 
@@ -174,7 +177,9 @@
     #:condition => "selectedValue('selected_order_type') != '0'",
     :condition => "selectedValue('selected_order_type') != '0' && showCommonPrescriptions",
     :helpText => "Common prescriptions for this diagnosis",
-    :tt_onUnLoad => "selectedSuggetion = $('touchscreenInput'+tstCurrentPage).value"}%>
+    :tt_onUnLoad => "selectedSuggetion = $('touchscreenInput'+tstCurrentPage).value",
+    :tt_requireNextClick => 'false'
+  }%>
 
   <%= text_field_tag :generic, nil, {
     :ajaxURL => "/prescriptions/generics?search_string=",
