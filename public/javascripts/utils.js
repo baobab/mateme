@@ -62,3 +62,25 @@ function formatDate(main_date, sub_str, pos){
 
   return formatted_date;
  }
+
+ /* checks for the presence of a substring in a given string of
+  * semi-colon separated substrings.
+  * it returns 'true' if found, otherwise it returns 'false'
+  *
+  * for example :
+  *  1. ["programming;in;javascript;is;cool"].contains("javascript") => true
+  *  2. ["programming;in;javascript;is;cool"].contains("java") => false
+  *
+  * TO DO: ADD HANDLING OF 'SPACE' SEPARATED SUBSTRINGS
+  */
+String.prototype.contains = function (substring) {
+
+  var array_of_strings = this.split(';');
+
+  if (jQuery.inArray(substring, array_of_strings)>= 0)  {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
