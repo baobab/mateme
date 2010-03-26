@@ -199,7 +199,7 @@ class PatientsController < ApplicationController
     fundoscopy_encounters = @patient.encounters.find(:all,
                             :joins => :observations,
                             :conditions => ['concept_id IN (?)',
-                              ConceptName.find_all_by_name(['RIGHT EYE FUNDOSCOPY',
+                              ConceptName.find_all_by_name(['LEFT EYE FUNDOSCOPY',
                                                              'RIGHT EYE FUNDOSCOPY']).map(&:concept_id)])
     @fundoscopy_obs = @patient.person.observations.find(:all,
                         :joins => :encounter,
