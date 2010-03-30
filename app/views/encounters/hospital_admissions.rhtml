@@ -4,6 +4,8 @@
 
   function setConceptNamesAndValues(){
 
+    var values_string = selectedValue('admissions');
+
     $('hyperglycemia').value = ' ';
     $('hyperglycemia_value_coded_or_text').value = ' ';
     $("hypoglycemia").value = ' ';
@@ -16,34 +18,34 @@
     $('skin_infections_value_coded_or_text').value = ' ';
 
 
-    if($("admissions").value.contains("DKA/HONK/HYPERGLYCEMIA")){
+    if(values_string.contains("DKA/HONK/HYPERGLYCEMIA")){
 
       $('hyperglycemia').value = 'HYPERGLYCEMIA SYMPTOMS PRESENT';
       $('hyperglycemia_value_coded_or_text').value = 'Yes';
 
       }
 
-  if($("admissions").value.contains("HYPOGLYCEMIA")){
+  if(values_string.contains("HYPOGLYCEMIA")){
 
       $("hypoglycemia").value = 'HYPOGLYCEMIA SYMPTOMS PRESENT';
       $('hypoglycemia_value_coded_or_text').value = 'Yes';
 
       }
 
-  if($("admissions").value.contains("AMPUTATION/FOOT ULCERS")){
+  if(values_string.contains("AMPUTATION/FOOT ULCERS")){
 
       $('amputations').value = 'AMPUTATION/FOOT ULCERS';
       $('amputations_value_coded_or_text').value = 'Yes';
 
       }
 
-  if($("admissions").value.contains("FOOT INFECTIONS")){
+  if(values_string.contains("FOOT INFECTIONS")){
 
       $('foot_infections').value = 'FOOT INFECTIONS';
       $('foot_infections_value_coded_or_text').value = 'Yes';
 
       }
-  if($("admissions").value.contains("SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA")){
+  if(values_string.contains("SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA")){
 
       $('skin_infections').value = 'SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA';
       $('skin_infections_value_coded_or_text').value = 'Yes';
@@ -73,7 +75,7 @@
     :field_type => 'text',
     :helpText => "Select hospital admission(s):",
     :id => "admissions",
-    :tt_onUnLoad => "setConceptNamesAndValues()",
+    :tt_onUnLoad => " $('admissions').value = tstInputTarget.value; setConceptNamesAndValues()",
     :optional => true,
     :multiple => true,
     :tt_pageStyleClass => "LongSelectList"
