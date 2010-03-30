@@ -1,6 +1,92 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
+
+  function setConceptNamesAndValues(){
+
+    var values_string = selectedValue('complications');
+
+    $('peripheral_neuropathy').value = ' ';
+    $('peripheral_neuropathy_value_coded_or_text').value = ' ';
+    $("suspected_pvd").value = ' ';
+    $('suspected_pvd_value_coded_or_text').value = ' ';
+    $('amputation').value = ' ';
+    $('amputation_value_coded_or_text').value = ' ';
+    $('impotence').value = ' ';
+    $('impotence_value_coded_or_text').value = ' ';
+    $('retinopathy').value = ' ';
+    $('retinopathy_value_coded_or_text').value = ' ';
+    $('renal_disease').value = '';
+    $('renal_disease_value_coded_or_text').value = ' ';
+    $('cataract_surgery').value = '';
+    $('cataract_surgery_value_coded_or_text').value = ' ';
+    $('present_cataract').value = ' ';
+    $('present_cataract_value_coded_or_text').value = ' ';
+    $('suspected_neuropathy').value = '';
+    $('suspected_neuropathy_value_coded_or_text').value = '';
+
+
+    if(values_string.contains("PERIPHERAL NEUROPATHY")){
+
+      $('peripheral_neuropathy').value = 'PERIPHERAL NEUROPATHY';
+      $('peripheral_neuropathy_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("SUSPECTED PVD")){
+
+      $("suspected_pvd").value = 'SUSPECTED PVD';
+      $('suspected_pvd_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("AMPUTATION")){
+
+      $('amputation').value = 'AMPUTATION';
+      $('amputation_value_coded_or_text').value = 'Yes';
+
+      }
+  if(values_string.contains("IMPOTENCE")){
+
+      $('impotence').value = 'IMPOTENCE';
+      $('impotence_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("RETINOPATHY")){
+
+      $('retinopathy').value = 'RETINOPATHY';
+      $('retinopathy_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("RENAL DISEASE")){
+
+      $('renal_disease').value = 'RENAL DISEASE';
+      $('renal_disease_value_coded_or_text').value = 'Yes';
+
+      }
+  if(values_string.contains("PAST CATARACT SURGERY")){
+
+      $('cataract_surgery').value = 'CATARACT SURGERY';
+      $('cataract_surgery_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("PRESENT CATARACTS")){
+
+      $('present_cataract').value = 'CATARACT';
+      $('present_cataract_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("SUSPECTED NEUROPATHY")){
+
+      $('suspected_neuropathy').value = 'SUSPECTED NEUROPATHY';
+      $('suspected_neuropathy_value_coded_or_text').value = 'Yes';
+
+      }
+  }
 </script>
 <%
     @select_years = [""]
@@ -19,17 +105,40 @@
   <%= hidden_field_tag "encounter[provider_id]",          session[:user_id] %>
 
   <% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Select complications:",
+    :id => "complications",
+    :tt_onUnLoad => "setConceptNamesAndValues()",
+    :multiple => true,
+    :tt_pageStyleClass => "LongSelectList"
+  }) %>
+
+  <% if (@patient.person.gender == 'M')
+      @complications_list = ["PERIPHERAL NEUROPATHY", "SUSPECTED PVD",
+                              "AMPUTATION", "IMPOTENCE", "RETINOPATHY",
+                              "RENAL DISEASE", "PAST CATARACT SURGERY",
+                              "PRESENT CATARACTS","SUSPECTED NEUROPATHY"]
+     else
+      @complications_list = ["PERIPHERAL NEUROPATHY", "SUSPECTED PVD",
+                              "AMPUTATION", "RETINOPATHY","RENAL DISEASE",
+                              "PAST CATARACT SURGERY", "PRESENT CATARACTS",
+                              "SUSPECTED NEUROPATHY"]
+    end
+   %>
+  <%= select_tag("complications_values", options_for_select(@complications_list),options) %>
+
+  <%# options=default.merge({
       :field_type => 'text',
       :helpText => "Peripheral neuropathy",
       :tt_onUnLoad => "$('peripheral_neuropathy_value_coded_or_text').value = $('peripheral_neuropathy').value",
       :id => "peripheral_neuropathy"
     }) %>
-    <%= select_tag("peripheral_neuropathy[value_coded_or_text]", options_for_select([
+    <%#= select_tag("peripheral_neuropathy[value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
     ]), options ) %>
-    <%= hidden_field_tag("observations[][concept_name]",        "PERIPHERAL NEUROPATHY") %>
+    <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'peripheral_neuropathy'}) %>
     <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "peripheral_neuropathy_value_coded_or_text"}) %>
     <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
@@ -37,9 +146,10 @@
   <% options=default.merge({
       :field_type => 'text',
       :helpText => "PERIPHERAL NEUROPATHY: Year started",
+      :tt_requireNextClick => false,
       :id => "peripheral_neuropathy_year_started",
       :tt_onUnLoad => "$('peripheral_neuropathy_year_started_value_numeric').value = $('peripheral_neuropathy_year_started').value",
-      :condition => "$('peripheral_neuropathy').value == 'Yes'",
+      :condition => "$('peripheral_neuropathy_value_coded_or_text').value == 'Yes'",
       :optional => false,
       :tt_pageStyleClass => "LongSelectList",
       :multiple => false
@@ -52,50 +162,51 @@
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-<% options=default.merge({
+<%# options=default.merge({
     :field_type => 'text',
-    :helpText => "Suspended PVD",
-    :tt_onUnLoad => "$('suspended_pvd_value_coded_or_text').value = $('suspended_pvd').value",
-    :id => "suspended_pvd"
+    :helpText => "Suspected PVD",
+    :tt_onUnLoad => "$('suspected_pvd_value_coded_or_text').value = $('suspected_pvd').value",
+    :id => "suspected_pvd"
   }) %>
-  <%= select_tag("suspended_pvd[value_coded_or_text]", options_for_select([
+  <%#= select_tag("suspected_pvd[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "SUSPENDED PVD") %>
-  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "suspended_pvd_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'suspected_pvd'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "suspected_pvd_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :helpText => "Amputations",
     :tt_onUnLoad => "$('amputation_value_coded_or_text').value = $('amputation').value",
     :id => "amputation"
   }) %>
-  <%= select_tag("amputation[value_coded_or_text]", options_for_select([
+  <%#= select_tag("amputation[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "AMPUTATION") %>
-  <%= hidden_field_tag("observations[][value_coded_or_text]", "",{:id => "amputation_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'amputation'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "amputation_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "Select side of Amputations",
     :tt_onUnLoad => "$('amputation_side_value_coded_or_text').value = $('amputation_side').value",
-    :condition => "$('amputation').value == 'Yes'",
+    :condition => "$('amputation_value_coded_or_text').value == 'Yes'",
     :id => "amputation_side"
   }) %>
   <%= select_tag("amputation_side[value_coded_or_text]", options_for_select([
     "",
-    "Left",
-    "Right",
-    "Both left and right"
+    "LEFT FOOT/LEG",
+    "RIGHT FOOT/LEG",
+    "BOTH FEET/LEGS"
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "SIDE AFFECTED") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "amputation_side_value_coded_or_text"}) %>
@@ -106,8 +217,8 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "years_of_surgery",
-    :condition => "$('amputation').value == 'Yes'",
-    :helpText => "AMPUTATIONS: Year of Surgery",
+    :condition => "$('amputation_value_coded_or_text').value == 'Yes'",
+    :helpText => "AMPUTATIONS: Year(s) of Surgery",
     :optional => false,
     :tt_pageStyleClass => "LongSelectList",
     :multiple => true
@@ -118,42 +229,44 @@
   <%= hidden_field_tag("observations[][parent_concept_name]", "AMPUTATION") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-  <% options=default.merge({
+
+  <%# options=default.merge({
     :field_type => 'text',
     :helpText => "Impotence",
     :tt_onUnLoad => "$('impotence_value_coded_or_text').value = $('impotence').value",
     :id => "impotence"
   }) %>
-  <%= select_tag("impotence[value_coded_or_text]", options_for_select([
+  <%#= select_tag("impotence[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "IMPOTENCE") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'impotence'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "impotence_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :helpText => "Retinopathy",
     :tt_onUnLoad => "$('retinopathy_value_coded_or_text').value = $('retinopathy').value",
     :id => "retinopathy"
   }) %>
-  <%= select_tag("retinopathy[value_coded_or_text]", options_for_select([
+  <%#= select_tag("retinopathy[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "RETINOPATHY") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'retinopathy'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "retinopathy_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-cataract_surgery_value_coded_or_text
+
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :id => "retinopathy_diagnosis_year",
-    :condition => "$('retinopathy').value == 'Yes'",
+    :condition => "$('retinopathy_value_coded_or_text').value == 'Yes'",
     :tt_onUnLoad => "$('retinopathy_diagnosis_year_value_numeric').value = $('retinopathy_diagnosis_year').value",
     :helpText => "RETINOPATHY: Year first diagnosed",
     :optional => false,:multiple => false,
@@ -167,7 +280,41 @@ cataract_surgery_value_coded_or_text
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
+  <%# options=default.merge({
+    :field_type => 'text',
+    :helpText => "Renal Disease",
+    :tt_onUnLoad => "$('renal_disease_value_coded_or_text').value = $('renal_disease').value",
+    :id => "renal_disease"
+  }) %>
+  <%#= select_tag("renal_disease[value_coded_or_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'renal_disease'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "renal_disease_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+
   <% options=default.merge({
+    :field_type => 'text',
+    :tt_requireNextClick => false,
+    :id => "renal_disease_diagnosis_year",
+    :condition => "$('renal_disease_value_coded_or_text').value == 'Yes'",
+    :tt_onUnLoad => "$('renal_disease_diagnosis_year_value_numeric').value = $('renal_disease_diagnosis_year').value",
+    :helpText => "RENAL DISEASE: Year first diagnosed",
+    :optional => false,:multiple => false,
+    :tt_pageStyleClass => "LongSelectList"
+  }) %>
+  <%= select_tag "renal_disease[diagnosis_year]", options_for_select(@select_years),options %>
+
+  <%= hidden_field_tag("observations[][concept_name]",        "DIAGNOSIS YEAR") %>
+  <%= hidden_field_tag("observations[][value_numeric]",       "", {:id => "renal_disease_diagnosis_year_value_numeric"}) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "RENAL DISEASE") %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+
+  <%# options=default.merge({
     :field_type => 'text',
     :helpText => "Past Cataract Surgery",
     :tt_onUnload => "$('past_cataract_value_coded_or_text').value = $('past_cataract').value;
@@ -175,28 +322,23 @@ cataract_surgery_value_coded_or_text
     :id => "past_cataract"
   }) %>
 
-  <%= select_tag("past_cataract[value_coded_or_text]", options_for_select([
+  <%#= select_tag("past_cataract[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
   <%# save the parent concept first, before saving its children%>
-  <%= hidden_field_tag("observations[][concept_name]",        "CATARACT") %>
-  <%= hidden_field_tag("observations[][value_coded_or_text]", "No",  {:id => "cataract_value_coded_or_text"}) %>
-  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",        "SURGERY") %>
-  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "past_cataract_value_coded_or_text"}) %>
-  <%= hidden_field_tag("observations[][parent_concept_name]", "CATARACT") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "CATARACT SURGERY", {:id => 'cataract_surgery'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "cataract_surgery_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
+    :tt_requireNextClick => false,
     :helpText => "Select side of Cataract Surgery",
     :tt_onUnLoad => "$('cataract_surgery_side_value_coded_or_text').value = $('cataract_surgery_side').value",
-    :condition => "$('past_cataract').value == 'Yes'",
+    :condition => "$('cataract_surgery_value_coded_or_text').value == 'Yes'",
     :id => "cataract_surgery_side"
   }) %>
   <%= select_tag("cataract_surgery_side[value_coded_or_text]", options_for_select([
@@ -207,15 +349,70 @@ cataract_surgery_value_coded_or_text
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "SIDE AFFECTED") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "cataract_surgery_side_value_coded_or_text"}) %>
-  <%= hidden_field_tag("observations[][parent_concept_name]", "CATARACT") %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "CATARACT SURGERY") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
     :field_type => 'text',
     :id => "year_of_operations",
-    :condition => "$('past_cataract').value == 'Yes'",
+    :condition => "$('cataract_surgery_value_coded_or_text').value == 'Yes'",
     :helpText => "CATARACT: Select Years of Operations",
+    :optional => false,
+    :tt_pageStyleClass => "LongSelectList",
+    :multiple => true
+  }) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF SURGERY") %>
+  <%= select_tag "observations[][value_numeric]", options_for_select(@select_years),options %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "CATARACT SURGERY") %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+  
+    <%# options=default.merge({
+    :field_type => 'text',
+    :helpText => "Is Cataract Present",
+    :condition => "$('past_cataract').value != 'Yes'",
+    :tt_onUnload => "$('cataract_value_coded_or_text').value = $('cataract_present').value;
+                     if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').value = 'Yes'",
+    :id => "cataract_present"
+  }) %>
+
+  <%#= select_tag("cataract_present[value_coded_or_text]", options_for_select([
+    "",
+    "Yes",
+    "No"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'present_cataract'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "present_cataract_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :tt_requireNextClick => false,
+    :helpText => "Select side of Cataract",
+    :tt_onUnLoad => "$('present_cataract_side_value_coded_or_text').value = $('present_cataract_side').value",
+    :condition => "$('present_cataract_value_coded_or_text').value == 'Yes'",
+    :id => "present_cataract_side"
+  }) %>
+  <%= select_tag("present_cataract_side[value_coded_or_text]", options_for_select([
+    "",
+    "Left",
+    "Right",
+    "Both left and right"
+  ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "SIDE AFFECTED") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "present_cataract_side_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "CATARACT") %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "year_of_diagnosis",
+    :tt_requireNextClick => false,
+    :condition => "$('present_cataract_value_coded_or_text').value == 'Yes'",
+    :helpText => "CATARACT: Select Year(s) of Diagnosis",
     :optional => false,
     :tt_pageStyleClass => "LongSelectList",
     :multiple => true
@@ -226,52 +423,38 @@ cataract_surgery_value_coded_or_text
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <% options=default.merge({
-    :field_type => 'text',
-    :helpText => "Is Cataract Present",
-    :condition => "$('past_cataract').value == 'No'",
-    :tt_onUnload => "$('cataract_value_coded_or_text').value = $('cataract_present').value;
-                     if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').value = 'Yes'",
-    :id => "cataract_present"
-  }) %>
-
-  <%= select_tag("cataract_present[value_coded_or_text]", options_for_select([
-    "",
-    "Yes",
-    "No"
-  ]), options ) %>
-
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :helpText => "Suspected Neuropathy",
     :id => "suspected_neuropathy",
     :tt_onUnLoad => "$('suspected_neuropathy_value_coded_or_text').value = $('suspected_neuropathy').value",
     :tt_onLoad => "addOnMouseDownAction(['No'])"
   }) %>
-  <%= select_tag("suspected_neuropathy[value_coded_or_text]", options_for_select([
+  <%#= select_tag("suspected_neuropathy[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "SUSPECTED NEUROPATHY") %>
-  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "suspected_neuropathy_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'suspected_neuropathy'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "suspected_neuropathy_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
 <% options=default.merge({
     :field_type => 'text',
-    :id => "proteinuria",
+    :id => "protein_urea",
+    :tt_requireNextClick => false,
     :condition => "$('suspected_neuropathy').value == 'Yes'",
-    :tt_onUnLoad => "$('proteinuria_value_numeric').value = $('proteinuria').value",
-    :helpText => "SUSPECTED NEUROPATHY: Year Proteinuria first noted",
+    :tt_onUnLoad => "$('protein_urea_value_numeric').value = $('protein_urea').value",
+    :helpText => "SUSPECTED NEUROPATHY: Year protein urea first noted",
     :optional => false,
     :tt_pageStyleClass => "LongSelectList",
     :multiple => false
   }) %>
-  <%= select_tag "suspected_neuropathy[proteinuria]", options_for_select(@select_years),options %>
+  <%= select_tag "suspected_neuropathy[protein_urea]", options_for_select(@select_years),options %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "YEAR PROTEINURIA FIRST NOTED") %>
-  <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "proteinuria_value_numeric"}) %>
+  <%= hidden_field_tag("observations[][concept_name]",  "YEAR PROTEIN UREA FIRST NOTED") %>
+  <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "protein_urea_value_numeric"}) %>
   <%= hidden_field_tag("observations[][parent_concept_name]",  "SUSPECTED NEUROPATHY") %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
@@ -279,6 +462,7 @@ cataract_surgery_value_coded_or_text
   <% options=default.merge({
       :field_type => 'text',
       :id => "creatinine",
+      :tt_requireNextClick => false,
       :condition => "$('suspected_neuropathy').value == 'Yes'",
       :helpText => "SUSPECTED NEUROPATHY: Year raised Creatinine first noted",
       :optional => false,
