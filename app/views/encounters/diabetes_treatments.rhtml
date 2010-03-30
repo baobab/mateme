@@ -8,6 +8,8 @@
 
   function setConceptNamesAndValues(){
 
+    var values_string = selectedValue('diabetes_treatements');
+
     $('diet').value = ' ';
     $('diet_value_coded_or_text').value = ' ';
     $("glibenclamide").value = ' ';
@@ -18,27 +20,27 @@
     $('insulin_value_coded_or_text').value = ' ';
 
 
-    if($("diabetes_treatements").value.contains("ON DIET")){
+    if(values_string.contains("ON DIET")){
 
       $('diet').value = 'ON DIET';
       $('diet_value_coded_or_text').value = 'Yes';
 
       }
 
-  if($("diabetes_treatements").value.contains("GLIBENCLAMIDE")){
+  if(values_string.contains("GLIBENCLAMIDE")){
 
       $("glibenclamide").value = 'GLIBENCLAMIDE';
       $('glibenclamide_value_coded_or_text').value = 'Yes';
 
       }
 
-  if($("diabetes_treatements").value.contains("METFORMIN")){
+  if(values_string.contains("METFORMIN")){
 
       $('metformin').value = 'METFORMIN';
       $('metformin_value_coded_or_text').value = 'Yes';
 
       }
-  if($("diabetes_treatements").value.contains("INSULIN")){
+  if(values_string.contains("INSULIN")){
 
       $('insulin').value = 'REGULAR INSULIN';
       $('insulin_value_coded_or_text').value = 'Yes';
