@@ -236,6 +236,9 @@ class Patient < ActiveRecord::Base
     result = demographic_servers.map{|demographic_server, local_port|
       begin
         output = mechanize_browser.post("http://localhost:#{local_port}/people/art_information", national_id_params).body
+
+      rescue Timeout::Error 
+        return {}
       rescue
         return {}
       end
