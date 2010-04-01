@@ -18,7 +18,8 @@ class PrescriptionsController < ApplicationController
   end
   
   def create
-   # raise params.to_yaml
+    prescriptions_array = params['all_prescriptions'].chop.split(/;/).map{|arr| arr.split(/,/)} rescue []
+
     @suggestion = params[:suggestion]
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
@@ -27,7 +28,7 @@ class PrescriptionsController < ApplicationController
 
     start_date = Time.now
     auto_expire_date = Time.now + params[:duration].to_i.days
-    prn = params[:prn]
+    prn = 0
 
 
     if order_type_text == 'Treatment given'
@@ -42,25 +43,21 @@ class PrescriptionsController < ApplicationController
       drug_order = DrugOrder.find(@suggestion)
       @drug = drug_order.drug
       params[:dose_strength] = drug_order.dose
+      DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], params[:frequency], prn, params[:order_type])
      # DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order, params[:order_type])
     else
-      @formulation = (params[:formulation] || '').upcase
-      @drug = Drug.find_by_name(@formulation) rescue nil
-      unless @drug
-        flash[:notice] = "No matching drugs found for formulation #{params[:formulation]}"
-        render :new
-        return
-      end
+      prescriptions_array.each{|arr|
+        @drug = Drug.find_by_name(arr[0]) rescue nil
+        auto_expire_date = Time.now + arr[2].to_i.days
+        unless @drug
+          flash[:notice] = "No matching drugs found for formulation #{params[:formulation]}"
+          render :new
+          return
+        end
+        
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], arr[1], prn, params[:order_type])
+    }
     end  
-
-    if params[:type_of_prescription] == "variable"
-        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:morning_dose], 'MORNING', prn, params[:order_type]) unless params[:morning_dose] == "Unknown" || params[:morning_dose].to_f == 0
-        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:afternoon_dose], 'AFTERNOON', prn, params[:order_type]) unless params[:afternoon_dose] == "Unknown" || params[:afternoon_dose].to_f == 0
-        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:evening_dose], 'EVENING', prn, params[:order_type]) unless params[:evening_dose] == "Unknown" || params[:evening_dose].to_f == 0
-        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:night_dose], 'NIGHT', prn, params[:order_type])  unless params[:night_dose] == "Unknown" || params[:night_dose].to_f == 0
-      else
-        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], params[:frequency], prn, params[:order_type])
-      end  
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
   end
   
@@ -72,34 +69,20 @@ class PrescriptionsController < ApplicationController
     filter_list = params[:filter_list].split(/, */) rescue [] 
     #Pull facility specific concept names if one is defined
     facility_shortname = GlobalProperty.find_by_property('facility.short_name').property_value rescue nil
-    drug_set_concept_id = Concept.find_by_name(facility_shortname.upcase + ' DRUG LIST').concept_id rescue nil if facility_shortname
+    drug_set_concept_id = Concept.find_by_name(facility_shortname.upcase + ' DRUG LIST').concept_id rescue nil 
+
     if facility_shortname && drug_set_concept_id
-      @drug_concepts = ConceptName.find(:all, 
-        :select => "concept_name.name",  
-        :joins => "INNER JOIN concept_set ON concept_set.concept_id = concept_name.concept_id AND concept_set.concept_set = #{drug_set_concept_id}",
-        :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
-
+      @drugs = Drug.active.find(:all, 
+        :select => "name", 
+        :conditions => ["concept_id = ? AND name LIKE ?", drug_set_concept_id, search_string + '%'])
     else
-      @drug_concepts = ConceptName.find(:all, 
-        :select => "concept_name.name", 
-        :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0", 
-        :conditions => ["concept_name.name LIKE ?", '%' + search_string + '%'])
-
+      @drugs = Drug.active.find(:all, 
+        :select => "name", 
+        :conditions => ["name LIKE ?", search_string + '%'])
     end
-    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.sort.join("</li><li>") + "</li>"
+    render :text => "<li>" + @drugs.map{|drug| drug.name }.sort.insert(0, 'FINISH').join("</li><li>") + "</li>"
   end
-  
-  # Look up all of the matching drugs for the given generic drugs
-  def formulations
-    @generic = (params[:generic] || '')
-    @concept_ids = ConceptName.find_all_by_name(@generic).map{|c| c.concept_id}
-    render :text => "" and return if @concept_ids.blank?
-    search_string = (params[:search_string] || '').upcase
-    @drugs = Drug.active.find(:all, 
-      :select => "name", 
-      :conditions => ["concept_id IN (?) AND name LIKE ?", @concept_ids, '%' + search_string + '%'])
-    render :text => "<li>" + @drugs.map{|drug| drug.name }.join("</li><li>") + "</li>"
-  end
+
   
   # Look up likely durations for the drug
   def durations
