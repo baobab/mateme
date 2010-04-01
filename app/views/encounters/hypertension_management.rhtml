@@ -1,6 +1,86 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
+
+  function setConceptNamesAndValues(){
+
+    var values_string = selectedValue('hypertension_management');
+
+    $('low_salt_diet').value = ' ';
+    $('low_salt_diet_value_coded_or_text').value = ' ';
+    $("sartan").value = ' ';
+    $('sartan_value_coded_or_text').value = ' ';
+    $('thiazide').value = ' ';
+    $('thiazide_value_coded_or_text').value = ' ';
+    $('frusemide').value = ' ';
+    $('frusemide_value_coded_or_text').value = ' ';
+    $('methyldopa').value = ' ';
+    $('methyldopa_value_coded_or_text').value = ' ';
+    $('beta_blocker').value = '';
+    $('beta_blocker_value_coded_or_text').value = ' ';
+    $('calcium_channel_blocker').value = '';
+    $('calcium_channel_blocker_value_coded_or_text').value = ' ';
+    $('aspirin').value = ' ';
+    $('aspirin_value_coded_or_text').value = ' ';
+    $('suspected_neuropathy').value = '';
+    $('suspected_neuropathy_value_coded_or_text').value = '';
+
+
+    if(values_string.contains("PERIPHERAL NEUROPATHY")){
+
+      $('low_salt_diet').value = 'PERIPHERAL NEUROPATHY';
+      $('low_salt_diet_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("ACE I/SALTAN")){
+
+      $("sartan").value = 'ACE I/SALTAN';
+      $('sartan_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("THIAZIDE")){
+
+      $('thiazide').value = 'THIAZIDE';
+      $('thiazide_value_coded_or_text').value = 'Yes';
+
+      }
+  if(values_string.contains("FRUSEMIDE")){
+
+      $('frusemide').value = 'FRUSEMIDE';
+      $('frusemide_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("METHYLDOPA")){
+
+      $('methyldopa').value = 'METHYLDOPA';
+      $('methyldopa_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("BETA BLOCKER")){
+
+      $('beta_blocker').value = 'BETA BLOCKER';
+      $('beta_blocker_value_coded_or_text').value = 'Yes';
+
+      }
+  if(values_string.contains("CALCIUM CHANNEL BLOCKER")){
+
+      $('calcium_channel_blocker').value = 'CALCIUM CHANNEL BLOCKER';
+      $('calcium_channel_blocker_value_coded_or_text').value = 'Yes';
+
+      }
+
+  if(values_string.contains("ASPIRIN")){
+
+      $('aspirin').value = 'ASPIRIN';
+      $('aspirin_value_coded_or_text').value = 'Yes';
+
+      }
+
+  }
 </script>
 <form id='complications' action="/encounters/create" method='post'>
   <% default={
@@ -12,133 +92,150 @@
   <%= hidden_field_tag "encounter[encounter_datetime]",   DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]",          session[:user_id] %>
 
-  <% options=default.merge({
+<% options=default.merge({
+    :field_type => 'text',
+    :helpText => "Select hypertension treatement(s):",
+    :id => "hypertension_management",
+    :tt_onLoad => "addOnMouseDownAction(['LOW SALT DIET RECOMMENDED', 
+                    'ACE I/SALTAN', 'THIAZIDE', 'FRUSEMIDE', 'METHYLDOPA',
+                     'BETA BLOCKER', 'CALCIUM CHANNEL BLOCKER'])",
+    :tt_onUnLoad => "setConceptNamesAndValues()",
+    :multiple => true,
+    :tt_pageStyleClass => "LongSelectList"
+  }) %>
+
+  <% @hypertension_management_list = ["LOW SALT DIET RECOMMENDED", "ACE I/SALTAN",
+                            "THIAZIDE", "FRUSEMIDE", "METHYLDOPA", "BETA BLOCKER",
+                            "CALCIUM CHANNEL BLOCKER", "ASPIRIN"]%>
+  <%= select_tag("hypertension_management_values", options_for_select(@hypertension_management_list),options) %>
+
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "low_salt_diet",
     :tt_onUnLoad => "$('low_salt_diet_value_coded_or_text').value = $('low_salt_diet').value",
     :helpText => "Ever had Low salt diet recommended?"
   }) %>
-  <%= select_tag( "low_salt_diet[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "low_salt_diet[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",  "LOW SALT DIET RECOMMENDED") %>
-  <%= hidden_field_tag("observations[][value_coded_or_text]",  "",  {:id => "low_salt_diet_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][concept_name]",  "", {:id => 'low_salt_diet'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]",  "", {:id => "low_salt_diet_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "sartan",
     :tt_onUnLoad => "$('sartan_value_coded_or_text').value = $('sartan').value",
     :helpText => "Ever had Ace I/Sartan?"
   }) %>
-  <%= select_tag( "sartan[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "sartan[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",  "ACE I/SALTAN") %>
+  <%= hidden_field_tag("observations[][concept_name]",  "", {:id => 'sartan'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]",  "",  {:id => "sartan_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "thiazide",
     :tt_onUnLoad => "$('thiazide_value_coded_or_text').value = $('thiazide').value",
     :helpText => "Ever had Thiazide?"
   }) %>
-  <%= select_tag( "thiazide[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "thiazide[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "THIAZIDE") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'thiazide'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "thiazide_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "frusemide",
     :tt_onUnLoad => "$('frusemide_value_coded_or_text').value = $('frusemide').value",
     :helpText => "Ever had Frusemide?"
   }) %>
-  <%= select_tag( "frusemide[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "frusemide[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "FRUSEMIDE") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'frusemide'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "frusemide_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "methyldopa",
     :tt_onUnLoad => "$('methyldopa_value_coded_or_text').value = $('methyldopa').value",
     :helpText => "Ever had Methyldopa?"
   }) %>
-  <%= select_tag( "methyldopa[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "methyldopa[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "METHYLDOPA") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => "methyldopa"}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "methyldopa_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "beta_blocker",
     :tt_onUnLoad => "$('beta_blocker_value_coded_or_text').value = $('beta_blocker').value",
     :helpText => "Ever had Beta Blocker?"
   }) %>
-  <%= select_tag( "beta_blocker[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "beta_blocker[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",  "BETA BLOCKER") %>
+  <%= hidden_field_tag("observations[][concept_name]",  "", {:id => 'beta_blocker'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]",  "",  {:id => "beta_blocker_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "calcium_channel_blocker",
     :tt_onUnLoad => "$('calcium_channel_blocker_value_coded_or_text').value = $('calcium_channel_blocker').value",
     :helpText => "Ever had Calcium channel blocker?"
   }) %>
-  <%= select_tag( "calcium_channel_blocker[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "calcium_channel_blocker[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "CALCIUM CHANNEL BLOCKER") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'calcium_channel_blocker'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "calcium_channel_blocker_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
 
-  <% options=default.merge({
+  <%# options=default.merge({
     :field_type => 'text',
     :id => "aspirin",
     :tt_onUnLoad => "$('aspirin_value_coded_or_text').value = $('aspirin').value",
     :tt_onLoad=> "addOnMouseDownAction(['No'])",
     :helpText => "Ever had Aspirin?"
   }) %>
-  <%= select_tag( "aspirin[value_coded_or_text]", options_for_select([
+  <%#= select_tag( "aspirin[value_coded_or_text]", options_for_select([
     "",
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "ASPIRIN") %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {id => 'aspirin'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "aspirin_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
