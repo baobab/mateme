@@ -35,7 +35,8 @@ class Encounter < ActiveRecord::Base
                         "EYE COMPLICATIONS","HYPERTENSION MANAGEMENT",
                         "LAB RESULTS",
                         "NEURALGIC COMPLICATIONS",
-                        "PAST DIABETES MEDICAL HISTORY", "RENAL COMPLICATIONS"]
+                        "PAST DIABETES MEDICAL HISTORY", "DIABETES HISTORY",
+                        "RENAL COMPLICATIONS"]
 
     if name == 'REGISTRATION'
       "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
@@ -65,7 +66,7 @@ class Encounter < ActiveRecord::Base
       vitals.join(', ')
 
     elsif @encounter_types.include? name
-      observations.collect{|observation| observation.to_s}.join(", ")
+      observations.collect{|observation| observation.to_s(:show_negatives => false)}.compact.join(", ")
 
     #elsif ['DIABETES TEST'].include?(name)
      # observations.collect{|observation| observation.to_s}.join(", ")
