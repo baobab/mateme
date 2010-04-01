@@ -14,7 +14,7 @@ class PersonAttributesController < ApplicationController
 	    person_attribute.value = params[:attribute]
 	    person_attribute.person = patient.person
 	    person_attribute.save
-      redirect_to :controller => :patients, :action => :mastercard, :id => patient.id
+      redirect_to :controller => :patients, :action => :demographics, :id => patient.id
     else
       @patient = Patient.find(params[:id])
       @attribute_type = PersonAttributeType.find(params[:type])

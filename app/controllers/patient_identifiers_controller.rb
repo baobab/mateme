@@ -14,7 +14,7 @@ class PatientIdentifiersController < ApplicationController
 	    patient_identifier.identifier = params[:identifier]
 	    patient_identifier.patient = patient
 	    patient_identifier.save
-      redirect_to :controller => :patients, :action => :mastercard, :id => patient.id
+      redirect_to :controller => :patients, :action => :demographics, :id => patient.id
     else
       @patient = Patient.find(params[:id])
       @identifier_type = PatientIdentifierType.find(params[:type])

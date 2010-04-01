@@ -1,0 +1,37 @@
+<style type="text/css">
+  table { margin: 15px;}
+  td {
+    background: #F0F0F0;
+    font-size: 20px;
+  }
+  .label {
+    font-weight: bold;
+  }
+
+</style>
+
+<script type="text/javascript">
+  tt_cancel_destination = '<%=  "/patients/show/#{@patient.id}" %>';
+</script>
+
+<center><h2>Patient Demographics</h2></center>
+
+<table>
+  <tr>
+    <td class="label">NAME OF PATIENT:</td><td><a href='/person_names/edit/<%= @patient.id%>'><%= @person.name %></a></td>
+    <td class="label">CARD NO:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=14'><%= @patient.diabetes_number %></a></td>
+  </tr>
+  <tr>
+    <td class="label">DISTRICT:</td><td><%= @address.address2 %></td>
+    <td class="label">AGE:</td><td><a href='/people/edit/<%= @patient.id%>?field=birthdate'><%= @person.age %></a></td>
+  </tr>
+  <tr>
+    <td class="label">CONTACT ADDRESS/PHONE NO:</td><td><a href='/person_attributes/edit/<%= @patient.id%>?type=12'><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></a></td>
+    <td class="label">GENDER:</td><td><a href='/people/edit/<%= @patient.id%>?field=gender'><%= @person.gender %></a></td>
+  </tr>
+  <tr>
+    <td colspan="2"><a href='/person_addresses/edit/<%= @patient.id%>'><%= "#{@address.city_village}, #{@address.state_province},
+                         #{@address.county_district}, #{@address.address2}" %></a></td>
+    <td class="label">HIV STATUS:</td><td><a href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id%>'><%= @patient.hiv_status %></a></td>
+  </tr
+</table>

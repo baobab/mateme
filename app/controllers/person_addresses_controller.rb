@@ -33,7 +33,7 @@ class PersonAddressesController < ApplicationController
 	    person_address = PersonAddress.new(params[:person][:addresses])
       person_address.person_id = patient.person.id
 	    person_address.save
-      redirect_to :controller => :patients, :action => :mastercard, :id => patient.id
+      redirect_to :controller => :patients, :action => :demographics, :id => patient.id
     else
       @patient = Patient.find(params[:id])
       @address = @patient.person.addresses.last

@@ -78,7 +78,7 @@ class PeopleController < ApplicationController
     # only allow these fields to prevent dangerous 'fields' e.g. 'destroy!'
     valid_fields = ['birthdate','gender']
     unless valid_fields.include? params[:field]
-      redirect_to :controller => 'patients', :action => 'mastercard', :id => params[:id]
+      redirect_to :controller => 'patients', :action => :demographics, :id => params[:id]
       return
     end
 
@@ -98,7 +98,7 @@ class PeopleController < ApplicationController
         @person.save
       end
       @person.save
-      redirect_to :controller => :patients, :action => :mastercard, :id => @person.id
+      redirect_to :controller => :patients, :action => :demographics, :id => @person.id
     else
       @field = params[:field]
       @field_value = @person.send(@field)

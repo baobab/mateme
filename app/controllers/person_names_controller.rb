@@ -32,7 +32,7 @@ class PersonNamesController < ApplicationController
 	    person_name.family_name = params[:family_name]
 	    person_name.person = patient.person
 	    person_name.save
-      redirect_to :controller => :patients, :action => :mastercard, :id => patient.id
+      redirect_to :controller => :patients, :action => :demographics, :id => patient.id
     end
   end
 end
