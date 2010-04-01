@@ -5,7 +5,7 @@ class EncountersController < ApplicationController
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
     encounter.save
 
-    (params[:observations] || []).each{|observation|
+    (params[:observations] || []).each do |observation|
       # Check to see if any values are part of this observation
       # This keeps us from saving empty observations
       values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
@@ -19,7 +19,7 @@ class EncountersController < ApplicationController
       observation[:person_id] ||= encounter.patient_id
       observation[:concept_name] ||= "DIAGNOSIS" if encounter.type.name == "DIAGNOSIS"
       Observation.create(observation)
-    }
+  end
     @patient = Patient.find(params[:encounter][:patient_id])
     redirect_to next_task(@patient) 
   end
