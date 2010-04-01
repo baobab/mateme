@@ -143,6 +143,13 @@ class PatientsController < ApplicationController
     render :template => 'patients/discharge', :layout => 'menu'
   end
 
+  def demographics
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @person = @patient.person
+    @address = @person.addresses.last
+    render :layout => 'menu'
+  end
+
   def mastercard
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
     void_diabetes_test if params[:void]

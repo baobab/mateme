@@ -65,7 +65,13 @@ class Observation < ActiveRecord::Base
       :limit => limit).map{|o| o.value }
   end
 
-  def to_s
+  def to_s(options={})
+    show_negatives = options[:show_negatives] rescue true
+    if !show_negatives # ignore observations with No or Unknown answers
+      return nil if ['no','unknown'].include? self.answer_string.downcase
+      return self.concept.name.name rescue 'Unknown concept name' if self.answer_string.downcase == 'yes'
+    end
+    
     "#{self.concept.name.name rescue 'Unknown concept name'}: #{self.answer_string}"
   end
 
