@@ -72,7 +72,7 @@ class PatientsController < ApplicationController
     #find patient object and arv number
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
     @remote_art_info = @patient.remote_art_info rescue {}
-    @arv_number = @remote_art_info['person']['arv_number'] 
+    @arv_number = @remote_art_info['person']['arv_number'] rescue nil 
     @hiv_test_date = @patient.hiv_test_date
     @status = @patient.hiv_status
     
@@ -107,7 +107,7 @@ class PatientsController < ApplicationController
     treatment = @patient.current_treatment_encounter.orders.active rescue []
     session[:admitted] = false
 
-    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['REFERRED'].include?(@patient.current_outcome)
+    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
       current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
       current_visit.save
