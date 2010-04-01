@@ -153,7 +153,7 @@
       }
       optionsString << "<option>" "Unknown" "</option>"
 %>
-<%=select_tag(:start_month, optionsString,  {:field_type => 'alpha', :helpText => "Start Month", :tt_onLoad => "loadHelpText();"})%>
+<%=select_tag(:start_month, optionsString,  {:field_type => 'alpha', :helpText => "Start Month", :tt_requireNextClick => false, :tt_onLoad => "loadHelpText();"})%>
 <label for="calendar">Start Date</label><br/>
 <%day=Array.new(31){|d|d + 1 } %>
 <%#unknown=Array.new %>
@@ -166,7 +166,7 @@
       }
 %>
 
-<%= select_tag(:start_day, options, {:field_type => 'number', :helpText => 'Start Date', :tt_onLoad => "loadHelpText();", :min => "1", :absoluteMin =>"1", :absoluteMax =>"31"})  %>
+<%= select_tag(:start_day, options, {:field_type => 'number', :helpText => 'Start Date', :tt_requireNextClick => false, :tt_onLoad => "loadHelpText();", :min => "1", :absoluteMin =>"1", :absoluteMax =>"31"})  %>
 
 
 <label for="calendar">End Year</label><br/>
@@ -179,13 +179,13 @@
       }
       optionsString << "<option>" "Unknown" "</option>"
 %>
-<%=select_tag(:end_month, optionsString,  {:field_type => 'alpha', :helpText => 'End Month', :tt_onLoad => "loadHelpText();"})%>
+<%=select_tag(:end_month, optionsString,  {:field_type => 'alpha', :helpText => 'End Month', :tt_requireNextClick => false, :tt_onLoad => "loadHelpText();"})%>
 <label for="calendar">End Date</label><br/>
 <%day=Array.new(31){|d|d + 1 } %>
 <%unknown=Array.new %>
 <%days_with_unknown = day<< "Unknown" %>
 <%days = [""].concat day%>
-<%= select_tag(:end_day, options_for_select(days), {:field_type => 'number', :helpText => 'End Date', :tt_onLoad => "loadHelpText();"})  %>
+<%= select_tag(:end_day, options_for_select(days), {:field_type => 'number', :helpText => 'End Date',:tt_requireNextClick => false, :tt_onLoad => "loadHelpText();"})  %>
 
 <%end%>
 
