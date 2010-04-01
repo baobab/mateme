@@ -15,43 +15,47 @@
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
     
-      <label for="blood_sugar_type">Blood Sugar Type</label>
-      <% options=default.merge({
-          :field_type => 'text',
-          :id => "blood_sugar_type"
-  }) %>
-  <% @blood_sugar_types = [""]
-  @blood_sugar_types += Concept.find_by_name("BLOOD SUGAR TEST TYPE").concept_answers.map(&:name) %>
+    <label for="blood_sugar_type">Blood Sugar Type</label>
+    <% options=default.merge({
+        :field_type => 'text',
+        :tt_requireNextClick => false,
+        :id => "blood_sugar_type"
+    }) %>
+    <% @blood_sugar_types = [""]
+       @blood_sugar_types += Concept.find_by_name("BLOOD SUGAR TEST TYPE").concept_answers.map(&:name) %>
   
-  <%= select_tag( "blood_sugar_type", options_for_select(@blood_sugar_types), options) %>
+    <%= select_tag( "blood_sugar_type", options_for_select(@blood_sugar_types), options) %>
 
-<% options=default.merge({
+    <% options=default.merge({
           :field_type => 'text',
           :id => "blood_sugar_unit",
+          :tt_requireNextClick => false,
           :condition => "$('blood_sugar_type').value != 'HbA1c'",
           :helptext =>"Select blood sugar units of measure"
-  }) %>
-  <%= select_tag("blood_sugar_unit", options_for_select([
+      }) %>
+    <%= select_tag("blood_sugar_unit", options_for_select([
       "",
       "mmol/l",
       "mg/dl"
-    ]), options ) %>
+      ]), options ) %>
 
-  <%= text_field_tag "observations[][value_numeric]", nil,
-    {:id => "blood_sugar_value",
-     :field_type => 'number',
-     :helptext =>"Blood Sugar Value",
-     :allowFreeText => 'true',
-     :min => 50,
-     :max => 500,
-     :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
-     #:validationCode => "($('blood_sugar_unit').value == 'mmol/l') && (tstInputTarget.value > 4 && tstInputTarget.value < 20) || (tstInputTarget.value > 76 && tstInputTarget.value < 347)",
-     :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
-     :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-     :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value;
+    <%= text_field_tag "observations[][value_numeric]", nil,
+      {:id => "blood_sugar_value",
+        :field_type => 'number',
+        :helptext =>"Blood Sugar Value",
+        :allowFreeText => 'true',
+        :min => 50,
+        :max => 500,
+        :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
+        #:validationCode => "($('blood_sugar_unit').value == 'mmol/l') && (tstInputTarget.value > 4 && tstInputTarget.value < 20) || (tstInputTarget.value > 76 && tstInputTarget.value < 347)",
+        :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
+        :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+        :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value;
                          if ($('blood_sugar_type').value == 'HbA1c') {
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 0);
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 100);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 4);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 30);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('absoluteMin', 0);
+                              $('touchscreenInput'+tstCurrentPage).setAttribute('absoluteMax', 50);
                             }
                          else {
                             if ($('blood_sugar_unit').value == 'mmol/l'){
@@ -63,13 +67,11 @@
                             $('touchscreenInput'+tstCurrentPage).setAttribute('max', 500);
                           }
                       }
-  " } %>
-  <%= hidden_field_tag("observations[][concept_name]", "") %>
-  <%= hidden_field_tag("observations[][type]", "BLOOD SUGAR TEST TYPE") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+      " } %>
+    <%= hidden_field_tag("observations[][concept_name]", "") %>
+    <%= hidden_field_tag("observations[][type]", "BLOOD SUGAR TEST TYPE") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-
-    
-  <%= submit_tag "Finish" %>
+    <%= submit_tag "Finish" %>
 </form>
