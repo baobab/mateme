@@ -15,7 +15,7 @@
       }
       optionsString << "<option>" "Unknown" "</option>"
   %>
-  <%=select_tag(:retrospective_patient_month, optionsString,  {:field_type => 'alpha', :tt_pageStyleClass => "ShortSelectList", :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown"'})%>
+  <%=select_tag(:retrospective_patient_month, optionsString,  {:field_type => 'alpha', :tt_requireNextClick => false, :tt_pageStyleClass => "ShortSelectList", :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown"'})%>
 
 <p><label for ="retrospective_patient_day">Day when visit occured</label> </p>
   <%day=Array.new(31){|d|d + 1 } 
@@ -23,6 +23,6 @@
     unknown[0]= "Unknown" 
     days_with_unknown = day<< "Unknown"
     days = [""].concat day%>
-    <%= select_tag(:retrospective_patient_day, options_for_select(days), :field_type => 'number', :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown" && $("retrospective_patient_month").value.toLowerCase() != "unknown"', :absoluteMax => Date.today.to_s)  %>
+    <%= select_tag(:retrospective_patient_day, options_for_select(days), :field_type => 'number', :tt_requireNextClick => false,  :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown" && $("retrospective_patient_month").value.toLowerCase() != "unknown"', :absoluteMax => Date.today.to_s)  %>
   <%= submit_tag "Set visit date" %>
 <% end %>
