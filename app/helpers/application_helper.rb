@@ -53,4 +53,9 @@ module ApplicationHelper
   def welcome_message
     "Muli bwanji, enter your user information or scan your id card. <span style='font-size:0.6em;float:right'>(Version: #{MATEME_VERSION}#{' ' + MATEME_SETTINGS['installation'] if MATEME_SETTINGS}, #{File.ctime(File.join(RAILS_ROOT, 'config', 'environment.rb')).strftime('%d-%b-%Y')})</span>"  
   end
+
+  def encounter_button(encounter_name, encounter_url, button_class)
+    "<a class=\"button #{button_class}\"
+       href=\"#{encounter_url}\">#{encounter_name}</a>"
+  end
 end

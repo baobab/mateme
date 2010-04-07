@@ -37,7 +37,7 @@ overflow:auto;
 
 <style type="text/css">
 
-  a.button.green {
+  a.button {
     width:220px;
     -moz-user-select:none;
     border:0 none;
@@ -48,13 +48,22 @@ overflow:auto;
     padding:0 8px 0 0;
     text-align:center;
     text-decoration:none;
-    background:#00FF00 none repeat scroll 0 0;
     font-size:1.4em;
     height:57px;
     line-height:57px;
     min-width:48px;
     margin-top:10px
   }
+
+  a.button.green {
+    background: #00FF00 none repeat scroll 0 0;
+  }
+
+
+  a.button.gray {
+    background: #AAAAAA none repeat scroll 0 0;
+  }
+
 #menu {
     float:right;
     overflow:auto;
@@ -81,13 +90,22 @@ overflow:auto;
   </div>
 
   <div id="menu">
-    <a class="button green" href='/encounters/diabetes_history?patient_id=<%= @patient.id -%>'>Diabetes History</a>
-    <a class="button green" href='/encounters/diabetes_treatments?patient_id=<%= @patient.id -%>'>Diabetes Treatments</a>
+    <% short_names = {"INITIAL COMPLICATIONS" => "Complications",
+                      "HYPERTENSION MANAGEMENT" => "HyperTension Mgt"}
+      @medical_history_encounters.each do |name| %>
+      <%= encounter_button((short_names[name.upcase] || name),
+            @encounter_url[name.upcase],
+            @button_classes[name.upcase]) %>
+    <% end %>
+
+    <!--a class="button green" href='/encounters/diabetes_history?patient_id=<%= @patient.id -%>'>Diabetes History</a>
+    <a class="button <%= @button_classes['DIABETES TREATMENTS'] %>" 
+       href="<%= @encounter_url['DIABETES TREATMENTS'] -%>">Diabetes Treatments</a>
     <a class="button green" href='/encounters/hospital_admissions?patient_id=<%= @patient.id -%>'>Hospital Admissions</a>
     <a class="button green" href='/encounters/past_medical_history?patient_id=<%= @patient.id -%>'>Past Medical History</a>
     <a class="button green" href='/encounters/initial_complications?patient_id=<%= @patient.id -%>'>Complications</a>
     <a class="button green" href='/encounters/hypertension_management?patient_id=<%= @patient.id -%>'>Hypertension Mgt</a>
-    <a class="button green" href='/encounters/general_health?patient_id=<%= @patient.id -%>'>General Health</a>
+    <a class="button green" href='/encounters/general_health?patient_id=<%= @patient.id -%>'>General Health</a-->
   </div>
 </div>
 
