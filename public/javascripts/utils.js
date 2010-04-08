@@ -84,3 +84,39 @@ String.prototype.contains = function (substring) {
     return false;
   }
 }
+
+function onYearUpdateDateTime(main_field_str, year_str, modifier_str){
+
+  var time      = new Date();
+  var this_year = time.getYear();
+  var estimated_date = [];
+
+  if (this_year < 2000){
+  this_year=(time.getYear() + 1900);
+  }
+
+  estimated_date = formatDate($(main_field_str).value, $(year_str).value,0);
+
+
+  if((this_year - $(year_str).value > 2))  {
+
+    estimated_date = formatDate($(year_str).value, 'unknown', 1);
+  }
+  $(main_field_str).value = estimated_date['value_datetime'];
+  $(modifier_str).value   = estimated_date['value_modifier'];
+}
+
+function onMonthUpdateDateTime(main_field_str, month_str, modifier_str){
+
+  var estimated_date = formatDate($(main_field_str).value, $(month_str).value, 1);
+
+  $(main_field_str).value = estimated_date['value_datetime'];
+  $(modifier_str).value   = estimated_date['value_modifier'];
+
+  if(($(month_str).value.toLowerCase() != 'unknown'))  {
+    estimated_date = formatDate($(main_field_str).value, 'unknown', 2);
+
+    $(main_field_str).value = estimated_date['value_datetime'];
+    $(modifier_str).value   = estimated_date['value_modifier'];
+  }
+}
