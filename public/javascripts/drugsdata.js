@@ -2,7 +2,7 @@
 
 var generic = ["CAPTOPRIL", "GLIBENCLAMIDE", "METFORMIN", "QUINAPRIL", "ASPIRIN",
         "LENTE INSULIN", "SOLUBLE INSULIN", "HCT", "NIFEDIPINE", "NIFEDIPINE SR", "PROPANOLOL", 
-        "METHYLDOPA", "FUROSEMIDE", "ATENOLOL", "AMITRYPTILINE", "IBUPROFEN", "VITAMIN B CO", "PYRIDOXINE"];
+        "METHYLDOPA", "FUROSEMIDE", "ATENOLOL", "AMITRIPTYLINE", "IBUPROFEN", "VITAMIN B CO", "PYRIDOXINE"];
 
 var drugs = {};
 
@@ -82,7 +82,7 @@ drugs["FUROSEMIDE"] = [["120MG", "BD"],
 drugs["ATENOLOL"] = [["50MG", "OD"],
                         ["100MG", "OD"]];
 
-drugs["AMITRYPTILINE"] = [["25MG","NOCTE"],
+drugs["AMITRIPTYLINE"] = [["25MG","NOCTE"],
                             ["50MG", "NOCTE"]];
 
 drugs["IBUPROFEN"] = [["400MG","TDS"]];
