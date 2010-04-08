@@ -63,7 +63,35 @@ class EncountersController < ApplicationController
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
-    render :action => params[:encounter_type] if params[:encounter_type]
+
+    if params[:encounter_type]
+      if params[:encounter_type] == 'first_time_visit_questions'
+        # disable re-entry of existing encounters
+        @existing_encounter_types = @patient.encounters.find(:all,
+                                    :group => 'encounter_type').map(&:name)
+        @button_classes = Hash.new('green')
+        @encounter_url = Hash.new
+        @medical_history_encounters = ['Diabetes History',
+                                       'Diabetes Treatments',
+                                       'Hospital Admissions',
+                                       'Past Medical History',
+                                       'Initial Complications',
+                                       'Hypertension Management',
+                                       'General Health'
+                                       ]
+        @medical_history_encounters.each do |name|
+          if @existing_encounter_types.include? name.upcase
+            @button_classes[name.upcase] = 'gray'
+            @encounter_url[name.upcase] = '#'
+          else
+            @encounter_url[name.upcase] = "/encounters/#{name.downcase.gsub(' ',
+                                          '_')}?patient_id=#{@patient.id}"
+          end
+        end
+
+      end
+      render :action => params[:encounter_type]
+    end
   end
 
   def diagnoses
