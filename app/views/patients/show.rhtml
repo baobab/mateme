@@ -87,6 +87,7 @@
   <%if @nurse%>
 
       <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a>
+      <a class="button green" href='/patients/mastercard?patient_id=<%= @patient.id -%>'>Screen Complicatns</a>
       <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
   <%end %>
