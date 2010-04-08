@@ -60,8 +60,7 @@ module ApplicationHelper
   end
 
   def qwerty_or_abc_keyboard
-    #abc = UserProperty.find_by_property_and_user_id('keyboard',session[:user_id]).property_value == 'abc' rescue false
-    #abc ? "abc" : "qwerty"
-    "qwerty"
+    abc = UserProperty.find_by_property_and_user_id('keyboard',session[:user_id]).property_value == 'abc' rescue false
+    abc ? "abc" : "qwerty"
   end
 end
