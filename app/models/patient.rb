@@ -61,7 +61,7 @@ class Patient < ActiveRecord::Base
     label.print(1)
   end
   
-  def visit_label
+  def visit_label(user_id)
     label = ZebraPrinter::StandardLabel.new
     label.font_size = 3
     label.font_horizontal_multiplier = 1
@@ -75,12 +75,17 @@ class Patient < ActiveRecord::Base
     else
       dc_number = ""
     end
-
-    label.draw_multi_text("#{self.person.name.titleize.delete("'")} (#{self.national_id_with_dashes}#{dc_number}) ")
-    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)    
+    user    = User.find(user_id)
+    role  = user.user_roles.collect{|x|x.role}
+    label.draw_multi_text("QECH DM CLINIC")
+    label.draw_multi_text("Doctor: #{user.name}") if (role.first.downcase.include?("doctor") || role.first.downcase.include?("superuser"))
+    label.draw_multi_text("Patient: #{self.person.name.titleize.delete("'")} (#{self.national_id_with_dashes}#{dc_number}) ")
+    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
+    excluded_encounters = ["Registration", "Diabetes history","Complications",
+                          "General health", "Diabetes treatments", "Diabetes admissions",
+                          "Hypertension management", "Past diabetes medical history"]
     encs.each {|encounter|
-      next if encounter.name.humanize == "Registration"
-      label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_s}", :font_reverse => false)
+      label.draw_multi_text("#{encounter.name.titleize}: #{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
     }
     label.print(1)
   end
