@@ -10,8 +10,8 @@
 
   function validateCreatinine() {
     var unit = $('creatinine_unit').value;
-    var minimums = {'mg/dl': 0.5, 'µmol/l': 45, 'UREA (mg/dl)': 0};
-    var maximums = {'mg/dl': 1.2, 'µmol/l': 111.0, 'UREA (mg/dl)': 25};
+    var minimums = {'mg/dl': 0.5, 'µmol/l': 45};
+    var maximums = {'mg/dl': 1.2, 'µmol/l': 111.0};
 
     if ((tstInputTarget.value >= minimums[unit] &&
          tstInputTarget.value <= maximums[unit])
@@ -57,7 +57,9 @@
 'URINE PROTEIN',
 'VISUAL ACUITY',
 'FUNDOSCOPY',
-'FOOT CHECK']
+'FOOT CHECK',
+'UREA'
+]
   %>
 
 
@@ -65,7 +67,7 @@
 
   <%= hidden_field_tag( "diabetes_test_type",params[:diabetes_test_type],{:id=>"diabetes_test_type"}) %>
 
-  <%= select_tag( "creatinine_unit", options_for_select(['', 'mg/dl', 'µmol/l', 'UREA mg/dl']), {
+  <%= select_tag( "creatinine_unit", options_for_select(['', 'mg/dl', 'µmol/l']), {
     :helpText => 'Unit for Creatinine Value',
     :tt_requireNextClick => false,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'creatinine'"
@@ -90,6 +92,26 @@
                                                             }) %>
   <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%#= hidden_field_tag("observations[][obs_datetime]", '') %>
+
+  <%= hidden_field_tag("urea_unit","mg/dl") %>
+  <%= text_field_tag "observations[][value_numeric]", nil,
+    {:id => "urea_result",
+     :helptext =>"Urea Result",
+     :allowFreeText => 'true',
+     :disabled => true,
+     :min => 0,
+     :max => 25,
+     :condition => "$('diabetes_test_type').value.toLowerCase() == 'urea'",
+     :field_type => 'number',
+     :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+     :tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
+                    $('urea_result').disabled = false;
+                    $('diabetes_type_concept').disabled = false;
+                    $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
+                   " } %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'diabetes_type_concept',
+                                                            :disabled => true
+                                                            }) %>
 
   <% urine_protein_options = [['', ''],['NEGATIVE', 'NEG'],['TRACE', 'TRACE'],['POS (+)', 'POS (+)'],['POS (++)', 'POS (++)'],['POS (+++)', 'POS (+++)']] %>
   <%# urine_protein_options = Concept.find_by_name('URINE PROTEIN').concept_answers %>
