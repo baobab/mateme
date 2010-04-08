@@ -11,6 +11,10 @@ ul.list li.data .summary {
 font-size:0.7em;
 }
 
+.voidButton {
+  float:right;
+}
+
 </style>
 
 <div id =" patient_history" style="position: relative;  top: 0px;">
@@ -43,7 +47,15 @@ font-size:0.7em;
                       
                       <%if header == 'true' %><div style="float:left">
                         <%=h encounter.name.humanize %></div>
+                      
                       <%end; header = 'false'%>
+
+                      <span class="voidButton">
+                        <%= img_button_submit_to "/patients/void/#{@patient.patient_id}",
+                             "/images/cancel_flat_small.png",
+                             {:confirm => "Are you sure you want to void this encounter?"}, # TODO enable this prompt
+                             {:encounter_id => encounter.encounter_id} -%>
+                      </span>
 
                       <div style="clear:left" class="summary">
                         <span>
