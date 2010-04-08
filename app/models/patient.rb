@@ -16,8 +16,8 @@ class Patient < ActiveRecord::Base
     self.encounters.current.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id = ? OR obs.concept_id = ?", 
-        ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id,
-        ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id])
+          ConceptName.find_by_name("OUTPATIENT DIAGNOSIS").concept_id,
+          ConceptName.find_by_name("OUTPATIENT DIAGNOSIS, NON-CODED").concept_id])
     }.flatten.compact
   end
 
@@ -73,7 +73,7 @@ class Patient < ActiveRecord::Base
     if(self.diabetes_number && self.diabetes_number.to_s.downcase != "unknown")
       dc_number = ";QECH DC "+ self.diabetes_number
     else
-        dc_number = ""
+      dc_number = ""
     end
 
     label.draw_multi_text("#{self.person.name.titleize.delete("'")} (#{self.national_id_with_dashes}#{dc_number}) ")
@@ -121,13 +121,13 @@ class Patient < ActiveRecord::Base
     return diabetes_number
   end
 
-   def hiv_status
-      return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
-     self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter| 
+  def hiv_status
+    return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
+    self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
     }.flatten.compact.last.answer_concept_name.name rescue 'UNKNOWN'
-   end
+  end
 
   def treatments
 
@@ -147,27 +147,29 @@ class Patient < ActiveRecord::Base
                       GROUP BY orders.concept_id, obs.value_coded
                       ORDER BY end_date DESC")
 
-   end
+  end
 
-  def drug_details(drug_info, diagnosis_name, dose_strength)
-
-    string = drug_info.split(/ /)
-
-    lowercase_string = Array.new
-    lowercase_string += string.map{|str| str.downcase}
-
-    # do not remove the '(' in the following string
-    name = "%("+string.second+"%"
-    drug_frequency = string.last.upcase
+  def drug_details(drug_info, diagnosis_name)
 
     insulin = false
-     if (lowercase_string.include? "insulin") && ((lowercase_string.include? "lente") || (lowercase_string.include? "soluble"))
-       name = "%" + string.first + " " +string.second + "%"
-       insulin = true
-     end
+    if (drug_info[0].downcase.include? "insulin") && ((drug_info[0].downcase.include? "lente") ||
+          (drug_info[0].downcase.include? "soluble"))
 
+      name = "%"+drug_info[0]+"%"
+      insulin = true
 
-    diagnosis_id = Concept.find_by_name(diagnosis_name)
+    else
+
+      # do not remove the '(' in the following string
+      name = "%"+drug_info[0]+"%"+drug_info[1]+"%"
+
+    end
+
+    diagnosis_id = Concept.find_by_name(diagnosis_name);
+
+    drug_details = Array.new
+
+    concept_name_id = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id
 
     drugs = Drug.find(:all,:select => "concept.concept_id AS concept_id, concept_name.name AS name,
         drug.dose_strength AS strength, drug.name AS formulation",
@@ -177,30 +179,41 @@ class Patient < ActiveRecord::Base
       :conditions => ["concept_set.concept_set = ? AND drug.name LIKE ?", diagnosis_id, name],
       :group => "concept.concept_id, drug.name, drug.dose_strength")
 
-    drug_details = Array.new
+    unless(insulin)
 
-    concept_name_id = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id
-    preferred_concept_name_id = Concept.find_by_name(drug_frequency).concept_id
+      drug_frequency = drug_info[2].upcase
 
-    drug_frequency = ConceptName.find(:first, :select => "concept_name.name",
-                      :joins => "INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept
+      preferred_concept_name_id = Concept.find_by_name(drug_frequency).concept_id
+
+      drug_frequency = ConceptName.find(:first, :select => "concept_name.name",
+        :joins => "INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept
                                 INNER JOIN concept_name_tag_map cnmp
                                   ON  cnmp.concept_name_id = concept_name.concept_name_id
                                   AND cnmp.concept_name_tag_id = 4",
-                      :conditions => ["concept_answer.concept_id = ? AND concept_name.concept_id = ? AND voided = 0", concept_name_id, preferred_concept_name_id])
+        :conditions => ["concept_answer.concept_id = ? AND concept_name.concept_id = ? AND voided = 0", concept_name_id, preferred_concept_name_id])
 
-    if (string.count == 3)
       drugs.each do |drug|
 
         drug_details += [:drug_concept_id => drug.concept_id,
-           :drug_name => drug.name, :drug_strength => drug.strength,
-           :drug_formulation => drug.formulation, :drug_prn => 0, :drug_frequency => drug_frequency.name]
+          :drug_name => drug.name, :drug_strength => drug.strength,
+          :drug_formulation => drug.formulation, :drug_prn => 0, :drug_frequency => drug_frequency.name]
 
-        drug_details.map{|d| d[:drug_strength] = dose_strength if(insulin)}
       end
 
-      drug_details
+    else
+
+      drugs.each do |drug|
+
+        drug_details += [:drug_concept_id => drug.concept_id,
+          :drug_name => drug.name, :drug_strength => drug.strength,
+          :drug_formulation => drug.formulation, :drug_prn => 0, :drug_frequency => ""]
+
+      end
+
     end
+
+    drug_details
+
   end
 
   def self.remote_art_info(national_id)
