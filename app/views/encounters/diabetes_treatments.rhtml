@@ -6,6 +6,13 @@
 
   var my_date =[];
 
+  var time  = new Date();
+  var this_year  = time.getYear();
+  var estimated_date =[];
+  if (this_year < 2000){
+  this_year=(time.getYear() + 1900);
+  }
+
   function setConceptNamesAndValues(){
 
     var values_string = selectedValue('diabetes_treatements');
@@ -99,9 +106,7 @@
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
     #:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: Year started (' +'<font color=#FF0000>YYYY</font>-MMM-DD')",
-    :tt_onUnLoad => "my_date = formatDate($('diet_date_started').value, $('diet_year_started').value,0);
-                              $('diet_date_started').value = my_date['value_datetime'];
-                              if($('diet_value_modifier').value != 'ES'){$('diet_value_modifier').value = my_date['value_modifier'];}",
+    :tt_onUnLoad => "onYearUpdateDateTime('diet_date_started', 'diet_year_started', 'diet_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -110,15 +115,14 @@
   <%= select_tag "diet[month_started]", month_name_options,{
     :tt_requireNextClick => false,
     :helpText  => 'DIET: Month started',
+    :id => "diet_month_started",
     :tt_pageStyleClass => "LongSelectList",
-    :tt_onUnLoad => "my_date = formatDate($('diet_date_started').value, $('diet_month_started').value,1);
-                              $('diet_date_started').value = my_date['value_datetime'];
-                              if($('diet_value_modifier').value!= 'ES'){$('diet_value_modifier').value = my_date['value_modifier'];}",
-    :condition => '$("diet_value_coded_or_text").value.toLowerCase() == "yes" && $("diet_year_started").value.toLowerCase() != "unknown"',
+    :tt_onUnLoad => "onMonthUpdateDateTime('diet_date_started', 'diet_month_started', 'diet_value_modifier');",
+    :condition => '$("diet_value_coded_or_text").value.toLowerCase() == "yes" && $("diet_year_started").value.toLowerCase() != "unknown" && ((this_year - $("diet_year_started").value) <= 2)',
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-  <%= text_field_tag "diet[day_started]",  nil, :field_type => 'number',
+  <%#= text_field_tag "diet[day_started]",  nil, :field_type => 'number',
     :helpText  => 'DIET: Day started',
     :absoluteMin => 1,
     :absoluteMax => 31,
@@ -157,9 +161,7 @@
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
     :condition => '$("glibenclamide").value == "GLIBENCLAMIDE"',
-    :tt_onUnLoad => "my_date = formatDate($('glibenclamide_date_started').value, $('glibenclamide_year_started').value,0);
-                              $('glibenclamide_date_started').value = my_date['value_datetime'];
-                              if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modifier').value = my_date['value_modifier'];}",
+    :tt_onUnLoad => "onYearUpdateDateTime('glibenclamide_date_started', 'glibenclamide_year_started', 'glibenclamide_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -170,14 +172,12 @@
     :helpText  => 'GLIBENCLAMIDE: Month started',
     :id => "glibenclamide_month_started",
     :tt_pageStyleClass => "LongSelectList",
-    :tt_onUnLoad => "my_date = formatDate($('glibenclamide_date_started').value, $('glibenclamide_month_started').value,1);
-                              $('glibenclamide_date_started').value = my_date['value_datetime'];
-                              if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modifier').value = my_date['value_modifier'];}",
-    :condition => '$("glibenclamide_value_coded_or_text").value.toLowerCase() == "yes" && $("glibenclamide_year_started").value.toLowerCase() != "unknown"',
+    :tt_onUnLoad => "onMonthUpdateDateTime('glibenclamide_date_started', 'glibenclamide_month_started', 'glibenclamide_value_modifier');",
+    :condition => '$("glibenclamide_value_coded_or_text").value.toLowerCase() == "yes" && $("glibenclamide_year_started").value.toLowerCase() != "unknown" && ((this_year - $("glibenclamide_date_started").value) <= 2)',
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-  <%= text_field_tag "glibenclamide[day_started]",  nil,
+  <%#= text_field_tag "glibenclamide[day_started]",  nil,
     :field_type => 'number',
     :helpText  => 'GLIBENCLAMIDE: Day started',
     :id => "glibenclamide_day_started",
@@ -211,9 +211,7 @@
     :min => "1940", :absoluteMax => Date.today.year,
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
-    :tt_onUnLoad => "my_date = formatDate($('glibenclamide_date_stopped').value, $('glibenclamide_year_stopped').value,0);
-                                $('glibenclamide_date_stopped').value = my_date['value_datetime'];
-                                if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modifier').value = my_date['value_modifier'];}",
+    :tt_onUnLoad => "onYearUpdateDateTime('glibenclamide_date_stopped', 'glibenclamide_year_stopped', 'glibenclamide_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -224,14 +222,12 @@
     :helpText  => 'GLIBENCLAMIDE: Month stopped',
     :id => "glibenclamide_month_stopped",
     :tt_pageStyleClass => "LongSelectList",
-    :tt_onUnLoad => "my_date = formatDate($('glibenclamide_date_stopped').value, $('glibenclamide_month_stopped').value,1);
-                              $('glibenclamide_date_stopped').value = my_date['value_datetime'];
-                              if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modifier').value = my_date['value_modifier'];}",
-    :condition => "$('on_glibenclamide').value == 'No' && $('glibenclamide_year_stopped').value.toLowerCase() != 'unknown'",
+    :tt_onUnLoad => "onMonthUpdateDateTime('glibenclamide_date_stopped', 'glibenclamide_month_stopped', 'glibenclamide_value_modifier');",
+    :condition => "$('on_glibenclamide').value == 'No' && $('glibenclamide_year_stopped').value.toLowerCase() != 'unknown' && ((this_year - $('glibenclamide_date_stopped').value) <= 2)",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_stopped').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-  <%= text_field_tag "glibenclamide[day_stopped]",  nil,
+  <%#= text_field_tag "glibenclamide[day_stopped]",  nil,
     :field_type => 'number',
     :helpText  => 'GLIBENCLAMIDE: Day stopped',
     :id => "glibenclamide_day_stopped",
@@ -280,9 +276,7 @@
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
     :condition => '$("metformin_value_coded_or_text").value.toLowerCase() == "yes"',
-    :tt_onUnLoad => "my_date = formatDate($('metformin_date_started').value, $('metformin_year_started').value,0);
-                              $('metformin_date_started').value = my_date['value_datetime'];
-                              if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').value = my_date['value_modifier'];}",
+    :tt_onUnLoad => "onYearUpdateDateTime('metformin_date_started', 'metformin_year_started', 'metformin_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -293,14 +287,12 @@
     :helpText  => 'METFORMIN: Month started',
     :id => "metformin_month_started",
     :tt_pageStyleClass => "LongSelectList",
-    :tt_onUnLoad => "my_date = formatDate($('metformin_date_started').value, $('metformin_month_started').value,1);
-                              $('metformin_date_started').value = my_date['value_datetime'];
-                              if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').value = my_date['value_modifier'];}",
-    :condition => '$("metformin_value_coded_or_text").value.toLowerCase() == "yes" && $("metformin_year_started").value.toLowerCase() != "unknown"',
+    :tt_onUnLoad => "onMonthUpdateDateTime('metformin_date_started', 'metformin_month_started', 'metformin_value_modifier');",
+    :condition => "$('metformin_value_coded_or_text').value.toLowerCase() == 'yes' && $('metformin_year_started').value.toLowerCase() != 'unknown' && ((this_year - $('metformin_date_started').value) <= 2)",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-  <%= text_field_tag "metformin[day_started]",  nil,
+  <%#= text_field_tag "metformin[day_started]",  nil,
     :field_type => 'number',
     :helpText  => 'METFORMIN: Day started',
     :id => "metformin_day_started",
@@ -335,9 +327,7 @@
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
     :condition => "$('on_metformin').value == 'No'",
-    :tt_onUnLoad => "my_date = formatDate($('metformin_date_stopped').value, $('metformin_year_stopped').value,0);
-      $('metformin_date_stopped').value = my_date['value_datetime'];
-      if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').value = my_date['value_modifier'];}",
+    :tt_onUnLoad => "onYearUpdateDateTime('metformin_date_stopped', 'metformin_year_stopped', 'metformin_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -348,14 +338,12 @@
     :helpText  => 'METFORMIN: Month stopped',
     :id => "metformin_month_stopped",
     :tt_pageStyleClass => "LongSelectList",
-    :tt_onUnLoad => "my_date = formatDate($('metformin_date_stopped').value, $('metformin_month_stopped').value,1);
-      $('metformin_date_stopped').value = my_date['value_datetime'];
-      if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').value = my_date['value_modifier'];}",
-    :condition => "$('on_metformin').value == 'No' && $('metformin_year_stopped').value.toLowerCase() != 'unknown'",
+    :tt_onUnLoad => "onMonthUpdateDateTime('metformin_date_stopped', 'metformin_month_stopped', 'metformin_value_modifier');",
+    :condition => "$('on_metformin').value == 'No' && $('metformin_year_stopped').value.toLowerCase() != 'unknown' && ((this_year - $('metformin_date_stopped').value) <= 2)",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_stopped').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-  <%= text_field_tag "metformin[day_stopped]",  nil,
+  <%#= text_field_tag "metformin[day_stopped]",  nil,
     :field_type => 'number',
     :helpText  => 'METFORMIN: Day stopped',
     :id => "metformin_day_stopped",
@@ -405,9 +393,7 @@
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
     :condition => '$("insulin_value_coded_or_text").value.toLowerCase() == "yes"',
-    :tt_onUnLoad => "my_date = formatDate($('insulin_date_started').value, $('insulin_year_started').value,0);
-                              $('insulin_date_started').value = my_date['value_datetime'];
-                              if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value = my_date['value_modifier'];}",
+    :tt_onUnLoad => "onYearUpdateDateTime('insulin_date_started', 'insulin_year_started', 'insulin_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -418,14 +404,12 @@
     :helpText  => 'INSULIN: Month started',
     :id => "insulin_month_started",
     :tt_pageStyleClass => "LongSelectList",
-    :tt_onUnLoad => "my_date = formatDate($('insulin_date_started').value, $('insulin_month_started').value,1);
-                              $('insulin_date_started').value = my_date['value_datetime'];
-                              if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value = my_date['value_modifier'];}",
-    :condition => '$("insulin_value_coded_or_text").value.toLowerCase() == "yes" && $("insulin_year_started").value.toLowerCase() != "unknown"',
+    :tt_onUnLoad => "onMonthUpdateDateTime('insulin_date_started', 'insulin_month_started', 'insulin_value_modifier');",
+    :condition => "$('insulin_value_coded_or_text').value.toLowerCase() == 'yes' && $('insulin_year_started').value.toLowerCase() != 'unknown' && ((this_year - $('insulin_date_started').value) <= 2)",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-  <%= text_field_tag "insulin[day_started]",  nil,
+  <%#= text_field_tag "insulin[day_started]",  nil,
     :field_type => 'number',
     :helpText  => 'INSULIN: Day started',
     :id => "insulin_day_started",
@@ -459,9 +443,7 @@
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
     :condition => "$('on_insulin').value == 'No'",
-    :tt_onUnLoad => "my_date = formatDate($('insulin_date_stopped').value, $('insulin_year_stopped').value,0);
-                              $('insulin_date_stopped').value = my_date['value_datetime'];
-                              if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value = my_date['value_modifier'];}",
+    :tt_onUnLoad => "onYearUpdateDateTime('insulin_date_stopped', 'insulin_year_stopped', 'insulin_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -472,14 +454,12 @@
     :helpText  => 'INSULIN: Month stopped',
     :id => "insulin_month_stopped",
     :tt_pageStyleClass => "LongSelectList",
-    :tt_onUnLoad => "my_date = formatDate($('insulin_date_stopped').value, $('insulin_month_stopped').value,1);
-                              $('insulin_date_stopped').value = my_date['value_datetime'];
-                              if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value = my_date['value_modifier'];}",
-    :condition => "$('on_insulin').value == 'No' && $('insulin_year_stopped').value.toLowerCase() != 'unknown'",
+    :condition => "$('on_insulin').value == 'No' && $('insulin_year_stopped').value.toLowerCase() != 'unknown' && ((this_year - $('insulin_date_stopped').value) <= 2)",
+    :tt_onUnLoad => "onMonthUpdateDateTime('insulin_date_stopped', 'insulin_month_stopped', 'insulin_value_modifier');",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_stopped').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-  <%= text_field_tag "insulin[day_stopped]",  nil,
+  <%#= text_field_tag "insulin[day_stopped]",  nil,
     :field_type => 'number',
     :helpText  => 'INSULIN: Day stopped',
     :id => "insulin_day_stopped",
