@@ -22,9 +22,6 @@
     $('calcium_channel_blocker_value_coded_or_text').value = ' ';
     $('aspirin').value = ' ';
     $('aspirin_value_coded_or_text').value = ' ';
-    $('suspected_neuropathy').value = '';
-    $('suspected_neuropathy_value_coded_or_text').value = '';
-
 
     if(values_string.contains("PERIPHERAL NEUROPATHY")){
 
@@ -235,7 +232,7 @@
     "Yes",
     "No"
   ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]",        "", {id => 'aspirin'}) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'aspirin'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "aspirin_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
