@@ -109,7 +109,7 @@
           <td id ="non_header_row_font" class="mytableborder">
               <%= h("#{observation.answer_string}") %>
               <div style="float:right;padding:7px;">
-                <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:observation_id => observation.obs_id, :void => true} -%>
+                <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
               </div>
           </td>
           <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
@@ -142,7 +142,7 @@
           <td id ="non_header_row_font" class="mytableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
-              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:observation_id => observation.obs_id, :void => true} -%>
+              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
           <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
@@ -174,7 +174,7 @@
           <td id ="non_header_row_font" class="mytableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
-              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:observation_id => observation.obs_id, :void => true} -%>
+              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
           <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
@@ -206,7 +206,7 @@
           <td id ="non_header_row_font" class="mytableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
-              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:observation_id => observation.obs_id, :void => true} -%>
+              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
           <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
@@ -239,7 +239,7 @@
           <td id ="non_header_row_font" class="mytableborder">
             <%= h("#{observation.to_s_formatted}") %>
             <div style="float:right;padding:7px;">
-              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:observation_id => observation.obs_id, :void => true} -%>
+              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
           <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
@@ -272,7 +272,7 @@
           <td id ="non_header_row_font" class="mytableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
-              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:observation_id => observation.obs_id, :void => true} -%>
+              <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
           <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
