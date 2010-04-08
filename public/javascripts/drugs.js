@@ -29,7 +29,7 @@ function generateDrugs(){
     parent_container.style.height = "520px";
     parent_container.style.width = "795px";
     parent_container.style.overflow = "auto";
-    parent_container.style.zIndex = "1000";
+    parent_container.style.zIndex = "20";
     parent_container.style.backgroundColor = "#FFFFFF";
 
     document.body.appendChild(parent_container);
@@ -355,11 +355,79 @@ function generateDrugs(){
                                 }
                             }
 
+                 /*
+                             *
+                             *  SUFFIX CODE LEGEND
+                             *
+                             *          0.  generic
+                             *          1.  drug_strength
+                             *          2.  frequency
+                             *          3.  duration
+                             *          4.  morning_dose
+                             *          5.  afternoon_dose
+                             *          6.  evening_dose
+                             *          7.  diagnosis
+                             *          8.  patient_id
+                             *          9.  suggestion
+                             *          10. concept_name
+                             *          11. value_coded_text
+                             *          12. type_of_prescription
+                             *          
+                             */
+
                             if(!group2_value.match(/^$/) && !group4_value.match(/^$/) && !group6_value.match(/^$/)){
+
+                                var txtConceptName = document.createElement("input");
+                                txtConceptName.type = "hidden";
+                                txtConceptName.name = "prescriptions[][concept_name]";
+                                txtConceptName.value = "DIAGNOSIS";
+                                txtConceptName.id = "group_"+controlCount+"_10";
+
+                                document.forms[0].appendChild(txtConceptName);
+
+                                var txtValueCodedText = document.createElement("input");
+                                txtValueCodedText.type = "hidden";
+                                txtValueCodedText.name = "prescriptions[][value_coded_or_text]";
+                                txtValueCodedText.value = "DIABETES MEDICATION";
+                                txtValueCodedText.id = "group_"+controlCount+"_11";
+
+                                document.forms[0].appendChild(txtValueCodedText);
+
+                                var txtSuggestion = document.createElement("input");
+                                txtSuggestion.type = "hidden";
+                                txtSuggestion.name = "prescriptions[][suggestion]";
+                                txtSuggestion.value = 0;
+                                txtSuggestion.id = "group_"+controlCount+"_9";
+
+                                document.forms[0].appendChild(txtSuggestion);
+
+                                var txtTypeOfPrescription = document.createElement("input");
+                                txtTypeOfPrescription.type = "hidden";
+                                txtTypeOfPrescription.name = "prescriptions[][type_of_prescription]";
+                                txtTypeOfPrescription.value = "variable";
+                                txtTypeOfPrescription.id = "group_"+controlCount+"_12";
+
+                                document.forms[0].appendChild(txtTypeOfPrescription);
+
+                                var txtPatientID = document.createElement("input");
+                                txtPatientID.type = "hidden";
+                                txtPatientID.name = "prescriptions[][patient_id]";
+                                txtPatientID.value = $('patient_id').value;
+                                txtPatientID.id = "group_"+controlCount+"_8";
+
+                                document.forms[0].appendChild(txtPatientID);
+
+                                var txtDiagnosis = document.createElement("input");
+                                txtDiagnosis.type = "hidden";
+                                txtDiagnosis.name = "prescriptions[][diagnosis]";
+                                txtDiagnosis.value = "DIABETES MEDICATION";
+                                txtDiagnosis.id = "group_"+controlCount+"_7";
+
+                                document.forms[0].appendChild(txtDiagnosis);
 
                                 var txtGenerics = document.createElement("input");
                                 txtGenerics.type = "hidden";
-                                txtGenerics.name = "prescriptions[][formulation]";
+                                txtGenerics.name = "prescriptions[][generic]";
                                 txtGenerics.value = generics_value;
                                 txtGenerics.id = "group_"+controlCount+"_0";
 
@@ -401,9 +469,57 @@ function generateDrugs(){
 
                             } else if(!group2_value.match(/^$/) && !group6_value.match(/^$/) && generics_value == "LENTE INSULIN"){
 
+                                var txtConceptName = document.createElement("input");
+                                txtConceptName.type = "hidden";
+                                txtConceptName.name = "prescriptions[][concept_name]";
+                                txtConceptName.value = "DIAGNOSIS";
+                                txtConceptName.id = "group_"+controlCount+"_10";
+
+                                document.forms[0].appendChild(txtConceptName);
+
+                                var txtValueCodedText = document.createElement("input");
+                                txtValueCodedText.type = "hidden";
+                                txtValueCodedText.name = "prescriptions[][value_coded_or_text]";
+                                txtValueCodedText.value = "DIABETES MEDICATION";
+                                txtValueCodedText.id = "group_"+controlCount+"_11";
+
+                                document.forms[0].appendChild(txtValueCodedText);
+
+                                var txtSuggestion = document.createElement("input");
+                                txtSuggestion.type = "hidden";
+                                txtSuggestion.name = "prescriptions[][suggestion]";
+                                txtSuggestion.value = 0;
+                                txtSuggestion.id = "group_"+controlCount+"_9";
+
+                                document.forms[0].appendChild(txtSuggestion);
+
+                                var txtTypeOfPrescription = document.createElement("input");
+                                txtTypeOfPrescription.type = "hidden";
+                                txtTypeOfPrescription.name = "prescriptions[][type_of_prescription]";
+                                txtTypeOfPrescription.value = "variable";
+                                txtTypeOfPrescription.id = "group_"+controlCount+"_12";
+
+                                document.forms[0].appendChild(txtTypeOfPrescription);
+
+                                var txtPatientID = document.createElement("input");
+                                txtPatientID.type = "hidden";
+                                txtPatientID.name = "prescriptions[][patient_id]";
+                                txtPatientID.value = $('patient_id').value;
+                                txtPatientID.id = "group_"+controlCount+"_8";
+
+                                document.forms[0].appendChild(txtPatientID);
+
+                                var txtDiagnosis = document.createElement("input");
+                                txtDiagnosis.type = "hidden";
+                                txtDiagnosis.name = "prescriptions[][diagnosis]";
+                                txtDiagnosis.value = "DIABETES MEDICATION";
+                                txtDiagnosis.id = "group_"+controlCount+"_7";
+
+                                document.forms[0].appendChild(txtDiagnosis);
+
                                 var txtGenerics = document.createElement("input");
                                 txtGenerics.type = "hidden";
-                                txtGenerics.name = "prescriptions[][formulation]";
+                                txtGenerics.name = "prescriptions[][generic]";
                                 txtGenerics.value = generics_value;
                                 txtGenerics.id = "group_"+controlCount+"_0";
 
@@ -438,10 +554,58 @@ function generateDrugs(){
                             }
                             
                         } else if(!dose_value.match(/^$/) && !frequency_value.match(/^$/)){
-                            
+
+                            var txtConceptName = document.createElement("input");
+                            txtConceptName.type = "hidden";
+                            txtConceptName.name = "prescriptions[][concept_name]";
+                            txtConceptName.value = "DIAGNOSIS";
+                            txtConceptName.id = "group_"+controlCount+"_10";
+
+                            document.forms[0].appendChild(txtConceptName);
+
+                            var txtValueCodedText = document.createElement("input");
+                            txtValueCodedText.type = "hidden";
+                            txtValueCodedText.name = "prescriptions[][value_coded_or_text]";
+                            txtValueCodedText.value = "DIABETES MEDICATION";
+                            txtValueCodedText.id = "group_"+controlCount+"_11";
+
+                            document.forms[0].appendChild(txtValueCodedText);
+
+                            var txtSuggestion = document.createElement("input");
+                            txtSuggestion.type = "hidden";
+                            txtSuggestion.name = "prescriptions[][suggestion]";
+                            txtSuggestion.value = 0;
+                            txtSuggestion.id = "group_"+controlCount+"_9";
+
+                            document.forms[0].appendChild(txtSuggestion);
+
+                            var txtTypeOfPrescription = document.createElement("input");
+                            txtTypeOfPrescription.type = "hidden";
+                            txtTypeOfPrescription.name = "prescriptions[][type_of_prescription]";
+                            txtTypeOfPrescription.value = "standard";
+                            txtTypeOfPrescription.id = "group_"+controlCount+"_12";
+
+                            document.forms[0].appendChild(txtTypeOfPrescription);
+
+                            var txtPatientID = document.createElement("input");
+                            txtPatientID.type = "hidden";
+                            txtPatientID.name = "prescriptions[][patient_id]";
+                            txtPatientID.value = $('patient_id').value;
+                            txtPatientID.id = "group_"+controlCount+"_8";
+
+                            document.forms[0].appendChild(txtPatientID);
+
+                            var txtDiagnosis = document.createElement("input");
+                            txtDiagnosis.type = "hidden";
+                            txtDiagnosis.name = "prescriptions[][diagnosis]";
+                            txtDiagnosis.value = "DIABETES MEDICATION";
+                            txtDiagnosis.id = "group_"+controlCount+"_7";
+
+                            document.forms[0].appendChild(txtDiagnosis);
+
                             var txtGenerics = document.createElement("input");
                             txtGenerics.type = "hidden";
-                            txtGenerics.name = "prescriptions[][formulation]";
+                            txtGenerics.name = "prescriptions[][generic]";
                             txtGenerics.value = generics_value;
                             txtGenerics.id = "group_"+controlCount+"_0";
 
@@ -654,7 +818,7 @@ function viewSelectedDrugs(){
     var ctrls = document.getElementsByTagName("input");
 
     for(var i = 0; i < ctrls.length; i++){
-        if(ctrls[i].name.match(/^prescriptions\[\]\[formulation\]$/)){
+        if(ctrls[i].name.match(/^prescriptions\[\]\[generic\]$/)){
             var tr = document.createElement("tr");
 
             var id = ctrls[i].id.match(/^group_(\d+)_\d+$/);
@@ -1774,6 +1938,8 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
         var optTr1 = document.createElement("tr");
         var optTd1 = document.createElement("td");
         optTd1.id = "dose_cell_"+i;
+        optTd1.align = "left";
+        optTd1.style.fontStyle = "normal";
 
         var optRadio1 = document.createElement("input");
         optRadio1.type = "radio";
@@ -1835,6 +2001,8 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
         var optTr2 = document.createElement("tr");
         var optTd2 = document.createElement("td");
         optTd2.id = "frequency_cell_"+i;
+        optTd2.align = "left";
+        optTd2.style.fontStyle = "normal";
 
         var optRadio2 = document.createElement("input");
         optRadio2.type = "radio";
