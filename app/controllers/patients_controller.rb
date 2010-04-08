@@ -213,6 +213,14 @@ class PatientsController < ApplicationController
                         :conditions => ['encounter_type = ? AND encounter.encounter_id IN (?)',
                                         diabetes_test_id, fundoscopy_encounters.map(&:id)],
                         :order => 'obs_datetime DESC')
+
+    # Urea
+    urea_id = Concept.find_by_name('UREA').id
+    @urea_obs = @patient.person.observations.find(:all,
+                        :joins => :encounter,
+                        :conditions => ['encounter_type = ? AND concept_id = ?',
+                                        diabetes_test_id, urea_id],
+                        :order => 'obs_datetime DESC')
     render :layout => 'menu'
   end
 
