@@ -75,16 +75,22 @@ class EncountersController < ApplicationController
                                        'Diabetes Treatments',
                                        'Diabetes Admissions',
                                        'Past Diabetes Medical History',
-                                       'Initial Complications',
+                                       #'Initial Complications',
+                                       'Complications',
                                        'Hypertension Management',
                                        'General Health'
                                        ]
+
+        other_urls = {'Diabetes Admissions' => 'Hospital Admissions',
+                      'Complications' => 'Initial Complications'
+        }
         @medical_history_encounters.each do |name|
           if @existing_encounter_types.include? name.upcase
             @button_classes[name.upcase] = 'gray'
             @encounter_url[name.upcase] = '#'
           else
-            @encounter_url[name.upcase] = "/encounters/#{name.downcase.gsub(' ',
+            url_name = other_urls[name] || name
+            @encounter_url[name.upcase] = "/encounters/#{url_name.downcase.gsub(' ',
                                           '_')}?patient_id=#{@patient.id}"
           end
         end
@@ -190,7 +196,7 @@ class EncountersController < ApplicationController
       @patient = Patient.find(params[:patient_id] || session[:patient_id]) if (!@patient)
 
     @encounter_type_ids = []
-    encounters_list = ["initial diabetes complications",
+    encounters_list = ["initial diabetes complications","complications",
                       "diabetes history", "diabetes treatments",
                       "diabetes admissions", "general health",
                       "hypertension management",

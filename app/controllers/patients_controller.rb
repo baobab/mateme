@@ -25,7 +25,10 @@ class PatientsController < ApplicationController
        
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     @encounters   = @patient.encounters.current.active.find(:all)
-    @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+    excluded_encounters = ["Registration", "Diabetes history","Complications",
+                          "General health", "Diabetes treatments", "Diabetes admissions",
+                          "Hypertension management", "Past diabetes medical history"]
+                        @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq.delete_if{ |encounter| excluded_encounters.include? encounter.humanize } rescue []
     ignored_concept_id = Concept.find_by_name("NO").id;
     
     @observations = Observation.find(:all, :order => 'obs_datetime DESC', 
@@ -57,6 +60,18 @@ class PatientsController < ApplicationController
       end
     }
 
+    selected_medical_history = ['DIABETES DIAGNOSIS DATE','SERIOUS CARDIAC PROBLEM','STROKE','HYPERTENSION','TUBERCULOSIS']
+    @medical_history_ids = selected_medical_history.map { |medical_history| Concept.find_by_name(medical_history).id }
+    @significant_medical_history = []
+    @observations.each { |obs| @significant_medical_history << obs if @medical_history_ids.include? obs.concept_id}
+
+    @arv_number = @patient.arv_number rescue nil
+    @status     = @patient.hiv_status
+    #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
+    @hiv_test_date    = @patient.hiv_test_date
+    @remote_art_info  = Patient.remote_art_info(@patient.national_id)
+
+    @recents = Patient.recent_screen_complications(@patient.patient_id)
 
     # set the patient's medication period
     @patient_medication_period = "3 years"
