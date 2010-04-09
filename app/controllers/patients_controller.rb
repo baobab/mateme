@@ -57,7 +57,10 @@ class PatientsController < ApplicationController
       end
     }
 
+    @recents = Patient.recent_screen_complications(@patient.patient_id)
 
+    #raise @recents.inspect
+    
     # set the patient's medication period
     @patient_medication_period = "3 years"
     
