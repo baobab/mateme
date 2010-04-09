@@ -74,7 +74,7 @@ class EncountersController < ApplicationController
         @medical_history_encounters = ['Diabetes History',
                                        'Diabetes Treatments',
                                        'Diabetes Admissions',
-                                       'Past Medical History',
+                                       'Past Diabetes Medical History',
                                        'Initial Complications',
                                        'Hypertension Management',
                                        'General Health'
