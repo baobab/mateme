@@ -3,8 +3,8 @@
   #Unknown { display: none;}
 </style>
 <%= @destination_page =  "/patients/mastercard/" + @patient.id.to_s %>
-<script src="/javascripts/cascade.js" type="text/javascript"></script>
-<script>
+<script src="/javascripts/cascade.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript" language="javascript">
   var tt_cancel_destination = "<%= @destination_page -%>"
 
   var my_date =[];
@@ -1069,8 +1069,8 @@ $('amputation_result').disabled = false;"
   <input disabled type='hidden' id='Footcheck_root_0_parent_3_child_4_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_3_child_4_parent_concept_name' name='observations[][parent_concept_name]' value='FOOT CHECK' field_value='FOOT CHECK'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_3_child_4' name='observations[][value_coded_or_text]' value='NORMAL' field_value='NORMAL'/>
-
-
+  
+  
   <!--  AUTO GENERATED CODE ENDS FROM HERE  -->
 
 
