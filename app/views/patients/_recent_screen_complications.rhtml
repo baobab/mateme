@@ -1,0 +1,126 @@
+
+<div id =" patient_history" style="position: relative;  top: 7px; left:360px; background-color:#AAAAAA; height:270px; width:350px; overflow:auto" >
+
+  <table cellpadding="5" width="100%" cellspacing="1">
+    <tr bgcolor="#CCCCCC">
+      <th colspan="3">
+        Recent Screen Complications
+      </th>
+    </tr>
+
+    <tr>
+      <th bgcolor="#EEEEEE" align="left">Name</th>
+      <th bgcolor="#EEEEEE" align="left">Test</th>
+      <th bgcolor="#EEEEEE" align="left">Date</th>
+    </tr>
+
+    <%
+    creatinine = @recents["creatinine"]
+    foot_check = @recents["foot_check"]
+    visual_acuity = @recents["visual_acuity"]
+    urine_protein = @recents["urine_protein"]
+    fundoscopy = @recents["fundoscopy"]
+    urea = @recents["urea"]
+
+  %>
+
+    <% if(creatinine) %>
+
+      <tr>
+        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'>Creatinine</a>
+        </td>
+        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  creatinine.to_s_formatted.titleize %>
+        </td>
+        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  creatinine.obs_datetime.strftime("%b, %Y") %>
+        </td>
+      </tr>
+
+    <% end %>
+
+    <% if(foot_check) %>
+
+      <tr>
+        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'>Foot Check</a>
+        </td>
+        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  foot_check.to_s_formatted.titleize %>
+        </td>
+        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  foot_check.obs_datetime.strftime("%b, %Y") %>
+        </td>
+      </tr>
+
+    <% end %>
+
+    <% if(visual_acuity) %>
+
+      <tr>
+        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL+ACUITY'>Visual Acuity</a>
+        </td>
+        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  visual_acuity.to_s_formatted.titleize %>
+        </td>
+        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  visual_acuity.obs_datetime.strftime("%b, %Y") %>
+        </td>
+      </tr>
+
+    <% end %>
+
+    <% if(urine_protein) %>
+
+      <tr>
+        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>" >
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE+PROTEIN'>Urine Protein</a>
+        </td>
+        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  urine_protein.to_s_formatted.titleize %>
+        </td>
+        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  urine_protein.obs_datetime.strftime("%b, %Y") %>
+        </td>
+      </tr>
+
+    <% end %>
+
+    <% if(fundoscopy) %>
+
+      <tr>
+        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'>Fundoscopy</a>
+        </td>
+        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  fundoscopy.to_s_formatted.titleize %>
+        </td>
+        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  fundoscopy.obs_datetime.strftime("%b, %Y") %>
+        </td>
+      </tr>
+
+    <% end %>
+
+    <% if(urea) %>
+
+      <tr>
+        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'>Urea</a>
+        </td>
+        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  urea.to_s_formatted.titleize %>
+        </td>
+        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+          <%=  urea.obs_datetime.strftime("%b, %Y") %>
+        </td>
+      </tr>
+
+    <% end %>
+
+  </table>
+
+</div>
+

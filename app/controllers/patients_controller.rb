@@ -70,14 +70,16 @@ class PatientsController < ApplicationController
     #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
     @hiv_test_date    = @patient.hiv_test_date
     @remote_art_info  = Patient.remote_art_info(@patient.national_id)
+
+    @recents = Patient.recent_screen_complications(@patient.patient_id)
+
     # set the patient's medication period
     @patient_medication_period = "3 years"
     
     render :template => 'patients/show', :layout => 'menu'
-
   end
 
-  def void 
+  def void
     @encounter = Encounter.find(params[:encounter_id])
     ActiveRecord::Base.transaction do
       @encounter.observations.each{|obs| obs.void! }    
