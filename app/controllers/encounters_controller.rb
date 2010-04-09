@@ -88,9 +88,10 @@ class EncountersController < ApplicationController
                                           '_')}?patient_id=#{@patient.id}"
           end
         end
+        render :action => params[:encounter_type], :layout => 'menu' and return
 
       end
-      render :action => params[:encounter_type], :layout => 'menu'
+      render :action => params[:encounter_type]
     end
   end
 
