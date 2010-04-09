@@ -986,6 +986,11 @@ function createQuestionare(ctrl){
         }
     }
 
+    if($("clearButton")) $("clearButton").style.display = "none";
+    if($("backButton")) $("backButton").style.display = "none";
+
+    setNextButtonText('Finish');
+    
     var trFiller = document.createElement("tr");
     var tdFiller = document.createElement("td");
     tdFiller.height = "300px";
