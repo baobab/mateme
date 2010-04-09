@@ -47,7 +47,7 @@
     <%= render :partial => "current_encounters" %>
 
     <% if @super_user || @doctor%>
-      <%= render :partial => "diabetes_treatments"%>
+      <%#= render :partial => "diabetes_treatments"%>
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
     <%end%>
     
