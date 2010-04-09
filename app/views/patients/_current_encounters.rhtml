@@ -92,19 +92,13 @@
     </ul>
     </div>
 
-    <div id="recent_complications">
-      <ul style="height: 230px; width: 650px;">
-      Recent Complications
-      </ul>
+    <div id="recent_complications" style="height: 230px; width: 650px;">
+      <%= render :partial => "recent_screen_complications" %>
     </div>
 
 <!-- medical_history -->
-    <div id="medical_history">
-      <ul style="height: 230px; width: 650px;">
-        <%@significant_medical_history.map { |history| %>
-          <li><%= history.to_s.titleize %> <li>
-        <%  } %><br/>
-      </ul>
+    <div id="medical_history" style="height: 230px; width: 650px;">
+        <%= render :partial => "important_medical_history" %>
     </div>
 
     <div id="hiv_status">
