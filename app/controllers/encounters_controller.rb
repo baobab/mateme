@@ -73,7 +73,7 @@ class EncountersController < ApplicationController
         @encounter_url = Hash.new
         @medical_history_encounters = ['Diabetes History',
                                        'Diabetes Treatments',
-                                       'Hospital Admissions',
+                                       'Diabetes Admissions',
                                        'Past Medical History',
                                        'Initial Complications',
                                        'Hypertension Management',
@@ -90,7 +90,7 @@ class EncountersController < ApplicationController
         end
 
       end
-      render :action => params[:encounter_type]
+      render :action => params[:encounter_type], :layout => 'menu'
     end
   end
 
