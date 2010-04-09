@@ -31,10 +31,6 @@ font-size:0.7em;
 
       <%@encounter_datetimes.each { |encounter_datetime|%>
         <tr>
-          <td class="mytableborder" style="font-size: 1.2em;">
-            <%=h(encounter_datetime)%>
-          </td>
-
           <td class="mytableborder" style="font-size: 1.5em;">
             <ul class="list" style="border:medium none;">
 
@@ -46,7 +42,7 @@ font-size:0.7em;
                     <li class="data">
                       
                       <%if header == 'true' %><div style="float:left">
-                        <%=h encounter.name.humanize %></div>
+                        <%=h encounter.name.humanize %> (<%=h(encounter_datetime)%>)</div>
                       
                       <%end; header = 'false'%>
 
