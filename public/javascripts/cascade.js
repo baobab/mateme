@@ -520,15 +520,17 @@ function createQuestionare(ctrl){
     // Get Title
     var vals = ctrl.value.match(/[^\|]+/g);
 
-    alert(vals);
-
     if(vals){
+
         if(vals.length == 2){
             title = vals[0];
         } else {
             alert("Please pass the proper sentence structure.");
             return;
         }
+    } else {
+        alert("Error: Could not parse control value.");
+        return;
     }
 
     var roots = vals[1].match(/[^\{\}]+\{[^\{\}]+\}/g);
@@ -1032,8 +1034,6 @@ function createQuestionare(ctrl){
                             valid_ctrls.push(ctrls[x].id);
                             valid_ctrls_check[index] = true;
 
-                            console.log(ctrls[x].id + " : " + index);
-
                         }
                     }
                 }
@@ -1161,7 +1161,7 @@ function removeQuestionaire(){
     global_grouptable = [];
     global_grouptrs = [];
 
-    document.body.removeChild($('divQuestionare'));
+    if($('divQuestionare')) document.body.removeChild($('divQuestionare'));
 }
 
 function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, child, grandchild, greatgrandchild){
@@ -1243,7 +1243,7 @@ function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, ch
                     for(var t = 0; t < dctrls.length; t++){
                         var g = dctrls[t].getAttribute("group_id");
                         if(g){
-                            if(g.match("^"+String(check).match(/\d+_\d+/)) && g.match(String(check).match(/\d+$/)+"$")){
+                            if(g.match("^"+String(check).match(/^\d+_\d+/)) && g.match(String(check).match(/_\d+$/)+"$")){
                                 dctrls[t].click();
                                 if(dctrls[t].checked != this.checked){
                                     dctrls[t].click();
