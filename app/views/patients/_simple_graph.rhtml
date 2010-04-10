@@ -2,33 +2,43 @@
   .graph-button {
     display: inline;
     background: #dedede;
-    font-size: 20px;
-    color: #008;
-    padding: 8px;
+    /*font-size: 15px;*/
+   /* color: #008;*/
+    padding: 5px;
+    border-top: 1px solid white;
+    margin-bottom: 0px;
   }
 
   .active{
     background: #eee;
+    border: 1px solid #eee;
+    border-bottom: 1px solid white;
   }
-  #simplegraphholder { border: 1px solid #eee;}
+  #simplegraphholder {
+    border: 1px solid #eee;
+    display: block;
+    width: 370px;
+    height: 190px;
+    padding: 5px;
+  }
+  #graph{
+    float:right;
+  }
 </style>
 
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
 
-<div id="title" style="position: relative; right: -331px; bottom: 510px;">
-  <center><h3></h3> </center>
-  <div id="choices" style="height: 10px; position: relative;  right: 0px;">
-    <div id="graph0" onmousedown="plotAccordingToChoices(0);">Blood Sugar</div>
-    <div id="graph1" onmousedown="plotAccordingToChoices(1);">BP</div>
-    <div id="graph2" onmousedown="plotAccordingToChoices(2);">Weight</div>
-    <div id="graph3" onmousedown="plotAccordingToChoices(3);">HbA1c</div>
-  </div>
+<div id="graph">
+  <div id="choices">
+    <div id="graph0" class="graph-button" onmousedown="plotAccordingToChoices(0);">Blood Sugar</div>
+    <div id="graph1" class="graph-button" onmousedown="plotAccordingToChoices(1);">BP</div>
+    <div id="graph2" class="graph-button" onmousedown="plotAccordingToChoices(2);">Weight</div>
+    <div id="graph3" class="graph-button" onmousedown="plotAccordingToChoices(3);">HbA1c</div>
 </div>
-<br/>
-<div id="simplegraphholder"style="width: 380px; position: relative; right: -331px; height: 190px; bottom: 510px;">
-   
+<div id="simplegraphholder"></div>
 </div>
+
 <script type="text/javascript">
   jQuery.noConflict();
 
