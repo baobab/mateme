@@ -1,5 +1,6 @@
 #tabbedcontent {
-  padding: 10px;
+  padding: 15px 0px 0px;
+  width: 720px;
 }
 
 #tabbedcontent #tabmenu {
@@ -22,8 +23,8 @@
   /*margin-right: 2px;*/
 }
 
-#tabbedcontent #tabmenu ul li.active {
-  border: 1px solid #000066;
+#tabbedcontent #tabmenu ul li.activated {
+  border: 1px solid #eee;
   border-bottom: 1px solid white;
   background-color: #ffffff;
 }
@@ -37,11 +38,13 @@
 }
 #tabbedcontent #tabbedbody div {
   display: none;
-  border: 1px solid #000066;
+  border: 1px solid #eee;
   padding: 10px;
+  height: 220px;
+  width: 695px;
 }
 
-#tabbedcontent #tabbedbody div.active {
+#tabbedcontent #tabbedbody div.activated {
   display: block;
   overflow: auto;
 }
