@@ -1,6 +1,7 @@
 <script type="text/javascript">
   tt_cancel_destination = '/people';
 </script>
+<%= javascript_include_tag "utils" %>
 <style type="text/css">
 
   a.button.green {
@@ -55,7 +56,7 @@
     <%end%>
     
     <% if @nurse%>
-      <%= render :partial => "vitals_history"%>
+      <%#= render :partial => "vitals_history"%>
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
     <%end%>
     <%= render :partial => "patient_visit_summary" %>
