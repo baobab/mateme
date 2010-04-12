@@ -21,12 +21,13 @@
   <div id="choices" style="height: 10px; position: relative;  right: 0px;">
     <div id="graph0" onmousedown="plotAccordingToChoices(0);">Blood Sugar</div>
     <div id="graph1" onmousedown="plotAccordingToChoices(1);">BP</div>
-    <div id="graph2" onmousedown="plotAccordingToChoices(2);">Weight</div>
-    <div id="graph3" onmousedown="plotAccordingToChoices(3);">HbA1c</div>
+    <!--div id="graph2" onmousedown="plotAccordingToChoices(2);">Weight</div-->
+    <div id="graph3" onmousedown="plotAccordingToChoices(3);">BMI</div>
+    <div id="graph4" onmousedown="plotAccordingToChoices(4);">HbA1c</div>
   </div>
 </div>
 <br/>
-<div id="simplegraphholder"style="width: 380px; position: relative; right: -331px; height: 190px; bottom: 510px;">
+<div id="simplegraphholder"style="width: 380px; position: relative; right: -331px; height: 150px; bottom: 510px;">
    
 </div>
 <script type="text/javascript">
@@ -54,10 +55,24 @@
         <%= obs.value_numeric -%>],<% end %>
         ];
 
-    var currrentWeight  = patient_weight[patient_weight.length - 1][1];
-    var currrentHeight  = patient_height[patient_height.length - 1][1];
+    var currentWeight  = null;
+    var currentHeight = null;
+    if (patient_weight.length > 0) {
+      currentWeight = patient_weight[patient_weight.length - 1][1];
+    }
+    if (patient_weight.length > 0) {
+      currentHeight = patient_height[patient_height.length - 1][1];
+    }
 
-    var patientBmi = showBMI(currrentHeight, currrentWeight);
+    var patientBMIHistory = []
+    for (var i=0;i<patient_height.length;i++) {
+      if (patient_height[i] && patient_weight[i]) {
+        patientBMIHistory.push([patient_weight[i][0],
+                                calculateBMI(patient_height[i][1], patient_weight[i][1])]);
+      }
+    }
+
+    var patientBmi = showBMI(currentHeight, currentWeight);
 
     var systolic = [
         <% @min = Time.now
@@ -117,14 +132,24 @@
 
     var weightLabel = "Weight <br/>("+ patientBmi +")";
     var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label:weightLabel}];
+    
+    var bmiLabel = "BMI ";
+    if (currentWeight) {
+      bmiLabel += "<br/>("+ currentWeight +" kg)";
+    }
+    var bmiGraphData = [{data: patientBMIHistory, points: { show: true },lines: {show: true},  label:bmiLabel}];
 
     var hba1cGraphData  = [{color: "rgb( 0, 205, 0)", points: { show: true },lines: {show: true}, data: glycated,  label: "HbA1c"}];
 
-    return [bsGraphData, bpGraphData, weightGraphData, hba1cGraphData];
+    return [bsGraphData, bpGraphData, weightGraphData, bmiGraphData, hba1cGraphData];
+  }
+
+  function calculateBMI(height, weight) {
+    return (weight/(height*height)*10000).toFixed(1);
   }
 
   function showBMI(height, weight) {
-      var dispCurrentBmi = (weight/(height*height)*10000).toFixed(1);
+      var dispCurrentBmi = calculateBMI(height, weight);
       var displayBmiInfo = "BMI: ";
       if (dispCurrentBmi > 18.5) {
         displayBmiInfo += dispCurrentBmi;

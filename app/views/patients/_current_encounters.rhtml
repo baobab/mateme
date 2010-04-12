@@ -61,8 +61,7 @@
   </ul>
     </div>
 
-    <div id="current_medication">
-      <ul style="height: 230px; width: 640px;">
+    <div id="current_medication" style="height: 210px; width: 640px;">
       <%if !@patient_diabetes_treatements.blank? then%>
     <table cellpadding="2" cellspacing="0" width="90%" >
         <tr bgcolor="#808080">
@@ -89,20 +88,19 @@
     </p>
 
     <%end%>
-    </ul>
     </div>
 
-    <div id="recent_complications" style="height: 230px; width: 650px;">
+    <div id="recent_complications" style="height: 210px; width: 650px;">
       <%= render :partial => "recent_screen_complications" %>
     </div>
 
 <!-- medical_history -->
-    <div id="medical_history" style="height: 230px; width: 650px;">
+    <div id="medical_history" style="height: 210px; width: 650px;">
         <%= render :partial => "important_medical_history" %>
     </div>
 
     <div id="hiv_status">
-      <ul style="height: 230px; width: 650px;">
+      <ul style="height: 210px; width: 650px;">
         <form>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
