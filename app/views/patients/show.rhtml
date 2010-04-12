@@ -1,6 +1,7 @@
 <script type="text/javascript">
   tt_cancel_destination = '/people';
 </script>
+<%= javascript_include_tag "utils" %>
 <style type="text/css">
 
   a.button.green {
@@ -39,22 +40,26 @@
   margin-left:-400px;
   margin-top:-300px;
 }
+
+#details {
+  width:720px;
+  height:510px;
+}
 </style>
 
 <div style="margin:10px;">
   <div id="details" style="float:left">
     <%= render :partial => "details" %>    
-    <%= render :partial => "current_encounters" %>
 
     <% if @super_user || @doctor%>
-      <%#= render :partial => "diabetes_treatments"%>
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
     <%end%>
     
     <% if @nurse%>
-      <%= render :partial => "vitals_history"%>
+      <%#= render :partial => "vitals_history"%>
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
     <%end%>
+    <%= render :partial => "patient_visit_summary" %>
   </div>
   <div id="menu">
     <!--

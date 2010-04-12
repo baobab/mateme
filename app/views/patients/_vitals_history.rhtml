@@ -1,14 +1,4 @@
-<style type="text/css" >
-.mytableborder {
-border-top:1px dotted ;
-border-right:1px dotted ;
-border-bottom:1px dotted ;
-border-left:1px dotted ;
-/*background-color: #660000;*/
-}
-</style>
-
- <div id =" patient_history" style="position: relative; right: -361px; top: 0px;">
+<div id =" patient_history" style="position: relative; right: -361px; top: 0px;">
    <center><h3> Vitals History</h3></center>
 <div style="font-size: 1.1em;">
   <ul class="list" style="height: 210px; width: 350px;">
@@ -16,8 +6,8 @@ border-left:1px dotted ;
       <% for vital in @vitals do %>
         <%if (vital.name.to_s.upcase == "VITALS")%>
       <tr class ="data <%= cycle('even', 'odd')%>" >
-        <td class="mytableborder"> <%=h("#{vital.encounter_datetime.strftime("%d-%b-%Y")}") %></td>
-        <td class="mytableborder"> <%= h("#{vital.to_s}") %></td>
+        <td class="dottedTableBorder"> <%=h("#{vital.encounter_datetime.strftime("%d-%b-%Y")}") %></td>
+        <td class="dottedTableBorder"> <%= h("#{vital.to_s}") %></td>
       </tr>
       <%end%>
       <% end %>

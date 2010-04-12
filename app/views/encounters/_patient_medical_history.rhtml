@@ -1,12 +1,5 @@
-
+<%= stylesheet_link_tag "miscellaneous" %>
 <style type="text/css" >
-.mytableborder {
-border-top:1px dotted ;
-border-right:1px dotted ;
-border-bottom:1px dotted ;
-border-left:1px dotted ;
-}
-
 ul.list li.data .summary {
 font-size:0.7em;
 }
@@ -19,30 +12,30 @@ font-size:0.7em;
 
 <div id =" patient_history" style="position: relative;  top: 0px;">
   <h2> Medical History</h2>
-  <table cellpadding="2" cellspacing="0" width="100%" bgcolor="#808080">
+  <!--table cellpadding="2" cellspacing="0" width="100%" bgcolor="#808080">
     <tr>
       <td style="font-size: 1.2em;"> <font color="#FFFFFF"> <b>Date</b> </font></td>
       <td style="font-size: 1.2em;"> <font color="#FFFFFF"> <b>Medical History Observed</b> </font></td>
     </tr>
-  </table>
+  </table-->
 
   <ul class="list" style="height: 390px; width: 700px;">
     <table cellpadding="2" cellspacing="0" border ="1" width="100%">
 
       <%@encounter_datetimes.each { |encounter_datetime|%>
         <tr>
-          <td class="mytableborder" style="font-size: 1.5em;">
+          <td class="dottedTableBorder" style="font-size: 1.5em;">
             <ul class="list" style="border:medium none;">
 
               <%@encounter_names.each{|encounter_name|
                 header = 'true'
                 for encounter in @encounters do %>
 
-                  <%if (encounter.name == encounter_name) && ((encounter.encounter_datetime.strftime("%d-%b-%Y") == encounter_datetime))%>
+                  <%if (encounter.name == encounter_name) && ((encounter.encounter_datetime.strftime("%b-%Y") == encounter_datetime))%>
                     <li class="data">
                       
                       <%if header == 'true' %><div style="float:left">
-                        <%=h encounter.name.humanize %> (<%=h(encounter_datetime)%>)</div>
+                        <b><%=h encounter.name.humanize %> </b>(<%=h(encounter_datetime)%>)</div>
                       
                       <%end; header = 'false'%>
 

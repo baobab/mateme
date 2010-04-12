@@ -23,7 +23,11 @@ had_tb = @patient.person.observations.find_by_concept_id(
 
 %>
 <!--div -->
-  <table>
+  <table cellpadding="2" cellspacing="1"  cellpadding="1" width="100%">
+    <tr>
+      <th class="tableHeader">Medical History</th>
+      <th class="tableHeader">Result</th>
+    </tr>
     <tr>
       <td>Diabetes Diagnosis Date:</td><td><%= diabetes_diagnosis_date %></td>
     </tr>

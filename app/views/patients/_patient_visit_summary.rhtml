@@ -1,0 +1,36 @@
+<%= stylesheet_link_tag "tabs" %>
+<%= stylesheet_link_tag "miscellaneous" %>
+<div id ="tabbedcontent" style="float:left;">
+
+  <div id="tabmenu">
+    <ul>
+      <li onclick="javascript:displayTab(this, 'visit_summary','tabmenu','tabbedbody');" class="activated">Visit Summary</li>
+      <li onclick="javascript:displayTab(this, 'current_medication','tabmenu','tabbedbody');">Current Medication</li>
+      <li onclick="javascript:displayTab(this, 'recent_complications','tabmenu','tabbedbody');">Recent Complications</li>
+      <li onclick="javascript:displayTab(this, 'medical_history','tabmenu','tabbedbody');">Medical History</li>
+      <li onclick="javascript:displayTab(this, 'hiv_status','tabmenu','tabbedbody');">HIV status</li>
+    </ul>
+  </div>
+
+  <div id="tabbedbody">
+    <div id="visit_summary" class="activated">
+      <%=render :partial => "current_encounters" %>
+    </div>
+
+    <div id="current_medication" >
+      <%=render :partial => "diabetes_treatments"%>
+    </div>
+
+    <div id="recent_complications" >
+      <%= render :partial => "recent_screen_complications" %>
+    </div>
+
+    <div id="medical_history" >
+      <%= render :partial => "important_medical_history" %>
+    </div>
+
+    <div id="hiv_status" >
+      <%= render :partial => "hiv_status" %>
+    </div>
+  </div>
+</div>
