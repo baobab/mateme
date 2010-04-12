@@ -36,7 +36,7 @@ class Encounter < ActiveRecord::Base
                         "LAB RESULTS",
                         "NEURALGIC COMPLICATIONS",
                         "PAST DIABETES MEDICAL HISTORY", "DIABETES HISTORY",
-                        "RENAL COMPLICATIONS", "GENERAL HEALTH"]
+                        "RENAL COMPLICATIONS", "GENERAL HEALTH", "UPDATE HIV STATUS"]
 
     if name == 'REGISTRATION'
       "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 

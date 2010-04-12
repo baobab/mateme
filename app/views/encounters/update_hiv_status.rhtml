@@ -1,28 +1,80 @@
-<%= @destination_page =  "/patients/hiv_status?patient_id=" + @patient.id.to_s %>
-<script>
-  var tt_cancel_destination = "<%= @destination_page -%>"
-</script>
 <style>
-  #space { display:inline; font-size:1.2em; }
+  .inputFrameClass{
+    display: block;
+  }
 </style>
+<script>
+  var tt_cancel_destination = "/patients/hiv_status?patient_id=<%= @patient.id %>"
+  var skipped = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+  function seen(page) {
+    for (var i = page; i >= 0; i--) {
+      skipped[i] = 1;
+    }
+  }
+</script>
+
 <form id='hiv_status' action="/encounters/create" method='post'>
 
-    
   <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE HIV STATUS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <% options = {}%>
-
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "REACTIVE","NON-REACTIVE","UNKNOWN"]), {:helpText => 'Update HIV status'})%>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", @new_hiv_status)%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "HIV STATUS", options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HIV STATUS", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  
-  <%= hidden_field_tag("next_url",@destination_page) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil) %>
 
-  <%= submit_tag "Finish" %>    
- </form>
+  <%#= select_tag("hiv_status_update_visit", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit' })%>
+
+  <%= text_field_tag("hiv_test_date", nil, {:field_type => 'date', :id => "hiv_test_date",:tt_onUnLoad => 'setDate("hiv_test_date");', :helpText => 'Hiv test date'}) %>
+
+  <%= hidden_field_tag("observations[][value_datetime]", DateTime.now(), {:id => "hiv_test_date_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_text]", nil,{:id =>  "hiv_test_date_value_text"}) %>
+  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO","UNKNOWN"]), {:helpText => 'On ART',:id => 'on_art'})%>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ON ART", {}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= text_field_tag("art_start_date", nil, {:field_type => 'date', 
+                                             :id => "art_start_date",
+                                             :tt_onUnLoad => 'setDate("art_start_date");',
+                                             :helpText => 'ART start date',
+                                             :condition => '$("on_art").value.toLowerCase() == "yes"'}) %>
+
+  <%= hidden_field_tag("observations[][value_datetime]", DateTime.now(), {:id => "art_start_date_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_text]", nil,{:id =>  "art_start_date_value_text"}) %>
+  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "art_start_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][concept_name]", 'ART START DATE', {}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= submit_tag "Finish" %>
+</form>
+
+<script type="text/javascript">
+  function setDate(elementId){
+
+          if ($(elementId).value.toLowerCase() == 'unknown'){
+            $(elementId+'_value_text').value = 'Unknown';
+            $(elementId+'_value_datetime').value = null;
+            $(elementId+'_value_modifier').value = null;
+            }
+          else{
+            $(elementId+'_value_datetime').value = new Date($(elementId).value.replace(/-/g, '/'));
+            $(elementId+'_value_text').value = null;
+            }
+  }
+
+  </script>
+
 
