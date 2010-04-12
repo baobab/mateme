@@ -120,3 +120,39 @@ function onMonthUpdateDateTime(main_field_str, month_str, modifier_str){
     $(modifier_str).value   = estimated_date['value_modifier'];
   }
 }
+
+function displayTab(tabMenu, tabMenuId, tabBody, tabMenuContainer){
+
+  /* inactivate all tab menus */
+   function inactivateAlltabs(menu) {
+    menu      = document.getElementById(menu);
+    tabLinks  = menu.getElementsByTagName('LI');
+
+    for (i = 0; i < tabLinks.length; i++) {
+      tabLinks[i].className = '';
+    }
+  }
+
+  /* hide all tab menus */
+  function hideAllTabs(tab) {
+    tabData = document.getElementById(tab);
+    tabDivs = tabData.getElementsByTagName('DIV');
+
+    for (i = 0; i < tabDivs.length; i++) {
+      tabDivs[i].style.display = 'none';
+    }
+  }
+
+  /* activate a tab*/
+  function doShow(menu, menuId) {
+    hideAllTabs(tabMenuContainer);
+    inactivateAlltabs(tabBody);
+    menu.className = 'activated';
+    tabData = document.getElementById(menuId);
+    tabData.style.display = 'block';
+    return false;
+  }
+
+  doShow(tabMenu, tabMenuId);
+}
+
