@@ -2,7 +2,13 @@
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
   var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+                "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+  var time = new Date();
+  var year = time.getYear();
+  var estimated_date = [];
+  if (year < 2000){
+    year = (time.getYear() + 1900);
+  }
 
   function setConceptNamesAndValues(){
 
@@ -228,9 +234,7 @@
      :tt_requireNextClick => false,
      :optional => true,  :multiple => false,
      :condition => '$("hypertension_value_coded_or_text").value == "Yes"',
-     :tt_onUnLoad => "my_date = formatDate($('hypertension_date_of_diagnosis').value, $('hypertension_year_of_diagnosis').value,0);
-                       $('hypertension_date_of_diagnosis').value = my_date['value_datetime'];
-                       if($('hypertension_value_modifier').value!= 'ES') {$('hypertension_value_modifier').value = my_date['value_modifier'];}",
+     :tt_onUnLoad => "onYearUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_year_of_diagnosis', 'hypertension_value_modifier');",
      :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -241,14 +245,12 @@
       :tt_requireNextClick => false,
       :id => "hypertension_month_of_diagnosis",
       :tt_pageStyleClass => "LongSelectList",
-      :tt_onUnLoad => "my_date = formatDate($('hypertension_date_of_diagnosis').value, $('hypertension_month_of_diagnosis').value,1);
-                       $('hypertension_date_of_diagnosis').value = my_date['value_datetime'];
-                       if($('hypertension_value_modifier').value!= 'ES') {$('hypertension_value_modifier').value = my_date['value_modifier'];}",
-      :condition => '$("hypertension_value_coded_or_text").value == "Yes" && $("hypertension_year_of_diagnosis").value.toLowerCase() != "unknown"',
+      :tt_onUnLoad => "onMonthUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_month_of_diagnosis', 'hypertension_value_modifier');",
+      :condition => '$("hypertension_value_coded_or_text").value == "Yes" && $("hypertension_year_of_diagnosis").value.toLowerCase() != "unknown" && (year - $("hypertension_year_of_diagnosis").value <= 2)',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
     }%>
 
-  <%= text_field_tag "hypertension[day_started]",  nil,
+  <%#= text_field_tag "hypertension[day_started]",  nil,
       :field_type => 'number',
       :helpText => 'HYPERTENSION: Day of diagnosis',
       :id => "hypertension_day_of_diagnosis",
