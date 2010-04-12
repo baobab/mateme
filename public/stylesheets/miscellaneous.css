@@ -1,0 +1,16 @@
+/* 
+    Document    : miscellaneous
+    Created on  : Apr 10, 2010, 1:32:19 PM
+    Description : Contains miscellaneous CSS
+*/
+
+.dottedTableBorder{
+border:1px dotted;
+}
+
+.tableHeader{
+  text-align: left;
+  font-size:  1em;
+  color:      #FFFFFF;
+  background: #808080;
+}
