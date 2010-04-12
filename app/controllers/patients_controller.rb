@@ -74,7 +74,7 @@ class PatientsController < ApplicationController
     @recents = Patient.recent_screen_complications(@patient.patient_id)
 
     # set the patient's medication period
-    @patient_medication_period = "3 years"
+    @patient_medication_period = Patient.patient_diabetes_medication_duration(@patient.patient_id)
     
     render :template => 'patients/show', :layout => 'menu'
   end
