@@ -853,42 +853,42 @@ function createQuestionare(ctrl){
 
                                             switch(gc[1]){
                                                 case "checkbox":
-                                                    t_tbody = createCheckBoxes(null, gv[0], g_tbody, "grandchild",
+                                                    t_tbody = createCheckBoxes(group_id, gv[0], g_tbody, "grandchild",
                                                         ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b, i, j, k, b);
 
                                                     td_1.appendChild(tblin);
 
                                                     break;
                                                 case "textbox":
-                                                    t_tbody = createTextBoxes(null, gv[0], g_tbody, "grandchild",
+                                                    t_tbody = createTextBoxes(group_id, gv[0], g_tbody, "grandchild",
                                                         ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b, i, j, k, b);
 
                                                     td_1.appendChild(tblin);
 
                                                     break;
                                                 case "numberbox":
-                                                    t_tbody = createNumberBoxes(null, gv[0], g_tbody, "grandchild",
+                                                    t_tbody = createNumberBoxes(group_id, gv[0], g_tbody, "grandchild",
                                                         ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b, i, j, k, b);
 
                                                     td_1.appendChild(tblin);
 
                                                     break;
                                                 case "yearbox":
-                                                    t_tbody = createYearBoxes(null, gv[0], g_tbody, "grandchild",
+                                                    t_tbody = createYearBoxes(group_id, gv[0], g_tbody, "grandchild",
                                                         ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b, i, j, k, b);
 
                                                     td_1.appendChild(tblin);
 
                                                     break;
                                                 case "calendarbox":
-                                                    t_tbody = createCalendarBoxes(null, gv[0], g_tbody, "grandchild",
+                                                    t_tbody = createCalendarBoxes(group_id, gv[0], g_tbody, "grandchild",
                                                         ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b, i, j, k, b);
 
                                                     td_1.appendChild(tblin);
 
                                                     break;
                                                 case "radio":
-                                                    t_tbody = createRadios(null, gv[0], g_tbody, "grandchild",
+                                                    t_tbody = createRadios(group_id, gv[0], g_tbody, "grandchild",
                                                         ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b, i, j, k, b);
 
                                                     td_1.appendChild(tblin);
@@ -928,42 +928,42 @@ function createQuestionare(ctrl){
 
                                                     switch(ggc[1]){
                                                         case "checkbox":
-                                                            f_tbody = createCheckBoxes(null, ggv[0], t_tbody, "greatgrandchild",
+                                                            f_tbody = createCheckBoxes(group_id, ggv[0], t_tbody, "greatgrandchild",
                                                                 ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b+"_greatgrandchild_"+f, i, j, k, b, f);
 
                                                             td_1.appendChild(tblin);
 
                                                             break;
                                                         case "textbox":
-                                                            f_tbody = createTextBoxes(null, ggv[0], t_tbody, "greatgrandchild",
+                                                            f_tbody = createTextBoxes(group_id, ggv[0], t_tbody, "greatgrandchild",
                                                                 ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b+"_greatgrandchild_"+f, i, j, k, b, f);
 
                                                             td_1.appendChild(tblin);
 
                                                             break;
                                                         case "numberbox":
-                                                            f_tbody = createNumberBoxes(null, ggv[0], t_tbody, "greatgrandchild",
+                                                            f_tbody = createNumberBoxes(group_id, ggv[0], t_tbody, "greatgrandchild",
                                                                 ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b+"_greatgrandchild_"+f, i, j, k, b, f);
 
                                                             td_1.appendChild(tblin);
 
                                                             break;
                                                         case "yearbox":
-                                                            f_tbody = createYearBoxes(null, ggv[0], t_tbody, "greatgrandchild",
+                                                            f_tbody = createYearBoxes(group_id, ggv[0], t_tbody, "greatgrandchild",
                                                                 ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b+"_greatgrandchild_"+f, i, j, k, b, f);
 
                                                             td_1.appendChild(tblin);
 
                                                             break;
                                                         case "calendarbox":
-                                                            f_tbody = createCalendarBoxes(null, ggv[0], t_tbody, "greatgrandchild",
+                                                            f_tbody = createCalendarBoxes(group_id, ggv[0], t_tbody, "greatgrandchild",
                                                                 ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b+"_greatgrandchild_"+f, i, j, k, b, f);
 
                                                             td_1.appendChild(tblin);
 
                                                             break;
                                                         case "radio":
-                                                            f_tbody = createRadios(null, ggv[0], t_tbody, "greatgrandchild",
+                                                            f_tbody = createRadios(group_id, ggv[0], t_tbody, "greatgrandchild",
                                                                 ret[1].replace(/\s/g, "_") + "_root_"+i+"_parent_"+j+"_child_"+k+"_grandchild_"+b+"_greatgrandchild_"+f, i, j, k, b, f);
 
                                                             td_1.appendChild(tblin);
@@ -1052,52 +1052,105 @@ function createQuestionare(ctrl){
             var etd = document.createElement("td");
             var eid = $(valid_ctrls[e]).getAttribute("group_id");
 
-            etd.id = "td_"+eid;
-
-            etd.onclick = function(){
-                var id = this.id.match(/^td_(.+)/);
-
-                id = id[1];
-
-                $("ctrl_"+id).click();
-            }
-
-            etr.appendChild(etd);
-            etbody[0].appendChild(etr);
-
             var construction_text = $(valid_ctrls[e]).getAttribute("construction_text");
 
             switch($(valid_ctrls[e]).type){
                 case "checkbox":
-                    //alert(construction_text);
-
                     var child_tbody = createCheckBoxes(g_id, construction_text, etbody[0], "child",
                         eid);
-
-                    // TO BE CONTINUED: Current assumption is, at this level, no grandchildren and greatgrandchildren automaticaly supported
-                    /*var gr = construction_text.match(/<grandchild[a-z]+\d+/g);
+                    var gr = construction_text.match(/<grandchild[a-z]+\d+/g);
                     grandchildren_check = {};
                     grandchildren = [];
-
+                    
                     if(gr){
-                        for(var n = 0; n < g.length; n++){
-                            if(!grandchildren_check[g[n]]){
-                                gr[n] = gr[n].substring(1, gr[n].length);
+                        for(var nn = 0; nn < gr.length; nn++){
+                            if(!grandchildren_check[gr[nn]]){
+                                gr[nn] = gr[nn].substring(1, gr[nn].length);
 
-                                grandchildren.push(gr[n]);
-                                grandchildren_check[gr[n]] = true;
+                                grandchildren.push(gr[nn]);
+                                grandchildren_check[gr[nn]] = true;
                             }
                         }
 
                     }
 
-                    var grandchild_tbody = createCheckBoxes(g_id, construction_text, child_tbody[0], "grandchild",
-                        eid);*/
+                    for(var bb = 0; bb < grandchildren.length; bb++){
+
+                        var grc = grandchildren[bb].match(/grandchild([a-z]+)\d+/);
+                        var grv = construction_text.match("[^<>]+<"+grandchildren[bb]+">(.+)?<\\/"+grandchildren[bb]+">", "g");
+                        
+                        var ggct_tbody = null;
+
+                        switch(grc[1]){
+                            case "checkbox":
+                                ggct_tbody = createCheckBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "radio":
+                                ggct_tbody = createRadios(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "numberbox":
+                                ggct_tbody = createNumberBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "yearbox":
+                                ggct_tbody = createNumberBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "calendarbox":
+                                ggct_tbody = createCalendarBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "textbox":
+                                ggct_tbody = createTextBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                        }
+                    }
 
                     break;
                 case "radio":
-                    var chil_tbody = createRadios(g_id, construction_text, etbody[0], "child",
+                    var child_tbody = createCheckBoxes(g_id, construction_text, etbody[0], "child",
                         eid);
+                    var gr = construction_text.match(/<grandchild[a-z]+\d+/g);
+                    grandchildren_check = {};
+                    grandchildren = [];
+
+                    if(gr){
+                        for(var nn = 0; nn < gr.length; nn++){
+                            if(!grandchildren_check[gr[nn]]){
+                                gr[nn] = gr[nn].substring(1, gr[nn].length);
+
+                                grandchildren.push(gr[nn]);
+                                grandchildren_check[gr[nn]] = true;
+                            }
+                        }
+
+                    }
+
+                    for(var bb = 0; bb < grandchildren.length; bb++){
+
+                        var grc = grandchildren[bb].match(/grandchild([a-z]+)\d+/);
+                        var grv = construction_text.match("[^<>]+<"+grandchildren[bb]+">(.+)?<\\/"+grandchildren[bb]+">", "g");
+
+                        var ggct_tbody = null;
+
+                        switch(grc[1]){
+                            case "checkbox":
+                                ggct_tbody = createCheckBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "radio":
+                                ggct_tbody = createRadios(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "numberbox":
+                                ggct_tbody = createNumberBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "yearbox":
+                                ggct_tbody = createNumberBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "calendarbox":
+                                ggct_tbody = createCalendarBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                            case "textbox":
+                                ggct_tbody = createTextBoxes(g_id, grv[0], child_tbody, "grandchild", eid + "_"+bb);
+                                break;
+                        }
+                    }
 
                     break;
             }
@@ -1248,7 +1301,9 @@ function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, ch
                     for(var t = 0; t < dctrls.length; t++){
                         var g = dctrls[t].getAttribute("group_id");
                         if(g){
-                            if(g.match("^"+String(check).match(/^\d+_\d+/)) && g.match(String(check).match(/_\d+$/)+"$")){
+                            if(g.match("^"+String(check).match(/^\d+_\d+/)) && g.match(String(check).match(/_\d+$/)+"$") && 
+                                dctrls[t].type == "checkbox"){
+                                
                                 dctrls[t].click();
                                 if(dctrls[t].checked != this.checked){
                                     dctrls[t].click();
@@ -1442,7 +1497,16 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
             rdo.setAttribute("construction_text", text);
         }
     } else{
-        rdo.name = "rdo_" + prefix + "_group";
+        var pre = prefix.match(/(.+)_\d+$/);
+        
+        if(pre){
+            pre = pre[1];
+
+            rdo.name = "rdo_" + pre + "_group_A";
+        } else {
+            rdo.name = "rdo_" + prefix + "_group";
+        }
+                
         rdo.id = "rdo_" + prefix + "_group";
 
         trin.id = "tr_" + prefix + "_group";
@@ -1489,6 +1553,36 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
                     }
                 }
 
+            } else {
+                
+                c = this.id.match(/rdo_(.+)$/);
+                var c3 = c[1].match(/(.+)_group$/);
+
+                if(c3){
+                    var checks = c3[1].match(/^\d+_\d+_\d+_\d+_\d+/);
+
+                    var dctrlscol = $("divQuestionare").getElementsByTagName("input");
+
+                    for(var tt = 0; tt < dctrlscol.length; tt++){
+                        var gg = dctrlscol[tt].getAttribute("group_id");
+                        if(gg){
+                            console.log("c3 : " + c3[1]);
+                            console.log("checks : " + checks);
+                            
+                            console.log("ctrl.id : " + dctrlscol[tt].id);
+                            console.log("gg : " + gg);
+                            console.log("true/false : " + gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$"));
+                            
+                            if(gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$")){
+                                dctrlscol[tt].click();
+                                if(dctrlscol[tt].checked != this.checked){
+                                    dctrlscol[tt].click();
+                                }
+                            }
+                        }
+                    }
+
+                }
             }
 
             unCheckAll(c[1], this, this.id);
