@@ -90,6 +90,7 @@ class EncountersController < ApplicationController
             @encounter_url[name.upcase] = '#'
           else
             url_name = other_urls[name] || name
+            url_name = "Past Medical History" if url_name == "Past Diabetes Medical History"
             @encounter_url[name.upcase] = "/encounters/#{url_name.downcase.gsub(' ',
                                           '_')}?patient_id=#{@patient.id}"
           end
@@ -187,7 +188,7 @@ class EncountersController < ApplicationController
 
     @observations.delete_if { |obs| obs.value_text.downcase == "no" rescue nil }
 
-    @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
+    @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%b-%Y")}.uniq
 
   end
 
@@ -209,7 +210,7 @@ class EncountersController < ApplicationController
                         @patient.patient_id,@encounter_type_ids])
     @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
-    @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%d-%b-%Y")}.uniq
+    @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%b-%Y")}.uniq
 
     end
   end
