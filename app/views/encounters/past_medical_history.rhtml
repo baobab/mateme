@@ -287,6 +287,8 @@
     :field_type => 'text',
     :helpText => "Select type of Tuberculosis",
     :id => "tuberculosis_type",
+    :tt_requireNextClick => false,
+    :multiple => false,
     :tt_onUnLoad => "if($('tuberculosis_type').value == 'SM positive'){$('tuberculosis_type_value_coded_or_text').value = 'SMEAR POSITIVE'}
                      else if($('tuberculosis_type').value == 'SM negative'){$('tuberculosis_type_value_coded_or_text').value = 'SMEAR NEGATIVE'}
                      else if($('tuberculosis_type').value == 'EPTB'){$('tuberculosis_type_value_coded_or_text').value = 'EPTB'}",
@@ -309,6 +311,7 @@
     {:helpText => 'TUBERCULOSIS: Year of diagnosis',
      :id => "tuberculosis_year_of_diagnosis",
      :field_type => 'number',
+     :tt_requireNextClick => false,
      :optional => true,  :multiple => false,
      :condition => '$("tuberculosis_value_coded_or_text").value == "Yes"',
      :tt_onUnLoad => "my_date = formatDate($('tuberculosis_date_of_diagnosis').value, $('tuberculosis_year_of_diagnosis').value,0);
@@ -322,6 +325,7 @@
   <%= select_tag "tuberculosis[month_started]", month_name_options,
     {:helpText => 'TUBERCULOSIS: Month of diagnosis',
       :id => "tuberculosis_month_of_diagnosis",
+      :tt_requireNextClick => false,
       :tt_pageStyleClass => "LongSelectList",
       :tt_onUnLoad => "my_date = formatDate($('tuberculosis_date_of_diagnosis').value, $('tuberculosis_month_of_diagnosis').value,1);
                        $('tuberculosis_date_of_diagnosis').value = my_date['value_datetime'];
