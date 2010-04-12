@@ -3,7 +3,7 @@
 </style>
 <%
 diabetes_diagnosis_date = @patient.person.observations.find_by_concept_id(
-  Concept.find_by_name('DIABETES DIAGNOSIS DATE').id).answer_string
+  Concept.find_by_name('DIABETES DIAGNOSIS DATE').id).answer_string  rescue "Unknown"
 
 had_stroke = @patient.person.observations.find_by_concept_id(
   Concept.find_by_name('ACUTE CEREBROVASCULAR ATTACK').id).answer_string rescue 'No'
