@@ -7,7 +7,7 @@
     font-weight: bold;
   }
 
-  .mytableborder {
+  .tableborder {
     border:1px dotted #AAA;
     background: #FFFFFF;
     min-width:175px;
@@ -97,22 +97,22 @@
       %>
        <%if @creatinine_obs.blank?%>
           <tr class ="data <%= cycle('even', 'odd')%>" >
-            <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-            <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+            <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+            <td id ="non_header_row_font" class="tableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
       <%else%>
       <%for observation in @creatinine_obs do%>
         <tr class ="data <%= cycle('even', 'odd')%>" >
           <% @diabetes_test_type = 'CREATININE' %>
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder">
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder">
               <%= h("#{observation.answer_string}") %>
               <div style="float:right;padding:7px;">
                 <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
               </div>
           </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
         </tr>
 
       <%
@@ -130,22 +130,22 @@
       %>
        <%if @urine_protein_obs.blank?%>
           <tr class ="data <%= cycle('even', 'odd')%>" >
-            <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-            <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+            <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+            <td id ="non_header_row_font" class="tableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
       <%else%>
       <%for observation in @urine_protein_obs do%>
 
         <tr class ="data <%= cycle('even', 'odd')%>" >
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder">
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
               <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
         </tr>
 
       <%
@@ -162,22 +162,22 @@
       %>
        <%if @visual_acuity_obs.blank?%>
           <tr class ="data <%= cycle('even', 'odd')%>" >
-            <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL ACUITY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-            <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+            <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL ACUITY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+            <td id ="non_header_row_font" class="tableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
       <%else%>
       <%for observation in @visual_acuity_obs do%>
 
         <tr class ="data <%= cycle('even', 'odd')%>" >
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL ACUITY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder">
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL ACUITY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
               <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
         </tr>
 
       <%
@@ -194,22 +194,22 @@
       %>
         <%if @fundoscopy_obs.blank?%>
            <tr class ="data <%= cycle('even', 'odd')%>" >
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
           <%else%>
       <%for observation in @fundoscopy_obs do%>
 
         <tr class ="data <%= cycle('even', 'odd')%>" >
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder">
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
               <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
         </tr>
 
       <%
@@ -227,22 +227,22 @@
       %>
           <%if @foot_check_obs.blank?%>
            <tr class ="data <%= cycle('even', 'odd')%>" >
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
           <%else%>
       <%for observation in @foot_check_obs do%>
 
         <tr class ="data <%= cycle('even', 'odd')%>" >
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder">
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder">
             <%= h("#{observation.to_s_formatted}") %>
             <div style="float:right;padding:7px;">
               <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
         </tr>
 
       <%
@@ -260,22 +260,22 @@
       %>
        <%if @urea_obs.blank?%>
           <tr class ="data <%= cycle('even', 'odd')%>" >
-            <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-            <td id ="non_header_row_font" class="mytableborder"> <%= h("") %> </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("") %></i></td>
+            <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+            <td id ="non_header_row_font" class="tableborder"> <%= h("") %> </td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
       <%else%>
       <%for observation in @urea_obs do%>
 
         <tr class ="data <%= cycle('even', 'odd')%>" >
-          <td id ="header_row_font" class="mytableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
-          <td id ="non_header_row_font" class="mytableborder">
+          <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
+          <td id ="non_header_row_font" class="tableborder">
             <%= h("#{observation.answer_string}") %>
             <div style="float:right;padding:7px;">
               <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
             </div>
           </td>
-          <td id ="non_header_row_font" class="mytableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
+          <td id ="non_header_row_font" class="tableborder"> <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i></td>
         </tr>
 
       <%
