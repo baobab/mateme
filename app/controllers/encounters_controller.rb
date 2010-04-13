@@ -198,22 +198,23 @@ class EncountersController < ApplicationController
   def set_patient_details
     if (params[:patient_id] || session[:patient_id])
       @patient = Patient.find(params[:patient_id] || session[:patient_id]) if (!@patient)
+      void_encounter if (params[:void] && params[:void] == 'true')
 
-    @encounter_type_ids = []
-    encounters_list = ["initial diabetes complications","complications",
-                      "diabetes history", "diabetes treatments",
-                      "diabetes admissions", "general health",
-                      "hypertension management",
-                      "past diabetes medical history"]
+      @encounter_type_ids = []
+      encounters_list = ["initial diabetes complications","complications",
+                        "diabetes history", "diabetes treatments",
+                        "diabetes admissions", "general health",
+                        "hypertension management",
+                        "past diabetes medical history"]
 
-    @encounter_type_ids = EncounterType.find_all_by_name(encounters_list).each{|e| e.encounter_type_id}
+      @encounter_type_ids = EncounterType.find_all_by_name(encounters_list).each{|e| e.encounter_type_id}
 
-     @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
-                      :conditions => ["patient_id= ? AND encounter_type in (?)",
-                        @patient.patient_id,@encounter_type_ids])
-    @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+       @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
+                        :conditions => ["patient_id= ? AND encounter_type in (?)",
+                          @patient.patient_id,@encounter_type_ids])
+      @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
-    @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%b-%Y")}.uniq
+      @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%b-%Y")}.uniq
 
     end
   end
