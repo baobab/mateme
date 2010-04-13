@@ -38,12 +38,11 @@ font-size:0.7em;
                         <b><%=h ((encounter.name.humanize.length>0)?(encounter.name.humanize):"Not Applicable") %> </b>(<%=h(encounter_datetime)%>)</div>
                       
                       <%end; header = 'false'%>
-
-                      <span class="voidButton" style="width:50px;">
-                        <%= img_button_submit_to "/patients/void/#{@patient.patient_id}",
+                      <span class="voidButton">
+                        <%= img_button_submit_to "/encounters/new/first_time_visit_questions?patient_id=#{@patient.patient_id}",
                              "/images/cancel_flat_small.png",
                              {:confirm => "Are you sure you want to void this encounter?"}, # TODO enable this prompt
-                             {:encounter_id => encounter.encounter_id} -%>
+                             {:encounter_id => encounter.encounter_id, :void => "true"} -%>
                       </span>
 
                     <%

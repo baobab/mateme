@@ -130,6 +130,9 @@ class EncountersController < ApplicationController
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
 
+    if params[:new_hiv_status]
+      @new_hiv_status = params[:new_hiv_status]
+    end
     if params[:encounter_type]
       if params[:encounter_type] == 'first_time_visit_questions'
         # disable re-entry of existing encounters
@@ -261,19 +264,21 @@ class EncountersController < ApplicationController
   def set_patient_details
     if (params[:patient_id] || session[:patient_id])
       @patient = Patient.find(params[:patient_id] || session[:patient_id]) if (!@patient)
+      void_encounter if (params[:void] && params[:void] == 'true')
 
       @encounter_type_ids = []
       encounters_list = ["initial diabetes complications","complications",
-        "diabetes history", "diabetes treatments",
-        "diabetes admissions", "general health",
-        "hypertension management",
-        "past diabetes medical history"]
+                        "diabetes history", "diabetes treatments",
+                        "diabetes admissions", "general health",
+                        "hypertension management",
+                        "past diabetes medical history"]
 
       @encounter_type_ids = EncounterType.find_all_by_name(encounters_list).each{|e| e.encounter_type_id}
 
-      @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
-        :conditions => ["patient_id= ? AND encounter_type in (?)",
-          @patient.patient_id,@encounter_type_ids])
+       @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
+                        :conditions => ["patient_id= ? AND encounter_type in (?)",
+                          @patient.patient_id,@encounter_type_ids])
+                      
       @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
       @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%b-%Y")}.uniq

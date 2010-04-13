@@ -4,10 +4,10 @@
   var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
                 "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
   var time = new Date();
-  var year = time.getYear();
+  var this_year = time.getYear();
   var estimated_date = [];
-  if (year < 2000){
-    year = (time.getYear() + 1900);
+  if (this_year < 2000){
+    this_year = (time.getYear() + 1900);
   }
 
   function setConceptNamesAndValues(){
@@ -249,7 +249,7 @@
       :id => "hypertension_month_of_diagnosis",
       :tt_pageStyleClass => "LongSelectList",
       :tt_onUnLoad => "onMonthUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_month_of_diagnosis', 'hypertension_value_modifier');",
-      :condition => '$("hypertension_value_coded_or_text").value == "Yes" && $("hypertension_year_of_diagnosis").value.toLowerCase() != "unknown" && (year - $("hypertension_year_of_diagnosis").value <= 2)',
+      :condition => '$("hypertension_value_coded_or_text").value == "Yes" && $("hypertension_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("hypertension_year_of_diagnosis").value <= 2)',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
     }%>
 
@@ -294,8 +294,8 @@
     :id => "tuberculosis_type",
     :tt_requireNextClick => false,
     :multiple => false,
-    :tt_onUnLoad => "if($('tuberculosis_type').value == 'SM positive'){$('tuberculosis_type_value_coded_or_text').value = 'SMEAR POSITIVE'}
-                     else if($('tuberculosis_type').value == 'SM negative'){$('tuberculosis_type_value_coded_or_text').value = 'SMEAR NEGATIVE'}
+    :tt_onUnLoad => "if($('tuberculosis_type').value == 'SM positive'){$('tuberculosis_type_value_coded_or_text').value = 'SM POSITIVE'}
+                     else if($('tuberculosis_type').value == 'SM negative'){$('tuberculosis_type_value_coded_or_text').value = 'SM NEGATIVE'}
                      else if($('tuberculosis_type').value == 'EPTB'){$('tuberculosis_type_value_coded_or_text').value = 'EPTB'}",
     :condition => "$('tuberculosis_value_coded_or_text').value == 'Yes'"
   }) %>
@@ -319,9 +319,7 @@
      :tt_requireNextClick => false,
      :optional => true,  :multiple => false,
      :condition => '$("tuberculosis_value_coded_or_text").value == "Yes"',
-     :tt_onUnLoad => "my_date = formatDate($('tuberculosis_date_of_diagnosis').value, $('tuberculosis_year_of_diagnosis').value,0);
-                       $('tuberculosis_date_of_diagnosis').value = my_date['value_datetime'];
-                       if($('tuberculosis_value_modifier').value!= 'ES') {$('tuberculosis_value_modifier').value = my_date['value_modifier'];}",
+     :tt_onUnLoad => "onYearUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_year_of_diagnosis', 'tuberculosis_value_modifier');",
      :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
@@ -332,14 +330,12 @@
       :id => "tuberculosis_month_of_diagnosis",
       :tt_requireNextClick => false,
       :tt_pageStyleClass => "LongSelectList",
-      :tt_onUnLoad => "my_date = formatDate($('tuberculosis_date_of_diagnosis').value, $('tuberculosis_month_of_diagnosis').value,1);
-                       $('tuberculosis_date_of_diagnosis').value = my_date['value_datetime'];
-                       if($('tuberculosis_value_modifier').value!= 'ES') {$('tuberculosis_value_modifier').value = my_date['value_modifier'];}",
-      :condition => '$("tuberculosis_value_coded_or_text").value == "Yes" && $("tuberculosis_year_of_diagnosis").value.toLowerCase() != "unknown"',
+      :tt_onUnLoad => "onMonthUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_month_of_diagnosis', 'tuberculosis_value_modifier');",
+      :condition => '$("tuberculosis_value_coded_or_text").value == "Yes" && $("tuberculosis_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("tuberculosis_year_of_diagnosis").value <= 2)',
       :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
     }%>
 
-  <%= text_field_tag "tuberculosis[day_started]",  nil,
+  <%#= text_field_tag "tuberculosis[day_started]",  nil,
       :field_type => 'number',
       :helpText => 'TUBERCULOSIS: Day of diagnosis',
       :id => "tuberculosis_day_of_diagnosis",
