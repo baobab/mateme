@@ -22,8 +22,8 @@ class PatientsController < ApplicationController
         @regstration_clerk  = true
     end
     
-       
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
+    void_encounter if (params[:void] && params[:void] == 'true')
     @encounters   = @patient.encounters.current.active.find(:all)
     excluded_encounters = ["Registration", "Diabetes history","Complications",
                           "General health", "Diabetes treatments", "Diabetes admissions",
@@ -77,16 +77,6 @@ class PatientsController < ApplicationController
     @patient_medication_period = Patient.patient_diabetes_medication_duration(@patient.patient_id)
     
     render :template => 'patients/show', :layout => 'menu'
-  end
-
-  def void
-    @encounter = Encounter.find(params[:encounter_id])
-    ActiveRecord::Base.transaction do
-      @encounter.observations.each{|obs| obs.void! }    
-      @encounter.orders.each{|order| order.void! }    
-      @encounter.void!
-    end  
-    show and return
   end
   
   def print_registration
@@ -166,7 +156,7 @@ class PatientsController < ApplicationController
 
   def mastercard
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
-    void_diabetes_test if params[:void]
+    void_encounter if (params[:void] && params[:void] == 'true')
     @person = @patient.person
     @encounters = @patient.encounters.find_all_by_encounter_type(EncounterType.find_by_name('DIABETES TEST').id)
     @observations = @encounters.map(&:observations).flatten
@@ -236,15 +226,5 @@ class PatientsController < ApplicationController
                                         diabetes_test_id, urea_id],
                         :order => 'obs_datetime DESC')
     render :layout => 'menu'
-  end
-
-  def void_diabetes_test
-    @encounter = Encounter.find(params[:encounter_id])
-    ActiveRecord::Base.transaction do
-      @encounter.observations.each{|obs| obs.void! }
-      @encounter.orders.each{|order| order.void! }
-      @encounter.void!
-    end
-    return
   end
 end
