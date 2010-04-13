@@ -68,11 +68,14 @@
     begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
   %>
 
-<form id='medical_history' action="/encounters/create" method='post'>
+<form id='medical_history' action="/encounters/<%= ((params[:edit])?"update":"create") %>" method='post'>
   <% default={
     :allowFreeText => 'true',
   } %>
-	<%= hidden_field_tag "encounter[encounter_type_name]", "PAST DIABETES MEDICAL HISTORY" %>
+
+  <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "PAST DIABETES MEDICAL HISTORY" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
