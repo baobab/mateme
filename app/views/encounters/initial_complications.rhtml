@@ -174,7 +174,7 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
       "SUSPECTED NEUROPATHY"]
   end
 %>
-  <%= select_tag("complications_values", options_for_select(@complications_list, ((@encounter_obs)?(@encounter_obs["complications_values"]):""),options) %>
+  <%= select_tag("complications_values", options_for_select(@complications_list, ((@encounter_obs)?(@encounter_obs["complications_values"]):"")),options) %>
 
 <%# options=default.merge({
 :field_type => 'text',
