@@ -1,12 +1,5 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
 
-<%
-
-  encounter = Encounter.find(params[:encounter_id])
-
-encounter.observations.find_by_concept_id(Concept.find_by_name("RETINOPATHY").id).answer_string
-
-%>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
   var months = ["Unknown","Jan", "Feb", "Mar", "Apr", "May", "Jun",

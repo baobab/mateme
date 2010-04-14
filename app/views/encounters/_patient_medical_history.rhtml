@@ -54,7 +54,7 @@ font-size:0.7em;
                         #raise url_name
                     %>
                       <span class="voidButton" style="width:50px;">
-                        <%= img_button_submit_to "/encounters/#{url_name.downcase.gsub(' ','_')}?edit=true&patient_id=#{@patient.patient_id}&encounter_id=#{encounter.encounter_id}",
+                        <%= img_button_submit_to "/encounters/#{url_name.downcase.gsub(' ','_')}?edit=true&patient_id=#{@patient.patient_id}&encounter_id=#{encounter.encounter_id}&group_type=#{url_name.downcase.gsub(' ','_')}",
                              "/images/pencil.png",
                              {:encounter_id => encounter.encounter_id} %>
                       </span>
