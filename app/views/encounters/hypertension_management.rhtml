@@ -249,7 +249,7 @@
     :field_type => 'text',
     :id => "on_aspirin",
     :tt_onUnLoad => "$('on_aspirin_value_coded_or_text').value = $('on_aspirin').value",
-    :condition => "$('aspirin').value == 'Yes'",
+    :condition => "$('aspirin_value_coded_or_text').value == 'Yes'",
     :helpText => "Currently Taking Aspirin?"
   }) %>
   <%= select_tag( "on_aspirin[value_coded_or_text]", options_for_select([
