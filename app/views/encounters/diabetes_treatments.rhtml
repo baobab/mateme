@@ -1,4 +1,12 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
+<%
+
+  if(params[:encounter_id] && params[:group_type])
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    #raise @encounter_obs.inspect
+  end
+
+%>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
   var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -49,7 +57,7 @@
       }
   if(values_string.contains("INSULIN")){
 
-      $('insulin').value = 'REGULAR INSULIN';
+      $('insulin').value = 'INSULIN, SOLUBLE';
       $('insulin_value_coded_or_text').value = 'Yes';
 
       }
@@ -70,7 +78,7 @@
   <%
     @select_years = ["", "Unknown"]
     this_year = Date.today.year
-    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1949)
+    begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; end while (this_year != 1949)
   %>
 
 <% options=default.merge({
@@ -83,7 +91,7 @@
   }) %>
 
   <% @treatements_list = ["ON DIET", "GLIBENCLAMIDE", "METFORMIN", "INSULIN"] %>
-  <%= select_tag("diabetes_treatements_values",             options_for_select(@treatements_list),options) %>
+  <%= select_tag("diabetes_treatements_values",             options_for_select(@treatements_list, ((@encounter_obs)?(@encounter_obs["diabetes_treatments"]):"")),options) %>
 
   <%# options=default.merge({
     :field_type => 'text',
@@ -112,9 +120,9 @@
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
-  <%= select_tag "diet[year_started]", options_for_select(@select_years),options %>
+  <%= select_tag "diet[year_started]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["diet_year_started"]):"")),options %>
 
-  <%= select_tag "diet[month_started]", month_name_options,{
+  <%= select_tag "diet[month_started]", month_name_options(((@encounter_obs)?(@encounter_obs["diet_month_started"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'DIET: Month started',
     :id => "diet_month_started",
@@ -167,9 +175,9 @@
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
-  <%= select_tag "glibenclamide[year_started]", options_for_select(@select_years),options %>
+  <%= select_tag "glibenclamide[year_started]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["glibenclamide_year_started"]):"")),options %>
 
-  <%= select_tag "glibenclamide[month_started]", month_name_options,{
+  <%= select_tag "glibenclamide[month_started]", month_name_options(((@encounter_obs)?(@encounter_obs["glibenclamide_year_started"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'GLIBENCLAMIDE: Month started',
     :id => "glibenclamide_month_started",
@@ -193,9 +201,9 @@
 
   <%= select_tag( "on_glibenclamide[value_coded_or_text]", options_for_select([
     "",
-    "Yes",
-    "No"
-  ]),{
+    "YES",
+    "NO"
+  ], ((@encounter_obs)?(@encounter_obs["on_glibenclamide"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'GLIBENCLAMIDE: Taking now',
     :field_type => 'text',
@@ -217,9 +225,9 @@
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
-  <%= select_tag 'glibenclamide_year_stopped', options_for_select(@select_years),options %>
+  <%= select_tag 'glibenclamide_year_stopped', options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["gliben_year_stopped"]):"")),options %>
 
-  <%= select_tag "glibenclamide[month_stopped]", month_name_options, {
+  <%= select_tag "glibenclamide[month_stopped]", month_name_options(((@encounter_obs)?(@encounter_obs["glibenclamide_month_stopped"]):"")), {
     :tt_requireNextClick => false,
     :helpText  => 'GLIBENCLAMIDE: Month stopped',
     :id => "glibenclamide_month_stopped",
@@ -282,9 +290,9 @@
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
-  <%= select_tag "metformin[year_started]", options_for_select(@select_years),options %>
+  <%= select_tag "metformin[year_started]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["metformin_year_started"]):"")),options %>
 
-  <%= select_tag "metformin[month_started]", month_name_options,{
+  <%= select_tag "metformin[month_started]", month_name_options(((@encounter_obs)?(@encounter_obs["metformin_month_started"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'METFORMIN: Month started',
     :id => "metformin_month_started",
@@ -308,9 +316,9 @@
 
   <%= select_tag( "on_metformin[value_coded_or_text]", options_for_select([
     "",
-    "Yes",
-    "No"
-  ]),{
+    "YES",
+    "NO"
+  ], ((@encounter_obs)?(@encounter_obs["on_metformin"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'METFORMIN: Taking now',
     :field_type => 'text',
@@ -333,9 +341,9 @@
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
-  <%= select_tag 'metformin_year_stopped', options_for_select(@select_years),options %>
+  <%= select_tag 'metformin_year_stopped', options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["metformin_year_stopped"]):"")),options %>
 
-  <%= select_tag "metformin[month_stopped]", month_name_options,{
+  <%= select_tag "metformin[month_stopped]", month_name_options(((@encounter_obs)?(@encounter_obs["metformin_month_stopped"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'METFORMIN: Month stopped',
     :id => "metformin_month_stopped",
@@ -399,9 +407,9 @@
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
-  <%= select_tag "insulin[year_started]", options_for_select(@select_years),options %>
+  <%= select_tag "insulin[year_started]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["insulin_year_started"]):"")),options %>
 
-  <%= select_tag "insulin[month_started]", month_name_options,{
+  <%= select_tag "insulin[month_started]", month_name_options(((@encounter_obs)?(@encounter_obs["insulin_month_started"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'INSULIN: Month started',
     :id => "insulin_month_started",
@@ -425,9 +433,9 @@
 
   <%= select_tag( "on_insulin[value_coded_or_text]", options_for_select([
     "",
-    "Yes",
-    "No"
-  ]),{
+    "YES",
+    "NO"
+  ], ((@encounter_obs)?(@encounter_obs["on_insulin"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'INSULIN: Taking now',
     :field_type => 'text',
@@ -449,9 +457,9 @@
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
 
-  <%= select_tag 'insulin_year_stopped', options_for_select(@select_years),options %>
+  <%= select_tag 'insulin_year_stopped', options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["insulin_year_stopped"]):"")),options %>
 
-  <%= select_tag "insulin[month_stopped]", month_name_options,{
+  <%= select_tag "insulin[month_stopped]", month_name_options(((@encounter_obs)?(@encounter_obs["insulin_month_stopped"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'INSULIN: Month stopped',
     :id => "insulin_month_stopped",
@@ -484,7 +492,7 @@
   <%# Save if the patient is taking medication now%>
   <%= hidden_field_tag("observations[][concept_name]",        "TAKING MEDICATION") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'on_insulin_value_coded_or_text'}) %>
-  <%= hidden_field_tag("observations[][parent_concept_name]", "REGULAR INSULIN" ) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "INSULIN, SOLUBLE" ) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
@@ -493,7 +501,7 @@
     "Long Insulin",
     "Short Insulin",
     "Both Long and Short Insulin"
-  ]),{
+  ], ((@encounter_obs)?(@encounter_obs["insulin_type"]):"")),{
     :helpText  => 'Select type of Insulin',
     :condition => '$("insulin_value_coded_or_text").value.toLowerCase() == "yes"'
   }
