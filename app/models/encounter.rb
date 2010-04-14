@@ -181,6 +181,124 @@ class Encounter < ActiveRecord::Base
   end
 
   def self.diabetes_treatmens_obs(encounter)
+    obs = {}
+
+    field_set = {}
+
+    fields = ["diabetes_treatments",
+      "diet_year_started",
+      "diet_month_started",
+      "glibenclamide_year_started",
+      "glibenclamide_month_started",
+      "glibenclamide_year_started",
+      "glibenclamide_month_started",
+      "on_glabenclamide",
+      "metformin_year_started",
+      "metformin_month_started",
+      "metformin_year_started",
+      "metformin_month_started",
+      "on_metformin",
+      "insulin_year_started",
+      "insulin_month_started",
+      "insulin_year_started",
+      "insulin_month_started",
+      "on_insulin",
+      "insulin_type"
+    ]
+
+    parents = {"on_glabenclamide" => "GLIBENCLAMIDE",
+                "on_metformin" => "METFORMIN",
+                "on_insulin" => "REGULAR INSULIN"
+    }
+
+    conceptnames = {"diet_year_started" => "ON DIET",
+      "diet_month_started" => "ON DIET",
+      "glibenclamide_year_started" => "GLIBENCLAMIDE",
+      "glibenclamide_month_started" => "GLIBENCLAMIDE",
+      "glibenclamide_year_stopped" => "GLIBENCLAMIDE",
+      "glibenclamide_month_stopped" => "GLIBENCLAMIDE",
+      "on_glibenclamide" => "TAKING MEDICATION",
+      "metformin_year_started" => "METFORMIN",
+      "metformin_month_started" => "METFORMIN",
+      "metformin_year_stopped" => "METFORMIN",
+      "metformin_month_stopped" => "METFORMIN",
+      "on_metformin" => "TAKING MEDICATION",
+      "insulin_year_started" => "REGULAR INSULIN",
+      "insulin_month_started" => "REGULAR INSULIN",
+      "insulin_year_stopped" => "REGULAR INSULIN",
+      "insulin_month_stopped" => "REGULAR INSULIN",
+      "on_insulin" => "TAKING MEDICATION",
+      "insulin_type" => "TYPE OF INSULIN"
+    }
+
+    fields.each{|f|
+      field_set[f] = []
+
+      if(parents[f])
+        parent_concept_id = Concept.find_by_name(parents[f]).id
+        if(parent_concept_id)
+          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id rescue nil
+        end
+      end
+
+      if(conceptnames[f])
+        concepts = [Concept.find_by_name(conceptnames[f])]
+      else
+        case f
+        when "diabetes_treatments":
+            concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["ON DIET", "GLIBENCLAMIDE", "METFORMIN", "INSULIN, SOLUBLE"]])
+        else
+          concepts = [Concept.find_by_name(conceptnames[f])]
+        end
+      end
+
+
+      concept_ids = []
+
+      if(concepts)
+        concepts.each{|c|
+          if(c)
+            concept_ids << c.concept_id
+          end
+        }
+
+        if(f == "diabetes_treatments")
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
+
+            if(o.concept.name.name.upcase == "INSULIN, SOLUBLE")
+              field_set[f] << "INSULIN"
+            else
+              field_set[f] << o.concept.name.name
+            end
+            
+            
+          }
+        else
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
+              concept_ids]).each{|o|
+
+            if(f.include?("year_started"))
+              field_set[f] << o.date_started.to_date.strftime("%Y") rescue ""
+            elsif(f.include?("year_stopped"))
+              field_set[f] << o.date_stopped.to_date.strftime("%Y").to_i rescue ""
+            elsif(f.include?("month_started"))
+              field_set[f] << o.date_started.to_date.strftime("%m").to_i rescue ""
+            elsif(f.include?("month_stopped"))
+              field_set[f] << o.date_stopped.to_date.strftime("%m").to_i rescue ""
+            else
+              field_set[f] << o.answer_string
+            end
+            
+          }
+        end
+
+      end
+
+      obs[f] = field_set[f]
+
+    }
+
+    diabetes_treatmens_obs = obs
 
   end
 
@@ -316,7 +434,7 @@ class Encounter < ActiveRecord::Base
     field_set = {}
 
     fields = ["hypertension_management",
-              "on_aspirin"
+      "on_aspirin"
     ]
 
     parents = {"on_aspirin" => "ASPIRIN"
@@ -341,13 +459,13 @@ class Encounter < ActiveRecord::Base
         case f
         when "hypertension_management":
             concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["LOW SALT DIET RECOMMENDED",
-                                          "ACE I/SALTAN",
-                                          "THIAZIDE",
-                                          "FRUSEMIDE",
-                                          "METHYLDOPA",
-                                          "BETA BLOCKER",
-                                          "CALCIUM CHANNEL BLOCKER",
-                                          "ASPIRIN"]])
+                "ACE I/SALTAN",
+                "THIAZIDE",
+                "FRUSEMIDE",
+                "METHYLDOPA",
+                "BETA BLOCKER",
+                "CALCIUM CHANNEL BLOCKER",
+                "ASPIRIN"]])
         else
           concepts = [Concept.find_by_name(conceptnames[f])]
         end
@@ -366,17 +484,8 @@ class Encounter < ActiveRecord::Base
         if(f == "hypertension_management")
           encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
 
-
-            if(o.concept.name.name == "SUSPECTED PERIPHERAL VASCULAR DISEASE")
-              field_set[f] << "SUSPECTED PVD"
-            elsif(o.concept.name.name == "CATARACT SURGERY")
-              field_set[f] << "PAST CATARACT SURGERY"
-            elsif(o.concept.name.name == "CATARACT")
-              field_set[f] << "PRESENT CATARACTS"
-            else
-              field_set[f] << o.concept.name.name
-            end
-
+            field_set[f] << o.concept.name.name
+            
           }
         else
           encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
