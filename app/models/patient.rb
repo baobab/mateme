@@ -128,10 +128,11 @@ class Patient < ActiveRecord::Base
 
   def hiv_status
     return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
-    self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
+    latest_hiv_status = self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
-    }.flatten.compact.last.answer_concept_name.name rescue 'UNKNOWN'
+    }.flatten.compact.last
+    "#{latest_hiv_status.answer_concept_name.name rescue nil}#{latest_hiv_status.value_text}" rescue 'UNKNOWN'
   end
 
   def treatments
