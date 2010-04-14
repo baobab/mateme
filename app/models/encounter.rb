@@ -119,6 +119,64 @@ class Encounter < ActiveRecord::Base
   end
 
   def self.diabetes_history_obs(encounter)
+    obs = {}
+
+    field_set = {}
+
+    fields = ["year_of_initial_diagnosis",
+      "month_of_diagnosis",
+      "diabetes_type",
+      "secondary_diabetes",
+      "cause_of_diabetes",
+      "other_cause_of_secondary_diabetes",
+      "family_history"
+    ]
+
+    conceptnames = {"year_of_initial_diagnosis" => "DIABETES DIAGNOSIS DATE",
+      "month_of_diagnosis" => "DIABETES DIAGNOSIS DATE",
+      "diabetes_type" => "TYPE OF DIABETES",
+      "secondary_diabetes" => "SECONDARY DIABETES",
+      "cause_of_diabetes" => "CAUSE OF SECONDARY DIABETES",
+      "other_cause_of_secondary_diabetes" => "CAUSE OF SECONDARY DIABETES",
+      "family_history" => "DIABETES FAMILY HISTORY"
+    }
+
+    fields.each{|f|
+      field_set[f] = []
+
+      if(conceptnames[f])
+        concepts = [Concept.find_by_name(conceptnames[f])]     
+      end
+
+
+      concept_ids = []
+
+      if(concepts)
+        concepts.each{|c|
+          if(c)
+            concept_ids << c.concept_id
+          end
+        }
+
+        
+        encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
+          case f
+          when "year_of_initial_diagnosis":
+              field_set[f] << o.answer_string.to_date.strftime("%Y") rescue ""
+          when "month_of_diagnosis":
+              field_set[f] << o.answer_string.to_date.strftime("%m").to_i rescue ""
+          else
+            field_set[f] << o.answer_string
+          end
+        }
+
+      end
+
+      obs[f] = field_set[f]
+
+    }
+
+    diabetes_history_obs = obs
     
   end
 
@@ -135,47 +193,297 @@ class Encounter < ActiveRecord::Base
   end
 
   def self.complications_obs(encounter)
-    concept_name = []
+    obs = {}
+    
+    field_set = {}
+    
+    fields = ["complications",
+      "peripheral_neuropathy_year_started",
+      "amputation_side",
+      "years_of_surgery",
+      "retinopathy_diagnosis_year",
+      "renal_disease_diagnosis_year",
+      "cataract_surgery_side",
+      "year_of_operations",
+      "present_cataract_side",
+      "year_of_diagnosis",
+      "protein_urea",
+      "creatinine"
+    ]
 
-    concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["PERIPHERAL NEUROPATHY",
-            "SUSPECTED PVD",
-            "AMPUTATION",
-            "IMPOTENCE",
-            "RETINOPATHY",
-            "RENAL DISEASE",
-            "PAST CATARACT SURGERY",
-            "PRESENT CATARACTS",
-            "SUSPECTED NEUROPATHY",
-            "CATARACT SURGERY",
-            "CATARACT"]])
+    parents = {"peripheral_neuropathy_year_started" => "PERIPHERAL NEUROPATHY",
+      "amputation_side" => "AMPUTATION",
+      "years_of_surgery" => "AMPUTATION",
+      "retinopathy_diagnosis_year" => "RETINOPATHY",
+      "renal_disease_diagnosis_year" => "RENAL DISEASE",
+      "cataract_surgery_side" => "CATARACT SURGERY",
+      "year_of_operations" => "CATARACT SURGERY",
+      "present_cataract_side" => "CATARACT",
+      "year_of_diagnosis" => "CATARACT",
+      "protein_urea" => "SUSPECTED NEUROPATHY",
+      "creatinine" => "SUSPECTED NEUROPATHY"
+    }
+
+    conceptnames = {"peripheral_neuropathy_year_started" => "YEAR CONDITION NOTICED",
+      "amputation_side" => "SIDE AFFECTED",
+      "years_of_surgery" => "YEAR OF SURGERY",
+      "retinopathy_diagnosis_year" => "DIAGNOSIS YEAR",
+      "renal_disease_diagnosis_year" => "DIAGNOSIS YEAR",
+      "cataract_surgery_side" => "SIDE AFFECTED",
+      "year_of_operations" => "YEAR OF SURGERY",
+      "present_cataract_side" => "SIDE AFFECTED",
+      "year_of_diagnosis" => "YEAR OF SURGERY",
+      "protein_urea" => "YEAR UREA FIRST NOTED",
+      "creatinine" => "YEAR RAISED CREATININE FIRST NOTED"
+    }
+    
+    fields.each{|f|
+      field_set[f] = []
+
+      if(parents[f])
+        parent_concept_id = Concept.find_by_name(parents[f]).id
+        if(parent_concept_id)
+          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id          
+        end
+      end
+
+      if(conceptnames[f])
+        concepts = [Concept.find_by_name(conceptnames[f])]
+      else
+        case f
+        when "complications":
+            concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["PERIPHERAL NEUROPATHY",
+                "SUSPECTED PVD",
+                "AMPUTATION",
+                "IMPOTENCE",
+                "RETINOPATHY",
+                "RENAL DISEASE",
+                "PAST CATARACT SURGERY",
+                "PRESENT CATARACTS",
+                "SUSPECTED NEUROPATHY",
+                "CATARACT SURGERY",
+                "CATARACT"]])
+        else
+          concepts = [Concept.find_by_name(conceptnames[f])]
+        end
+      end
+
 
       concept_ids = []
 
       if(concepts)
         concepts.each{|c|
-          concept_ids << c.concept_id
+          if(c)
+            concept_ids << c.concept_id
+          end
         }
-      end
 
-      encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
-        if(o.concept.name.name == "SUSPECTED PERIPHERAL VASCULAR DISEASE")
-          concept_name << "SUSPECTED PVD"
-        elsif(o.concept.name.name == "CATARACT SURGERY")
-          concept_name << "PAST CATARACT SURGERY"
-        elsif(o.concept.name.name == "CATARACT")
-          concept_name << "PRESENT CATARACTS"
+        if(f == "complications")
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
+          
+                
+            if(o.concept.name.name == "SUSPECTED PERIPHERAL VASCULAR DISEASE")
+              field_set[f] << "SUSPECTED PVD"
+            elsif(o.concept.name.name == "CATARACT SURGERY")
+              field_set[f] << "PAST CATARACT SURGERY"
+            elsif(o.concept.name.name == "CATARACT")
+              field_set[f] << "PRESENT CATARACTS"
+            else
+              field_set[f] << o.concept.name.name
+            end
+          
+          }
         else
-          concept_name << o.concept.name.name
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
+              concept_ids]).each{|o|
+            field_set[f] << o.answer_string
+          }
         end
-      }
-      complications_obs = {"complications_values" => concept_name}
+
+      end
+    
+      obs[f] = field_set[f]
+
+    }
+
+    complications_obs = obs
+    
   end
 
   def self.hypertension_management_obs(encounter)
+    obs = {}
+
+    field_set = {}
+
+    fields = ["hypertension_management",
+              "on_aspirin"
+    ]
+
+    parents = {"on_aspirin" => "ASPIRIN"
+    }
+
+    conceptnames = {"on_aspirin" => "TAKING MEDICATION"
+    }
+
+    fields.each{|f|
+      field_set[f] = []
+
+      if(parents[f])
+        parent_concept_id = Concept.find_by_name(parents[f]).id
+        if(parent_concept_id)
+          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id
+        end
+      end
+
+      if(conceptnames[f])
+        concepts = [Concept.find_by_name(conceptnames[f])]
+      else
+        case f
+        when "hypertension_management":
+            concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["LOW SALT DIET RECOMMENDED",
+                                          "ACE I/SALTAN",
+                                          "THIAZIDE",
+                                          "FRUSEMIDE",
+                                          "METHYLDOPA",
+                                          "BETA BLOCKER",
+                                          "CALCIUM CHANNEL BLOCKER",
+                                          "ASPIRIN"]])
+        else
+          concepts = [Concept.find_by_name(conceptnames[f])]
+        end
+      end
+
+
+      concept_ids = []
+
+      if(concepts)
+        concepts.each{|c|
+          if(c)
+            concept_ids << c.concept_id
+          end
+        }
+
+        if(f == "hypertension_management")
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
+
+
+            if(o.concept.name.name == "SUSPECTED PERIPHERAL VASCULAR DISEASE")
+              field_set[f] << "SUSPECTED PVD"
+            elsif(o.concept.name.name == "CATARACT SURGERY")
+              field_set[f] << "PAST CATARACT SURGERY"
+            elsif(o.concept.name.name == "CATARACT")
+              field_set[f] << "PRESENT CATARACTS"
+            else
+              field_set[f] << o.concept.name.name
+            end
+
+          }
+        else
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
+              concept_ids]).each{|o|
+            field_set[f] << o.answer_string
+          }
+        end
+
+      end
+
+      obs[f] = field_set[f]
+
+    }
+
+    hypertension_management_obs = obs
 
   end
 
   def self.general_health_obs(encounter)
+    obs = {}
+
+    field_set = {}
+
+    fields = ["currently_smoking",
+      "current_smoking_start_date",
+      "current_smoking_daily",
+      "current_manufactured_tobacco",
+      "current_cigarettes_per_day",
+      "previously_smoking",
+      "previously_smoking_start_date",
+      "previously_smoking_stop_date",
+      "previously_smoking_daily",
+      "previous_manufactured_tobacco",
+      "previous_cigarettes_per_day",
+      "alcohol",
+      "alcohol_in_the_last_year",
+      "alcohol_in_the_last_month",
+      "heavy_alcohol_in_the_last_month"
+    ]
+
+    parents = {"current_smoking_start_date" => "PATIENT CURRENTLY SMOKES",
+      "current_smoking_daily" => "PATIENT CURRENTLY SMOKES",
+      "current_manufactured_tobacco" => "PATIENT CURRENTLY SMOKES",
+      "current_cigarettes_per_day" => "SMOKING MANUFACTURED CIGARETTES",
+      "previously_smoking_start_date" => "PATIENT PREVIOUSLY SMOKED",
+      "previously_smoking_stop_date" => "PATIENT PREVIOUSLY SMOKED",
+      "previously_smoking_daily" => "PATIENT PREVIOUSLY SMOKED",
+      "previous_manufactured_tobacco" => "PATIENT PREVIOUSLY SMOKED",
+      "previous_cigarettes_per_day" => "SMOKING MANUFACTURED CIGARETTES",
+      "alcohol_in_the_last_year" => "PATIENT EVER DRUNK ALCOHOL",
+      "alcohol_in_the_last_month" => "PATIENT EVER DRUNK ALCOHOL",
+      "heavy_alcohol_in_the_last_month" => "PATIENT EVER DRUNK ALCOHOL"
+    }
+
+    conceptnames = {"currently_smoking" => "PATIENT CURRENTLY SMOKES",
+      "current_smoking_start_date" => "YEAR STARTED SMOKING",
+      "current_smoking_daily" => "SMOKING TOBACCO DAILY",
+      "current_manufactured_tobacco" => "SMOKING MANUFACTURED CIGARETTES",
+      "current_cigarettes_per_day" => "NUMBER OF CIGARETTES SMOKED PER DAY",
+      "previously_smoking" => "PATIENT PREVIOUSLY SMOKED",
+      "previously_smoking_start_date" => "YEAR STARTED SMOKING",
+      "previously_smoking_stop_date" => "YEAR STOPPED SMOKING",
+      "previously_smoking_daily" => "SMOKING TOBACCO DAILY",
+      "previous_manufactured_tobacco" => "SMOKING MANUFACTURED CIGARETTES",
+      "previous_cigarettes_per_day" => "NUMBER OF CIGARETTES SMOKED PER DAY",
+      "alcohol" => "PATIENT EVER DRUNK ALCOHOL",
+      "alcohol_in_the_last_year" => "PATIENT EVER DRUNK ALCOHOL IN THE PREVIOUS YEAR",
+      "alcohol_in_the_last_month" => "PATIENT EVER DRUNK ALCOHOL IN THE PREVIOUS 30 DAYS",
+      "heavy_alcohol_in_the_last_month" => "HEAVY DRINKING IN THE PREVIOUS 30 DAYS"
+    }
+
+    fields.each{|f|
+      field_set[f] = []
+
+      if(parents[f])
+        parent_concept_id = Concept.find_by_name(parents[f]).id
+
+        if(parent_concept_id)
+          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id rescue nil
+        end
+      end
+
+      if(conceptnames[f])
+        concepts = [Concept.find_by_name(conceptnames[f])]      
+      end
+
+      concept_ids = []
+
+      if(concepts)
+        concepts.each{|c|
+          if(c)
+            concept_ids << c.concept_id
+          end
+        }
+
+        encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
+            concept_ids]).each{|o|
+          field_set[f] << o.answer_string
+        }
+
+      end
+
+      obs[f] = field_set[f]
+
+    }
+
+    general_health_obs = obs
 
   end
   

@@ -1,4 +1,12 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
+<%
+
+  if(params[:encounter_id] && params[:group_type])
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    #raise @encounter_obs.inspect
+  end
+
+%>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
 
@@ -104,7 +112,7 @@
   <% @hypertension_management_list = ["LOW SALT DIET RECOMMENDED", "ACE I/SALTAN",
                             "THIAZIDE", "FRUSEMIDE", "METHYLDOPA", "BETA BLOCKER",
                             "CALCIUM CHANNEL BLOCKER", "ASPIRIN"]%>
-  <%= select_tag("hypertension_management_values", options_for_select(@hypertension_management_list),options) %>
+  <%= select_tag("hypertension_management_values", options_for_select(@hypertension_management_list, ((@encounter_obs)?(@encounter_obs["hypertension_management"]):"")),options) %>
 
   <%# options=default.merge({
     :field_type => 'text',
@@ -248,7 +256,7 @@
     "",
     "Yes",
     "No"
-  ]), options ) %>
+  ], ((@encounter_obs)?(@encounter_obs["on_aspirin"]):"")), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "TAKING MEDICATION") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "on_aspirin_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "ASPIRIN") %>

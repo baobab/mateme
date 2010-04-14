@@ -1,5 +1,13 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
 
+<%
+
+  if(params[:encounter_id] && params[:group_type])
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    #raise @encounter_obs.inspect
+  end
+
+%>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
   var months = ["Unknown","Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -40,12 +48,12 @@
   <%
     @select_init_diagnosis_year = ["", "Unknown"]
     this_year = Date.today.year
-    begin @select_init_diagnosis_year << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1949)
+    begin @select_init_diagnosis_year << Array.new(1){this_year.to_s}; this_year = this_year - 1; end while (this_year != 1949)
   %>
   
-  <%= select_tag "year_of_initial_diagnosis", options_for_select(@select_init_diagnosis_year),options %>
+  <%= select_tag "year_of_initial_diagnosis", options_for_select(@select_init_diagnosis_year, ((@encounter_obs)?(@encounter_obs["year_of_initial_diagnosis"]):"")),options %>
 
-  <%= select_tag "month_of_initial_diagnosis", month_name_options,
+  <%= select_tag "month_of_initial_diagnosis", month_name_options((@encounter_obs)?(@encounter_obs["month_of_diagnosis"]):""),
     {:tt_requireNextClick => false,
       :helpText => 'Month of Diagnosis',
       :tt_pageStyleClass => 'LongSelectList',
@@ -80,7 +88,7 @@
   <% @diabetes_types  = [""]
      @diabetes_types += Concept.find_by_name("TYPE OF DIABETES").concept_answers.map(&:name) %>
 
-  <%= select_tag( "observations[][value_coded_or_text]", options_for_select(@diabetes_types.sort), options) %>
+  <%= select_tag( "observations[][value_coded_or_text]", options_for_select(@diabetes_types.sort, ((@encounter_obs)?(@encounter_obs["diabetes_type"]):"")), options) %>
   <%= hidden_field_tag("observations[][concept_name]", "TYPE OF DIABETES") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -93,9 +101,9 @@
   }) %>
   <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
     "",
-    "Yes",
-    "No"
-  ]), options ) %>
+    "Yes".upcase,
+    "No".upcase
+  ], ((@encounter_obs)?(@encounter_obs["secondary_diabetes"]):"")), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "SECONDARY DIABETES") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -112,12 +120,12 @@
   <%= select_tag( "cause_of_secondary_diabetes", options_for_select([
     "",
     "ART",
-    "Corticosteroids",
-    "Gestational diabetes",
-    "Other(specify)"
-  ]), options ) %>
+    "Corticosteroids".upcase,
+    "Gestational diabetes".upcase,
+    "Other(specify)".upcase
+  ], ((@encounter_obs)?(@encounter_obs["cause_of_diabetes"]):"")), options ) %>
   
-<%= text_field_tag "specify_other_cause_of_secondary_diabetes",nil,
+<%= text_field_tag "specify_other_cause_of_secondary_diabetes", ((@encounter_obs)?(@encounter_obs["other_cause_of_secondary_diabetes"]):""),
 { :field_type => 'alpha',
   :helpText => 'Specify any other Cause of Secondary Diabetes',
   :allowFreeText => true,
@@ -138,7 +146,7 @@
   <% @diabetes_family_history  = [""]
      @diabetes_family_history += Concept.find_by_name("DIABETES FAMILY HISTORY").concept_answers.map(&:name) %>
 
-  <%= select_tag( "observations[][value_coded_or_text]", options_for_select(@diabetes_family_history.sort), options) %>
+  <%= select_tag( "observations[][value_coded_or_text]", options_for_select(@diabetes_family_history.sort, ((@encounter_obs)?(@encounter_obs["family_history"]):"")), options) %>
   <%= hidden_field_tag("observations[][concept_name]", "DIABETES FAMILY HISTORY") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
