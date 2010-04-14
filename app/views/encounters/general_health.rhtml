@@ -2,10 +2,12 @@
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
 </script>
-<form id='complications' action="/encounters/create" method='post'>
+<form id='complications' action="/encounters/<%= ((params[:edit])?"update":"create") %>" method='post'>
   <% default={
     :allowFreeText => 'true'
   } %>
+
+    <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
 
     <%= hidden_field_tag "encounter[encounter_type_name]", "GENERAL HEALTH" %>
     <%= hidden_field_tag "encounter[patient_id]", @patient.id %>

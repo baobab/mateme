@@ -35,10 +35,9 @@ font-size:0.7em;
                     <li class="data">
                       
                       <%if header == 'true' %><div style="float:left">
-                        <b><%=h encounter.name.humanize %> </b>(<%=h(encounter_datetime)%>)</div>
+                        <b><%=h ((encounter.name.humanize.length>0)?(encounter.name.humanize):"Not Applicable") %> </b>(<%=h(encounter_datetime)%>)</div>
                       
                       <%end; header = 'false'%>
-
                       <span class="voidButton">
                         <%= img_button_submit_to "/encounters/new/first_time_visit_questions?patient_id=#{@patient.patient_id}",
                              "/images/cancel_flat_small.png",
@@ -46,9 +45,23 @@ font-size:0.7em;
                              {:encounter_id => encounter.encounter_id, :void => "true"} -%>
                       </span>
 
+                    <%
+
+                        url_name = encounter_name
+                        url_name = "Past Medical History" if url_name.upcase == "Past Diabetes Medical History".upcase
+                        url_name = "Hospital Admissions" if url_name.upcase == "Diabetes Admissions".upcase
+                        url_name = "Initial Complications" if url_name.upcase == "Complications".upcase
+                        #raise url_name
+                    %>
+                      <span class="voidButton" style="width:50px;">
+                        <%= img_button_submit_to "/encounters/#{url_name.downcase.gsub(' ','_')}?edit=true&patient_id=#{@patient.patient_id}&encounter_id=#{encounter.encounter_id}",
+                             "/images/pencil.png",
+                             {:encounter_id => encounter.encounter_id} %>
+                      </span>
+
                       <div style="clear:left" class="summary">
                         <span>
-                          <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>').titleize  -%>
+                          <%= ((encounter.to_s.humanize.length>0)?(encounter.to_s.lstrip.gsub(/\n/, '<br/>').titleize):"Not Applicable")  -%>
                         </span>
 
                       </div>

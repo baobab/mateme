@@ -1,6 +1,6 @@
 class EncountersController < ApplicationController
 
- before_filter :set_patient_details
+  before_filter :set_patient_details
 
   def create
     encounter = Encounter.new(params[:encounter])
@@ -56,6 +56,72 @@ class EncountersController < ApplicationController
     
   end
 
+  def update
+    @encounter = Encounter.find(params[:encounter_id])
+    ActiveRecord::Base.transaction do
+      @encounter.observations.each{|obs| obs.void! }
+      @encounter.orders.each{|order| order.void! }
+      @encounter.void!
+    end
+    
+    encounter = Encounter.new(params[:encounter])
+    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
+    encounter.save
+
+    (params[:observations] || []).each{|observation|
+      # Check to see if any values are part of this observation
+      # This keeps us from saving empty observations
+      values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+        observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
+      }.compact
+
+      next if values.length == 0
+      observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
+      observation[:encounter_id] = encounter.id
+      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:person_id] ||= encounter.patient_id
+      observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
+
+      # convert values from 'mmol/litre' to 'mg/declitre'
+      if((observation[:type] && observation[:type] == "BLOOD SUGAR TEST TYPE") && observation[:concept_name] != "HbA1c")
+        if(observation[:value_numeric].to_f > 2 && observation[:value_numeric].to_f < 30)
+          observation[:value_numeric] = observation[:value_numeric].to_f * 18
+        end
+      end
+
+      if(observation[:parent_concept_name])
+        concept_id = Concept.find_by_name(observation[:parent_concept_name]).id rescue nil
+        observation[:obs_group_id] = Observation.find(:first, :conditions=> ['concept_id = ? AND encounter_id = ?',concept_id, encounter.id]).id rescue ""
+        observation.delete(:parent_concept_name)
+      end
+
+      concept_id = Concept.find_by_name(observation[:concept_name]).id rescue nil
+      obs_id = Observation.find(:first, :conditions=> ['concept_id = ? AND encounter_id = ?',concept_id, encounter.id]).id rescue nil
+
+      extracted_value_numerics = observation[:value_numeric]
+      if (extracted_value_numerics.class == Array)
+
+        extracted_value_numerics.each do |value_numeric|
+          observation[:value_numeric] = value_numeric
+          Observation.create(observation)
+        end
+      else
+        Observation.create(observation)
+      end
+              
+    }
+
+    @patient = Patient.find(params[:encounter][:patient_id])
+
+    # redirect to a custom destination page 'next_url'
+    if(params[:next_url])
+      redirect_to params[:next_url] and return
+    else
+      redirect_to next_task(@patient)
+    end
+
+  end
+  
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @diabetes_test_type = params[:diabetes_test_type] rescue ""
@@ -71,21 +137,21 @@ class EncountersController < ApplicationController
       if params[:encounter_type] == 'first_time_visit_questions'
         # disable re-entry of existing encounters
         @existing_encounter_types = @patient.encounters.find(:all,
-                                    :group => 'encounter_type').map(&:name)
+          :group => 'encounter_type').map(&:name)
         @button_classes = Hash.new('green')
         @encounter_url = Hash.new
         @medical_history_encounters = ['Diabetes History',
-                                       'Diabetes Treatments',
-                                       'Diabetes Admissions',
-                                       'Past Diabetes Medical History',
-                                       #'Initial Complications',
-                                       'Complications',
-                                       'Hypertension Management',
-                                       'General Health'
-                                       ]
+          'Diabetes Treatments',
+          'Diabetes Admissions',
+          'Past Diabetes Medical History',
+          #'Initial Complications',
+          'Complications',
+          'Hypertension Management',
+          'General Health'
+        ]
 
         other_urls = {'Diabetes Admissions' => 'Hospital Admissions',
-                      'Complications' => 'Initial Complications'
+          'Complications' => 'Initial Complications'
         }
         @medical_history_encounters.each do |name|
           if @existing_encounter_types.include? name.upcase
@@ -95,7 +161,7 @@ class EncountersController < ApplicationController
             url_name = other_urls[name] || name
             url_name = "Past Medical History" if url_name == "Past Diabetes Medical History"
             @encounter_url[name.upcase] = "/encounters/#{url_name.downcase.gsub(' ',
-                                          '_')}?patient_id=#{@patient.id}"
+            '_')}?patient_id=#{@patient.id}"
           end
         end
         render :action => params[:encounter_type], :layout => 'menu' and return
@@ -150,8 +216,8 @@ class EncountersController < ApplicationController
   def simple_graph
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @graph_data = @patient.person.observations.find_by_concept_name("WEIGHT (KG)").
-                sort_by{|obs| obs.obs_datetime}.
-                map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
+      sort_by{|obs| obs.obs_datetime}.
+      map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
     #render :layout => false
   end
 
@@ -186,8 +252,8 @@ class EncountersController < ApplicationController
     ignored_concept_id = Concept.find_by_name("NO").id;
 
     @observations = Observation.find(:all, :order => 'obs_datetime DESC',
-                      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? AND value_coded != ?",
-                        @patient.patient_id, Time.now.to_date, ignored_concept_id])
+      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? AND value_coded != ?",
+        @patient.patient_id, Time.now.to_date, ignored_concept_id])
 
     @observations.delete_if { |obs| obs.value_text.downcase == "no" rescue nil }
 
@@ -212,6 +278,7 @@ class EncountersController < ApplicationController
        @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
                         :conditions => ["patient_id= ? AND encounter_type in (?)",
                           @patient.patient_id,@encounter_type_ids])
+                      
       @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
       @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%b-%Y")}.uniq
