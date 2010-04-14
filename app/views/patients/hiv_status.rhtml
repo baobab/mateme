@@ -54,7 +54,11 @@
 <%if @arv_number && !@arv_number.empty?%>
   <tr> <td> <span class='title'> ARV Number: </span> </td> <td> <%= @arv_number rescue '' %><br/></td></tr>
 <%end%>
-<tr> <td> <span class='title'> HIV test date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
+<%if status.humanize == "Advised to test"%>
+  <tr> <td> <span class='title'> Date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
+<%else%>
+  <tr> <td> <span class='title'> HIV test date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
+<%end%>
 
 <%if @remote_art_info%>
 

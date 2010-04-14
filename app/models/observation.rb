@@ -91,6 +91,26 @@ class Observation < ActiveRecord::Base
      else
        numeric_value = self.value_numeric.to_s
      end
-    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{numeric_value}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+
+      obs_duration =  "date started: #{self.date_started.strftime("%b/%Y")}" rescue nil
+      unless obs_duration.blank?
+        obs_duration += " date stopped: #{self.date_stopped.strftime("%b/%Y")}" rescue nil
+        obs_duration = "(" + obs_duration + ")"
+        self.answer_concept_name.name = "" if self.answer_concept_name.name.humanize == "Yes"
+      end
+
+    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{numeric_value}#{self.datetime(self.value_datetime)  rescue nil}#{obs_duration rescue nil}"
+  end
+
+  def datetime(date_to_format)
+  if date_to_format
+    if date_to_format.day == 1 and date_to_format.month == 7
+      date_to_format.strftime("???/%Y")
+    elsif date_to_format.day == 15
+      date_to_format.strftime("%b/%Y")
+    else
+      date_to_format.strftime("%d/%b/%Y")
+    end
+  end
   end
 end
