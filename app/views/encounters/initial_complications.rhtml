@@ -38,8 +38,11 @@ if(params[:encounter_id])
       concept_name << o.concept.name.name
     end
   }
-  #raise concept_name.inspect
-  
+  if(params[:encounter_id] && params[:group_type])
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    #raise @encounter_obs.inspect
+  end
+
 end
 %>
 <script>
@@ -171,7 +174,7 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
       "SUSPECTED NEUROPATHY"]
   end
 %>
-  <%= select_tag("complications_values", options_for_select(@complications_list, ((concept_name.length>0)?concept_name:"")),options) %>
+  <%= select_tag("complications_values", options_for_select(@complications_list, ((@encounter_obs)?(@encounter_obs["complications_values"]):""),options) %>
 
 <%# options=default.merge({
 :field_type => 'text',
@@ -517,14 +520,14 @@ if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').valu
       :multiple => false
     }) %>
 
-  <%#
+<%#
 
-    id = Concept.find_by_name("SUSPECTED NEUROPATHY").id
-    
-    creatinine_value_numeric = encounter.observations.find(Concept.find_by_name("YEAR RAISED CREATININE FIRST NOTED").id,
-                :conditions => ["group_id = ", id]).concept.name.name
+id = Concept.find_by_name("SUSPECTED NEUROPATHY").id
 
-  %>
+creatinine_value_numeric = encounter.observations.find(Concept.find_by_name("YEAR RAISED CREATININE FIRST NOTED").id,
+:conditions => ["group_id = ", id]).concept.name.name
+
+%>
 
   <%= select_tag "suspected_neuropathy[creatinine]", options_for_select(@select_years),options %>
 

@@ -29,14 +29,14 @@ class Encounter < ActiveRecord::Base
   def to_s
 
     @encounter_types = ["CARDIOVASCULAR COMPLICATIONS", "COMPLICATIONS",
-                        "DIABETES ADMISSIONS", "DIABETES ADMISSIONS",
-                        "DIABETES TEST", "DIABETES TREATMENTS",
-                        "DIABETES TREATMENTS", "ENDOCRINE COMPLICATIONS",
-                        "EYE COMPLICATIONS","HYPERTENSION MANAGEMENT",
-                        "LAB RESULTS",
-                        "NEURALGIC COMPLICATIONS",
-                        "PAST DIABETES MEDICAL HISTORY", "DIABETES HISTORY",
-                        "RENAL COMPLICATIONS", "GENERAL HEALTH", "UPDATE HIV STATUS"]
+      "DIABETES ADMISSIONS", "DIABETES ADMISSIONS",
+      "DIABETES TEST", "DIABETES TREATMENTS",
+      "DIABETES TREATMENTS", "ENDOCRINE COMPLICATIONS",
+      "EYE COMPLICATIONS","HYPERTENSION MANAGEMENT",
+      "LAB RESULTS",
+      "NEURALGIC COMPLICATIONS",
+      "PAST DIABETES MEDICAL HISTORY", "DIABETES HISTORY",
+      "RENAL COMPLICATIONS", "GENERAL HEALTH", "UPDATE HIV STATUS"]
 
     if name == 'REGISTRATION'
       "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
@@ -68,8 +68,8 @@ class Encounter < ActiveRecord::Base
     elsif @encounter_types.include? name
       observations.collect{|observation| observation.to_s(:show_negatives => false)}.compact.join(", ")
 
-    #elsif ['DIABETES TEST'].include?(name)
-     # observations.collect{|observation| observation.to_s}.join(", ")
+      #elsif ['DIABETES TEST'].include?(name)
+      # observations.collect{|observation| observation.to_s}.join(", ")
     else
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  
@@ -86,4 +86,97 @@ class Encounter < ActiveRecord::Base
     encounters_by_type
   end
 
+  def self.encounter_observations(encounter_id, group_type)
+    
+    if(encounter_id && group_type)
+      encounter = Encounter.find(encounter_id)
+
+      case group_type.downcase.gsub('_',' ')
+      when 'diabetes history':
+          encounter_observations = diabetes_history_obs(encounter)
+      when 'diabetes treatments':
+          encounter_observations = diabetes_treatmens_obs(encounter)
+      when 'hospital admissions':
+          encounter_observations = hospital_admissions_obs(encounter)
+      when 'past medical history':
+          encounter_observations = past_medical_history_obs(encounter)
+      when 'initial complications':
+          encounter_observations = complications_obs(encounter)
+      when 'hypertension management':
+          encounter_observations = hypertension_management_obs(encounter)
+      when 'general health' :
+          encounter_observations = general_health_obs(encounter)
+      else
+        encounter_observations = {}
+      end
+
+    else
+      encounter_observations = {}
+    end
+
+    #raise encounter_observations.inspect
+    
+  end
+
+  def self.diabetes_history_obs(encounter)
+    
+  end
+
+  def self.diabetes_treatmens_obs(encounter)
+
+  end
+
+  def self.hospital_admissions_obs(encounter)
+
+  end
+
+  def self.past_medical_history_obs(encounter)
+
+  end
+
+  def self.complications_obs(encounter)
+    concept_name = []
+
+    concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["PERIPHERAL NEUROPATHY",
+            "SUSPECTED PVD",
+            "AMPUTATION",
+            "IMPOTENCE",
+            "RETINOPATHY",
+            "RENAL DISEASE",
+            "PAST CATARACT SURGERY",
+            "PRESENT CATARACTS",
+            "SUSPECTED NEUROPATHY",
+            "CATARACT SURGERY",
+            "CATARACT"]])
+
+      concept_ids = []
+
+      if(concepts)
+        concepts.each{|c|
+          concept_ids << c.concept_id
+        }
+      end
+
+      encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
+        if(o.concept.name.name == "SUSPECTED PERIPHERAL VASCULAR DISEASE")
+          concept_name << "SUSPECTED PVD"
+        elsif(o.concept.name.name == "CATARACT SURGERY")
+          concept_name << "PAST CATARACT SURGERY"
+        elsif(o.concept.name.name == "CATARACT")
+          concept_name << "PRESENT CATARACTS"
+        else
+          concept_name << o.concept.name.name
+        end
+      }
+      complications_obs = {"complications_values" => concept_name}
+  end
+
+  def self.hypertension_management_obs(encounter)
+
+  end
+
+  def self.general_health_obs(encounter)
+
+  end
+  
 end
