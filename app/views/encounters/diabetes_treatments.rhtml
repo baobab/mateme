@@ -433,8 +433,8 @@
 
   <%= select_tag( "on_insulin[value_coded_or_text]", options_for_select([
     "",
-    "YES",
-    "NO"
+    "Yes",
+    "No"
   ], ((@encounter_obs)?(@encounter_obs["on_insulin"]):"")),{
     :tt_requireNextClick => false,
     :helpText  => 'INSULIN: Taking now',
@@ -452,7 +452,7 @@
     :min => "1940", :absoluteMax => Date.today.year,
     :optional => true,  :multiple => false,
     :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
-    :condition => "$('on_insulin').value == 'No'",
+    :condition => "$('on_insulin_value_coded_or_text').value.toLowerCase() == 'no'",
     :tt_onUnLoad => "onYearUpdateDateTime('insulin_date_stopped', 'insulin_year_stopped', 'insulin_value_modifier');",
     :tt_pageStyleClass => "LongSelectList"
   } ) %>
@@ -464,7 +464,7 @@
     :helpText  => 'INSULIN: Month stopped',
     :id => "insulin_month_stopped",
     :tt_pageStyleClass => "LongSelectList",
-    :condition => "$('on_insulin').value == 'No' && $('insulin_year_stopped').value.toLowerCase() != 'unknown' && ((this_year - $('insulin_date_stopped').value) <= 2)",
+    :condition => "$('on_insulin_value_coded_or_text').value.toLowerCase() == 'no' && $('insulin_year_stopped').value.toLowerCase() != 'unknown' && ((this_year - $('insulin_date_stopped').value) <= 2)",
     :tt_onUnLoad => "onMonthUpdateDateTime('insulin_date_stopped', 'insulin_month_stopped', 'insulin_value_modifier');",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_stopped').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
@@ -502,7 +502,9 @@
     "Short Insulin",
     "Both Long and Short Insulin"
   ], ((@encounter_obs)?(@encounter_obs["insulin_type"]):"")),{
+    :id => "type_of_insulin",
     :helpText  => 'Select type of Insulin',
+    :tt_onUnload => "$('insulin_value_coded_or_text').value = $('type_of_insulin').value.toUpperCase()",
     :condition => '$("insulin_value_coded_or_text").value.toLowerCase() == "yes"'
   }
   %>
