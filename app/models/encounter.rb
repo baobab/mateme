@@ -303,6 +303,119 @@ class Encounter < ActiveRecord::Base
   end
 
   def self.hospital_admissions_obs(encounter)
+    obs = {}
+
+    field_set = {}
+
+    fields = ["admissions",
+              "hyperglycemia_number_of_admissions",
+              "hyperglycemia_years_of_admission",
+              "hypoglycemia_number_of_admissions",
+              "hypoglycemia_years_of_admission",
+              "amputation_part",
+              "amputation_side",
+              "amputations_number_of_admissions",
+              "amputations_years_of_admission",
+              "foot_infections_number_of_admissions",
+              "foot_infections_years_of_admission",
+              "skin_infections_number_of_admissions",
+              "skin_infections_years_of_admission"
+    ]
+
+    parents = {"hyperglycemia_number_of_admissions" => "HYPERGLYCEMIA SYMPTOMS PRESENT",
+              "hyperglycemia_years_of_admission" => "HYPERGLYCEMIA SYMPTOMS PRESENT",
+              "hypoglycemia_number_of_admissions" => "HYPOGLYCEMIA SYMPTOMS PRESENT",
+              "hypoglycemia_years_of_admission" => "HYPOGLYCEMIA SYMPTOMS PRESENT",
+              "amputation_part" => "AMPUTATION/FOOT ULCERS",
+              "amputation_side" => "AMPUTATION/FOOT ULCERS",
+              "amputations_number_of_admissions" => "AMPUTATION/FOOT ULCERS",
+              "amputations_years_of_admission" => "AMPUTATION/FOOT ULCERS",
+              "foot_infections_number_of_admissions" => "FOOT INFECTIONS",
+              "foot_infections_years_of_admission" => "FOOT INFECTIONS",
+              "skin_infections_number_of_admissions" => "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA",
+              "skin_infections_years_of_admission" => "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA"
+    }
+
+    conceptnames = {"hyperglycemia_number_of_admissions" => "NUMBER OF ADMISSIONS",
+              "hyperglycemia_years_of_admission" => "YEAR OF ADMISSION",
+              "hypoglycemia_number_of_admissions" => "NUMBER OF ADMISSIONS",
+              "hypoglycemia_years_of_admission" => "YEAR OF ADMISSION",
+              "amputation_part" => "",
+              "amputation_side" => "",
+              "amputations_number_of_admissions" => "NUMBER OF ADMISSIONS",
+              "amputations_years_of_admission" => "YEAR OF ADMISSION",
+              "foot_infections_number_of_admissions" => "NUMBER OF ADMISSIONS",
+              "foot_infections_years_of_admission" => "YEAR OF ADMISSION",
+              "skin_infections_number_of_admissions" => "NUMBER OF ADMISSIONS",
+              "skin_infections_years_of_admission" => "YEAR OF ADMISSION"
+    }
+
+    fields.each{|f|
+      field_set[f] = []
+
+      if(parents[f])
+        parent_concept_id = Concept.find_by_name(parents[f]).id
+        if(parent_concept_id)
+          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id rescue nil
+        end
+      end
+
+      if(conceptnames[f])
+        concepts = [Concept.find_by_name(conceptnames[f])]
+      else
+        case f
+        when "admissions":
+            concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["HYPERGLYCEMIA SYMPTOMS PRESENT",
+                          "HYPOGLYCEMIA SYMPTOMS PRESENT",
+                          "AMPUTATION/FOOT ULCERS",
+                          "FOOT INFECTIONS",
+                          "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA"]])
+        else
+          concepts = [Concept.find_by_name(conceptnames[f])]
+        end
+      end
+
+
+      concept_ids = []
+
+      if(concepts)
+        concepts.each{|c|
+          if(c)
+            concept_ids << c.concept_id
+          end
+        }
+
+        if(f == "admissions")
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
+
+=begin
+["DKA/HONK/HYPERGLYCEMIA", "HYPOGLYCEMIA",
+                          "AMPUTATION/FOOT ULCERS", "FOOT INFECTIONS",
+                          "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA"]
+=end
+            if(o.concept.name.name == "HYPERGLYCEMIA SYMPTOMS PRESENT")
+              field_set[f] << "DKA/HONK/HYPERGLYCEMIA"
+            elsif(o.concept.name.name == "HYPOGLYCEMIA SYMPTOMS PRESENT")
+              field_set[f] << "HYPOGLYCEMIA"
+            else
+              field_set[f] << o.concept.name.name
+            end
+
+          }
+        else
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
+              concept_ids]).each{|o|
+            field_set[f] << o.answer_string
+          }
+        end
+
+      end
+
+      obs[f] = field_set[f]
+
+    }
+
+    hospital_admissions_obs = obs
 
   end
 
@@ -399,18 +512,8 @@ class Encounter < ActiveRecord::Base
           encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
               concept_ids]).each{|o|
 
-            if(f == "hypertension_year_of_diagnosis")
-              field_set[f] << o.value_datetime.to_date.strftime("%Y") rescue "Unknown"
-            elsif(f == "hypertension_month_of_diagnosis")
-              field_set[f] << o.value_datetime.to_date.strftime("%m").to_i rescue "Unknown"
-            elsif(f == "tuberculosis_year_of_diagnosis")
-              field_set[f] << o.value_datetime.to_date.strftime("%Y") rescue "Unknown"
-            elsif(f == "tuberculosis_month_of_diagnosis")
-              field_set[f] << o.value_datetime.to_date.strftime("%m").to_i rescue "Unknown"
-            else
-              field_set[f] << o.answer_string
-            end
-
+            field_set[f] << o.answer_string
+            
           }
         end
 

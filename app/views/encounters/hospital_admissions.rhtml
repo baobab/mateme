@@ -1,4 +1,12 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
+<%
+
+  if(params[:encounter_id] && params[:group_type])
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    #raise @encounter_obs.inspect
+  end
+
+%>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
 
@@ -70,7 +78,7 @@
   <%
     @select_years = ["", "Unknown"]
     this_year     = Date.today.year
-    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
+    begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; end while (this_year != 1969)
   %>
 
   <% options=default.merge({
@@ -86,7 +94,7 @@
   <% @admissions_list = ["DKA/HONK/HYPERGLYCEMIA", "HYPOGLYCEMIA",
                           "AMPUTATION/FOOT ULCERS", "FOOT INFECTIONS",
                           "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA"] %>
-  <%= select_tag("admissions_values",             options_for_select(@admissions_list),options) %>
+  <%= select_tag("admissions_values",             options_for_select(@admissions_list, ((@encounter_obs)?(@encounter_obs["admissions"]):"")),options) %>
   
   <%# options=default.merge({
     :field_type => 'text',
@@ -115,7 +123,7 @@
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }) %>
   
-  <%= text_field_tag "hyperglycemia[number_of_admissions]", nil,options %>
+  <%= text_field_tag "hyperglycemia[number_of_admissions]", ((@encounter_obs)?(@encounter_obs["hyperglycemia_number_of_admissions"]):""),options %>
   
   <%= hidden_field_tag("observations[][concept_name]",        "NUMBER OF ADMISSIONS") %>
   <%= hidden_field_tag("observations[][value_numeric]",       "", {:id => "hyperglycemia_admissions"})%>
@@ -137,7 +145,7 @@
 
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
-  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years),options) %>
+  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["hyperglycemia_years_of_admission"]):"")),options) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "HYPERGLYCEMIA SYMPTOMS PRESENT") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
@@ -171,7 +179,7 @@
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }) %>
 
-  <%= text_field_tag "hypoglycemia[number_of_admissions]", nil, options %>
+  <%= text_field_tag "hypoglycemia[number_of_admissions]", ((@encounter_obs)?(@encounter_obs["hypoglycemia_number_of_admissions"]):""), options %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "NUMBER OF ADMISSIONS") %>
   <%= hidden_field_tag("observations[][value_numeric]",       "", {:id => "hypoglycemia_admissions"})%>
@@ -193,7 +201,7 @@
   
   
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
-  <%= select_tag "observations[][value_numeric]",             options_for_select(@select_years),options %>
+  <%= select_tag "observations[][value_numeric]",             options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["hypoglycemia_years_of_admission"]):"")),options %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "HYPOGLYCEMIA SYMPTOMS PRESENT") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
@@ -228,7 +236,7 @@
     "",
     "Left",
     "Right"
-  ]), options) %>
+  ], ((@encounter_obs)?(@encounter_obs["amputations_side"]):"")), options) %>
   
   <% options=default.merge({
     :field_type => 'text',
@@ -243,7 +251,7 @@
     "Toes only",
     "Below Knee",
     "Above Knee"
-  ]), options) %>
+  ], ((@encounter_obs)?(@encounter_obs["amputations_part"]):"")), options) %>
   <%= hidden_field_tag("observations[][concept_name]",  "", {:id => 'amputations_concept_name'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "amputated_part_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][parent_concept_name]", "AMPUTATION/FOOT ULCERS") %>
@@ -259,7 +267,7 @@
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }) %>
 
-  <%= text_field_tag "amputations[number_of_admissions]", nil,options %>
+  <%= text_field_tag "amputations[number_of_admissions]", ((@encounter_obs)?(@encounter_obs["amputations_number_of_admissions"]):""),options %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "NUMBER OF ADMISSIONS") %>
   <%= hidden_field_tag("observations[][value_numeric]",       "", {:id => "amputations_admissions"})%>
@@ -280,7 +288,7 @@
   }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
-  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years),options) %>
+  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["amputations_years_of_admission"]):"")),options) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "AMPUTATION/FOOT ULCERS") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
@@ -312,7 +320,7 @@
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }) %>
 
-  <%= text_field_tag "foot_infections[number_of_admissions]", nil,options %>
+  <%= text_field_tag "foot_infections[number_of_admissions]", ((@encounter_obs)?(@encounter_obs["foot_infections_number_of_admissions"]):""),options %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "NUMBER OF ADMISSIONS") %>
   <%= hidden_field_tag("observations[][value_numeric]",       "", {:id => "foot_infections_admissions"})%>
@@ -333,7 +341,7 @@
   }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
-  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years),options) %>
+  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["foot_infections_years_of_admission"]):"")),options) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "FOOT INFECTIONS") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
@@ -366,7 +374,7 @@
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }) %>
 
-  <%= text_field_tag "skin_infections[number_of_admissions]", nil,options %>
+  <%= text_field_tag "skin_infections[number_of_admissions]", ((@encounter_obs)?(@encounter_obs["skin_infections_number_of_admissions"]):""),options %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "NUMBER OF ADMISSIONS") %>
   <%= hidden_field_tag("observations[][value_numeric]",       "", {:id => "skin_infections_admissions"})%>
@@ -387,7 +395,7 @@
   }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
-  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years),options) %>
+  <%= select_tag("observations[][value_numeric]",             options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["skin_infections_years_of_admission"]):"")),options) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
