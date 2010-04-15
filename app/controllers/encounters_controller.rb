@@ -57,6 +57,8 @@ class EncountersController < ApplicationController
   end
 
   def update
+    #raise params.to_yaml
+    
     @encounter = Encounter.find(params[:encounter_id])
     ActiveRecord::Base.transaction do
       @encounter.observations.each{|obs| obs.void! }

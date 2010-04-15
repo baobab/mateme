@@ -1566,12 +1566,12 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
                     for(var tt = 0; tt < dctrlscol.length; tt++){
                         var gg = dctrlscol[tt].getAttribute("group_id");
                         if(gg){
-                            console.log("c3 : " + c3[1]);
-                            console.log("checks : " + checks);
+                            //console.log("c3 : " + c3[1]);
+                            //console.log("checks : " + checks);
                             
-                            console.log("ctrl.id : " + dctrlscol[tt].id);
-                            console.log("gg : " + gg);
-                            console.log("true/false : " + gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$"));
+                            //console.log("ctrl.id : " + dctrlscol[tt].id);
+                            //console.log("gg : " + gg);
+                            //console.log("true/false : " + gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$"));
                             
                             if(gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$")){
                                 dctrlscol[tt].click();
