@@ -1,4 +1,12 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
+<%
+
+  if(params[:encounter_id] && params[:group_type])
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    #raise @encounter_obs.inspect
+  end
+
+%>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
   var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",

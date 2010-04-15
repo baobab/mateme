@@ -192,7 +192,7 @@ class Encounter < ActiveRecord::Base
       "glibenclamide_month_started",
       "glibenclamide_year_started",
       "glibenclamide_month_started",
-      "on_glabenclamide",
+      "on_glibenclamide",
       "metformin_year_started",
       "metformin_month_started",
       "metformin_year_started",
@@ -207,8 +207,8 @@ class Encounter < ActiveRecord::Base
     ]
 
     parents = {"on_glabenclamide" => "GLIBENCLAMIDE",
-                "on_metformin" => "METFORMIN",
-                "on_insulin" => "REGULAR INSULIN"
+      "on_metformin" => "METFORMIN",
+      "on_insulin" => "REGULAR INSULIN"
     }
 
     conceptnames = {"diet_year_started" => "ON DIET",
@@ -307,6 +307,120 @@ class Encounter < ActiveRecord::Base
   end
 
   def self.past_medical_history_obs(encounter)
+    obs = {}
+
+    field_set = {}
+
+    fields = ["past_medical_history",
+      "years_of_stroke",
+      "type_of_cardiac_problem",
+      "specified_cardiac_problem",
+      "proven_by_echo",
+      "year_of_echo",
+      "hypertension_year_of_diagnosis",
+      "hypertension_month_of_diagnosis",
+      "tuberculosis_type",
+      "tuberculosis_year_of_diagnosis",
+      "tuberculosis_month_of_diagnosis",
+      "specified_medical_condition"
+    ]
+
+    parents = {"years_of_stroke" => "EVER HAD A STROKE",
+      "type_of_cardiac_problem" => "SERIOUS CARDIAC PROBLEM",
+      "specified_cardiac_problem" => "SERIOUS CARDIAC PROBLEM",
+      "proven_by_echo" => "TYPE OF CARDIAC PROBLEM",
+      "year_of_echo" => "PREVIOUS ECHOCARDIOGRAM TAKEN",
+      "hypertension_year_of_diagnosis" => "HYPERTENSION",
+      "hypertension_month_of_diagnosis" => "HYPERTENSION",
+      "tuberculosis_type" => "TUBERCULOSIS",
+      "tuberculosis_year_of_diagnosis" => "TUBERCULOSIS",
+      "tuberculosis_month_of_diagnosis" => "TUBERCULOSIS",
+      "specified_medical_condition" => "TUBERCULOSIS"
+    }
+
+    conceptnames = {"years_of_stroke" => "YEAR OF OCCURENCE",
+      "type_of_cardiac_problem" => "TYPE OF CARDIAC PROBLEM",
+      "specified_cardiac_problem" => "TYPE OF CARDIAC PROBLEM",
+      "proven_by_echo" => "PREVIOUS ECHOCARDIOGRAM TAKEN",
+      "year_of_echo" => "DIAGNOSIS DATE",
+      "hypertension_year_of_diagnosis" => "DIAGNOSIS DATE",
+      "hypertension_month_of_diagnosis" => "DIAGNOSIS DATE",
+      "tuberculosis_type" => "TYPE OF TUBERCULOSIS",
+      "tuberculosis_year_of_diagnosis" => "DIAGNOSIS DATE",
+      "tuberculosis_month_of_diagnosis" => "DIAGNOSIS DATE",
+      "specified_medical_condition" => "OTHER MEDICAL CONDITION"
+    }
+
+    fields.each{|f|
+      field_set[f] = []
+
+      if(parents[f])
+        parent_concept_id = Concept.find_by_name(parents[f]).id
+        if(parent_concept_id)
+          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id rescue nil
+          if(group_id.nil?) # && f != "years_of_stroke" && f != "type_of_cardiac_problem" && f != "specified_cardiac_problem")
+            #raise f.inspect
+          end
+        end
+      end
+
+      if(conceptnames[f])
+        concepts = [Concept.find_by_name(conceptnames[f])]
+      else
+        case f
+        when "past_medical_history":
+            concepts = ConceptName.find(:all, :conditions => ["name IN (?)", ["STROKE",
+                "SERIOUS CARDIAC PROBLEM",
+                "HYPERTENSION",
+                "TUBERCULOSIS",
+                "OTHER MEDICAL CONDITION"]])
+        else
+          concepts = [Concept.find_by_name(conceptnames[f])]
+        end
+      end
+
+
+      concept_ids = []
+
+      if(concepts)
+        concepts.each{|c|
+          if(c)
+            concept_ids << c.concept_id
+          end
+        }
+
+        if(f == "past_medical_history")
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
+
+            field_set[f] << o.concept.name.name
+            
+          }
+        else
+          encounter.observations.find(:all, :conditions => ["concept_id IN (?) #{((group_id)?(" AND obs_group_id = " + group_id.to_s):"")}",
+              concept_ids]).each{|o|
+
+            if(f == "hypertension_year_of_diagnosis")
+              field_set[f] << o.value_datetime.to_date.strftime("%Y") rescue "Unknown"
+            elsif(f == "hypertension_month_of_diagnosis")
+              field_set[f] << o.value_datetime.to_date.strftime("%m").to_i rescue "Unknown"
+            elsif(f == "tuberculosis_year_of_diagnosis")
+              field_set[f] << o.value_datetime.to_date.strftime("%Y") rescue "Unknown"
+            elsif(f == "tuberculosis_month_of_diagnosis")
+              field_set[f] << o.value_datetime.to_date.strftime("%m").to_i rescue "Unknown"
+            else
+              field_set[f] << o.answer_string
+            end
+
+          }
+        end
+
+      end
+
+      obs[f] = field_set[f]
+
+    }
+
+    past_medical_history_obs = obs
 
   end
 
@@ -361,7 +475,7 @@ class Encounter < ActiveRecord::Base
       if(parents[f])
         parent_concept_id = Concept.find_by_name(parents[f]).id
         if(parent_concept_id)
-          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id          
+          group_id = encounter.observations.find(:first, :conditions => ["concept_id = ?", parent_concept_id]).id rescue nil
         end
       end
 
