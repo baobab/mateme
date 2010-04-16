@@ -274,7 +274,7 @@ function getObjectLength(valueLength){
 /*Look for confirmatory evidence*/
 
 function updateConfirmatoryEvidence(){
-  var diagnosis = tempDataArray.toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g, "").replace(/,/,"")
+  var diagnosis = tempDataArray.toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g, "").replace(/,/g,"")
   var aUrl = "/search/confirmatory_evidence?diagnosis=" + diagnosis;
   var aElement = 'confirmatory-evidence-select';
   updateList(aElement, aUrl);
