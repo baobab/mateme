@@ -1260,11 +1260,20 @@ function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, ch
             chk.setAttribute("construction_text", text);
         }
     } else{
-        chk.name = "chk_" + prefix + "_group";
-        chk.id = "chk_" + prefix + "_group";
+        var pre = prefix.match(/(.+)_\d+$/);
 
-        trin.id = "tr_" + prefix + "_group";
-        tdin.id = "tdi_" + prefix + "_group";
+        if(pre){
+            pre = pre[1];
+
+            chk.name = "chk_" + pre + "_group";
+        } else {
+            chk.name = "chk_" + prefix + "_group";
+        }
+
+        chk.id = "chk_" + prefix + "_group" + ((level.match(/grand/))?"_A":"");
+
+        trin.id = "tr_" + prefix + "_group" + ((level.match(/grand/))?"_A":"");
+        tdin.id = "tdi_" + prefix + "_group" + ((level.match(/grand/))?"_A":"");
     }
 
     var fld_value = r[0].match(/[^<>]+/);
@@ -1301,7 +1310,8 @@ function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, ch
                     for(var t = 0; t < dctrls.length; t++){
                         var g = dctrls[t].getAttribute("group_id");
                         if(g){
-                            if(g.match("^"+String(check).match(/^\d+_\d+/)) && g.match(String(check).match(/_\d+$/)+"$") && 
+                            if(g.match("^"+String(check).match(/^\d+_\d+/)) && 
+                                g.match(/^\d+_\d+_\d+_\d+$/) && g.match(String(check).match(/_\d+$/)+"$") &&
                                 dctrls[t].type == "checkbox"){
                                 
                                 dctrls[t].click();
@@ -1312,7 +1322,32 @@ function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, ch
                         }
                     }
 
+                } else {
+
+                    c = this.id.match(/chk_(.+)$/);
+                    var c3 = c[1].match(/(.+)_group_A$/);
+
+                    if(c3){
+                        var checks = c3[1].match(/^\d+_\d+_\d+_\d+_\d+/);
+
+                        var dctrlscol = $("divQuestionare").getElementsByTagName("input");
+
+                        for(var tt = 0; tt < dctrlscol.length; tt++){
+                            var gg = dctrlscol[tt].getAttribute("group_id");
+                            if(gg){
+                                if(gg.match("^"+String(checks).match(/\d+_\d+/)) &&
+                                    gg.match(/^\d+_\d+_\d+_\d+_\d+$/) && gg.match(String(checks).match(/\d+_\d+$/)+"$")){
+                                    dctrlscol[tt].click();
+                                    if(dctrlscol[tt].checked != this.checked){
+                                        dctrlscol[tt].click();
+                                    }
+                                }
+                            }
+                        }
+
+                    }
                 }
+
             }
 
             unCheckAll(c[1], this);
@@ -1474,17 +1509,9 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
     tdin.style.width = "100%";
     tdin.style.cursor = 'pointer';
 
-    //tdin.id = "tdi_" + id;
-
     var rdo = document.createElement("input");
     rdo.type = "radio";
-    //rdo.name = "rdo_" + (name?name:id);
-    //rdo.id = "rdo_" + id;
-
-    //if(group_id) rdo.setAttribute("group_id", group_id+"_"+id);
-
-    //if(group_id) rdo.setAttribute("construction_text", text);
-
+    
     if(id.match(/^\d+/)){
         rdo.name = "rdo_" + (name?name:id);
         rdo.id = "rdo_" + id;
@@ -1565,14 +1592,7 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
 
                     for(var tt = 0; tt < dctrlscol.length; tt++){
                         var gg = dctrlscol[tt].getAttribute("group_id");
-                        if(gg){
-                            //console.log("c3 : " + c3[1]);
-                            //console.log("checks : " + checks);
-                            
-                            //console.log("ctrl.id : " + dctrlscol[tt].id);
-                            //console.log("gg : " + gg);
-                            //console.log("true/false : " + gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$"));
-                            
+                        if(gg){                            
                             if(gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$")){
                                 dctrlscol[tt].click();
                                 if(dctrlscol[tt].checked != this.checked){
