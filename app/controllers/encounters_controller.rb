@@ -2,7 +2,7 @@ class EncountersController < ApplicationController
 
   before_filter :set_patient_details
 
-  def create
+  def create    
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
