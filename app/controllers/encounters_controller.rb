@@ -1,6 +1,45 @@
 class EncountersController < ApplicationController
 
   def create
+    diagnoses = JSON.parse(params['final_diagnosis']).delete_if{|x| x=="<br>"} rescue []
+
+    if !diagnoses.compact.empty?
+      confirmatory_evidence = JSON.parse(GlobalProperty.find_by_property("facility.tests").property_value).collect{|k,v| k}.compact rescue []
+    diagnoses.each{|obs_group|
+      
+      encounter = Encounter.new(params[:encounter])
+      encounter.encounter_datetime ||= session[:datetime] 
+      encounter.save
+
+
+      obs_group_id = nil
+      if obs_group == diagnoses[0]
+        concept_name = 'PRIMARY DIAGNOSIS'
+      elsif obs_group == diagnoses[1]
+        concept_name = 'SECONDARY DIAGNOSIS'
+      else
+        concept_name = 'ADDITIONAL DIAGNOSIS'
+      end
+
+      obs_group.each{|obs|
+        observation = {}
+        observation[:value_coded_or_text] = obs
+        observation[:encounter_id] = encounter.id
+        observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+        observation[:person_id] ||= encounter.patient_id
+        if confirmatory_evidence.include?(obs)
+          observation[:concept_name] = "RESULT AVAILABLE"
+        else
+          observation[:concept_name] = concept_name
+          observation[:obs_group_id] = obs_group_id
+        end
+        new_observation = Observation.create(observation)
+        obs_group_id = new_observation.id if !confirmatory_evidence.include?(obs)
+      }
+    }
+
+    else
+
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
     encounter.save
@@ -20,9 +59,11 @@ class EncountersController < ApplicationController
       observation[:concept_name] ||= "DIAGNOSIS" if encounter.type.name == "DIAGNOSIS"
       Observation.create(observation)
   end
+end
     @patient = Patient.find(params[:encounter][:patient_id])
     redirect_to next_task(@patient) 
   end
+
 
   def new
     @facility_outcomes =  JSON.parse(GlobalProperty.find_by_property("facility.outcomes").property_value) rescue {}
@@ -90,10 +131,10 @@ class EncountersController < ApplicationController
    def diagnoses_index
     @diagnosis_type = 'PRIMARY DIAGNOSIS'
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]) rescue []
-    @secondary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id]) rescue []
-    @additional_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]) rescue []
-    @syndromic_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("SYNDROMIC DIAGNOSIS").concept_id]) rescue []
+    @primary_diagnosis = @patient.current_diagnoses["PRIMARY DIAGNOSIS"] rescue []
+    @secondary_diagnosis = @patient.current_diagnoses["SECONDARY DIAGNOSIS"] rescue []
+    @additional_diagnosis = @patient.current_diagnoses["ADDITIONAL DIAGNOSIS"] rescue []
+    @syndromic_diagnosis = @patient.current_diagnoses["SYNDROMIC DIAGNOSIS"] rescue []
 
     if !@primary_diagnosis.empty? and !@secondary_diagnosis.empty?
       @diagnosis_type = 'ADDITIONAL DIAGNOSIS'

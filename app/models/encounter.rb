@@ -47,6 +47,21 @@ class Encounter < ActiveRecord::Base
     elsif name == 'UPDATE HIV STATUS'
       observations.collect{|observation| observation.answer_string}.join(", ")
     elsif name == 'DIAGNOSIS'
+      diagnosis_array = []
+      observations.each{|observation|
+        next if observation.obs_group_id != nil
+        observation_string =  observation.answer_string
+        child_ob = observation.child_observation
+        while child_ob != nil
+          observation_string += " #{child_ob.answer_string}"
+          child_ob = child_ob.child_observation
+        end
+       diagnosis_array << observation_string    
+       diagnosis_array << " : "
+      }
+      diagnosis_array.compact.to_s.gsub(/ : $/, "")
+
+=begin
       if observations.map{|ob| ob.concept.name.name}.include?('PRIMARY DIAGNOSIS')
         diagnosis_text = ''
         test_text = ''
@@ -70,7 +85,7 @@ class Encounter < ActiveRecord::Base
         observations.collect{|observation| observation.answer_string}.join(", ")
 
       end
-
+=end
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  

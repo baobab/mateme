@@ -107,7 +107,7 @@ end
    render :text => @results.collect{|role|"<li>#{role}</li>"}.join("\n")
   end
 
-  def final_diagnosis
+  def gfinal_diagnosis
     diagnosis_hash = {}
     params[:diagnosis] == 'SYNDROMIC DIAGNOSIS' ? diagnosis_hash = DiagnosisTree.final_keysr(DiagnosisTree.fourb_wards) : diagnosis_hash = DiagnosisTree.final_keysr    
     search_string = params[:search_string]
@@ -120,5 +120,54 @@ end
 
     render :text => @results.collect{|diagnosis|"<li>#{diagnosis}</li>"}.join("\n")
   end
+
+  def final_diagnosis
+    search_string = params[:search_string]
+    diagnosis_hash =  JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
+    diagnosis_list = diagnosis_hash.collect{|k,v| k}.compact.sort.grep(/^#{search_string}/)
+    
+    render :text => diagnosis_list.collect{|diagnosis|"<li>#{diagnosis}</li>"}.join("\n")
+
+  end
+
+  def main_diagnosis
+    search_string = params[:search_string].upcase
+    diagnosis_hash =  JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
+    diagnosis_list = diagnosis_hash.collect{|k,v| k}.compact.sort.grep(/^#{search_string}/) rescue []
+    
+    render :text => diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
+
+  end
+
+  def sub_diagnosis
+    main_diagnosis = params[:main_diagnosis].upcase
+    diagnosis_hash =  JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
+    sub_diagnosis_list = diagnosis_hash.collect{|k,v| v if k == main_diagnosis}.collect{|m,n| m}.compact.first.collect{|y,z| y}.compact.sort rescue []
+    
+    render :text => sub_diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
+
+  end
+
+   def sub_sub_diagnosis
+    main_diagnosis = params[:main_diagnosis].upcase
+    sub_diagnosis = params[:sub_diagnosis].upcase
+    diagnosis_hash =  JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
+    sub_sub_diagnosis_list = diagnosis_hash.collect{|k,v| v if k == main_diagnosis}.compact.first.collect{|m,n| n if m == sub_diagnosis}.compact.first.collect{|y,z| y}.compact.sort rescue []
+    
+    render :text => sub_sub_diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
+
+  end
+
+    def confirmatory_evidence
+    diagnosis = params[:diagnosis].upcase
+    tests_hash =  JSON.parse(GlobalProperty.find_by_property("facility.tests").property_value) rescue {}
+    tests_list = tests_hash.collect{|k,v| k if v.include?(diagnosis)}.compact.sort
+
+    render :text => tests_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
+
+  end
+
+
+
 
 end
