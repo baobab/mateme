@@ -1,6 +1,6 @@
 <h3>Update the person's data</h3>
 <script type="text/javascript">
-  tt_cancel_destination = '/patients/mastercard/<%= @person.id %>'
+  tt_cancel_destination = '/patients/demographics?patient_id=<%= @person.id %>'
 </script>
 <form id="search" action="/people/edit/<%= @person.id %>" method="post">
   <% if @field == 'gender' %>
