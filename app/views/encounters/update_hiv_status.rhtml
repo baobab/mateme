@@ -28,7 +28,7 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <%= hidden_field_tag("observations[][value_datetime]", nil) %>
 
-  <%= select_tag("hiv_status_update_visit", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit' })%>
+  <%= select_tag("hiv_status_update_visit", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit', :tt_requireNextClick => 'false'})%>
 
   <%= text_field_tag("hiv_test_date", nil, {:field_type => 'date', :id => "hiv_test_date",:tt_onUnLoad => 'setDate();', :helpText => 'Hiv test date'}) %>
 

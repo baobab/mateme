@@ -1,8 +1,13 @@
 class DiagnosisTree
 
+  @@diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
+  @@confirmatory_evidence_hash = JSON.parse(GlobalProperty.find_by_property("facility.tests").property_value) rescue {}
+
   # TODO: move this mapping to database (using concept sets?)
 
+
 # Diagnoses for wards 3A, 3B and 4A
+
 @@other_diagnoses = {
 "SYSTEMIC" => { 
 	"WASTING SYNDROME" => {},
@@ -814,6 +819,39 @@ class DiagnosisTree
     end
     deep_list
   end
+
+  def self.diagnosis_data
+    @@diagnosis_hash
+  end
+
+  def self.final_answers(diagnosis_hash = @@diagnosis_hash, deep_list ={})
+    diagnosis_hash.each do |k,v|
+      if v.blank?
+        deep_list[k] = 0
+      else 
+        final_answers(v, deep_list)
+      end
+    end
+    deep_list
+  end
+
+  def self.final_answers2(diagnosis_hash = @@diagnosis_hash, deep_list ={}, full_diagnosis_name = "")
+    diagnosis_hash.each do |k,v|
+      full_diagnosis_name += k
+      if v.blank?
+        deep_list[full_diagnosis_name] = 0
+        full_diagnosis_name = full_diagnosis_name.sub(/"#{k}"$/,"")
+      else 
+        final_answers2(v, deep_list, full_diagnosis_name)
+      end
+    end
+    deep_list
+  end
+
+  def self.confirmatory_evidence
+    @@confirmatory_evidence_hash
+  end
+
 
 end
 

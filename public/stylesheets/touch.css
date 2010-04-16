@@ -56,7 +56,7 @@ form{
   border-left:none;
   border-right:none;
   border-bottom: 1px solid silver;
-  width:745px;
+  width:940px;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:2.2em;
   background:none;
@@ -65,7 +65,7 @@ form{
 
 .options{
 	overflow: auto;
-  height:10em;
+  height:14em;
 }
 
 .options ul{
@@ -104,8 +104,8 @@ form{
   display:block;
   height:80px;
   position:absolute;
-  top:520px;
-  width:800px;
+  top:620px;
+  width:995px;
   z-index:10;
 }
 
@@ -167,7 +167,7 @@ form{
   display: block;
   z-index: 10;
   bottom: 85px;
-  left: 30px;
+  left: 110px;
 }
 
 .buttonLine{
@@ -193,7 +193,7 @@ form{
   left: 0px;
   z-index: 1;
   height: 520px;
-  width: 795px;
+  width: 995px;
   overflow: hidden;
 }
 
@@ -219,7 +219,7 @@ form{
   border: 2px solid black;
   margin-left:25px;
   background: #F0F0F0;
-  width:750px;  
+  width:940px;  
 }
 
 .progressAreaSearchPage {
@@ -693,7 +693,7 @@ display:block;
   font-size:1.3em;
   margin-left:25px;
   padding-top:5px;
-  width:750px;  
+  width:950px;  
   border-bottom:2px dotted;
 }  
 

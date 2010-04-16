@@ -1,3 +1,9 @@
+<style type="text/css" >
+  ul.list{
+    overflow-x: hidden;
+  }
+</style>
+
 <script type="text/javascript">
   tt_cancel_destination = '/patients/show/<%= @patient.id %>?diagnosis_done=true&admitted=false';
   tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false&admitted=false';
@@ -6,23 +12,23 @@
 <div style="padding: 15px;">
   <h2>Patient Diagnoses</h2>
   <div style="font-size: 22pt;">
-    <ul class="list" style="height:270px;width:750px;">
+    <ul class="list" style="height:400px;width:970px;">
       <% diagnoses = @primary_diagnosis + @secondary_diagnosis + @additional_diagnosis + @syndromic_diagnosis
       for observation in diagnoses do %>
         <li class="data <%= cycle('even', 'odd') %>">
           <div style="float:right;padding:7px;">
-            <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => observation.encounter_id} -%>
+            <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => 77} -%>
           </div>
           <div style="float:left">Diagnosis</div>
-          <div style="clear:left" class="summary"><%= observation.to_s.gsub(/\n/, '<br/>') -%></div>
+          <div style="clear:left" class="summary"><%= observation -%></div>
         </li>
       <% end %>
       <% if diagnoses.blank? %>
-        <li>No Diagnoses are available for in current visit</li>
+        <li>No Diagnoses are available for Patient in current visit</li>
       <% end %>
     </ul>
   </div>
-  <%recorded_diagnosis =  @primary_diagnosis.last.answer_concept_name.name rescue  @primary_diagnosis.last.value_text if  @primary_diagnosis.last
+  <%recorded_diagnosis =  @primary_diagnosis.last.answer_concept_name.name rescue  "TTTTTTTT" if  @primary_diagnosis.last
     if @primary_diagnosis.last && recorded_diagnosis == 'UNKNOWN'%>
 
     <div style="float:right;padding-right:20px;margin-top:-15px;">

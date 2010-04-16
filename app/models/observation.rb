@@ -24,7 +24,7 @@ class Observation < ActiveRecord::Base
     value_coded_name = ConceptName.find_by_name(value_coded_or_text)
     if value_coded_name.nil?
       # TODO: this should not be done this way with a brittle hard ref to concept name
-      self.concept_name = "OUTPATIENT DIAGNOSIS, NON-CODED" if self.concept && self.concept.name && self.concept.name.name == "OUTPATIENT DIAGNOSIS"
+      self.concept_name = "DIAGNOSIS, NON-CODED" if self.concept && self.concept.name && self.concept.name.name == "DIAGNOSIS"
       self.value_text = value_coded_or_text
     else
       self.value_coded_name_id = value_coded_name.concept_name_id
@@ -70,5 +70,9 @@ class Observation < ActiveRecord::Base
 
   def answer_string
     "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+  end
+
+  def child_observation
+    Observation.active.find(:first, :conditions => ["obs_group_id =?", self.id])
   end
 end

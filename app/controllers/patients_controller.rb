@@ -71,10 +71,11 @@ class PatientsController < ApplicationController
   def hiv_status
     #find patient object and arv number
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
-    @arv_number = @patient.arv_number 
-    @status = @patient.hiv_status
+    @remote_art_info = @patient.remote_art_info rescue {}
+    @arv_number = @remote_art_info['person']['arv_number'] rescue nil 
     @hiv_test_date = @patient.hiv_test_date
-    @remote_art_info = Patient.remote_art_info(@patient.national_id)
+    @status = @patient.hiv_status
+    
     render :template => 'patients/hiv_status', :layout => 'menu'
   end
 
@@ -106,7 +107,7 @@ class PatientsController < ApplicationController
     treatment = @patient.current_treatment_encounter.orders.active rescue []
     session[:admitted] = false
 
-    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['REFERRED'].include?(@patient.current_outcome)
+    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
       current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
       current_visit.save
@@ -120,6 +121,39 @@ class PatientsController < ApplicationController
 
     redirect_to close_visit and return
     
+  end
+
+  def demographics
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @national_id = @patient.national_id_with_dashes rescue nil 
+    
+    @first_name = @patient.person.names.first.given_name
+    @last_name = @patient.person.names.first.family_name rescue nil
+    @birthdate = @patient.person.birthdate_formatted rescue nil
+    @gender = @patient.person.formatted_gender rescue ''
+
+    @current_village = @patient.person.addresses.first.city_village rescue ''
+    @current_ta = @patient.person.addresses.first.county_district rescue ''
+    @current_district = @patient.person.addresses.first.state_province rescue ''
+    @home_district = @patient.person.addresses.first.address2 rescue ''
+
+    @primary_phone = @patient.person.phone_numbers["Cell Phone Number"]
+    @secondary_phone = @patient.person.phone_numbers["Home Phone Number"]
+    
+    @occupation = @patient.person.occupation
+    render :template => 'patients/demographics', :layout => 'menu'
+
+  end
+
+  def edit_demographics
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @field = params[:field]
+    render :partial => "edit_demographics", :field =>@field, :layout => true and return
+  end
+
+  def update_demographics
+   Person.update_demographics(params)
+   redirect_to :action => 'demographics', :patient_id => params['person_id'] and return
   end
 
 end

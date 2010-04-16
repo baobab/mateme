@@ -20,21 +20,10 @@ class ApplicationController < ActionController::Base
   end if RAILS_ENV == 'production'
 
   def next_task(patient)
-    #current_location_name = Location.current_location.name
-    #todays_encounters = patient.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name}
     current_visit_encounters = patient.current_visit.encounters.active.find(:all, :include => [:type]).map{|e| e.type.name} rescue []
     # Registration clerk needs to do registration if it hasn't happened yet
     return "/encounters/new/registration?patient_id=#{patient.id}" if !current_visit_encounters.include?("REGISTRATION") || patient.current_visit.nil? || patient.current_visit.end_date != nil
-    # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
-    #return "/encounters/new/registration?patient_id=#{patient.id}" if !todays_encounters.include?("REGISTRATION")
     
-    # Sometimes we won't have a vitals stage, when we do we need to do it        
-    #return "/encounters/new/vitals?patient_id=#{patient.id}" if current_location_name.match(/Vitals/) && !todays_encounters.include?("VITALS")
-    # Outpatient diagnosis needs outpatient diagnosis to be done!        
-    #return "/encounters/new/outpatient_diagnosis?patient_id=#{patient.id}" if current_location_name.match(/Outpatient/) && !todays_encounters.include?("OUTPATIENT DIAGNOSIS")
-    # There may not be a treatment location, can we make this automatic for the clinic room?
-    #return "/encounters/new/treatment?patient_id=#{patient.id}" if current_location_name.match(/Treatment/) && !todays_encounters.include?("TREATMENT")
-    # Everything seems to be done... show the dashboard
     return "/patients/show/#{patient.id}" 
   end
 
@@ -50,13 +39,13 @@ class ApplicationController < ActionController::Base
 
     return "/encounters/new/outcome?patient_id=#{patient.id}" if outcome.nil?
 
-    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['DEAD', 'ALIVE', 'ABSCONDED', 'TRANSFERRED'].include?(outcome) && !patient.current_visit.encounters.map{|enc| enc.name}.include?('UPDATE HIV STATUS')
+    return "/patients/hiv_status?patient_id=#{patient.id}" if session[:hiv_status_updated] == false && ['DEAD', 'ALIVE', 'ABSCONDED', 'TRANSFERRED'].include?(outcome) && !patient.current_visit.encounters.active.map{|enc| enc.name}.include?('UPDATE HIV STATUS')
 
     return "/encounters/diagnoses_index?patient_id=#{patient.id}" if  session[:diagnosis_done] == false && ['DEAD','ALIVE', 'ABSCONDED', 'TRANSFERRED'].include?(outcome)
 
     return "/encounters/confirmatory_evidence?patient_id=#{patient.id}" if session[:confirmed] == false && ['DEAD', 'ALIVE', 'ABSCONDED', 'TRANSFERRED'].include?(outcome) && !patient.current_diagnoses.empty?
 
-    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['DEAD','ALIVE', 'ABSCONDED', 'TRANSFERRED'].include?(outcome)  && !patient.current_diagnoses.empty?
+    return "/prescriptions/?patient_id=#{patient.id}" if session[:prescribed] == false && ['ALIVE', 'ABSCONDED', 'TRANSFERRED'].include?(outcome)  && !patient.current_diagnoses.empty?
     
     session[:auto_load_forms] = false
     return "/patients/show/#{patient.id}" 

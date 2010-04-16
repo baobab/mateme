@@ -30,7 +30,7 @@
 
     
     <label for="ward">Ward</label>
-    <%= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_onload => 'updateNextButton();'})%> <br>
+    <%= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_requireNextClick => 'false', :tt_onload => 'updateNextButton();'})%> <br>
 
 
     <%= submit_tag value="Submit"%>

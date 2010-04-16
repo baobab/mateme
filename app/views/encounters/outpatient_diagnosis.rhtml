@@ -22,7 +22,7 @@
   <label for='observations[][value_coded_or_text]'>Outpatient diagnosis</label>
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "OUTPATIENT DIAGNOSIS", options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
  
@@ -45,7 +45,7 @@
     <% options[:helpText] = "Additional diagnosis" %>
     <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
     <%= hidden_field_tag("observations[][value_text]", nil) %>
-    <%= hidden_field_tag("observations[][concept_name]", "OUTPATIENT DIAGNOSIS", options) %>
+    <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <% end %>
