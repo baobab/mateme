@@ -23,6 +23,12 @@ class PersonAddressesController < ApplicationController
   end
   
   def edit
+    # only allow these fields to prevent dangerous 'fields' e.g. 'destroy!'
+    valid_fields = ['home_district','contact_address']
+    unless valid_fields.include? params[:field]
+      redirect_to :controller => 'patients', :action => :demographics, :id => params[:id]
+      return
+    end
     if request.post? && params[:id]
       patient = Patient.find(params[:id])
       current_addresses = patient.person.addresses
@@ -37,6 +43,7 @@ class PersonAddressesController < ApplicationController
     else
       @patient = Patient.find(params[:id])
       @address = @patient.person.addresses.last
+      @field = params[:field]
       render :layout => true
     end
   end
