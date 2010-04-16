@@ -14,9 +14,9 @@
     this_year = Date.today.year
     begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1890)
     %>
-    <%= select_tag "person[birth_year]", options_for_select(@select_years), {:helpText => 'Year of Birth', :tt_requireNextClick => false, :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "LongSelectList", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
+    <%= select_tag "person[birth_year]", options_for_select(@select_years), {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "LongSelectList", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
-    <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth', :tt_requireNextClick => false, :tt_pageStyleClass => "LongSelectList", :condition => '$("person_birth_year").value.toLowerCase() != "unknown"'}%>
+    <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth',  :tt_pageStyleClass => "LongSelectList", :condition => '$("person_birth_year").value.toLowerCase() != "unknown"'}%>
 
     <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %>
 
