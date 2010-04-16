@@ -384,7 +384,7 @@
      :condition => "$('other_medical_condition_value_coded_or_text').value == 'Yes'"
    }%>
  <%= hidden_field_tag("observations[][concept_name]",         "", {:id => 'other_medical_condition'}) %>
- <%= hidden_field_tag("observations[][value_corded_or_text]", "", {:id => "other_medical_condition_value_coded_or_text"}) %>
+ <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "other_medical_condition_value_coded_or_text"}) %>
  <%= hidden_field_tag("observations[][patient_id]",           @patient.id) %>
  <%= hidden_field_tag("observations[][obs_datetime]",         DateTime.now()) %>
 
