@@ -997,7 +997,7 @@ function createQuestionare(ctrl){
     tdFiller.innerHTML = "&nbsp;";
 
     trFiller.appendChild(tdFiller);
-    tbody.appendChild(trFiller);
+    //tbody.appendChild(trFiller);
 
     var div = document.createElement("div");
     div.style.position = "absolute";
@@ -1571,7 +1571,8 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
                 for(var t = 0; t < dctrls.length; t++){
                     var g = dctrls[t].getAttribute("group_id");
                     if(g){
-                        if(g.match("^"+String(check).match(/\d+_\d+/)) && g.match(String(check).match(/\d+$/)+"$")){
+                        if(g.match("^"+String(check).match(/\d+_\d+/)) &&
+                            g.match(/^\d+_\d+_\d+_\d+$/) && g.match(String(check).match(/\d+$/)+"$")){
                             dctrls[t].click();
                             if(dctrls[t].checked != this.checked){
                                 dctrls[t].click();
@@ -1593,7 +1594,8 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
                     for(var tt = 0; tt < dctrlscol.length; tt++){
                         var gg = dctrlscol[tt].getAttribute("group_id");
                         if(gg){                            
-                            if(gg.match("^"+String(checks).match(/\d+_\d+/)) && gg.match(String(checks).match(/\d+_\d+$/)+"$")){
+                            if(gg.match("^"+String(checks).match(/\d+_\d+/)) &&
+                                gg.match(/^\d+_\d+_\d+_\d+_\d+$/) && gg.match(String(checks).match(/\d+_\d+$/)+"$")){
                                 dctrlscol[tt].click();
                                 if(dctrlscol[tt].checked != this.checked){
                                     dctrlscol[tt].click();
