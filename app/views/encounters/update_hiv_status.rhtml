@@ -1,3 +1,4 @@
+<%= @destination_page =  "/patients/hiv_status?patient_id=" + @patient.id.to_s %>
 <style>
   .inputFrameClass{
     display: block;
@@ -63,6 +64,8 @@
   <%= hidden_field_tag("observations[][concept_name]", 'ART START DATE', {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= hidden_field_tag("next_url",@destination_page) %>
 
   <%= submit_tag "Finish" %>
 </form>
