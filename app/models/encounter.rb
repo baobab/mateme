@@ -52,8 +52,8 @@ class Encounter < ActiveRecord::Base
       systolic  = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("SYSTOLIC BLOOD PRESSURE") && "#{obs.answer_string}".upcase != 'UNKNOWN' }
 
       bp_str      = "BP: "+(systolic.first.answer_string rescue '?')+'/' + (diastolic.first.answer_string rescue '?')
-      weight_str  = weight.first.answer_string + 'KG' rescue "unknown"
-      height_str  = height.first.answer_string + 'CM' rescue nil
+      weight_str  = "WEIGHT:" + weight.first.answer_string + 'KG' rescue "unknown"
+      height_str  = "HEIGHT:" + height.first.answer_string + 'CM' rescue nil
 
       vitals = []
 
