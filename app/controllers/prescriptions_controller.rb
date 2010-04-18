@@ -2,7 +2,26 @@ class PrescriptionsController < ApplicationController
   def index
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @orders = @patient.current_orders rescue []
-    redirect_to "/prescriptions/new?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @orders.blank?
+
+    diabetes_id       = Concept.find_by_name("DIABETES MEDICATION").id
+
+    @patient_diabetes_treatements     = []
+    @patient_hypertension_treatements = []
+
+    @patient.treatments.map{|treatement|
+
+      if (treatement.diagnosis_id.to_i == diabetes_id)
+        @patient_diabetes_treatements << treatement
+      else
+        @patient_hypertension_treatements << treatement
+      end
+    }
+
+    #raise @patient_diabetes_treatements.to_yaml
+    
+    #@orders = @patient_diabetes_treatements
+    
+    redirect_to "/prescriptions/new?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @patient_diabetes_treatements.blank?   #@orders.blank?
     render :template => 'prescriptions/index', :layout => 'menu'
   end
   
@@ -10,14 +29,16 @@ class PrescriptionsController < ApplicationController
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
   end
   
-  def void 
+  def void
     @order = Order.find(params[:order_id])
+    
     @order.void!
-    flash.now[:notice] = "Order was successfully voided"
+    #flash.now[:notice] = "Order was successfully voided"
     index and return
   end
   
   def create
+    #raise params.to_yaml
 
     (params[:prescriptions] || []).each{|prescription|
       @suggestion = prescription[:suggestion]
@@ -55,6 +76,8 @@ class PrescriptionsController < ApplicationController
 
         prescription[:formulation] = [prescription[:generic], prescription[:drug_strength], prescription[:frequency]]
 
+        #raise prescription[:formulation].inspect
+
         drug_info = @patient.drug_details(prescription[:formulation], diagnosis_name).first
 
         prescription[:formulation]    = drug_info[:drug_formulation]
@@ -89,7 +112,12 @@ class PrescriptionsController < ApplicationController
 
     }
 
-    redirect_to "/prescriptions?patient_id=#{@patient.id}"
+    if(@patient)
+      redirect_to "/prescriptions?patient_id=#{@patient.id}"
+    else
+      redirect_to "/prescriptions?patient_id=#{params[:patient_id]}"
+    end
+    
   end
   
   # Look up the set of matching generic drugs based on the concepts. We 
