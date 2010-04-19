@@ -699,3 +699,21 @@ display:block;
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.MultiSelectList #viewport,
+.MultiSelectList #options{
+  -moz-user-select:none;
+  height: 17em;
+  background: #FAFAD2;
+}
+
+.MultiSelectList #keyboard{
+  display:none;
+}
+
+.MultiSelectList #li {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
