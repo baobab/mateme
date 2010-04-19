@@ -142,16 +142,41 @@ class Patient < ActiveRecord::Base
     diabetes_id             = Concept.find_by_name("DIABETES MEDICATION").id
     hypertensition_id       = Concept.find_by_name("HYPERTENSION").id
 
-    Order.find_by_sql("SELECT orders.concept_id,name AS drug_name,obs.value_coded AS diagnosis_id,
+=begin
+    Order.find_by_sql("SELECT orders.order_id, orders.concept_id,concept_name.name AS drug_name,obs.value_coded AS diagnosis_id,
                         MAX(auto_expire_date) AS end_date, MIN(start_date) AS start_date,
-                        DATEDIFF(MAX(auto_expire_date), MIN(start_date))AS days FROM orders
+                        DATEDIFF(MAX(auto_expire_date), MIN(start_date))AS days,
+                      DATEDIFF(NOW(), MIN(start_date)) days_so_far, dose, drug.units, frequency
+                      FROM orders
+                      INNER JOIN drug_order ON drug_order.order_id = orders.order_id
+                      INNER JOIN drug ON drug.drug_id = drug_order.drug_inventory_id
                       INNER JOIN encounter ON orders.encounter_id = encounter.encounter_id
                       INNER JOIN concept_name ON concept_name.concept_id = orders.concept_id
-                      INNER JOIN obs ON orders.obs_id = obs.obs_id
+                      INNER JOIN obs ON orders.obs_id = obs.obs_id 
                       WHERE encounter_type = #{treatment_encouter_id} AND encounter.patient_id = #{self.patient_id} AND encounter.voided = 0
                         AND orders.order_type_id = #{drug_order_id} AND obs.value_coded IN (#{diabetes_id}, #{hypertensition_id})
                       GROUP BY orders.concept_id, obs.value_coded
                       ORDER BY end_date DESC")
+=end
+    
+    Order.find_by_sql("SELECT distinct orders.order_id, orders.concept_id,concept_name.name AS drug_name,obs.value_coded AS diagnosis_id,
+                         MAX(auto_expire_date) AS end_date, MIN(start_date) AS start_date,
+                         DATEDIFF(MAX(auto_expire_date), MIN(start_date))AS days,
+                         DATEDIFF(NOW(), MIN(start_date)) days_so_far,
+                        dose, drug.units, frequency
+                        FROM obs
+                        INNER JOIN encounter on encounter.encounter_id = obs.encounter_id
+                        INNER JOIN orders on orders.encounter_id = encounter.encounter_id
+                        INNER JOIN concept_name ON concept_name.concept_id = orders.concept_id
+                        INNER JOIN drug_order ON drug_order.order_id = orders.order_id
+                        INNER JOIN drug ON drug.drug_id = drug_order.drug_inventory_id
+                        INNER JOIN concept_name_tag_map on concept_name_tag_map.concept_name_id = concept_name.concept_name_id
+                        WHERE encounter_type = #{treatment_encouter_id} AND encounter.patient_id = #{self.patient_id} 
+                          AND encounter.voided = 0 AND orders.voided = 0
+                          AND orders.order_type_id = #{drug_order_id} AND obs.value_coded IN (#{diabetes_id}, #{hypertensition_id})
+                          AND concept_name_tag_id = 4
+                        GROUP BY order_id, obs.value_coded
+                        ORDER BY start_date DESC")
 
   end
 
@@ -161,6 +186,14 @@ class Patient < ActiveRecord::Base
     if (drug_info[0].downcase.include? "insulin") && ((drug_info[0].downcase.include? "lente") ||
           (drug_info[0].downcase.include? "soluble"))
 
+      if(drug_info[0].downcase == "insulin, lente")     # due to error noticed when searching for drugs
+        drug_info[0] = "LENTE INSULIN"
+      end
+
+      if(drug_info[0].downcase == "insulin, soluble")     # due to error noticed when searching for drugs
+        drug_info[0] = "SOLUBLE INSULIN"
+      end
+      
       name = "%"+drug_info[0]+"%"
       insulin = true
 
@@ -170,7 +203,8 @@ class Patient < ActiveRecord::Base
       name = "%"+drug_info[0]+"%"+drug_info[1]+"%"
 
     end
-
+    #raise insulin.inspect
+    
     diagnosis_id = Concept.find_by_name(diagnosis_name);
 
     drug_details = Array.new
@@ -187,7 +221,7 @@ class Patient < ActiveRecord::Base
 
     unless(insulin)
 
-      drug_frequency = drug_info[2].upcase
+      drug_frequency = drug_info[2].upcase rescue nil
 
       preferred_concept_name_id = Concept.find_by_name(drug_frequency).concept_id
 
@@ -363,5 +397,5 @@ class Patient < ActiveRecord::Base
     patient_diabetes_medication_duration = return_string
 
   end
-  
+
 end
