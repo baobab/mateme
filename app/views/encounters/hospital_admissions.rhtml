@@ -93,7 +93,7 @@
 
   <% @admissions_list = ["DKA/HONK/HYPERGLYCEMIA", "HYPOGLYCEMIA",
                           "AMPUTATION/FOOT ULCERS", "FOOT INFECTIONS",
-                          "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA"] %>
+                          "SKIN INFECTIONS/ABCESSESES/SEVERE UTIS/PNEUMONIA"] %>
   <%= select_tag("admissions_values",             options_for_select(@admissions_list, ((@encounter_obs)?(@encounter_obs["admissions"]):"")),options) %>
   
   <%# options=default.merge({
@@ -226,7 +226,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :tt_requireNextClick => false,
-    :helpText => "AMPUTATION/FOOT ULCERS: Side affeted",
+    :helpText => "AMPUTATION/FOOT ULCERS: Side affected",
     :condition => '$("amputations_value_coded_or_text").value == "Yes"',
     :tt_onUnLoad => "if($('amputations_side').value == 'Left'){$('amputations_concept_name').value = 'LEFT FOOT/LEG'}
                      else if($('amputations_side').value == 'Right'){$('amputations_concept_name').value = 'RIGHT FOOT/LEG'}",
