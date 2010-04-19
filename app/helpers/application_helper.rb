@@ -60,7 +60,13 @@ module ApplicationHelper
   end
 
   def qwerty_or_abc_keyboard
-    abc = UserProperty.find_by_property_and_user_id('keyboard',session[:user_id]).property_value == 'abc' rescue false
-    abc ? "abc" : "qwerty"
+    @user_role = User.find(session[:user_id]).user_roles.collect{|x|x.role} if(!User.current_user.nil?)
+    abc = UserProperty.find_by_property_and_user_id('keyboard',session[:user_id]).property_value == 'abc' rescue false    
+    if (!User.current_user.nil? && (@user_role.first.downcase.include?("regstration_clerk") || @user_role.first.downcase.include?("nurse")))
+      "abc"
+    else
+      abc ? "abc" : "qwerty"
+    end
+
   end
 end
