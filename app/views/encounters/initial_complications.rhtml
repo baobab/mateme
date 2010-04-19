@@ -122,7 +122,7 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
       :id => "complications",
       :tt_onUnLoad => "setConceptNamesAndValues()",
       :multiple => true,
-      :tt_pageStyleClass => "LongSelectList"
+      :tt_pageStyleClass => "MultiSelectList"
     }) %>
 
   <% if (@patient.person.gender == 'M')
@@ -232,7 +232,7 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
       :condition => "$('amputation_value_coded_or_text').value == 'Yes'",
       :helpText => "AMPUTATIONS: Year(s) of Surgery",
       :optional => false,
-      :tt_pageStyleClass => "LongSelectList",
+      :tt_pageStyleClass => "MultiSelectList",
       :multiple => true
     }) %>
 
@@ -371,7 +371,7 @@ if ($('past_cataract').value == 'Yes') $('cataract_value_coded_or_text').value =
       :condition => "$('cataract_surgery_value_coded_or_text').value == 'Yes'",
       :helpText => "CATARACT: Select Years of Operations",
       :optional => false,
-      :tt_pageStyleClass => "LongSelectList",
+      :tt_pageStyleClass => "MultiSelectList",
       :multiple => true
     }) %>
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF SURGERY") %>
@@ -425,7 +425,7 @@ if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').valu
       :condition => "$('present_cataract_value_coded_or_text').value == 'Yes'",
       :helpText => "CATARACT: Select Year(s) of Diagnosis",
       :optional => false,
-      :tt_pageStyleClass => "LongSelectList",
+      :tt_pageStyleClass => "MultiSelectList",
       :multiple => true
     }) %>
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF SURGERY") %>

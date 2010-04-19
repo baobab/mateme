@@ -88,7 +88,7 @@
     :tt_onUnLoad => " $('admissions').value = tstInputTarget.value; setConceptNamesAndValues()",
     :optional => true,
     :multiple => true,
-    :tt_pageStyleClass => "LongSelectList"
+    :tt_pageStyleClass => "MultiSelectList"
   }) %>
 
   <% @admissions_list = ["DKA/HONK/HYPERGLYCEMIA", "HYPOGLYCEMIA",
@@ -140,7 +140,7 @@
     :multiple => true,
     :validationCode => "selectedValue('hyperglycemia_years_of_admission').split(';').length <= $('hyperglycemia_number_of_admissions').value",
     :validationMessage =>"You cannot select years more than the number of admissions",
-    :tt_pageStyleClass => "LongSelectList"
+    :tt_pageStyleClass => "MultiSelectList"
   }) %>
 
 
@@ -196,7 +196,7 @@
     :multiple => true,    
     :validationCode => "selectedValue('hypoglycemia_years_of_admission').split(';').length <= $('hypoglycemia_number_of_admissions').value",
     :validationMessage =>"You cannot select years more than the number of admissions",
-    :tt_pageStyleClass => "LongSelectList"
+    :tt_pageStyleClass => "MultiSelectList"
   }) %>
   
   
@@ -284,7 +284,7 @@
     :multiple => true,
     :validationCode => "selectedValue('amputations_years_of_admission').split(';').length <= $('amputations_number_of_admissions').value",
     :validationMessage =>"You cannot select years more than the number of admissions",
-    :tt_pageStyleClass => "LongSelectList"
+    :tt_pageStyleClass => "MultiSelectList"
   }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
@@ -337,7 +337,7 @@
     :multiple => true,
     :validationCode => "selectedValue('foot_infections_years_of_admission').split(';').length <= $('foot_infections_number_of_admissions').value",
     :validationMessage =>"You cannot select years more than the number of admissions",
-    :tt_pageStyleClass => "LongSelectList"
+    :tt_pageStyleClass => "MultiSelectList"
   }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
@@ -391,7 +391,7 @@
     :multiple => true,
     :validationCode => "selectedValue('skin_infections_years_of_admission').split(';').length <= $('skin_infections_number_of_admissions').value",
     :validationMessage =>"You cannot select years more than the number of admissions",
-    :tt_pageStyleClass => "LongSelectList"
+    :tt_pageStyleClass => "MultiSelectList"
   }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF ADMISSION") %>
