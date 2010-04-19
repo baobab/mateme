@@ -163,8 +163,8 @@ function confirmRecordDeletion(message, form) {
         tstMessageBar.className = "messageBar";
 
         tstMessageBar.innerHTML = message + "<br/>" +
-        "<button onmousedown=\"$('content').removeChild($('messageBar')); $('" + form +
-        "').submit();\"><span>Yes</span></button><button onmousedown=\"$('content').removeChild($('messageBar'));\"><span>No</span></button>";
+        "<button onmousedown=\"document.getElementById('content').removeChild(document.getElementById('messageBar')); document.getElementById('" + form +
+        "').submit();\"><span>Yes</span></button><button onmousedown=\"document.getElementById('content').removeChild(document.getElementById('messageBar'));\"><span>No</span></button>";
 
         tstMessageBar.style.display = "block";
         document.getElementById("content").appendChild(tstMessageBar);
