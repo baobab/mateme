@@ -348,6 +348,7 @@ if ($('past_cataract').value == 'Yes') $('cataract_value_coded_or_text').value =
   <% options=default.merge({
       :field_type => 'text',
       :tt_requireNextClick => false,
+      :tt_OnLoad =>"$('infoBar'+tstCurrentPage).innerHTML = 'Past Cataract Surgery'",
       :helpText => "Select side of Cataract Surgery",
       :tt_onUnLoad => "$('cataract_surgery_side_value_coded_or_text').value = $('cataract_surgery_side').value",
       :condition => "$('cataract_surgery_value_coded_or_text').value == 'Yes'",
@@ -369,7 +370,8 @@ if ($('past_cataract').value == 'Yes') $('cataract_value_coded_or_text').value =
       :field_type => 'text',
       :id => "year_of_operations",
       :condition => "$('cataract_surgery_value_coded_or_text').value == 'Yes'",
-      :helpText => "CATARACT: Select Years of Operations",
+      :tt_OnLoad =>"$('infoBar'+tstCurrentPage).innerHTML = 'Past Cataract Surgery'",
+      :helpText => "Select Years of Operations",
       :optional => false,
       :tt_pageStyleClass => "MultiSelectList",
       :multiple => true
@@ -402,6 +404,7 @@ if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').valu
   <% options=default.merge({
       :field_type => 'text',
       :tt_requireNextClick => false,
+      :tt_OnLoad =>"$('infoBar'+tstCurrentPage).innerHTML = 'Present Cataracts'",
       :helpText => "Select side of Cataract",
       :tt_onUnLoad => "$('present_cataract_side_value_coded_or_text').value = $('present_cataract_side').value",
       :condition => "$('present_cataract_value_coded_or_text').value == 'Yes'",
@@ -422,6 +425,7 @@ if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').valu
   <% options=default.merge({
       :field_type => 'text',
       :id => "year_of_diagnosis",
+      :tt_OnLoad =>"$('infoBar'+tstCurrentPage).innerHTML = 'Present Cataracts'",
       :condition => "$('present_cataract_value_coded_or_text').value == 'Yes'",
       :helpText => "CATARACT: Select Year(s) of Diagnosis",
       :optional => false,
