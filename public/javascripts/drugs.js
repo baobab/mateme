@@ -692,7 +692,7 @@ function viewSelectedDrugs(){
     parent_container.style.height = "520px";
     parent_container.style.width = "795px";
     parent_container.style.overflow = "auto";
-    parent_container.style.zIndex = "1000";
+    parent_container.style.zIndex = "20";
     parent_container.style.backgroundColor = "#FFFFFF";
 
     document.body.appendChild(parent_container);

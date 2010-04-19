@@ -102,7 +102,11 @@
           <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
       <%else%>
-        <%for observation in @creatinine_obs do%>
+        <%
+        i = 0
+        for observation in @creatinine_obs do
+          i += 1
+        %>
           <tr class ="data <%= cycle('even', 'odd')%>" >
             <% @diabetes_test_type = 'CREATININE' %>
             <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
@@ -114,7 +118,9 @@
                 <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i>
               </div>
               <div style="float:right;padding:7px;">
-                <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
+                <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                  {:confirm => "Are you sure you want to void this test?", :form_id => "frm_creatinine_"+i.to_s},
+                  {:encounter_id => observation.encounter_id, :void => true} %>
               </div>
             </td>
           </tr>
@@ -139,7 +145,11 @@
           <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
         </tr>
       <%else%>
-        <%for observation in @urine_protein_obs do%>
+        <%
+        i = 0
+        for observation in @urine_protein_obs do
+          i += 1
+        %>
 
           <tr class ="data <%= cycle('even', 'odd')%>" >
             <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE PROTEIN'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
@@ -151,7 +161,9 @@
                 <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i>
               </div>
               <div style="float:right;padding:7px;">
-                <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
+                <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                  {:confirm => "Are you sure you want to void this test?", :form_id => "frm_urine_protein_"+i.to_s},
+                  {:encounter_id => observation.encounter_id, :void => true} -%>
               </div>
             </td>
           </tr>
@@ -176,12 +188,20 @@
         </tr>
       <%else%>
 
-        <% for encounter in @visual_acuity_encounters do %>
+        <% 
+        i = 0
+        for encounter in @visual_acuity_encounters do
+          i += 1
+        %>
 
             <tr class ="data <%= cycle('even', 'odd')%>" >
               <td id ="header_row_font" valign="top" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL ACUITY'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
               <td id ="non_header_row_font" class="tableborder">
-                <%for observation in @visual_acuity_obs[encounter.encounter_id] do%>
+                <%
+                i = 0
+                for observation in @visual_acuity_obs[encounter.encounter_id] do
+                  i += 1
+                %>
 
                   <%= h("#{observation.concept.name.name.titleize}: #{observation.answer_string.titleize}") %><br/>
                   <%
@@ -196,7 +216,9 @@
                   <i><%= h("#{encounter.encounter_datetime.to_date.strftime('%b %Y')}") %></i>
                 </div>
                 <div style="float:right;padding:7px;">
-                  <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => encounter.encounter_id, :void => true} -%>
+                  <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                    {:confirm => "Are you sure you want to void this test?", :form_id => "frm_visual_acuity_"+i.to_s},
+                    {:encounter_id => encounter.encounter_id, :void => true} -%>
                 </div>
               </td>
             </tr>
@@ -227,7 +249,11 @@
           </tr>
         <%else%>
 
-          <% for encounter in @fundoscopy_encounters do %>
+          <% 
+          i = 0
+          for encounter in @fundoscopy_encounters do
+            i += 1
+          %>
 
               <tr class ="data <%= cycle('even', 'odd')%>" >
                 <td id ="header_row_font" valign="top" class="tableborder">
@@ -252,7 +278,9 @@
                   </div>
 
                   <div style="float:right;padding:7px;">
-                    <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => encounter.encounter_id, :void => true} -%>
+                    <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                      {:confirm => "Are you sure you want to void this test?", :form_id => "frm_fundoscopy_"+i.to_s},
+                      {:encounter_id => encounter.encounter_id, :void => true} -%>
                   </div>
                 </td>
               </tr>
@@ -278,7 +306,11 @@
             </tr>
           <%else%>
 
-            <% for encounter in @foot_check_encounters do %>
+            <% 
+            i = 0
+            for encounter in @foot_check_encounters do
+              i += 1
+            %>
 
                 <tr class ="data <%= cycle('even', 'odd')%>" >
                   <td id ="header_row_font" valign="top" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
@@ -296,7 +328,9 @@
                       <i><%= h("#{encounter.encounter_datetime.to_date.strftime('%b %Y')}") %></i>
                     </div>
                     <div style="float:right;padding:7px;">
-                      <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => encounter.encounter_id, :void => true} -%>
+                      <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                        {:confirm => "Are you sure you want to void this test?", :form_id => "frm_foot_check_"+i.to_s},
+                        {:encounter_id => encounter.encounter_id, :void => true} -%>
                     </div>
                   </td>
                 </tr>
@@ -327,7 +361,11 @@
                 <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
               </tr>
             <%else%>
-              <%for observation in @urea_obs do%>
+              <%
+              i = 0
+              for observation in @urea_obs do
+                i += 1
+              %>
 
                 <tr class ="data <%= cycle('even', 'odd')%>" >
                   <td id ="header_row_font" class="tableborder">
@@ -345,7 +383,9 @@
                       <i><%= h("#{observation.obs_datetime.to_date.strftime('%b %Y')}") %></i>
                     </div>
                     <div style="float:right;padding:7px;">
-                      <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this test?"}, {:encounter_id => observation.encounter_id, :void => true} -%>
+                      <%= img_button_submit_to "/patients/mastercard/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                        {:confirm => "Are you sure you want to void this test?", :form_id => "frm_urea_"+i.to_s},
+                        {:encounter_id => observation.encounter_id, :void => true} -%>
                     </div>
                   </td>
                 </tr>

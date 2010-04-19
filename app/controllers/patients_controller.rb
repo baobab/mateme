@@ -27,7 +27,7 @@ class PatientsController < ApplicationController
     @encounters   = @patient.encounters.current.active.find(:all)
     excluded_encounters = ["Registration", "Diabetes history","Complications",
       "General health", "Diabetes treatments", "Diabetes admissions",
-      "Hypertension management", "Past diabetes medical history"]
+      "Hypertension management", "Past diabetes medical history", "Diabetes test"]
     @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq.delete_if{ |encounter| excluded_encounters.include? encounter.humanize } rescue []
     ignored_concept_id = Concept.find_by_name("NO").id;
     
