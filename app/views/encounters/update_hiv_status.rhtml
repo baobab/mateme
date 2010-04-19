@@ -28,8 +28,7 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   <%#= select_tag("hiv_status_update_visit", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit' })%>
-
-  <%= text_field_tag("hiv_test_date", nil, {:field_type => 'date', :id => "hiv_test_date",
+  <%= text_field_tag("hiv_test_date",DateTime.now().strftime("%Y-%m-%d"), {:field_type => 'date', :id => "hiv_test_date",
       :tt_onUnLoad => "setDate('hiv_test_date'); $('hiv_test_date_value_datetime').value = $('hiv_test_date').value",
       :helpText => 'Hiv test date',
       :condition => '$("new_hiv_status").value.toLowerCase().match(/reactive/)'
