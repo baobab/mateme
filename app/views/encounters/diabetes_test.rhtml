@@ -12,7 +12,7 @@
   function validateCreatinine() {
     var unit = $('creatinine_unit').value;
     var minimums = {'mg/dl': 0.5, 'µmol/l': 45};
-    var maximums = {'mg/dl': 1.2, 'µmol/l': 111.0};
+    var maximums = {'mg/dl': 3.6, 'µmol/l': 330.0};
 
     if ((tstInputTarget.value >= minimums[unit] &&
       tstInputTarget.value <= maximums[unit])
