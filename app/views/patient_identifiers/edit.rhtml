@@ -1,6 +1,6 @@
 <h3>Update the patient's identifier</h3>
 <script type="text/javascript">
-  tt_cancel_destination = '/patients/mastercard/<%= @patient.id %>'
+  tt_cancel_destination = '/patients/demographics?patient_id=<%= @patient.id %>'
 </script>
 <form id="search" action="/patient_identifiers/edit/<%= @patient.id %>" method="post">
   <p>
