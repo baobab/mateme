@@ -176,7 +176,7 @@ class Patient < ActiveRecord::Base
                           AND orders.order_type_id = #{drug_order_id} AND obs.value_coded IN (#{diabetes_id}, #{hypertensition_id})
                           AND concept_name_tag_id = 4
                         GROUP BY order_id, obs.value_coded
-                        ORDER BY start_date DESC")
+                        ORDER BY drug_name, start_date DESC")
 
   end
 

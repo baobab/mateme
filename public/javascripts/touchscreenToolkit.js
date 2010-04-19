@@ -1209,7 +1209,7 @@ function disableTouchscreenInterface(){
 function confirmCancelEntry() {
 	if (tstConfirmCancel) {
 		tstMessageBar.innerHTML = "Are you sure you want to Cancel?<br/>" +
-															"<button onmousedown='hideMessage(); cancelEntry();'><span>Yes</span></button><button onmousedown='hideMessage();'><span>No</span></button>";
+                    "<button onmousedown='hideMessage(); cancelEntry();'><span>Yes</span></button><button onmousedown='hideMessage();'><span>No</span></button>";
 		tstMessageBar.style.display = "block";
 	} else {
 		cancelEntry();
@@ -2323,9 +2323,6 @@ String.prototype.trim = function()
     return this.replace(/^\s+|\s+$/g, ''); 
 };
 
-
-window.addEventListener("load", loadTouchscreenToolkit, false);
-
 function getPreferredKeyboard(){
   if (typeof(tstUserKeyboardPref) != 'undefined' && tstUserKeyboardPref == 'qwerty') {
     return getQwertyKeyboard()
@@ -2334,3 +2331,5 @@ function getPreferredKeyboard(){
     return getABCKeyboard()
   }
 }
+
+window.addEventListener("load", loadTouchscreenToolkit, false);

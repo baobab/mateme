@@ -8,8 +8,12 @@ module ApplicationHelper
   end
 
   def img_button_submit_to(url, image, options = {}, params = {})
+    #raise options.to_yaml
     content = ""
-    content << "<form method='post' action='#{url}'><input type='image' src='#{image}'/>"
+    content << "<form " + ((options[:form_id])?("id=#{options[:form_id]}"):"") + " method='post' action='#{url}'><input type='image' src='#{image}' " +
+      ((options[:confirm])?("onclick=\"return confirmRecordDeletion('" +
+      options[:confirm] + "', '" + options[:form_id] + "')\""):"") + "/>"
+
     params.each {|n,v| content << "<input type='hidden' name='#{n}' value='#{v}'/>" }
     content << "</form>"
     content
