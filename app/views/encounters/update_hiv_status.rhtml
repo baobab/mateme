@@ -69,13 +69,13 @@
   function setDate(elementId){
 
           if ($(elementId).value.toLowerCase() == 'unknown'){
-            $(elementId+'_value_text').value = 'Unknown';
+            //$(elementId+'_value_coded_or_text').value = 'Unknown';
             $(elementId+'_value_datetime').value = null;
             $(elementId+'_value_modifier').value = null;
             }
           else{
             $(elementId+'_value_datetime').value = new Date($(elementId).value.replace(/-/g, '/'));
-            $(elementId+'_value_text').value = null;
+            //$(elementId+'_value_coded_or_text').value = null;
             }
   }
 
