@@ -235,7 +235,7 @@ function generateDrugs(){
         optTBody1.appendChild(optTr1);
 
         var lbl1 = document.createElement("label");
-        lbl1.innerHTML = generic[i].toProperCase();
+        lbl1.innerHTML = ((generic[i].toUpperCase()=="NIFEDIPINE SR")?"Nifedipine SR":generic[i].toProperCase());
 
         optTd1.appendChild(lbl1);
     }

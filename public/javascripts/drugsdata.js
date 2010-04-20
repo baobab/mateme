@@ -41,7 +41,8 @@ drugs["QUINAPRIL"] = [["20MG", "OD"],
                         ["40MG", "OD"]];
 
 drugs["ASPIRIN"] = [["75MG", "OD"],
-                    ["150MG", "OD"]];
+                    ["150MG", "OD"],
+                    ["300MG", "OD"]];
 
 drugs["NIFEDIPINE"] = [["10MG", "TDS"],
                         ["20MG", "TDS"]];
