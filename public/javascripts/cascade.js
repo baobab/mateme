@@ -1374,6 +1374,16 @@ function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, ch
             }
 
         }
+
+        if($("divScroller")){
+
+            var p = checkCtrl(this);
+
+            var d = checkCtrl($("divScroller"));
+
+            $("divScroller").scrollTop = p[2] - d[2] - 10;
+        }
+
     }
 
     tdin.onclick = function(){
@@ -1627,6 +1637,16 @@ function createRadios(group_id, text, tbody, level, prefix, root, parent, child,
             }
 
         }
+
+        if($("divScroller")){
+
+            var p = checkCtrl(this);
+
+            var d = checkCtrl($("divScroller"));
+
+            $("divScroller").scrollTop = p[2] - d[2] - 10;
+        }
+
     }
 
     tdin.onclick = function(){

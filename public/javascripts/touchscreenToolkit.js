@@ -1224,7 +1224,7 @@ function cancelEntry() {
     inputElements[i].value = "";
   }
 
-  window.location.href = window.tt_cancel_destination || "/patient/menu?no_auto_load_forms=true";
+  window.location.href = window.tt_cancel_destination || "/people";       //"/patient/menu?no_auto_load_forms=true";/* specially for dmht */
 }
 
 // format the given element's value for display on the Progress Indicator
