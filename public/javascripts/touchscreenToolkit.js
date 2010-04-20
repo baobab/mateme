@@ -998,7 +998,8 @@ function joinDateValues(aDateElement) {
 		}
 	}
 
-	if (strDate.length != 10) return ""
+	if (strDate.length != 10 && aDateElement.value) return aDateElement.value;
+	if (strDate.length != 10) return "";
 	else return strDate;
 }
 
@@ -1472,6 +1473,7 @@ function getDatePicker() {
 	}
 
 	var defaultDate = joinDateValues(inputElement);
+  defaultDate = defaultDate.replace("-", "/", "g");
 	var arrDate = defaultDate.split('/');
 	$("touchscreenInput"+tstCurrentPage).value = defaultDate;
 	

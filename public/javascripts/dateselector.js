@@ -43,7 +43,7 @@ var DateSelector = function() {
 		target: arguments[0].target
 	};
 
-	if (typeof(tstCurrentDate) != "undefined") {
+	if (typeof(tstCurrentDate) != "undefined" && tstCurrentDate) {
 		var splitDate = tstCurrentDate.split("/");
 		if (splitDate.length == 3) {
 			this.date = new Date(splitDate[0], splitDate[1]-1, splitDate[2]); 
