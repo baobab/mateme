@@ -1,25 +1,31 @@
 <table width="90%">
-<%@encounter_names.each{|encounter_name|
-  header = 'true'
-  i = 0
-  for encounter in @encounters do
-    i += 1
-    if encounter.name == encounter_name%>
-    <%if header == 'true' %>
-  <tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h(encounter.name.humanize.titleize)%></th></tr>
-    <%end%>
-    <% header = 'false'%>
-    <tr>
-      <td>
-    <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>')%>
-    </td>
-    <td>
-    <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
-      {:confirm => "Are you sure you want to void this prescription?", :form_id => "frm_current_encounter_"+i.to_s},
-      {:encounter_id => encounter.encounter_id, :void => "true"}) -%>
-    </td>
-    </tr>
-  <%end
-  end
-}%>
+  <%@encounter_names.each{|encounter_name|
+    header = 'true'
+    i = 0
+    for encounter in @encounters do
+      i += 1
+      if encounter.name == encounter_name%>
+        <%if header == 'true' %>
+          <tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h(encounter.name.humanize.titleize)%></th></tr>
+        <%end%>
+        <% header = 'false'%>
+        <tr>
+          <td>
+            <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>')%>
+          </td>
+          <td>
+
+            <% if(encounter.to_s != "No prescriptions have been made") %>
+
+              <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                {:confirm => "Are you sure you want to void this prescription?", :form_id => "frm_current_encounter_"+i.to_s},
+                {:encounter_id => encounter.encounter_id, :void => "true"}) -%>
+
+            <% end %>
+
+          </td>
+        </tr>
+      <%end
+    end
+  }%>
 </table>
