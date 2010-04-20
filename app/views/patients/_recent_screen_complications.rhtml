@@ -27,13 +27,13 @@
     <% if(creatinine) %>
 
       <tr>
-        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'>Creatinine</a>
         </td>
-        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  creatinine.to_s_formatted.titleize %>
         </td>
-        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - creatinine.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  creatinine.obs_datetime.strftime("%b, %Y") %>
         </td>
       </tr>
@@ -43,13 +43,13 @@
     <% if(foot_check) %>
 
       <tr>
-        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'>Foot Check</a>
         </td>
-        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  foot_check.to_s_formatted.titleize %>
         </td>
-        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - foot_check.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  foot_check.obs_datetime.strftime("%b, %Y") %>
         </td>
       </tr>
@@ -59,13 +59,13 @@
     <% if(visual_acuity) %>
 
       <tr>
-        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL+ACUITY'>Visual Acuity</a>
         </td>
-        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  visual_acuity.to_s_formatted.titleize %>
         </td>
-        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - visual_acuity.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  visual_acuity.obs_datetime.strftime("%b, %Y") %>
         </td>
       </tr>
@@ -75,13 +75,13 @@
     <% if(urine_protein) %>
 
       <tr>
-        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>" >
+        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>" >
           <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE+PROTEIN'>Urine Protein</a>
         </td>
-        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  urine_protein.to_s_formatted.titleize %>
         </td>
-        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - urine_protein.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  urine_protein.obs_datetime.strftime("%b, %Y") %>
         </td>
       </tr>
@@ -91,13 +91,13 @@
     <% if(fundoscopy) %>
 
       <tr>
-        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'>Fundoscopy</a>
         </td>
-        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  fundoscopy.to_s_formatted.titleize %>
         </td>
-        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - fundoscopy.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  fundoscopy.obs_datetime.strftime("%b, %Y") %>
         </td>
       </tr>
@@ -107,13 +107,13 @@
     <% if(urea) %>
 
       <tr>
-        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'>Urea</a>
         </td>
-        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  urea.to_s_formatted.titleize %>
         </td>
-        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_i/365)>1)?"#FF9999":"#FFFFFF") %>">
+        <td bgcolor="<%= ((((Date.today - urea.obs_datetime.to_date).to_f/365.0)>1.0)?"#FF9999":"#FFFFFF") %>">
           <%=  urea.obs_datetime.strftime("%b, %Y") %>
         </td>
       </tr>
