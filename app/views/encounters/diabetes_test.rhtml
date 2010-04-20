@@ -9,23 +9,25 @@
 
   var my_date =[];
 
-  function validateCreatinine() {
+  function resetCreatinineRange(current_page) {
     var unit = $('creatinine_unit').value;
-    var minimums = {'mg/dl': 0.5, 'µmol/l': 45};
-    var maximums = {'mg/dl': 3.6, 'µmol/l': 330.0};
 
-    if ((tstInputTarget.value >= minimums[unit] &&
-      tstInputTarget.value <= maximums[unit])
-  ) {
-
-      // convert μmol/l to mg/dl
-      if (unit == 'µmol/l') {
-        tstInputTarget.value = parseFloat(tstInputTarget.value / 91).toFixed(1);
-        $('creatinine_unit').value = 'mg/dl';
-      }
-      return true;
+    if (unit == 'µmol/l') {
+      $(current_page).setAttribute('min', 45);
+      $(current_page).setAttribute('max', 330.0);
     }
-    return false;
+  }
+
+  /* convert μmol/l to mg/dl*/
+  function updateCreatinineResult(){
+    var unit = $('creatinine_unit').value;
+
+      if (unit == 'µmol/l') {
+        $('creatinine_result_value_numeric').value = parseFloat(tstInputTarget.value / 91).toFixed(1);
+      }
+      else{
+        $('creatinine_result_value_numeric').value = tstInputTarget.value;
+      }
   }
 </script>
 
@@ -62,8 +64,6 @@
     'UREA'
   ]
 %>
-
-
 <%#= select_tag( "diabetes_test_type", options_for_select(@diabetes_test_types), options) %>
 
   <%= hidden_field_tag( "diabetes_test_type",params[:diabetes_test_type],{:id=>"diabetes_test_type"}) %>
@@ -74,23 +74,26 @@
       :condition => "$('diabetes_test_type').value.toLowerCase() == 'creatinine'"
     }) %>
 
-  <%= text_field_tag "observations[][value_numeric]", nil,
+  <%= text_field_tag "creatinine_result", nil,
     {:id => "diabetes_test_result",
     :helptext =>"Creatinine Result",
     :allowFreeText => 'true',
+    :min => "0.5",
+    :max => "3.6",
     :disabled => true,
     :condition => "$('diabetes_test_type').value.toLowerCase() == 'creatinine'",
-    :validationCode => 'validateCreatinine()',
     :field_type => 'number',
+    :tt_onUnload => "updateCreatinineResult();",
     :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
     :tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
-  $('diabetes_test_result').disabled = false;
-  $('diabetes_type_concept').disabled = false;
-  $('infoBar'+tstCurrentPage).innerHTML = 'Creatinine (' + $('creatinine_unit').value + ')';
-    " } %>
-  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'diabetes_type_concept',
-      :disabled => true
-    }) %>
+    $('diabetes_test_result').disabled = false;
+    $('diabetes_type_concept').disabled = false;
+    $('creatinine_result_value_numeric').disabled = false;
+    $('infoBar'+tstCurrentPage).innerHTML = 'Creatinine (' + $('creatinine_unit').value + ')';
+    resetCreatinineRange('touchscreenInput'+tstCurrentPage);
+      " } %>
+  <%= hidden_field_tag("observations[][value_numeric]", "", {:id => 'creatinine_result_value_numeric',:disabled => true}) %>
+  <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'diabetes_type_concept',:disabled => true}) %>
 <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
 <%#= hidden_field_tag("observations[][obs_datetime]", '') %>
 
