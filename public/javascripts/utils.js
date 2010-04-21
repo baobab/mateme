@@ -174,3 +174,17 @@ function confirmRecordDeletion(message, form) {
     }
     return false;
 }
+
+String.prototype.capitalize = function(){
+  var titleized_string = new Array();
+
+  if( (this.length > 0)){
+    titleized_string.push(this[0].toUpperCase());
+    titleized_string.push(this.substring(1,this.length).toLowerCase());
+    return titleized_string.join("");
+   }
+
+  else{
+    return this;
+ }
+}
