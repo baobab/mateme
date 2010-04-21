@@ -21,8 +21,13 @@
 
 </form>
 
+<div id='subDiagnosisPopUp' class='diagnosisBar'>
+</div> 
+<div id='subSubDiagnosisPopUp' class='diagnosisBar'>
+</div> 
+
+
 <script type='text/javascript'>
-  /*var finalAnswers = [<%= DiagnosisTree.final_answers2.to_json %>];*/
 var finalAnswers = [<%= DiagnosisTree.diagnosis_data.to_json %>];
 var mainDataArray = [];
 var tempDataArray = [];
