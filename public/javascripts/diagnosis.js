@@ -102,6 +102,11 @@ function createElements(){
   subDiagnosis.id = "sub-diagnosis";
 
   mainContainer.appendChild(subDiagnosis);
+/*add sub diagnosis header*/
+  var subDiagnosisHeader = document.createElement('div');
+  subDiagnosisHeader.className = "diagnosis-headers";
+  subDiagnosisHeader.innerHTML = "SUB DIAGNOSIS";
+  subDiagnosis.appendChild(subDiagnosisHeader);
 
   /*Select div*/
  var subDiagnosisSelectDiv = document.createElement('div');
@@ -123,6 +128,13 @@ function createElements(){
   
   mainContainer.appendChild(subSubDiagnosis);
 
+  /*add sub sub diagnosis header*/
+  var subSubDiagnosisHeader = document.createElement('div');
+  subSubDiagnosisHeader.className = "diagnosis-headers";
+  subSubDiagnosisHeader.innerHTML = "SUB SUB DIAGNOSIS";
+  subSubDiagnosis.appendChild(subSubDiagnosisHeader);
+
+
    /*Select div*/
  var subSubDiagnosisSelectDiv = document.createElement('div');
  subSubDiagnosisSelectDiv.className = "diagnosis-select-div";
@@ -142,6 +154,13 @@ function createElements(){
   confirmatoryEvidence.id = "confirmatory-evidence";
 
   mainContainer.appendChild(confirmatoryEvidence);
+
+  /*add confirmatory evidennce header*/
+  var confirmatoryEvidenceHeader = document.createElement('div');
+  confirmatoryEvidenceHeader.className = "diagnosis-headers";
+  confirmatoryEvidenceHeader.innerHTML = "TEST RESULT AVAILABLE?";
+  confirmatoryEvidence.appendChild(confirmatoryEvidenceHeader);
+
 
    /*Select div*/
  var confirmatoryEvidenceSelectDiv = document.createElement('div');
@@ -170,16 +189,47 @@ function handleHttpResponse(updateElement) {
   if (http.readyState == 4 && http.status == 200) {
     if (updateElement == 'diagnosis-select'){
       updateText = "<option onClick=updateTextBox('diagnosis-inputbox','diagnosis-select');updateSubDiagnosis();updateInfoBar('"+ updateElement +"');checkObjectLength('diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=updateTextBox('diagnosis-inputbox','diagnosis-select');updateSubDiagnosis();updateInfoBar('" + updateElement + "');checkObjectLength('diagnosis-select');>") + "</option>";
+    $(updateElement).innerHTML = updateText;
+  
+    checkIfOptionsAvailable();
     } else if (updateElement == 'sub-diagnosis-select'){
 
       updateText = "<option onClick=updateSubSubDiagnosis();updateInfoBar('"+ updateElement +"');checkObjectLength('sub-diagnosis-select')>" + http.responseText.replace(/,/g, "</option><option onClick=updateSubSubDiagnosis();updateInfoBar('"+ updateElement +"');checkObjectLength('sub-diagnosis-select');>") + "</option>";
+    $(updateElement).innerHTML = updateText;
+  
+    checkIfOptionsAvailable();
     } else if (updateElement == 'sub-sub-diagnosis-select'){
       updateText = "<option onClick=updateInfoBar('"+ updateElement +"');checkObjectLength('sub-sub-diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=updateInfoBar('"+ updateElement +"');checkObjectLength('sub-sub-diagnosis-select');>") + "</option>";
+    $(updateElement).innerHTML = updateText;
+  
+    checkIfOptionsAvailable();
     } else if (updateElement == 'confirmatory-evidence-select'){
       updateText = "<option onClick=resetSelections();>FINISHED</option><option onClick=updateInfoBar('" + updateElement + "')>" + http.responseText.replace(/,/g, "</option><option onClick=updateInfoBar('"+updateElement+"')>") + "</option>"
-    }
-
     $(updateElement).innerHTML = updateText;
+  
+    }else if (updateElement == 'subDiagnosisPopUp'){
+      if (http.responseText != ""){
+        $('subDiagnosisPopUp').style.display = "block";
+        updateText = "<label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        $(updateElement).innerHTML = updateText;
+      }else{ /*Check in the final column*/
+        $('subDiagnosisPopUp').style.display = "none";
+        var searchString = $('diagnosis-inputbox').value;
+        var aUrl = "/search/unqualified_sub_diagnosis?level=third&search_string=" + searchString;
+        var aElement = 'subSubDiagnosisPopUp';
+        updateList(aElement, aUrl);
+      }
+    }else if (updateElement == 'subSubDiagnosisPopUp'){
+      if (http.responseText != ""){
+        $('subSubDiagnosisPopUp').style.display = "block";
+        updateText = "<label  onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        $(updateElement).innerHTML = updateText;
+      } else {
+        $('subSubDiagnosisPopUp').style.display = "block";
+        updateText = "No matches were found!<br /> <button onmousedown='hidePopUp();'><span>OK</span></button>";
+        $(updateElement).innerHTML = updateText;
+      }
+    }
   }
 }
 
@@ -257,6 +307,8 @@ function updateInfoBar(updateElement){
     tempDataArray.push($('sub-sub-diagnosis-select').value);
     } else if (updateElement == 'confirmatory-evidence-select'){
       tempDataArray.push($('confirmatory-evidence-select').value);
+    } else{
+      tempDataArray = updateElement.innerHTML.split();
     };
   
     $('infoBar'+tstCurrentPage).innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
@@ -296,19 +348,21 @@ function resetSelections(){
 function checkObjectLength(selectedValue){
   if (selectedValue == 'diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$(selectedValue).value]) == 0){
-      /*resetSelections();*/
       updateConfirmatoryEvidence();
     }
   } else if (selectedValue == 'sub-diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$(selectedValue).value]) == 0){
-     /* resetSelections();*/
       updateConfirmatoryEvidence();
     }
   } else if (selectedValue == 'sub-sub-diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$('sub-diagnosis-select').value][$(selectedValue).value]) == 0){
-      /*resetSelections();*/
       updateConfirmatoryEvidence();
     }
+  } else if (selectedValue == 'pop-up-object'){
+     $('subDiagnosisPopUp').style.display = "none";
+     $('subSubDiagnosisPopUp').style.display = "none";
+     $('diagnosis-inputbox').value = "";
+     updateConfirmatoryEvidence();
   } 
 }
 
@@ -342,6 +396,24 @@ function removeTempValue(aElement){
   tempDataArray = [];
   updateInfoBar();
   resetSelections();
+}
+
+function checkIfOptionsAvailable(){
+  if ($('diagnosis-select').innerHTML.length == 176){
+    var searchString = $('diagnosis-inputbox').value;
+    var aUrl = "/search/unqualified_sub_diagnosis?level=second&search_string=" + searchString;
+    var aElement = 'subDiagnosisPopUp';
+    updateList(aElement, aUrl);
+  } else {
+    $('subDiagnosisPopUp').style.display = "none";
+  }
+}
+
+function hidePopUp(){
+  $('subDiagnosisPopUp').style.display = "none";
+  $('subSubDiagnosisPopUp').style.display = "none";
+  updateMainDiagnosis();
+  $("diagnosis-inputbox").focus();
 }
 
 
