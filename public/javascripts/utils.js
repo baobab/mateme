@@ -188,3 +188,13 @@ String.prototype.capitalize = function(){
     return this;
  }
 }
+
+String.prototype.titleize = function(){
+	var titleized_string = new Array();
+	var sub_strings = this.split(" ");
+
+  for(i = 0; i < sub_strings.length; i++)
+		titleized_string.push(sub_strings[i].capitalize());
+
+	return titleized_string.join(" ");
+}
