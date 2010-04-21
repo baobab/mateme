@@ -33,7 +33,7 @@
 
 .diagnosis-headers{
   width: 100%;
-  background-color: #CCCCCC;
+  background-color: #BBCCD9;
   height: 5%;
   position: absolute;
   font-style: bold;
@@ -71,7 +71,7 @@
 .diagnosis-select{
   width:100%;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
-  font-size:1.5em;
+  font-size:1.1em;
   padding:0;
   margin:0;
   size: 10;
@@ -92,7 +92,7 @@
 }
 
 .simple-button {
-	background: blue;
+	background: #3e80c4;
 	padding: 1px;
 	font-family: Geneva, Vera, Arial, Helvetica, sans-serif;
 	border : 2px solid #aaa;
@@ -107,6 +107,19 @@
 
 #simple-backspace {
   width: 145px;
+}
+.diagnosisBar {
+/*  height: 1em;*/
+  left: 250px;
+  width: 670px;
+  position: absolute;
+  top: 130px;
+  font-size: 1.5em;
+	text-align: center;
+  background-color: Turquoise;
+  z-index: 1002;
+	border: 3px solid #25a099;
+  display: none;
 }
 
 
