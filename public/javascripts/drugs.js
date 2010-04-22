@@ -17,23 +17,23 @@ String.prototype.toProperCase = function()
 
 function generateDrugs(){
     if($("parent_container")){
-        document.body.removeChild($("parent_container"));
+        $("content").removeChild($("parent_container"));
     }
 
     var parent_container = document.createElement("div");
     parent_container.id = "parent_container";
     parent_container.style.position = "absolute";
-    parent_container.style.marginLeft = "-400px";
+    parent_container.style.marginLeft = "-500px";
     parent_container.style.marginTop = "-300px";
     parent_container.style.top = "50%";
     parent_container.style.left = "50%";
     parent_container.style.height = "520px";
-    parent_container.style.width = "795px";
+    parent_container.style.width = "1000px";
     parent_container.style.overflow = "auto";
     parent_container.style.zIndex = "20";
     parent_container.style.backgroundColor = "#FFFFFF";
 
-    document.body.appendChild(parent_container);
+    $("content").appendChild(parent_container);
     
     var mainTable = document.createElement("table");
     mainTable.width = "100%";
@@ -95,7 +95,7 @@ function generateDrugs(){
     // GROUP 1
     var tbl1 = document.createElement("table");
     tbl1.style.width = "100%";
-    tbl1.style.height = "390px";
+    tbl1.style.height = "400px";
     tbl1.style.backgroundColor = "#EEEEEE";
     tbl1.border = 0;
     tbl1.cellPadding = 3;
@@ -121,7 +121,7 @@ function generateDrugs(){
     
     var div1 = document.createElement("div");
     div1.style.width = "100%";
-    div1.style.height = "390px";
+    div1.style.height = "400px";
     div1.style.overflow = "auto";
     div1.id = "div1";
 
@@ -131,7 +131,7 @@ function generateDrugs(){
     // MIDDLE CONTAINER
     var divMid = document.createElement("div");
     divMid.style.width = "100%";
-    divMid.style.height = "422px";
+    divMid.style.height = "432px";
     divMid.style.overflow = "hidden";
     divMid.id = "divMid";
     divMid.style.backgroundColor = "#EEEEEE";
@@ -141,7 +141,7 @@ function generateDrugs(){
     // GROUP 4
     var tbl4 = document.createElement("table");
     tbl4.style.width = "100%";
-    tbl4.style.height = "390px";
+    tbl4.style.height = "400px";
     tbl4.style.backgroundColor = "#EEEEEE";
     tbl4.border = 0;
     tbl4.cellPadding = 3;
@@ -168,7 +168,7 @@ function generateDrugs(){
 
     var div4 = document.createElement("div");
     div4.style.width = "100%";
-    div4.style.height = "390px";
+    div4.style.height = "400px";
     div4.style.overflow = "auto";
     div4.id = "div4";
 
@@ -791,23 +791,23 @@ function generateDrugs(){
 
 function viewSelectedDrugs(){
     if($("parent_container")){
-        document.body.removeChild($("parent_container"));
+        $("content").removeChild($("parent_container"));
     }
 
     var parent_container = document.createElement("div");
     parent_container.id = "parent_container";
     parent_container.style.position = "absolute";
-    parent_container.style.marginLeft = "-400px";
+    parent_container.style.marginLeft = "-500px";
     parent_container.style.marginTop = "-300px";
     parent_container.style.top = "50%";
     parent_container.style.left = "50%";
     parent_container.style.height = "520px";
-    parent_container.style.width = "795px";
+    parent_container.style.width = "1000px";
     parent_container.style.overflow = "auto";
     parent_container.style.zIndex = "20";
     parent_container.style.backgroundColor = "#FFFFFF";
 
-    document.body.appendChild(parent_container);
+    $("content").appendChild(parent_container);
 
     var mainTable = document.createElement("table");
     mainTable.width = "100%";
@@ -862,7 +862,7 @@ function viewSelectedDrugs(){
 
     var divMid = document.createElement("div");
     divMid.style.width = "100%";
-    divMid.style.height = "422px";
+    divMid.style.height = "432px";
     divMid.style.overflow = "hidden";
     divMid.id = "divMid";
     divMid.style.backgroundColor = "#EEEEEE";
@@ -1213,7 +1213,7 @@ function createSolubleInsulinDosageFrequencyTable(drug, dosefreqdiv){
     var div = document.createElement("div");
     div.style.overflow = "auto";
     div.style.width = "100%";
-    div.style.height = "390px";
+    div.style.height = "400px";
     div.style.backgroundColor = "#EEEEEE";
 
     tdBody.appendChild(div);
@@ -1618,7 +1618,7 @@ function createLenteInsulinDosageFrequencyTable(drug, dosefreqdiv){
     var div = document.createElement("div");
     div.style.overflow = "auto";
     div.style.width = "100%";
-    div.style.height = "390px";
+    div.style.height = "400px";
     div.style.backgroundColor = "#EEEEEE";
 
     tdBody.appendChild(div);
@@ -1933,20 +1933,20 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
 
     var div1 = document.createElement("div");
     div1.style.width = "100%";
-    div1.style.height = "390px";
+    div1.style.height = "400px";
     div1.style.overflow = "auto";
     div1.id = "divDose";
 
     var div2 = document.createElement("div");
     div2.style.width = "100%";
-    div2.style.height = "390px";
+    div2.style.height = "400px";
     div2.style.overflow = "auto";
     div2.id = "divFreq";
 
     // GROUP 1
     var tbl1 = document.createElement("table");
     tbl1.style.width = "100%";
-    tbl1.style.height = "390px";
+    tbl1.style.height = "400px";
     tbl1.style.backgroundColor = "#EEEEEE";
     tbl1.border = 0;
     tbl1.cellPadding = 3;
@@ -2241,7 +2241,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
 }
 
 function removeDrugs(){
-    document.body.removeChild($('parent_container'));
+    $("content").removeChild($('parent_container'));
 }
 
 //window.addEventListener("load", generateDrugs, false);
