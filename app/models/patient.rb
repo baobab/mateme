@@ -181,10 +181,11 @@ class Patient < ActiveRecord::Base
   end
 
   def drug_details(drug_info, diagnosis_name)
-
+    #raise drug_info.inspect
+    
     insulin = false
     if (drug_info[0].downcase.include? "insulin") && ((drug_info[0].downcase.include? "lente") ||
-          (drug_info[0].downcase.include? "soluble"))
+          (drug_info[0].downcase.include? "soluble")) || ((drug_info[0].downcase.include? "glibenclamide") && (drug_info[1] == ""))
 
       if(drug_info[0].downcase == "insulin, lente")     # due to error noticed when searching for drugs
         drug_info[0] = "LENTE INSULIN"

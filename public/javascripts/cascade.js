@@ -537,13 +537,13 @@ function createQuestionare(ctrl){
 
     var mainTable = document.createElement("table");
     mainTable.width = "100%";
-    mainTable.cellPadding = 30;
+    mainTable.cellPadding = 10;
 
     var mainTBody = document.createElement("tbody");
     var trMain = document.createElement("tr");
     var tdMain = document.createElement("td");
 
-    tdMain.innerHTML = "<br />";
+    tdMain.innerHTML = "<br /><br />";
 
     mainTable.appendChild(mainTBody);
     mainTBody.appendChild(trMain);
@@ -567,7 +567,7 @@ function createQuestionare(ctrl){
 
     var divScroller = document.createElement("div");
     divScroller.style.width = "100%";
-    divScroller.style.height = "415px";
+    divScroller.style.height = "450px";
     divScroller.style.overflow = "auto";
     divScroller.style.backgroundColor = "#ffffff";
     divScroller.id = "divScroller";
@@ -596,7 +596,7 @@ function createQuestionare(ctrl){
     td1.style.width = "500px";
     td1.style.position = "absolute";
     td1.style.top = "5px";
-    td1.style.left = "25px";
+    td1.style.left = "10px";
     td1.style.fontSize = "2em";
     td1.style.overFlow = "hidden";
 
@@ -643,7 +643,7 @@ function createQuestionare(ctrl){
                         var td_1 = document.createElement("td");
                         var td_1_blank = document.createElement("td");
                         td_1_blank.innerHTML = "&nbsp;"
-                        td_1_blank.width = "10%";
+                        td_1_blank.width = "0%";
 
                         tr_1.appendChild(td_1_blank);
                         tr_1.appendChild(td_1);
@@ -1001,18 +1001,20 @@ function createQuestionare(ctrl){
 
     var div = document.createElement("div");
     div.style.position = "absolute";
-    div.style.marginLeft = "-400px";
+    div.style.marginLeft = "-500px";
     div.style.marginTop = "-300px";
     div.style.top = "50%";
     div.style.left = "50%";
     div.style.height = "520px";
-    div.style.width = "795px";
+    div.style.width = "1000px";
     div.style.overflow = "auto";
     div.style.zIndex = "20";
     div.style.backgroundColor = "#FFFFFF";
     div.id = "divQuestionare";
 
-    document.body.appendChild(div);
+    //document.body.appendChild(div);
+
+    $("content").appendChild(div);
 
     div.appendChild(mainTable);
 
@@ -1219,7 +1221,7 @@ function removeQuestionaire(){
     global_grouptable = [];
     global_grouptrs = [];
 
-    if($('divQuestionare')) document.body.removeChild($('divQuestionare'));
+    if($('divQuestionare')) $("content").removeChild($('divQuestionare'));
 }
 
 function createCheckBoxes(group_id, text, tbody, level, prefix, root, parent, child, grandchild, greatgrandchild){

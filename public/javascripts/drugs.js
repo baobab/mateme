@@ -1,6 +1,7 @@
 // drugs.js
 
 var controlCount = 0;
+var current_drug = "";
 
 function $(id){
     return document.getElementById(id);
@@ -16,23 +17,23 @@ String.prototype.toProperCase = function()
 
 function generateDrugs(){
     if($("parent_container")){
-        document.body.removeChild($("parent_container"));
+        $("content").removeChild($("parent_container"));
     }
 
     var parent_container = document.createElement("div");
     parent_container.id = "parent_container";
     parent_container.style.position = "absolute";
-    parent_container.style.marginLeft = "-400px";
+    parent_container.style.marginLeft = "-500px";
     parent_container.style.marginTop = "-300px";
     parent_container.style.top = "50%";
     parent_container.style.left = "50%";
     parent_container.style.height = "520px";
-    parent_container.style.width = "795px";
+    parent_container.style.width = "1000px";
     parent_container.style.overflow = "auto";
     parent_container.style.zIndex = "20";
     parent_container.style.backgroundColor = "#FFFFFF";
 
-    document.body.appendChild(parent_container);
+    $("content").appendChild(parent_container);
     
     var mainTable = document.createElement("table");
     mainTable.width = "100%";
@@ -94,7 +95,7 @@ function generateDrugs(){
     // GROUP 1
     var tbl1 = document.createElement("table");
     tbl1.style.width = "100%";
-    tbl1.style.height = "390px";
+    tbl1.style.height = "400px";
     tbl1.style.backgroundColor = "#EEEEEE";
     tbl1.border = 0;
     tbl1.cellPadding = 3;
@@ -120,7 +121,7 @@ function generateDrugs(){
     
     var div1 = document.createElement("div");
     div1.style.width = "100%";
-    div1.style.height = "390px";
+    div1.style.height = "400px";
     div1.style.overflow = "auto";
     div1.id = "div1";
 
@@ -130,7 +131,7 @@ function generateDrugs(){
     // MIDDLE CONTAINER
     var divMid = document.createElement("div");
     divMid.style.width = "100%";
-    divMid.style.height = "422px";
+    divMid.style.height = "432px";
     divMid.style.overflow = "hidden";
     divMid.id = "divMid";
     divMid.style.backgroundColor = "#EEEEEE";
@@ -140,7 +141,7 @@ function generateDrugs(){
     // GROUP 4
     var tbl4 = document.createElement("table");
     tbl4.style.width = "100%";
-    tbl4.style.height = "390px";
+    tbl4.style.height = "400px";
     tbl4.style.backgroundColor = "#EEEEEE";
     tbl4.border = 0;
     tbl4.cellPadding = 3;
@@ -167,7 +168,7 @@ function generateDrugs(){
 
     var div4 = document.createElement("div");
     div4.style.width = "100%";
-    div4.style.height = "390px";
+    div4.style.height = "400px";
     div4.style.overflow = "auto";
     div4.id = "div4";
 
@@ -224,6 +225,8 @@ function generateDrugs(){
                         loadDrugs($(id[1]).getAttribute("generic"), $("divMid"));
                     }
 
+                    current_drug = this.value;
+                    
                 } else {
                     $(id[1]).bgColor = "";
                 }
@@ -332,7 +335,8 @@ function generateDrugs(){
 
                     if(!generics_value.match(/^$/)){
                         
-                        if(dose_value.match(/^$/) && frequency_value.match(/^$/)){
+                        if((dose_value.match(/^$/) && frequency_value.match(/^$/)) ||
+                            (dose_value.match(/^$/) && current_drug.toLowerCase() == "glibenclamide")){
 
                             for(var g2 = 0; g2 < group2.length; g2++){
                                 if(group2[g2].checked){
@@ -355,7 +359,7 @@ function generateDrugs(){
                                 }
                             }
 
-                 /*
+                            /*
                              *
                              *  SUFFIX CODE LEGEND
                              *
@@ -637,6 +641,114 @@ function generateDrugs(){
 
                             generateDrugs();
 
+                        } else if(!dose_value.match(/^$/) && current_drug.toLowerCase() == "glibenclamide"){
+                            var r = dose_value.match(/\[[^\]]+\]/g);
+                            var morning_dose = "";
+                            var evening_dose = "";
+                            
+                            if(r){
+                                for(var j=0; j < r.length; j++){
+                                    var vals = r[j].match(/\[(.+):(.+)\]/);
+
+                                    if(vals){
+                                        switch(vals[2].toUpperCase()){
+                                            case "AM":
+                                                morning_dose = vals[1].match(/\d+/g)[0];
+                                                break;
+                                            case "PM":
+                                                evening_dose = vals[1].match(/\d+/g)[0];
+                                                break;
+                                        }
+
+                                    }
+                                }
+
+                                var txtConceptName = document.createElement("input");
+                                txtConceptName.type = "hidden";
+                                txtConceptName.name = "prescriptions[][concept_name]";
+                                txtConceptName.value = "DIAGNOSIS";
+                                txtConceptName.id = "group_"+controlCount+"_10";
+
+                                document.forms[0].appendChild(txtConceptName);
+
+                                var txtValueCodedText = document.createElement("input");
+                                txtValueCodedText.type = "hidden";
+                                txtValueCodedText.name = "prescriptions[][value_coded_or_text]";
+                                txtValueCodedText.value = "DIABETES MEDICATION";
+                                txtValueCodedText.id = "group_"+controlCount+"_11";
+
+                                document.forms[0].appendChild(txtValueCodedText);
+
+                                var txtSuggestion = document.createElement("input");
+                                txtSuggestion.type = "hidden";
+                                txtSuggestion.name = "prescriptions[][suggestion]";
+                                txtSuggestion.value = 0;
+                                txtSuggestion.id = "group_"+controlCount+"_9";
+
+                                document.forms[0].appendChild(txtSuggestion);
+
+                                var txtTypeOfPrescription = document.createElement("input");
+                                txtTypeOfPrescription.type = "hidden";
+                                txtTypeOfPrescription.name = "prescriptions[][type_of_prescription]";
+                                txtTypeOfPrescription.value = "variable";
+                                txtTypeOfPrescription.id = "group_"+controlCount+"_12";
+
+                                document.forms[0].appendChild(txtTypeOfPrescription);
+
+                                var txtPatientID = document.createElement("input");
+                                txtPatientID.type = "hidden";
+                                txtPatientID.name = "prescriptions[][patient_id]";
+                                txtPatientID.value = $('patient_id').value;
+                                txtPatientID.id = "group_"+controlCount+"_8";
+
+                                document.forms[0].appendChild(txtPatientID);
+
+                                var txtDiagnosis = document.createElement("input");
+                                txtDiagnosis.type = "hidden";
+                                txtDiagnosis.name = "prescriptions[][diagnosis]";
+                                txtDiagnosis.value = "DIABETES MEDICATION";
+                                txtDiagnosis.id = "group_"+controlCount+"_7";
+
+                                document.forms[0].appendChild(txtDiagnosis);
+
+                                var txtGenerics = document.createElement("input");
+                                txtGenerics.type = "hidden";
+                                txtGenerics.name = "prescriptions[][generic]";
+                                txtGenerics.value = generics_value;
+                                txtGenerics.id = "group_"+controlCount+"_0";
+
+                                document.forms[0].appendChild(txtGenerics);
+
+                                var txtGroup2 = document.createElement("input");
+                                txtGroup2.type = "hidden";
+                                txtGroup2.name = "prescriptions[][morning_dose]";
+                                txtGroup2.value = morning_dose;
+                                txtGroup2.id = "group_"+controlCount+"_4";
+
+                                document.forms[0].appendChild(txtGroup2);
+
+                                var txtGroup6 = document.createElement("input");
+                                txtGroup6.type = "hidden";
+                                txtGroup6.name = "prescriptions[][evening_dose]";
+                                txtGroup6.value = evening_dose;
+                                txtGroup6.id = "group_"+controlCount+"_6";
+
+                                document.forms[0].appendChild(txtGroup6);
+
+                                var txtDuration = document.createElement("input");
+                                txtDuration.type = "hidden";
+                                txtDuration.name = "prescriptions[][duration]";
+                                txtDuration.value = this.value;
+                                txtDuration.id = "group_"+controlCount+"_3";
+
+                                document.forms[0].appendChild(txtDuration);
+
+                                generateDrugs();
+                                    
+                            } else {
+                                return;
+                            }
+                            
                         }
                     }
                     
@@ -679,23 +791,23 @@ function generateDrugs(){
 
 function viewSelectedDrugs(){
     if($("parent_container")){
-        document.body.removeChild($("parent_container"));
+        $("content").removeChild($("parent_container"));
     }
 
     var parent_container = document.createElement("div");
     parent_container.id = "parent_container";
     parent_container.style.position = "absolute";
-    parent_container.style.marginLeft = "-400px";
+    parent_container.style.marginLeft = "-500px";
     parent_container.style.marginTop = "-300px";
     parent_container.style.top = "50%";
     parent_container.style.left = "50%";
     parent_container.style.height = "520px";
-    parent_container.style.width = "795px";
+    parent_container.style.width = "1000px";
     parent_container.style.overflow = "auto";
     parent_container.style.zIndex = "20";
     parent_container.style.backgroundColor = "#FFFFFF";
 
-    document.body.appendChild(parent_container);
+    $("content").appendChild(parent_container);
 
     var mainTable = document.createElement("table");
     mainTable.width = "100%";
@@ -750,7 +862,7 @@ function viewSelectedDrugs(){
 
     var divMid = document.createElement("div");
     divMid.style.width = "100%";
-    divMid.style.height = "422px";
+    divMid.style.height = "432px";
     divMid.style.overflow = "hidden";
     divMid.id = "divMid";
     divMid.style.backgroundColor = "#EEEEEE";
@@ -1101,7 +1213,7 @@ function createSolubleInsulinDosageFrequencyTable(drug, dosefreqdiv){
     var div = document.createElement("div");
     div.style.overflow = "auto";
     div.style.width = "100%";
-    div.style.height = "390px";
+    div.style.height = "400px";
     div.style.backgroundColor = "#EEEEEE";
 
     tdBody.appendChild(div);
@@ -1506,7 +1618,7 @@ function createLenteInsulinDosageFrequencyTable(drug, dosefreqdiv){
     var div = document.createElement("div");
     div.style.overflow = "auto";
     div.style.width = "100%";
-    div.style.height = "390px";
+    div.style.height = "400px";
     div.style.backgroundColor = "#EEEEEE";
 
     tdBody.appendChild(div);
@@ -1821,20 +1933,20 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
 
     var div1 = document.createElement("div");
     div1.style.width = "100%";
-    div1.style.height = "390px";
+    div1.style.height = "400px";
     div1.style.overflow = "auto";
     div1.id = "divDose";
 
     var div2 = document.createElement("div");
     div2.style.width = "100%";
-    div2.style.height = "390px";
+    div2.style.height = "400px";
     div2.style.overflow = "auto";
     div2.id = "divFreq";
 
     // GROUP 1
     var tbl1 = document.createElement("table");
     tbl1.style.width = "100%";
-    tbl1.style.height = "390px";
+    tbl1.style.height = "400px";
     tbl1.style.backgroundColor = "#EEEEEE";
     tbl1.border = 0;
     tbl1.cellPadding = 3;
@@ -1959,6 +2071,22 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
                 if(this.checked){
                     var c = document.getElementsByName("dose");
 
+                    if(current_drug.toLowerCase()=="glibenclamide"){
+
+                        var f = document.getElementsByName("frequency");
+
+                        for(var g = 0; g < f.length; g++){
+                            var o = f[g].id.match(/(frequency_cell_\d+)/);
+
+                            f[g].disabled = false;
+
+                            if(o){
+                                $(o[1]).bgColor = "";
+                            }
+                        }
+
+                    }
+            
                     for(var k = 0; k < c.length; k++){
                         var d = c[k].id.match(/(dose_cell_\d+)/);
 
@@ -1985,6 +2113,69 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
         optTd1.appendChild(lbl1);
     }
 
+    if(drug.toLowerCase() == "glibenclamide"){
+        var optTr = document.createElement("tr");
+        var optTd = document.createElement("td");
+        optTd.id = "dose_cell_1000";
+        optTd.align = "left";
+        optTd.style.fontStyle = "normal";
+
+        var optRadio = document.createElement("input");
+        optRadio.type = "radio";
+        optRadio.name = "dose";
+        optRadio.value = "[10MG:AM],[5MG:PM]";
+        optRadio.id = "rdo_dose_cell_1000";
+
+        optTd.onclick = function(){
+            var id = "rdo_" + this.id;
+            $(id).click();
+        }
+
+        optRadio.onclick = function(){
+            var id = this.id.match(/(dose_cell_\d+)/);
+
+            if(id){
+                if(this.checked){
+                    var c = document.getElementsByName("dose");
+
+                    for(var k = 0; k < c.length; k++){
+                        var d = c[k].id.match(/(dose_cell_\d+)/);
+
+                        if(d){
+                            $(d[1]).bgColor = "";
+                        }
+                    }
+
+                    var f = document.getElementsByName("frequency");
+
+                    for(var g = 0; g < f.length; g++){
+                        var o = f[g].id.match(/(frequency_cell_\d+)/);
+
+                        f[g].checked = false;
+                        f[g].disabled = true;
+                        
+                        if(o){
+                            $(o[1]).bgColor = "#DDDDDD";
+                        }
+                    }
+
+                    $(id[1]).bgColor = "#add8e6";
+
+                } else {
+                    $(id[1]).bgColor = "";
+                }
+            }
+        }
+
+        optTd.appendChild(optRadio);
+        optTr.appendChild(optTd);
+        optTBody1.appendChild(optTr);
+
+        var lbl = document.createElement("label");
+        lbl.innerHTML = "10mg AM : 5mg PM";
+
+        optTd.appendChild(lbl);
+    }
 
     var optTable2 = document.createElement("table");
     var optTBody2 = document.createElement("tbody");
@@ -2050,7 +2241,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
 }
 
 function removeDrugs(){
-    document.body.removeChild($('parent_container'));
+    $("content").removeChild($('parent_container'));
 }
 
 //window.addEventListener("load", generateDrugs, false);

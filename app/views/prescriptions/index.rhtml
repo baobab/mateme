@@ -217,13 +217,13 @@
   <form id='prescription' action="/prescriptions/create" method='post'></form>
 
   <div style="font-size: 22pt;">
-    <ul class="list" style="height:340px;width:750px;">
+    <ul class="list" style="height:340px;width:965px;">
       <%
       i = 0;
       for order in @patient_diabetes_treatements do
         i += 1
       %>
-        <li class="data <%= cycle('even', 'odd') %>">
+        <li <%= ((order.days_so_far.to_i == 0)?"style='background-color:#DDFBDD; border:#CCCCCC'":"")  %> class="data <%= cycle('even', 'odd') %>">
           <table width="100%" border="0" cellpadding="2" class="summary">
             <tr>
               <td id="td_<%= order.order_id %>" onclick="if(global_ignore_click==false){
@@ -256,6 +256,7 @@
               </td>
             </tr>
           </table>
+            </span>
         </li>
       <% end %>
       <% if @patient_diabetes_treatements.blank? %>
@@ -264,10 +265,10 @@
     </ul>
   </div>
 
-  <div style="float:right;padding-right:20px;margin-top:-15px;">
+  <div style="float:right;padding-right:5px;margin-top:-15px;">
     <input type="button" style="background-color:green; font-size:1.3em; line-height:57px; min-width:48px; height:57px; color:#fff;" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'" value="New Prescription"/><br/>
   </div>
-  <div style="float:right;padding-right:20px;margin-top:-15px;">
+  <div style="float:right;padding-right:5px;margin-top:-15px;">
     <input type="button" style="background-color:green; font-size:1.3em; line-height:57px; min-width:48px; height:57px; color:#fff;"
            onclick="var checked = false; var c = document.body.getElementsByTagName('input');
          for(var i=0; i<c.length; i++){
@@ -281,7 +282,14 @@
          if(checked==true){
            $('prescription').submit()
          }else{
-           alert('Please select at least one prescription to prescribe.')
+           //alert('Please select at least one prescription to prescribe.')
+           var warning = document.createElement('div');
+           warning.id = 'messageBar';
+           warning.innerHTML = 'Please select at least one prescription to prescribe.<br />\n\
+                  <button onclick=\'this.offsetParent.offsetParent.removeChild(this.offsetParent)\'><span>OK</span></button>';
+           warning.className = 'messageBar';
+           $('content').appendChild(warning);
+           
          }" value="Prescribe Selected"/><br/>
   </div>
 </div>

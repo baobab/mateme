@@ -56,7 +56,7 @@ form{
   border-left:none;
   border-right:none;
   border-bottom: 1px solid silver;
-  width:745px;
+  width:945px;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:2.2em;
   background:none;
@@ -105,7 +105,7 @@ form{
   height:80px;
   position:absolute;
   top:520px;
-  width:800px;
+  width:1000px;
   z-index:10;
 }
 
@@ -193,7 +193,7 @@ form{
   left: 0px;
   z-index: 1;
   height: 520px;
-  width: 795px;
+  width: 995px;
   overflow: hidden;
 }
 
@@ -211,7 +211,7 @@ form{
   font-size: 2em;
   padding-top: 5px;
   padding-left: 25px;
-  width: 620px;
+  width: 820px;
   -moz-user-select: none;
 }
 
