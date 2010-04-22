@@ -113,7 +113,7 @@
     :id => "cause_of_secondary_diabetes",
     :tt_onUnLoad => "$('final_cause').value = $('cause_of_secondary_diabetes').value",
     :tt_requireNextClick => false,
-    :condition => "$('secondary_diabetes').value != 'No'",
+    :condition => "$('secondary_diabetes').value.capitalize() != 'No'",
     :helpText => "Cause of Secondary Diabetes"
 
   }) %>
