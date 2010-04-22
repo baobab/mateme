@@ -83,7 +83,7 @@
 
 <% options=default.merge({
     :field_type => 'text',
-    :helpText => "Select treatement(s) ever taken:",
+    :helpText => "Select treatements taken since diagnosis:",
     :id => "diabetes_treatements",
     :tt_onUnLoad => "setConceptNamesAndValues()",
     :multiple => true,
@@ -498,14 +498,15 @@
 
   <%= select_tag "insulin[type]", options_for_select([
     "",
-    "Long Insulin",
-    "Short Insulin",
-    "Both Long and Short Insulin"
+    "Long Acting Insulin",
+    "Short Acting Insulin"
   ], ((@encounter_obs)?(@encounter_obs["insulin_type"]):"")),{
     :id => "type_of_insulin",
     :helpText  => 'Select type of Insulin',
     :tt_onUnload => "$('insulin_value_coded_or_text').value = $('type_of_insulin').value.toUpperCase()",
-    :condition => '$("insulin_value_coded_or_text").value.toLowerCase() == "yes"'
+    :condition => '$("insulin_value_coded_or_text").value.toLowerCase() == "yes"',
+    :multiple => true,
+    :tt_pageStyleClass => "MultiSelectList"
   }
   %>
   <%= hidden_field_tag("observations[][concept_name]",        "TYPE OF INSULIN") %>
