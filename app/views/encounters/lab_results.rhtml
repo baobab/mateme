@@ -1,5 +1,29 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+
+  function resetPageAttributes(current_page){
+
+   if ($('blood_sugar_type').value == 'HbA1c') {
+        $(current_page).setAttribute('min', 4);
+        $(current_page).setAttribute('max', 30);
+        $(current_page).setAttribute('absoluteMin', 0);
+        $(current_page).setAttribute('absoluteMax', 50);
+      }
+   else {
+      if ($('blood_sugar_unit').value == 'mmol/l'){
+        $(current_page).setAttribute('min', 2.7);
+        $(current_page).setAttribute('max', 27.8);
+      }
+   else {
+      $(current_page).setAttribute('min', 50);
+      $(current_page).setAttribute('max', 500);
+    }
+  }
+}
+
+function displayInfoBarText(){
+  $('infoBar'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.capitalize() + ' Blood Sugar (' + $('blood_sugar_unit').value + ')';
+}
 </script>
 
 
@@ -29,6 +53,7 @@
     <% options=default.merge({
           :field_type => 'text',
           :id => "blood_sugar_unit",
+          :tt_onload => "$('infoBar'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.capitalize()+' Blood Sugar'",
           :tt_requireNextClick => false,
           :condition => "$('blood_sugar_type').value != 'HbA1c'",
           :helptext =>"Select blood sugar units of measure"
@@ -50,24 +75,9 @@
         #:validationCode => "($('blood_sugar_unit').value == 'mmol/l') && (tstInputTarget.value > 4 && tstInputTarget.value < 20) || (tstInputTarget.value > 76 && tstInputTarget.value < 347)",
         :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
         :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-        :tt_onload => "$('observations__concept_name').value = $('blood_sugar_type').value;
-                         if ($('blood_sugar_type').value == 'HbA1c') {
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 4);
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 30);
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('absoluteMin', 0);
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('absoluteMax', 50);
-                            }
-                         else {
-                            if ($('blood_sugar_unit').value == 'mmol/l'){
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('min', 2.7);
-                              $('touchscreenInput'+tstCurrentPage).setAttribute('max', 27.8);
-                            }
-                         else {
-                            $('touchscreenInput'+tstCurrentPage).setAttribute('min', 50);
-                            $('touchscreenInput'+tstCurrentPage).setAttribute('max', 500);
-                          }
-                      }
-      " } %>
+        :tt_onload => "displayInfoBarText(); resetPageAttributes('touchscreenInput'+tstCurrentPage);
+                       $('observations__concept_name').value = $('blood_sugar_type').value;
+                       " } %>
     <%= hidden_field_tag("observations[][concept_name]", "") %>
     <%= hidden_field_tag("observations[][type]", "BLOOD SUGAR TEST TYPE") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>

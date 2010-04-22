@@ -174,3 +174,27 @@ function confirmRecordDeletion(message, form) {
     }
     return false;
 }
+
+String.prototype.capitalize = function(){
+  var titleized_string = new Array();
+
+  if( (this.length > 0)){
+    titleized_string.push(this[0].toUpperCase());
+    titleized_string.push(this.substring(1,this.length).toLowerCase());
+    return titleized_string.join("");
+   }
+
+  else{
+    return this;
+ }
+}
+
+String.prototype.titleize = function(){
+	var titleized_string = new Array();
+	var sub_strings = this.split(" ");
+
+  for(i = 0; i < sub_strings.length; i++)
+		titleized_string.push(sub_strings[i].capitalize());
+
+	return titleized_string.join(" ");
+}
