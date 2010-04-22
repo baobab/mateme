@@ -22,7 +22,13 @@
 }
 
 function displayInfoBarText(){
-  $('infoBar'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.capitalize() + ' Blood Sugar (' + $('blood_sugar_unit').value + ')';
+  if($('blood_sugar_type').value.capitalize() != "Hba1c"){
+    $('helpText'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.capitalize()
+      + ' Blood Sugar Value (in ' + $('blood_sugar_unit').value + ')';
+  }
+  else{
+    $('helpText'+tstCurrentPage).innerHTML = 'Enter HbA1c value';
+   }
 }
 </script>
 
