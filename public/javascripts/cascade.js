@@ -567,7 +567,7 @@ function createQuestionare(ctrl){
 
     var divScroller = document.createElement("div");
     divScroller.style.width = "100%";
-    divScroller.style.height = "450px";
+    divScroller.style.height = "600px";
     divScroller.style.overflow = "auto";
     divScroller.style.backgroundColor = "#ffffff";
     divScroller.id = "divScroller";
@@ -1002,10 +1002,10 @@ function createQuestionare(ctrl){
     var div = document.createElement("div");
     div.style.position = "absolute";
     div.style.marginLeft = "-500px";
-    div.style.marginTop = "-300px";
+    div.style.marginTop = "-380px";
     div.style.top = "50%";
     div.style.left = "50%";
-    div.style.height = "520px";
+    div.style.height = "675px";
     div.style.width = "1000px";
     div.style.overflow = "auto";
     div.style.zIndex = "20";

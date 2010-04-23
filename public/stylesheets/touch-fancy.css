@@ -65,7 +65,7 @@ form{
 
 .options{
 	overflow: auto;
-  height:10em;
+  height:27em;
 }
 
 .options ul{
@@ -104,7 +104,7 @@ form{
   display:block;
   height:80px;
   position:absolute;
-  top:520px;
+  top:660px;
   width:1000px;
   z-index:10;
 }
@@ -191,7 +191,7 @@ form{
   top: 0px;
   left: 0px;
   z-index: 1;
-  height: 520px;
+  height: 670px;
   width: 995px;
   overflow: hidden;
 }
@@ -686,7 +686,7 @@ display:block;
 .LongSelectList #viewport,
 .LongSelectList #options{
   -moz-user-select:none;
-  height: 17em;
+  height: 27em;
 }
 
 .LongSelectList #keyboard{
@@ -703,7 +703,7 @@ display:block;
 .MultiSelectList #viewport,
 .MultiSelectList #options{
   -moz-user-select:none;
-  height: 17em;
+  height: 27em;
   background: #FAFAD2;
 }
 

@@ -1,5 +1,5 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
-<%
+<%#
 
   if(params[:encounter_id] && params[:group_type])
     @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
@@ -87,10 +87,12 @@
 
   }
 </script>
-<form id='complications' action="/encounters/create" method='post'>
+<form id='complications' action="/encounters/<%= ((params[:edit])?"update":"create") %>" method='post'>
   <% default={
     :allowFreeText => 'true'
   } %>
+
+  <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
 
   <%= hidden_field_tag "encounter[encounter_type_name]",  "HYPERTENSION MANAGEMENT" %>
   <%= hidden_field_tag "encounter[patient_id]",           @patient.id %>
