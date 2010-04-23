@@ -153,7 +153,7 @@ class EncountersController < ApplicationController
         @encounter_url = Hash.new
         @medical_history_encounters = ['Diabetes History',
           'Diabetes Treatments',
-          'Diabetes Admissions',
+          'Hospital Admissions',
           'Past Diabetes Medical History',
           #'Initial Complications',
           'Complications',
@@ -161,7 +161,7 @@ class EncountersController < ApplicationController
           'General Health'
         ]
 
-        other_urls = {'Diabetes Admissions' => 'Hospital Admissions',
+        other_urls = {'Hospital Admissions' => 'Hospital Admissions',
           'Complications' => 'Initial Complications'
         }
         @medical_history_encounters.each do |name|
@@ -280,7 +280,7 @@ class EncountersController < ApplicationController
       @encounter_type_ids = []
       encounters_list = ["initial diabetes complications","complications",
                         "diabetes history", "diabetes treatments",
-                        "diabetes admissions", "general health",
+                        "hospital admissions", "general health",
                         "hypertension management",
                         "past diabetes medical history"]
 
