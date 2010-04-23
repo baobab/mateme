@@ -85,7 +85,8 @@ class Patient < ActiveRecord::Base
       "General health", "Diabetes treatments", "Diabetes admissions",
       "Hypertension management", "Past diabetes medical history"]
     encs.each {|encounter|
-      label.draw_multi_text("#{encounter.name.titleize}: #{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
+     section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
+      label.draw_multi_text("#{section_title}#{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
     }
     label.print(1)
   end
