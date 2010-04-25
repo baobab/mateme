@@ -12,9 +12,9 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-   <input type='text' name='diagnosis_ctrl' tt_onLoad='createElements();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='removeElements()' tt_pageStyleClass='NoControls' optional /> 
+   <input type='text' name='diagnosis_ctrl' tt_onLoad='createElements();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='hideDiagnosisContainer()' tt_pageStyleClass='NoControls' optional /> 
    
-   <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='createConfirmatoryEvidence();' tt_onUnLoad='removeElements()' tt_pageStyleClass='NoControls' optional /> 
+   <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='createConfirmatoryEvidence();' tt_onUnLoad='hideConfirmatoryContainer()' tt_pageStyleClass='NoControls' optional /> 
 
 
    <%= hidden_field_tag("final_diagnosis", nil, {:id => "final_diagnosis"}) %>

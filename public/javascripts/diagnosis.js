@@ -27,7 +27,7 @@ function createSimpleKeyboard(){
   simpleKeyBoard.className = 'simple-keyboard'
   simpleKeyBoard.id = "simple-keyboard";
   simpleKeyBoard.zIndex = 1001;
-  $('main-container').appendChild(simpleKeyBoard);
+  $('diagnosis-container').appendChild(simpleKeyBoard);
   
   var keyboardRowTop = ["Q","W","E","R","T","Y","U","I","O","P"];
   var keyboardRowMiddle = ["A","S","D","F","G","H","J","K","L"];
@@ -65,7 +65,8 @@ function createElements(){
   
  var  mainContainer = document.createElement('div');
  /*Create the main container div*/
- mainContainer.id = "main-container";
+ mainContainer.id = "diagnosis-container";
+ mainContainer.className = "main-container";
  document.body.appendChild(mainContainer);
 
   createSimpleKeyboard();
@@ -169,9 +170,13 @@ function createElements(){
 
 }
 /*Remove the dynamic elements from subsequent pages on Un load*/
-function removeElements(){
+function hideDiagnosisContainer(){
+  document.body.removeChild($('diagnosis-container'));
+}
+
+function hideConfirmatoryContainer(){
   $('final_diagnosis').value = mainDataArray.toSource();
-  document.body.removeChild($('main-container'));
+  document.body.removeChild($('confirmatory-container'));
 }
 
 /*+++++++++++++++++Some ajax for updating lists*/
@@ -201,7 +206,7 @@ function handleHttpResponse(updateElement) {
     }else if (updateElement == 'subDiagnosisPopUp'){
       if (http.responseText != ""){
         $('subDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
         $(updateElement).innerHTML = updateText;
       }else{ /*Check in the final column*/
         $('subDiagnosisPopUpDiv').style.display = "none";
@@ -213,7 +218,7 @@ function handleHttpResponse(updateElement) {
     }else if (updateElement == 'subSubDiagnosisPopUp'){
       if (http.responseText != ""){
         $('subSubDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label  onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        updateText = "<label  onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
         $(updateElement).innerHTML = updateText;
       } else {
         $('subSubDiagnosisPopUpDiv').style.display = "block";
@@ -316,11 +321,12 @@ function updateInfoBar(updateElement){
     tempDataArray.push($('sub-sub-diagnosis-select').value);
     } else if (updateElement == 'confirmatory-evidence-select'){
       tempDataArray.push($('confirmatory-evidence-select').value);
-    } else{
-      tempDataArray = [];//updateElement.innerHTML.replace(/, /g,",").split(",");
+    } else if (updateInfoBarParameter == "update"){
+      tempDataArray = updateElement.innerHTML.replace(/, /g,",").split(",");
+      updateInfoBarParameter = "";
     };
+  removeEmptyObjects();
   if (tempDataArray.toSource() != "[]"){
-    alert(tempDataArray.toSource());
     $('infoBar'+tstCurrentPage).innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
   }else {
     $('infoBar'+tstCurrentPage).innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
@@ -379,7 +385,7 @@ function checkObjectLength(selectedValue){
 }
 
 function removeMainValue(aElement){
-  var originalStringArray = aElement.innerHTML.split(","); 
+  var originalStringArray = aElement.innerHTML.split(",");
   var myTempArray = [];
   var testString = ""
 
@@ -432,7 +438,8 @@ function createConfirmatoryEvidence(){
   
  var  mainContainer = document.createElement('div');
  /*Create the main container div*/
- mainContainer.id = "main-container";
+ mainContainer.id = "confirmatory-container";
+ mainContainer.className = "main-container";
  document.body.appendChild(mainContainer);
 
 
@@ -490,3 +497,22 @@ function activatePopup(popUpType){
 
 }
 
+var updateInfoBarParameter = "";
+
+function changeParam(){
+  updateInfoBarParameter = "update"
+}
+
+function removeEmptyObjects(){
+   var processArray = function(x,idx){
+
+    if (typeof(x) == 'object'){
+
+      if (x.toSource() == "[]"){
+        mainDataArray.splice(idx,2);   
+        return;   
+      }
+    }
+  }
+  mainDataArray.forEach(processArray);
+}
