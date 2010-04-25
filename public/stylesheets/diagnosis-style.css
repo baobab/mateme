@@ -3,32 +3,40 @@
   position: relative;
   width: 992px;
   z-index: 1000;
-  top: 100px;
+  top: 120px;
   left: 6px;
 }
 
 .diagnosis-columns{
-  width: 25%;
   background-color: #EEEEEE;
-  height: 100%;
+  height: 66%;
   position: absolute;
   border-style: solid;
 }
 
 #main-diagnosis{
   left: 0%;
+  width:36%;
 }
 
 #sub-diagnosis{
-  left: 25%;
+  left: 36%;
+  width: 32%;
 }
 
 #sub-sub-diagnosis{
-  left: 50%;
+  left: 68%;
+  width:32%;
 }
 
 #confirmatory-evidence{
-  left: 75%;
+  left: 5%;
+  width: 90%;
+  background-color: #EEEEEE;
+  height: 60%;
+  position: absolute;
+  border-style: solid;
+  top:100px;
 }
 
 .diagnosis-headers{
@@ -60,6 +68,14 @@
   padding-left:5px;
 }
 
+.notify-div{
+  width: 100%;
+  height: 8%;
+  position: absolute;
+  font-style: bold;
+  top: 5%;
+}
+
 .diagnosis-select-div{
   width: 100%;
   height: 87%;
@@ -71,7 +87,7 @@
 .diagnosis-select{
   width:100%;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
-  font-size:1.1em;
+  font-size:1.4em;
   padding:0;
   margin:0;
   size: 10;
@@ -86,41 +102,39 @@
 .simple-keyboard{
   position: absolute;
   font-style: bold;
-  top: 85%;
-  z-index: 1001;
+  top: 67%;
+  z-index: 1005;
   left:30%;
 }
 
 .simple-button {
-	background: #3e80c4;
-	padding: 1px;
-	font-family: Geneva, Vera, Arial, Helvetica, sans-serif;
-	border : 2px solid #aaa;
-  display: inline-block;
-  width: 45px;
-  height: 45px;
-  font-size: 1.8em;
-  text-align: center;
-  font-weight: bold;
-  color:white;
+  margin: 0px;
 }
 
-#simple-backspace {
-  width: 145px;
-}
 .diagnosisBar {
-/*  height: 1em;*/
+  font-size: 1.5em;
+	text-align: left;
+  background-color: Turquoise;
+  max-height: 255px;
+  overflow:auto;
+}
+
+.diagnosisBarDiv {
   left: 250px;
   width: 670px;
   position: absolute;
   top: 130px;
-  font-size: 1.5em;
-	text-align: center;
   background-color: Turquoise;
   z-index: 1002;
 	border: 3px solid #25a099;
   display: none;
 }
+
+.notify-span{
+  font-size: 1.3em;
+  color: tomato;
+}
+
 
 
 
