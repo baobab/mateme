@@ -12,7 +12,9 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-   <input type='text' name='drugsctrl' tt_onLoad='createElements();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='removeElements()' tt_pageStyleClass='NoControls' optional /> 
+   <input type='text' name='diagnosis_ctrl' tt_onLoad='createElements();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='removeElements()' tt_pageStyleClass='NoControls' optional /> 
+   
+   <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='createConfirmatoryEvidence();' tt_onUnLoad='removeElements()' tt_pageStyleClass='NoControls' optional /> 
 
 
    <%= hidden_field_tag("final_diagnosis", nil, {:id => "final_diagnosis"}) %>
@@ -20,16 +22,27 @@
   <%= submit_tag "Finish" %>
 
 </form>
+<div id='subDiagnosisPopUpDiv' class='diagnosisBarDiv'>
 
 <div id='subDiagnosisPopUp' class='diagnosisBar'>
 </div> 
+<div>
+  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
+  </div>
+</div>
+
+<div id='subSubDiagnosisPopUpDiv' class='diagnosisBarDiv'>
 <div id='subSubDiagnosisPopUp' class='diagnosisBar'>
 </div> 
-
+<div>
+  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
+  </div>
+</div>
 
 <script type='text/javascript'>
 var finalAnswers = [<%= DiagnosisTree.diagnosis_data.to_json %>];
 var mainDataArray = [];
 var tempDataArray = [];
+var confirmatoryEvidenceString = "";
 </script>
 
