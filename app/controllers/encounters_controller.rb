@@ -5,7 +5,7 @@ class EncountersController < ApplicationController
 
     if !diagnoses.compact.empty?
       confirmatory_evidence = JSON.parse(GlobalProperty.find_by_property("facility.tests").property_value).collect{|k,v| k}.compact rescue []
-    diagnoses.each{|obs_group|
+      diagnoses.each{|obs_group|
       
       encounter = Encounter.new(params[:encounter])
       encounter.encounter_datetime ||= session[:datetime] 
