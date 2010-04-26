@@ -3,7 +3,7 @@ mikmck:
   role: superuser
 registration:
   user_id: 2
-  role: regstration_clerk
+  role: registration clerk
 ceekays:
   user_id: 3
   role: doctor

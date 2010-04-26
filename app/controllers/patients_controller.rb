@@ -5,7 +5,7 @@ class PatientsController < ApplicationController
     @nurse = false
     @clinician  = false
     @doctor     = false
-    @regstration_clerk  = false
+    @registration_clerk  = false
 
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role}
@@ -18,15 +18,15 @@ class PatientsController < ApplicationController
       @nurse  = true
     elsif @user_privilege.first.downcase.include?("doctor")
       @doctor     = true
-    elsif @user_privilege.first.downcase.include?("regstration_clerk")
-      @regstration_clerk  = true
+    elsif @user_privilege.first.downcase.include?("registration clerk")
+      @registration_clerk  = true
     end
     
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     void_encounter if (params[:void] && params[:void] == 'true')
     @encounters   = @patient.encounters.current.active.find(:all)
     excluded_encounters = ["Registration", "Diabetes history","Complications",
-      "General health", "Diabetes treatments", "Diabetes admissions",
+      "General health", "Diabetes treatments", "Diabetes admissions","Hospital admissions",
       "Hypertension management", "Past diabetes medical history", "Diabetes test"]
     @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq.delete_if{ |encounter| excluded_encounters.include? encounter.humanize } rescue []
     ignored_concept_id = Concept.find_by_name("NO").id;
@@ -116,7 +116,7 @@ class PatientsController < ApplicationController
     @super_user = false
     @clinician  = false
     @doctor     = false
-    @regstration_clerk  = false
+    @registration_clerk  = false
 
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role}
@@ -127,8 +127,8 @@ class PatientsController < ApplicationController
       @clinician  = true
     elsif @user_privilege.include?("doctor")
       @doctor     = true
-    elsif @user_privilege.include?("regstration_clerk")
-      @regstration_clerk  = true
+    elsif @user_privilege.include?("registration clerk")
+      @registration_clerk  = true
     end
     
        
