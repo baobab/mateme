@@ -6,7 +6,10 @@
       i += 1
       if encounter.name == encounter_name%>
         <%if header == 'true' %>
-          <tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h(encounter.name.humanize.titleize)%></th></tr>
+          <%header_title = encounter.name.humanize.titleize
+          header_title = "HIV Status" if header_title == "Update Hiv Status".titleize %>
+
+          <tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h(header_title)%></th> </tr>
         <%end%>
         <% header = 'false'%>
         <tr>
