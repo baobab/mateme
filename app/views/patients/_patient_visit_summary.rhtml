@@ -5,7 +5,7 @@
   <div id="tabmenu">
     <ul>
       <li onclick="javascript:displayTab(this, 'visit_summary','tabmenu','tabbedbody');" class="activated">Visit Summary</li>
-      <% if !User.current_user.user_roles.map(&:role).map(&:downcase).include?("registration clerk") %>
+      <% if !User.current_user.user_roles.map(&:role).map(&:downcase).include?("regstration_clerk") %>
       <li onclick="javascript:displayTab(this, 'current_medication','tabmenu','tabbedbody');">Current Medication</li>
       <li onclick="javascript:displayTab(this, 'recent_complications','tabmenu','tabbedbody');">Recent Complications</li>
       <li onclick="javascript:displayTab(this, 'medical_history','tabmenu','tabbedbody');">Medical History</li>

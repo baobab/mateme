@@ -69,7 +69,7 @@ module ApplicationHelper
     if(session[:user_id])
       @user_role = User.find(session[:user_id]).user_roles.collect{|x|x.role}
       abc = UserProperty.find_by_property_and_user_id('keyboard',session[:user_id]).property_value == 'abc' rescue false
-      if (@user_role.first.downcase.include?(registration clerk) || @user_role.first.downcase.include?("nurse"))
+      if (@user_role.first.downcase.include?("regstration_clerk") || @user_role.first.downcase.include?("nurse"))
         keyboard_type = "abc"
       else
         keyboard_type = (abc ? "abc" : "qwerty")
