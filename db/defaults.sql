@@ -82,7 +82,7 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,'System Developer'),(5,'Data Element Contributor'),(7,'superuser'),(8,'superuser'),(9,'doctor'),(10,'regstration_clerk'),(11,'regstration_clerk'),(12,'regstration_clerk'),(13,'regstration_clerk'),(14,'regstration_clerk'),(15,'regstration_clerk'),(16,'nurse'),(17,'nurse'),(18,'nurse'),(19,'nurse'),(20,'nurse'),(21,'doctor'),(22,'doctor'),(36,'Doctor'),(37,'Doctor'),(38,'Doctor'),(39,'Doctor'),(43,'Doctor'),(44,'Nurse'),(48,'Doctor'),(50,'Doctor');
+INSERT INTO `user_role` VALUES (1,'System Developer'),(5,'Data Element Contributor'),(7,'superuser'),(8,'superuser'),(9,'doctor'),(10,'registration clerk'),(11,'registration clerk'),(12,'registration clerk'),(13,'registration clerk'),(14,'registration clerk'),(15,'registration clerk'),(16,'nurse'),(17,'nurse'),(18,'nurse'),(19,'nurse'),(20,'nurse'),(21,'doctor'),(22,'doctor'),(36,'Doctor'),(37,'Doctor'),(38,'Doctor'),(39,'Doctor'),(43,'Doctor'),(44,'Nurse'),(48,'Doctor'),(50,'Doctor');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
