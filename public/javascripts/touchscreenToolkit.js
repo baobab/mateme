@@ -1513,9 +1513,9 @@ function getDatePicker() {
         ds = new DateSelector({
             element: keyboardDiv,
             target: tstInputTarget,
-            year: arrDate[2],
+            year: arrDate[0],
             month: arrDate[1],
-            date: arrDate[0],
+            date: arrDate[2],
             format: "dd/MM/yyyy"
         });
     } else {
