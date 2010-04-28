@@ -15,23 +15,23 @@
   </div>
 
   <div id="tabbedbody">
-    <div id="visit_summary" class="activated">
+    <div id="visit_summary" class="activated" style="overflow:auto">
       <%=render :partial => "current_encounters" %>
     </div>
 
-    <div id="current_medication" >
+    <div id="current_medication" style="overflow:auto">
       <%=render :partial => "diabetes_treatments"%>
     </div>
 
-    <div id="recent_complications" >
+    <div id="recent_complications"  style="overflow:auto">
       <%= render :partial => "recent_screen_complications" %>
     </div>
 
-    <div id="medical_history" >
+    <div id="medical_history"  style="overflow:auto">
       <%= render :partial => "important_medical_history" %>
     </div>
 
-    <div id="hiv_status" >
+    <div id="hiv_status"  style="overflow:auto">
       <%= render :partial => "hiv_status" %>
     </div>
   </div>
