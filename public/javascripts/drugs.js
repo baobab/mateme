@@ -15,6 +15,15 @@ String.prototype.toProperCase = function()
         });
 }
 
+function valueExists(number_array, number){
+    for(var i = 0; i < number_array.length; i++){
+        if(number_array[i] == number){
+            return true;
+        }
+    }
+    return false;
+}
+
 function generateDrugs(){
     if($("parent_container")){
         $("content").removeChild($("parent_container"));
@@ -191,6 +200,7 @@ function generateDrugs(){
         var optTd1 = document.createElement("td");
         optTd1.id = "generic_cell_"+i;
         optTd1.setAttribute("generic", generic[i]);
+        optTd1.bgColor = ((selected_drugs)?((selected_drugs[generic[i]])?"#F0F000":""):"");
         
         var optRadio1 = document.createElement("input");
         optRadio1.type = "radio";
@@ -214,7 +224,13 @@ function generateDrugs(){
                         var d = c[k].id.match(/(generic_cell_\d+)/);
 
                         if(d){
-                            $(d[1]).bgColor = "";
+                            if($(d[1]).getAttribute("generic")){
+                                var drug = $(d[1]).getAttribute("generic");
+
+                                $(d[1]).bgColor = ((selected_drugs)?((selected_drugs[drug])?"#F0F000":""):"");
+                            } else {
+                                $(d[1]).bgColor = "";
+                            }
                         }
                     }
 
@@ -263,6 +279,7 @@ function generateDrugs(){
         var optTr4 = document.createElement("tr");
         var optTd4 = document.createElement("td");
         optTd4.id = "duration_cell_"+i;
+        optTd4.bgColor = ((durations)?((durations[duration_values[i]])?"#F0F000":""):"");
 
         var optRadio4 = document.createElement("input");
         optRadio4.type = "radio";
@@ -286,10 +303,9 @@ function generateDrugs(){
 
                     for(var k = 0; k < c.length; k++){
                         var d = c[k].id.match(/(duration_cell_\d+)/);
-
-                        if(d){
-                            $(d[1]).bgColor = "";
-                        }
+                        
+                        $(d[1]).bgColor = ((durations)?((durations[c[k].value])?"#F0F000":""):"");
+                        
                     }
 
                     $(id[1]).bgColor = "#add8e6";
@@ -1252,6 +1268,17 @@ function createSolubleInsulinDosageFrequencyTable(drug, dosefreqdiv){
     trHead.appendChild(tdHead2);
     trHead.appendChild(tdHead3);
 
+    var durat = document.getElementsByName("duration");
+
+    for(var k = 0; k < durat.length; k++){
+        var d = durat[k].id.match(/(duration_cell_\d+)/);
+
+        if(d){
+            $(d[1]).bgColor = ((durations)?((durations[durat[k].value])?"#F0F000":""):"");
+            $("rdo_" + d[1]).checked = false;
+        }
+    }
+
     for(var i = 0; i < 10; i++){
         var tr = document.createElement("tr");
         
@@ -1657,6 +1684,17 @@ function createLenteInsulinDosageFrequencyTable(drug, dosefreqdiv){
     trHead.appendChild(tdHead2);
     trHead.appendChild(tdHead3);
 
+    var durat = document.getElementsByName("duration");
+
+    for(var k = 0; k < durat.length; k++){
+        var d = durat[k].id.match(/(duration_cell_\d+)/);
+
+        if(d){
+            $(d[1]).bgColor = ((durations)?((durations[durat[k].value])?"#F0F000":""):"");
+            $("rdo_" + d[1]).checked = false;
+        }
+    }
+
     for(var i = 0; i < 10; i++){
         var tr = document.createElement("tr");
 
@@ -2030,7 +2068,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
         var d = durat[k].id.match(/(duration_cell_\d+)/);
 
         if(d){
-            $(d[1]).bgColor = "";
+            $(d[1]).bgColor = ((durations)?((durations[durat[k].value])?"#F0F000":""):"");
             $("rdo_" + d[1]).checked = false;
         }
     }
@@ -2052,7 +2090,8 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
         optTd1.id = "dose_cell_"+i;
         optTd1.align = "left";
         optTd1.style.fontStyle = "normal";
-
+        optTd1.bgColor = ((doses[drug+"_"+dose[i].match(/\d+(\.?\d+)?/g)[0]])?((doses[drug+"_"+dose[i].match(/\d+(\.?\d+)?/g)[0]])?"#F0F000":""):"");
+       
         var optRadio1 = document.createElement("input");
         optRadio1.type = "radio";
         optRadio1.name = "dose";
@@ -2081,7 +2120,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
                             f[g].disabled = false;
 
                             if(o){
-                                $(o[1]).bgColor = "";
+                                $(o[1]).bgColor = ((freqs[drug+"_"+f[g].value])?((freqs[drug+"_"+f[g].value])?"#F0F000":""):"");
                             }
                         }
 
@@ -2091,7 +2130,11 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
                         var d = c[k].id.match(/(dose_cell_\d+)/);
 
                         if(d){
-                            $(d[1]).bgColor = "";
+                            if(c[k].value == "[10MG:AM],[5MG:PM]"){
+                                $(d[1]).bgColor = ((doses[drug+"_10MG_AM_5MG_PM"])?((doses[drug+"_10MG_AM_5MG_PM"])?"#F0F000":""):"");
+                            } else {
+                                $(d[1]).bgColor = ((doses[drug+"_"+c[k].value.match(/\d+(\.?\d+)?/g)[0]])?((doses[drug+"_"+c[k].value.match(/\d+(\.?\d+)?/g)[0]])?"#F0F000":""):"");
+                            }
                         }
                     }
 
@@ -2119,6 +2162,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
         optTd.id = "dose_cell_1000";
         optTd.align = "left";
         optTd.style.fontStyle = "normal";
+        optTd.bgColor = ((doses[drug+"_10MG_AM_5MG_PM"])?((doses[drug+"_10MG_AM_5MG_PM"])?"#F0F000":""):"");
 
         var optRadio = document.createElement("input");
         optRadio.type = "radio";
@@ -2142,7 +2186,11 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
                         var d = c[k].id.match(/(dose_cell_\d+)/);
 
                         if(d){
-                            $(d[1]).bgColor = "";
+                            if(c[k].value == "[10MG:AM],[5MG:PM]"){
+                                $(d[1]).bgColor = ((doses[drug+"_10MG_AM_5MG_PM"])?((doses[drug+"_10MG_AM_5MG_PM"])?"#F0F000":""):"");
+                            } else {
+                                $(d[1]).bgColor = ((doses[drug+"_"+c[k].value.match(/\d+(\.?\d+)?/g)[0]])?((doses[drug+"_"+c[k].value.match(/\d+(\.?\d+)?/g)[0]])?"#F0F000":""):"");
+                            }
                         }
                     }
 
@@ -2155,7 +2203,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
                         f[g].disabled = true;
                         
                         if(o){
-                            $(o[1]).bgColor = "#DDDDDD";
+                            $(o[1]).bgColor = ((freqs[drug+"_"+f[g].value])?((freqs[drug+"_"+f[g].value])?"#F0F000":"#DDDDDD"):"#DDDDDD"); //"#DDDDDD";
                         }
                     }
 
@@ -2194,6 +2242,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
         optTd2.id = "frequency_cell_"+i;
         optTd2.align = "left";
         optTd2.style.fontStyle = "normal";
+        optTd2.bgColor = ((freqs[drug+"_"+frequency[i]])?((freqs[drug+"_"+frequency[i]])?"#F0F000":""):"");
 
         var optRadio2 = document.createElement("input");
         optRadio2.type = "radio";
@@ -2217,7 +2266,7 @@ function createNormalDoseFrequencyTable(drug, dosefreqdiv){
                         var d = c[k].id.match(/(frequency_cell_\d+)/);
 
                         if(d){
-                            $(d[1]).bgColor = "";
+                            $(d[1]).bgColor = ((freqs[drug+"_"+c[k].value])?((freqs[drug+"_"+c[k].value])?"#F0F000":""):"");
                         }
                     }
 

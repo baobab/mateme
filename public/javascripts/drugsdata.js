@@ -1,7 +1,7 @@
 <!--
 
 var generic = ["CAPTOPRIL", "GLIBENCLAMIDE", "METFORMIN", "QUINAPRIL", "ASPIRIN",
-        "LENTE INSULIN", "SOLUBLE INSULIN", "HCT", "NIFEDIPINE", "NIFEDIPINE SR", "PROPANOLOL", 
+        "LENTE INSULIN", "SOLUBLE INSULIN", "HYDROCHLOROTHIAZIDE", "NIFEDIPINE", "NIFEDIPINE SR", "PROPANOLOL",
         "METHYLDOPA", "FUROSEMIDE", "ATENOLOL", "AMITRIPTYLINE", "IBUPROFEN", "VITAMIN B CO", "PYRIDOXINE"];
 
 var drugs = {};
@@ -50,7 +50,7 @@ drugs["NIFEDIPINE"] = [["10MG", "TDS"],
 drugs["NIFEDIPINE SR"] = [["10MG", "BD"],
                          ["20MG", "BD"]];
 
-drugs["HCT"] = [["12.5MG", "OD"],
+drugs["HYDROCHLOROTHIAZIDE"] = [["12.5MG", "OD"],
                 ["25MG", "OD"]];
 
 drugs["PROPANOLOL"] = [["80MG", "BD"],

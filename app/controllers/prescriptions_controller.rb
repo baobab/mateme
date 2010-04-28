@@ -3,7 +3,7 @@ class PrescriptionsController < ApplicationController
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @orders = @patient.current_orders rescue []
 
-    diabetes_id       = Concept.find_by_name("DIABETES MEDICATION").id
+    diabetes_id = Concept.find_by_name("DIABETES MEDICATION").id
 
     @patient_diabetes_treatements     = []
     @patient_hypertension_treatements = []
@@ -27,6 +27,21 @@ class PrescriptionsController < ApplicationController
   
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+
+    diabetes_id = Concept.find_by_name("DIABETES MEDICATION").id
+
+    @patient_diabetes_treatements     = []
+    @patient_hypertension_treatements = []
+
+    @patient.treatments.map{|treatement|
+
+      if (treatement.diagnosis_id.to_i == diabetes_id)
+        @patient_diabetes_treatements << treatement
+      else
+        @patient_hypertension_treatements << treatement
+      end
+    }
+
   end
   
   def void
