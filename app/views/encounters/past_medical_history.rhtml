@@ -1,19 +1,29 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
 <%
 
-  if(params[:encounter_id] && params[:group_type])
-    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
-    #raise @encounter_obs.inspect
-  end
+if(params[:encounter_id] && params[:group_type])
+  @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+  #raise @encounter_obs.inspect
+end
 
 %>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
   var months = ["Unkown", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
   var time = new Date();
   var this_year = time.getYear();
   var estimated_date = [];
+
+<%
+
+unless(params[:encounter_id])
+%>
+  <%= "var save_state = true;" %>
+<%
+end
+
+%>
   if (this_year < 2000){
     this_year = (time.getYear() + 1900);
   }
@@ -39,42 +49,42 @@
       $('strokes').value = 'STROKE';
       $('strokes_value_coded_or_text').value = 'Yes';
 
-      }
+    }
 
-  if(values_string.contains("SERIOUS CARDIAC PROBLEMS")){
+    if(values_string.contains("SERIOUS CARDIAC PROBLEMS")){
 
       $("cardiac_problem").value = 'SERIOUS CARDIAC PROBLEM';
       $('cardiac_problem_value_coded_or_text').value = 'Yes';
 
-      }
+    }
 
-  if(values_string.contains("HYPERTENSION")){
+    if(values_string.contains("HYPERTENSION")){
 
       $('hypertension').value = 'HYPERTENSION';
       $('hypertension_value_coded_or_text').value = 'Yes';
 
-      }
-  if(values_string.contains("TUBERCULOSIS")){
+    }
+    if(values_string.contains("TUBERCULOSIS")){
 
       $('tuberculosis').value = 'TUBERCULOSIS';
       $('tuberculosis_value_coded_or_text').value = 'Yes';
 
-      }
+    }
 
-  if(values_string.contains("OTHER MEDICAL CONDITIONS")){
+    if(values_string.contains("OTHER MEDICAL CONDITIONS")){
 
       $('other_medical_condition').value = 'OTHER MEDICAL CONDITION';
       $('other_medical_condition_value_coded_or_text').value = 'Yes';
 
-      }
+    }
   }
 
 </script>
 <%
-    @select_years = [""]
-    this_year     = Date.today.year
-    begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
-  %>
+@select_years = [""]
+this_year     = Date.today.year
+begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end while (this_year != 1969)
+%>
 
 <form id='medical_history' action="/encounters/<%= ((params[:edit])?"update":"create") %>" method='post'>
   <% default={
@@ -88,30 +98,30 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-<% options=default.merge({
-    :field_type => 'text',
-    :helpText => "Select past medical history:",
-    :id => "past_medical_history",
-    :tt_onUnLoad => "setConceptNamesAndValues()",
-    :multiple => true,
-    :tt_pageStyleClass => "MultiSelectList"
-  }) %>
+  <% options=default.merge({
+      :field_type => 'text',
+      :helpText => "Select past medical history:",
+      :id => "past_medical_history",
+      :tt_onUnLoad => "setConceptNamesAndValues()",
+      :multiple => true,
+      :tt_pageStyleClass => "MultiSelectList"
+    }) %>
 
   <% @past_medical_history_list = ["STROKES", "SERIOUS CARDIAC PROBLEMS", "HYPERTENSION", "TUBERCULOSIS", "OTHER MEDICAL CONDITIONS"] %>
   <%= select_tag("past_medical_history_values",             options_for_select(@past_medical_history_list),options) %>
 
-  <%# options=default.merge({
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :id => "strokes",
-    :helpText => "Strokes",
-    :tt_onUnLoad => "$('strokes_value_coded_or_text').value = $('strokes').value"
-  }) %>
-  <%#= select_tag("strokes[value_coded_or_text]", options_for_select([
-    "",
-    "Yes",
-    "No"
-  ]), options ) %>
+<%# options=default.merge({
+:field_type => 'text',
+:tt_requireNextClick => false,
+:id => "strokes",
+:helpText => "Strokes",
+:tt_onUnLoad => "$('strokes_value_coded_or_text').value = $('strokes').value"
+}) %>
+<%#= select_tag("strokes[value_coded_or_text]", options_for_select([
+"",
+"Yes",
+"No"
+]), options ) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id=> "strokes"}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "strokes_value_coded_or_text"})%>
@@ -119,14 +129,14 @@
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
-    :field_type => 'text',
-    :helpText => "STROKES: Select Years",
-    :id => "years_of_strokes",
-    :condition => '$("strokes_value_coded_or_text").value == "Yes"',
-    :optional => true,
-    :multiple => true,
-    :tt_pageStyleClass => "MultiSelectList"
-  }) %>
+      :field_type => 'text',
+      :helpText => "STROKES: Select Years",
+      :id => "years_of_strokes",
+      :condition => '$("strokes_value_coded_or_text").value == "Yes"',
+      :optional => true,
+      :multiple => true,
+      :tt_pageStyleClass => "MultiSelectList"
+    }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF OCCURRENCE") %>
   <%= select_tag("observations[][value_numeric]", options_for_select(@select_years),options) %>
@@ -134,18 +144,18 @@
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-    <%# options=default.merge({
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :id => "cardiac_problem",
-    :helpText => "Serious cardiac problems",
-    :tt_onUnLoad => "$('cardiac_problem_value_coded_or_text').value = $('cardiac_problem').value"
-  }) %>
-  <%#= select_tag("cardiac_problem[value_coded_or_text]", options_for_select([
-    "",
-    "Yes",
-    "No"
-  ]), options ) %>
+<%# options=default.merge({
+:field_type => 'text',
+:tt_requireNextClick => false,
+:id => "cardiac_problem",
+:helpText => "Serious cardiac problems",
+:tt_onUnLoad => "$('cardiac_problem_value_coded_or_text').value = $('cardiac_problem').value"
+}) %>
+<%#= select_tag("cardiac_problem[value_coded_or_text]", options_for_select([
+"",
+"Yes",
+"No"
+]), options ) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => "cardiac_problem"}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "cardiac_problem_value_coded_or_text"})%>
@@ -153,28 +163,28 @@
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options = default.merge({
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :helpText => "What Cardiac Problem?",
-    :id => "type_of_cardiac_problem",
-    :condition => "$('cardiac_problem_value_coded_or_text').value == 'Yes'",
-    :tt_onUnLoad => "$('type_of_cardiac_problem_value_coded_or_text').value = $('type_of_cardiac_problem').value"
-  }) %>
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+      :helpText => "What Cardiac Problem?",
+      :id => "type_of_cardiac_problem",
+      :condition => "$('cardiac_problem_value_coded_or_text').value == 'Yes'",
+      :tt_onUnLoad => "$('type_of_cardiac_problem_value_coded_or_text').value = $('type_of_cardiac_problem').value"
+    }) %>
   <%= select_tag("cardiac_problem[type_of_cardiac_problem]", options_for_select([
-    "",
-    "Congestive Cardiac Failure",
-    "Ischemic Heart Disease",
-    "Other(specify)"
-  ]), options ) %>
+        "",
+        "Congestive Cardiac Failure",
+        "Ischemic Heart Disease",
+        "Other(specify)"
+      ]), options ) %>
 
-   <%= text_field_tag "specified_cardiac_problem[value_corded_or_text]", nil,
-   {
-     :helpText => 'Specify any other Cardiac Problem',
-     :field_type => 'text',
-     :id => "specified_cardiac_problem",
-     :tt_onUnLoad => "$('type_of_cardiac_problem_value_coded_or_text').value = $('specified_cardiac_problem').value",
-     :condition => "$('cardiac_problem').value == 'Yes'&& $('type_of_cardiac_problem').value == 'Other(specify)'"
-   }%>
+  <%= text_field_tag "specified_cardiac_problem[value_corded_or_text]", nil,
+    {
+    :helpText => 'Specify any other Cardiac Problem',
+    :field_type => 'text',
+    :id => "specified_cardiac_problem",
+    :tt_onUnLoad => "$('type_of_cardiac_problem_value_coded_or_text').value = $('specified_cardiac_problem').value",
+    :condition => "$('cardiac_problem').value == 'Yes'&& $('type_of_cardiac_problem').value == 'Other(specify)'"
+  }%>
 
   <%= hidden_field_tag("observations[][concept_name]",        "TYPE OF CARDIAC PROBLEM") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "type_of_cardiac_problem_value_coded_or_text"})%>
@@ -183,35 +193,35 @@
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options = default.merge({
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :helpText => "CCF: Proven by Echo?",
-    :condition => "$('type_of_cardiac_problem').value == 'CCF'",
-    :id => "proven_by_echo",
-    :tt_onUnLoad => "$('proven_by_echo_value_coded_or_text').value = $('proven_by_echo').value"
-  }) %>
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+      :helpText => "CCF: Proven by Echo?",
+      :condition => "$('type_of_cardiac_problem').value == 'CCF'",
+      :id => "proven_by_echo",
+      :tt_onUnLoad => "$('proven_by_echo_value_coded_or_text').value = $('proven_by_echo').value"
+    }) %>
   <%= select_tag("cardiac_problem[proven_by_echo]", options_for_select([
-    "",
-    "Yes",
-    "No"
-  ]), options ) %>
+        "",
+        "Yes",
+        "No"
+      ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "PREVIOUS ECHOCARDIOGRAM TAKEN") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "proven_by_echo_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][parent_concept_name]", "TYPE OF CARDIAC PROBLEM") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-    <% options=default.merge({
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :helpText => "Select Year of Echo",
-    :id => "year_of_echo",
-    :condition => "$('type_of_cardiac_problem').value == 'CCF' && $('proven_by_echo').value == 'Yes'",
-    :optional => true,
-    :multiple => false,
-    :tt_onUnLoad => "$('year_of_echo_value_numeric').value = $('year_of_echo').value",
-    :tt_pageStyleClass => "LongSelectList"
-  }) %>
+  <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+      :helpText => "Select Year of Echo",
+      :id => "year_of_echo",
+      :condition => "$('type_of_cardiac_problem').value == 'CCF' && $('proven_by_echo').value == 'Yes'",
+      :optional => true,
+      :multiple => false,
+      :tt_onUnLoad => "$('year_of_echo_value_numeric').value = $('year_of_echo').value",
+      :tt_pageStyleClass => "LongSelectList"
+    }) %>
 
   <%= select_tag("cardiac_problem[year_of_echo]", options_for_select(@select_years),options) %>
 
@@ -221,18 +231,18 @@
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <%# options=default.merge({
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :helpText => "Hypertension?",
-    :tt_onUnLoad => "$('hypertension_value_coded_or_text').value = $('hypertension').value",
-    :id => "hypertension"
-  }) %>
-  <%#= select_tag("hypertension[value_corded_or_text]", options_for_select([
-    "",
-    "Yes",
-    "No"
-  ]), options ) %>
+<%# options=default.merge({
+:field_type => 'text',
+:tt_requireNextClick => false,
+:helpText => "Hypertension?",
+:tt_onUnLoad => "$('hypertension_value_coded_or_text').value = $('hypertension').value",
+:id => "hypertension"
+}) %>
+<%#= select_tag("hypertension[value_corded_or_text]", options_for_select([
+"",
+"Yes",
+"No"
+]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => "hypertension"}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "hypertension_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -240,38 +250,38 @@
 
   <% options=default.merge(
     {:helpText => 'HYPERTENSION: Year of diagnosis',
-     :id => "hypertension_year_of_diagnosis",
-     :field_type => 'number',
-     :tt_requireNextClick => false,
-     :optional => true,  :multiple => false,
-     :condition => '$("hypertension_value_coded_or_text").value == "Yes"',
-     :tt_onUnLoad => "onYearUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_year_of_diagnosis', 'hypertension_value_modifier');",
-     :tt_pageStyleClass => "LongSelectList"
-  } ) %>
+      :id => "hypertension_year_of_diagnosis",
+      :field_type => 'number',
+      :tt_requireNextClick => false,
+      :optional => true,  :multiple => false,
+      :condition => '$("hypertension_value_coded_or_text").value == "Yes"',
+      :tt_onUnLoad => "onYearUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_year_of_diagnosis', 'hypertension_value_modifier');",
+      :tt_pageStyleClass => "LongSelectList"
+    } ) %>
 
   <%= select_tag "hypertension[year_started]", options_for_select(@select_years),options %>
 
   <%= select_tag "hypertension[month_started]", month_name_options,
     {:helpText => 'HYPERTENSION: Month of diagnosis',
-      :tt_requireNextClick => false,
-      :id => "hypertension_month_of_diagnosis",
-      :tt_pageStyleClass => "LongSelectList",
-      :tt_onUnLoad => "onMonthUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_month_of_diagnosis', 'hypertension_value_modifier');",
-      :condition => '$("hypertension_value_coded_or_text").value == "Yes" && $("hypertension_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("hypertension_year_of_diagnosis").value <= 2)',
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
-    }%>
+    :tt_requireNextClick => false,
+    :id => "hypertension_month_of_diagnosis",
+    :tt_pageStyleClass => "LongSelectList",
+    :tt_onUnLoad => "onMonthUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_month_of_diagnosis', 'hypertension_value_modifier');",
+    :condition => '$("hypertension_value_coded_or_text").value == "Yes" && $("hypertension_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("hypertension_year_of_diagnosis").value <= 2)',
+    :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
+  }%>
 
-  <%#= text_field_tag "hypertension[day_started]",  nil,
-      :field_type => 'number',
-      :helpText => 'HYPERTENSION: Day of diagnosis',
-      :id => "hypertension_day_of_diagnosis",
-      :absoluteMin => 1, :absoluteMax => 31,
-      :condition => "$('hypertension_value_coded_or_text').value == 'Yes' && ($('hypertension_year_of_diagnosis').value.toLowerCase() != 'unknown') && ($('hypertension_month_of_diagnosis').value.toLowerCase() != 'unknown');",
-      :tt_onUnLoad => "my_date = formatDate($('hypertension_date_of_diagnosis').value, $('hypertension_day_of_diagnosis').value,2);
-                       $('hypertension_date_of_diagnosis').value = my_date['value_datetime'];
-                       if($('hypertension_value_modifier').value!= 'ES') {$('hypertension_value_modifier').value = my_date['value_modifier'];}",
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-' + months[$('hypertension_month_of_diagnosis').value] + '-<font color=#FF0000>DD</font>' "
-  %>
+<%#= text_field_tag "hypertension[day_started]",  nil,
+:field_type => 'number',
+:helpText => 'HYPERTENSION: Day of diagnosis',
+:id => "hypertension_day_of_diagnosis",
+:absoluteMin => 1, :absoluteMax => 31,
+:condition => "$('hypertension_value_coded_or_text').value == 'Yes' && ($('hypertension_year_of_diagnosis').value.toLowerCase() != 'unknown') && ($('hypertension_month_of_diagnosis').value.toLowerCase() != 'unknown');",
+:tt_onUnLoad => "my_date = formatDate($('hypertension_date_of_diagnosis').value, $('hypertension_day_of_diagnosis').value,2);
+$('hypertension_date_of_diagnosis').value = my_date['value_datetime'];
+if($('hypertension_value_modifier').value!= 'ES') {$('hypertension_value_modifier').value = my_date['value_modifier'];}",
+:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-' + months[$('hypertension_month_of_diagnosis').value] + '-<font color=#FF0000>DD</font>' "
+%>
 
   <%= hidden_field_tag("observations[][concept_name]",        "DIAGNOSIS DATE") %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "HYPERTENSION") %>
@@ -280,39 +290,39 @@
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <%# options=default.merge({
-    :field_type => 'text',
-    :helpText => "Tuberculosis?",
-    :tt_onUnLoad => "$('tuberculosis_value_coded_or_text').value = $('tuberculosis').value",
-    :id => "tuberculosis"
-  }) %>
-  <%#= select_tag("tuberculosis[value_corded_or_text]", options_for_select([
-    "",
-    "Yes",
-    "No"
-  ]), options ) %>
+<%# options=default.merge({
+:field_type => 'text',
+:helpText => "Tuberculosis?",
+:tt_onUnLoad => "$('tuberculosis_value_coded_or_text').value = $('tuberculosis').value",
+:id => "tuberculosis"
+}) %>
+<%#= select_tag("tuberculosis[value_corded_or_text]", options_for_select([
+"",
+"Yes",
+"No"
+]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'tuberculosis'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "tuberculosis_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
   <% options=default.merge({
-    :field_type => 'text',
-    :helpText => "Select type of Tuberculosis",
-    :id => "tuberculosis_type",
-    :tt_requireNextClick => false,
-    :multiple => false,
-    :tt_onUnLoad => "if($('tuberculosis_type').value == 'SM positive'){$('tuberculosis_type_value_coded_or_text').value = 'SM POSITIVE'}
-                     else if($('tuberculosis_type').value == 'SM negative'){$('tuberculosis_type_value_coded_or_text').value = 'SM NEGATIVE'}
-                     else if($('tuberculosis_type').value == 'EPTB'){$('tuberculosis_type_value_coded_or_text').value = 'EPTB'}",
-    :condition => "$('tuberculosis_value_coded_or_text').value == 'Yes'"
-  }) %>
+      :field_type => 'text',
+      :helpText => "Select type of Tuberculosis",
+      :id => "tuberculosis_type",
+      :tt_requireNextClick => false,
+      :multiple => false,
+      :tt_onUnLoad => "if($('tuberculosis_type').value == 'SM positive'){$('tuberculosis_type_value_coded_or_text').value = 'SM POSITIVE'}
+    else if($('tuberculosis_type').value == 'SM negative'){$('tuberculosis_type_value_coded_or_text').value = 'SM NEGATIVE'}
+    else if($('tuberculosis_type').value == 'EPTB'){$('tuberculosis_type_value_coded_or_text').value = 'EPTB'}",
+      :condition => "$('tuberculosis_value_coded_or_text').value == 'Yes'"
+    }) %>
   <%= select_tag("tuberculosis_type[value_corded_or_text]", options_for_select([
-    "",
-    "SM positive",
-    "SM negative",
-    "EPTB"
-  ]), options ) %>
+        "",
+        "SM positive",
+        "SM negative",
+        "EPTB"
+      ]), options ) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "TYPE OF TUBERCULOSIS") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'tuberculosis_type_value_coded_or_text'}) %>
@@ -322,38 +332,38 @@
 
   <% options=default.merge(
     {:helpText => 'TUBERCULOSIS: Year of diagnosis',
-     :id => "tuberculosis_year_of_diagnosis",
-     :field_type => 'number',
-     :tt_requireNextClick => false,
-     :optional => true,  :multiple => false,
-     :condition => '$("tuberculosis_value_coded_or_text").value == "Yes"',
-     :tt_onUnLoad => "onYearUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_year_of_diagnosis', 'tuberculosis_value_modifier');",
-     :tt_pageStyleClass => "LongSelectList"
-  } ) %>
+      :id => "tuberculosis_year_of_diagnosis",
+      :field_type => 'number',
+      :tt_requireNextClick => false,
+      :optional => true,  :multiple => false,
+      :condition => '$("tuberculosis_value_coded_or_text").value == "Yes"',
+      :tt_onUnLoad => "onYearUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_year_of_diagnosis', 'tuberculosis_value_modifier');",
+      :tt_pageStyleClass => "LongSelectList"
+    } ) %>
 
   <%= select_tag "tuberculosis[year_started]", options_for_select(@select_years),options %>
 
   <%= select_tag "tuberculosis[month_started]", month_name_options,
     {:helpText => 'TUBERCULOSIS: Month of diagnosis',
-      :id => "tuberculosis_month_of_diagnosis",
-      :tt_requireNextClick => false,
-      :tt_pageStyleClass => "LongSelectList",
-      :tt_onUnLoad => "onMonthUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_month_of_diagnosis', 'tuberculosis_value_modifier');",
-      :condition => '$("tuberculosis_value_coded_or_text").value == "Yes" && $("tuberculosis_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("tuberculosis_year_of_diagnosis").value <= 2)',
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
-    }%>
+    :id => "tuberculosis_month_of_diagnosis",
+    :tt_requireNextClick => false,
+    :tt_pageStyleClass => "LongSelectList",
+    :tt_onUnLoad => "onMonthUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_month_of_diagnosis', 'tuberculosis_value_modifier');",
+    :condition => '$("tuberculosis_value_coded_or_text").value == "Yes" && $("tuberculosis_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("tuberculosis_year_of_diagnosis").value <= 2)',
+    :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
+  }%>
 
-  <%#= text_field_tag "tuberculosis[day_started]",  nil,
-      :field_type => 'number',
-      :helpText => 'TUBERCULOSIS: Day of diagnosis',
-      :id => "tuberculosis_day_of_diagnosis",
-      :absoluteMin => 1, :absoluteMax => 31,
-      :condition => "$('tuberculosis').value == 'Yes' && ($('tuberculosis_year_of_diagnosis').value.toLowerCase() != 'unknown') && ($('tuberculosis_month_of_diagnosis').value.toLowerCase() != 'unknown');",
-      :tt_onUnLoad => "my_date = formatDate($('tuberculosis_date_of_diagnosis').value, $('tuberculosis_day_of_diagnosis').value,2);
-                       $('tuberculosis_date_of_diagnosis').value = my_date['value_datetime'];
-                       if($('tuberculosis_value_modifier').value!= 'ES') {$('tuberculosis_value_modifier').value = my_date['value_modifier'];}",
-      :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-' + months[$('tuberculosis_month_of_diagnosis').value] + '-<font color=#FF0000>DD</font>' "
-  %>
+<%#= text_field_tag "tuberculosis[day_started]",  nil,
+:field_type => 'number',
+:helpText => 'TUBERCULOSIS: Day of diagnosis',
+:id => "tuberculosis_day_of_diagnosis",
+:absoluteMin => 1, :absoluteMax => 31,
+:condition => "$('tuberculosis').value == 'Yes' && ($('tuberculosis_year_of_diagnosis').value.toLowerCase() != 'unknown') && ($('tuberculosis_month_of_diagnosis').value.toLowerCase() != 'unknown');",
+:tt_onUnLoad => "my_date = formatDate($('tuberculosis_date_of_diagnosis').value, $('tuberculosis_day_of_diagnosis').value,2);
+$('tuberculosis_date_of_diagnosis').value = my_date['value_datetime'];
+if($('tuberculosis_value_modifier').value!= 'ES') {$('tuberculosis_value_modifier').value = my_date['value_modifier'];}",
+:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-' + months[$('tuberculosis_month_of_diagnosis').value] + '-<font color=#FF0000>DD</font>' "
+%>
 
   <%= hidden_field_tag("observations[][concept_name]",        "DIAGNOSIS DATE") %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'tuberculosis_value_modifier'} ) %>
@@ -362,33 +372,33 @@
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-  <%# options=default.merge({
-    :field_type => 'text',
-    :id => "other_medical_condition",
-    :helpText => "Any other medical conditions?",
-    :tt_onUnLoad => "$('medical_condition_value_coded_or_text').value = $('other_medical_condition').value",
-    :tt_onLoad=> "addOnMouseDownAction(['No'])"
-  }) %>
- <%#= select_tag( "other_medical_condition[value_corded_or_text]", options_for_select([
-   "",
-   "Yes",
-   "No"
- ]), options ) %>
+<%# options=default.merge({
+:field_type => 'text',
+:id => "other_medical_condition",
+:helpText => "Any other medical conditions?",
+:tt_onUnLoad => "$('medical_condition_value_coded_or_text').value = $('other_medical_condition').value",
+:tt_onLoad=> "addOnMouseDownAction(['No'])"
+}) %>
+<%#= select_tag( "other_medical_condition[value_corded_or_text]", options_for_select([
+"",
+"Yes",
+"No"
+]), options ) %>
 
- <%= text_field_tag "specified_medical_condition[value_corded_or_text]", nil,
-   {
-     :helpText => 'Specify any other medical condition',
-     :field_type => 'text',
-     :id => "specified_medical_condition",
-     :tt_onUnLoad => "$('other_medical_condition_value_coded_or_text').value = $('specified_medical_condition').value",
-     :condition => "$('other_medical_condition_value_coded_or_text').value == 'Yes'"
-   }%>
- <%= hidden_field_tag("observations[][concept_name]",         "", {:id => 'other_medical_condition'}) %>
- <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "other_medical_condition_value_coded_or_text"}) %>
- <%= hidden_field_tag("observations[][patient_id]",           @patient.id) %>
- <%= hidden_field_tag("observations[][obs_datetime]",         DateTime.now()) %>
+  <%= text_field_tag "specified_medical_condition[value_corded_or_text]", nil,
+    {
+    :helpText => 'Specify any other medical condition',
+    :field_type => 'text',
+    :id => "specified_medical_condition",
+    :tt_onUnLoad => "$('other_medical_condition_value_coded_or_text').value = $('specified_medical_condition').value",
+    :condition => "$('other_medical_condition_value_coded_or_text').value == 'Yes'"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",         "", {:id => 'other_medical_condition'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "other_medical_condition_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",           @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",         DateTime.now()) %>
 
   <%= hidden_field_tag("next_url",@destination_page) %>
-   
- <%= submit_tag "Finish" %>
+
+  <%= submit_tag "Finish" %>
 </form>

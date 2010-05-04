@@ -212,7 +212,7 @@ function createButtons() {
     buttonsDiv.innerHTML += "<div id='tt_extraButtons'></div>";
 
     //create cancel button
-    buttonsDiv.innerHTML += "<button class='button navButton red' id='cancelButton' onMouseDown='confirmCancelEntry();'><span>Cancel</span></button>";
+    buttonsDiv.innerHTML += "<button class='button navButton red' id='cancelButton' onMouseDown='confirmCancelEntry(" + (typeof(save_state) != "undefined"?"true":"") + ");'><span>Cancel</span></button>";
 
     return buttonsDiv
 }
@@ -1239,10 +1239,12 @@ function disableTouchscreenInterface(){
     document.getElementById('launchButton').innerHTML = "Enable Touchscreen UI";
 }
 
-function confirmCancelEntry() {
+function confirmCancelEntry(save) {     // If you want to save state set save = true
     if (tstConfirmCancel) {
         tstMessageBar.innerHTML = "Are you sure you want to Cancel?<br/>" +
-        "<button onmousedown='hideMessage(); cancelEntry();'><span>Yes</span></button><button onmousedown='hideMessage();'><span>No</span></button>";
+        "<button onmousedown='hideMessage(); cancelEntry();'><span>Yes</span></button>" +
+        (save?"<button onmousedown='document.forms[0].submit(); hideMessage();'><span>Save</span></button>":"") +
+        "<button onmousedown='hideMessage();'><span>No</span></button>";
         tstMessageBar.style.display = "block";
     } else {
         cancelEntry();

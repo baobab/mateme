@@ -125,14 +125,10 @@ class EncountersController < ApplicationController
   end
   
   def new
-    if(params[:group_type])
-      raise params.inspect
-    end
     
-    if(params[:encounter_id] && params[:group_type])
-      @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
-      raise @encounter_obs.inspect
-    end
+    #if(params[:encounter_id] && params[:group_type])
+    #  @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    #end
     
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @diabetes_test_type = params[:diabetes_test_type] rescue ""

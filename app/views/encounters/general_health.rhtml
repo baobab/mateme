@@ -9,6 +9,16 @@
 %>
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
+
+   <%
+
+   unless(params[:encounter_id])
+   %>
+      <%= "var save_state = true;" %>
+   <%
+   end
+
+   %>
 </script>
 <form id='complications' action="/encounters/<%= ((params[:edit])?"update":"create") %>" method='post'>
   <% default={

@@ -11,6 +11,16 @@
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
 
+   <%
+
+   unless(params[:encounter_id])
+   %>
+      <%= "var save_state = true;" %>
+   <%
+   end
+
+   %>
+
   function setConceptNamesAndValues(){
 
     var values_string = selectedValue('complications');
