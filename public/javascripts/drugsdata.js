@@ -1,10 +1,16 @@
 <!--
 
-var generic = ["CAPTOPRIL", "GLIBENCLAMIDE", "METFORMIN", "QUINAPRIL", "ASPIRIN",
+var generic = ["CAPTOPRIL", "GLIBENCLAMIDE", "METFORMIN", "QUINAPRIL", "ASPIRIN", "AMLODIPINE",
         "LENTE INSULIN", "SOLUBLE INSULIN", "HYDROCHLOROTHIAZIDE", "NIFEDIPINE", "NIFEDIPINE SR", "PROPANOLOL",
-        "METHYLDOPA", "FUROSEMIDE", "ATENOLOL", "AMITRIPTYLINE", "IBUPROFEN", "VITAMIN B CO", "PYRIDOXINE"];
+        "METHYLDOPA", "FUROSEMIDE", "ATENOLOL", "AMITRIPTYLINE", "IBUPROFEN", "VITAMIN B CO", "PYRIDOXINE", "LISINOPRIL"];
 
 var drugs = {};
+
+drugs["AMLODIPINE"] = [["5MG", "OD"],
+                          ["10MG", "OD"]];
+                          
+drugs["LISINOPRIL"] = [["10MG", "OD"],
+                          ["20MG", "OD"]];
 
 drugs["GLIBENCLAMIDE"] = [["5MG", "OD"],
                           ["5MG", "BD"],
@@ -53,7 +59,9 @@ drugs["NIFEDIPINE SR"] = [["10MG", "BD"],
 drugs["HYDROCHLOROTHIAZIDE"] = [["12.5MG", "OD"],
                 ["25MG", "OD"]];
 
-drugs["PROPANOLOL"] = [["80MG", "BD"],
+drugs["PROPANOLOL"] = [["40MG", "BD"],
+                        ["40MG", "TDS"],
+                        ["80MG", "BD"],
                         ["80MG", "TDS"],
                         ["160MG", "BD"],
                         ["160MG", "TDS"],
