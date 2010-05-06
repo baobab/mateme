@@ -185,18 +185,18 @@ function handleHttpResponse(updateElement) {
   
   if (http.readyState == 4 && http.status == 200) {
     if (updateElement == 'diagnosis-select'){
-      updateText = "<option onClick=updateTextBox('diagnosis-inputbox','diagnosis-select');updateSubDiagnosis();updateInfoBar('"+ updateElement +"');checkObjectLength('diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=updateTextBox('diagnosis-inputbox','diagnosis-select');updateSubDiagnosis();updateInfoBar('" + updateElement + "');checkObjectLength('diagnosis-select');>") + "</option>";
+      updateText = "<option onClick=validateEntry('diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
     $(updateElement).innerHTML = updateText;
     updateSubDiagnosisNotification();  
     checkIfOptionsAvailable();
     } else if (updateElement == 'sub-diagnosis-select'){
 
-      updateText = "<option onClick=updateSubSubDiagnosis();updateInfoBar('"+ updateElement +"');checkObjectLength('sub-diagnosis-select')>" + http.responseText.replace(/,/g, "</option><option onClick=updateSubSubDiagnosis();updateInfoBar('"+ updateElement +"');checkObjectLength('sub-diagnosis-select');>") + "</option>";
+      updateText = "<option onClick=validateEntry('sub-diagnosis-select')>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
     $(updateElement).innerHTML = updateText;
   
     checkIfOptionsAvailable();
     } else if (updateElement == 'sub-sub-diagnosis-select'){
-      updateText = "<option onClick=updateInfoBar('"+ updateElement +"');checkObjectLength('sub-sub-diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=updateInfoBar('"+ updateElement +"');checkObjectLength('sub-sub-diagnosis-select');>") + "</option>";
+      updateText = "<option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>") + "</option>";
     $(updateElement).innerHTML = updateText;
   
     checkIfOptionsAvailable();
@@ -290,7 +290,6 @@ function updateMainDiagnosis(){
   var searchString =  $('diagnosis-inputbox').value;
   var aUrl = "/search/main_diagnosis?search_string=" + searchString;
   var aElement = 'diagnosis-select';
-  diagnosisComplete = true;
   updateList(aElement, aUrl);
 }
 
@@ -311,7 +310,7 @@ function updateSubSubDiagnosis(){
 
 function updateInfoBar(updateElement){
   if (updateElement == 'diagnosis-select'){
-    tempDataArray.push($('diagnosis-select').value);
+      tempDataArray.push($('diagnosis-select').value);
   } else if (updateElement == 'sub-diagnosis-select'){
 
     tempDataArray.push($('sub-diagnosis-select').value);
@@ -539,4 +538,27 @@ function showConfirmatoryEvidence(){
 
 function setNextAttribute(){
  $('nextButton').setAttribute("onClick", "populateConfirmatoryEvidence()");
+}
+
+function validateEntry(updateElement){
+  if (updateElement == 'diagnosis-select'){
+    if (tempDataArray.length > 0){
+      $('diagnosis-select').value = tempDataArray[0];
+      alert('Invalid entry');
+    }else{
+      updateTextBox('diagnosis-inputbox','diagnosis-select');
+      updateSubDiagnosis();
+      updateInfoBar('diagnosis-select');
+      checkObjectLength('diagnosis-select');
+    }
+  } else if (updateElement == 'sub-diagnosis-select'){
+    if (tempDataArray.length == 2){
+      $('sub-diagnosis-select').value = tempDataArray[1];
+      alert('Invalid Sub');
+    } else {
+      updateSubSubDiagnosis();
+      updateInfoBar('sub-diagnosis-select');
+      checkObjectLength('sub-diagnosis-select');
+    }
+    } 
 }
