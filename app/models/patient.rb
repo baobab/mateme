@@ -226,13 +226,14 @@ class Patient < ActiveRecord::Base
       drug_frequency = drug_info[2].upcase rescue nil
 
       preferred_concept_name_id = Concept.find_by_name(drug_frequency).concept_id
+      preferred_dmht_tag_id = ConceptNameTag.find_by_tag("preferred_dmht").concept_name_tag_id
 
       drug_frequency = ConceptName.find(:first, :select => "concept_name.name",
         :joins => "INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept
                                 INNER JOIN concept_name_tag_map cnmp
-                                  ON  cnmp.concept_name_id = concept_name.concept_name_id
-                                  AND cnmp.concept_name_tag_id = 4",
-        :conditions => ["concept_answer.concept_id = ? AND concept_name.concept_id = ? AND voided = 0", concept_name_id, preferred_concept_name_id])
+                                  ON  cnmp.concept_name_id = concept_name.concept_name_id",
+        :conditions => ["concept_answer.concept_id = ? AND concept_name.concept_id = ? AND voided = 0
+                                  AND cnmp.concept_name_tag_id = ?", concept_name_id, preferred_concept_name_id, preferred_dmht_tag_id])
 
       drugs.each do |drug|
 

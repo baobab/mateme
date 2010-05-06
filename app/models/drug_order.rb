@@ -5,7 +5,8 @@ class DrugOrder < ActiveRecord::Base
   belongs_to :drug, :foreign_key => :drug_inventory_id
   
   def to_s 
-    s = "#{drug.name}: #{self.dose} #{self.units} #{frequency} for #{duration} days"
+    #s = "#{drug.name}: #{self.dose} #{self.units} #{frequency} for #{duration} days"
+    s = "#{drug.concept.name.name.titleize} #{self.dose}#{self.units.downcase} #{frequency} for #{duration} days"
     s << " (prn)" if prn?
     s
   end
