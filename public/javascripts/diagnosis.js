@@ -200,9 +200,6 @@ function handleHttpResponse(updateElement) {
     $(updateElement).innerHTML = updateText;
   
     checkIfOptionsAvailable();
-    } else if (updateElement == 'confirmatory-evidence-select'){
-        confirmatoryEvidenceString += http.responseText + ",";
-        resetSelections();
     }else if (updateElement == 'subDiagnosisPopUp'){
       if (http.responseText != ""){
         $('subDiagnosisPopUpDiv').style.display = "block";
@@ -293,6 +290,7 @@ function updateMainDiagnosis(){
   var searchString =  $('diagnosis-inputbox').value;
   var aUrl = "/search/main_diagnosis?search_string=" + searchString;
   var aElement = 'diagnosis-select';
+  diagnosisComplete = true;
   updateList(aElement, aUrl);
 }
 
@@ -319,8 +317,6 @@ function updateInfoBar(updateElement){
     tempDataArray.push($('sub-diagnosis-select').value);
     } else if (updateElement == 'sub-sub-diagnosis-select'){
     tempDataArray.push($('sub-sub-diagnosis-select').value);
-    } else if (updateElement == 'confirmatory-evidence-select'){
-      tempDataArray.push($('confirmatory-evidence-select').value);
     } else if (updateInfoBarParameter == "update"){
       tempDataArray = updateElement.innerHTML.replace(/, /g,",").split(",");
       updateInfoBarParameter = "";
@@ -342,16 +338,6 @@ function getObjectLength(valueLength){
   return b;
 }
 
-
-/*Look for confirmatory evidence*/
-
-function updateConfirmatoryEvidence(){
-  var diagnosis = tempDataArray.toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g, "").replace(/,/g,"")
-  var aUrl = "/search/confirmatory_evidence?diagnosis=" + diagnosis;
-  var aElement = 'confirmatory-evidence-select';
-  updateList(aElement, aUrl);
-}
-
 function resetSelections(){
     mainDataArray.push(tempDataArray);
     mainDataArray.push("<br>")
@@ -366,21 +352,21 @@ function resetSelections(){
 function checkObjectLength(selectedValue){
   if (selectedValue == 'diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$(selectedValue).value]) == 0){
-      updateConfirmatoryEvidence();
+      resetSelections();
     }
   } else if (selectedValue == 'sub-diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$(selectedValue).value]) == 0){
-      updateConfirmatoryEvidence();
+      resetSelections();
     }
   } else if (selectedValue == 'sub-sub-diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$('sub-diagnosis-select').value][$(selectedValue).value]) == 0){
-      updateConfirmatoryEvidence();
+      resetSelections();
     }
   } else if (selectedValue == 'pop-up-object'){
      $('subDiagnosisPopUpDiv').style.display = "none";
      $('subSubDiagnosisPopUpDiv').style.display = "none";
      $('diagnosis-inputbox').value = "";
-     updateConfirmatoryEvidence();
+     resetSelections();
   } 
 }
 
@@ -449,26 +435,13 @@ function createConfirmatoryEvidence(){
 
   mainContainer.appendChild(confirmatoryEvidence);
 
-  /*add confirmatory evidennce header*/
-  var confirmatoryEvidenceHeader = document.createElement('div');
-  confirmatoryEvidenceHeader.className = "diagnosis-headers";
-  confirmatoryEvidenceHeader.innerHTML = "TEST RESULT AVAILABLE?";
-  confirmatoryEvidence.appendChild(confirmatoryEvidenceHeader);
-
-
    /*Select div*/
  var confirmatoryEvidenceSelectDiv = document.createElement('div');
- confirmatoryEvidenceSelectDiv.className = "diagnosis-select-div";
+ confirmatoryEvidenceSelectDiv.id = "confirmatory-evidence-select-div"
+ confirmatoryEvidenceSelectDiv.className = "confirmatory-evidence-select-div";
  confirmatoryEvidence.appendChild(confirmatoryEvidenceSelectDiv);
 
- /*Added Select*/
- var confirmatoryEvidenceSelect = document.createElement('select');
- confirmatoryEvidenceSelect.className = "diagnosis-select";
- confirmatoryEvidenceSelect.id = "confirmatory-evidence-select";
- confirmatoryEvidenceSelect.size = 10;
- confirmatoryEvidenceSelectDiv.appendChild(confirmatoryEvidenceSelect);
-
- $('confirmatory-evidence-select').innerHTML = "<option>" + confirmatoryEvidenceString.replace(/,/g,"</option><option>") + "</option>";
+ setTimeout("showConfirmatoryEvidence()", 500);
 
  $('infoBar'+tstCurrentPage).innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" ;
 
@@ -507,7 +480,6 @@ function removeEmptyObjects(){
    var processArray = function(x,idx){
 
     if (typeof(x) == 'object'){
-
       if (x.toSource() == "[]"){
         mainDataArray.splice(idx,2);   
         return;   
@@ -515,4 +487,56 @@ function removeEmptyObjects(){
     }
   }
   mainDataArray.forEach(processArray);
+}
+
+function objectConverter(a){
+  var myObject = {};
+  for(var i=0;i<a.length;i++)
+  {
+    myObject[a[i]]='';
+  }
+  return myObject;
+}
+
+function populateConfirmatoryEvidence(){
+  confirmatoryEvidenceData = {};
+  var processArray = function(x,idx){
+    var diagnosis = "";
+    if (typeof(x) == 'object'){
+      if (x.toSource() != "[]"){
+        diagnosis = x.toSource().replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"").replace(/"/g,"");
+        confirmatoryEvidenceData[diagnosis] = [];
+        for (i in finalTests[0]){
+          if(diagnosis in objectConverter(finalTests[0][i])){
+            confirmatoryEvidenceData[diagnosis].push(i);
+          }
+        }
+      }
+    }
+  }
+  mainDataArray.forEach(processArray); 
+}
+
+function showConfirmatoryEvidence(){
+   for (i in confirmatoryEvidenceData){
+   /*add confirmatory evidennce header */
+  var confirmatoryEvidenceHeader = document.createElement('div');
+  confirmatoryEvidenceHeader.className = "confirmatory-evidence-headers";
+  confirmatoryEvidenceHeader.innerHTML = i;
+  $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceHeader);
+
+ /*Added Select */
+ var confirmatoryEvidenceSelect = document.createElement('select');
+ confirmatoryEvidenceSelect.className = "confirmatory-evidence-select";
+// confirmatoryEvidenceSelect.id = "confirmatory-evidence-select";
+ confirmatoryEvidenceSelect.size = 10;
+ $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceSelect);
+
+ confirmatoryEvidenceSelect.innerHTML = "<option>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option>") + "</option>";
+ }
+
+}
+
+function setNextAttribute(){
+ $('nextButton').setAttribute("onClick", "populateConfirmatoryEvidence()");
 }
