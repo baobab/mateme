@@ -132,7 +132,8 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
       :id => "complications",
       :tt_onUnLoad => "setConceptNamesAndValues()",
       :multiple => true,
-      :tt_pageStyleClass => "MultiSelectList"
+      :tt_pageStyleClass => "MultiSelectList",
+      :optional => true
     }) %>
 
   <% if (@patient.person.gender == 'M')

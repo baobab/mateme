@@ -104,7 +104,8 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
       :id => "past_medical_history",
       :tt_onUnLoad => "setConceptNamesAndValues()",
       :multiple => true,
-      :tt_pageStyleClass => "MultiSelectList"
+      :tt_pageStyleClass => "MultiSelectList",
+      :optional => true
     }) %>
 
   <% @past_medical_history_list = ["STROKES", "SERIOUS CARDIAC PROBLEMS", "HYPERTENSION", "TUBERCULOSIS", "OTHER MEDICAL CONDITIONS"] %>

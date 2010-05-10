@@ -22,6 +22,8 @@ font-size:0.7em;
   <ul class="list" style="height: 570px; width: 700px;">
     <table cellpadding="2" cellspacing="0" border ="1" width="100%">
 
+      <%#= raise @encounter_datetimes.inspect %>
+      
       <%@encounter_datetimes.each { |encounter_datetime|%>
         <tr>
           <td class="dottedTableBorder" style="font-size: 1.5em;">

@@ -69,7 +69,7 @@ class Observation < ActiveRecord::Base
     show_negatives = options[:show_negatives] rescue true
     question = self.concept.name.name rescue 'Unknown concept name'
     if !show_negatives # ignore observations with No or Unknown answers
-      return nil if ['no','unknown'].include? self.answer_string.downcase
+      return nil if ['no','unknown',' ', ''].include? self.answer_string.downcase
       question = self.concept.short_name if self.concept.short_name && self.concept.short_name.length>0
       return question if self.answer_string.downcase == 'yes'
     end
