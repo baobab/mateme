@@ -3,7 +3,7 @@
 <%
 
   if(params[:encounter_id] && params[:group_type])
-    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type]) rescue nil
     #raise @encounter_obs.inspect
   end
 
