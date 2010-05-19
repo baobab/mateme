@@ -100,4 +100,27 @@ class SearchController < ApplicationController
     render :text => full_diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(";")
   end
 
+  def drugs
+    search_string = params[:search_string]
+
+     @results = Drug.find(:all).collect{|drug| drug.name}.compact.sort.grep(/^#{search_string}/) rescue []
+
+   render :text => @results.collect{|name|"<li>#{name}</li>"}.join("\n")
+
+  end
+
+  def location_drugs
+    search_string = params[:search_string].titleize
+
+     @results = LocationDrug.find(:all).collect{|drug| drug.drug_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
+
+   render :text => @results.collect{|name|"#{name}"}.join(',')
+
+  end
+
+  def location_frequencies
+    frequency = JSON.parse(GlobalProperty.find_by_property("facility.frequencies").property_value).collect{|v| v}.compact rescue []
+    render :text => frequency.collect{|freq| "#{freq}"}.join(",")
+  end
+
 end

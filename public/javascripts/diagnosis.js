@@ -268,12 +268,6 @@ function getHTTPObject() {
 }
 var http = getHTTPObject(); // We create the HTTP Object
 
-
-function updateTextBox(aElement, parentElement){
-  $(aElement).value = $(parentElement).value;
-
-}
-
 function updateSelectionList(updateSelectionList, aElement){
   if (updateSelectionList == 'diagnosis-select'){
     aUrl = "/search/main_diagnosis?search_string=" + $(aElement).value;
@@ -352,10 +346,15 @@ function checkObjectLength(selectedValue){
   if (selectedValue == 'diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$(selectedValue).value]) == 0){
       resetSelections();
+    } else{
+      alert('bingo');
+      updateSubDiagnosis();
     }
   } else if (selectedValue == 'sub-diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$(selectedValue).value]) == 0){
       resetSelections();
+    }else{
+      updateSubSubDiagnosis();
     }
   } else if (selectedValue == 'sub-sub-diagnosis-select'){
     if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$('sub-diagnosis-select').value][$(selectedValue).value]) == 0){
@@ -402,10 +401,11 @@ function removeTempValue(aElement){
 }
 
 function checkIfOptionsAvailable(){
-  if ($('diagnosis-select').innerHTML.length == 176){
+  if ($('diagnosis-select').innerHTML.length == 62){
     var searchString = $('diagnosis-inputbox').value;
     var aUrl = "/search/unqualified_sub_diagnosis?level=second&search_string=" + searchString;
     var aElement = 'subDiagnosisPopUp';
+    //setTimeout("", 500);
     updateList(aElement, aUrl);
   } else {
     $('subDiagnosisPopUpDiv').style.display = "none";
@@ -546,8 +546,7 @@ function validateEntry(updateElement){
       $('diagnosis-select').value = tempDataArray[0];
       alert('Invalid entry');
     }else{
-      updateTextBox('diagnosis-inputbox','diagnosis-select');
-      updateSubDiagnosis();
+      $('diagnosis-inputbox').value = $('diagnosis-select').value;
       updateInfoBar('diagnosis-select');
       checkObjectLength('diagnosis-select');
     }
@@ -556,7 +555,6 @@ function validateEntry(updateElement){
       $('sub-diagnosis-select').value = tempDataArray[1];
       alert('Invalid Sub');
     } else {
-      updateSubSubDiagnosis();
       updateInfoBar('sub-diagnosis-select');
       checkObjectLength('sub-diagnosis-select');
     }

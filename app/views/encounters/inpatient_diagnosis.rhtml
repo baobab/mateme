@@ -1,10 +1,12 @@
 <script type="text/javascript">
   var tt_cancel_destination = "/encounters/diagnoses_index?patient_id=<%= @patient.id %>"
 </script>
+<script language="javascript" type="text/javascript" src="/javascripts/diagnosis.js"></script>
 <style type="text/css">
   #space { display:inline; font-size:1.2em; }
   #helpText0 { width:680px}
 </style>
+ <%= stylesheet_link_tag "diagnosis-style" %>
 <form id='inpatient_diagnosis' action="/encounters/create" method='post'>
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>

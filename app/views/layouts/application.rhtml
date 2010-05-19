@@ -7,8 +7,6 @@
 
   <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
   <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
-  <script language="javascript" type="text/javascript" src="/javascripts/diagnosis.js"></script>
-
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
@@ -28,7 +26,6 @@
     <%= javascript_include_tag "touchscreenToolkit" %>
     <%= javascript_include_tag "dateselector" %>
     <%= javascript_include_tag "utils" %>
-    <%= stylesheet_link_tag "diagnosis-style" %>
   </head>
   <body id="mateme">  
     <div id="container">

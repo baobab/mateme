@@ -168,5 +168,10 @@ class User < ActiveRecord::Base
     
   end
 
+  def superuser?
+    user_roles.map{|user_role| user_role.role }.include? 'superuser'
+  end  
+
+
 
 end

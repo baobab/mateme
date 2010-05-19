@@ -1,145 +1,44 @@
-<style type="text/css">
-  /* TEMP, move out of here! */
-  .options {
-    height:14em;
-  }
-
-  #tt_page_common_prescriptions_for_this_diagnosis .options {
-    font-size:1em;
-    height:24em;
-  }
-
-  #tt_page_frequency .options {
-    font-size:1em;
-    height:24em;
-  }
-
-  .tt_controls_frequency #keyboard,
-  .tt_controls_frequency #num,
-  .tt_controls_frequency #Unknown {
-    display:none;
-  }
-
-</style>
-<script>
-  var tt_cancel_destination = "/prescriptions/?patient_id=<%= @patient.patient_id %>?auto_load_forms=false";
-  var selectedSuggetion = '';
-  var showCommonPrescriptions = false;
-  var prescriptions_string = '';
-  var prescriptions_info = '';
-
-    function updateAllPrescriptions(){
-
-    prescriptions_string += $('generic').value + ',' + $('frequency').value + ',' + $('duration').value + ';';
-    $('all_prescriptions').value = prescriptions_string;
-  }
-
-   function updateNextFinish(){
-    if (tstInputTarget.value == 'FINISH'){
-      $('nextButton').innerHTML = '<span>Finish</span>';
-      $('nextButton').click
-    }
-    else
-      $('nextButton').innerHTML = '<span>Next</span>';
- 
-    setTimeout(updateNextFinish, 500)
-  }
-
-  function common_prescritions_present() {
-    var diagnosis = encodeURIComponent(selectedValue('diagnosis'));
-   
-    var aUrl = "/prescriptions/suggested?patient_id=<%= @patient.patient_id %>&diagnosis=" + diagnosis + "&search_string=";
-    var xmlhttp = new XMLHttpRequest();
-    
-    showCommonPrescriptions = false;
-    xmlhttp.onreadystatechange = function(){
-      if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-        if (xmlhttp.responseText.split(" ").join("").split("\n").join("") != '<lionmousedown=""tstValue="0">NewPrescription</li>'){
-          showCommonPrescriptions = true;                
-        }
-      }
-    };
-
-    xmlhttp.open('GET', aUrl, true);
-    xmlhttp.send(null);
-  }
-
+<script type="text/javascript">
+  var tt_cancel_destination = "/prescriptions/?patient_id=<%= @patient.id %>"
 </script>
-<form id='prescription' action="/prescriptions/create" method='post'>
+<script language="javascript" type="text/javascript" src="/javascripts/prescription.js"></script>
+<style type="text/css">
+  #space { display:inline; font-size:1.2em; }
+  #helpText0 { width:680px}
+</style>
+<%= stylesheet_link_tag "drug-style" %>
+<form id='inpatient_prescriptions' action="/prescriptions/create" method='post'>
 
-  <%= hidden_field_tag :patient_id, @patient.id %>
-
-  <%= text_field_tag :diagnosis, nil, {
-    :ajaxURL => "/prescriptions/diagnoses?patient_id=#{@patient.id}&search_string=",
-    :textCase => "upper",
-    :field_type => 'boolean',
-    :allowFreeText => 'false',
-    :helpText => "Prescribe treatment for which diagnosis?",
-    :tt_requireNextClick => 'false'
-  }%>
-
-  <%= select_tag :selected_order_type, options_for_select(
-    ["", "Treatment given","Treatment prescribed"]),
-    {:condition => "selectedValue('diagnosis') != '0'",
-      :helpText => 'Specify treatment type',
-      :tt_onLoad => "common_prescritions_present();",
-      :tt_requireNextClick => 'false'
-  }%>
+   <input type='text' name='drug_prescribed_ctrl' tt_onLoad='createDrugsPrescribed();updateDrugList();$("drug-inputbox").focus()' tt_pageStyleClass='NoControls' optional /> 
+   
+   <input type='text' name='drugs_given_ctrl' tt_onLoad='createDrugsGiven();' tt_pageStyleClass='NoControls' optional /> 
 
 
-  <%= text_field_tag :suggestion, params[:suggestion] || 0, {
-    :tt_onLoad => "set_diagnosis_for_suggestions();",
-    :ajaxURL => "/prescriptions/suggested?patient_id=#{@patient.id}&search_string=",
-    :textCase => "upper",
-    :field_type => 'boolean',
-    :allowFreeText => 'false',
-    :condition => "selectedValue('selected_order_type') != '0' && showCommonPrescriptions",
-    :helpText => "Common prescriptions for this diagnosis",
-    :tt_onUnLoad => "selectedSuggetion = $('touchscreenInput'+tstCurrentPage).value",
-    :tt_requireNextClick => 'false'
-  }%>
-
-  <%= hidden_field_tag("all_prescriptions", '', {:id => "all_prescriptions"}) %>
-
-  <%15.times do |i|%>
-
-    <%= text_field_tag :generic, nil, {
-      :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = prescriptions_info;updateNextFinish();",
-      :ajaxURL => "/prescriptions/generics?search_string=",
-      :textCase => "upper",
-      :condition => "selectedValue('suggestion') == '0' && tstPageValues[tstCurrentPage] != 'FINISH'",
-      :helpText => "Generic Drug",
-      :tt_requireNextClick => 'false',
-      :tt_onUnLoad => "prescriptions_info += tstInputTarget.value + ':';$('generic').value = tstInputTarget.value"
-    }%>
-
-<% coded = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id rescue nil
-names = ConceptName.all(:conditions => ['concept_answer.concept_id = ? AND voided = 0', coded], :joins => 'INNER JOIN concept_answer ON concept_name.concept_id = concept_answer.answer_concept INNER JOIN concept_name_tag_map cnmp ON cnmp.concept_name_id = concept_name.concept_name_id AND cnmp.concept_name_tag_id = 4') rescue []
-options = names.map{|n| [n.name, n.name]}
-options << ['', '']
-%>
-<%= select_tag :frequency, options_for_select(options, ''), 
-  {
-  :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = prescriptions_info;",
-  :helpText => "Frequency",
-  :condition => "tstPageValues[tstCurrentPage] != 'FINISH'",
-  :tt_requireNextClick => 'false',
-  :tt_onUnLoad => "prescriptions_info += tstInputTarget.value + ':'; $('frequency').value = tstInputTarget.value"
-  } %>
-
-<% # Set ajaxURL in the script, but need to start it blank %>
-<%= text_field_tag :duration, nil, { 
-  :tt_onLoad => "$('infoBar'+tstCurrentPage).innerHTML = prescriptions_info;",
-  :ajaxURL => "",
-  :field_type => 'number',
-  :units => 'days',
-  :helpText => "Duration (days)",
-  :validationRule => "([0-9]+\\.?[0-9]*)|Unknown$",
-  :validationMessage => "You must enter a number (for example: 5<b>.0</b>)",
-  :condition => "tstPageValues[tstCurrentPage] != 'FINISH'",
-  :tt_pageStyleClass => "NumbersOnlyWithDecimal",
-  :tt_onUnLoad => "prescriptions_info += tstInputTarget.value + 'day(s)<br />';$('duration').value = tstInputTarget.value;updateAllPrescriptions();"
-}%>
-<%end%>
+  <%= submit_tag "Finish" %>
 
 </form>
+<div id='subDiagnosisPopUpDiv' class='diagnosisBarDiv'>
+
+<div id='subDiagnosisPopUp' class='diagnosisBar'>
+</div> 
+<div>
+  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
+  </div>
+</div>
+
+<div id='subSubDiagnosisPopUpDiv' class='diagnosisBarDiv'>
+<div id='subSubDiagnosisPopUp' class='diagnosisBar'>
+</div> 
+<div>
+  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
+  </div>
+</div>
+
+<script type='text/javascript'>
+var finalAnswers = [<%= DiagnosisTree.diagnosis_data.to_json %>];
+var finalTests = [<%= DiagnosisTree.confirmatory_evidence.to_json %>];  
+var mainDataArray = [];
+var tempDataArray = [];
+var confirmatoryEvidenceData = {};
+</script>
+
