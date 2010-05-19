@@ -114,7 +114,7 @@ class SearchController < ApplicationController
 
      @results = LocationDrug.find(:all).collect{|drug| drug.drug_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
 
-   render :text => @results.collect{|name|"#{name}"}.join(',')
+   render :text => @results.collect{|name|"#{name}"}.join(';')
 
   end
 
