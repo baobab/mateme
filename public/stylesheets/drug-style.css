@@ -1,17 +1,17 @@
 .main-container {
   height: 545px;
-  position: relative;
+  position: absolute;
   width: 992px;
-  z-index: 1000;
-  top: 120px;
-  left: 6px;
+  z-index: 20;
+  top: 87px;
+  left: 0px;
 }
 
 .diagnosis-columns{
-  background-color: #EEEEEE;
   height: 66%;
   position: absolute;
-  border-style: solid;
+  border: dashed 1px #EEEEEE;
+  margin-left:5px;
 }
 
 #main-diagnosis{
@@ -21,7 +21,12 @@
 
 #sub-diagnosis{
   left: 60%;
-  width: 17%;
+  width: 16%;
+  margin-left:1%;
+}
+
+#frequency-select{
+  width: 93%;
 }
 
 #duration{
@@ -41,7 +46,7 @@
 
 .diagnosis-headers{
   width: 100%;
-  background-color: #BBCCD9;
+  /*background-color: #BBCCD9;*/
   height: 5%;
   position: absolute;
   font-style: bold;
@@ -61,11 +66,16 @@
   border-left:none;
   border-right:none;
   border-bottom: 1px solid silver;
-  width:100%;
+  border-top: 1px solid silver;
+  border-left: 1px solid silver;
+  border-right: 1px solid silver;
+  margin-left: 1%;
+  width:98%;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:1.8em;
   background:none;
   padding-left:5px;
+  background-color:#EEEEEE;
 }
 
 .notify-div{
@@ -78,22 +88,28 @@
 
 .drug-select-div{
   width: 100%;
-  height: 87%;
+  height: 80%;
   position: absolute;
-  top: 13%;
+  top: 18%;
   overflow:auto;
-  background: #BBCCD9;
+  margin-left: 5px;
+  /*border:ridge 3px #EEEEEE;
+  background: #BBCCD9;*/
+}
+
+#duration-parent{
+  width: 95%;
 }
 
 .drug-select{
-  width:100%;
+  width:98%;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:1.4em;
   padding:0;
   margin:0;
   size: 10;
   height: 100%;
-  background: #BBCCD9;
+  /*background: #BBCCD9;*/
 }
 
 .drug-select option {
@@ -164,17 +180,6 @@
 }
 
 #duration-div{
-  width:40%;
-  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
-  font-size:1.4em;
-  padding:0;
-  margin:0;
-  size: 10;
-  height: 100%;
-  position: relative;
-  float: left;
-
-}#duration-values{
   width:50%;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:1.4em;
@@ -183,7 +188,22 @@
   size: 10;
   height: 100%;
   position: relative;
-  float: right;
+  float: left;
+  border: 1px #EEEEEE solid;
+}
+
+#duration-values{
+  width:43%;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:1.4em;
+  padding:0;
+  margin:0;
+  size: 10;
+  height: 100%;
+  position: relative;
+  float: left;
+  border: 1px #EEEEEE solid;
+  margin-left:5px;
 }
 
 
