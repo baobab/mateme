@@ -67,7 +67,8 @@ function createElements(){
  /*Create the main container div*/
  mainContainer.id = "diagnosis-container";
  mainContainer.className = "main-container";
- document.body.appendChild(mainContainer);
+ //document.body.appendChild(mainContainer);
+ $('content').appendChild(mainContainer);
 
   createSimpleKeyboard();
  /*+++++++++++++++++++++++++Create the main diagnosis column*/ 
@@ -171,12 +172,14 @@ function createElements(){
 }
 /*Remove the dynamic elements from subsequent pages on Un load*/
 function hideDiagnosisContainer(){
-  document.body.removeChild($('diagnosis-container'));
+  //document.body.removeChild($('diagnosis-container'));
+  $('content').removeChild($('diagnosis-container'));
 }
 
 function hideConfirmatoryContainer(){
   $('final_diagnosis').value = mainDataArray.toSource();
-  document.body.removeChild($('confirmatory-container'));
+  //document.body.removeChild($('confirmatory-container'));
+  $('content').removeChild($('confirmatory-container'));
 }
 
 /*+++++++++++++++++Some ajax for updating lists*/
@@ -347,7 +350,7 @@ function checkObjectLength(selectedValue){
     if(getObjectLength(finalAnswers[0][$(selectedValue).value]) == 0){
       resetSelections();
     } else{
-      alert('bingo');
+      //alert('bingo');
       updateSubDiagnosis();
     }
   } else if (selectedValue == 'sub-diagnosis-select'){
@@ -425,7 +428,8 @@ function createConfirmatoryEvidence(){
  /*Create the main container div*/
  mainContainer.id = "confirmatory-container";
  mainContainer.className = "main-container";
- document.body.appendChild(mainContainer);
+ //document.body.appendChild(mainContainer);
+ $('content').appendChild(mainContainer);
 
 
  /*+++++++++++++++++++++++++++++++Create confirmatory evidence column column*/
