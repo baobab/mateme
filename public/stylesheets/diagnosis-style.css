@@ -1,17 +1,16 @@
 .main-container {
-  height: 500px;
+  height: 550px;
   position: relative;
   width: 985px;
   z-index: 1000;
-  top: 120px;
   left: 6px;
 }
 
 .diagnosis-columns{
-  background-color: #EEEEEE;
-  height: 66%;
+  border: 1px dashed #EEEEEE;
+  height: 58%;
+  margin-left: px;
   position: absolute;
-  border-style: solid;
 }
 
 #main-diagnosis{
@@ -40,11 +39,11 @@
 }
 
 .diagnosis-headers{
-  width: 100%;
-  background-color: #BBCCD9;
-  height: 5%;
+  font-size: 1.2em;
+  padding-left: 5px;
+  padding-top: 5px;
   position: absolute;
-  font-style: bold;
+  width: 100%;
 }
 
 .diagnosis-inputbox-div{
@@ -57,30 +56,21 @@
 
 
 .diagnosis-inputbox{
-  border-top:none;
-  border-left:none;
-  border-right:none;
-  border-bottom: 1px solid silver;
-  width:100%;
+  background:none repeat scroll 0 0 #EEEEEE;
+  border: 1px solid silver;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:1.8em;
-  background:none;
+  margin-bottom: 3px;
+  margin-left: 1%;
   padding-left:5px;
-}
-
-.notify-div{
-  width: 100%;
-  height: 8%;
-  position: absolute;
-  font-style: bold;
-  top: 5%;
+  width:98%;
 }
 
 .diagnosis-select-div{
   width: 100%;
   height: 87%;
   position: absolute;
-  top: 13%;
+  top: 10%;
   overflow:auto;
 }
 
@@ -101,7 +91,7 @@
 .simple-keyboard{
   position: absolute;
   font-style: bold;
-  top: 67%;
+  top: 82%;
   z-index: 1005;
   left:30%;
 }
@@ -130,7 +120,6 @@
 }
 
 .notify-span{
-  font-size: 1.3em;
   color: tomato;
 }
 
@@ -159,6 +148,21 @@
   height: 8%;
   font-style: bold;
   font-size:1.5em;
+}
+
+.diagnosesInfobar{
+  -moz-user-select:none;
+  color:black;
+  font-size:1.3em;
+  margin-left:1%;
+  margin-bottom: 2px;
+  padding-top:5px;
+  width:98.5%;
+  border-top:2px dotted;
+  border-bottom:2px dotted;
+  height:90px;
+  background-color:honeydew;
+  overflow:auto;
 }
 
 

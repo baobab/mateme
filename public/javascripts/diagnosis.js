@@ -62,13 +62,27 @@ function createSimpleKeyboard(){
 }
 
 function createElements(){
-  
+
  var  mainContainer = document.createElement('div');
  /*Create the main container div*/
  mainContainer.id = "diagnosis-container";
  mainContainer.className = "main-container";
  //document.body.appendChild(mainContainer);
  $('content').appendChild(mainContainer);
+
+  /*Added Text Input */
+ var diagnosesInfobar = document.createElement('div');
+ diagnosesInfobar.className = "diagnosesInfobar";
+ diagnosesInfobar.id = "diagnoses-infobar";
+ $('diagnosis-container').appendChild(diagnosesInfobar);
+
+ /*Added Text Input */
+ var mainDiagnosisInputBox = document.createElement('input');
+ mainDiagnosisInputBox.className = "diagnosis-inputbox";
+ mainDiagnosisInputBox.id = "diagnosis-inputbox";
+ mainDiagnosisInputBox.setAttribute("onKeyUp", "updateSelectionList('diagnosis-select','diagnosis-inputbox');");
+ $('diagnosis-container').appendChild(mainDiagnosisInputBox);
+
 
   createSimpleKeyboard();
  /*+++++++++++++++++++++++++Create the main diagnosis column*/ 
@@ -82,17 +96,6 @@ function createElements(){
  mainDiagnosisHeader.className = "diagnosis-headers";
  mainDiagnosisHeader.innerHTML = "MAIN DIAGNOSIS";
  mainDiagnosis.appendChild(mainDiagnosisHeader);
- /*Input box div*/
- var mainDiagnosisInputBoxDiv = document.createElement('div');
- mainDiagnosisInputBoxDiv.className = "diagnosis-inputbox-div";
- mainDiagnosis.appendChild(mainDiagnosisInputBoxDiv);
-
- /*Added Text Input*/
- var mainDiagnosisInputBox = document.createElement('input');
- mainDiagnosisInputBox.className = "diagnosis-inputbox";
- mainDiagnosisInputBox.id = "diagnosis-inputbox";
- mainDiagnosisInputBox.setAttribute("onKeyUp", "updateSelectionList('diagnosis-select','diagnosis-inputbox');");
- mainDiagnosisInputBoxDiv.appendChild(mainDiagnosisInputBox);
 
   /*Select div*/
  var mainDiagnosisSelectDiv = document.createElement('div');
@@ -116,14 +119,8 @@ function createElements(){
 /*add sub diagnosis header*/
   var subDiagnosisHeader = document.createElement('div');
   subDiagnosisHeader.className = "diagnosis-headers";
-  subDiagnosisHeader.innerHTML = "SUB DIAGNOSIS";
+  subDiagnosisHeader.innerHTML = "SUB DIAGNOSIS &nbsp;&nbsp; <span id='subdiagnosis-notify'> </span>";
   subDiagnosis.appendChild(subDiagnosisHeader);
-  //sub diagnosis notification area
-  var subDiagnosisNotifyDiv = document.createElement('div');
-  subDiagnosisNotifyDiv.className = "notify-div";
-  subDiagnosisNotifyDiv.id = "subdiagnosis-notify";
-  subDiagnosis.appendChild(subDiagnosisNotifyDiv);
-
 
   /*Select div*/
  var subDiagnosisSelectDiv = document.createElement('div');
@@ -148,14 +145,8 @@ function createElements(){
   /*add sub sub diagnosis header*/
   var subSubDiagnosisHeader = document.createElement('div');
   subSubDiagnosisHeader.className = "diagnosis-headers";
-  subSubDiagnosisHeader.innerHTML = "SUB SUB DIAGNOSIS";
+  subSubDiagnosisHeader.innerHTML = "SUB SUB DIAGNOSIS &nbsp;&nbsp; <span id='sub-subdiagnosis-notify'></span>";
   subSubDiagnosis.appendChild(subSubDiagnosisHeader);
-  //sub diagnosis notification area
-  var subSubDiagnosisNotifyDiv = document.createElement('div');
-  subSubDiagnosisNotifyDiv.className = "notify-div";
-  subSubDiagnosisNotifyDiv.id = "sub-subdiagnosis-notify";
-  subSubDiagnosis.appendChild(subSubDiagnosisNotifyDiv);
-
 
    /*Select div*/
  var subSubDiagnosisSelectDiv = document.createElement('div');
@@ -229,7 +220,7 @@ function handleHttpResponse(updateElement) {
         var diagnosesMatches = 0;
         var matchesArray = http.responseText.split(';');
         if (matchesArray[0] != "" && matchesArray.length > 0 && $('diagnosis-inputbox').value != ""){
-          $('subdiagnosis-notify').innerHTML = "<span class='notify-span' onClick=activatePopup('subDiagnosisPopUp')>(" + matchesArray.length + ")<blink> Possible matches</blink></span>";
+          $('subdiagnosis-notify').innerHTML = "<span class='notify-span' onClick=activatePopup('subDiagnosisPopUp')>(" + matchesArray.length + ")<blink> Matches</blink></span>";
         }else {
           $('subdiagnosis-notify').innerHTML = "";
         }
@@ -238,7 +229,7 @@ function handleHttpResponse(updateElement) {
         var diagnosesMatches = 0;
         var matchesArray = http.responseText.split(';');
         if (matchesArray[0] != "" && matchesArray.length > 0 && $('diagnosis-inputbox').value != ""){
-          $('sub-subdiagnosis-notify').innerHTML = "<span class='notify-span' onClick=activatePopup('subSubDiagnosisPopUp')>(" + matchesArray.length + ")<blink> Possible matches</blink></span>";
+          $('sub-subdiagnosis-notify').innerHTML = "<span class='notify-span' onClick=activatePopup('subSubDiagnosisPopUp')>(" + matchesArray.length + ")<blink> Matches</blink></span>";
         } else{
           $('sub-subdiagnosis-notify').innerHTML = "";
         }
