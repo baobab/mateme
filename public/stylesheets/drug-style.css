@@ -3,12 +3,12 @@
   position: absolute;
   width: 992px;
   z-index: 20;
-  top: 87px;
+  top: 5px;
   left: 0px;
 }
 
 .diagnosis-columns{
-  height: 66%;
+  height: 55%;
   position: absolute;
   border: dashed 1px #EEEEEE;
   margin-left:5px;
@@ -46,10 +46,13 @@
 
 .diagnosis-headers{
   width: 100%;
-  /*background-color: #BBCCD9;*/
-  height: 5%;
+  /*background-color: #BBCCD9;
+  height: 5%;*/
   position: absolute;
   font-style: bold;
+  padding-left: 5px;
+  padding-top: 5px;
+  font-size: 1.2em;
 }
 
 .drug-inputbox-div{
@@ -76,11 +79,27 @@
   background:none;
   padding-left:5px;
   background-color:#EEEEEE;
+  margin-bottom: 3px;
+}
+
+.drugBarClass {
+  -moz-user-select:none;
+  color:black;
+  font-size:1.3em;
+  margin-left:1%;
+  margin-bottom: 2px;
+  padding-top:5px;
+  width:98.5%;
+  border-top:2px dotted;
+  border-bottom:2px dotted;
+  height:90px;
+  background-color:honeydew;
+  overflow:auto;
 }
 
 .notify-div{
   width: 100%;
-  height: 8%;
+  /*height: 8%;*/
   position: absolute;
   font-style: bold;
   top: 5%;
@@ -88,9 +107,9 @@
 
 .drug-select-div{
   width: 100%;
-  height: 80%;
+  height: 88%;
   position: absolute;
-  top: 18%;
+  top: 10%;
   overflow:auto;
   margin-left: 5px;
   /*border:ridge 3px #EEEEEE;
@@ -99,6 +118,7 @@
 
 #duration-parent{
   width: 95%;
+  border: 1px solid #EEEEEE;
 }
 
 .drug-select{
@@ -119,7 +139,7 @@
 .simple-keyboard{
   position: absolute;
   font-style: bold;
-  top: 67%;
+  top: 82%;
   z-index: 1005;
   left:30%;
 }
@@ -180,7 +200,7 @@
 }
 
 #duration-div{
-  width:50%;
+  width:52%;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:1.4em;
   padding:0;
@@ -189,11 +209,11 @@
   height: 100%;
   position: relative;
   float: left;
-  border: 1px #EEEEEE solid;
+  /*border: 1px #EEEEEE solid;*/
 }
 
 #duration-values{
-  width:43%;
+  width:40%;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:1.4em;
   padding:0;
@@ -202,10 +222,15 @@
   height: 100%;
   position: relative;
   float: left;
-  border: 1px #EEEEEE solid;
+  border-left: 1px #EEEEEE solid;
   margin-left:5px;
 }
 
+.selections{
+    cursor:pointer;
+    padding-left:30px;
+    font-style:italic;
+}
 
 
 

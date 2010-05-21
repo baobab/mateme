@@ -1,3 +1,5 @@
+var drugs = {};
+
 function updateFromKeyboard(aText){
     if (aText == null){
         $('drug-inputbox').value = $('drug-inputbox').value.slice(0, -1);
@@ -62,12 +64,16 @@ function createSimpleKeyboard(){
 }
 
 function createDrugsPrescribed(){
-  
     var  mainContainer = document.createElement('div');
     /*Create the main container div*/
     mainContainer.id = "diagnosis-container";
     mainContainer.className = "main-container";
     $("content").appendChild(mainContainer);
+
+    var drugInfoBar = document.createElement("div");
+    drugInfoBar.id = "drugInfoBar";
+    drugInfoBar.className = "drugBarClass";
+    mainContainer.appendChild(drugInfoBar);
 
     /*Added Text Input*/
     var mainDiagnosisInputBox = document.createElement('input');
@@ -92,7 +98,7 @@ function createDrugsPrescribed(){
     /*Input box div*/
     var mainDiagnosisInputBoxDiv = document.createElement('div');
     mainDiagnosisInputBoxDiv.className = "drug-inputbox-div";
-    mainDiagnosis.appendChild(mainDiagnosisInputBoxDiv);
+    //mainDiagnosis.appendChild(mainDiagnosisInputBoxDiv);
 
     /*Select div*/
     var mainDiagnosisSelectDiv = document.createElement('div');
@@ -122,7 +128,7 @@ function createDrugsPrescribed(){
     var subDiagnosisNotifyDiv = document.createElement('div');
     subDiagnosisNotifyDiv.className = "notify-div";
     subDiagnosisNotifyDiv.id = "subdiagnosis-notify";
-    subDiagnosis.appendChild(subDiagnosisNotifyDiv);
+    //subDiagnosis.appendChild(subDiagnosisNotifyDiv);
 
 
     /*Select div*/
@@ -154,7 +160,7 @@ function createDrugsPrescribed(){
     var subSubDiagnosisNotifyDiv = document.createElement('div');
     subSubDiagnosisNotifyDiv.className = "notify-div";
     subSubDiagnosisNotifyDiv.id = "sub-subdiagnosis-notify";
-    duration.appendChild(subSubDiagnosisNotifyDiv);
+    //duration.appendChild(subSubDiagnosisNotifyDiv);
 
 
     /*Select div*/
@@ -179,9 +185,11 @@ function createDrugsPrescribed(){
 function handleHttpResponse(aElement) {
     if (http.readyState == 4 && http.status == 200) {
         if (aElement == 'drug-select'){
-            $('drug-select').innerHTML = "<option onClick=updateFrequency()>" + http.responseText.replace(/\;/g, "</option><option onClick=updateFrequency()>") + "</option>";
+            $('drug-select').innerHTML = "<option onClick=updateFrequency()>" +
+            http.responseText.replace(/\;/g, "</option><option onClick=updateFrequency()>") + "</option>";
         } else if (aElement == 'frequency'){
-            $('frequency-select').innerHTML = "<option onClick=showMainRange()>" + http.responseText.replace(/,/g, "</option><option onClick=showMainRange()>") + "</option>";
+            $('frequency-select').innerHTML = "<option onClick=showMainRange()>" +
+            http.responseText.replace(/,/g, "</option><option onClick=showMainRange()>") + "</option>";
         }
     }
 }
@@ -226,6 +234,8 @@ function updateDrugList(){
 function updateFrequency(){
     var aUrl = "/search/location_frequencies";
     updateList(aUrl, 'frequency');
+    $('duration-div').innerHTML = "";
+    $('duration-values').innerHTML = "";
 }
 
 function showMainRange(){
@@ -234,15 +244,51 @@ function showMainRange(){
         updateText += "<label><input name='mainrange' type='radio' value="+ eval(min) + " onClick=updateSubRange(" + min + ")>" + min + "-"+ eval(min+9) +"</label><br/>";
     }
     $('duration-div').innerHTML = updateText;
+    $('duration-values').innerHTML = "";
 }
 
 function updateSubRange(minimum){
     var updateText = "";
     var maximum = minimum + 10
     for (var i = minimum; i < maximum; i++){
-        updateText += "<label><input name='subRange' type='radio' value="+ i +">" + i +"</label><br/>";
+        updateText += "<label><input name='subRange' type='radio' value='"+ i +"' onclick='appendDrug()'>" + i +"</label><br/>";
     }
     $('duration-values').innerHTML = updateText
   
 }
 
+function appendDrug(){
+    var drug = $("drug-select")[$("drug-select").selectedIndex].innerHTML;
+    var freq = $("frequency-select")[$("frequency-select").selectedIndex].innerHTML;
+    var duration ="";
+
+    var rdos = document.getElementsByName("subRange");
+
+    for(var i = 0; i < rdos.length; i++){
+        if(rdos[i].checked){
+            duration = rdos[i].value;
+            break;
+        }
+    }
+
+    $("drugInfoBar").innerHTML = "<span onclick='$(\"drugInfoBar\").removeChild(this); delete drugs[\"" + drug + "\"];' class='selections'>"+
+    drug+", "+freq+", "+duration+"; <br /></span>" + $("drugInfoBar").innerHTML;
+
+    drugs[drug] = [drug, freq, duration];
+
+    updateFrequency();
+}
+
+function removeDrugsPrescribed(){
+    for(var i in drugs){
+        alert(drugs[i]);
+    }
+
+    drugs = {}
+    
+    $("content").removeChild($("diagnosis-container"));
+}
+
+function createDrugsGiven(){
+    //window.location = ""
+}

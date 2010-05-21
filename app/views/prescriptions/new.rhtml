@@ -9,9 +9,9 @@
 <%= stylesheet_link_tag "drug-style" %>
 <form id='inpatient_prescriptions' action="/prescriptions/create" method='post'>
 
-   <input type='text' name='drug_prescribed_ctrl' tt_onLoad='createDrugsPrescribed();updateDrugList();$("drug-inputbox").focus()' tt_pageStyleClass='NoControls' optional /> 
+   <input type='text' name='drug_prescribed_ctrl' tt_onUnLoad="removeDrugsPrescribed()" tt_onLoad='createDrugsPrescribed();updateDrugList();$("drug-inputbox").focus()' tt_pageStyleClass='NoControls' optional />
    
-   <input type='text' name='drugs_given_ctrl' tt_onLoad='createDrugsGiven();' tt_pageStyleClass='NoControls' optional /> 
+   <!--input type='text' name='drugs_given_ctrl' tt_onLoad='createDrugsGiven();' tt_pageStyleClass='NoControls' optional /-->
 
 
   <%= submit_tag "Finish" %>
