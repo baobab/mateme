@@ -1,6 +1,7 @@
 class EncountersController < ApplicationController
 
   def create
+    raise params.to_yaml
     diagnoses = JSON.parse(params['final_diagnosis']).delete_if{|x| x=="<br>"} rescue []
 
     if !diagnoses.compact.empty?
