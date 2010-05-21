@@ -18,6 +18,8 @@ class PrescriptionsController < ApplicationController
   end
   
   def create
+    raise params.to_yaml
+    
     prescriptions_array = params['all_prescriptions'].chop.split(/;/).map{|arr| arr.split(/,/)} rescue []
 
     @suggestion = params[:suggestion]

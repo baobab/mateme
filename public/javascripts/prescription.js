@@ -280,10 +280,18 @@ function appendDrug(){
 }
 
 function removeDrugsPrescribed(){
+    var prescriptions = "";
+    
     for(var i in drugs){
-        alert(drugs[i]);
+        if(prescriptions.length > 0){
+            prescriptions += ";" + $("obs_id").value + "," + drugs[i][0] + "," + drugs[i][1] + "," + drugs[i][2];
+        } else {
+            prescriptions += $("obs_id").value + "," + drugs[i][0] + "," + drugs[i][1] + "," + drugs[i][2];
+        }        
     }
 
+    $("all_prescriptions").value = prescriptions;
+    
     drugs = {}
     
     $("content").removeChild($("diagnosis-container"));
