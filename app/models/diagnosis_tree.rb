@@ -1,14 +1,10 @@
 class DiagnosisTree
-  
-  @@diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
-  @@confirmatory_evidence_hash = JSON.parse(GlobalProperty.find_by_property("facility.tests").property_value) rescue {}
-  
+
   def self.diagnosis_data
-  diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
-    #@@diagnosis_hash
+    diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
   end
   
-  def self.final_answers(diagnosis_hash = @@diagnosis_hash, deep_list ={})
+  def self.final_answers(diagnosis_hash = self.diagnosis_data, deep_list ={})
     diagnosis_hash.each do |k,v|
       if v.blank?
         deep_list[k] = 0
@@ -21,7 +17,7 @@ class DiagnosisTree
   end
   
   def self.confirmatory_evidence
-    @@confirmatory_evidence_hash
+    confirmatory_evidence_hash = JSON.parse(GlobalProperty.find_by_property("facility.tests").property_value) rescue {}
   end
   
   def self.unqualified_diagnosis(sub_diagnosis_array, level)
@@ -29,7 +25,7 @@ class DiagnosisTree
     
     if level == 'second'
       sub_diagnosis_array.each do |sub_diagnosis|
-        @@diagnosis_hash.each do |k,v| 
+        self.diagnosis_data.each do |k,v| 
           if v.has_key?(sub_diagnosis)
             v.each do |m,n|
               if m == sub_diagnosis
@@ -46,7 +42,7 @@ class DiagnosisTree
     
     elsif level == 'third'
       sub_diagnosis_array.each do |sub_sub_diagnosis|
-        @@diagnosis_hash.each do |k,v|
+        self.diagnosis_data.each do |k,v|
           v.each do |m,n|
             if n.has_key?(sub_sub_diagnosis)
               n.each do |y,z|
