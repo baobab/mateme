@@ -166,13 +166,13 @@
 }
 
 #diagnoses-infobar{
-  width: 75%;
+  width: 85%;
   position: relative;
   float: right;
 }
 
 #priSecAddDiv{
-  width: 25%;
+  width: 15%;
   position: relative;
   float: left;
   color:grey;
