@@ -175,7 +175,6 @@ function hideDiagnosisContainer(){
 }
 
 function hideConfirmatoryContainer(){
-  $('final_diagnosis').value = mainDataArray.toSource();
   //document.body.removeChild($('confirmatory-container'));
   $('content').removeChild($('confirmatory-container'));
 }
@@ -574,4 +573,43 @@ function showHeaders(){
     $('priSecAddDiv').innerHTML = ""
   }
 
+}
+
+function createHiddenFormControls(){
+  for(var i = 0; i < mainDataArray.length; i++){
+    if (typeof(mainDataArray[i]) == 'object'){
+       var temp = mainDataArray[i];
+       var fullString = "";
+       for (var n = 0; n < temp.length; n++){
+         fullString += " " + temp[n];
+       }
+       allDiagnoses.push(fullString.replace(/^ /,""))
+      }    
+  }
+
+  for (var i = 0; i < allDiagnoses.length; i++ ){
+    var valueCodedOrText = document.createElement('input');
+    valueCodedOrText.name = 'observations[][value_coded_or_text]';
+    valueCodedOrText.type = 'hidden';
+    valueCodedOrText.value = allDiagnoses[i];
+    $('inpatient_diagnosis').appendChild(valueCodedOrText);
+
+    var conceptName = document.createElement('input');
+    conceptName.name = 'observations[][concept_name]';
+    conceptName.type = 'hidden';
+    conceptName.value = i == 0? "PRIMARY DIAGNOSIS":(i == 1? "SECONDARY DIAGNOSIS": "ADDITIONAL DIAGNOSIS");
+    $('inpatient_diagnosis').appendChild(conceptName);
+    
+    var patientId = document.createElement('input');
+    patientId.name = 'observations[][patient_id]';
+    patientId.type = 'hidden';
+    patientId.value = patientIdValue;
+    $('inpatient_diagnosis').appendChild(patientId);
+
+    var obsDatetime = document.createElement('input');
+    obsDatetime.name = 'observations[][obs_datetime]';
+    obsDatetime.type = 'hidden';
+    obsDatetime.value = obsDatetimeValue;
+    $('inpatient_diagnosis').appendChild(obsDatetime);
+  }
 }
