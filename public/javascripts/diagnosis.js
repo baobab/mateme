@@ -188,7 +188,7 @@ function handleHttpResponse(updateElement) {
       updateText = "<option onClick=validateEntry('diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
     $(updateElement).innerHTML = updateText;
     updateSubDiagnosisNotification();  
-    checkIfOptionsAvailable();
+    setTimeout("checkIfOptionsAvailable()", 1000);
     } else if (updateElement == 'sub-diagnosis-select'){
 
       updateText = "<option onClick=validateEntry('sub-diagnosis-select')>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
