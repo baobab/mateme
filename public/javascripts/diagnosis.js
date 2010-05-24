@@ -70,12 +70,19 @@ function createElements(){
  //document.body.appendChild(mainContainer);
  $('content').appendChild(mainContainer);
 
-  /*Added Text Input */
- var diagnosesInfobar = document.createElement('div');
- diagnosesInfobar.className = "diagnosesInfobar";
- diagnosesInfobar.id = "diagnoses-infobar";
- $('diagnosis-container').appendChild(diagnosesInfobar);
+  /*Added Info bar */
+ var diagnosesInfobarMain = document.createElement('div');
+ diagnosesInfobarMain.className = "diagnosesInfobarMain";
+ $('diagnosis-container').appendChild(diagnosesInfobarMain);
+ 
+ var priSecAddDiv = document.createElement('div');
+ priSecAddDiv.id = "priSecAddDiv";
+ diagnosesInfobarMain.appendChild(priSecAddDiv);
 
+ var diagnosesInfobar = document.createElement('div');
+ diagnosesInfobar.id = "diagnoses-infobar";
+ diagnosesInfobarMain.appendChild(diagnosesInfobar);
+ 
  /*Added Text Input */
  var mainDiagnosisInputBox = document.createElement('input');
  mainDiagnosisInputBox.className = "diagnosis-inputbox";
@@ -310,9 +317,17 @@ function updateInfoBar(updateElement){
     };
   removeEmptyObjects();
   if (tempDataArray.toSource() != "[]"){
-    $('infoBar'+tstCurrentPage).innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
+    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
   }else {
-    $('infoBar'+tstCurrentPage).innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
+    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
+  }
+
+  if (mainDataArray.length == 1) {
+    $('priSecAddDiv').innerHTML = "PRIMARY : "
+  } else if (mainDataArray.length == 2){
+    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : "
+  }else if (mainDataArray.length == 3){
+    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : <br>ADDITIONAL :"
   }
 
 }
@@ -329,7 +344,7 @@ function resetSelections(){
     mainDataArray.push(tempDataArray);
     mainDataArray.push("<br>")
     tempDataArray = [];
-    $('infoBar'+tstCurrentPage).innerHTML = "<span onclick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeMainValue(this)'>")+"</span>";
+    $('diagnoses-infobar').innerHTML = "<span onclick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeMainValue(this)'>")+"</span>";
     
     $('sub-diagnosis-select').innerHTML = "<option></option>";
     $('sub-sub-diagnosis-select').innerHTML = "<option></option>";
@@ -437,7 +452,7 @@ function createConfirmatoryEvidence(){
 
  setTimeout("showConfirmatoryEvidence()", 500);
 
- $('infoBar'+tstCurrentPage).innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" ;
+ $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" ;
 
 }
 

@@ -150,7 +150,7 @@
   font-size:1.5em;
 }
 
-.diagnosesInfobar{
+.diagnosesInfobarMain{
   -moz-user-select:none;
   color:black;
   font-size:1.3em;
@@ -165,9 +165,18 @@
   overflow:auto;
 }
 
+#diagnoses-infobar{
+  width: 75%;
+  position: relative;
+  float: right;
+}
 
-
-
+#priSecAddDiv{
+  width: 25%;
+  position: relative;
+  float: left;
+  color:grey;
+}
 
 
 
