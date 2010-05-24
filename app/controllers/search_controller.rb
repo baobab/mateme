@@ -52,7 +52,8 @@ class SearchController < ApplicationController
 
   def main_diagnosis
     search_string = params[:search_string].upcase
-    diagnosis_hash = DiagnosisTree.diagnosis_data 
+    diagnosis_hash = DiagnosisTree.diagnosis_data
+   raise diagnosis_hash.to_yaml 
     diagnosis_list = diagnosis_hash.collect{|k,v| k}.compact.sort.grep(/^#{search_string}/) rescue []
     
     render :text => diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
