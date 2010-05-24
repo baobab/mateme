@@ -16,10 +16,9 @@
 
    <input type='text' name='diagnosis_ctrl' tt_onLoad='setNextAttribute();createElements();updateInfoBar();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='hideDiagnosisContainer()' tt_pageStyleClass='NoControls' optional /> 
    
-   <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='createConfirmatoryEvidence();' tt_onUnLoad='hideConfirmatoryContainer()' tt_pageStyleClass='NoControls' optional /> 
+   <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='createConfirmatoryEvidence();' tt_onUnLoad='hideConfirmatoryContainer();createHiddenFormControls();' tt_pageStyleClass='NoControls' optional /> 
 
 
-   <%= hidden_field_tag("final_diagnosis", nil, {:id => "final_diagnosis"}) %>
 
   <%= submit_tag "Finish" %>
 
@@ -47,5 +46,8 @@ var finalTests = [<%= DiagnosisTree.confirmatory_evidence.to_json %>];
 var mainDataArray = [];
 var tempDataArray = [];
 var confirmatoryEvidenceData = {};
+var allDiagnoses = [];
+var patientIdValue = '<%=@patient.id%>';
+var obsDatetimeValue = '<%=Time.now()%>';
 </script>
 
