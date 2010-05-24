@@ -321,15 +321,6 @@ function updateInfoBar(updateElement){
   }else {
     $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
   }
-
-  if (mainDataArray.length == 1) {
-    $('priSecAddDiv').innerHTML = "PRIMARY : "
-  } else if (mainDataArray.length == 2){
-    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : "
-  }else if (mainDataArray.length == 3){
-    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : <br>ADDITIONAL :"
-  }
-
 }
 
 function getObjectLength(valueLength){
@@ -349,6 +340,7 @@ function resetSelections(){
     $('sub-diagnosis-select').innerHTML = "<option></option>";
     $('sub-sub-diagnosis-select').innerHTML = "<option></option>";
     updateMainDiagnosis();
+    showHeaders();
 }
 
 function checkObjectLength(selectedValue){
@@ -569,4 +561,17 @@ function validateEntry(updateElement){
       checkObjectLength('sub-diagnosis-select');
     }
     } 
+}
+
+function showHeaders(){
+  if (mainDataArray.length == 2) {
+    $('priSecAddDiv').innerHTML = "PRIMARY : "
+  } else if (mainDataArray.length == 4){
+    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : "
+  }else if (mainDataArray.length == 6){
+    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : <br>ADDITIONAL :"
+  }else{
+    $('priSecAddDiv').innerHTML = ""
+  }
+
 }
