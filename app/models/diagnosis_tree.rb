@@ -4,7 +4,8 @@ class DiagnosisTree
   @@confirmatory_evidence_hash = JSON.parse(GlobalProperty.find_by_property("facility.tests").property_value) rescue {}
   
   def self.diagnosis_data
-    @@diagnosis_hash
+  diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
+    #@@diagnosis_hash
   end
   
   def self.final_answers(diagnosis_hash = @@diagnosis_hash, deep_list ={})

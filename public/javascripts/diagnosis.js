@@ -185,11 +185,10 @@ function handleHttpResponse(updateElement) {
   
   if (http.readyState == 4 && http.status == 200) {
     if (updateElement == 'diagnosis-select'){
-      alert(http.responseText)
       updateText = "<option onClick=validateEntry('diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
     $(updateElement).innerHTML = updateText;
     updateSubDiagnosisNotification();  
-//setTimeout("checkIfOptionsAvailable()", 1000);
+    setTimeout("checkIfOptionsAvailable()", 1000);
     } else if (updateElement == 'sub-diagnosis-select'){
 
       updateText = "<option onClick=validateEntry('sub-diagnosis-select')>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
