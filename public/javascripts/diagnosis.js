@@ -187,8 +187,8 @@ function handleHttpResponse(updateElement) {
     if (updateElement == 'diagnosis-select'){
       updateText = "<option onClick=validateEntry('diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
     $(updateElement).innerHTML = updateText;
-    updateSubDiagnosisNotification();  
-    setTimeout("checkIfOptionsAvailable()", 1000);
+    setTimeout("updateSubDiagnosisNotification()", 500);  
+    checkIfOptionsAvailable();
     } else if (updateElement == 'sub-diagnosis-select'){
 
       updateText = "<option onClick=validateEntry('sub-diagnosis-select')>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
@@ -200,40 +200,20 @@ function handleHttpResponse(updateElement) {
     $(updateElement).innerHTML = updateText;
   
     checkIfOptionsAvailable();
-    }else if (updateElement == 'subDiagnosisPopUp'){
-      if (http.responseText != ""){
-        $('subDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
-        $(updateElement).innerHTML = updateText;
-      }else{ /*Check in the final column*/
-        $('subDiagnosisPopUpDiv').style.display = "none";
-        var searchString = $('diagnosis-inputbox').value;
-        var aUrl = "/search/unqualified_sub_diagnosis?level=third&search_string=" + searchString;
-        var aElement = 'subSubDiagnosisPopUp';
-        updateList(aElement, aUrl);
-      }
-    }else if (updateElement == 'subSubDiagnosisPopUp'){
-      if (http.responseText != ""){
-        $('subSubDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label  onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + http.responseText.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
-        $(updateElement).innerHTML = updateText;
-      } else {
-        $('subSubDiagnosisPopUpDiv').style.display = "block";
-        updateText = "No matches were found!<br />";
-        $(updateElement).innerHTML = updateText;
-      }
     } else if (updateElement == 'sub-diagnosis-notify'){
+        subDiagnosisPopupData =  http.responseText;
         var diagnosesMatches = 0;
-        var matchesArray = http.responseText.split(';');
+        var matchesArray = subDiagnosisPopupData.split(';');
         if (matchesArray[0] != "" && matchesArray.length > 0 && $('diagnosis-inputbox').value != ""){
           $('subdiagnosis-notify').innerHTML = "<span class='notify-span' onClick=activatePopup('subDiagnosisPopUp')>(" + matchesArray.length + ")<blink> Matches</blink></span>";
         }else {
           $('subdiagnosis-notify').innerHTML = "";
         }
-        updateSubSubDiagnosisNotification();
+        setTimeout("updateSubSubDiagnosisNotification()", 500);
     } else if (updateElement == 'sub-sub-diagnosis-notify'){
+        subSubDiagnosisPopupData =  http.responseText;
         var diagnosesMatches = 0;
-        var matchesArray = http.responseText.split(';');
+        var matchesArray = subSubDiagnosisPopupData.split(';');
         if (matchesArray[0] != "" && matchesArray.length > 0 && $('diagnosis-inputbox').value != ""){
           $('sub-subdiagnosis-notify').innerHTML = "<span class='notify-span' onClick=activatePopup('subSubDiagnosisPopUp')>(" + matchesArray.length + ")<blink> Matches</blink></span>";
         } else{
@@ -459,13 +439,15 @@ function updateSubSubDiagnosisNotification(){
 
 
 function activatePopup(popUpType){
-  var searchString = $('diagnosis-inputbox').value;
   if (popUpType == 'subDiagnosisPopUp'){
-    var aUrl = "/search/unqualified_sub_diagnosis?level=second&search_string=" + searchString;
-    updateList(popUpType, aUrl);
+     $('subDiagnosisPopUpDiv').style.display = "block";
+        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        $(popUpType).innerHTML = updateText;
+
   }else if (popUpType == 'subSubDiagnosisPopUp'){
-    var aUrl = "/search/unqualified_sub_diagnosis?level=third&search_string=" + searchString;
-    updateList(popUpType, aUrl);
+     $('subSubDiagnosisPopUpDiv').style.display = "block";
+        updateText = "<label  onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subSubDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        $(popUpType).innerHTML = updateText;
   }
 
 }
