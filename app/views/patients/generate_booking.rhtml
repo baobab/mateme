@@ -1,0 +1,11 @@
+<%= javascript_include_tag "load_balancer" %>
+<script type="text/javascript">
+  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
+  var patient_id = <%= @patient.id %>;
+
+  <%#= raise @counts.to_yaml %>
+
+  counts = <%= @counts.to_json() %>;
+
+</script>
