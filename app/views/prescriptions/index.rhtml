@@ -13,6 +13,56 @@
     
     prefix = prefix[0];
 
+    var btn = document.createElement("button");
+    btn.id = "btn" + prefix;
+    btn.className = "button green";
+    btn.innerHTML = "<span>Modify Duration <b style='color:green; background-color:white; text-align:center'>(" + val4 + ")</b></span>";
+    btn.style.cssFloat = "right";
+    btn.onclick = function(){
+      global_ignore_click = true;
+
+      var p = this.offsetParent.id.match(/\d+$/g);
+
+      p = p[0];
+
+      if($("sel"+p)){
+        return;
+      }
+      
+      var sel = document.createElement("select");
+      sel.id = "sel"+p;
+      sel.size = 8;
+      $("prescription").appendChild(sel);
+
+      sel.style.position = "absolute";
+      sel.style.top = ($("content").offsetHeight - $("sel"+p).offsetHeight - 150) + "px";
+      sel.style.width = ($("btn"+p).offsetWidth) + "px";
+      sel.style.left = (15) + "px";
+      sel.style.fontSize = "1.2em";
+      sel.style.backgroundColor = "rgb(192,0,0)";
+      sel.style.color = "white";
+      sel.style.paddingLeft = "20px";
+      sel.style.paddingTop = "10px";
+      
+      var days = {7:"1 Week", 14:"2 Weeks", 30:"1 Month", 60:"2 Months", 90:"3 Months", 120:"4 Months", 150:"5 Months", 180:"6 Months"};
+
+      for(var d in days){
+        var opt = document.createElement("option");
+        opt.value = d;
+        opt.style.margin = "10px";
+        opt.innerHTML = days[d];
+        opt.onclick = function(){
+          $("duration_"+p).value = this.value;
+          $("btn"+p).innerHTML = "<span>Modify Duration <b style='color:green; background-color:white; text-align:center'>(" +
+            this.value + ")</b></span>";
+          $("prescription").removeChild($("sel"+p));
+        }
+
+        sel.appendChild(opt);
+      }
+    }
+    $("cell"+prefix).appendChild(btn);
+
     var txtGeneric = document.createElement("input");
     txtGeneric.type = "hidden";
     txtGeneric.id = "generic_"+prefix;
@@ -152,10 +202,13 @@
   }
 
   function remove_fields(id){
-    return;
     var prefix = id.match(/\d+$/g);
 
     prefix = prefix[0];
+
+    if($("btn"+prefix)){
+      $("cell"+prefix).removeChild($("btn"+prefix));
+    }
 
     if($("generic_"+prefix)){
       $("prescription").removeChild($("generic_"+prefix));
@@ -230,15 +283,18 @@
                       var r = this.id.match(/\d+$/g); $('chk_'+r[0]).click()} else {global_ignore_click = false}">
                 <table width="100%">
                   <tr>
-                    <td width="40px" align="center">
+                    <td width="40px" align="center" id="<%= i %>">
                       <input id="chk_<%= order.order_id %>" type="checkbox"
                              onclick="global_ignore_click = true; if(this.checked){
                              var o = ['<%= "#{order.drug_name}" %>', '<%=  "#{order.dose}"%>', '<%=  "#{order.frequency}"%>', '<%= "#{order.days}"%>  '];
                              create_fields(this.id, o[0], o[1], o[2], o[3])}else{remove_fields(this.id)}"/>
 
                     </td>
-                    <td>
+                    <td id="parentcell<%= order.order_id %>">
                       <%= order.to_s.gsub(/\n/, '<br/>') -%>:
+                    </td>
+                    <td id="cell<%= order.order_id %>">
+                      
                     </td>
                     <td align="left" width="110px">
                       <b><%= "#{((order.days_so_far.to_i == 0)?"Today":((order.days_so_far.to_i == 1)?"Yesterday":(order.days_so_far.to_s + " days ago")))}" -%></b>
