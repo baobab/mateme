@@ -32,10 +32,9 @@
   left: 5%;
   width: 90%;
   background-color: #EEEEEE;
-  max-height: 76%;
+  max-height: 90%;
   position: absolute;
   border-style: solid;
-  top:55px;
 }
 
 .diagnosis-headers{
@@ -68,7 +67,7 @@
 
 .diagnosis-select-div{
   width: 100%;
-  height: 87%;
+  height: 82%;
   position: absolute;
   top: 10%;
   overflow:auto;
@@ -91,7 +90,7 @@
 .simple-keyboard{
   position: absolute;
   font-style: bold;
-  top: 82%;
+  top: 83%;
   z-index: 1005;
   left:30%;
 }
@@ -135,7 +134,7 @@
   padding:0;
   margin:0;
   size: 10;
-  max-height: 100px;
+  max-height: 90px;
 }
 
 .confirmatory-evidence-select option {
@@ -160,7 +159,7 @@
   width:98.5%;
   border-top:2px dotted;
   border-bottom:2px dotted;
-  height:90px;
+  height:105px;
   background-color:honeydew;
   overflow:auto;
 }

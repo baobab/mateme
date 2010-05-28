@@ -408,6 +408,18 @@ function createConfirmatoryEvidence(){
  //document.body.appendChild(mainContainer);
  $('content').appendChild(mainContainer);
 
+ var diagnosesInfobarMain = document.createElement('div');
+ diagnosesInfobarMain.className = "diagnosesInfobarMain";
+ $('confirmatory-container').appendChild(diagnosesInfobarMain);
+ 
+ var priSecAddDiv = document.createElement('div');
+ priSecAddDiv.id = "priSecAddDiv";
+ diagnosesInfobarMain.appendChild(priSecAddDiv);
+
+ var diagnosesInfobar = document.createElement('div');
+ diagnosesInfobar.id = "diagnoses-infobar";
+ diagnosesInfobarMain.appendChild(diagnosesInfobar);
+
 
  /*+++++++++++++++++++++++++++++++Create confirmatory evidence column column*/
   var confirmatoryEvidence = document.createElement('div');
@@ -501,21 +513,22 @@ function populateConfirmatoryEvidence(){
 
 function showConfirmatoryEvidence(){
    for (i in confirmatoryEvidenceData){
-   /*add confirmatory evidennce header */
-  var confirmatoryEvidenceHeader = document.createElement('div');
-  confirmatoryEvidenceHeader.className = "confirmatory-evidence-headers";
-  confirmatoryEvidenceHeader.innerHTML = i;
-  $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceHeader);
-
- /*Added Select */
- var confirmatoryEvidenceSelect = document.createElement('select');
- confirmatoryEvidenceSelect.className = "confirmatory-evidence-select";
-// confirmatoryEvidenceSelect.id = "confirmatory-evidence-select";
- confirmatoryEvidenceSelect.size = 10;
- $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceSelect);
-
- confirmatoryEvidenceSelect.innerHTML = "<option>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option>") + "</option>";
- }
+     if (confirmatoryEvidenceData[i].length != 0){
+       /*add confirmatory evidennce header */
+       var confirmatoryEvidenceHeader = document.createElement('div');
+       confirmatoryEvidenceHeader.className = "confirmatory-evidence-headers";
+       confirmatoryEvidenceHeader.innerHTML = i;
+       $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceHeader);
+       
+       /*Added Select */
+       var confirmatoryEvidenceSelect = document.createElement('select');
+       confirmatoryEvidenceSelect.className = "confirmatory-evidence-select";
+       confirmatoryEvidenceSelect.size = 10;
+       $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceSelect);
+       
+       confirmatoryEvidenceSelect.innerHTML = "<option>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option>") + "</option>";
+     }
+   }
 
 }
 
