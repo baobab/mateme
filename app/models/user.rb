@@ -56,4 +56,15 @@ class User < ActiveRecord::Base
     return newpass
   end
 
+   def self.save_property(user_id, property, property_value)
+    u = User.find(user_id)
+    user_property = UserProperty.find_by_property_and_user_id(property, user_id) rescue nil
+
+    if user_property
+      user_property.update_attribute(:property_value, property_value)
+    else
+      UserProperty.create(:user_id => user_id, :property => property, :property_value => property_value)
+    end
+  end
+
  end
