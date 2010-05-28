@@ -25,9 +25,9 @@ class PatientsController < ApplicationController
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     void_encounter if (params[:void] && params[:void] == 'true')
     @encounters   = @patient.encounters.current.active.find(:all)
-    excluded_encounters = ["Registration", "Diabetes history","Complications",
+    excluded_encounters = ["Registration", "Diabetes history","Complications", #"Diabetes test",
       "General health", "Diabetes treatments", "Diabetes admissions","Hospital admissions",
-      "Hypertension management", "Past diabetes medical history", "Diabetes test"]
+      "Hypertension management", "Past diabetes medical history"]
     @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq.delete_if{ |encounter| excluded_encounters.include? encounter.humanize } rescue []
     ignored_concept_id = Concept.find_by_name("NO").id;
     
@@ -37,8 +37,12 @@ class PatientsController < ApplicationController
 
     @observations.delete_if { |obs| obs.value_text.downcase == "no" rescue nil }
 
-    @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
+    # delete encounters that are not required for display on patient's summary
+    @lab_results_ids = [Concept.find_by_name("Urea").id, Concept.find_by_name("Urine Protein").id, Concept.find_by_name("Creatinine").id]
+    @encounters.map{ |encounter| (encounter.name == "DIABETES TEST" && encounter.observations.delete_if{|obs| !(@lab_results_ids.include? obs.concept.id)})}
+    @encounters.delete_if{|encounter|(encounter.observations == [])}
 
+    @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
 
     @vitals = Encounter.find(:all, :order => 'encounter_datetime DESC',
       :limit => 50, :conditions => ["patient_id= ? AND encounter_datetime < ? ",

@@ -1,17 +1,31 @@
+<%@lab_results_header = false%>
 <table width="90%">
   <%@encounter_names.each{|encounter_name|
-    header = 'true'
+    header = true
     i = 0
     for encounter in @encounters do
       i += 1
-      if encounter.name == encounter_name%>
-        <%if header == 'true' %>
+
+      if encounter.name == encounter_name %>
+          <%
+          if((@lab_results_header == true) && (encounter.name == "DIABETES TEST" || encounter.name == "LAB RESULTS"))
+            header = false
+          end
+          %>
+
+        <%if header == true %>
+
           <%header_title = encounter.name.humanize.titleize
-          header_title = "HIV Status" if header_title == "Update Hiv Status".titleize %>
+            header_title = "HIV Status" if header_title == "Update Hiv Status".titleize
+            header_title = "Lab Results" if header_title == "Diabetes Test".titleize
+          if((encounter.name == "DIABETES TEST" || encounter.name == "LAB RESULTS"))
+            @lab_results_header = true
+          end
+        %>
 
           <tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h(header_title)%></th> </tr>
         <%end%>
-        <% header = 'false'%>
+        <% header = false%>
         <tr>
           <td>
             <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>')%>

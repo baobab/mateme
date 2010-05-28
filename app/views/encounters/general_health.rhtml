@@ -10,6 +10,21 @@
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
 
+  function setDrugAllegyValue(){
+    if($('drug_allergy').value.toLowerCase() == 'aspirin' || $('drug_allergy').value.toLowerCase() == 'aspirin + other drugs (specify)'){
+
+      $('drug_allergy_value_coded_or_text').value       = "ASPIRIN";
+      $('other_drug_allergy_parent_concept_name').value = "ASPIRIN";
+      }
+
+    else if($('drug_allergy').value.toLowerCase() == 'other drugs (specify)'){
+      $('drug_allergy_value_coded_or_text').value = "";
+    }
+    else{
+      $('drug_allergy_value_coded_or_text').value = ('drug_allergy').value;
+    }
+  }
+
    <%
 
    unless(params[:encounter_id])
@@ -327,8 +342,42 @@
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-    <%= hidden_field_tag("next_url",@destination_page) %>
+  <% options=default.merge({
+    :field_type => 'text',
+    :id => "drug_allergy",
+    :helpText => "Drug allergy/side affects",
+    :tt_onLoad=> "addOnMouseDownAction(['Aspirin', 'Sulphur containing drugs', 'None'])",
+    :tt_onUnLoad => "setDrugAllegyValue();"
+   }) %>
+  <%= select_tag( "drug_allergy[value_coded_or_text]", options_for_select([
+    "",
+    "Aspirin",
+    "Sulphur containing drugs",
+    "Aspirin + other drugs (specify)",
+    "None",
+    "Other drugs (specify)"
+  ]), options ) %>
 
-    <%= submit_tag "Finish" %>
+  <%= hidden_field_tag("observations[][concept_name]",  "DRUG ALLERGY") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "drug_allergy_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <%= text_field_tag "other_allergy[value_coded_or_text]", nil,
+    {
+      :helpText => 'Specify any other drug allergy',
+      :field_type => 'text',
+      :id => "other_allergy",
+      :tt_onUnLoad => "$('other_drug_allergy_value_coded_or_text').value = $('other_allergy').value",
+      :condition => "$('drug_allergy').value == 'Other drugs (specify)' ||$('drug_allergy').value == 'Aspirin + other drugs (specify)'"
+    }%>
+  <%= hidden_field_tag("observations[][concept_name]",        "DRUG ALLERGY") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "other_drug_allergy_value_coded_or_text"}) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "", {:id => "other_drug_allergy_parent_concept_name"}) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("next_url",@destination_page) %>
+
+  <%= submit_tag "Finish" %>
 
  </form>

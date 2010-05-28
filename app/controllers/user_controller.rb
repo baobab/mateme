@@ -242,5 +242,16 @@ class UserController < ApplicationController
     User.current_user.activities = params[:user][:activities]
     redirect_to(:controller => 'patient', :action => "menu")
   end
+
+  def add_update_property
+    if params.has_key?('username')
+      user_id = User.find_by_username(params[:username]).id
+    else
+      user_id = User.current_user.user_id rescue nil
+    end
+
+    User.save_property(user_id, params[:property], params[:property_value]) if user_id
+    render :text => ''
+  end
   
 end
