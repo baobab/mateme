@@ -1243,7 +1243,9 @@ function confirmCancelEntry(save) {     // If you want to save state set save = 
     if (tstConfirmCancel) {
         tstMessageBar.innerHTML = "Are you sure you want to Cancel?<br/>" +
         "<button onmousedown='hideMessage(); cancelEntry();'><span>Yes</span></button>" +
-        (save?"<button onmousedown='document.forms[0].submit(); hideMessage();'><span>Save</span></button>":"") +
+        (save?"<button onmousedown='var completeField = document.createElement(\"input\"); \n\
+                completeField.type = \"hidden\"; completeField.value = \"false\"; completeField.name = \"complete\"; \n\
+                document.forms[0].appendChild(completeField); document.forms[0].submit(); hideMessage();'><span>Save</span></button>":"") +
         "<button onmousedown='hideMessage();'><span>No</span></button>";
         tstMessageBar.style.display = "block";
     } else {
@@ -1429,6 +1431,7 @@ function getQwertyKeyboard(){
     //		getButtonString('date','Date') +
     "</span><span style='padding-left:15px' class='buttonLine'>" +
     getButtons("ASDFGHJKL") +
+    getButtonString('apostrophe',"'") +
     getButtonString('space','&nbsp;') +
     "</span><span style='padding-left:25px' class='buttonLine'>" +
     getButtons("ZXCVBNM,.") +

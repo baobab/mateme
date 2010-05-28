@@ -83,7 +83,7 @@ class Patient < ActiveRecord::Base
     label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
     excluded_encounters = ["Registration", "Diabetes history","Complications",
       "General health", "Diabetes treatments", "Diabetes admissions",
-      "Hypertension management", "Past diabetes medical history"]
+      "Hypertension management", "Past diabetes medical history", "Diabetes test", "Hospital admissions"]
     encs.each {|encounter|
      section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
       label.draw_multi_text("#{section_title}#{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)

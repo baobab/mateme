@@ -268,4 +268,119 @@ class PatientsController < ApplicationController
       :order => 'obs_datetime DESC')
     render :layout => 'menu'
   end
+
+  def generate_booking
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+
+    @type = EncounterType.find_by_name("APPOINTMENT").id rescue nil
+    if(@type)
+      @enc = Encounter.find(:all, :conditions =>
+          ["voided = 0 AND encounter_type = ?", @type])
+
+      @counts = {}
+
+      @enc.each{|e|
+        yr = e.encounter_datetime.to_date.strftime("%Y")
+        mt = e.encounter_datetime.to_date.strftime("%m").to_i-1
+        dy = e.encounter_datetime.to_date.strftime("%d").to_i
+
+        if(!@counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)])
+          @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)] = {}
+          @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)]["count"] = 0
+        end
+
+        @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)][e.patient_id] = true
+        @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)]["count"] += 1
+
+      }
+
+    end
+    
+    render :layout => 'menu'
+  end
+
+  def make_booking
+    if(params[:patient_id])
+      @type = EncounterType.find_by_name("APPOINTMENT").id rescue nil
+
+      if(@type)
+        @enc = Encounter.find(:last, :conditions =>
+            ["voided = 0 AND patient_id = ? AND encounter_type = ? AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
+            params[:patient_id], @type, params[:appointment_date]])
+
+        unless @enc
+          @enc = Encounter.new(:encounter_type => @type,
+            :patient_id => params[:patient_id],
+            :provider_id => session[:user_id],
+            :encounter_datetime => params[:appointment_date],
+            :creator => session[:user_id],
+            :voided => 0
+          )
+
+          @enc.save
+        end
+        
+      end
+    end
+  end
+
+  def remove_booking
+    if(params[:patient_id])
+      @type = EncounterType.find_by_name("APPOINTMENT").id rescue nil
+      if(@type)
+        @enc = Encounter.find(:last, :conditions =>
+            ["voided = 0 AND patient_id = ? AND encounter_type = ? AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
+            params[:patient_id], @type, params[:appointment_date]])
+
+        if(@enc)
+          reason = ""
+
+          if(params[:appointment_date])
+            if(params[:appointment_date].to_date < Time.now.to_date)
+              reason = "Defaulted"
+            elsif(params[:appointment_date].to_date == Time.now.to_date)
+              reason = "Attended"
+            elsif(params[:appointment_date].to_date > Time.now.to_date)
+              reason = "Pre-cancellation"
+            else
+              reason = "General reason"
+            end
+          end
+
+          @enc.update_attributes(:voided => 1, :date_voided => params[:appointment_date],
+            :voided_by => session[:user_id], :void_reason => reason)
+
+        end
+      end
+    end
+  end
+
+  def search_appointments
+    if(params[:patient_id])
+      @type = EncounterType.find_by_name("APPOINTMENT").id rescue nil
+      if(@type)
+        @enc = Encounter.find(:all, :conditions =>
+            ["voided = 0 AND patient_id = ? AND encounter_type = ?",
+            params[:patient_id], @type])
+
+        @counts = {}
+
+        @enc.each{|e|
+          yr = e.encounter_datetime.to_date.strftime("%Y")
+          mt = e.encounter_datetime.to_date.strftime("%m").to_i-1
+          dy = e.encounter_datetime.to_date.strftime("%d").to_i
+
+          if(!@counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)])
+            @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)] = {}
+          end
+
+          @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)][e.patient_id] = true
+          
+        }
+
+        render :text => ""
+      end
+    end
+  end
+
 end

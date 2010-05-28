@@ -7,6 +7,68 @@ class EncountersController < ApplicationController
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
 
+    if(params[:complete])
+      state = EncounterState.find(encounter.encounter_id) rescue nil
+
+      if(state)
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.update_attributes(:encounter_id => encounter.encounter_id, :state => stat)
+        
+      else
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.new(:encounter_id => encounter.encounter_id, :state => stat)
+        
+        state.save
+        
+      end
+    else
+      state = EncounterState.find(encounter.encounter_id) rescue nil
+
+      if(state)
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.update_attributes(:encounter_id => encounter.encounter_id, :state => stat)
+
+      else
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.new(:encounter_id => encounter.encounter_id, :state => stat)
+        
+        state.save
+
+      end
+    end
+
     (params[:observations] || []).each{|observation|
       # Check to see if any values are part of this observation
       # This keeps us from saving empty observations
@@ -69,6 +131,66 @@ class EncountersController < ApplicationController
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
+
+    if(params[:complete])
+      state = EncounterState.find(encounter.encounter_id) rescue nil
+
+      if(state)
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.update_attributes(:encounter_id => encounter.encounter_id, :state => stat)
+
+      else
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.new(:encounter_id => encounter.encounter_id, :state => stat)
+        state.save
+
+      end
+    else
+      state = EncounterState.find(encounter.encounter_id) rescue nil
+
+      if(state)
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.update_attributes(:encounter_id => encounter.encounter_id, :state => stat)
+
+      else
+        stat = 1
+
+        case params[:complete]
+        when "true"
+          stat = 1
+        when "false"
+          stat = 0
+        end
+
+        state = EncounterState.new(:encounter_id => encounter.encounter_id, :state => stat)
+        state.save
+
+      end
+    end
 
     (params[:observations] || []).each{|observation|
       # Check to see if any values are part of this observation
@@ -275,16 +397,16 @@ class EncountersController < ApplicationController
 
       @encounter_type_ids = []
       encounters_list = ["initial diabetes complications","complications",
-                        "diabetes history", "diabetes treatments",
-                        "hospital admissions", "general health",
-                        "hypertension management",
-                        "past diabetes medical history"]
+        "diabetes history", "diabetes treatments",
+        "hospital admissions", "general health",
+        "hypertension management",
+        "past diabetes medical history"]
 
       @encounter_type_ids = EncounterType.find_all_by_name(encounters_list).each{|e| e.encounter_type_id}
 
-       @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
-                        :conditions => ["patient_id= ? AND encounter_type in (?)",
-                          @patient.patient_id,@encounter_type_ids])
+      @encounters   = @patient.encounters.find(:all, :order => 'encounter_datetime DESC',
+        :conditions => ["patient_id= ? AND encounter_type in (?)",
+          @patient.patient_id,@encounter_type_ids])
                       
       @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 

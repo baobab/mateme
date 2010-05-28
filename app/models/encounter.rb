@@ -10,6 +10,7 @@ class Encounter < ActiveRecord::Base
   belongs_to :type, :class_name => "EncounterType", :foreign_key => :encounter_type
   belongs_to :provider, :class_name => "User", :foreign_key => :provider_id
   belongs_to :patient
+  has_one :complete, :class_name => "EncounterState", :dependent => :destroy
 
   def before_save    
     self.provider = User.current_user if self.provider.blank?
