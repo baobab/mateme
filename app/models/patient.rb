@@ -12,7 +12,7 @@ class Patient < ActiveRecord::Base
       find(:all, :conditions => ["DATE(encounter_datetime) = DATE(?)", encounter_date]) # Use the SQL DATE function to compare just the date part
     end
   end
-
+=begin
   def current_diagnoses
     diagnosis_hash = {"DIAGNOSIS" => [], "DIAGNOSIS, NON-CODED" => [], "PRIMARY DIAGNOSIS" => [], "SECONDARY DIAGNOSIS" => [], "ADDITIONAL DIAGNOSIS" =>[], "SYNDROMIC DIAGNOSIS" => []}
 
@@ -32,14 +32,13 @@ class Patient < ActiveRecord::Base
        }
        diagnosis_hash
   end
-=begin
+=end
   def current_diagnoses(concept_ids = [ConceptName.find_by_name('DIAGNOSIS').concept_id, ConceptName.find_by_name('DIAGNOSIS, NON-CODED').concept_id, ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id, ConceptName.find_by_name('SECONDARY DIAGNOSIS').concept_id, ConceptName.find_by_name('ADDITIONAL DIAGNOSIS').concept_id, ConceptName.find_by_name('SYNDROMIC DIAGNOSIS').concept_id])
     self.current_visit.encounters.active.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id IN (?)", concept_ids])
     }.flatten.compact
   end
-=end
 
   def current_treatment_encounter(force = false)
     type = EncounterType.find_by_name('TREATMENT')

@@ -410,16 +410,8 @@ function createConfirmatoryEvidence(){
 
  var diagnosesInfobarMain = document.createElement('div');
  diagnosesInfobarMain.className = "diagnosesInfobarMain";
+ diagnosesInfobarMain.id = 'confirm-info-bar';
  $('confirmatory-container').appendChild(diagnosesInfobarMain);
- 
- var priSecAddDiv = document.createElement('div');
- priSecAddDiv.id = "priSecAddDiv";
- diagnosesInfobarMain.appendChild(priSecAddDiv);
-
- var diagnosesInfobar = document.createElement('div');
- diagnosesInfobar.id = "diagnoses-infobar";
- diagnosesInfobarMain.appendChild(diagnosesInfobar);
-
 
  /*+++++++++++++++++++++++++++++++Create confirmatory evidence column column*/
   var confirmatoryEvidence = document.createElement('div');
@@ -526,7 +518,7 @@ function showConfirmatoryEvidence(){
        confirmatoryEvidenceSelect.size = 10;
        $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceSelect);
        
-       confirmatoryEvidenceSelect.innerHTML = "<option>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option>") + "</option>";
+       confirmatoryEvidenceSelect.innerHTML = "<option onClick= updateConfirmatoryInforBar(this.value)>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option onClick= updateConfirmatoryInforBar(this.value)>") + "</option>";
      }
    }
 
@@ -606,5 +598,42 @@ function createHiddenFormControls(){
     obsDatetime.type = 'hidden';
     obsDatetime.value = obsDatetimeValue;
     $('inpatient_diagnosis').appendChild(obsDatetime);
+  } 
+
+  for (var i = 0; i < allTests.length; i++ ){
+    var valueCodedOrText = document.createElement('input');
+    valueCodedOrText.name = 'observations[][value_coded_or_text]';
+    valueCodedOrText.type = 'hidden';
+    valueCodedOrText.value = allTests[i];
+    $('inpatient_diagnosis').appendChild(valueCodedOrText);
+
+    var conceptName = document.createElement('input');
+    conceptName.name = 'observations[][concept_name]';
+    conceptName.type = 'hidden';
+    conceptName.value = "TEST REQUESTED";
+    $('inpatient_diagnosis').appendChild(conceptName);
+    
+    var patientId = document.createElement('input');
+    patientId.name = 'observations[][patient_id]';
+    patientId.type = 'hidden';
+    patientId.value = patientIdValue;
+    $('inpatient_diagnosis').appendChild(patientId);
+
+    var obsDatetime = document.createElement('input');
+    obsDatetime.name = 'observations[][obs_datetime]';
+    obsDatetime.type = 'hidden';
+    obsDatetime.value = obsDatetimeValue;
+    $('inpatient_diagnosis').appendChild(obsDatetime);
+  }
+
+
+
+}
+
+function updateConfirmatoryInforBar(aValue){
+  allTests.push(aValue);
+  $('confirm-info-bar').innerHTML = '';
+  for (var i = 0; i < allTests.length; i++){
+    $('confirm-info-bar').innerHTML += allTests[i] + "<br />"; 
   }
 }

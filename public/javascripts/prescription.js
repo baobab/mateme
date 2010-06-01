@@ -75,6 +75,17 @@ function createDrugsPrescribed(){
     drugInfoBar.className = "drugBarClass";
     mainContainer.appendChild(drugInfoBar);
 
+     var diagnosesInfoBar =  document.createElement("div");
+    diagnosesInfoBar.id = "diagnosesInfoBar";
+    diagnosesInfoBar.className = "diagnosesInfoBar";
+    drugInfoBar.appendChild(diagnosesInfoBar);
+
+    var prescriptionInfoBar =  document.createElement("div");
+    prescriptionInfoBar.id = "prescriptionInfoBar";
+    prescriptionInfoBar.className = "prescriptionInfoBar";
+    drugInfoBar.appendChild(prescriptionInfoBar);
+
+    
     /*Added Text Input*/
     var mainDiagnosisInputBox = document.createElement('input');
     mainDiagnosisInputBox.className = "drug-inputbox";
@@ -271,8 +282,8 @@ function appendDrug(){
         }
     }
 
-    $("drugInfoBar").innerHTML = "<span onclick='$(\"drugInfoBar\").removeChild(this); delete drugs[\"" + drug + "\"];' class='selections'>"+
-    drug+", "+freq+", "+duration+"; <br /></span>" + $("drugInfoBar").innerHTML;
+    $("prescriptionInfoBar").innerHTML = "<span onclick='$(\"prescriptionInfoBar\").removeChild(this); delete drugs[\"" + drug + "\"];' class='selections'>"+
+    drug+", "+freq+", "+duration+"; <br /></span>" + $("prescriptionInfoBar").innerHTML;
 
     drugs[drug] = [drug, freq, duration];
 

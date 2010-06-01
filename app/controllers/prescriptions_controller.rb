@@ -8,6 +8,11 @@ class PrescriptionsController < ApplicationController
   
   def new
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @diagnoses = {}
+    @patient.current_diagnoses.each do |diagnosis|
+      @diagnoses[diagnosis.answer_string] = diagnosis.id
+    end
+    @first_diagnosis = @diagnoses.first[0]
   end
   
   def void 

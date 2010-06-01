@@ -85,16 +85,12 @@
 .drugBarClass {
   -moz-user-select:none;
   color:black;
-  font-size:1.3em;
   margin-left:1%;
   margin-bottom: 2px;
-  padding-top:5px;
   width:98.5%;
   border-top:2px dotted;
   border-bottom:2px dotted;
   height:90px;
-  background-color:honeydew;
-  overflow:auto;
 }
 
 .notify-div{
@@ -228,9 +224,35 @@
 
 .selections{
     cursor:pointer;
-    padding-left:30px;
     font-style:italic;
 }
+
+.prescriptionInfoBar{
+  color:black;
+  font-size:1.3em;
+  width:50%;
+  height:98%;
+  background-color:honeydew;
+  overflow:auto;
+  border: 1px solid #095D92; 
+  position:relative;
+  float: right;
+  left: 0px;
+  top: -90px;
+}
+.diagnosesInfoBar{
+  width:50%;
+  color:black;
+  font-size:1.3em;
+  height:98%;
+  background-color: #FFF;
+  overflow:auto;
+  border: 1px solid #095D92; 
+  position:relative;
+  float: left;
+}
+
+
 
 
 

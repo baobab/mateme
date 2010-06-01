@@ -45,5 +45,7 @@ var finalTests = [<%= DiagnosisTree.confirmatory_evidence.to_json %>];
 var mainDataArray = [];
 var tempDataArray = [];
 var confirmatoryEvidenceData = {};
+var currentDiagnoses = <%=@diagnoses.to_json %>;
+var activeDiagnosis = "<%=@first_diagnosis%>";
 </script>
 
