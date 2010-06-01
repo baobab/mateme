@@ -90,7 +90,7 @@
   width:98.5%;
   border-top:2px dotted;
   border-bottom:2px dotted;
-  height:90px;
+  height:140px;
 }
 
 .notify-div{
@@ -230,29 +230,45 @@
 .prescriptionInfoBar{
   color:black;
   font-size:1.3em;
-  width:50%;
+  width:653px;
   height:98%;
   background-color:honeydew;
   overflow:auto;
-  border: 1px solid #095D92; 
+  border-top: 1px solid #095D92; 
+  border-right: 1px solid #095D92; 
+  border-bottom: 1px solid #095D92; 
   position:relative;
   float: right;
-  left: 0px;
-  top: -90px;
 }
 .diagnosesInfoBar{
-  width:50%;
+  width:322px;
   color:black;
   font-size:1.3em;
   height:98%;
   background-color: #FFF;
-  overflow:auto;
-  border: 1px solid #095D92; 
+  overflow:none;
+  border-left: 1px solid #095D92; 
+  border-top: 1px solid #095D92; 
+  border-bottom: 1px solid #095D92; 
   position:relative;
   float: left;
 }
 
+.diagnosisSpan{
+  display: inline-block;
+  width: 320px;
+  line-height:35px;
+  font-size: 0.6em;
+  border-right: 1px solid #095D92; 
+}
 
+#diagnosisSpan{
+  background-color: honeydew;
+  border-left: 1px solid #095D92; 
+  border-top: 1px solid #095D92; 
+  border-bottom: 1px solid #095D92; 
+  border-right: 1px solid honeydew; 
+}
 
 
 

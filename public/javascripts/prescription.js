@@ -63,6 +63,13 @@ function createSimpleKeyboard(){
     backSpaceButton.appendChild(backSpace);
 }
 
+function createDiagnosesInfo(){
+  $('diagnosesInfoBar').innerHTML = "";
+  for (i in currentDiagnoses){
+       $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan'>" + i + "</span><br />" : "<span class='diagnosisSpan'>" + i + "</span><br />";
+  }
+}
+
 function createDrugsPrescribed(){
     var  mainContainer = document.createElement('div');
     /*Create the main container div*/
@@ -79,6 +86,8 @@ function createDrugsPrescribed(){
     diagnosesInfoBar.id = "diagnosesInfoBar";
     diagnosesInfoBar.className = "diagnosesInfoBar";
     drugInfoBar.appendChild(diagnosesInfoBar);
+
+    createDiagnosesInfo();
 
     var prescriptionInfoBar =  document.createElement("div");
     prescriptionInfoBar.id = "prescriptionInfoBar";
