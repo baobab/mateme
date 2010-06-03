@@ -44,7 +44,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'bactrim_started', :helpText => 'Bactrim Started', :tt_requireNextClick => 'false'})%>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'bactrim_started', :condition => @new_hiv_status== 'POSITIVE', :helpText => 'Bactrim Started', :tt_requireNextClick => 'false'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "BACTRIM STARTED", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
@@ -61,7 +61,7 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'advised_to_visit_art', :helpText => 'Advised to visit ART'})%>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'advised_to_visit_art',:condition => @new_hiv_status== 'POSITIVE', :helpText => 'Advised to visit ART'})%>
    <%= hidden_field_tag("observations[][value_text]", nil) %>
    <%= hidden_field_tag("observations[][concept_name]", "ADVISED TO VISIT ART", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
