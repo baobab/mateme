@@ -54,14 +54,21 @@
   <%#= text_field_tag("bactrim_start_date", nil, {:field_type => 'date', :id => "bactrim_start_date", :helpText => 'Bactrim start date', :condition => '$("bactrim_started").value == "YES"' }) %>
   <%#= hidden_field_tag("observations[][value_datetime]", DateTime.now(), {:id => "bactrim_start_date_value_datetime"}) %>
 
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "bactrim_start_date", :helpText => 'Bactrim start date', :condition => '$("bactrim_started").value == "YES"' }) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'art_started', :condition => @new_hiv_status== 'REACTIVE', :helpText => 'ART Started', :tt_requireNextClick => 'false'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", 'BACTRIM START DATE', {}) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ON ART", {}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "art_start_date", :helpText => 'Bactrim start date', :condition => '$("art_started").value == "YES"' }) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", 'ART START DATE', {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'advised_to_visit_art',:condition => @new_hiv_status== 'REACTIVE', :helpText => 'Advised to visit ART'})%>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'advised_to_visit_art',:condition => '$("art_started") != "YES"', :helpText => 'Advised to visit ART'})%>
    <%= hidden_field_tag("observations[][value_text]", nil) %>
    <%= hidden_field_tag("observations[][concept_name]", "ADVISED TO VISIT ART", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
