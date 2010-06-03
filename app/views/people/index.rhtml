@@ -54,7 +54,8 @@
       <button id="admin_button" class="button green" onclick="window.location = '/admin'"><span>Administration</span></button>
     <%end%>
 
-    <%if !@show_set_date and @doctor%>
+    <%if @doctor
+      if !@show_set_date%>
        <span style="font-size: 16pt">
         <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
       </span><br />
@@ -65,7 +66,9 @@
       </span><br />
 
         <button id="reset_date_button" class="button green" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
-        <%end%>
+      <%end
+    end
+  %>
 
 
     <br/>
