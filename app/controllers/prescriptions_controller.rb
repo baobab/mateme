@@ -21,51 +21,40 @@ class PrescriptionsController < ApplicationController
     flash.now[:notice] = "Order was successfully voided"
     index and return
   end
+
+ # def create
+  #  rescue params.to_yaml 
+   # @encounter = @patient.current_treatment_encounter
+  #end
   
   def create
-    raise params.to_yaml
+  #  raise params.to_yaml
     
-    prescriptions_array = params['all_prescriptions'].chop.split(/;/).map{|arr| arr.split(/,/)} rescue []
-
-    @suggestion = params[:suggestion]
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
-    @diagnosis = Observation.find(params[:diagnosis]) rescue nil
-    order_type_text = params[:selected_order_type].to_s
-
-    start_date = Time.now
-    auto_expire_date = Time.now + params[:duration].to_i.days
     prn = 0
+    start_date = Time.now
 
+     (params[:prescriptions] || []).each do |prescription|
+        @diagnosis = Observation.find(prescription['obs_id']) rescue nil
+        @drug = Drug.find_by_name(prescription['drug_name']) rescue nil
+        dose = @drug.dose rescue nil
+        duration = prescription['duration']
+        auto_expire_date = start_date + duration.to_i.days
+        frequency = prescription['frequency']
+        order_type = OrderType.find_by_name(prescription['order_type']).order_type_id rescue OrderType.find_by_name('Drug order').order_type_id
 
-    if order_type_text == 'Treatment given'
-      params[:order_type] = OrderType.find_by_name('Drug given').order_type_id rescue OrderType.find_by_name('Drug order').order_type_id
-    elsif order_type_text == 'Treatment prescribed'
-      params[:order_type] = OrderType.find_by_name('Drug prescribed').order_type_id rescue OrderType.find_by_name('Drug order').order_type_id
-    else
-      params[:order_type] = OrderType.find_by_name(order_type_text).order_type_id rescue OrderType.find_by_name('Drug order').order_type_id
-    end
-    
-    unless (@suggestion.blank? || @suggestion == '0')
-      drug_order = DrugOrder.find(@suggestion)
-      @drug = drug_order.drug
-      params[:dose_strength] = drug_order.dose
-      DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], params[:frequency], prn, params[:order_type])
-     # DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order, params[:order_type])
-    else
-      prescriptions_array.each{|arr|
-        @drug = Drug.find_by_name(arr[0]) rescue nil
-        auto_expire_date = Time.now + arr[2].to_i.days
-        unless @drug
-          flash[:notice] = "No matching drugs found for formulation #{params[:formulation]}"
+         unless @drug
+          flash[:notice] = "No matching drugs found"
           render :new
           return
         end
-        
-        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], arr[1], prn, params[:order_type])
-    }
-    end  
+
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, dose, frequency, prn, order_type)
+     end
+
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
+    
   end
   
   # Look up the set of matching generic drugs based on the concepts. We 
