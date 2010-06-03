@@ -19,6 +19,7 @@ class PeopleController < ApplicationController
 
     @super_user = true  if user.user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
     @regstration_clerk = true  if user.user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
+    @doctor = true  if user.user_roles.collect{|x|x.role.downcase}.include?("doctor") rescue nil
     
     @show_set_date = false
     session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil

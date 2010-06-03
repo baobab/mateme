@@ -53,6 +53,21 @@
     <% if @super_user%>
       <button id="admin_button" class="button green" onclick="window.location = '/admin'"><span>Administration</span></button>
     <%end%>
+
+    <%if !@show_set_date and @doctor%>
+       <span style="font-size: 16pt">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+      </span><br />
+      <button id="set_date_button" class="button green" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
+    <%else%>
+      <span style="font-size: 16pt; background-color: red">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+      </span><br />
+
+        <button id="reset_date_button" class="button green" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+        <%end%>
+
+
     <br/>
     <br/>
     <!-- <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
