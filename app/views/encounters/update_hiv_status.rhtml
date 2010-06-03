@@ -27,7 +27,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit', :tt_requireNextClick => 'false'})%>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit', :tt_requireNextClick => 'false', :condition => @new_hiv_status != 'UNKNOWN'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "HIV TEST VISIT", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
@@ -38,7 +38,7 @@
 
   <%#= hidden_field_tag("observations[][value_datetime]", DateTime.now(), {:id => "hiv_test_date_value_datetime"}) %>
   
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "hiv_test_date", :helpText => 'Hiv test date'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "hiv_test_date", :condition => @new_hiv_status != 'UNKNOWN', :helpText => 'Hiv test date'}) %>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
