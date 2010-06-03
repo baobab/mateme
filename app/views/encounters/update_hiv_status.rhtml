@@ -61,7 +61,7 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
 
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "art_start_date", :helpText => 'Bactrim start date', :condition => '$("art_started").value == "YES"' }) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "art_start_date", :helpText => 'ART start date', :condition => '$("art_started").value == "YES"' }) %>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", 'ART START DATE', {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
