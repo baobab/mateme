@@ -8,12 +8,9 @@
 </style>
 <%= stylesheet_link_tag "drug-style" %>
 <form id='inpatient_prescriptions' action="/prescriptions/create" method='post'>
+  <%= hidden_field_tag "patient_id", @patient.id %>
 
-   <input type="hidden" id="obs_id" name="obs_id" value="<%= @patient.id %>" /> 
-   <%# where @patient.id in this case is a place holder for obs_id later %>
 
-   <input type="hidden" id="all_prescriptions" name="all_prescriptions" value="" />
-   
    <input type='text' name='drug_prescribed_ctrl' tt_onUnLoad="removeDrugsPrescribed()" tt_onLoad='createDrugsPrescribed();updateDrugList();$("drug-inputbox").focus()' tt_pageStyleClass='NoControls' optional />
    
    <!--input type='text' name='drugs_given_ctrl' tt_onLoad='createDrugsGiven();' tt_pageStyleClass='NoControls' optional /-->
