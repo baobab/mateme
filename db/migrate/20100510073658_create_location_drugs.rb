@@ -3,6 +3,7 @@ class CreateLocationDrugs < ActiveRecord::Migration
     create_table :location_drugs do |t|
       t.integer :drug_id
       t.string :drug_name
+      t.integer :in_stock
       t.integer :created_by
       t.timestamps
     end
