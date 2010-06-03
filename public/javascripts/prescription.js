@@ -62,15 +62,26 @@ function createSimpleKeyboard(){
   
     backSpaceButton.appendChild(backSpace);
 }
-
+       
 function createDiagnosesInfo(){
   $('diagnosesInfoBar').innerHTML = "";
+  $("prescriptionInfoBar").innerHTML = "";
   for (i in currentDiagnoses){
-       $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan'>" + i + "</span><br />" : "<span class='diagnosisSpan'>" + i + "</span><br />";
+       $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();'>" + i + "</span><br />" : "<span class='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();'>" + i + "</span><br />";
   }
+
+  if (typeof(drugs[currentDiagnoses[activeDiagnosis]]) != 'undefined'){
+    var observation = currentDiagnoses[activeDiagnosis];
+    for (presc in drugs[observation]){
+      $("prescriptionInfoBar").innerHTML = "<span onclick='$(\"prescriptionInfoBar\").removeChild(this); delete drugs[" + observation + "];' class='selections'>"+ drugs[observation][presc] +"<br /></span>" + $("prescriptionInfoBar").innerHTML;
+    }
+  }
+
 }
 
 function createDrugsPrescribed(){
+   // initialiseDrugsHash();
+
     var  mainContainer = document.createElement('div');
     /*Create the main container div*/
     mainContainer.id = "diagnosis-container";
@@ -87,13 +98,12 @@ function createDrugsPrescribed(){
     diagnosesInfoBar.className = "diagnosesInfoBar";
     drugInfoBar.appendChild(diagnosesInfoBar);
 
-    createDiagnosesInfo();
-
     var prescriptionInfoBar =  document.createElement("div");
     prescriptionInfoBar.id = "prescriptionInfoBar";
     prescriptionInfoBar.className = "prescriptionInfoBar";
     drugInfoBar.appendChild(prescriptionInfoBar);
 
+    createDiagnosesInfo();
     
     /*Added Text Input*/
     var mainDiagnosisInputBox = document.createElement('input');
@@ -291,28 +301,57 @@ function appendDrug(){
         }
     }
 
-    $("prescriptionInfoBar").innerHTML = "<span onclick='$(\"prescriptionInfoBar\").removeChild(this); delete drugs[\"" + drug + "\"];' class='selections'>"+
-    drug+", "+freq+", "+duration+"; <br /></span>" + $("prescriptionInfoBar").innerHTML;
+  if (typeof(drugs[currentDiagnoses[activeDiagnosis]]) == 'undefined'){
+    drugs[currentDiagnoses[activeDiagnosis]] = [];
+  }
 
-    drugs[drug] = [drug, freq, duration];
+    drugs[currentDiagnoses[activeDiagnosis]].push(drug + ':' + freq + ':' + duration);
+  
+    createDiagnosesInfo();
 
     updateFrequency();
 }
 
 function removeDrugsPrescribed(){
-    var prescriptions = "";
-    
-    for(var i in drugs){
-        if(prescriptions.length > 0){
-            prescriptions += ";" + $("obs_id").value + "," + drugs[i][0] + "," + drugs[i][1] + "," + drugs[i][2];
-        } else {
-            prescriptions += $("obs_id").value + "," + drugs[i][0] + "," + drugs[i][1] + "," + drugs[i][2];
-        }        
+
+    for (diagnosis in drugs){
+      alert(diagnosis + 'Dave')
+      for (prescription in drugs[diagnosis]){
+        alert(prescription + 'phiri')
+        var obsId = document.createElement('input');
+        obsId.name = 'prescriptions[][obs_id]';
+        obsId.type = 'hidden';
+        obsId.value = diagnosis;
+        $('inpatient_prescriptions').appendChild(obsId);
+      
+        var drugName = document.createElement('input');
+        drugName.name = 'prescriptions[][drug_name]';
+        drugName.type = 'hidden';
+        drugName.value = drugs[diagnosis][prescription].split(':')[0];
+        $('inpatient_prescriptions').appendChild(drugName);
+
+        var frequency = document.createElement('input');
+        frequency.name = 'prescriptions[][frequency]';
+        frequency.type = 'hidden';
+        frequency.value = drugs[diagnosis][prescription].split(':')[1];
+        $('inpatient_prescriptions').appendChild(frequency);
+
+        var duration = document.createElement('input');
+        duration.name = 'prescriptions[][duration]';
+        duration.type = 'hidden';
+        duration.value = drugs[diagnosis][prescription].split(':')[2];
+        $('inpatient_prescriptions').appendChild(duration);
+
+        var orderType = document.createElement('input');
+        orderType.name = 'prescriptions[][order_type]';
+        orderType.type = 'hidden';
+        orderType.value = 'Drug prescribed';
+        $('inpatient_prescriptions').appendChild(orderType);
+      }
     }
 
-    $("all_prescriptions").value = prescriptions;
+
     
-    drugs = {}
     
     $("content").removeChild($("diagnosis-container"));
 }
