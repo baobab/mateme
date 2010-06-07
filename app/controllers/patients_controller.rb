@@ -55,14 +55,7 @@ class PatientsController < ApplicationController
     @patient_diabetes_treatements     = []
     @patient_hypertension_treatements = []
 
-    @patient.treatments.map{|treatement|
-
-      if (treatement.diagnosis_id.to_i == diabetes_id)
-        @patient_diabetes_treatements << treatement
-      else
-        @patient_hypertension_treatements << treatement
-      end
-    }
+    @patient_diabetes_treatements = @patient.aggregate_treatments
 
     selected_medical_history = ['DIABETES DIAGNOSIS DATE','SERIOUS CARDIAC PROBLEM','STROKE','HYPERTENSION','TUBERCULOSIS']
     @medical_history_ids = selected_medical_history.map { |medical_history| Concept.find_by_name(medical_history).id }
