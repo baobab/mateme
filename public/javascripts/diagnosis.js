@@ -598,6 +598,11 @@ function createHiddenFormControls(){
     obsDatetime.type = 'hidden';
     obsDatetime.value = obsDatetimeValue;
     $('inpatient_diagnosis').appendChild(obsDatetime);
+
+    //check for iris conditions
+    if (allDiagnoses[i] in objectConverter(irisConditions)){
+      irisConditionAvailable = true;
+    }
   } 
 
   for (var i = 0; i < allTests.length; i++ ){
