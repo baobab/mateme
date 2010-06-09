@@ -18,6 +18,12 @@
    
    <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='createConfirmatoryEvidence();' tt_onUnLoad='hideConfirmatoryContainer();createHiddenFormControls();' tt_pageStyleClass='NoControls' optional /> 
 
+   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO", "UNKNOWN"]), {:id => 'iris_condition',:condition => 'irisConditionAvailable == true', :helpText => 'Are these IRIS conditions'})%>
+   <%= hidden_field_tag("observations[][value_text]", nil) %>
+   <%= hidden_field_tag("observations[][concept_name]", "IRIS CONDITIONS", {}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
 
 
   <%= submit_tag "Finish" %>
@@ -52,5 +58,7 @@ var obsDatetimeValue = '<%=Time.now()%>';
 var subDiagnosisPopupData = "";
 var subSubDiagnosisPopupData = "";
 var allTests = [];
+var irisConditions = <%= DiagnosisTree.iris_conditions.to_json %>;  
+var irisConditionAvailable = false;
 </script>
 
