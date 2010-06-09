@@ -11,9 +11,18 @@ elsif @status
   status = @status.to_s
 end
 %>
-
+<%if((status != 'REACTIVE'))
+      if((@hiv_test_date.upcase == "UNKNOWN") || ( (@hiv_test_date.upcase != "UNKNOWN") && (((((Time.now().to_f - (@hiv_test_date.to_datetime.to_f rescue 0))/ 31536000).to_i) > 0))))%>
+<table cellpadding="2" cellspacing="0" width="90%" align ="center">
+   <tr> <td style="background: red; color: white;" align ="center">
+       <b>The patient is not positive and hasn't been tested within last 12 months </b>
+   </td></tr>
+</table>
+<%end
+  end%>
 <table cellpadding="2" cellspacing="0">
   <tr> <td> <span class='title'>&nbsp;</span> </td> <td>&nbsp;<br/></td></tr>
+
   <tr> <td> <span class='title'> HIV Status: </span> </td> <td> <%= status.humanize rescue '' %><br/></td></tr>
   <%if @arv_number && !@arv_number.empty?%>
   <tr> <td> <span class='title'> ARV Number: </span> </td> <td> <%= @arv_number rescue '' %><br/></td></tr>
