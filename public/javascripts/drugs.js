@@ -395,7 +395,7 @@ function generateDrugs(){
                              *          
                              */
 
-                            if(!group2_value.match(/^$/) && !group4_value.match(/^$/) && !group6_value.match(/^$/)){
+                            if((!group2_value.match(/^$/) || !group4_value.match(/^$/) || !group6_value.match(/^$/)) && generics_value == "SOLUBLE INSULIN"){
 
                                 var txtConceptName = document.createElement("input");
                                 txtConceptName.type = "hidden";
@@ -487,7 +487,7 @@ function generateDrugs(){
 
                                 generateDrugs();
 
-                            } else if(!group2_value.match(/^$/) && !group6_value.match(/^$/) && generics_value == "LENTE INSULIN"){
+                            } else if((!group2_value.match(/^$/) || !group6_value.match(/^$/)) && generics_value == "LENTE INSULIN"){
 
                                 var txtConceptName = document.createElement("input");
                                 txtConceptName.type = "hidden";
