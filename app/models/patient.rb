@@ -137,48 +137,15 @@ class Patient < ActiveRecord::Base
   end
 
   def treatments
+    Order.treatement_orders(self.patient_id)
+  end
 
-    treatment_encouter_id   = EncounterType.find_by_name("TREATMENT").id
-    drug_order_id           = OrderType.find_by_name("DRUG ORDER").id
-    diabetes_id             = Concept.find_by_name("DIABETES MEDICATION").id
-    hypertensition_id       = Concept.find_by_name("HYPERTENSION").id
+  def treatments
+    Order.treatement_orders(self.patient_id)
+  end
 
-=begin
-    Order.find_by_sql("SELECT orders.order_id, orders.concept_id,concept_name.name AS drug_name,obs.value_coded AS diagnosis_id,
-                        MAX(auto_expire_date) AS end_date, MIN(start_date) AS start_date,
-                        DATEDIFF(MAX(auto_expire_date), MIN(start_date))AS days,
-                      DATEDIFF(NOW(), MIN(start_date)) days_so_far, dose, drug.units, frequency
-                      FROM orders
-                      INNER JOIN drug_order ON drug_order.order_id = orders.order_id
-                      INNER JOIN drug ON drug.drug_id = drug_order.drug_inventory_id
-                      INNER JOIN encounter ON orders.encounter_id = encounter.encounter_id
-                      INNER JOIN concept_name ON concept_name.concept_id = orders.concept_id
-                      INNER JOIN obs ON orders.obs_id = obs.obs_id 
-                      WHERE encounter_type = #{treatment_encouter_id} AND encounter.patient_id = #{self.patient_id} AND encounter.voided = 0
-                        AND orders.order_type_id = #{drug_order_id} AND obs.value_coded IN (#{diabetes_id}, #{hypertensition_id})
-                      GROUP BY orders.concept_id, obs.value_coded
-                      ORDER BY end_date DESC")
-=end
-    
-    Order.find_by_sql("SELECT distinct orders.order_id, orders.concept_id,concept_name.name AS drug_name,obs.value_coded AS diagnosis_id,
-                         MAX(auto_expire_date) AS end_date, MIN(start_date) AS start_date,
-                         DATEDIFF(MAX(auto_expire_date), MIN(start_date))AS days,
-                         DATEDIFF(NOW(), MIN(start_date)) days_so_far,
-                        dose, drug.units, frequency
-                        FROM obs
-                        INNER JOIN encounter on encounter.encounter_id = obs.encounter_id
-                        INNER JOIN orders on orders.encounter_id = encounter.encounter_id
-                        INNER JOIN concept_name ON concept_name.concept_id = orders.concept_id
-                        INNER JOIN drug_order ON drug_order.order_id = orders.order_id
-                        INNER JOIN drug ON drug.drug_id = drug_order.drug_inventory_id
-                        INNER JOIN concept_name_tag_map on concept_name_tag_map.concept_name_id = concept_name.concept_name_id
-                        WHERE encounter_type = #{treatment_encouter_id} AND encounter.patient_id = #{self.patient_id} 
-                          AND encounter.voided = 0 AND orders.voided = 0
-                          AND orders.order_type_id = #{drug_order_id} AND obs.value_coded IN (#{diabetes_id}, #{hypertensition_id})
-                          AND concept_name_tag_id = 4
-                        GROUP BY order_id, obs.value_coded
-                        ORDER BY drug_name, start_date DESC")
-
+  def aggregate_treatments
+    Order.aggregate_treatement_orders(self.patient_id)
   end
 
   def drug_details(drug_info, diagnosis_name)

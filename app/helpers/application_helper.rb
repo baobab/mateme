@@ -78,4 +78,20 @@ module ApplicationHelper
 
     return keyboard_type
   end
+  def convert_time(duration)
+  if(!duration.blank?)
+    if(duration.to_i < 7)
+      (duration.to_i > 0)?(( duration.to_i > 1)? "#{duration} days" :"1 day"): "<i>(New)</i>"
+    elsif(duration.to_i < 30)
+      week = (duration.to_i)/30
+      week > 1? "#{week} weeks" : "1 week"
+    elsif(duration.to_i < 367)
+      month = (duration.to_i)/30
+      month > 1? "#{month} months" : "1 month"
+    else
+      year = (duration.to_i)/365
+      year > 1? "#{year} years" : "1 year"
+    end
+  end
+end
 end
