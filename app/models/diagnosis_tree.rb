@@ -56,4 +56,8 @@ class DiagnosisTree
     full_diagnosis_array
   end
 
+  def self.iris_conditions
+    iris_conditions = JSON.parse(GlobalProperty.find_by_property("facility.irisconditions").property_value).collect{|v| v}.compact rescue []
+  end
+
 end
