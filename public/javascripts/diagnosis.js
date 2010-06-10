@@ -249,6 +249,13 @@ function getHTTPObject() {
 var http = getHTTPObject(); // We create the HTTP Object
 
 function updateSelectionList(updateSelectionList, aElement){
+
+  //Check if entered word is synonym 
+  if (typeof(synonyms[$('diagnosis-inputbox').value]) == 'object'){
+    stringfyArray(synonyms[$('diagnosis-inputbox').value]);
+    activatePopup('synonymsPopUp');
+  } 
+ 
   if (updateSelectionList == 'diagnosis-select'){
     aUrl = "/search/main_diagnosis?search_string=" + $(aElement).value;
   }
@@ -343,6 +350,7 @@ function checkObjectLength(selectedValue){
   } else if (selectedValue == 'pop-up-object'){
      $('subDiagnosisPopUpDiv').style.display = "none";
      $('subSubDiagnosisPopUpDiv').style.display = "none";
+     $('synonymsPopUpDiv').style.display = "none";
      $('diagnosis-inputbox').value = "";
      resetSelections();
   } 
@@ -392,10 +400,13 @@ function checkIfOptionsAvailable(){
   }
 }
 
-function hidePopUp(){
+function hidePopUp(popUpType){
   $('subDiagnosisPopUpDiv').style.display = "none";
   $('subSubDiagnosisPopUpDiv').style.display = "none";
-  updateMainDiagnosis();
+  $('synonymsPopUpDiv').style.display = "none";
+  if (popUpType != "synonyms"){
+    updateMainDiagnosis();
+  }
   $("diagnosis-inputbox").focus();
 }
 
@@ -445,12 +456,17 @@ function updateSubSubDiagnosisNotification(){
 function activatePopup(popUpType){
   if (popUpType == 'subDiagnosisPopUp'){
      $('subDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
         $(popUpType).innerHTML = updateText;
 
   }else if (popUpType == 'subSubDiagnosisPopUp'){
      $('subSubDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label  onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subSubDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        updateText = "<label  onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subSubDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+        $(popUpType).innerHTML = updateText;
+  } else if (popUpType == 'synonymsPopUp'){
+     $('synonymsPopUpDiv').style.display = "block";
+        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + stringfiedArray.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+    //    updateText = stringfiedArray.replace(/\|/g,"<br />");
         $(popUpType).innerHTML = updateText;
   }
 
@@ -641,4 +657,12 @@ function updateConfirmatoryInforBar(aValue){
   for (var i = 0; i < allTests.length; i++){
     $('confirm-info-bar').innerHTML += allTests[i] + "<br />"; 
   }
+}
+
+function stringfyArray(arrayToStringfy){
+  stringfiedArray = "";
+  for (var i in arrayToStringfy){
+    stringfiedArray += arrayToStringfy[i] + ";";
+  }
+  return stringfiedArray;
 }
