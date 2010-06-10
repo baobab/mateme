@@ -30,11 +30,10 @@
 
 </form>
 <div id='subDiagnosisPopUpDiv' class='diagnosisBarDiv'>
-
 <div id='subDiagnosisPopUp' class='diagnosisBar'>
 </div> 
 <div>
-  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
+  <button onmousedown='hidePopUp("diagnosis");'><span>Cancel</span></button>
   </div>
 </div>
 
@@ -42,7 +41,15 @@
 <div id='subSubDiagnosisPopUp' class='diagnosisBar'>
 </div> 
 <div>
-  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
+  <button onmousedown='hidePopUp("diagnosis");'><span>Cancel</span></button>
+  </div>
+</div>
+
+<div id='synonymsPopUpDiv' class='diagnosisBarDiv'>
+<div id='synonymsPopUp' class='diagnosisBar'>
+</div> 
+<div>
+  <button onmousedown='hidePopUp("synonyms");'><span>Cancel</span></button>
   </div>
 </div>
 
@@ -60,5 +67,7 @@ var subSubDiagnosisPopupData = "";
 var allTests = [];
 var irisConditions = <%= DiagnosisTree.iris_conditions.to_json %>;  
 var irisConditionAvailable = false;
+var synonyms = <%=DiagnosisTree.synonyms.to_json %>
+var stringfiedArray = "";
 </script>
 
