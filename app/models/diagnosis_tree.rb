@@ -59,5 +59,9 @@ class DiagnosisTree
   def self.iris_conditions
     iris_conditions = JSON.parse(GlobalProperty.find_by_property("facility.irisconditions").property_value).collect{|v| v}.compact rescue []
   end
+  
+  def self.synonyms
+    synonyms = JSON.parse(GlobalProperty.find_by_property("facility.synonyms").property_value) rescue {}
+  end
 
 end
