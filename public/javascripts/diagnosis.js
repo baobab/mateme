@@ -257,13 +257,36 @@ function updateSelectionList(updateSelectionList, aElement){
   } 
  
   if (updateSelectionList == 'diagnosis-select'){
-    aUrl = "/search/main_diagnosis?search_string=" + $(aElement).value;
+    //aUrl = "/search/main_diagnosis?search_string=" + $(aElement).value;
+    updateMainDiagnosis();
   }
 
-  updateList(updateSelectionList, aUrl);
+  //updateList(updateSelectionList, aUrl);
 
 }
 
+function updateMainDiagnosis(){
+  
+  var searchString = $('diagnosis-inputbox').value;
+  var tmpArray = [];
+  var patt = "^" + $('diagnosis-inputbox').value;
+  $('subdiagnosis-notify').innerHTML = "";
+  $('diagnosis-select').innerHTML = "<option></option>";
+
+  for (i in diagnosesHash){
+    if (i.match(patt)){
+      tmpArray.push(i)
+    }
+  }
+
+  stringfyArray(tmpArray)
+
+    $('diagnosis-select').innerHTML = "<option onClick=validateEntry('diagnosis-select');>" + stringfiedArray.replace(/\;/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
+    setTimeout("updateSubDiagnosisNotification()", 500);  
+    checkIfOptionsAvailable();
+}
+
+/*
 function updateMainDiagnosis(){
   $('subdiagnosis-notify').innerHTML = "";
   $('diagnosis-inputbox').value = "";
@@ -273,7 +296,7 @@ function updateMainDiagnosis(){
   var aElement = 'diagnosis-select';
   updateList(aElement, aUrl);
 }
-
+*/
 function updateSubDiagnosis(){
   var mainDiagnosis =   $('diagnosis-inputbox').value;
   var aUrl = "/search/sub_diagnosis?main_diagnosis=" + mainDiagnosis;
@@ -661,7 +684,7 @@ function updateConfirmatoryInforBar(aValue){
 
 function stringfyArray(arrayToStringfy){
   stringfiedArray = "";
-  for (var i in arrayToStringfy){
+  for (var i in arrayToStringfy.sort()){
     stringfiedArray += arrayToStringfy[i] + ";";
   }
   return stringfiedArray;
