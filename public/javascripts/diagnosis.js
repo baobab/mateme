@@ -184,23 +184,7 @@ function handleHttpResponse(updateElement) {
   var updateText = '';
   
   if (http.readyState == 4 && http.status == 200) {
-    if (updateElement == 'diagnosis-select'){
-      updateText = "<option onClick=validateEntry('diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
-    $(updateElement).innerHTML = updateText;
-    setTimeout("updateSubDiagnosisNotification()", 500);  
-    checkIfOptionsAvailable();
-    } else if (updateElement == 'sub-diagnosis-select'){
-
-      updateText = "<option onClick=validateEntry('sub-diagnosis-select')>" + http.responseText.replace(/,/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
-    $(updateElement).innerHTML = updateText;
-  
-    checkIfOptionsAvailable();
-    } else if (updateElement == 'sub-sub-diagnosis-select'){
-      updateText = "<option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>" + http.responseText.replace(/,/g, "</option><option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>") + "</option>";
-    $(updateElement).innerHTML = updateText;
-  
-    checkIfOptionsAvailable();
-    } else if (updateElement == 'sub-diagnosis-notify'){
+    if (updateElement == 'sub-diagnosis-notify'){
         subDiagnosisPopupData =  http.responseText;
         var diagnosesMatches = 0;
         var matchesArray = subDiagnosisPopupData.split(';');
@@ -257,12 +241,8 @@ function updateSelectionList(updateSelectionList, aElement){
   } 
  
   if (updateSelectionList == 'diagnosis-select'){
-    //aUrl = "/search/main_diagnosis?search_string=" + $(aElement).value;
     updateMainDiagnosis();
   }
-
-  //updateList(updateSelectionList, aUrl);
-
 }
 
 function updateMainDiagnosis(){
@@ -286,30 +266,37 @@ function updateMainDiagnosis(){
     checkIfOptionsAvailable();
 }
 
-/*
-function updateMainDiagnosis(){
-  $('subdiagnosis-notify').innerHTML = "";
-  $('diagnosis-inputbox').value = "";
-  $('diagnosis-select').innerHTML = "<option></option>";
-  var searchString =  $('diagnosis-inputbox').value;
-  var aUrl = "/search/main_diagnosis?search_string=" + searchString;
-  var aElement = 'diagnosis-select';
-  updateList(aElement, aUrl);
-}
-*/
+
 function updateSubDiagnosis(){
   var mainDiagnosis =   $('diagnosis-inputbox').value;
-  var aUrl = "/search/sub_diagnosis?main_diagnosis=" + mainDiagnosis;
-  var aElement = 'sub-diagnosis-select';
-  updateList(aElement, aUrl);
+
+  var tmpArray = [];
+
+  for (i in diagnosesHash[mainDiagnosis]){
+      tmpArray.push(i)
+  }
+
+  stringfyArray(tmpArray);
+
+    $('sub-diagnosis-select').innerHTML = "<option onClick=validateEntry('sub-diagnosis-select')>" + stringfiedArray.replace(/\;/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
+    checkIfOptionsAvailable();
+
 }
 
 function updateSubSubDiagnosis(){
   var mainDiagnosis =  $('diagnosis-inputbox').value;
   var subDiagnosis =  $('sub-diagnosis-select').value;
-  var aUrl = "/search/sub_sub_diagnosis?main_diagnosis="+ mainDiagnosis +"&sub_diagnosis=" + subDiagnosis;
-  var aElement = 'sub-sub-diagnosis-select';
-  updateList(aElement, aUrl);
+  var tmpArray = [];
+
+  for (i in diagnosesHash[mainDiagnosis][subDiagnosis]){
+      tmpArray.push(i);
+  }
+
+  stringfyArray(tmpArray);
+
+   $('sub-sub-diagnosis-select').innerHTML   = "<option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>" + stringfiedArray.replace(/\;/g, "</option><option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>") + "</option>";
+  
+    checkIfOptionsAvailable();
 }
 
 function updateInfoBar(updateElement){
@@ -348,6 +335,7 @@ function resetSelections(){
     
     $('sub-diagnosis-select').innerHTML = "<option></option>";
     $('sub-sub-diagnosis-select').innerHTML = "<option></option>";
+    $('diagnosis-inputbox').value = "";
     updateMainDiagnosis();
     showHeaders();
 }
