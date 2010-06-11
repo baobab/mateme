@@ -99,7 +99,9 @@ class Observation < ActiveRecord::Base
         self.answer_concept_name.name = "" if self.answer_concept_name.name.humanize == "Yes"
       end
 
-    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{numeric_value}#{self.datetime(self.value_datetime)  rescue nil}#{obs_duration rescue nil}"
+    answer = "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{numeric_value}#{self.datetime(self.value_datetime)  rescue nil}#{obs_duration rescue nil}"
+    answer += " mg/dl" if  ( !answer.blank? && (self.concept.id == Concept.find_by_name("Creatinine").id) )
+    answer
   end
 
   def datetime(date_to_format)
