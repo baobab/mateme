@@ -90,7 +90,30 @@ class Patient < ActiveRecord::Base
     }
     label.print(1)
   end
-  
+
+  def complications_label(user_id)
+    label = ZebraPrinter::StandardLabel.new
+    label.font_size = 2
+    label.font_horizontal_multiplier = 1
+    label.font_vertical_multiplier = 1
+    label.left_margin = 40
+    recent_complications = Patient.recent_screen_complications(self.patient_id)
+    return nil if recent_complications.blank?
+
+    if(self.diabetes_number && self.diabetes_number.to_s.downcase != "unknown")
+      dc_number = ", DC "+ self.diabetes_number
+    else
+      dc_number = ""
+    end
+    label.draw_multi_text("QECH DM CLINIC: #{self.person.name.titleize.delete("'")} (#{self.national_id_with_dashes}#{dc_number}) ")
+    label.draw_multi_text("Diabetes Tests (Printed on: #{Date.today.strftime('%d/%b/%Y')})", :font_reverse => true)
+
+    recent_complications.map{|key, complication|
+      label.draw_multi_text("* #{complication.to_s_formatted.titleize}\t(#{complication.obs_datetime.strftime("%b %Y")})", :font_reverse => false) rescue nil
+    }
+    label.print(1)
+  end
+
   def location_identifier
     id = nil
     id ||= self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("ARV Number").id).identifier rescue nil if Location.current_location.name == 'Neno District Hospital - ART'
