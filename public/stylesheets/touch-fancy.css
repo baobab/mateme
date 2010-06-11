@@ -166,7 +166,7 @@ form{
   display: block;
   z-index: 10;
   bottom: 85px;
-  left: 90px;
+  left: 50px;
 }
 
 .buttonLine{
@@ -330,9 +330,6 @@ button.navButton {
  margin-top:20px;
 }
 
-button span {
-}
-
 button { 
   color: white;
   -moz-user-select:none;
@@ -340,7 +337,7 @@ button {
   border:0; 
   cursor:pointer; 
   font-weight:bold; 
-  padding:0 8px 0 0; 
+  padding:0 8px 0 0;
   text-align:center; 
 }
 
@@ -350,7 +347,7 @@ button span {
   position:relative; 
   display:block; 
   white-space:nowrap; 
-  padding:0 0 0 8px; 
+  padding:0 10px 0 18px;
 }
 
 
