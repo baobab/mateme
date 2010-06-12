@@ -64,4 +64,9 @@ class DiagnosisTree
     synonyms = JSON.parse(GlobalProperty.find_by_property("facility.synonyms").property_value) rescue {}
   end
 
+  def self.multi_select_diagnosis
+    synonyms = JSON.parse(GlobalProperty.find_by_property("facility.multiselectdiagnosis").property_value) rescue {}
+  end
+
+
 end

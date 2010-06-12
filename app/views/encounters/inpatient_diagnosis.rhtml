@@ -53,6 +53,23 @@
   </div>
 </div>
 
+<div id='multiSelectPopUpDiv' class='diagnosisBarDiv' style='background-color: Yellow'>
+<div id='multiSelectPopUp' class='diagnosisBar' style='background-color: Yellow'>
+</div> 
+<div>
+  <button onmousedown='hidePopUp("multiSelect");'><span>Done</span></button>
+  </div>
+</div>
+
+<div id='otherDiagnosisPopUpDiv' class='diagnosisBarDiv'>
+  <div id='otherDiagnosisPopUp' class='diagnosisBar'>
+   <input type='text' name='other-diagnosis-inputbox' /> 
+  </div> 
+<div>
+  <button onmousedown='hidePopUp("otherDiagnosis");'><span>Done</span></button>
+  </div>
+</div>
+
 <script type='text/javascript'>
 var finalAnswers = [<%= DiagnosisTree.diagnosis_data.to_json %>];
 var finalTests = [<%= DiagnosisTree.confirmatory_evidence.to_json %>];  
@@ -70,5 +87,7 @@ var irisConditionAvailable = false;
 var synonyms = <%=DiagnosisTree.synonyms.to_json %>
 var stringfiedArray = "";
 var diagnosesHash = <%= DiagnosisTree.diagnosis_data.to_json %>;
+var multiSelectDiagnoses = <%=DiagnosisTree.multi_select_diagnosis.to_json %>
+var multiSelectSession = false;
 </script>
 

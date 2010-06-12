@@ -59,6 +59,19 @@ function createSimpleKeyboard(){
   keyboardDivBottom.appendChild(backSpaceButton);
   
   backSpaceButton.appendChild(backSpace);
+
+   /*Create Space*/
+  var space = document.createElement('span');
+  space.innerHTML = 'SPACE';
+  
+  var spaceButton = document.createElement('button');
+  spaceButton.className = 'simple-button'; 
+  spaceButton.setAttribute("onClick", "updateFromKeyboard(' ');updateSelectionList('diagnosis-select','diagnosis-inputbox');");
+  
+  keyboardDivMiddle.appendChild(spaceButton);
+  
+  spaceButton.appendChild(space);
+
 }
 
 function createElements(){
@@ -236,7 +249,7 @@ function updateSelectionList(updateSelectionList, aElement){
 
   //Check if entered word is synonym 
   if (typeof(synonyms[$('diagnosis-inputbox').value]) == 'object'){
-    stringfyArray(synonyms[$('diagnosis-inputbox').value]);
+    stringfyArray(synonyms[$('diagnosis-inputbox').value], true);
     activatePopup('synonymsPopUp');
   } 
  
@@ -259,13 +272,10 @@ function updateMainDiagnosis(){
     }
   }
 
-  stringfyArray(tmpArray)
-
-    $('diagnosis-select').innerHTML = "<option onClick=validateEntry('diagnosis-select');>" + stringfiedArray.replace(/\;/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
+    $('diagnosis-select').innerHTML = "<option onClick=validateEntry('diagnosis-select');>" + stringfyArray(tmpArray, true).replace(/\;/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
     setTimeout("updateSubDiagnosisNotification()", 500);  
     checkIfOptionsAvailable();
 }
-
 
 function updateSubDiagnosis(){
   var mainDiagnosis =   $('diagnosis-inputbox').value;
@@ -276,9 +286,7 @@ function updateSubDiagnosis(){
       tmpArray.push(i)
   }
 
-  stringfyArray(tmpArray);
-
-    $('sub-diagnosis-select').innerHTML = "<option onClick=validateEntry('sub-diagnosis-select')>" + stringfiedArray.replace(/\;/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
+    $('sub-diagnosis-select').innerHTML = "<option onClick=validateEntry('sub-diagnosis-select')>" + stringfyArray(tmpArray,true).replace(/\;/g, "</option><option onClick=validateEntry('sub-diagnosis-select')>") + "</option>";
     checkIfOptionsAvailable();
 
 }
@@ -292,31 +300,34 @@ function updateSubSubDiagnosis(){
       tmpArray.push(i);
   }
 
-  stringfyArray(tmpArray);
-
-   $('sub-sub-diagnosis-select').innerHTML   = "<option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>" + stringfiedArray.replace(/\;/g, "</option><option onClick=updateInfoBar('sub-sub-diagnosis-select');checkObjectLength('sub-sub-diagnosis-select');>") + "</option>";
+   $('sub-sub-diagnosis-select').innerHTML   = "<option onClick=validateEntry('sub-sub-diagnosis-select');>" + stringfyArray(tmpArray,true).replace(/\;/g, "</option><option onClick=validateEntry('sub-sub-diagnosis-select');>") + "</option>";
   
     checkIfOptionsAvailable();
 }
 
 function updateInfoBar(updateElement){
   if (updateElement == 'diagnosis-select'){
-      tempDataArray.push($('diagnosis-select').value);
+        tempDataArray.push($('diagnosis-select').value);
   } else if (updateElement == 'sub-diagnosis-select'){
-
-    tempDataArray.push($('sub-diagnosis-select').value);
-    } else if (updateElement == 'sub-sub-diagnosis-select'){
+      tempDataArray.push($('sub-diagnosis-select').value);
+  } else if (updateElement == 'sub-sub-diagnosis-select'){
     tempDataArray.push($('sub-sub-diagnosis-select').value);
-    } else if (updateInfoBarParameter == "update"){
+  } else if (updateInfoBarParameter == "update"){
       tempDataArray = updateElement.innerHTML.replace(/, /g,",").split(",");
       updateInfoBarParameter = "";
     };
-  removeEmptyObjects();
+
   if (tempDataArray.toSource() != "[]"){
-    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
+    //check if elements of tempDataArray constitute multiselect
+    if (stringfyArray(tempDataArray,false).replace(/\;/," ") in  multiSelectDiagnoses){
+      activatePopup('multiSelectPopUp');
+    }
+    
+    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
   }else {
-    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
-  }
+    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
+   // $('confirm-info-bar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
+   }
 }
 
 function getObjectLength(valueLength){
@@ -328,10 +339,11 @@ function getObjectLength(valueLength){
 }
 
 function resetSelections(){
-    mainDataArray.push(tempDataArray);
-    mainDataArray.push("<br>")
-    tempDataArray = [];
-    $('diagnoses-infobar').innerHTML = "<span onclick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeMainValue(this)'>")+"</span>";
+    if (tempDataArray.toSource() != "[]"){ //avoid inserting empty objects
+      mainDataArray.push(stringfyArray(tempDataArray,false).replace(/\;/g," "));
+      tempDataArray = [];
+    }
+    $('diagnoses-infobar').innerHTML = "<span onclick='removeMainValue(this)'>"+stringfyArray(mainDataArray,false).replace(/\;/g,"</span><br><span onClick='removeMainValue(this)'>")+"</span>";
     
     $('sub-diagnosis-select').innerHTML = "<option></option>";
     $('sub-sub-diagnosis-select').innerHTML = "<option></option>";
@@ -368,33 +380,17 @@ function checkObjectLength(selectedValue){
 }
 
 function removeMainValue(aElement){
-  var originalStringArray = aElement.innerHTML.split(",");
-  var myTempArray = [];
-  var testString = ""
-
-  var removeSpace = function(x){
-    myTempArray.push(x.replace(/^ /,""))
-  };
-
-  var processArray = function(x,idx){
-        testString = myTempArray.toSource();
-
-    if (typeof(x) == 'object'){
-
-      if (x.toSource() == testString){
-        mainDataArray.splice(idx,2);   
-        updateInfoBar(aElement);
-        resetSelections();
-        return;   
-      }
+    mainDataArray.splice(mainDataArray.indexOf(aElement.innerHTML),1);
+    updateInfoBar(aElement);
+    if (!multiSelectSession){
+      resetSelections();
     }
-  }
-  originalStringArray.forEach(removeSpace);
-  mainDataArray.forEach(processArray);
 }
 
 function removeTempValue(aElement){
   tempDataArray = [];
+  multiSelectSession = false;
+  $('multiSelectPopUpDiv').style.display = "none";
   updateInfoBar(aElement);
   resetSelections();
 }
@@ -415,8 +411,14 @@ function hidePopUp(popUpType){
   $('subDiagnosisPopUpDiv').style.display = "none";
   $('subSubDiagnosisPopUpDiv').style.display = "none";
   $('synonymsPopUpDiv').style.display = "none";
-  if (popUpType != "synonyms"){
+  $('multiSelectPopUpDiv').style.display = "none";
+  $('otherDiagnosisPopUpDiv').style.display = "none";
+  if (popUpType == "diagnosis"){
     updateMainDiagnosis();
+  }else if (popUpType == 'multiSelect'){
+    multiSelectSession = false;
+    tempDataArray = [];
+    resetSelections();
   }
   $("diagnosis-inputbox").focus();
 }
@@ -433,6 +435,7 @@ function createConfirmatoryEvidence(){
  var diagnosesInfobarMain = document.createElement('div');
  diagnosesInfobarMain.className = "diagnosesInfobarMain";
  diagnosesInfobarMain.id = 'confirm-info-bar';
+ diagnosesInfobarMain.innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray,false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
  $('confirmatory-container').appendChild(diagnosesInfobarMain);
 
  /*+++++++++++++++++++++++++++++++Create confirmatory evidence column column*/
@@ -447,10 +450,7 @@ function createConfirmatoryEvidence(){
  confirmatoryEvidenceSelectDiv.className = "confirmatory-evidence-select-div";
  confirmatoryEvidence.appendChild(confirmatoryEvidenceSelectDiv);
 
- setTimeout("showConfirmatoryEvidence()", 500);
-
- $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+(mainDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" ;
-
+ setTimeout("showConfirmatoryEvidence()", 200);
 }
 
 function updateSubDiagnosisNotification(){  
@@ -467,18 +467,21 @@ function updateSubSubDiagnosisNotification(){
 function activatePopup(popUpType){
   if (popUpType == 'subDiagnosisPopUp'){
      $('subDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
-        $(popUpType).innerHTML = updateText;
-
+        $('subDiagnosisPopUp').innerHTML = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+  
   }else if (popUpType == 'subSubDiagnosisPopUp'){
      $('subSubDiagnosisPopUpDiv').style.display = "block";
-        updateText = "<label  onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subSubDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
-        $(popUpType).innerHTML = updateText;
+        $('subSubDiagnosisPopUp').innerHTML = "<label  onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + subSubDiagnosisPopupData.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+  
   } else if (popUpType == 'synonymsPopUp'){
      $('synonymsPopUpDiv').style.display = "block";
-        updateText = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + stringfiedArray.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
-    //    updateText = stringfiedArray.replace(/\|/g,"<br />");
-        $(popUpType).innerHTML = updateText;
+        $('synonymsPopUp').innerHTML = "<label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>" + stringfiedArray.replace(/\;/g,"</label><br /><label onClick=changeParam();updateInfoBar(this);checkObjectLength('pop-up-object')>") + "</label>";
+  } else if (popUpType == 'multiSelectPopUp'){
+     $('multiSelectPopUpDiv').style.display = "block";
+       multiSelectSession = true;
+        $('multiSelectPopUp').innerHTML = updateText = "<label onClick=processMultiSelect(this)>" + stringfyArray(multiSelectDiagnoses[stringfyArray(tempDataArray,false).replace(/\;/," ")]).replace(/\;/g,"</label><br /><label onClick=processMultiSelect(this)>") + "</label>";
+  } else if (popUpType == 'otherDiagnosisPopUp'){
+    $('otherDiagnosisPopUpDiv').style.display = "block";
   }
 
 }
@@ -487,19 +490,6 @@ var updateInfoBarParameter = "";
 
 function changeParam(){
   updateInfoBarParameter = "update"
-}
-
-function removeEmptyObjects(){
-   var processArray = function(x,idx){
-
-    if (typeof(x) == 'object'){
-      if (x.toSource() == "[]"){
-        mainDataArray.splice(idx,2);   
-        return;   
-      }
-    }
-  }
-  mainDataArray.forEach(processArray);
 }
 
 function objectConverter(a){
@@ -514,18 +504,12 @@ function objectConverter(a){
 function populateConfirmatoryEvidence(){
   confirmatoryEvidenceData = {};
   var processArray = function(x,idx){
-    var diagnosis = "";
-    if (typeof(x) == 'object'){
-      if (x.toSource() != "[]"){
-        diagnosis = x.toSource().replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"").replace(/"/g,"");
-        confirmatoryEvidenceData[diagnosis] = [];
+        confirmatoryEvidenceData[x] = [];
         for (i in finalTests[0]){
-          if(diagnosis in objectConverter(finalTests[0][i])){
-            confirmatoryEvidenceData[diagnosis].push(i);
+          if(x in objectConverter(finalTests[0][i])){
+            confirmatoryEvidenceData[x].push(i);
           }
         }
-      }
-    }
   }
   mainDataArray.forEach(processArray); 
 }
@@ -556,32 +540,40 @@ function setNextAttribute(){
 }
 
 function validateEntry(updateElement){
-  if (updateElement == 'diagnosis-select'){
-    if (tempDataArray.length > 0){
-      $('diagnosis-select').value = tempDataArray[0];
-      alert('Invalid entry');
-    }else{
-      $('diagnosis-inputbox').value = $('diagnosis-select').value;
-      updateInfoBar('diagnosis-select');
-      checkObjectLength('diagnosis-select');
-    }
-  } else if (updateElement == 'sub-diagnosis-select'){
-    if (tempDataArray.length == 2){
-      $('sub-diagnosis-select').value = tempDataArray[1];
-      alert('Invalid Sub');
-    } else {
+
+  if ($(updateElement).value.search(/OTHER/) != -1){
+    activatePopup('otherDiagnosisPopUp');
+  }else{
+    if (updateElement == 'diagnosis-select'){
+      if (tempDataArray.length > 0){
+        $('diagnosis-select').value = tempDataArray[0];
+        alert('Invalid entry');
+      } else{
+        $('diagnosis-inputbox').value = $('diagnosis-select').value;
+        updateInfoBar('diagnosis-select');
+        checkObjectLength('diagnosis-select');
+      }
+    } else if (updateElement == 'sub-diagnosis-select'){
+      if (tempDataArray.length == 2){
+        $('sub-diagnosis-select').value = tempDataArray[1];
+        alert('Invalid Entry');
+      } else {
+        updateInfoBar('sub-diagnosis-select');
+        checkObjectLength('sub-diagnosis-select');
+      }
+    }else if  (updateElement == 'sub-sub-diagnosis-select'){
       updateInfoBar('sub-diagnosis-select');
       checkObjectLength('sub-diagnosis-select');
     }
-    } 
+  }
 }
 
 function showHeaders(){
-  if (mainDataArray.length == 2) {
+  if (mainDataArray.length == 1) {
     $('priSecAddDiv').innerHTML = "PRIMARY : "
-  } else if (mainDataArray.length == 4){
+  } else if (mainDataArray.length == 2){
     $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : "
-  }else if (mainDataArray.length == 6){
+  }else if (mainDataArray.length == 3){
     $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : <br>ADDITIONAL :"
   }else{
     $('priSecAddDiv').innerHTML = ""
@@ -590,22 +582,12 @@ function showHeaders(){
 }
 
 function createHiddenFormControls(){
-  for(var i = 0; i < mainDataArray.length; i++){
-    if (typeof(mainDataArray[i]) == 'object'){
-       var temp = mainDataArray[i];
-       var fullString = "";
-       for (var n = 0; n < temp.length; n++){
-         fullString += " " + temp[n];
-       }
-       allDiagnoses.push(fullString.replace(/^ /,""))
-      }    
-  }
-
-  for (var i = 0; i < allDiagnoses.length; i++ ){
+  
+  for (i in mainDataArray){
     var valueCodedOrText = document.createElement('input');
     valueCodedOrText.name = 'observations[][value_coded_or_text]';
     valueCodedOrText.type = 'hidden';
-    valueCodedOrText.value = allDiagnoses[i];
+    valueCodedOrText.value = mainDataArray[i];
     $('inpatient_diagnosis').appendChild(valueCodedOrText);
 
     var conceptName = document.createElement('input');
@@ -627,7 +609,7 @@ function createHiddenFormControls(){
     $('inpatient_diagnosis').appendChild(obsDatetime);
 
     //check for iris conditions
-    if (allDiagnoses[i] in objectConverter(irisConditions)){
+    if (mainDataArray[i] in objectConverter(irisConditions)){
       irisConditionAvailable = true;
     }
   } 
@@ -657,9 +639,6 @@ function createHiddenFormControls(){
     obsDatetime.value = obsDatetimeValue;
     $('inpatient_diagnosis').appendChild(obsDatetime);
   }
-
-
-
 }
 
 function updateConfirmatoryInforBar(aValue){
@@ -670,10 +649,20 @@ function updateConfirmatoryInforBar(aValue){
   }
 }
 
-function stringfyArray(arrayToStringfy){
+function stringfyArray(arrayToStringfy, sort){
   stringfiedArray = "";
-  for (var i in arrayToStringfy.sort()){
+  if (sort == true){
+    arrayToStringfy = arrayToStringfy.sort()
+  }
+  for (var i in arrayToStringfy){
     stringfiedArray += arrayToStringfy[i] + ";";
   }
-  return stringfiedArray;
+  return stringfiedArray.replace(/\;$/,"");
+}
+
+function processMultiSelect(aElement){
+  mainDataArray.push(stringfyArray(tempDataArray,false) + " " + aElement.innerHTML);
+
+   $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
+  showHeaders();
 }
