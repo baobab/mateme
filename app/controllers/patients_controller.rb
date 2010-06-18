@@ -59,13 +59,14 @@ class PatientsController < ApplicationController
 
     selected_medical_history = ['DIABETES DIAGNOSIS DATE','SERIOUS CARDIAC PROBLEM','STROKE','HYPERTENSION','TUBERCULOSIS']
     @medical_history_ids = selected_medical_history.map { |medical_history| Concept.find_by_name(medical_history).id }
-    @significant_medical_history = []
+    @significant_medical_histor    y = []
     @observations.each { |obs| @significant_medical_history << obs if @medical_history_ids.include? obs.concept_id}
 
     @arv_number = @patient.arv_number rescue nil
     @status     = @patient.hiv_status
     #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
     @hiv_test_date    = @patient.hiv_test_date rescue "UNKNOWN"
+    @hiv_test_date = "Unkown" if @hiv_test_date.blank?
     @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
 
     @recents = Patient.recent_screen_complications(@patient.patient_id)
@@ -114,6 +115,8 @@ class PatientsController < ApplicationController
     @status     = @patient.hiv_status
     #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
     @hiv_test_date    = @patient.hiv_test_date rescue "UNKNOWN"
+    @hiv_test_date = "Unknown" if @hiv_test_date.blank?
+    
     @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
 
     render :template => 'patients/hiv_status', :layout => 'menu'
