@@ -65,7 +65,7 @@ class PatientsController < ApplicationController
     @arv_number = @patient.arv_number rescue nil
     @status     = @patient.hiv_status
     #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
-    @hiv_test_date    = @patient.hiv_test_date rescue nil
+    @hiv_test_date    = @patient.hiv_test_date rescue "UNKNOWN"
     @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
 
     @recents = Patient.recent_screen_complications(@patient.patient_id)
@@ -113,7 +113,7 @@ class PatientsController < ApplicationController
     @arv_number = @patient.arv_number rescue nil
     @status     = @patient.hiv_status
     #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
-    @hiv_test_date    = @patient.hiv_test_date
+    @hiv_test_date    = @patient.hiv_test_date rescue "UNKNOWN"
     @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
 
     render :template => 'patients/hiv_status', :layout => 'menu'
