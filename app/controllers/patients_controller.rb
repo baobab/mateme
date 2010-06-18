@@ -59,7 +59,7 @@ class PatientsController < ApplicationController
 
     selected_medical_history = ['DIABETES DIAGNOSIS DATE','SERIOUS CARDIAC PROBLEM','STROKE','HYPERTENSION','TUBERCULOSIS']
     @medical_history_ids = selected_medical_history.map { |medical_history| Concept.find_by_name(medical_history).id }
-    @significant_medical_histor    y = []
+    @significant_medical_history = []
     @observations.each { |obs| @significant_medical_history << obs if @medical_history_ids.include? obs.concept_id}
 
     @arv_number = @patient.arv_number rescue nil
