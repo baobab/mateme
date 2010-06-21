@@ -6,13 +6,16 @@
   tt_cancel_destination = '/patients/demographics?patient_id=<%= @patient.id %>'
 </script>
 <form action="/person_addresses/edit/<%= @patient.id %>" method="post">
+  <%=  hidden_field_tag(:field, @field)%>
   <%if @field == 'contact_address'%>
     <%= text_field_tag "person[addresses][city_village]",  @address.city_village, {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/search/village?search_string=', :allowFreeText => true }%>
-
     <%= text_field_tag "person[addresses][county_district]",  @address.county_district, {:field_type => 'alpha', :helpText => 'Current Traditional Authority (TA)', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true }%>
-
     <%= text_field_tag "person[addresses][state_province]",  @address.state_province, {:field_type => 'alpha', :helpText => 'Current District', :ajaxURL => '/search/district?search_string=', :allowFreeText => true }%>
+    <%= hidden_field_tag("person[addresses][address2]", @address.address2)%>
   <%elsif @field == 'home_district'%>
     <%= text_field_tag "person[addresses][address2]",  @address.address2, {:field_type => 'alpha', :helpText => 'Home district', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
+    <%= hidden_field_tag("person[addresses][county_district]", @address.county_district)%>
+    <%= hidden_field_tag("person[addresses][city_village]", @address.city_village)%>
+    <%= hidden_field_tag("person[addresses][state_province]", @address.state_province)%>
   <%end%>
 </form>
