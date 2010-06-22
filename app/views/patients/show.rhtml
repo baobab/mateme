@@ -66,14 +66,15 @@
 
       <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a>
       <a class="button green" href='/patients/mastercard?patient_id=<%= @patient.id -%>'>Complications</a>
+      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</a>
       <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
   <%end %>
 
   <%if @registration_clerk%>
     <!--  <a class="button green" href='/people/new'>Register Patient</a> -->
-      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</a>
+      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/generate_booking?patient_id=<%= @patient.id -%>'>Bookings</a>
     <!-- <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a> -->
       <!-- <a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a>-->
