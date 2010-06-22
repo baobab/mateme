@@ -63,10 +63,12 @@
 
 <div id='otherDiagnosisPopUpDiv' class='diagnosisBarDiv'>
   <div id='otherDiagnosisPopUp' class='diagnosisBar'>
-   <input type='text' name='other-diagnosis-inputbox' class='diagnosis-inputbox'/> 
+   <input type='text' name='other-diagnosis-inputbox' class='diagnosis-inputbox' id='other-diagnosis-inputbox' value="OTHER" /> 
   </div> 
 <div>
-  <button onmousedown='hidePopUp("otherDiagnosis");'><span>Done</span></button>
+  <button onmousedown='hidePopUp("otherDiagnosis");activeInputBox="diagnosis-inputbox";'><span>Done</span></button><span style='display:inline-block;width:180px;'> </span>
+  <button onmousedown='$("other-diagnosis-inputbox").value="";'><span>Clear</span></button><span style='display:inline-block;width:185px;'> </span>
+  <button onmousedown='$("otherDiagnosisPopUpDiv").style.display = "none";activeInputBox="diagnosis-inputbox";'><span>Cancel</span></button>
   </div>
 </div>
 
@@ -89,5 +91,6 @@ var stringfiedArray = "";
 var diagnosesHash = <%= DiagnosisTree.diagnosis_data.to_json %>;
 var multiSelectDiagnoses = <%=DiagnosisTree.multi_select_diagnosis.to_json %>
 var multiSelectSession = false;
+var activeInputBox = 'diagnosis-inputbox';
 </script>
 
