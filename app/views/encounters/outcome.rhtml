@@ -1,5 +1,5 @@
 <script>
-  var tt_cancel_destination = "/patients/discharge/<%= @patient.id %>"
+  var tt_cancel_destination = "/patients/show/<%= @patient.id %>"
 </script>
 <style>
   #space { display:inline; font-size:1.2em; }
@@ -18,7 +18,7 @@
 
  
 
-  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "ALIVE","DEAD", "REFFERED", "ABSCONDED"]), {:helpText => 'Discharge outcome'})%>
+  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "ALIVE","DEAD", "TRANSFER IN", "TRANSFER OUT", "ABSCONDED"]), {:helpText => 'Discharge outcome'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "OUTCOME", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
@@ -28,7 +28,7 @@
 	:id => "refer", 
 	:field_type => 'text', 
 	:helptext =>"Refer to clinic", 
-	:condition => "($('observations__value_coded_or_text').value == 'REFFERED')",
+	:condition => "($('observations__value_coded_or_text').value == 'TRANSFER OUT')",
 	:allowFreeText => 'true', 
 	:ajaxURL => "/search/clinics?search_string=", 
 	:textCase => "upper"
