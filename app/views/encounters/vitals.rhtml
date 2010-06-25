@@ -31,7 +31,44 @@
         <%= hidden_field_tag("observations[][concept_name]", "TEMPERATURE (C)") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-     <% end %> 
+     <% end %>
+
+    <% if ask_blood_pressure %>
+
+      <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
+        <%= text_field_tag "observations[][value_numeric]", nil,
+          {:id => "systolic_blood_pressure",
+           :field_type => 'number',
+           :min => 80,
+           :max => 180,
+           :absoluteMin => 50,
+           :absoluteMax => 250,
+           # :units => 'cm',
+           :validationRule => "^([0-9]+)|Unknown$",
+           :validationMessage => "You must enter numbers only (for example 157)",
+           :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+        <%= hidden_field_tag("observations[][concept_name]", "SYSTOLIC BLOOD PRESSURE") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+      <label for='diastolic_blood_pressure'>DIASTOLIC BLOOD PRESSURE (X/?)</label>
+        <%= text_field_tag "observations[][value_numeric]", nil,
+          {:id => "diastolic_blood_pressure",
+           :field_type => 'number',
+           :min => 50,
+           :max => 110,
+           :absoluteMin => 30,
+           :absoluteMax => 200,
+           # :units => 'cm',
+           :validationRule => "^([0-9]+)|Unknown$",
+           :validationMessage => "You must enter numbers only (for example 157)",
+           :tt_pageStyleClass => "Numeric NumbersOnly",
+           :tt_onLoad => "if ($('systolic_blood_pressure').value <= 110) $('touchscreenInput'+tstCurrentPage).setAttribute('max', $('systolic_blood_pressure').value);$('helpText'+tstCurrentPage).innerHTML = 'DIASTOLIC BLOOD PRESSURE (' + $('systolic_blood_pressure').value + '/?)'"} %>
+        <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= text_field_tag :showBPSummary, nil, { :tt_onLoad => "showBloodPressureGraphs()", :helpText => "Blood Pressure Graph", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
+      <% end %>
          
     <label for='weight'>Weight (KG)</label>
       <%= text_field_tag "observations[][value_numeric]", nil,
@@ -69,42 +106,6 @@
         <%= hidden_field_tag('height', @patient_height.last.value_numeric)%>
      <%end%>
      <%= text_field_tag :showSummary, nil, { :tt_onLoad => "growthIndicators()", :helpText => "Summary", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
-    <% if ask_blood_pressure %>
-
-      <label for='systolic_blood_pressure'>SYSTOLIC BLOOD PRESSURE(?/Y)</label>
-        <%= text_field_tag "observations[][value_numeric]", nil,
-          {:id => "systolic_blood_pressure",
-           :field_type => 'number',
-           :min => 80,
-           :max => 180,
-           :absoluteMin => 50,
-           :absoluteMax => 250,
-           # :units => 'cm',
-           :validationRule => "^([0-9]+)|Unknown$",
-           :validationMessage => "You must enter numbers only (for example 157)",
-           :tt_pageStyleClass => "Numeric NumbersOnly"} %>
-        <%= hidden_field_tag("observations[][concept_name]", "SYSTOLIC BLOOD PRESSURE") %>
-        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
-      <label for='diastolic_blood_pressure'>DIASTOLIC BLOOD PRESSURE (X/?)</label>
-        <%= text_field_tag "observations[][value_numeric]", nil,
-          {:id => "diastolic_blood_pressure",
-           :field_type => 'number',
-           :min => 50,
-           :max => 110,
-           :absoluteMin => 30,
-           :absoluteMax => 200,
-           # :units => 'cm',
-           :validationRule => "^([0-9]+)|Unknown$",
-           :validationMessage => "You must enter numbers only (for example 157)",
-           :tt_pageStyleClass => "Numeric NumbersOnly",
-           :tt_onLoad => "if ($('systolic_blood_pressure').value <= 110) $('touchscreenInput'+tstCurrentPage).setAttribute('max', $('systolic_blood_pressure').value);$('helpText'+tstCurrentPage).innerHTML = 'DIASTOLIC BLOOD PRESSURE (' + $('systolic_blood_pressure').value + '/?)'"} %>
-        <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE") %>
-        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-<%= text_field_tag :showBPSummary, nil, { :tt_onLoad => "showBloodPressureGraphs()", :helpText => "Blood Pressure Graph", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
-      <% end %>
        
   <%= submit_tag "Finish" %>    
 </form>

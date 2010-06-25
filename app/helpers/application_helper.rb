@@ -83,7 +83,7 @@ module ApplicationHelper
     if(duration.to_i < 7)
       (duration.to_i > 0)?(( duration.to_i > 1)? "#{duration} days" :"1 day"): "<i>(New)</i>"
     elsif(duration.to_i < 30)
-      week = (duration.to_i)/30
+      week = (duration.to_i)/7
       week > 1? "#{week} weeks" : "1 week"
     elsif(duration.to_i < 367)
       month = (duration.to_i)/30
