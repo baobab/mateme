@@ -3,15 +3,15 @@ body{
 }
 
 .main_legend {
-    font-size:2em;
-    padding: 15px;
+    font-size:1.5em;
     border:1px #CCCCCC dotted;
     -moz-border-radius:20px;
-    color:white; background-color:green;    
+    color:white; background-color:green;
+    padding:10px;
 }
 
 .main_fieldset {
-    margin: 30px;
+    margin: 10px;
     border:1px #CCCCCC dotted;
     -moz-border-radius:20px;
     padding:20px;
@@ -64,6 +64,7 @@ body{
     width:400px;
     padding:30px;
     height:420px;
+    display:none;
 }
 
 .input-date {
@@ -84,7 +85,7 @@ body{
 }
 
 .main_heading {
-    font-size:1.5em;
+    font-size:1.1em;
     padding: 10px;
     color:white;
     border:1px #CCCCCC dotted;
@@ -93,15 +94,5 @@ body{
 }
 
 .btn-menu {
-    position:absolute;
-    right:60px;
-    top:28px;
-    padding-top:2px;
-    padding-bottom:2px;
-    background-color:#eee;
-    border:1px dotted #ccc;
-    -moz-border-radius:20px; 
-    margin-left:600px;
-    padding-left:20px;
-    padding-right:20px;
+    display:none;
 }

@@ -120,6 +120,10 @@ class CohortController < ApplicationController
 
     @defaulters = report.defaulters
 
+    @maculopathy_ever = report.maculopathy_ever
+
+    @maculopathy = report.maculopathy
+
     render :layout => false
   end
   

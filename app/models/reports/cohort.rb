@@ -546,4 +546,23 @@ class Reports::Cohort
 
   end
 
+  # Maculopathy
+  def maculopathy_ever
+      @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
+                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
+                                      WHERE name = 'MACULOPATHY') OR UCASE(value_text) = 'MACULOPATHY'").length
+
+  end
+
+  def maculopathy
+      @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
+                                   LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
+                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
+                                      WHERE name = 'MACULOPATHY') OR UCASE(value_text) = 'MACULOPATHY' \
+                                    AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
+                                    "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
+
+
+  end
+
 end

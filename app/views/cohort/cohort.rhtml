@@ -4,11 +4,12 @@
     <%= stylesheet_link_tag "mateme" %>
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
     <link href="/stylesheets/cohort.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/cohortprint.css" media="print" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div style="position:absolute; right:60px; top:28px; padding-top:2px; padding-bottom:2px; background-color:#eee;
-         border:1px dotted #ccc; -moz-border-radius:20px; margin-left:600px; padding-left:20px; padding-right:20px; ">
+    <div class="btn-menu">
       <button id="regenerate_button" class="button blue" onclick="document.getElementById('frmMain').submit();"><span>Regenerate</span></button>
+      <button id="print_button" class="button blue" onclick="window.print()"><span>Print</span></button>
       <button id="finish_button" class="button green" onclick="window.location = '/people'"><span>Finish</span></button>
       <button id="back_button" class="button red" onclick="window.location = '/cohort'"><span>Back</span></button>
     </div>
@@ -17,7 +18,8 @@
       <input type="hidden" id="start_date" name="start_date" value="<%= @specified_period[0].to_date.strftime('%d-%m-%Y') %>" />
       <input type="hidden" id="end_date" name="end_date" value="<%= @specified_period[1].to_date.strftime('%d-%m-%Y') %>" />
     </form>
-    
+
+    <div>
     <fieldset class="main_fieldset">
       <legend class="main_legend" style="color:white; background-color:green;">
         Queen Elizabeth Central Hospital
@@ -25,7 +27,7 @@
 
       <table width="100%" cellpadding="10" cellspacing="0">
         <tr>
-          <td align="center" colspan="4" style="padding-bottom:20px;">
+          <td align="center" colspan="3" style="padding-bottom:20px;">
             <label class="main_heading" style="float:left;">
               <b><i>Start Date:</i></b> <%= @specified_period[0].to_date.strftime("%A %d %B, %Y") %>
             </label>
@@ -44,9 +46,6 @@
           <th class="cellleft celltop cellbottom">
             <i>Cumulative Ever Registered</i>
           </th>
-          <th width="25%" class="cellleft celltop cellbottom cellright">
-            <i>Comment for any conditions that the system should check for in the data</i>
-          </th>
         </tr>
         <tr>
           <td class="cellleft cellbottom">
@@ -55,17 +54,11 @@
           <td class="cellleft cellbottom" align="center">
             <%=  @total_registered %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%=  @total_ever_registered %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom">
-            &nbsp;
-          </td>
           <td class="cellleft cellbottom">
             &nbsp;
           </td>
@@ -83,11 +76,8 @@
           <td class="cellleft cellbottom" align="center">
             <%=  @total_men_registered %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @total_men_ever_registered %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -97,17 +87,11 @@
           <td class="cellleft cellbottom" align="center">
             <%=  @total_women_registered %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @total_women_ever_registered %>
           </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
-          </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom">
-            &nbsp;
-          </td>
           <td class="cellleft cellbottom">
             &nbsp;
           </td>
@@ -119,7 +103,7 @@
           </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom topic cellright" colspan="4">
+          <td class="cellleft cellbottom topic cellright" colspan="3">
             <i>Outcome</i>
           </td>
         </tr>
@@ -130,11 +114,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @alive %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @alive_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -144,11 +125,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @dead %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @dead_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -158,17 +136,11 @@
           <td class="cellleft cellbottom" align="center">
             <%= @defaulters %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @defaulters_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom">
-            &nbsp;
-          </td>
           <td class="cellleft cellbottom">
             &nbsp;
           </td>
@@ -191,11 +163,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @on_diet %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @on_diet_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -205,11 +174,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @oral_treatments %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @oral_treatments_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -219,17 +185,11 @@
           <td class="cellleft cellbottom" align="center">
             <%= @oral_and_insulin %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @oral_and_insulin_ever %>
           </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
-          </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom">
-            &nbsp;
-          </td>
           <td class="cellleft cellbottom">
             &nbsp;
           </td>
@@ -241,7 +201,7 @@
           </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom topic cellright" colspan="4">
+          <td class="cellleft cellbottom topic cellright" colspan="3">
             <i>Diabetic Treatment and regimen</i>
           </td>
         </tr>
@@ -252,11 +212,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @metformin %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @metformin_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -266,11 +223,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @glibenclamide %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @glibenclamide_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -280,11 +234,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @lente_insulin %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @lente_insulin_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -294,17 +245,11 @@
           <td class="cellleft cellbottom" align="center">
             <%= @soluble_insulin %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @soluble_insulin_ever %>
           </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
-          </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom">
-            &nbsp;
-          </td>
           <td class="cellleft cellbottom">
             &nbsp;
           </td>
@@ -316,16 +261,13 @@
           </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom topic cellright" colspan="4">
+          <td class="cellleft cellbottom topic cellright" colspan="3">
             <i>Complications (either on Left or Right side)</i>
           </td>
         </tr>
         <tr>
           <td class="cellleft cellbottom textbold">
             <i>Diabetic Retinopathy</i>
-          </td>
-          <td class="cellleft cellbottom">
-            &nbsp;
           </td>
           <td class="cellleft cellbottom">
             &nbsp;
@@ -343,11 +285,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @background_retinapathy %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @background_retinapathy_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -359,11 +298,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @ploriferative_retinapathy %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @ploriferative_retinapathy_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -375,19 +311,26 @@
           <td class="cellleft cellbottom" align="center">
             <%= @end_stage_retinapathy %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @end_stage_retinapathy_ever %>
           </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom textbold">
+            <ul>
+              <li>Maculopathy</li>
+            </ul>
+          </td>
+          <td class="cellleft cellbottom" align="center">
+            <%= @maculopathy %>
+          </td>
+          <td class="cellleft cellbottom cellright" align="center">
+            <%= @maculopathy_ever %>
           </td>
         </tr>
         <tr>
           <td class="cellleft cellbottom textbold">
             <i>Nephropathy</i>
-          </td>
-          <td class="cellleft cellbottom" align="center">
-            &nbsp;
           </td>
           <td class="cellleft cellbottom" align="center">
             &nbsp;
@@ -405,11 +348,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @urine_protein %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @urine_protein_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -421,19 +361,13 @@
           <td class="cellleft cellbottom" align="center">
             <%= @creatinine %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @creatinine_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
           <td class="cellleft cellbottom textbold">
             <i>Neuropathy</i>
-          </td>
-          <td class="cellleft cellbottom" align="center">
-            &nbsp;
           </td>
           <td class="cellleft cellbottom" align="center">
             &nbsp;
@@ -451,11 +385,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @numbness_symptoms %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @numbness_symptoms_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -467,11 +398,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @amputation %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @amputation_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -483,18 +411,12 @@
           <td class="cellleft cellbottom" align="center">
             <%= @current_foot_ulceration %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @current_foot_ulceration_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
           <td class="cellleft cellbottom textbold">
-            &nbsp;
-          </td>
-          <td class="cellleft cellbottom">
             &nbsp;
           </td>
           <td class="cellleft cellbottom">
@@ -516,11 +438,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @tb_within_the_last_two_years %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @tb_within_the_last_two_years_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -530,18 +449,12 @@
           <td class="cellleft cellbottom" align="center">
             <%= @tb_after_diabetes %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @tb_after_diabetes_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
           <td class="cellleft cellbottom textbold">
-            &nbsp;
-          </td>
-          <td class="cellleft cellbottom">
             &nbsp;
           </td>
           <td class="cellleft cellbottom">
@@ -563,11 +476,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @reactive_not_on_art %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @reactive_not_on_art_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -577,11 +487,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @reactive_on_art %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @reactive_on_art_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -591,11 +498,8 @@
           <td class="cellleft cellbottom" align="center">
             <%= @non_reactive %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @non_reactive_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
         <tr>
@@ -605,16 +509,18 @@
           <td class="cellleft cellbottom" align="center">
             <%= @unknown %>
           </td>
-          <td class="cellleft cellbottom" align="center">
+          <td class="cellleft cellbottom cellright" align="center">
             <%= @unknown_ever %>
-          </td>
-          <td class="cellleft cellbottom cellright">
-            &nbsp;
           </td>
         </tr>
       </table>
 
     </fieldset>
+      
+    </div>
 
+    <%# (1..2000).each{ %>
+    <%#= "<hr /><br />" %>
+    <%# } %>
   </body>
 </html>

@@ -305,7 +305,7 @@ function pickDate(year, month, day)
     }
     else
     {
-        targetEl.value= day+'-'+month+'-'+year;
+        targetEl.value= year+'-'+month+'-'+day;
         closeCalender();
     }
 }
