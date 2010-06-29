@@ -338,7 +338,7 @@ button {
   cursor:pointer; 
   font-weight:bold; 
   padding:0 8px 0 0;
-  text-align:center; 
+  text-align:center;
 }
 
 button span { 
@@ -348,6 +348,7 @@ button span {
   display:block; 
   white-space:nowrap; 
   padding:0 10px 0 18px;
+  min-width:15px;
 }
 
 
