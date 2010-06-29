@@ -10,14 +10,14 @@
     <div style="color:gray">scan a barcode</div>
   </form>
   <div class="centered">
-    <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+    <button id="find_or_register_button" class="button green" style="width:106.5%" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
     <button id="find_by_dc_number" class="button green" style="width:106.5%" onclick="window.location = '/people/identifiers'"><span>Find patient by DC number</span></button>
     <% if @super_user || @doctor %>
       <button id="cohort_button" class="button green" style="width:106.5%" onclick="window.location = '/cohort'"><span>Cohort Report</span></button>
     <% end %>
 
     <% if @super_user%>
-      <button id="admin_button" class="button green" style="width:100%" onclick="window.location = '/user/user_menu'"><span>Administration</span></button>
+      <button id="admin_button" class="button green" style="width:106.5%" onclick="window.location = '/user/user_menu'"><span>Administration</span></button>
     <%end%>
     <!-- <br/>
     <br/>

@@ -2,6 +2,10 @@ body{
   overflow: auto;
 }
 
+.main-table-cell {
+   padding:10px;
+}
+
 .main_legend {
     font-size:2em;
     padding: 15px;
@@ -39,6 +43,10 @@ body{
 
 .topic {
     font-size:1.3em;
+}
+
+.padding-bottom-20 {
+    padding-bottom:20px;
 }
 
 .SelectList {
