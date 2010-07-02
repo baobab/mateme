@@ -365,7 +365,6 @@ function checkObjectLength(selectedValue){
     if(getObjectLength(finalAnswers[0][$(selectedValue).value]) == 0){
       resetSelections();
     } else{
-      //alert('bingo');
       updateSubDiagnosis();
     }
   } else if (selectedValue == 'sub-diagnosis-select'){
@@ -582,16 +581,36 @@ function validateEntry(updateElement){
 }
 
 function showHeaders(){
-  if (mainDataArray.length == 1) {
-    $('priSecAddDiv').innerHTML = "PRIMARY : "
-  } else if (mainDataArray.length == 2){
-    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : "
-  }else if (mainDataArray.length == 3){
-    $('priSecAddDiv').innerHTML = "PRIMARY : <br>SECONDARY : <br>ADDITIONAL :"
-  }else{
-    $('priSecAddDiv').innerHTML = ""
+
+  var counter = 0;
+  var tmpHash = {};
+  var current_key = "";
+  var header_str = "";
+  for (i in mainDataArray){
+    current_key = mainDataArray[i].substring(0, mainDataArray[i].indexOf(' '));
+    
+    if(typeof(tmpHash[current_key]) == 'undefined'){
+      tmpHash[current_key] = 0;
+    }
+
+    tmpHash[current_key] += 1;
+  }
+  for (x in tmpHash){
+    if (counter == 0){
+      header_str +="PRIMARY :";
+     } else if (counter == 1){
+      header_str +="SECONDARY :";
+     } else{
+      header_str +="ADDITIONAL :";
+     }
+
+     for (var n = 0 ; n < tmpHash[x]; n++){
+        header_str += "<br />";
+     }
+    counter += 1
   }
 
+    $('priSecAddDiv').innerHTML = header_str;
 }
 
 function createHiddenFormControls(){
