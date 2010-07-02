@@ -102,17 +102,18 @@ class SearchController < ApplicationController
 
   def drugs
     search_string = params[:search_string]
+    @drug_concepts = ConceptName.find(:all,
+       :select => "concept_name.name",
+       :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0",
+       :conditions => ["concept_name.name LIKE ?", search_string + '%'])
 
-     @results = Drug.find(:all).collect{|drug| drug.name}.compact.sort.grep(/^#{search_string}/) rescue []
-
-   render :text => @results.collect{|name|"<li>#{name}</li>"}.join("\n")
-
+    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.sort.join("</li><li>") + "</li>"
   end
 
   def location_drugs
     search_string = params[:search_string].titleize
 
-     @results = LocationDrug.find(:all).collect{|drug| drug.drug_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
+     @results = LocationDrug.find(:all).collect{|drug| drug.drug_concept_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
 
    render :text => @results.collect{|name|"#{name}"}.join(';')
 
@@ -121,6 +122,15 @@ class SearchController < ApplicationController
   def location_frequencies
     frequency = JSON.parse(GlobalProperty.find_by_property("facility.frequencies").property_value).collect{|v| v}.compact rescue []
     render :text => frequency.collect{|freq| "#{freq}"}.join(",")
+  end
+
+  def drug_dosages
+    selected_drug_name = params[:selected_drug_name]
+    @concept_ids = ConceptName.find_all_by_name(selected_drug_name).map{|c| c.concept_id}
+    @drugs = Drug.active.find(:all,
+      #:select => ("dose_strength", "units"),
+      :conditions => ["concept_id IN (?)", @concept_ids])
+    render :text => @drugs.map{|drug| "#{drug.dose_strength} #{drug.units}"}.join(",")
   end
 
 end
