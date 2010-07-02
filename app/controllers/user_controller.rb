@@ -221,7 +221,6 @@ class UserController < ApplicationController
   
   def change_password
     @user = User.find(params[:user_id] || params[:id]) rescue nil
-   
     unless request.get? 
       if (params[:user][:password] != params[:user_confirm][:password])
         flash[:notice] = 'Password Mismatch'
@@ -230,6 +229,7 @@ class UserController < ApplicationController
       else
         if @user.update_attributes(params[:user])
           flash[:notice] = "Password successfully changed"
+          User.save_property(@user.user_id, 'password_expiry_date', Date.today + 4.months)
           redirect_to :action => "show"
           return
         else
