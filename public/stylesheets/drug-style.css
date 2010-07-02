@@ -16,7 +16,13 @@
 
 #main-diagnosis{
   left: 0%;
-  width:60%;
+  width:45%;
+}
+
+#dosage{
+  left:45%;
+  width: 15%;
+  margin-left:1%;
 }
 
 #sub-diagnosis{
@@ -268,6 +274,19 @@
   border-top: 1px solid #095D92; 
   border-bottom: 1px solid #095D92; 
   border-right: 1px solid honeydew; 
+}
+
+#dosage-div{
+  width:100%;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:1.4em;
+  padding:0;
+  margin:0;
+  size: 10;
+  height: 100%;
+  position: relative;
+  float: left;
+  /*border: 1px #EEEEEE solid;*/
 }
 
 
