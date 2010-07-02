@@ -36,7 +36,7 @@ class PrescriptionsController < ApplicationController
      (params[:prescriptions] || []).each do |prescription|
         @diagnosis = Observation.find(prescription['obs_id']) rescue nil
         @diagnosis_concept_id = @diagnosis.value_coded rescue nil
-        dose = prescription['dosage'].to_i
+        dose = prescription['dosage'].to_f
         @drug = Drug.find(:first, :conditions => ["concept_id =? AND dose_strength = ?", Concept.find_by_name(prescription['drug_name']), dose]) rescue nil
         duration = prescription['duration']
         auto_expire_date = start_date + duration.to_i.days
