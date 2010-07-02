@@ -45,7 +45,7 @@ class DrugOrder < ActiveRecord::Base
   end
 =end
 
-  def self.write_order(encounter, patient, obs, drug, start_date, auto_expire_date, dose, frequency, prn, order_type)
+  def self.write_order(encounter, patient, obs, drug, start_date, auto_expire_date, dose, frequency, prn, order_type, diagnosis_concept_id)
     encounter ||= patient.current_treatment_encounter
     drug_order = nil
     ActiveRecord::Base.transaction do
@@ -56,7 +56,8 @@ class DrugOrder < ActiveRecord::Base
         :patient_id => patient.id,
         :start_date => start_date,
         :auto_expire_date => auto_expire_date,
-        :observation => obs)        
+        :observation => obs,
+        :diagnosis_concept_id => diagnosis_concept_id)        
       drug_order = DrugOrder.new(
         :drug_inventory_id => drug.id,
         :dose => dose,
@@ -67,6 +68,22 @@ class DrugOrder < ActiveRecord::Base
       drug_order.save!
     end             
     drug_order     
+  end
+
+  def self.create_diagnosis_prescription_mappings
+    #Find the first patient. This is a dummy patient and we are going to create dummy drug orders against this patient to be used as diagnosis - prescription mappings for common prescriptions. NOTE It might not always be true that the first patient is a dummy patient is the 
+    patient = Patient.find(:first) 
+    encounter = patient.encounters.create(:encounter_type => EncounterType.find_by_name('TREATMENT').id, :provider_id => 1, :location_id => 1, :creator => 1)
+    obs = nil
+    start_date = nil
+    auto_expire_date = nil
+    prn = 0
+    order_type = OrderType.find_by_name('Common drug orders').order_type_id
+
+    drug = Drug.find_by_name()
+
+   # self.write_order(encounter, patient, obs, drug, start_date, auto_expire_date, dose, frequency, prn, order_type, diagnosis_concept_id)
+
   end
 end
 
