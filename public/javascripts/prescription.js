@@ -141,6 +141,44 @@ function createDrugsPrescribed(){
     mainDiagnosisSelect.id = "drug-select";
     mainDiagnosisSelect.size = 10;
     mainDiagnosisSelectDiv.appendChild(mainDiagnosisSelect);
+    //=================================================================
+     /*+++++++++++++++++++++Create the dosage column*/
+    var dosage = document.createElement('div');
+    dosage.className = "diagnosis-columns";
+    dosage.id = "dosage";
+
+    mainContainer.appendChild(dosage);
+    /*add sub diagnosis header*/
+    var dosageHeader = document.createElement('div');
+    dosageHeader.className = "diagnosis-headers";
+    dosageHeader.innerHTML = "DOSAGE";
+    dosage.appendChild(dosageHeader);
+    //sub diagnosis notification area
+    var dosageNotifyDiv = document.createElement('div');
+    dosageNotifyDiv.className = "notify-div";
+    dosageNotifyDiv.id = "dosage-notify";
+    //subDiagnosis.appendChild(subDiagnosisNotifyDiv);
+
+
+    /*Select div*/
+    var dosageSelectDiv = document.createElement('div');
+    dosageSelectDiv.className = "drug-select-div";
+    dosage.appendChild(dosageSelectDiv);
+
+    /*Added Select*/
+    var dosageSelect = document.createElement('div');
+    //durationSelect.className = "drug-select";
+    dosageSelect.id = "dosage-div";
+    dosageSelectDiv.appendChild(dosageSelect);
+
+    /*Added Select
+    var dosageSelect = document.createElement('select');
+    dosageSelect.className = "drug-select";
+    dosageSelect.id = "dosage-select";
+    dosageSelect.size = 10;
+    dosageSelectDiv.appendChild(dosageSelect); */
+
+///////////////////////////////////////////////////////////
 
 
     /*+++++++++++++++++++++Create the sub diagnosis column*/
