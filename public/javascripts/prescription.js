@@ -253,11 +253,18 @@ function createDrugsPrescribed(){
 function handleHttpResponse(aElement) {
     if (http.readyState == 4 && http.status == 200) {
         if (aElement == 'drug-select'){
-            $('drug-select').innerHTML = "<option onClick=updateFrequency()>" +
-            http.responseText.replace(/\;/g, "</option><option onClick=updateFrequency()>") + "</option>";
+            $('drug-select').innerHTML = "<option onClick=updateDosage()>" +
+            http.responseText.replace(/\;/g, "</option><option onClick=updateDosage()>") + "</option>";
         } else if (aElement == 'frequency'){
             $('frequency-select').innerHTML = "<option onClick=showMainRange()>" +
             http.responseText.replace(/,/g, "</option><option onClick=showMainRange()>") + "</option>";
+        } else if (aElement == 'dosage'){
+          var updateText = "<br />";
+          var dosagesArray = http.responseText.split(',');
+          for (var i in dosagesArray){
+            updateText += "<label onClick='updateFrequency()'><input name='dosage' type='radio' value='" + dosagesArray[i] + "'>" + dosagesArray[i]+ "</label><br/>"; 
+          }
+          $('dosage-div').innerHTML = updateText;
         }
     }
 }
@@ -291,6 +298,7 @@ function updateDrugList(){
 
     var aElement = 'drug-select'
     $('frequency-select').innerHTML = "<option></option>";
+    $('dosage-div').innerHTML = ""
     $('duration-div').innerHTML = ""
     $('duration-values').innerHTML = ""
     var searchString =  $('drug-inputbox').value;
@@ -329,7 +337,8 @@ function appendDrug(){
     var drug = $("drug-select")[$("drug-select").selectedIndex].innerHTML;
     var freq = $("frequency-select")[$("frequency-select").selectedIndex].innerHTML;
     var duration ="";
-
+    var dosage = "";
+    var checkedDos = document.getElementsByName("dosage");
     var rdos = document.getElementsByName("subRange");
 
     for(var i = 0; i < rdos.length; i++){
@@ -339,11 +348,19 @@ function appendDrug(){
         }
     }
 
+    for(var i = 0; i < checkedDos.length; i++){
+        if(checkedDos[i].checked){
+            dosage = checkedDos[i].value;
+            break;
+        }
+    }
+
+
   if (typeof(drugs[currentDiagnoses[activeDiagnosis]]) == 'undefined'){
     drugs[currentDiagnoses[activeDiagnosis]] = [];
   }
 
-    drugs[currentDiagnoses[activeDiagnosis]].push(drug + ':' + freq + ':' + duration);
+    drugs[currentDiagnoses[activeDiagnosis]].push(drug + ':' + dosage + ':' + freq + ':' + duration);
   
     createDiagnosesInfo();
 
@@ -368,16 +385,22 @@ function removeDrugsPrescribed(){
         drugName.value = drugs[diagnosis][prescription].split(':')[0];
         $('inpatient_prescriptions').appendChild(drugName);
 
+        var dosagePrescribed = document.createElement('input');
+        dosagePrescribed.name = 'prescriptions[][dosage]';
+        dosagePrescribed.type = 'hidden';
+        dosagePrescribed.value = drugs[diagnosis][prescription].split(':')[1];
+        $('inpatient_prescriptions').appendChild(dosagePrescribed);
+
         var frequency = document.createElement('input');
         frequency.name = 'prescriptions[][frequency]';
         frequency.type = 'hidden';
-        frequency.value = drugs[diagnosis][prescription].split(':')[1];
+        frequency.value = drugs[diagnosis][prescription].split(':')[2];
         $('inpatient_prescriptions').appendChild(frequency);
 
         var duration = document.createElement('input');
         duration.name = 'prescriptions[][duration]';
         duration.type = 'hidden';
-        duration.value = drugs[diagnosis][prescription].split(':')[2];
+        duration.value = drugs[diagnosis][prescription].split(':')[3];
         $('inpatient_prescriptions').appendChild(duration);
 
         var orderType = document.createElement('input');
@@ -396,4 +419,10 @@ function removeDrugsPrescribed(){
 
 function createDrugsGiven(){
     //window.location = ""
+}
+
+function updateDosage(){
+  var selectedDrug =  $("drug-select")[$("drug-select").selectedIndex].innerHTML
+  var aUrl = "/search/drug_dosages?selected_drug_name=" + selectedDrug;
+  updateList(aUrl, 'dosage');
 }
