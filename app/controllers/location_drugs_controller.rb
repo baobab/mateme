@@ -10,8 +10,8 @@ class LocationDrugsController < ApplicationController
 
   def create
     location_drug = LocationDrug.new()
-    location_drug.drug_id = Drug.find_by_name(params[:location_drug]).drug_id
-    location_drug.drug_name = params[:location_drug]
+    location_drug.drug_concept_id = Concept.find_by_name(params[:location_drug]).concept_id
+    location_drug.drug_concept_name = params[:location_drug]
     location_drug.created_by = session[:user_id]
 
     if location_drug.save
