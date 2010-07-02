@@ -106,13 +106,15 @@ class Encounter < ActiveRecord::Base
     current_visit = self.patient.current_visit
     if (current_visit.nil? or current_visit.end_date != nil )
       visit = Visit.new({:patient_id => self.patient_id, :start_date => self.encounter_datetime})
+      visit.creator ||= 1
       visit.save
       current_visit = visit if visit.save
 
     end
    
     visit_encounter = VisitEncounter.new({:visit_id => current_visit.visit_id, :encounter_id => self.encounter_id})
-    visit_encounter.save
+    visit_encounter.creator ||= 1
+    visit_encounter.save!
 
   end
 
