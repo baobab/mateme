@@ -37,6 +37,7 @@ class PrescriptionsController < ApplicationController
 
      (params[:prescriptions] || []).each do |prescription|
         @diagnosis = Observation.find(prescription['obs_id']) rescue nil
+        @diagnosis_concept_id = @diagnosis.value_coded rescue nil
         @drug = Drug.find_by_name(prescription['drug_name']) rescue nil
         dose = @drug.dose rescue nil
         duration = prescription['duration']
@@ -50,7 +51,7 @@ class PrescriptionsController < ApplicationController
           return
         end
 
-        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, dose, frequency, prn, order_type)
+        DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, dose, frequency, prn, order_type, @diagnosis_concept_id)
      end
 
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
