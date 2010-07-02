@@ -28,8 +28,6 @@ class PrescriptionsController < ApplicationController
   #end
   
   def create
-  #  raise params.to_yaml
-    
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @encounter = @patient.current_treatment_encounter
     prn = 0
@@ -38,8 +36,8 @@ class PrescriptionsController < ApplicationController
      (params[:prescriptions] || []).each do |prescription|
         @diagnosis = Observation.find(prescription['obs_id']) rescue nil
         @diagnosis_concept_id = @diagnosis.value_coded rescue nil
-        @drug = Drug.find_by_name(prescription['drug_name']) rescue nil
-        dose = @drug.dose rescue nil
+        dose = prescription['dosage'].to_i
+        @drug = Drug.find(:first, :conditions => ["concept_id =? AND dose_strength = ?", Concept.find_by_name(prescription['drug_name']), dose]) rescue nil
         duration = prescription['duration']
         auto_expire_date = start_date + duration.to_i.days
         frequency = prescription['frequency']
