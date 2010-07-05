@@ -17,6 +17,10 @@
       document.getElementById('loggedOutMessage').style.display = 'none';
     }
 
+    function hideInvalidLoginMessage(){
+      document.getElementById('messageBar').style.display = 'none';
+    }
+
 </script>
 
 <%= error_messages_for 'user' %>
@@ -24,7 +28,7 @@
 <% form_tag session_path do -%>
 
   <label for="login">Barcode</label>
-  <%= text_field_tag(:login_barcode, nil, :helpText => "Scan your login barcode", :optional => true, :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput0';$('keyboard').style.display='none';") %><br>
+  <%= text_field_tag(:login_barcode, nil, :helpText => "Scan your login barcode", :optional => true, :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput0';$('keyboard').style.display='none';setTimeout(hideInvalidLoginMessage, 3000);") %><br>
 
   <label for="login">Username</label>
   <%= text_field_tag(:login, nil, :helpText => "Enter user name", :textCase => "lower", :tt_onLoad => "inform(); barcodeId = 'touchscreenInput1';$('keyboard').style.display='block';", :condition => "$('login_barcode').value == ''") %><br>
