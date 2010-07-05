@@ -93,10 +93,10 @@ class EncountersController < ApplicationController
    def diagnoses_index
     @diagnosis_type = 'PRIMARY DIAGNOSIS'
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @primary_diagnosis = @patient.current_diagnoses["PRIMARY DIAGNOSIS"] rescue []
-    @secondary_diagnosis = @patient.current_diagnoses["SECONDARY DIAGNOSIS"] rescue []
-    @additional_diagnosis = @patient.current_diagnoses["ADDITIONAL DIAGNOSIS"] rescue []
-    @syndromic_diagnosis = @patient.current_diagnoses["SYNDROMIC DIAGNOSIS"] rescue []
+    @primary_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "PRIMARY DIAGNOSIS"}.compact rescue []
+    @secondary_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "SECONDARY DIAGNOSIS"}.compact rescue []
+    @additional_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "ADDITIONAL DIAGNOSIS"}.compact rescue []
+    @syndromic_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "SYNDROMIC DIAGNOSIS"}.compact rescue []
 
     if !@primary_diagnosis.empty? and !@secondary_diagnosis.empty?
       @diagnosis_type = 'ADDITIONAL DIAGNOSIS'
