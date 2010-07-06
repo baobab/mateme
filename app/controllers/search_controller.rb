@@ -133,4 +133,70 @@ class SearchController < ApplicationController
     render :text => @drugs.map{|drug| "#{drug.dose_strength} #{drug.units}"}.join(",")
   end
 
+  def final_diagnosis
+    diagnosis_hash = DiagnosisTree.final_keysr    
+    search_string = params[:search_string]
+
+    diagnosis_list = diagnosis_hash.collect{|k,v| k}.compact.sort
+    
+    @results = diagnosis_list.grep(/#{search_string}/i).compact.sort_by{|diagnosis|
+      diagnosis.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
+    }[0..15]
+
+    render :text => @results.collect{|diagnosis|"<li>#{diagnosis}</li>"}.join("\n")
+  end
+
+  def diagnosis
+
+
+    syndromic_diagnoses = DiagnosisTree.syndromic_diagnoses
+
+level = params[:level]
+selected = params[:selected]
+
+search_string = params[:search_string]
+
+if level == 'level_1'
+  @results = syndromic_diagnoses["#{selected}"].collect{|k,v| k}.grep(/#{search_string}/i).compact.sort_by{|location|
+      location.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
+    }[0..15]
+
+elsif level == 'level_2'
+  elements = []
+  syndromic_diagnoses.each{|k,v| v.each{|m,n| n.each{|key,value| elements << key if m == "#{selected}"}}}
+
+  @results = elements.grep(/#{search_string}/i).compact.sort_by{|location|
+      location.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
+    }[0..15]
+
+elsif level == 'level_3'
+
+  elements = []
+  syndromic_diagnoses.each{|k,v| v.each{|m,n| n.each{|key,value| value.each{|a,b| elements << a if key == "#{selected}"}}}}
+
+  @results = elements.grep(/#{search_string}/i).compact.sort_by{|location|
+      location.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
+    }[0..15]
+
+elsif level == 'level_4'
+  elements = []
+   syndromic_diagnoses.each{|k,v| v.each{|m,n| n.each{|key,value| value.each{|a,b| b.each{|y,z| elements << y if a == "#{selected}"}}}}}
+
+  @results = elements.grep(/#{search_string}/i).compact.sort_by{|location|
+      location.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
+    }[0..15]
+
+else
+
+@results = syndromic_diagnoses.collect{|k,v| k}.grep(/#{search_string}/i).compact.sort_by{|location|
+      location.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
+    }[0..15]
+
+end
+
+render :text => @results.collect{|k,v|"<li>#{k}</li>"}.sort.join("\n")
+
+end
+
+
 end
