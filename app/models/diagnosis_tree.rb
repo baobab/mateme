@@ -1,5 +1,7 @@
 class DiagnosisTree
 
+  @@syndromic_diagnoses = JSON.parse(GlobalProperty.find_by_property("facility.syndromic_diagnoses").property_value) rescue {}
+
   def self.diagnosis_data
     diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
   end
@@ -68,5 +70,19 @@ class DiagnosisTree
     synonyms = JSON.parse(GlobalProperty.find_by_property("facility.multiselectdiagnosis").property_value) rescue {}
   end
 
+  def self.syndromic_diagnoses
+    @@syndromic_diagnoses
+  end
+
+  def self.final_keysr(diagnosis_hash = self.syndromic_diagnoses, deep_list = {})
+    diagnosis_hash.each do |k,v|
+      if v.blank?
+        deep_list[k] = 0
+      else 
+        final_keysr(v, deep_list)
+      end
+    end
+    deep_list
+  end
 
 end
