@@ -47,16 +47,25 @@
 <%elsif @primary_diagnosis.last or @syndromic_diagnosis.last %>
 
 <div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+  <%if @diagnosis_type == 'SYNDROMIC DIAGNOSIS'%>
+
+    <button class="button green" onclick="window.location = '/encounters/new/syndromic_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>Enter Syndromic Diagnosis</span></button><br/>
+  <%else%>
+    <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>Discharge Diagnosis</span></button><br/>
+  <%end%>
     </div>
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">
-      <button class="button gray"><span>Uknown Diagnosis</span></button>
+      <button class="button gray"><span>Unknown Diagnosis</span></button>
     </div>
 
   <%else%>
     <div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+      <%if @diagnosis_type == 'SYNDROMIC DIAGNOSIS'%>
+        <button class="button green" onclick="window.location = '/encounters/new/syndromic_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>Enter Syndromic Diagnosis</span></button><br/>
+      <%else%>
+        <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>Discharge Diagnosis</span></button><br/>
+      <%end%>
     </div>
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">
