@@ -490,7 +490,7 @@ function activatePopup(popUpType){
   } else if (popUpType == 'multiSelectPopUp'){
      $('multiSelectPopUpDiv').style.display = "block";
        multiSelectSession = true;
-        $('multiSelectPopUp').innerHTML = updateText = "<label onClick=processMultiSelect(this)>" + stringfyArray(multiSelectDiagnoses[stringfyArray(tempDataArray,false).replace(/\;/," ")]).replace(/\;/g,"</label><br /><label onClick=processMultiSelect(this)>") + "</label>";
+        $('multiSelectPopUp').innerHTML = "<label onClick=processMultiSelect(this)>" + stringfyArray(multiSelectDiagnoses[stringfyArray(tempDataArray,false).replace(/\;/," ")]).replace(/\;/g,"</label><br /><label onClick=processMultiSelect(this)>") + "</label>";
   } else if (popUpType == 'otherDiagnosisPopUp'){
     $('otherDiagnosisPopUpDiv').style.display = "block";
     activeInputBox = 'other-diagnosis-inputbox';
@@ -574,8 +574,8 @@ function validateEntry(updateElement){
         checkObjectLength('sub-diagnosis-select');
       }
     }else if  (updateElement == 'sub-sub-diagnosis-select'){
-      updateInfoBar('sub-diagnosis-select');
-      checkObjectLength('sub-diagnosis-select');
+      updateInfoBar('sub-sub-diagnosis-select');
+      checkObjectLength('sub-sub-diagnosis-select');
     }
   }
 }
@@ -693,7 +693,8 @@ function stringfyArray(arrayToStringfy, sort){
 }
 
 function processMultiSelect(aElement){
-  mainDataArray.push(stringfyArray(tempDataArray,false) + " " + aElement.innerHTML);
+  var finalString = stringfyArray(tempDataArray,false) + " " + aElement.innerHTML;
+  mainDataArray.push(finalString.replace(/\;/g, " ")); //remove colon from middle of stringfied tempDataArray
 
    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
   showHeaders();
