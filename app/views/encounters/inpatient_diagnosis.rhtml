@@ -5,6 +5,18 @@
 <style type="text/css">
   #space { display:inline; font-size:1.2em; }
   #helpText0 { width:680px}
+  #savingPopUpBox{
+ position: absolute;
+ top: 100px;
+ left: 345px;
+ border: solid 1px #000000;
+ background-color: #FFFF99;
+ /*visibility: hidden; */
+ display:none;
+ font-size: 2.4em;
+ z-index: 1003;
+}
+
 </style>
  <%= stylesheet_link_tag "diagnosis-style" %>
 <form id='inpatient_diagnosis' action="/encounters/create" method='post'>
@@ -72,6 +84,22 @@
   </div>
 </div>
 
+<div id='testResultPopUpDiv' class='diagnosisBarDiv'>
+<div id='testResultPopUp' class='diagnosisBar'>
+</div> 
+<div>
+  <button onmousedown='hidePopUp("testResult");'><span>Cancel</span></button>
+  </div>
+</div>
+
+
+
+<div id="savingPopUpBox"  align="center">
+  <p id="p1">Saving to database</p>
+  <p id="p2">Please wait......</p>
+</div>
+
+
 <script type='text/javascript'>
 var finalAnswers = [<%= DiagnosisTree.diagnosis_data.to_json %>];
 var finalTests = [<%= DiagnosisTree.confirmatory_evidence.to_json %>];  
@@ -92,5 +120,8 @@ var diagnosesHash = <%= DiagnosisTree.diagnosis_data.to_json %>;
 var multiSelectDiagnoses = <%=DiagnosisTree.multi_select_diagnosis.to_json %>
 var multiSelectSession = false;
 var activeInputBox = 'diagnosis-inputbox';
+var synonymString = '';
+var allTestResults = [];
+var finalTestResults = <%=DiagnosisTree.test_results.to_json%>;
 </script>
 
