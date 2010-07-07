@@ -84,5 +84,9 @@ class DiagnosisTree
     end
     deep_list
   end
+  
+  def self.test_results
+    test_results = JSON.parse(GlobalProperty.find_by_property("facility.test_results").property_value) rescue {}
+  end
 
 end
