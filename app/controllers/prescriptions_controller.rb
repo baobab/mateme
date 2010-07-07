@@ -7,12 +7,25 @@ class PrescriptionsController < ApplicationController
   end
   
   def new
+    prescriptions = JSON.parse(GlobalProperty.find_by_property("facility.common_prescriptions").property_value) rescue {}
+    parent_diagnoses = JSON.parse(GlobalProperty.find_by_property("facility.common_prescriptions").property_value).collect{|k,v| k}
+    @common_prescriptions = {}
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @diagnoses = {}
     @patient.current_diagnoses.each do |diagnosis|
       @diagnoses[diagnosis.answer_string] = diagnosis.id
     end
+
     @first_diagnosis = @diagnoses.first[0]
+    @diagnoses.each do |diagnosis,obs_id|
+     # raise diagnosis.inspect
+
+      parent_diagnoses.each do |parent|
+        if (diagnosis.split(" ").include?(parent))
+          @common_prescriptions[diagnosis] = prescriptions[parent]
+        end
+      end
+    end
   end
   
   def void 
