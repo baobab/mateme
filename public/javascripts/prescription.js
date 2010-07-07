@@ -66,6 +66,7 @@ function createSimpleKeyboard(){
 function createDiagnosesInfo(){
   $('diagnosesInfoBar').innerHTML = "";
   $("prescriptionInfoBar").innerHTML = "";
+  
   for (i in currentDiagnoses){
        $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();'>" + i + "</span><br />" : "<span class='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();'>" + i + "</span><br />";
   }
@@ -295,7 +296,12 @@ function getHTTPObject() {
 var http = getHTTPObject(); // We create the HTTP Object
 
 function updateDrugList(){
-
+  if(activeDiagnosis in commonPrescriptions){
+    $('drug-select').innerHTML = "";
+    for (drug in commonPrescriptions[activeDiagnosis]){
+      $('drug-select').innerHTML += "<option onClick=updateDosageAndFrequency(this.innerHTML)>" + drug + "</option>";
+    }
+  }else{
     var aElement = 'drug-select'
     $('frequency-select').innerHTML = "<option></option>";
     $('dosage-div').innerHTML = ""
@@ -304,7 +310,7 @@ function updateDrugList(){
     var searchString =  $('drug-inputbox').value;
     var aUrl = "/search/location_drugs?search_string=" + searchString;
     updateList(aUrl, 'drug-select');
-    
+  }
 }
 
 function updateFrequency(){
@@ -425,4 +431,12 @@ function updateDosage(){
   var selectedDrug =  $("drug-select")[$("drug-select").selectedIndex].innerHTML
   var aUrl = "/search/drug_dosages?selected_drug_name=" + selectedDrug;
   updateList(aUrl, 'dosage');
+}
+
+function updateDosageAndFrequency(aValue){
+var dosage = commonPrescriptions[activeDiagnosis][aValue][0];
+$('dosage-div').innerHTML = "<label><input name='dosage' type='radio' value='" + dosage + "' checked>" + dosage + "</label>"; 
+ 
+            //$('frequency-select').innerHTML = "<option onClick=showMainRange()>" +
+            //http.responseText.replace(/,/g, "</option><option onClick=showMainRange()>") + "</option>";
 }
