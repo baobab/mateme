@@ -112,11 +112,8 @@ class SearchController < ApplicationController
 
   def location_drugs
     search_string = params[:search_string].titleize
-
-     @results = LocationDrug.find(:all).collect{|drug| drug.drug_concept_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
-
-   render :text => @results.collect{|name|"#{name}"}.join(';')
-
+    @results = LocationDrug.find(:all).collect{|drug| drug.drug_concept_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
+    render :text => @results.collect{|name|"#{name}"}.join(';')
   end
 
   def location_frequencies
