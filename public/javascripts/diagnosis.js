@@ -193,6 +193,11 @@ function createElements(){
 function hideDiagnosisContainer(){
   //document.body.removeChild($('diagnosis-container'));
   $('content').removeChild($('diagnosis-container'));
+   //check for iris conditions
+  if (mainDataArray[i] in objectConverter(irisConditions)){
+    irisConditionAvailable = true;
+  }
+
 }
 
 function hideConfirmatoryContainer(){
@@ -257,8 +262,9 @@ function updateSelectionList(updateSelectionList, aElement){
 
   //Check if entered word is synonym 
   if (typeof(synonyms[$('diagnosis-inputbox').value]) == 'object'){
-    stringfyArray(synonyms[$('diagnosis-inputbox').value], true);
-    activatePopup('synonymsPopUp');
+    synonymString = stringfyArray(synonyms[$('diagnosis-inputbox').value], true);
+    //stringfyArray(synonyms[$('diagnosis-inputbox').value], true);
+    //activatePopup('synonymsPopUp');
   } 
  
   if (updateSelectionList == 'diagnosis-select'){
@@ -267,7 +273,7 @@ function updateSelectionList(updateSelectionList, aElement){
 }
 
 function updateMainDiagnosis(){
-  
+  var fullString = '';
   var searchString = $('diagnosis-inputbox').value;
   var tmpArray = [];
   var patt = "^" + $('diagnosis-inputbox').value;
@@ -279,8 +285,14 @@ function updateMainDiagnosis(){
       tmpArray.push(i)
     }
   }
+  if (synonymString != ''){
+    fullString = synonymString + ';' + stringfyArray(tmpArray, true);
+  }else{
+    fullString = stringfyArray(tmpArray, true);
+  }
 
-    $('diagnosis-select').innerHTML = "<option onClick=validateEntry('diagnosis-select');>" + stringfyArray(tmpArray, true).replace(/\;/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
+    $('diagnosis-select').innerHTML = "<option onClick=validateEntry('diagnosis-select');>" + fullString.replace(/\;/g, "</option><option onClick=validateEntry('diagnosis-select');>") + "</option>";
+    synonymString = '';
     setTimeout("updateSubDiagnosisNotification()", 500);  
     checkIfOptionsAvailable();
 }
@@ -420,6 +432,7 @@ function hidePopUp(popUpType){
   $('synonymsPopUpDiv').style.display = "none";
   $('multiSelectPopUpDiv').style.display = "none";
   $('otherDiagnosisPopUpDiv').style.display = "none";
+  $('testResultPopUpDiv').style.display = "none";
   if (popUpType == "diagnosis"){
     updateMainDiagnosis();
   }else if (popUpType == 'multiSelect'){
@@ -494,6 +507,10 @@ function activatePopup(popUpType){
   } else if (popUpType == 'otherDiagnosisPopUp'){
     $('otherDiagnosisPopUpDiv').style.display = "block";
     activeInputBox = 'other-diagnosis-inputbox';
+  } else if (popUpType == 'testResultPopUp'){
+    $('testResultPopUpDiv').style.display = "block";
+    $('testResultPopUp').innerHTML = "<label onClick=processTestResult(this);>" + stringfiedArray.replace(/\;/g,"</label><br /><label onClick=processTestResult(this)>") + "</label>";
+
   }
 
 }
@@ -639,11 +656,6 @@ function createHiddenFormControls(){
     obsDatetime.type = 'hidden';
     obsDatetime.value = obsDatetimeValue;
     $('inpatient_diagnosis').appendChild(obsDatetime);
-
-    //check for iris conditions
-    if (mainDataArray[i] in objectConverter(irisConditions)){
-      irisConditionAvailable = true;
-    }
   } 
 
   for (var i = 0; i < allTests.length; i++ ){
@@ -675,6 +687,10 @@ function createHiddenFormControls(){
 
 function updateConfirmatoryInforBar(aValue){
   allTests.push(aValue);
+  if (aValue in finalTestResults){
+    stringfiedArray = stringfyArray(finalTestResults[aValue],true);
+    activatePopup('testResultPopUp');
+  }
   $('confirm-info-bar').innerHTML = '';
   for (var i = 0; i < allTests.length; i++){
     $('confirm-info-bar').innerHTML += allTests[i] + "<br />"; 
@@ -705,5 +721,10 @@ function processOther(){
   mainDataArray.push(stringfyArray(tempDataArray,false) + " " + $('other-diagnosis-inputbox').value);
    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
   showHeaders();
+}
+
+function processTestResult(aElement){
+  allTestResults.push(aElement.innerHTML);
+  hidePopUp('testResultPopUp');
 }
 
