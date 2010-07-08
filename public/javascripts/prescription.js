@@ -68,7 +68,7 @@ function createDiagnosesInfo(){
   $("prescriptionInfoBar").innerHTML = "";
   
   for (i in currentDiagnoses){
-       $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();updateDrugList();'>" + i + "</span><br />" : "<span class='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();updateDrugList();'>" + i + "</span><br />";
+       $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();showAllDrugs=false;updateDrugList();'>" + i + "</span><br />" : "<span class='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();showAllDrugs=false;updateDrugList();'>" + i + "</span><br />";
   }
 
   if (typeof(drugs[currentDiagnoses[activeDiagnosis]]) != 'undefined'){
@@ -126,7 +126,7 @@ function createDrugsPrescribed(){
     /*Add header*/
     var mainDiagnosisHeader = document.createElement('div');
     mainDiagnosisHeader.className = "diagnosis-headers";
-    mainDiagnosisHeader.innerHTML = "<span>DRUG</span><span id='showAllSpan'><button id='showButton'>Show</button>All</span>";
+    mainDiagnosisHeader.innerHTML = "<span>DRUG</span><span id='showAllSpan'><button id='showButton' onClick='showAllDrugs=true;updateDrugList();'>Show</button>All</span>";
     mainDiagnosis.appendChild(mainDiagnosisHeader);
     /*Input box div*/
     var mainDiagnosisInputBoxDiv = document.createElement('div');
@@ -298,18 +298,18 @@ function getHTTPObject() {
 var http = getHTTPObject(); // We create the HTTP Object
 
 function updateDrugList(){
-  if(activeDiagnosis in commonPrescriptions){
+    $('frequency-select').innerHTML = "<option></option>";
+    $('dosage-div').innerHTML = "";
+    $('duration-div').innerHTML = "";
+    $('duration-values').innerHTML = "";
+  if(activeDiagnosis in commonPrescriptions && showAllDrugs == false){
     $('drug-select').innerHTML = "";
     for (drug in commonPrescriptions[activeDiagnosis]){
       $('drug-select').innerHTML += "<option onClick=updateDosageAndFrequency(this.innerHTML)>" + drug + "</option>";
     }
     //$('showAllSpan').style.display = "block";
   }else{
-    var aElement = 'drug-select'
-    $('frequency-select').innerHTML = "<option></option>";
-    $('dosage-div').innerHTML = ""
-    $('duration-div').innerHTML = ""
-    $('duration-values').innerHTML = ""
+    var aElement = 'drug-select';
     var searchString =  $('drug-inputbox').value;
     var aUrl = "/search/location_drugs?search_string=" + searchString;
     updateList(aUrl, 'drug-select');
@@ -376,7 +376,8 @@ function appendDrug(){
   
     createDiagnosesInfo();
 
-    updateFrequency();
+    //updateFrequency();
+    updateDrugList();
 }
 
 function removeDrugsPrescribed(){
