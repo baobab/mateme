@@ -19,7 +19,7 @@
           <div style="float:right;padding:7px;">
            <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => @patient.treatment_not_done.encounter_id} -%>
           </div>
-          <div style="float:left">Prescription</div>
+          <div style="float:left">&nbsp;</div>
           <div style="clear:left" class="summary">TREATMENT NOT DONE</div>
         </li>
       <% else %>

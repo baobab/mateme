@@ -102,12 +102,15 @@ class SearchController < ApplicationController
 
   def drugs
     search_string = params[:search_string]
+    available_drug_names =  LocationDrug.find(:all).collect{|drug| drug.drug_concept_name.upcase}.compact.sort 
+    #raise available_drug_names.inspect
     @drug_concepts = ConceptName.find(:all,
        :select => "concept_name.name",
        :joins => "INNER JOIN drug ON drug.concept_id = concept_name.concept_id AND drug.retired = 0",
        :conditions => ["concept_name.name LIKE ?", search_string + '%'])
-
-    render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.sort.join("</li><li>") + "</li>"
+    #exclude all drugs already entered
+    all_drug_concept_names = @drug_concepts.collect{|drug_concept| drug_concept.name}.compact.uniq.sort
+    render :text => "<li>" + (all_drug_concept_names - available_drug_names).join("</li><li>") + "</li>"
   end
 
   def location_drugs

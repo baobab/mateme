@@ -21,7 +21,7 @@ class PrescriptionsController < ApplicationController
      # raise diagnosis.inspect
 
       parent_diagnoses.each do |parent|
-        if (diagnosis.split(" ").include?(parent))
+        if (diagnosis.split(" ").first == parent)
           @common_prescriptions[diagnosis] = prescriptions[parent]
         end
       end
