@@ -240,17 +240,20 @@ function createDrugsPrescribed(){
     durationSelectDiv.id = "duration-parent";
     duration.appendChild(durationSelectDiv);
 
+
+
     /*Added Select*/
+     var durationValues = document.createElement('div');
+    //durationSelect.className = "drug-select";
+    durationValues.id = "duration-values";
+    durationSelectDiv.appendChild(durationValues);
+
     var durationSelect = document.createElement('div');
     //durationSelect.className = "drug-select";
     durationSelect.id = "duration-div";
     durationSelectDiv.appendChild(durationSelect);
 
-    var durationValues = document.createElement('div');
-    //durationSelect.className = "drug-select";
-    durationValues.id = "duration-values";
-    durationSelectDiv.appendChild(durationValues);
-}
+   }
 
 /*+++++++++++++++++Some ajax for updating lists*/
 function handleHttpResponse(aElement) {
@@ -331,6 +334,7 @@ function showMainRange(){
     }
     $('duration-div').innerHTML = updateText;
     $('duration-values').innerHTML = "";
+    updateSubRange(1);
 }
 
 function updateSubRange(minimum){
