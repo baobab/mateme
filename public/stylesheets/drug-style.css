@@ -57,7 +57,7 @@
   position: absolute;
   font-style: bold;
   padding-left: 5px;
-  padding-top: 5px;
+ /* padding-top: 5px; */
   font-size: 1.2em;
 }
 
@@ -291,14 +291,17 @@
 
 #showButton{
   /*border: 1 none;*/
-  background: #FFF;
+  background: grey;
+  font-size:0.9em;
+  border: 1 none;
+  -moz-border-radius:11px;
 }
 
 #showButton span{
-  color: black;
   background:none;
-  line-height: 2px;
+  line-height:0px;
 }
+
 
 
 
