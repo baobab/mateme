@@ -126,7 +126,7 @@ function createDrugsPrescribed(){
     /*Add header*/
     var mainDiagnosisHeader = document.createElement('div');
     mainDiagnosisHeader.className = "diagnosis-headers";
-    mainDiagnosisHeader.innerHTML = "<span>DRUG</span><span id='showAllSpan'><button id='showButton'><span>Show</span></button>All</span>";
+    mainDiagnosisHeader.innerHTML = "<span>DRUG</span><span id='showAllSpan'><button id='showButton'>Show</button>All</span>";
     mainDiagnosis.appendChild(mainDiagnosisHeader);
     /*Input box div*/
     var mainDiagnosisInputBoxDiv = document.createElement('div');
