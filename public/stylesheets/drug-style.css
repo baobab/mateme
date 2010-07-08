@@ -289,6 +289,17 @@
   border: 1px #EEEEEE solid;*/
 }
 
+#showButton{
+  /*border: 1 none;*/
+  background: #FFF;
+}
+
+#showButton span{
+  color: black;
+  background:none;
+  line-height: 2px;
+}
+
 
 
 

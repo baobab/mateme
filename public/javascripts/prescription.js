@@ -68,7 +68,7 @@ function createDiagnosesInfo(){
   $("prescriptionInfoBar").innerHTML = "";
   
   for (i in currentDiagnoses){
-       $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();'>" + i + "</span><br />" : "<span class='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();'>" + i + "</span><br />";
+       $('diagnosesInfoBar').innerHTML += i == activeDiagnosis ? "<span class='diagnosisSpan' id='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();updateDrugList();'>" + i + "</span><br />" : "<span class='diagnosisSpan' onClick='activeDiagnosis=this.innerHTML;createDiagnosesInfo();updateDrugList();'>" + i + "</span><br />";
   }
 
   if (typeof(drugs[currentDiagnoses[activeDiagnosis]]) != 'undefined'){
@@ -77,6 +77,8 @@ function createDiagnosesInfo(){
       $("prescriptionInfoBar").innerHTML = "<span onclick='$(\"prescriptionInfoBar\").removeChild(this); delete drugs[" + observation + "];' class='selections'>"+ drugs[observation][presc] +"<br /></span>" + $("prescriptionInfoBar").innerHTML;
     }
   }
+
+  //updateDrugList();
 
 }
 
@@ -124,7 +126,7 @@ function createDrugsPrescribed(){
     /*Add header*/
     var mainDiagnosisHeader = document.createElement('div');
     mainDiagnosisHeader.className = "diagnosis-headers";
-    mainDiagnosisHeader.innerHTML = "DRUG";
+    mainDiagnosisHeader.innerHTML = "<span>DRUG</span><span id='showAllSpan'><button id='showButton'><span>Show</span></button>All</span>";
     mainDiagnosis.appendChild(mainDiagnosisHeader);
     /*Input box div*/
     var mainDiagnosisInputBoxDiv = document.createElement('div');
@@ -301,6 +303,7 @@ function updateDrugList(){
     for (drug in commonPrescriptions[activeDiagnosis]){
       $('drug-select').innerHTML += "<option onClick=updateDosageAndFrequency(this.innerHTML)>" + drug + "</option>";
     }
+    //$('showAllSpan').style.display = "block";
   }else{
     var aElement = 'drug-select'
     $('frequency-select').innerHTML = "<option></option>";
@@ -310,6 +313,7 @@ function updateDrugList(){
     var searchString =  $('drug-inputbox').value;
     var aUrl = "/search/location_drugs?search_string=" + searchString;
     updateList(aUrl, 'drug-select');
+    //$('showAllSpan').style.display = "none";
   }
 }
 
@@ -340,8 +344,10 @@ function updateSubRange(minimum){
 }
 
 function appendDrug(){
-    var drug = $("drug-select")[$("drug-select").selectedIndex].innerHTML;
-    var freq = $("frequency-select")[$("frequency-select").selectedIndex].innerHTML;
+    //var drug = $("drug-select")[$("drug-select").selectedIndex].innerHTML;
+    var drug = $("drug-select").value;
+    //var freq = $("frequency-select")[$("frequency-select").selectedIndex].innerHTML;
+    var freq = $("frequency-select").value;
     var duration ="";
     var dosage = "";
     var checkedDos = document.getElementsByName("dosage");
@@ -376,9 +382,7 @@ function appendDrug(){
 function removeDrugsPrescribed(){
 
     for (diagnosis in drugs){
-      alert(diagnosis + 'Dave')
       for (prescription in drugs[diagnosis]){
-        alert(prescription + 'phiri')
         var obsId = document.createElement('input');
         obsId.name = 'prescriptions[][obs_id]';
         obsId.type = 'hidden';
@@ -435,8 +439,10 @@ function updateDosage(){
 
 function updateDosageAndFrequency(aValue){
 var dosage = commonPrescriptions[activeDiagnosis][aValue][0];
+var frequency = commonPrescriptions[activeDiagnosis][aValue][1];
+
 $('dosage-div').innerHTML = "<label><input name='dosage' type='radio' value='" + dosage + "' checked>" + dosage + "</label>"; 
- 
-            //$('frequency-select').innerHTML = "<option onClick=showMainRange()>" +
-            //http.responseText.replace(/,/g, "</option><option onClick=showMainRange()>") + "</option>";
+$('frequency-select').innerHTML = "<option>" + frequency + "</option>";
+$('frequency-select').value = frequency;
+showMainRange();
 }
