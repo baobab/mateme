@@ -155,5 +155,12 @@ class PatientsController < ApplicationController
    Person.update_demographics(params)
    redirect_to :action => 'demographics', :patient_id => params['person_id'] and return
   end
+  
+   def void_observation
+     @obseravtion = Observation.find(params[:obs_id])
+     @obseravtion.void!
+     show and return
+   end
+
 
 end
