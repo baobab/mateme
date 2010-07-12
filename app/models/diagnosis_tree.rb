@@ -1,6 +1,5 @@
 class DiagnosisTree
 
-  @@syndromic_diagnoses = JSON.parse(GlobalProperty.find_by_property("facility.syndromic_diagnoses").property_value) rescue {}
 
   def self.diagnosis_data
     diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
@@ -71,7 +70,7 @@ class DiagnosisTree
   end
 
   def self.syndromic_diagnoses
-    @@syndromic_diagnoses
+    syndromic_diagnoses = JSON.parse(GlobalProperty.find_by_property("facility.syndromic_diagnoses").property_value) rescue {}
   end
 
   def self.final_keysr(diagnosis_hash = self.syndromic_diagnoses, deep_list = {})
