@@ -709,12 +709,17 @@ function stringfyArray(arrayToStringfy, sort){
 }
 
 function processMultiSelect(aElement){
-  var finalString = stringfyArray(tempDataArray,false) + " " + aElement.innerHTML;
-  mainDataArray.push(finalString.replace(/\;/g, " ")); //remove colon from middle of stringfied tempDataArray
+  var finalString = "";
+  if (aElement.innerHTML.search(/OTHER/) != -1){
+    activatePopup('otherDiagnosisPopUp');
+  }else{
+    finalString = stringfyArray(tempDataArray,false) + " " + aElement.innerHTML;
+    mainDataArray.push(finalString.replace(/\;/g, " ")); //remove colon from middle of stringfied tempDataArray
 
-   $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
-   $('multiSelectPopUp').removeChild(aElement);
-  showHeaders();
+    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
+    $('multiSelectPopUp').removeChild(aElement);
+    showHeaders();
+  }
 }
 
 function processOther(){
