@@ -533,9 +533,11 @@ function objectConverter(a){
 function populateConfirmatoryEvidence(){
   confirmatoryEvidenceData = {};
   var processArray = function(x,idx){
-        confirmatoryEvidenceData[x] = [];
         for (i in finalTests[0]){
           if(x in objectConverter(finalTests[0][i])){
+            if (typeof(confirmatoryEvidenceData[x]) == 'undefined'){
+              confirmatoryEvidenceData[x] = [];
+            }
             confirmatoryEvidenceData[x].push(i);
           }
         }
