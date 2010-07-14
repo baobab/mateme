@@ -16,7 +16,21 @@ class Reports::Cohort
   # Get all patients registered in specified period
   def total_registered
     @patients = Patient.find(:all, :conditions => 
-        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(date_created, '%Y-%m-%d') <= ?",
+        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+      @start_date, @end_date]).length
+  end
+
+  def total_adults_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? AND " +
+          "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15",
+      @start_date, @end_date]).length
+  end
+
+  def total_children_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? AND " +
+          "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14",
       @start_date, @end_date]).length
   end
 
@@ -27,10 +41,38 @@ class Reports::Cohort
       @start_date, @end_date, "M"]).length
   end
 
+  def total_adult_men_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
+          AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15",
+      @start_date, @end_date, "M"]).length
+  end
+
+  def total_boy_children_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
+          AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14",
+      @start_date, @end_date, "M"]).length
+  end
+
   def total_women_registered
     @patients = Patient.find(:all, :joins => [:person], :conditions =>
         ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
           AND UCASE(person.gender) = ?",
+      @start_date, @end_date, "F"]).length
+  end
+
+  def total_adult_women_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
+          AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15",
+      @start_date, @end_date, "F"]).length
+  end
+
+  def total_girl_children_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
+          AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14",
       @start_date, @end_date, "F"]).length
   end
 
@@ -39,12 +81,42 @@ class Reports::Cohort
     @patients = Patient.find(:all).length
   end
 
+  def total_adults_ever_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions => 
+        ["COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15"]).length
+  end
+
+  def total_children_ever_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14"]).length
+  end
+
   def total_men_ever_registered
     @patients = Patient.find(:all, :joins => [:person], :conditions => ["person.gender = ?", "M"]).length
   end
 
+  def total_adult_men_ever_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions => 
+        ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15", "M"]).length
+  end
+
+  def total_boy_children_ever_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions => 
+        ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14", "M"]).length
+  end
+
   def total_women_ever_registered
     @patients = Patient.find(:all, :joins => [:person], :conditions => ["person.gender = ?", "F"]).length
+  end
+
+  def total_adult_women_ever_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15", "F"]).length
+  end
+
+  def total_girl_children_ever_registered
+    @patients = Patient.find(:all, :joins => [:person], :conditions =>
+        ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14", "F"]).length
   end
 
   # Oral Treatments
