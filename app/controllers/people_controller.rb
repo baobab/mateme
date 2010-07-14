@@ -1,7 +1,7 @@
 class PeopleController < ApplicationController
   def index
-    @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role}.include?("Superuser") rescue nil
-    @doctor = true if User.find(session[:user_id]).user_roles.collect{|x|x.role}.include?("Doctor") rescue nil
+    @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("superuser") rescue nil
+    @doctor = true if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("doctor") rescue nil
 
     render :layout => "menu"
   end
