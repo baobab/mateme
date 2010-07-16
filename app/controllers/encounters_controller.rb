@@ -2,7 +2,8 @@ class EncountersController < ApplicationController
 
   before_filter :set_patient_details
 
-  def create    
+  def create
+
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
@@ -83,12 +84,10 @@ class EncountersController < ApplicationController
       observation[:person_id] ||= encounter.patient_id
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
 
-      # convert values from 'mmol/litre' to 'mg/declitre'
-      if((observation[:type] && observation[:type] == "BLOOD SUGAR TEST TYPE") && observation[:concept_name] != "HbA1c")
-        if(observation[:value_numeric].to_f > 2 && observation[:value_numeric].to_f < 30)
-          observation[:value_numeric] = observation[:value_numeric].to_f * 18
+        if(observation[:measurement_unit])
+          observation[:value_numeric] = observation[:value_numeric].to_f * 18 if ( observation[:measurement_unit] == "mmol/l")
+          observation.delete(:measurement_unit)
         end
-      end
 
       if(observation[:parent_concept_name])
         concept_id = Concept.find_by_name(observation[:parent_concept_name]).id rescue nil
@@ -119,8 +118,7 @@ class EncountersController < ApplicationController
   end
 
   def update
-    #raise params.to_yaml
-    
+
     @encounter = Encounter.find(params[:encounter_id])
     ActiveRecord::Base.transaction do
       @encounter.observations.each{|obs| obs.void! }
@@ -207,10 +205,9 @@ class EncountersController < ApplicationController
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
 
       # convert values from 'mmol/litre' to 'mg/declitre'
-      if((observation[:type] && observation[:type] == "BLOOD SUGAR TEST TYPE") && observation[:concept_name] != "HbA1c")
-        if(observation[:value_numeric].to_f > 2 && observation[:value_numeric].to_f < 30)
-          observation[:value_numeric] = observation[:value_numeric].to_f * 18
-        end
+      if(observation[:measurement_unit])
+        observation[:value_numeric] = observation[:value_numeric].to_f * 18 if ( observation[:measurement_unit] == "mmol/l")
+        observation.delete(:measurement_unit)
       end
 
       if(observation[:parent_concept_name])

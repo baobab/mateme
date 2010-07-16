@@ -1,68 +1,83 @@
-<script>
+<script type="text/javascript">
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
 
-  function resetPageAttributes(current_page){
+  function resetPageAttributes(currentPage, attr){
+    var attributes={};
 
-   if ($('blood_sugar_type').value == 'HbA1c') {
-        $(current_page).setAttribute('min', 4);
-        $(current_page).setAttribute('max', 30);
-        $(current_page).setAttribute('absoluteMin', 0);
-        $(current_page).setAttribute('absoluteMax', 50);
-      }
-   else {
-      if ($('blood_sugar_unit').value == 'mmol/l'){
-        $(current_page).setAttribute('min', 2.7);
-        $(current_page).setAttribute('max', 27.8);
-      }
-   else {
-      $(current_page).setAttribute('min', 50);
-      $(current_page).setAttribute('max', 500);
+    switch(attr){
+      case 'blood_sugar':
+        if($('blood_sugar_type').value == 'HbA1c'){
+          attributes={'min':[4], 'max':[30], 'absoluteMin':[0], 'absoluteMax':[50]};
+          $('helpText'+tstCurrentPage).innerHTML = 'Enter HbA1c value';
+        }
+        else{
+          if ($('blood_sugar_unit').value == 'mmol/l')
+            attributes={'min':[2.7],'max':[27.8]};
+          else
+            attributes={'min':[50],'max':[500]};
+
+          $('helpText'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.titleize()
+            + ' Blood Sugar Value (in ' + $('blood_sugar_unit').value + ')';
+        }
+      break;
+
+      case 'cholesterol':
+        if ($('cholesterol_unit').value == 'mmol/l')
+          attributes={'min':[7],'max':[17]};
+        else
+          attributes={'min':[130],'max':[300]};
+
+        $('helpText'+tstCurrentPage).innerHTML = $('cholesterol_type').value.titleize()
+          + ' Cholesterol Value (in ' + $('cholesterol_unit').value + ')';
+       break;
     }
-  }
-}
 
-function displayInfoBarText(){
-  if($('blood_sugar_type').value.capitalize() != "Hba1c"){
-    $('helpText'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.capitalize()
-      + ' Blood Sugar Value (in ' + $('blood_sugar_unit').value + ')';
+    setAttributes(currentPage, attributes);
   }
-  else{
-    $('helpText'+tstCurrentPage).innerHTML = 'Enter HbA1c value';
-   }
-}
+
+  function setAttributes(currentPage, attributes){
+  
+    for (var value in attributes)
+      $(currentPage).setAttribute(value, attributes[value]);
+  }
 </script>
 
 
-  <form action="/encounters/create/lab_results">
-
+<form action="/encounters/create/lab_results">
   <% default={
     :allowFreeText => 'true',
   } %>
-  
+
     <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
     <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
     <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-    
-    <label for="blood_sugar_type">Blood Sugar Type</label>
     <% options=default.merge({
-        :field_type => 'text',
+        :helpText => "Blood Sugar Type",
+        :field_type => "text",
         :tt_requireNextClick => false,
+        :tt_onUnLoad => "$('blood_sugar_type_value_coded_or_text').value = $('blood_sugar_type').value",
         :id => "blood_sugar_type"
     }) %>
     <% @blood_sugar_types = [""]
        @blood_sugar_types += Concept.find_by_name("BLOOD SUGAR TEST TYPE").concept_answers.map(&:name) %>
-  
+
     <%= select_tag( "blood_sugar_type", options_for_select(@blood_sugar_types), options) %>
+
+    <%= hidden_field_tag("observations[][concept_name]",        "BLOOD SUGAR TEST TYPE") %>
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'blood_sugar_type_value_coded_or_text'}) %>
+    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
     <% options=default.merge({
           :field_type => 'text',
           :id => "blood_sugar_unit",
           :tt_onload => "$('infoBar'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.capitalize()+' Blood Sugar'",
+          :tt_onUnLoad => "$('blood_sugar_measurement_unit').value = $('blood_sugar_unit').value",
           :tt_requireNextClick => false,
           :condition => "$('blood_sugar_type').value != 'HbA1c'",
-          :helptext =>"Select blood sugar units of measure"
+          :helpText =>"Select blood sugar units of measure"
       }) %>
     <%= select_tag("blood_sugar_unit", options_for_select([
       "",
@@ -70,22 +85,76 @@ function displayInfoBarText(){
       "mg/dl"
       ]), options ) %>
 
-    <%= text_field_tag "observations[][value_numeric]", nil,
+    <%= text_field_tag "blood_sugar_value_numeric", nil,
       {:id => "blood_sugar_value",
         :field_type => 'number',
-        :helptext =>"Blood Sugar Value",
+        :helpText =>"Blood Sugar Value",
         :allowFreeText => 'true',
         :min => 50,
         :max => 500,
         :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
-        #:validationCode => "($('blood_sugar_unit').value == 'mmol/l') && (tstInputTarget.value > 4 && tstInputTarget.value < 20) || (tstInputTarget.value > 76 && tstInputTarget.value < 347)",
         :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
         :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-        :tt_onload => "displayInfoBarText(); resetPageAttributes('touchscreenInput'+tstCurrentPage);
-                       $('observations__concept_name').value = $('blood_sugar_type').value;
+        :tt_onUnLoad => "$('blood_sugar_value_numeric').value = $('blood_sugar_value').value",
+        :tt_onload => "resetPageAttributes('touchscreenInput'+tstCurrentPage, 'blood_sugar');
+                       $('blood_sugar_concept_name').value = $('blood_sugar_type').value;
                        " } %>
-    <%= hidden_field_tag("observations[][concept_name]", "") %>
-    <%= hidden_field_tag("observations[][type]", "BLOOD SUGAR TEST TYPE") %>
+    <%= hidden_field_tag("observations[][concept_name]", "",{:id => 'blood_sugar_concept_name'}) %>
+    <%= hidden_field_tag("observations[][value_numeric]", "",{:id => 'blood_sugar_value_numeric'} ) %>
+    <%= hidden_field_tag("observations[][measurement_unit]", nil,{:id => 'blood_sugar_measurement_unit'}) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BLOOD SUGAR TEST TYPE") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <% options=default.merge({
+        :helptext => "Cholesterol Type",
+        :field_type => 'text',
+        :tt_requireNextClick => false,
+        :tt_onUnLoad => "$('cholesterol_type_value_coded_or_text').value = $('cholesterol_type').value",
+        :id => "cholesterol_type"
+    }) %>
+    <% @cholesterol_types = [""]
+       @cholesterol_types += Concept.find_by_name("CHOLESTEROL TEST TYPE").concept_answers.map(&:name) %>
+
+    <%= select_tag( "cholesterol_type", options_for_select(@cholesterol_types), options) %>
+
+    <%= hidden_field_tag("observations[][concept_name]",        "CHOLESTEROL TEST TYPE") %>
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'cholesterol_type_value_coded_or_text'}) %>
+    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+
+    <% options=default.merge({
+          :field_type => 'text',
+          :id => "cholesterol_unit",
+          :tt_onload => "$('infoBar'+tstCurrentPage).innerHTML = $('cholesterol_type').value.capitalize()+' Cholesterol'",
+          :tt_onUnLoad => "$('cholesterol_measurement_unit').value = $('cholesterol_unit').value",
+          :tt_requireNextClick => false,
+          :helpText =>"Select cholesterol units of measure"
+      }) %>
+    <%= select_tag("cholesterol_unit", options_for_select([
+      "",
+      "mmol/l",
+      "mg/dl"
+      ]), options ) %>
+
+    <%= text_field_tag "cholesterol_value_numeric", nil,
+      {:id => "cholesterol_value",
+        :field_type => 'number',
+        :helpText =>"Cholesterol Value",
+        :allowFreeText => 'true',
+        :min => 30,
+        :max => 300,
+        :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
+        :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
+        :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+        :tt_onUnLoad => "$('cholesterol_value_numeric').value = $('cholesterol_value').value",
+        :tt_onload => "resetPageAttributes('touchscreenInput'+tstCurrentPage,'cholesterol');
+                       $('cholesterol_concept_name').value = $('cholesterol_type').value;
+                       " } %>
+    <%= hidden_field_tag("observations[][concept_name]", "", {:id=>'cholesterol_concept_name'}) %>
+    <%= hidden_field_tag("observations[][value_numeric]", "",{:id => 'cholesterol_value_numeric'} ) %>
+    <%= hidden_field_tag("observations[][measurement_unit]", nil,{:id => 'cholesterol_measurement_unit'}) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "CHOLESTEROL TEST TYPE") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
