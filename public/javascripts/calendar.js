@@ -136,7 +136,7 @@ function createCalender(year, month, day)
 function showCalender(elPos, tgtEl)
 {
     if(document.getElementById("calenderTable").style.display == "block"){
-        document.getElementById("calenderTable").style.display = "none";
+        closeCalender();
         return;
     }
     

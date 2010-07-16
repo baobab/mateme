@@ -11,19 +11,54 @@ class CohortController < ApplicationController
     report = Reports::Cohort.new(start_date, end_date)
 
     @specified_period = report.specified_period
-    
+
+
+
+    @total_adults_registered = report.total_adults_registered
+
+    @total_adults_ever_registered = report.total_adults_ever_registered
+
+    @total_children_registered = report.total_children_registered
+
+    @total_children_ever_registered = report.total_children_ever_registered
+
     @total_registered = report.total_registered
 
     @total_ever_registered = report.total_ever_registered
 
-    @total_men_registered = report.total_men_registered
+    
 
-    @total_women_registered = report.total_women_registered
+    @total_men_registered = report.total_men_registered
 
     @total_men_ever_registered = report.total_men_ever_registered
 
+
+    @total_adult_men_registered = report.total_adult_men_registered
+
+    @total_adult_men_ever_registered = report.total_adult_men_ever_registered
+
+
+    @total_boy_children_registered = report.total_boy_children_registered
+
+    @total_boy_children_ever_registered = report.total_boy_children_ever_registered
+
+
+    @total_women_registered = report.total_women_registered
+
     @total_women_ever_registered = report.total_women_ever_registered
 
+
+    @total_adult_women_registered = report.total_adult_women_registered
+
+    @total_adult_women_ever_registered = report.total_adult_women_ever_registered
+
+
+    @total_girl_children_registered = report.total_girl_children_registered
+
+    @total_girl_children_ever_registered = report.total_girl_children_ever_registered
+
+
+    
     @oral_treatments_ever = report.oral_treatments_ever
 
     @oral_treatments = report.oral_treatments
@@ -48,18 +83,6 @@ class CohortController < ApplicationController
 
     @soluble_insulin = report.soluble_insulin
 
-    @background_retinapathy_ever = report.background_retinapathy_ever
-
-    @background_retinapathy = report.background_retinapathy
-
-    @ploriferative_retinapathy_ever = report.ploriferative_retinapathy_ever
-
-    @ploriferative_retinapathy = report.ploriferative_retinapathy
-
-    @end_stage_retinapathy_ever = report.end_stage_retinapathy_ever
-
-    @end_stage_retinapathy = report.end_stage_retinapathy
-
     @urine_protein_ever = report.urine_protein_ever
 
     @urine_protein = report.urine_protein
@@ -68,9 +91,21 @@ class CohortController < ApplicationController
     
     @creatinine = report.creatinine
 
+
+    @nephropathy_ever = @urine_protein_ever + @creatinine_ever
+
+    @nephropathy = @urine_protein + @creatinine
+
+
     @numbness_symptoms_ever = report.numbness_symptoms_ever
 
     @numbness_symptoms = report.numbness_symptoms
+
+    
+    @neuropathy_ever = @numbness_symptoms_ever
+    
+    @neuropathy = @numbness_symptoms
+
 
     @amputation_ever = report.amputation_ever
 
@@ -79,6 +114,12 @@ class CohortController < ApplicationController
     @current_foot_ulceration_ever = report.current_foot_ulceration_ever
 
     @current_foot_ulceration = report.current_foot_ulceration
+
+
+    @amputations_or_ulcers_ever = @amputation_ever + @current_foot_ulceration_ever
+
+    @amputations_or_ulcers = @amputation + @current_foot_ulceration
+
 
     @tb_within_the_last_two_years_ever = report.tb_within_the_last_two_years_ever
 
@@ -120,9 +161,31 @@ class CohortController < ApplicationController
 
     @defaulters = report.defaulters
 
+    @background_retinapathy_ever = report.background_retinapathy_ever
+
+    @background_retinapathy = report.background_retinapathy
+
+    @ploriferative_retinapathy_ever = report.ploriferative_retinapathy_ever
+
+    @ploriferative_retinapathy = report.ploriferative_retinapathy
+
+    @end_stage_retinapathy_ever = report.end_stage_retinapathy_ever
+
+    @end_stage_retinapathy = report.end_stage_retinapathy
+
     @maculopathy_ever = report.maculopathy_ever
 
     @maculopathy = report.maculopathy
+
+    @diabetic_retinopathy_ever = @background_retinapathy_ever +
+                                  @ploriferative_retinapathy_ever +
+                                  @end_stage_retinapathy_ever +
+                                  @maculopathy_ever
+
+    @diabetic_retinopathy = @background_retinapathy +
+                                  @ploriferative_retinapathy +
+                                  @end_stage_retinapathy +
+                                  @maculopathy
 
     render :layout => false
   end
