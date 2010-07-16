@@ -145,21 +145,24 @@ DateSelector.prototype = {
 	
 	decrementMonth: function() {
 		var thisMonth = this.date.getMonth();
-		if (thisMonth <= 0) {	
-			this.date.setMonth(11)
-			this.currentMonth.value = this.getMonth();
-		} else {
-			var lastDate = DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()-1).getDate();
-			if (lastDate < this.date.getDate()) {
-				this.currentDay.value = lastDate;
-				this.date.setDate(lastDate);
-			}
-
-			this.date.setMonth(thisMonth-1)
-			this.currentMonth.value = this.getMonth();
-		}
-		this.update(this.target);
-	},
+    if (this.target.value.split("")[5] == '?'){
+      this.date.setMonth(11);
+    }else{
+      if (thisMonth <= 0) {
+        this.currentMonth.value = this.getMonth();
+      } else {
+        var lastDate = DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()-1).getDate();
+        if (lastDate < this.date.getDate()) {
+          this.currentDay.value = lastDate;
+          this.date.setDate(lastDate);
+        }
+        
+        this.date.setMonth(thisMonth-1);
+        this.currentMonth.value = this.getMonth();
+        this.update(this.target);
+      }
+    }
+  },
 	
 	incrementDay: function() {
 		var currentDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
