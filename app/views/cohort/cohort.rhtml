@@ -41,10 +41,11 @@
             <i>Patient Details</i>
           </th>
           <th class="cellleft celltop cellbottom main-table-cell">
-            <i>(Quarterly values)</i>
+            <i>Quarterly Cohort (<%= @specified_period[0].to_date.strftime("%B") %> -
+              <%= @specified_period[1].to_date.strftime("%B, %Y") %>)</i>
           </th>
           <th class="cellleft celltop cellbottom main-table-cell">
-            <i>Cumulative Ever Registered</i>
+            <i>Cumulative Cohort up to <%= Time.now.to_date.strftime("%d %B, %Y") %></i>
           </th>
         </tr>
         <tr>

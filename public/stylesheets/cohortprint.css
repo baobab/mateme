@@ -9,7 +9,7 @@ body{
 
 .main_legend {
     font-size:1em;
-    border:1px #CCCCCC dotted;
+    border:1px #CCCCCC solid;
     -moz-border-radius:20px;
     color:white; background-color:green;
     padding:10px;
@@ -17,25 +17,25 @@ body{
 
 .main_fieldset {
     margin: 5px;
-    border:1px #CCCCCC dotted;
+    border:1px #CCCCCC solid;
     -moz-border-radius:10px;
     padding:10px;
 }
 
 .cellleft {
-    border-left:1px #ccc dotted;
+    border-left:1px #ccc solid;
 }
 
 .cellright {
-    border-right:1px #ccc dotted;
+    border-right:1px #ccc solid;
 }
 
 .celltop {
-    border-top:1px #ccc dotted;
+    border-top:1px #ccc solid;
 }
 
 .cellbottom {
-    border-bottom:1px #ccc dotted;
+    border-bottom:1px #ccc solid;
 }
 
 .textbold {
@@ -65,7 +65,7 @@ body{
 }
 
 .menu-buttons {
-    border:1px dotted #ccc;
+    border:1px solid #ccc;
     background-color:#eee;
     -moz-border-radius:10px;
     margin-top:7.5px;
@@ -97,7 +97,7 @@ body{
     font-size:0.5em;
     padding: 2px;
     color:white;
-    border:1px #CCCCCC dotted;
+    border:1px #CCCCCC solid;
     -moz-border-radius:10px;
     background-color:black;
 }
