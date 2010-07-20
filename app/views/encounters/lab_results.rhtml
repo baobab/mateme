@@ -40,6 +40,24 @@
     for (var value in attributes)
       $(currentPage).setAttribute(value, attributes[value]);
   }
+
+    function setConceptNamesAndValues(){
+
+    var values_string = selectedValue('test_types');
+
+    $('blood_sugar_type_concept_name').value = ' ';
+    $('cholesterol_type_concept_name').value = ' ';
+
+    if(values_string.contains("BLOOD SUGAR")){
+
+      $('blood_sugar_type_concept_name').value = 'BLOOD SUGAR TEST TYPE';
+    }
+
+    if(values_string.contains("CHOLESTEROL")){
+
+      $('cholesterol_type_concept_name').value = 'CHOLESTEROL TEST TYPE';
+    }
+  }
 </script>
 
 
@@ -53,10 +71,24 @@
     <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
+  <% options=default.merge({
+      :field_type => 'text',
+      :helpText => "Select the type of test taken:",
+      :id => "test_types",
+      :tt_onUnLoad => "setConceptNamesAndValues()",
+      :multiple => true,
+      :tt_pageStyleClass => "MultiSelectList",
+      :optional => true
+    }) %>
+
+  <% @treatements_list = ["BLOOD SUGAR", "CHOLESTEROL"] %>
+  <%= select_tag("test_type_values",options_for_select(@treatements_list),options)%>
+
     <% options=default.merge({
         :helpText => "Blood Sugar Type",
         :field_type => "text",
         :tt_requireNextClick => false,
+        :condition => "$('blood_sugar_type_concept_name').value == 'BLOOD SUGAR TEST TYPE'",
         :tt_onUnLoad => "$('blood_sugar_type_value_coded_or_text').value = $('blood_sugar_type').value",
         :id => "blood_sugar_type"
     }) %>
@@ -65,7 +97,7 @@
 
     <%= select_tag( "blood_sugar_type", options_for_select(@blood_sugar_types), options) %>
 
-    <%= hidden_field_tag("observations[][concept_name]",        "BLOOD SUGAR TEST TYPE") %>
+    <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'blood_sugar_type_concept_name'}) %>
     <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'blood_sugar_type_value_coded_or_text'}) %>
     <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
@@ -76,7 +108,7 @@
           :tt_onload => "$('infoBar'+tstCurrentPage).innerHTML = $('blood_sugar_type').value.capitalize()+' Blood Sugar'",
           :tt_onUnLoad => "$('blood_sugar_measurement_unit').value = $('blood_sugar_unit').value",
           :tt_requireNextClick => false,
-          :condition => "$('blood_sugar_type').value != 'HbA1c'",
+          :condition => "$('blood_sugar_type_concept_name').value == 'BLOOD SUGAR TEST TYPE' && $('blood_sugar_type').value != 'HbA1c'",
           :helpText =>"Select blood sugar units of measure"
       }) %>
     <%= select_tag("blood_sugar_unit", options_for_select([
@@ -89,6 +121,7 @@
       {:id => "blood_sugar_value",
         :field_type => 'number',
         :helpText =>"Blood Sugar Value",
+        :condition => "$('blood_sugar_type_concept_name').value == 'BLOOD SUGAR TEST TYPE'",
         :allowFreeText => 'true',
         :min => 50,
         :max => 500,
@@ -109,6 +142,7 @@
     <% options=default.merge({
         :helptext => "Cholesterol Type",
         :field_type => 'text',
+        :condition => "$('cholesterol_type_concept_name').value == 'CHOLESTEROL TEST TYPE'",
         :tt_requireNextClick => false,
         :tt_onUnLoad => "$('cholesterol_type_value_coded_or_text').value = $('cholesterol_type').value",
         :id => "cholesterol_type"
@@ -118,7 +152,7 @@
 
     <%= select_tag( "cholesterol_type", options_for_select(@cholesterol_types), options) %>
 
-    <%= hidden_field_tag("observations[][concept_name]",        "CHOLESTEROL TEST TYPE") %>
+    <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'cholesterol_type_concept_name'} ) %>
     <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'cholesterol_type_value_coded_or_text'}) %>
     <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
@@ -126,6 +160,7 @@
     <% options=default.merge({
           :field_type => 'text',
           :id => "cholesterol_unit",
+          :condition => "$('cholesterol_type_concept_name').value == 'CHOLESTEROL TEST TYPE'",
           :tt_onload => "$('infoBar'+tstCurrentPage).innerHTML = $('cholesterol_type').value.capitalize()+' Cholesterol'",
           :tt_onUnLoad => "$('cholesterol_measurement_unit').value = $('cholesterol_unit').value",
           :tt_requireNextClick => false,
@@ -141,6 +176,7 @@
       {:id => "cholesterol_value",
         :field_type => 'number',
         :helpText =>"Cholesterol Value",
+        :condition => "$('cholesterol_type_concept_name').value == 'CHOLESTEROL TEST TYPE'",
         :allowFreeText => 'true',
         :min => 30,
         :max => 300,
