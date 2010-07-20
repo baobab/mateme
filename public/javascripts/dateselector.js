@@ -127,29 +127,41 @@ DateSelector.prototype = {
 	},
 	
 	incrementMonth: function() {
-		if (this.date.getMonth() >= 11) {
-			this.date.setMonth(0);
-			this.currentMonth.value = this.getMonth();
-		} else {
-			var lastDate = DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()+1).getDate();
-			if (lastDate < this.date.getDate()) {
-				this.currentDay.value = lastDate;
-				this.date.setDate(lastDate);
-			}
-			
-			this.date.setMonth(this.date.getMonth()+1);
-			this.currentMonth.value = this.getMonth();
-		}
-		this.update(this.target);
-	},
+    if (this.currentMonth.value == '??'){
+      this.date.setMonth(0);
+      this.currentMonth.value = this.getMonth();
+      this.currentDay.value = (new Date()).getDate();
+      this.update(this.target);
+    }else{
+      if (this.date.getMonth() >= 11) {
+        this.currentMonth.value = "??";
+        this.currentDay.value = "??";
+        this.target.value =  this.currentYear.value + "-" + "??" + "-" + '??';
+      } else {
+        var lastDate = DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()+1).getDate();
+        if (lastDate < this.date.getDate()) {
+          this.currentDay.value = lastDate;
+          this.date.setDate(lastDate);
+        }
+        this.date.setMonth(this.date.getMonth()+1);
+        this.currentMonth.value = this.getMonth();
+        this.update(this.target);
+      }
+    }
+},
 	
 	decrementMonth: function() {
 		var thisMonth = this.date.getMonth();
-    if (this.target.value.split("")[5] == '?'){
+    if (this.currentMonth.value == '??'){
       this.date.setMonth(11);
+      this.currentMonth.value = this.getMonth();
+      this.currentDay.value = (new Date()).getDate();
+      this.update(this.target);
     }else{
       if (thisMonth <= 0) {
-        this.currentMonth.value = this.getMonth();
+        this.currentMonth.value = "??";
+        this.currentDay.value = "??";
+        this.target.value =  this.currentYear.value + "-" + "??" + "-" + '??';
       } else {
         var lastDate = DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()-1).getDate();
         if (lastDate < this.date.getDate()) {
@@ -167,24 +179,40 @@ DateSelector.prototype = {
 	incrementDay: function() {
 		var currentDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 		var nextDay = DateUtil.nextDate(currentDate);
-		if (nextDay.getMonth() == this.date.getMonth()) 
-			this.date.setDate(this.date.getDate()+1);
-		else
-			this.date.setDate(1);
-
-		this.currentDay.value = this.date.getDate();
-		this.update(this.target);
+		if (this.currentDay.value == '??'){
+        this.date.setDate(1);
+        this.currentDay.value = this.date.getDate();
+        this.update(this.target);
+    }else{
+      if (nextDay.getMonth() == this.date.getMonth()){
+        this.date.setDate(this.date.getDate()+1);
+        this.currentDay.value = this.date.getDate();
+        this.update(this.target);
+      } else{
+        this.currentDay.value = "??";
+        this.target.value = this.currentYear.value + "-" + this.currentMonth.value + "-" + "??";
+      }
+    }
 	},
 	
 	decrementDay: function() {
-		if (this.currentDay.value > 1)
-			this.currentDay.value--;
-		else
+    
+		if (this.currentDay.value == '??'){
+
 			this.currentDay.value =DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()).getDate();
-			
-		this.date.setDate(this.currentDay.value);
-		this.update(this.target);
-	},
+		  this.date.setDate(this.currentDay.value);
+		  this.update(this.target);
+    }else{
+		if (this.currentDay.value > 1){
+			this.currentDay.value--;
+		  this.date.setDate(this.currentDay.value);
+		  this.update(this.target);
+    }	else{
+        this.currentDay.value = "??";
+        this.target.value = this.currentYear.value + "-" + this.currentMonth.value + "-" + "??";
+    }
+	}
+},
 
 	update: function(aDateElement) {
 		var aTargetElement = aDateElement || this.target;
