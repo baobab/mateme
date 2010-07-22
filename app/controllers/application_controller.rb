@@ -60,6 +60,7 @@ class ApplicationController < ActionController::Base
   end
 
    def close_visit
+     session[:datetime] = nil
      return "/people"
    end
 
