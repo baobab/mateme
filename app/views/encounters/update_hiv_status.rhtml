@@ -27,20 +27,16 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit', :tt_requireNextClick => 'false', :condition => @new_hiv_status != 'UNKNOWN'})%>
+
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "hiv_test_date", :condition => @new_hiv_status != 'UNKNOWN', :helpText => 'Hiv test date', :tt_onUnload => "setHivVisit()"}) %>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "HIV TEST VISIT", {}) %>
+  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-
-  <%#= text_field_tag("hiv_test_date", nil, {:field_type => 'date', :id => "hiv_test_date",:tt_onUnLoad => 'setDate();', :helpText => 'Hiv test date'}) %>
-
-  <%#= hidden_field_tag("observations[][value_datetime]", DateTime.now(), {:id => "hiv_test_date_value_datetime"}) %>
-  
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'date', :id => "hiv_test_date", :condition => @new_hiv_status != 'UNKNOWN', :helpText => 'Hiv test date'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", nil, {:id => 'hiv_test_visit', :condition => @new_hiv_status != 'UNKNOWN'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {}) %>
+  <%= hidden_field_tag("observations[][concept_name]", "HIV TEST VISIT", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
@@ -90,17 +86,19 @@
 </form>
 
 <script type="text/javascript">
-  function setDate(){
+  function setHivVisit(){
 
-          if ($('hiv_test_date').value.toLowerCase() == 'unknown'){
-            $('hiv_test_date_value_text').value = 'Unknown';
-            $('hiv_test_date_value_datetime').value = null;
-            $('hiv_test_date_value_modifier').value = null;
-            }
-          else{
-            $('hiv_test_date_value_datetime').value = new Date($('hiv_test_date').value.replace(/-/g, '/'));
-            $('hiv_test_date_value_text').value = null;
-            }
+    try{
+      var admissionDate = new Date('<%=@admission_date%>');
+      var testDate = new Date($('hiv_test_date').value.replace(/-/g, '/'));
+      if (testDate >= admissionDate){
+        $('hiv_test_visit').value = 'CURRENT VISIT';
+      }else{
+        $('hiv_test_visit').value = 'PREVIOUS VISIT';
+      }
+    }catch(e){
+      $('hiv_test_visit').value = 'PREVIOUS VISIT';
+    }
   }
 
   </script>
