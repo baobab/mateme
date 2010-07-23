@@ -44,6 +44,7 @@
      <!-- <a class="button green" href='/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>-->
       <a class="button green" href='/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>'>Medical history</a>
       <!--<a class="button green" href='/encounters/new/complications?patient_id=<%= @patient.id -%>'>Complications</a> -->
+      <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a>
       <a class="button green" href='/encounters/new/lab_results?patient_id=<%= @patient.id -%>'>Lab Results</a>
       <a class="button green" href='/patients/mastercard?patient_id=<%= @patient.id -%>'>Complications</a>
       <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Treatments</a>
@@ -53,7 +54,7 @@
       <!--<a class="button green" href='/report/referral?patient_id=<%= @patient.id -%>'>Referral</a> -->
       <!-- <a class="button green" href='/encounters/new/examination?patient_id=<%= @patient.id -%>'>Examination</a> -->
       <!--<a class="button green" href='/encounters/new/appointment?patient_id=<%= @patient.id -%>'>Next Appointment</a> -->
-      <!--<a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a> -->
+      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
     <%end %>
 
     <%if @clinician%>
