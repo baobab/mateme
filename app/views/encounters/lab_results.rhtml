@@ -169,30 +169,47 @@
     <%= select_tag("cholesterol_unit", options_for_select([
       "",
       "mmol/l",
-      "mg/dl"
+      "mg/dl",
+      "Lo / Hi"
       ]), options ) %>
 
-    <%= text_field_tag "cholesterol_value_numeric", nil,
+    <%= text_field_tag "cholesterol_value_text", nil,
       {:id => "cholesterol_value",
         :field_type => 'number',
         :helpText =>"Cholesterol Value",
-        :condition => "$('cholesterol_type_concept_name').value == 'CHOLESTEROL TEST TYPE'",
+        :condition => "$('cholesterol_unit').value == 'mmol/l' || $('cholesterol_unit').value == 'mg/dl'",
         :allowFreeText => 'true',
         :min => 30,
         :max => 300,
         :validationRule => "([0-9]+(\\.)*[0-9]*)|Unknown$",
         :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
         :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-        :tt_onUnLoad => "$('cholesterol_value_numeric').value = $('cholesterol_value').value",
+        :tt_onUnLoad => "$('cholesterol_value_text').value = $('cholesterol_value').value",
         :tt_onload => "resetPageAttributes('touchscreenInput'+tstCurrentPage,'cholesterol');
                        $('cholesterol_concept_name').value = $('cholesterol_type').value;
                        " } %>
     <%= hidden_field_tag("observations[][concept_name]", "", {:id=>'cholesterol_concept_name'}) %>
-    <%= hidden_field_tag("observations[][value_numeric]", "",{:id => 'cholesterol_value_numeric'} ) %>
+    <%= hidden_field_tag("observations[][value_text]", "",{:id => 'cholesterol_value_text'} ) %>
     <%= hidden_field_tag("observations[][measurement_unit]", nil,{:id => 'cholesterol_measurement_unit'}) %>
     <%= hidden_field_tag("observations[][parent_concept_name]", "CHOLESTEROL TEST TYPE") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
+  
+<% options=default.merge({
+          :field_type => 'text',
+          :id => "lo_or_hi",
+          :tt_onload => "resetPageAttributes('touchscreenInput'+tstCurrentPage,'cholesterol');
+                       $('cholesterol_concept_name').value = $('cholesterol_type').value;",
+          :tt_onUnLoad => "$('cholesterol_value_text').value = $('lo_or_hi').value",
+          :tt_requireNextClick => false,
+          :condition => "$('cholesterol_unit').value == 'Lo / Hi'",
+          :helpText =>"Cholesterol Value"
+      }) %>
+    <%= select_tag("cholesterol_value_lo_or_hi", options_for_select([
+      "",
+      "Lo",
+      "Hi"
+      ]), options ) %>
+  
     <%= submit_tag "Finish" %>
 </form>
