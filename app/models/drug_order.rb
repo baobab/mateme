@@ -6,7 +6,11 @@ class DrugOrder < ActiveRecord::Base
   
   def to_s 
     #s = "#{drug.name}: #{self.dose} #{self.units} #{frequency} for #{duration} days"
-    s = "#{drug.concept.name.name.titleize} #{self.dose}#{self.units.downcase} #{frequency} for #{duration} days"
+
+    #remove trailing ".0"
+    dosage = self.dose.to_s.split(".").first
+
+    s = "#{drug.concept.name.name.titleize} #{dosage}#{self.units.downcase} #{frequency} for #{duration} days"
     s << " (prn)" if prn?
     s
   end
