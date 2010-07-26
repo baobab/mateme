@@ -1,9 +1,6 @@
 class EncountersController < ApplicationController
 
   def create
-   # raise 'AA'.to_yaml
-    raise params.to_yaml
-
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
     encounter.save
