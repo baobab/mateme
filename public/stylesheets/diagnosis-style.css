@@ -164,16 +164,22 @@
 }
 
 #diagnoses-infobar{
-  width: 85%;
+  width: 84%;
   position: relative;
   float: right;
 }
 
 #priSecAddDiv{
-  width: 15%;
+  width: 16%;
   position: relative;
   float: left;
   color:grey;
+}
+
+#tests-header{
+  background-color:honeydew;
+  width:98.5%;
+  margin-left:1%;
 }
 
 
