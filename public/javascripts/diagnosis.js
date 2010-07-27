@@ -360,7 +360,11 @@ function getObjectLength(valueLength){
 
 function resetSelections(){
     if (tempDataArray.toSource() != "[]"){ //avoid inserting empty objects
-      mainDataArray.push(stringfyArray(tempDataArray,false).replace(/\;/g," "));
+      if (stringfyArray(tempDataArray,false).replace(/\;/g," ") in objectConverter(mainDataArray)){
+        $('duplicateWarning').style.display='block';
+      }else{
+        mainDataArray.push(stringfyArray(tempDataArray,false).replace(/\;/g," "));
+      }
       tempDataArray = [];
     }
     $('diagnoses-infobar').innerHTML = "<span onclick='removeMainValue(this)'>"+stringfyArray(mainDataArray,false).replace(/\;/g,"</span><br><span onClick='removeMainValue(this)'>")+"</span>";
@@ -448,6 +452,7 @@ function hidePopUp(popUpType){
 }
 
 function createConfirmatoryEvidence(){
+  $('nextButton').click();
   
  var  mainContainer = document.createElement('div');
  /*Create the main container div*/
@@ -455,11 +460,16 @@ function createConfirmatoryEvidence(){
  mainContainer.className = "main-container";
  //document.body.appendChild(mainContainer);
  $('content').appendChild(mainContainer);
+ 
+ var testsRequestedHeader = document.createElement('div');
+ testsRequestedHeader.id = 'tests-header';
+ testsRequestedHeader.innerHTML = "<span>CONFIRMATORY EVIDENCE - Selection of a test below confirms the test was requested</span>";
+ $('confirmatory-container').appendChild(testsRequestedHeader);
 
  var diagnosesInfobarMain = document.createElement('div');
  diagnosesInfobarMain.className = "diagnosesInfobarMain";
  diagnosesInfobarMain.id = 'confirm-info-bar';
- diagnosesInfobarMain.innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray,false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>";
+ diagnosesInfobarMain.innerHTML = "";
  $('confirmatory-container').appendChild(diagnosesInfobarMain);
 
  /*+++++++++++++++++++++++++++++++Create confirmatory evidence column column*/
@@ -546,6 +556,15 @@ function populateConfirmatoryEvidence(){
 }
 
 function showConfirmatoryEvidence(){
+   if (confirmatoryEvidenceData.toSource() == "({})"){
+     if (back == true){
+       back = false;
+       gotoPage(0);
+     }else{
+      back = true;
+      gotoNextPage();
+     }
+  }else{
    for (i in confirmatoryEvidenceData){
      if (confirmatoryEvidenceData[i].length != 0){
        /*add confirmatory evidennce header */
@@ -561,8 +580,9 @@ function showConfirmatoryEvidence(){
        $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceSelect);
        
        confirmatoryEvidenceSelect.innerHTML = "<option onClick= updateConfirmatoryInforBar(this.value)>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option onClick= updateConfirmatoryInforBar(this.value)>") + "</option>";
-     }
+     } 
    }
+  }
 
 }
 
@@ -578,7 +598,7 @@ function validateEntry(updateElement){
     if (updateElement == 'diagnosis-select'){
       if (tempDataArray.length > 0){
         $('diagnosis-select').value = tempDataArray[0];
-        alert('Invalid entry');
+        $('invalidDiagnosis').style.display='block';
       } else{
         $('diagnosis-inputbox').value = $('diagnosis-select').value;
         updateInfoBar('diagnosis-select');
@@ -587,7 +607,7 @@ function validateEntry(updateElement){
     } else if (updateElement == 'sub-diagnosis-select'){
       if (tempDataArray.length == 2){
         $('sub-diagnosis-select').value = tempDataArray[1];
-        alert('Invalid Entry');
+        $('invalidDiagnosis').style.display='block';
       } else {
         updateInfoBar('sub-diagnosis-select');
         checkObjectLength('sub-diagnosis-select');
@@ -606,7 +626,8 @@ function showHeaders(){
   var current_key = "";
   var header_str = "";
   for (i in mainDataArray){
-    current_key = mainDataArray[i].substring(0, mainDataArray[i].indexOf(' '));
+    //current_key = mainDataArray[i].substring(0, mainDataArray[i].indexOf(' '));
+    current_key = mainDataArray[i].split(" ")[0]
     
     if(typeof(tmpHash[current_key]) == 'undefined'){
       tmpHash[current_key] = 0;
@@ -632,70 +653,85 @@ function showHeaders(){
     $('priSecAddDiv').innerHTML = header_str;
 }
 
-function createHiddenFormControls(){
-  
+function createHiddenDiagnosis(){  
   for (i in mainDataArray){
     var valueCodedOrText = document.createElement('input');
     valueCodedOrText.name = 'observations[][value_coded_or_text]';
     valueCodedOrText.type = 'hidden';
     valueCodedOrText.value = mainDataArray[i];
+    valueCodedOrText.className = 'hiddenDiagnosis';
     $('inpatient_diagnosis').appendChild(valueCodedOrText);
 
     var conceptName = document.createElement('input');
     conceptName.name = 'observations[][concept_name]';
     conceptName.type = 'hidden';
     conceptName.value = i == 0? "PRIMARY DIAGNOSIS":(i == 1? "SECONDARY DIAGNOSIS": "ADDITIONAL DIAGNOSIS");
+    conceptName.className = 'hiddenDiagnosis' ;
     $('inpatient_diagnosis').appendChild(conceptName);
     
     var patientId = document.createElement('input');
     patientId.name = 'observations[][patient_id]';
     patientId.type = 'hidden';
     patientId.value = patientIdValue;
+    patientId.className = 'hiddenDiagnosis';
     $('inpatient_diagnosis').appendChild(patientId);
 
     var obsDatetime = document.createElement('input');
     obsDatetime.name = 'observations[][obs_datetime]';
     obsDatetime.type = 'hidden';
     obsDatetime.value = obsDatetimeValue;
+    obsDatetime.className = 'hiddenDiagnosis';
     $('inpatient_diagnosis').appendChild(obsDatetime);
   } 
+}
 
+function createHiddenConfirmatoryEvidence(){
   for (var i = 0; i < allTests.length; i++ ){
     var valueCodedOrText = document.createElement('input');
     valueCodedOrText.name = 'observations[][value_coded_or_text]';
     valueCodedOrText.type = 'hidden';
     valueCodedOrText.value = allTests[i];
+    valueCodedOrText.className = "hiddenTests";
     $('inpatient_diagnosis').appendChild(valueCodedOrText);
 
     var conceptName = document.createElement('input');
     conceptName.name = 'observations[][concept_name]';
     conceptName.type = 'hidden';
     conceptName.value = "TEST REQUESTED";
+    conceptName.className = "hiddenTests";
     $('inpatient_diagnosis').appendChild(conceptName);
     
     var patientId = document.createElement('input');
     patientId.name = 'observations[][patient_id]';
     patientId.type = 'hidden';
     patientId.value = patientIdValue;
+    patientId.className = "hiddenTests";
     $('inpatient_diagnosis').appendChild(patientId);
 
     var obsDatetime = document.createElement('input');
     obsDatetime.name = 'observations[][obs_datetime]';
     obsDatetime.type = 'hidden';
     obsDatetime.value = obsDatetimeValue;
+    obsDatetime.className = "hiddenTests";
     $('inpatient_diagnosis').appendChild(obsDatetime);
   }
 }
 
 function updateConfirmatoryInforBar(aValue){
-  allTests.push(aValue);
-  if (aValue in finalTestResults){
-    stringfiedArray = stringfyArray(finalTestResults[aValue],true);
-    activatePopup('testResultPopUp');
-  }
-  $('confirm-info-bar').innerHTML = '';
-  for (var i = 0; i < allTests.length; i++){
-    $('confirm-info-bar').innerHTML += allTests[i] + "<br />"; 
+  //avoid entry of duplicate values
+  if (aValue in objectConverter(allTests)){
+    $('duplicateWarning').style.display='block';
+  }else{
+    allTests.push(aValue);
+    if (aValue in finalTestResults){
+      stringfiedArray = stringfyArray(finalTestResults[aValue],true);
+      activatePopup('testResultPopUp');
+    }
+    $('confirm-info-bar').innerHTML = '';
+    
+    for (var i = 0; i < allTests.length; i++){
+      $('confirm-info-bar').innerHTML += allTests[i] + "<br />"; 
+    }
   }
 }
 
@@ -716,7 +752,11 @@ function processMultiSelect(aElement){
     activatePopup('otherDiagnosisPopUp');
   }else{
     finalString = stringfyArray(tempDataArray,false) + " " + aElement.innerHTML;
-    mainDataArray.push(finalString.replace(/\;/g, " ")); //remove colon from middle of stringfied tempDataArray
+    if (finalString.replace(/\;/g, " ") in objectConverter(mainDataArray)){
+      $('duplicateWarning').style.display='block';
+    }else{
+      mainDataArray.push(finalString.replace(/\;/g, " ")); //remove colon from middle of stringfied tempDataArray
+    }
 
     $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
     $('multiSelectPopUp').removeChild(aElement);
@@ -725,7 +765,11 @@ function processMultiSelect(aElement){
 }
 
 function processOther(){
-  mainDataArray.push(stringfyArray(tempDataArray,false) + " " + $('other-diagnosis-inputbox').value);
+   if (stringfyArray(tempDataArray,false) + " " + $('other-diagnosis-inputbox').value in objectConverter(mainDataArray)){
+      $('duplicateWarning').style.display='block';
+    }else{
+      mainDataArray.push(stringfyArray(tempDataArray,false) + " " + $('other-diagnosis-inputbox').value);
+    }
    $('diagnoses-infobar').innerHTML = "<span onClick='removeMainValue(this)'>"+ stringfyArray(mainDataArray, false).replace(/\;/g,"</span><br><span onclick='removeMainValue(this)'>") + "</span>" + "<span onClick='removeTempValue(this)'>"+"<br>"+(tempDataArray.toSource().replace(/\[/g, "").replace(/\]/g, "").replace(/"/g, "").replace(/>,/g, ">").replace(/, </g, "<")).replace(/<br>/g,"</span><br><span onClick='removeTempValue(this)'>") + "</span>";
   showHeaders();
 }
@@ -735,3 +779,17 @@ function processTestResult(aElement){
   hidePopUp('testResultPopUp');
 }
 
+function removeHiddenFormElements(elementsToRemove){
+  if (elementsToRemove == 'diagnoses'){
+    var hiddenElements = $('inpatient_diagnosis').getElementsByClassName('hiddenDiagnosis');
+  }else{
+    var hiddenElements = $('inpatient_diagnosis').getElementsByClassName('hiddenTests');
+  }
+  try{
+    for (i in hiddenElements){
+      $('inpatient_diagnosis').removeChild(hiddenElements[i]);
+    }
+  }catch(e){
+    //do nothing
+  }
+}
