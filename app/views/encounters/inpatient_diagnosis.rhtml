@@ -26,9 +26,9 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-   <input type='text' name='diagnosis_ctrl' tt_onLoad='setNextAttribute();createElements();updateInfoBar();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='hideDiagnosisContainer()' tt_pageStyleClass='NoControls' optional /> 
+   <input type='text' name='diagnosis_ctrl' tt_onLoad='removeHiddenFormElements("diagnoses");setNextAttribute();createElements();updateInfoBar();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='hideDiagnosisContainer();createHiddenDiagnosis();' tt_pageStyleClass='NoControls' optional /> 
    
-   <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='createConfirmatoryEvidence();' tt_onUnLoad='hideConfirmatoryContainer();createHiddenFormControls();' tt_pageStyleClass='NoControls' optional /> 
+   <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='removeHiddenFormElements("tests");createConfirmatoryEvidence();' tt_onUnLoad='hideConfirmatoryContainer();createHiddenConfirmatoryEvidence();' tt_pageStyleClass='NoControls' optional /> 
 
    <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "LIKELY","UNLIKELY"]), {:id => 'iris_condition',:condition => 'irisConditionAvailable == true', :helpText => 'Are these IRIS conditions'})%>
    <%= hidden_field_tag("observations[][value_text]", nil) %>
@@ -99,6 +99,15 @@
   <p id="p2">Please wait......</p>
 </div>
 
+<div id='duplicateWarning' class='messageBar' style='display:none'>
+  A similar entry has already been made <br />
+  <button onmousedown="$('duplicateWarning').style.display='none'"><span>OK</span></button>
+</div> 
+
+<div id='invalidDiagnosis' class='messageBar' style='display:none'>
+  This action could create an ambiguous diagnosis<br />
+  <button onmousedown="$('invalidDiagnosis').style.display='none'"><span>OK</span></button>
+</div> 
 
 <script type='text/javascript'>
 var finalAnswers = [<%= DiagnosisTree.diagnosis_data.to_json %>];
@@ -123,5 +132,6 @@ var activeInputBox = 'diagnosis-inputbox';
 var synonymString = '';
 var allTestResults = [];
 var finalTestResults = <%=DiagnosisTree.test_results.to_json%>;
+var back = false;
 </script>
 
