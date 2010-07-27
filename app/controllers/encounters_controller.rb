@@ -32,7 +32,7 @@ class EncountersController < ApplicationController
     @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
     @diagnosis_type = params[:diagnosis_type]
-    @admission_date = @patient.current_visit.start_date.strftime("%Y/%m/%d")
+    @admission_date = @patient.current_visit.start_date.strftime("%Y/%m/%d") rescue Date.today.strftime("%Y/%m/%d")
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
