@@ -395,9 +395,9 @@ function checkObjectLength(selectedValue){
   } 
 }
 
-function removeMainValue(aElement){
-    mainDataArray.splice(mainDataArray.indexOf(aElement.innerHTML),1);
-    updateInfoBar(aElement);
+function removeMainValue(aValue){
+    mainDataArray.splice(mainDataArray.indexOf(aValue),1);
+    updateInfoBar();
     if (!multiSelectSession){
       resetSelections();
     }
@@ -622,7 +622,7 @@ function showHeaders(){
     header_str += x == 'PRIMARY DIAGNOSIS'? "PRIMARY:":(x == "SECONDARY DIAGNOSIS"? "SECONDARY:" : "ADDITIONAL:");           ;
     for (i in mainDataArrayHash[x]){
       header_str += "<br />";
-      diagnoses_str += "<span onClick='removeMainValue(this)'>" + mainDataArrayHash[x][i] + "</span><br />"
+      diagnoses_str += "<span onClick=\"removeMainValue('" + mainDataArrayHash[x][i] + "')\">" + mainDataArrayHash[x][i] + "<span style='display:inline-block;width:20px;'></span><span><img src='/images/cancel_flat_small.png'></span></span><br />"
     }
   }
   $('priSecAddDiv').innerHTML = header_str;
@@ -639,7 +639,12 @@ function processDiagnoses(){
     current_key = mainDataArray[i].split(" ")[0]
     
     if(typeof(tmpPointer[current_key]) == 'undefined'){
-      diagnosisType = i == 0? "PRIMARY DIAGNOSIS":(i == 1? "SECONDARY DIAGNOSIS": "ADDITIONAL DIAGNOSIS");
+      //assign an unassigned diagnosis type or default to ADDITIONAL DIAGNOSIS
+      var assignedDiagnosisTypes = {}
+      for (n in tmpPointer){
+        assignedDiagnosisTypes[tmpPointer[n]] = 0
+      }
+      diagnosisType = !('PRIMARY DIAGNOSIS' in assignedDiagnosisTypes)? "PRIMARY DIAGNOSIS":(!('SECONDARY DIAGNOSIS' in assignedDiagnosisTypes)? "SECONDARY DIAGNOSIS": "ADDITIONAL DIAGNOSIS");
       tmpPointer[current_key] = diagnosisType;
     }
 
