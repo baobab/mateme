@@ -534,6 +534,7 @@ function objectConverter(a){
 }
 
 function populateConfirmatoryEvidence(){
+  var tmpHash = {};
   confirmatoryEvidenceData = {};
   var processArray = function(x,idx){
         for (i in finalTests[0]){
@@ -541,7 +542,11 @@ function populateConfirmatoryEvidence(){
             if (typeof(confirmatoryEvidenceData[x]) == 'undefined'){
               confirmatoryEvidenceData[x] = [];
             }
-            confirmatoryEvidenceData[x].push(i);
+            //This section avoids double showing the same test even if it applies to different diagnosis
+            if (!(i in tmpHash)){
+              confirmatoryEvidenceData[x].push(i);
+              tmpHash[i] = 0;
+            }
           }
         }
   }
