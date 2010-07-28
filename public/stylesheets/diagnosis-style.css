@@ -151,7 +151,7 @@
 .diagnosesInfobarMain{
   -moz-user-select:none;
   color:black;
-  font-size:1.3em;
+  font-size:1.6em;
   margin-left:1%;
   margin-bottom: 2px;
   padding-top:5px;
@@ -164,13 +164,13 @@
 }
 
 #diagnoses-infobar{
-  width: 84%;
+  width: 81%;
   position: relative;
   float: right;
 }
 
 #priSecAddDiv{
-  width: 16%;
+  width: 19%;
   position: relative;
   float: left;
   color:grey;
