@@ -30,7 +30,7 @@
    
    <input type='text' name='confirmatory_evidence_ctrl' tt_onLoad='removeHiddenFormElements("tests");createConfirmatoryEvidence();' tt_onUnLoad='hideConfirmatoryContainer();createHiddenConfirmatoryEvidence();' tt_pageStyleClass='NoControls' optional /> 
 
-   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "LIKELY","UNLIKELY"]), {:id => 'iris_condition',:condition => 'irisConditionAvailable == true', :helpText => 'Are these IRIS conditions'})%>
+   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "LIKELY","UNLIKELY"]), {:id => 'iris_condition',:condition => 'irisConditionAvailable == true', :helpText => 'Are these IRIS conditions', :tt_onUnLoad => "$('savingPopUpBox').style.display='block';"})%>
    <%= hidden_field_tag("observations[][value_text]", nil) %>
    <%= hidden_field_tag("observations[][concept_name]", "IRIS CONDITIONS", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
@@ -96,7 +96,7 @@
 
 <div id="savingPopUpBox"  align="center">
   <p id="p1">Saving to database</p>
-  <p id="p2">Please wait......</p>
+  <p id="p2"><blink>Please wait......</blink></p>
 </div>
 
 <div id='duplicateWarning' class='messageBar' style='display:none'>
@@ -120,7 +120,7 @@ var patientIdValue = '<%=@patient.id%>';
 var obsDatetimeValue = '<%=Time.now()%>';
 var subDiagnosisPopupData = "";
 var subSubDiagnosisPopupData = "";
-var allTests = [];
+var allTests = {};
 var irisConditions = <%= DiagnosisTree.iris_conditions.to_json %>;  
 var irisConditionAvailable = false;
 var synonyms = <%=DiagnosisTree.synonyms.to_json %>
