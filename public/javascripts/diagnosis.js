@@ -194,8 +194,10 @@ function hideDiagnosisContainer(){
   //document.body.removeChild($('diagnosis-container'));
   $('content').removeChild($('diagnosis-container'));
    //check for iris conditions
-  if (mainDataArray[i] in objectConverter(irisConditions)){
+  for (i in mainDataArray){
+    if (mainDataArray[i] in objectConverter(irisConditions)){
     irisConditionAvailable = true;
+  }
   }
 
 }
@@ -510,12 +512,7 @@ function activatePopup(popUpType){
   } else if (popUpType == 'otherDiagnosisPopUp'){
     $('otherDiagnosisPopUpDiv').style.display = "block";
     activeInputBox = 'other-diagnosis-inputbox';
-  } else if (popUpType == 'testResultPopUp'){
-    $('testResultPopUpDiv').style.display = "block";
-    $('testResultPopUp').innerHTML = "<label onClick=processTestResult(this);>" + stringfiedArray.replace(/\;/g,"</label><br /><label onClick=processTestResult(this)>") + "</label>";
-
   }
-
 }
 
 var updateInfoBarParameter = "";
@@ -560,6 +557,9 @@ function showConfirmatoryEvidence(){
        gotoPage(0);
      }else{
       back = true;
+      if (irisConditionAvailable == false){
+        $('savingPopUpBox').style.display='block';
+      }
       gotoNextPage();
      }
   }else{
@@ -577,7 +577,7 @@ function showConfirmatoryEvidence(){
        confirmatoryEvidenceSelect.size = 10;
        $('confirmatory-evidence-select-div').appendChild(confirmatoryEvidenceSelect);
        
-       confirmatoryEvidenceSelect.innerHTML = "<option onClick= updateConfirmatoryInforBar(this.value)>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option onClick= updateConfirmatoryInforBar(this.value)>") + "</option>";
+       confirmatoryEvidenceSelect.innerHTML = "<option onClick= updateTests(this.value)>" + confirmatoryEvidenceData[i].toSource().replace(/"/g,"").replace(/\[/g,"").replace(/\]/g,"").replace(/,/g,"</option><option onClick= updateTests(this.value)>") + "</option>";
      } 
    }
   }
@@ -702,11 +702,15 @@ function createHiddenDiagnosis(){
 }
 
 function createHiddenConfirmatoryEvidence(){
-  for (var i = 0; i < allTests.length; i++ ){
+   if (irisConditionAvailable == false){
+     $('savingPopUpBox').style.display='block';
+   }
+
+  for (i in allTests){
     var valueCodedOrText = document.createElement('input');
     valueCodedOrText.name = 'observations[][value_coded_or_text]';
     valueCodedOrText.type = 'hidden';
-    valueCodedOrText.value = allTests[i];
+    valueCodedOrText.value = i;
     valueCodedOrText.className = "hiddenTests";
     $('inpatient_diagnosis').appendChild(valueCodedOrText);
 
@@ -730,24 +734,71 @@ function createHiddenConfirmatoryEvidence(){
     obsDatetime.value = obsDatetimeValue;
     obsDatetime.className = "hiddenTests";
     $('inpatient_diagnosis').appendChild(obsDatetime);
+
+    if (allTests[i] != 0){//If a test result has been entered
+      var valueCodedOrText = document.createElement('input');
+      valueCodedOrText.name = 'observations[][value_coded_or_text]';
+      valueCodedOrText.type = 'hidden';
+      valueCodedOrText.value = allTests[i];
+      valueCodedOrText.className = "hiddenTests";
+      $('inpatient_diagnosis').appendChild(valueCodedOrText);
+
+      var conceptName = document.createElement('input');
+      conceptName.name = 'observations[][concept_name]';
+      conceptName.type = 'hidden';
+      conceptName.value = i + ' RESULT';
+      conceptName.className = "hiddenTests";
+      $('inpatient_diagnosis').appendChild(conceptName);
+    
+      var patientId = document.createElement('input');
+      patientId.name = 'observations[][patient_id]';
+      patientId.type = 'hidden';
+      patientId.value = patientIdValue;
+      patientId.className = "hiddenTests";
+      $('inpatient_diagnosis').appendChild(patientId);
+
+      var obsDatetime = document.createElement('input');
+      obsDatetime.name = 'observations[][obs_datetime]';
+      obsDatetime.type = 'hidden';
+      obsDatetime.value = obsDatetimeValue;
+      obsDatetime.className = "hiddenTests";
+      $('inpatient_diagnosis').appendChild(obsDatetime);
+    }
   }
 }
 
-function updateConfirmatoryInforBar(aValue){
+function removeTest(aValue){
+  delete allTests[aValue];
+  updateConfirmatoryInforBar();
+}
+
+function updateConfirmatoryInforBar(){
+  $('confirm-info-bar').innerHTML = '';
+    for (i in allTests){
+      if (allTests[i] == 0){
+        $('confirm-info-bar').innerHTML += "<span onClick=\"removeTest('"+ i + "')\">" + i + "<span style='display:inline-block;width:20px;'></span><span><img src='/images/cancel_flat_small.png'></span></span><br />"; 
+      }else{
+        $('confirm-info-bar').innerHTML += "<span onClick=\"removeTest('"+ i + "')\">" + i + " : " + allTests[i] +"<span style='display:inline-block;width:20px;'></span><span><img src='/images/cancel_flat_small.png'></span></span><br />"; 
+      }
+    }
+
+}
+
+function updateTests(aValue){
   //avoid entry of duplicate values
-  if (aValue in objectConverter(allTests)){
+  if (aValue in allTests){
     $('duplicateWarning').style.display='block';
   }else{
-    allTests.push(aValue);
     if (aValue in finalTestResults){
       stringfiedArray = stringfyArray(finalTestResults[aValue],true);
-      activatePopup('testResultPopUp');
+      $('testResultPopUpDiv').style.display = "block";
+      $('testResultPopUp').innerHTML = "<label onClick=\"processTestResult('"+ aValue + "',this)\">" + stringfiedArray.replace(/\;/g,"</label><br /><label onClick=\"processTestResult('"+aValue+"',this)\">") + "</label>";
+
+    }else{
+      allTests[aValue] = 0;
+      updateConfirmatoryInforBar();
     }
-    $('confirm-info-bar').innerHTML = '';
-    
-    for (var i = 0; i < allTests.length; i++){
-      $('confirm-info-bar').innerHTML += allTests[i] + "<br />"; 
-    }
+      
   }
 }
 
@@ -788,8 +839,9 @@ function processOther(){
   showHeaders();
 }
 
-function processTestResult(aElement){
-  allTestResults.push(aElement.innerHTML);
+function processTestResult(test,aElement){
+  allTests[test] = aElement.innerHTML;
+  updateConfirmatoryInforBar();
   hidePopUp('testResultPopUp');
 }
 
