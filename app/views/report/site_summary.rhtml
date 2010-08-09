@@ -1,0 +1,106 @@
+<script type="text/javascript">
+  tt_cancel_destination = "/admin"; 
+</script>
+
+<style type="text/css">
+
+  a.button.green {
+    width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:#00FF00 none repeat scroll 0 0;
+    font-size:1.4em;
+    height:57px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
+  }
+#menu {
+    float:right;
+    overflow:auto;
+    position:relative;
+    height:478px;
+    width:257px;;
+  }
+  .headers{
+    display: inline-block;
+    width: 500px;
+  }
+
+  .values{
+    display: inline-block;
+    width: 90px;
+    text-align: right;
+  }
+
+</style>
+
+<%#=stylesheet_link_tag "usermanagement"%>
+<form>
+</form>
+<h1 align = "center">Site Summary Report</h1>
+<div>
+  <span class='headers'>&nbsp;</span><span class='values'>&nbsp;</span><span class='values'>Current Month</span><span class='values'>Previous Month</span><span class='values'>Current Year</span><span class='values'>Previous Year</span><!--span class='values'>Cumulative</span-->
+  <div>
+    <span class='headers'>Total number of individuals registered</span>
+    <span class='values'>&nbsp;</span>
+    <span class='values'><%=@patients_registered['current_month']%></span>
+    <span class='values'><%=@patients_registered['previous_month']%></span>
+    <span class='values'><%=@patients_registered['current_year']%></span>
+    <span class='values'><%= @patients_registered['previous_year']%></span>
+    <!--span class='values'><%#= @patients_registered['cumulative']%></span-->
+  </div>
+  
+  <div>
+    <span class='headers'>Number individuals admitted per ward and average time spent in each ward <br /><br /><br /><br /><br /><br /></span>    
+    <span class='values'>2A:<br />3A:<br />3B:<br />4A:<br />4B:<br />OTHER:<br /></span>
+    <span class='values'>
+      <%="#{@admissions_by_ward['current_month']['WARD 2A']}(#{@admissions_by_avg_time['current_month']['WARD 2A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_month']['WARD 3A']}(#{@admissions_by_avg_time['current_month']['WARD 3A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_month']['WARD 3B']}(#{@admissions_by_avg_time['current_month']['WARD 3B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_month']['WARD 4A']}(#{@admissions_by_avg_time['current_month']['WARD 4A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_month']['WARD 4B']}(#{@admissions_by_avg_time['current_month']['WARD 4B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_month']['OTHER']}(#{@admissions_by_avg_time['current_month']['OTHER'].to_f.round(2) rescue 0})"%><br />
+    </span>
+
+    <span class='values'>
+      <%="#{@admissions_by_ward['previous_month']['WARD 2A']}(#{@admissions_by_avg_time['previous_month']['WARD 2A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_month']['WARD 3A']}(#{@admissions_by_avg_time['previous_month']['WARD 3A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_month']['WARD 3B']}(#{@admissions_by_avg_time['previous_month']['WARD 3B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_month']['WARD 4A']}(#{@admissions_by_avg_time['previous_month']['WARD 4A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_month']['WARD 4B']}(#{@admissions_by_avg_time['previous_month']['WARD 4B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_month']['OTHER']}(#{@admissions_by_avg_time['previous_month']['OTHER'].to_f.round(2) rescue 0})"%><br />
+    </span>
+    <span class='values'>
+      <%="#{@admissions_by_ward['current_year']['WARD 2A']}(#{@admissions_by_avg_time['current_year']['WARD 2A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_year']['WARD 3A']}(#{@admissions_by_avg_time['current_year']['WARD 3A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_year']['WARD 3B']}(#{@admissions_by_avg_time['current_year']['WARD 3B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_year']['WARD 4A']}(#{@admissions_by_avg_time['current_year']['WARD 4A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_year']['WARD 4B']}(#{@admissions_by_avg_time['current_year']['WARD 4B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['current_year']['OTHER']}(#{@admissions_by_avg_time['current_year']['OTHER'].to_f.round(2) rescue 0})"%><br />
+    </span>
+    <span class='values'>
+      <%="#{@admissions_by_ward['previous_year']['WARD 2A']}(#{@admissions_by_avg_time['previous_year']['WARD 2A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_year']['WARD 3A']}(#{@admissions_by_avg_time['previous_year']['WARD 3A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_year']['WARD 3B']}(#{@admissions_by_avg_time['previous_year']['WARD 3B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_year']['WARD 4A']}(#{@admissions_by_avg_time['previous_year']['WARD 4A'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_year']['WARD 4B']}(#{@admissions_by_avg_time['previous_year']['WARD 4B'].to_f.round(2) rescue 0})"%><br />
+      <%="#{@admissions_by_ward['previous_year']['OTHER']}(#{@admissions_by_avg_time['previous_year']['OTHER'].to_f.round(2) rescue 0})"%><br />
+    </span>
+    <!--span class='values'><%#=@admissions_by_ward['cumulative']%></span-->
+  </div>
+  <span class='headers'>Admitted individuals per ward and month: age and sex distribution</span><span class='values'></span><span class='values'></span>
+  <span class='headers'>Admitted individuals: HIV status by age and sex</span><span class='values'></span><span class='values'></span>
+  <span class='headers'>Admitted individuals: frequency (and absolute nos) by disease (first column on the list) and ward</span><span class='values'></span><span class='values'></span>
+  <span class='headers'>Same as above but specifying HIV status</span><span class='values'></span><span class='values'></span>
+  <span class='headers'>Re-admission: monthly percentage of individuals that have been admitted in the previous 3 and 6 months</span><span class='values'></span><span class='values'></span>
+  <span class='headers'>Same as above but by disease (the main 10 diseases)</span><span class='values'></span><span class='values'></span>
+  <span class='headers'>Re-admission: age, sex and HIV status of those re-admitted (previous 3 months) and those not re-admitted (previous 3 months)</span><span class='values'></span><span class='values'></span>
+</div>
