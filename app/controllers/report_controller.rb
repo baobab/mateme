@@ -2,6 +2,10 @@ class ReportController < ApplicationController
 
   include PdfHelper
 
+  def index
+    render :layout => "menu"
+  end
+
   def weekly_report
     @start_date = Date.new(params[:start_year].to_i,params[:start_month].to_i,params[:start_day].to_i) rescue nil
     @end_date = Date.new(params[:end_year].to_i,params[:end_month].to_i,params[:end_day].to_i) rescue nil
@@ -194,6 +198,42 @@ class ReportController < ApplicationController
   def generate_pdf_report
     make_and_send_pdf('/report/weekly_report', 'weekly_report.pdf')
   end
+
+   def site_summary
+     today = Date.today
+     current_month = {'start_date' => today.beginning_of_month, 'end_date' => today}
+     previous_month = {'start_date' =>today.beginning_of_month.last_month, 'end_date' => today.end_of_month.last_month}
+     current_year = {'start_date' =>today.beginning_of_year , 'end_date' =>today}
+     previous_year = {'start_date' =>today.beginning_of_year.last_year, 'end_date' =>today.end_of_year.last_year}
+     cumulative = {'start_date' => Patient.first.date_created.to_date, 'end_date' =>today}
+
+     @patients_registered = {
+       'current_month' => Report.patients_registered(current_month),
+       'previous_month' => Report.patients_registered(previous_month),
+       'current_year' => Report.patients_registered(current_year),
+       'previous_year' => Report.patients_registered(previous_year)
+       #'cumulative' => Report.patients_registered(cumulative)
+     }
+
+     @admissions_by_ward = {
+       'current_month' => Report.admissions_by_ward(current_month),
+       'previous_month' => Report.admissions_by_ward(previous_month),
+       'current_year' => Report.admissions_by_ward(current_year),
+       'previous_year' => Report.admissions_by_ward(previous_year)
+       #'cumulative' => Report.admissions_by_ward(cumulative)
+     }
+      @admissions_by_avg_time = {
+       'current_month' => Report.admissions_average_time(current_month),
+       'previous_month' => Report.admissions_average_time(previous_month),
+       'current_year' => Report.admissions_average_time(current_year),
+       'previous_year' => Report.admissions_average_time(previous_year)
+       #'cumulative' => Report.admissions_by_ward(cumulative)
+     }
+
+     #raise @admissions_by_avg_time.inspect
+     render :layout => "menu"
+  end
+
 
 
 end
