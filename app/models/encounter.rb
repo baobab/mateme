@@ -104,5 +104,13 @@ class Encounter < ActiveRecord::Base
     end  
   end
 
+  def visit_encounter
+    VisitEncounter.find(:last, :conditions => ["encounter_id = ?", self.encounter_id])
+  end
+
+  def visit
+    self.visit_encounter.visit
+  end
+
 
 end
