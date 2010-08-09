@@ -75,4 +75,13 @@ class Observation < ActiveRecord::Base
   def child_observation
     Observation.active.find(:first, :conditions => ["obs_group_id =?", self.id])
   end
+
+  def visit_encounter
+    VisitEncounter.find(:last, :conditions => ["encounter_id = ?", self.encounter_id])
+  end
+
+  def visit
+    self.visit_encounter.visit rescue nil
+  end
+
 end
