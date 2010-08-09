@@ -185,7 +185,7 @@ class Patient < ActiveRecord::Base
         encounter.orders.active.all}}.flatten.compact
   end
 
-  def current_visit
+  def current_visit(session_date = nil)
     current_visit = self.visits.current.last
   end
 
