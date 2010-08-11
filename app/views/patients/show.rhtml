@@ -15,7 +15,7 @@
     padding:0 8px 0 0;
     text-align:center;
     text-decoration:none;
-    background:#00FF00 none repeat scroll 0 0;
+    background:green none repeat scroll 0 0;
     font-size:1.4em;
     height:50px;
     line-height:57px;
@@ -25,7 +25,7 @@
 #menu {
     overflow:auto;
     position:absolute;
-    height:250px;
+    height:620px;
     width:257px;
     top: 0px;
     right: 1px;
@@ -42,54 +42,21 @@ ul.list{
 </style>
  
 <div style="margin:10px;">
-  <div id="details" style="height:250; position: relative; width: 510px; right: -440px; bottom: -17px;">
-    <form>
-    </form>
-  </div>
-  <div style="font-size:1.1em; position:relative;top: 0px; right: -344px;">
+  <div style="font-size:1.1em; position:relative;top: 0px;">
     <%= render :partial => "details" %>
   </div>
     <%= render :partial => "current_encounters" %>
  
-    <% if @super_user || @doctor%>
-      <%= render :partial => "patient_history"%>
-      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
-    <%end%>
-    
-    <% if @nurse%>
-      <%= render :partial => "vitals_history"%>
-      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient} rescue nil%>
-    <%end%>
   <div id="menu">
 
-  <%if @doctor%>
-      <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
-    <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward%>
-      <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
-    <%end%>
-      <a class="button green" href='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</a>
-      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
-    <%end %>
-
-    <%if @clinician%>
-      <a class="button green" href='/encounters/new/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
-  <%end %>
-
-  <%if @regstration_clerk%>
-    <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
-  <%end %>
-
-
-  <%if @super_user%>
-     <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
-    <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward%>
-      <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
-    <%end%>
-      <a class="button green" href='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</a>
-      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
+      <a class="button green" href='/patients/diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
+      <a class="button green" href='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</a>
+      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
+      <a class="button green" href='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</a>
+      <a class="button green" href='/patients/lab_results?patient_id=<%= @patient.id -%>'>Lab Results</a>
       <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
-    <%end %>
+    
   </div>
 </div>
 
@@ -101,7 +68,7 @@ ul.list{
   </button>
 </div>
 
- <div style="z-index:11;bottom:1px; height: 64px; width: 435px; left: 120px; position: absolute;"><table><tr><td>Location</td><td>: <span style='font-color:green'><span style='font-color:green'><%=session[:ward]%></span></td></tr>
-      <tr><td>User </td><td>: <span style='font-color:green'><%=User.find(session[:user_id]).name rescue 'User' %></span></td></tr></table></div>
+ <!--div style="z-index:11;bottom:1px; height: 64px; width: 435px; left: 120px; position: absolute;"><table><tr><td>Location</td><td>: <span style='font-color:green'><span style='font-color:green'><%=session[:ward]%></span></td></tr>
+      <tr><td>User </td><td>: <span style='font-color:green'><%=User.find(session[:user_id]).name rescue 'User' %></span></td></tr></table></div-->
 
 

@@ -1,7 +1,6 @@
 class EncountersController < ApplicationController
 
   def create
-    raise params.to_yaml
     diagnoses = JSON.parse(params['final_diagnosis']).delete_if{|x| x=="<br>"} rescue []
 
     if !diagnoses.compact.empty?
@@ -191,4 +190,16 @@ end
      session[:auto_load_forms] = true
    end
 
+  # create_adult_influenza_entry: is a method to save the results of an influenza
+  # Adult question set
+  def create_adult_influenza_entry
+    raise params.inspect
+  end
+
+  # create_paeds_influenza_entry is a method to save the results of an influenza
+  # Paediatrics' question set
+  def create_paeds_influenza_entry
+    raise params.inspect
+  end
+  
 end

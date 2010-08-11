@@ -42,7 +42,7 @@
 <%elsif @primary_diagnosis.last or @syndromic_diagnosis.last %>
 
 <div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+      <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
     </div>
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">
@@ -51,7 +51,7 @@
 
   <%else%>
     <div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="window.location = '/encounters/new/inpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
+      <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
     </div>
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">

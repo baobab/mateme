@@ -33,12 +33,15 @@ class SessionsController < ApplicationController
 
   # Update the session with the location information
   def update
+=begin
     unless ['WARD 3A', 'WARD 3B', 'WARD 4A', 'WARD 4B'].include?(params[:ward])
       flash[:error] = "Invalid Ward"
       render :action => 'location'
       return 
     end 
     session[:ward] = params[:ward]
+=end
+    
     location = Location.find(params[:location]) rescue nil
     unless location
       flash[:error] = "Invalid workstation location"

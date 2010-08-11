@@ -156,4 +156,44 @@ class PatientsController < ApplicationController
    redirect_to :action => 'demographics', :patient_id => params['person_id'] and return
   end
 
+  # Diagnosis: method for accessing the diagnosis view
+  def diagnosis
+    
+    redirect_to :controller => 'encounters',
+      :action => 'diagnoses_index',
+      :patient_id => params['patient_id'] and return
+
+  end
+
+  # Treatment method for accessing the treatment view
+  def treatment
+    
+    redirect_to :controller => 'prescriptions',
+      :action => 'index',
+      :patient_id => params['patient_id'] and return
+    
+  end
+
+  # Influenza method for accessing the influenza view
+  def influenza
+    
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @person = Person.find(@patient.patient_id)
+
+    @gender = @person.gender
+    
+    # render :layout => "menu"
+  end
+
+  # Specimen Labelling method for accessing the specimen labelling view
+  def specimen_labelling
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    render :layout => "menu"
+  end
+
+  # Lab Results method for accessing the lab results view
+  def lab_results
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    render :layout => "menu"
+  end
 end

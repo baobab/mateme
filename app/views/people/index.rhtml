@@ -1,36 +1,14 @@
-<%= javascript_include_tag "barcode" %>
 <script type="text/javascript">
   tt_cancel_destination = '/logout';  
 </script>
 
-<%if @password_expired%>
-
-  <div style="text-align:center;margin:10px;">
-    <span style="font-size: 24pt">Your password has expired</span>
-    <div class="centered">
-      <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
-        <span>Change Password</span>
-      </button>
-    </div>
-  </div>
-
-<%else%>
-
 <div style="text-align:center;margin:10px;">
-  <form id='barcodeForm' action="/people/search">
-    <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
-    <%= submit_tag "Submit", :style => "display:none" %>
-    <div style="color:gray">scan a barcode</div>
-  </form>
+  <div style="color:gray; font-size: 16pt; border-bottom:1px gray dotted;
+       margin-top:20px; padding-bottom:20px;">Select Activity</div>
   <div class="centered">
-    <%if @days_left <= 7%>
-      <span style="font-size: 16pt"> <%= "Your password will expire in #{@days_left} days" %> </span> <br />
-      <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
-        <span>Change Password</span>
-      </button> <br />
-    <%end%>
+    
     <% date = session[:datetime] ||= Date.today 
-    if @super_user or @regstration_clerk %>
+    #if @super_user or @regstration_clerk %>
     <%if !@show_set_date%>
       <span style="font-size: 16pt">
         <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
@@ -42,16 +20,21 @@
       <%end%>
 
 
-    <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
-    <%if !@show_set_date%>
-      <button id="set_date_button" class="button green" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
-      <%else%>
-      <button id="reset_date_button" class="button green" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
-      <%end%>
-    <%end%>
-    <br />
+    <button id="find_or_register_adult_button" class="button green"
+            onclick="window.location = '/people/adults'" style="min-width:480px;">
+            <span>Adults</span>
+    </button>
+
+    <button id="find_or_register_paeds_button" class="button green"
+            onclick="window.location = '/people/paeds'" style="min-width:480px;">
+            <span>Paediatrics</span>
+    </button>
+    
+    <%# end%>
     <% if @super_user%>
-      <button id="admin_button" class="button green" onclick="window.location = '/admin'"><span>Administration</span></button>
+      <button id="admin_button" class="button green"  style="min-width:480px;"
+              onclick="window.location = '/admin'"><span>Administration</span>
+      </button>
     <%end%>
     <br/>
     <br/>
@@ -73,4 +56,3 @@
   </div>  
 </div> 
 
-<%end%>

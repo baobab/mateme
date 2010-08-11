@@ -29,8 +29,8 @@
     <%= hidden_field_tag(:location, 4, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
 
     
-    <label for="ward">Ward</label>
-    <%= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_requireNextClick => 'false', :tt_onload => 'updateNextButton();'})%> <br>
+    <!--label for="ward">Ward</label-->
+    <%#= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_requireNextClick => 'false', :tt_onload => 'updateNextButton();'})%> <br>
 
 
     <%= submit_tag value="Submit"%>

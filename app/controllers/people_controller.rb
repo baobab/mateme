@@ -135,4 +135,16 @@ class PeopleController < ApplicationController
     session[:datetime] = nil
     redirect_to :action => "index" and return
   end
+
+  # Adults: this is the access method for the adult section of the application
+  def adults
+    session["category"] = "adults"
+    render :layout => "menu"
+  end
+
+  # Paediatrics this is the access method for the paediatrics section of the application
+  def paeds
+    session["category"] = "paeds"
+    render :layout => "menu"
+  end
 end

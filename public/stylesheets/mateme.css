@@ -37,8 +37,8 @@
 }
 
 #footer {
-  background:#BBCCD9 url(../images/spine_logo.png) no-repeat scroll 50% 50%;
-  border-top:3px solid :#99AAB7;
+  background: #BBCCD9;
+  border-top:3px solid #99AAB7;
   color:#CADCEA;
   height:80px;
   width:100%;
@@ -60,7 +60,7 @@
   height:300px;
   position:absolute;
   margin-top:-150px;
-  margin-left:-200px;
+  margin-left:-240px;
   left:50%;
   top:40%;
   text-align:center;
