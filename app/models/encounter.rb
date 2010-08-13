@@ -68,9 +68,6 @@ class Encounter < ActiveRecord::Base
 
     elsif @encounter_types.include? name
       observations.collect{|observation| observation.to_s(:show_negatives => false)}.compact.join(", ")
-
-      #elsif ['DIABETES TEST'].include?(name)
-      # observations.collect{|observation| observation.to_s}.join(", ")
     else
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  
@@ -114,9 +111,7 @@ class Encounter < ActiveRecord::Base
     else
       encounter_observations = {}
     end
-
-    #raise encounter_observations.inspect
-    
+    encounter_observations
   end
 
   def self.diabetes_history_obs(encounter)
@@ -179,6 +174,7 @@ class Encounter < ActiveRecord::Base
 
     diabetes_history_obs = obs
     
+    diabetes_history_obs
   end
 
   def self.diabetes_treatmens_obs(encounter)
@@ -388,12 +384,6 @@ class Encounter < ActiveRecord::Base
 
         if(f == "admissions")
           encounter.observations.find(:all, :conditions => ["concept_id IN (?)", concept_ids]).each{|o|
-
-=begin
-["DKA/HONK/HYPERGLYCEMIA", "HYPOGLYCEMIA",
-                          "AMPUTATION/FOOT ULCERS", "FOOT INFECTIONS",
-                          "SKIN INFECTIONS/ABCESSES/SEVERE UTIS/PNEUMONIA"]
-=end
             if(o.concept.name.name == "HYPERGLYCEMIA SYMPTOMS PRESENT")
               field_set[f] << "DKA/HONK/HYPERGLYCEMIA"
             elsif(o.concept.name.name == "HYPOGLYCEMIA SYMPTOMS PRESENT")
@@ -418,6 +408,7 @@ class Encounter < ActiveRecord::Base
 
     hospital_admissions_obs = obs
 
+    hospital_admissions_obs
   end
 
   def self.past_medical_history_obs(encounter)
@@ -526,6 +517,7 @@ class Encounter < ActiveRecord::Base
 
     past_medical_history_obs = obs
 
+    past_medical_history_obs
   end
 
   def self.complications_obs(encounter)
@@ -643,7 +635,8 @@ class Encounter < ActiveRecord::Base
     }
 
     complications_obs = obs
-    
+
+    complications_obs
   end
 
   def self.hypertension_management_obs(encounter)
@@ -720,6 +713,7 @@ class Encounter < ActiveRecord::Base
 
     hypertension_management_obs = obs
 
+    hypertension_management_obs
   end
 
   def self.general_health_obs(encounter)
@@ -812,6 +806,7 @@ class Encounter < ActiveRecord::Base
 
     general_health_obs = obs
 
+    general_health_obs
   end
   
 end

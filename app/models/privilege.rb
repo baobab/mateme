@@ -8,7 +8,7 @@ class Privilege < ActiveRecord::Base
 
   # NOT USED
   def self.create_privileges_and_attach_to_roles
-    Privilege.find_all.each{|p|puts "Destroying #{p.privilege}";p.destroy}
+    Privilege.find(:all).each{|p|puts "Destroying #{p.privilege}";p.destroy}
     tasks = EncounterType.find(:all).collect{|e|e.name}
     tasks.delete("Barcode scan")
     tasks << "Enter past visit"
@@ -27,11 +27,5 @@ class Privilege < ActiveRecord::Base
       }
     }
   end
-  
+
 end
-
-
-### Original SQL Definition for privilege #### 
-#   `privilege` varchar(50) NOT NULL default '',
-#   `description` varchar(250) NOT NULL default '',
-#   PRIMARY KEY  (`privilege_id`)

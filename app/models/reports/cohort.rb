@@ -126,8 +126,6 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE NOT drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%insulin%'))").length
-
-    
   end
 
   def oral_treatments
@@ -139,7 +137,6 @@ class Reports::Cohort
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%insulin%')) \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-       
   end
 
   # Oral and Insulin
@@ -161,8 +158,6 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE NOT drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%metformin%'))").length
-
-
   end
 
   def metformin
@@ -174,8 +169,6 @@ class Reports::Cohort
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%metformin%')) \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Glibenclamide
@@ -185,8 +178,6 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE NOT drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%glibenclamide%'))").length
-
-
   end
 
   def glibenclamide
@@ -198,8 +189,6 @@ class Reports::Cohort
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%glibenclamide%')) \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Lente Insulin
@@ -209,8 +198,6 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE NOT drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%lente%' AND name LIKE '%insulin%'))").length
-
-
   end
 
   def lente_insulin
@@ -222,8 +209,6 @@ class Reports::Cohort
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%lente%' AND name LIKE '%insulin%')) \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Soluble Insulin
@@ -233,8 +218,6 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE NOT drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%soluble%' AND name LIKE '%insulin%'))").length
-
-
   end
 
   def soluble_insulin
@@ -246,8 +229,6 @@ class Reports::Cohort
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%soluble%' AND name LIKE '%insulin%')) \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Background Retinopathy
@@ -255,7 +236,6 @@ class Reports::Cohort
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
                                       WHERE name = 'BACKGROUND RETINOPATHY')").length
-
   end
 
   def background_retinapathy
@@ -265,8 +245,6 @@ class Reports::Cohort
                                       WHERE name = 'BACKGROUND RETINOPATHY') \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Ploriferative Retinopathy
@@ -274,7 +252,6 @@ class Reports::Cohort
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
                                       WHERE name = 'PLORIFERATIVE RETINOPATHY')").length
-
   end
 
   def ploriferative_retinapathy
@@ -284,8 +261,6 @@ class Reports::Cohort
                                       WHERE name = 'PLORIFERATIVE RETINOPATHY') \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # End Stage Retinopathy
@@ -293,7 +268,6 @@ class Reports::Cohort
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
                                       WHERE name = 'END STAGE DISEASE')").length
-
   end
 
   def end_stage_retinapathy
@@ -303,8 +277,6 @@ class Reports::Cohort
                                       WHERE name = 'END STAGE DISEASE') \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Nephropathy: Urine Protein
@@ -313,7 +285,6 @@ class Reports::Cohort
                                       (SELECT concept_id FROM concept_name WHERE name = 'URINE PROTEIN') \
                                           AND value_coded IN (SELECT concept_id FROM concept_name
                                           WHERE name IN ('+', '++', '+++', '++++', 'trace') AND locale = 'en')").length
-
   end
 
   def urine_protein
@@ -324,8 +295,6 @@ class Reports::Cohort
                                           WHERE name IN ('+', '++', '+++', '++++', 'trace') AND locale = 'en')\
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Nephropathy: Raised Creatinine >= 1.2mg/dl
@@ -333,7 +302,6 @@ class Reports::Cohort
       @orders = Order.find_by_sql("SELECT DISTINCT person_id, value_numeric FROM obs \
                                     WHERE concept_id IN (SELECT concept_id FROM concept_name \
                                       WHERE name = 'CREATININE') AND COALESCE(value_numeric, 0) >= 1.2").length
-
   end
 
   def creatinine
@@ -343,8 +311,6 @@ class Reports::Cohort
                                       WHERE name = 'CREATININE') AND COALESCE(value_numeric, 0) >= 1.2 \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Neuropathy: Numbness Symptoms
@@ -353,7 +319,6 @@ class Reports::Cohort
                                       (SELECT concept_id FROM concept_name where name = 'NUMBNESS SYMPTOMS') \
                                         AND concept_id IN (SELECT concept_id FROM concept_name where name IN \
                                         ('LEFT FOOT/LEG', 'RIGHT FOOT/LEG'))").length
-
   end
 
   def numbness_symptoms
@@ -364,8 +329,6 @@ class Reports::Cohort
                                         ('LEFT FOOT/LEG', 'RIGHT FOOT/LEG')) \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Neuropathy: Amputation
@@ -374,7 +337,6 @@ class Reports::Cohort
                                     (SELECT concept_id FROM concept_name where name = 'AMPUTATION') \
                                       AND concept_id IN (SELECT concept_id FROM concept_name where name IN \
                                         ('LEFT FOOT/LEG', 'RIGHT FOOT/LEG'))").length
-
   end
 
   def amputation
@@ -385,8 +347,6 @@ class Reports::Cohort
                                         ('LEFT FOOT/LEG', 'RIGHT FOOT/LEG')) \
                                       AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                       "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # Neuropathy: Current Foot Ulceration
@@ -395,7 +355,6 @@ class Reports::Cohort
                                     (SELECT concept_id FROM concept_name where name = 'CURRENT FOOT ULCERATION') \
                                       AND concept_id IN (SELECT concept_id FROM concept_name where name IN \
                                       ('LEFT FOOT/LEG', 'RIGHT FOOT/LEG'))").length
-
   end
 
   def current_foot_ulceration
@@ -406,8 +365,6 @@ class Reports::Cohort
                                       ('LEFT FOOT/LEG', 'RIGHT FOOT/LEG')) \
                                       AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                       "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
   # TB
@@ -417,7 +374,6 @@ class Reports::Cohort
                                       AND obs_group_id IN (SELECT obs_id FROM obs s WHERE concept_id IN \
                                         (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS')) \
                                         AND DATEDIFF(NOW(), value_datetime)/365 <= 2").length
-
   end
 
   def tb_within_the_last_two_years
@@ -430,7 +386,6 @@ class Reports::Cohort
                                         AND DATEDIFF(NOW(), value_datetime)/365 <= 2 \
                                       AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                       "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # TB After Diabetes
@@ -442,7 +397,6 @@ class Reports::Cohort
                                        name = 'DIAGNOSIS DATE') AND obs_group_id IN (SELECT obs_id FROM obs s WHERE \
                                         concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS'))) AS v2
                                       WHERE v1.person_id = v2.person_id AND v1.value_datetime > v2.value_datetime").length
-
   end
 
   def tb_after_diabetes
@@ -455,7 +409,6 @@ class Reports::Cohort
                                     patient WHERE v1.person_id = v2.person_id AND v1.value_datetime > v2.value_datetime \
                                       AND patient.patient_id = v1.person_id AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # HIV Status: Reactive Not on ART
@@ -466,7 +419,6 @@ class Reports::Cohort
                                             WHERE name = 'NO')) AS v1,
                                       (SELECT * FROM obs WHERE value_coded = (SELECT concept_id FROM concept_name \
                                         WHERE name = 'REACTIVE')) AS v2 WHERE v1.person_id = v2.person_id").length
-
   end
 
   def reactive_not_on_art
@@ -479,7 +431,6 @@ class Reports::Cohort
                                     patient WHERE v1.person_id = v2.person_id \
                                       AND patient.patient_id = v1.person_id AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # HIV Status: Reactive  on ART
@@ -490,7 +441,6 @@ class Reports::Cohort
                                             WHERE name = 'YES')) AS v1,
                                       (SELECT * FROM obs WHERE value_coded = (SELECT concept_id FROM concept_name \
                                         WHERE name = 'REACTIVE')) AS v2 WHERE v1.person_id = v2.person_id").length
-
   end
 
   def reactive_on_art
@@ -503,7 +453,6 @@ class Reports::Cohort
                                     patient WHERE v1.person_id = v2.person_id \
                                       AND patient.patient_id = v1.person_id AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # HIV Status: Non Reactive
@@ -511,7 +460,6 @@ class Reports::Cohort
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs WHERE value_coded = \
                                     (SELECT concept_id FROM concept_name WHERE name = 'NON-REACTIVE') and concept_id = \
                                       (SELECT concept_id FROM concept_name WHERE name = 'HIV STATUS')").length
-
   end
 
   def non_reactive
@@ -521,7 +469,6 @@ class Reports::Cohort
                                     concept_id = (SELECT concept_id FROM concept_name WHERE name = 'HIV STATUS') \
                                       AND patient.patient_id = obs.person_id AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # HIV Status: Unknown
@@ -530,7 +477,6 @@ class Reports::Cohort
                                     (SELECT concept_id FROM concept_name WHERE name = 'NON-REACTIVE') and concept_id = \
                                       (SELECT concept_id FROM concept_name WHERE name = 'HIV STATUS') AND \
                                         DATEDIFF(NOW(), obs_datetime)/365 > 1").length
-
   end
 
   def unknown
@@ -541,7 +487,6 @@ class Reports::Cohort
                                       AND patient.patient_id = obs.person_id AND DATEDIFF(NOW(), obs_datetime)/365 > 1 AND \
                                         DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # Outcome
@@ -549,7 +494,6 @@ class Reports::Cohort
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs WHERE value_coded IN \
                                     (SELECT concept_id FROM concept_name WHERE name = 'DEAD') AND \
                                       concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME')").length
-
   end
 
   def dead
@@ -560,7 +504,6 @@ class Reports::Cohort
                                       concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
                                         AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   def alive_ever
@@ -568,7 +511,6 @@ class Reports::Cohort
                                     (SELECT DISTINCT person_id FROM obs WHERE value_coded IN (SELECT concept_id FROM \
                                       concept_name WHERE name = 'DEAD') AND concept_id IN (SELECT concept_id FROM \
                                         concept_name WHERE name = 'OUTCOME'))").length
-
   end
 
   def alive
@@ -578,7 +520,6 @@ class Reports::Cohort
                                         concept_name WHERE name = 'OUTCOME')) \
                                         AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # Treatment (Alive and Even Defaulters)
@@ -588,7 +529,6 @@ class Reports::Cohort
                                     (SELECT DISTINCT person_id FROM obs WHERE value_coded IN (SELECT concept_id FROM
                                       concept_name WHERE name = 'DEAD') AND concept_id IN (SELECT concept_id FROM
                                         concept_name WHERE name = 'OUTCOME'))").length
-
   end
 
   def on_diet
@@ -599,14 +539,12 @@ class Reports::Cohort
                                         concept_name WHERE name = 'OUTCOME')) \
                                         AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
   end
 
   # Outcome: Defaulters
   def defaulters_ever
       @orders = Order.find_by_sql("SELECT patient_id FROM orders WHERE DATEDIFF(NOW(), auto_expire_date)/30 > 6 \
                                     GROUP BY patient_id").length
-
   end
 
   def defaulters
@@ -615,7 +553,6 @@ class Reports::Cohort
                                         AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
                                     @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                           GROUP BY patient_id").length
-
   end
 
   # Maculopathy
@@ -623,7 +560,6 @@ class Reports::Cohort
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
                                       WHERE name = 'MACULOPATHY') OR UCASE(value_text) = 'MACULOPATHY'").length
-
   end
 
   def maculopathy
@@ -633,8 +569,6 @@ class Reports::Cohort
                                       WHERE name = 'MACULOPATHY') OR UCASE(value_text) = 'MACULOPATHY' \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
                                     "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-
-
   end
 
 end

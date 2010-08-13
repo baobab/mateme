@@ -17,8 +17,6 @@ class Person < ActiveRecord::Base
       find(:all, :conditions => ['concept_id = ?', concept_name.concept_id]) rescue []
     end
   end
-#  accepts_nested_attributes_for :names, :addresses, :patient
-
   
   def name
     "#{self.names.first.given_name} #{self.names.first.family_name}" rescue nil
@@ -158,55 +156,6 @@ class Person < ActiveRecord::Base
     ]) if people.blank?
 
     return people
-    
-    # temp removed
-    # AND (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL )"    
-    #  params[:family_name2],
-    #  (params[:family_name2] || '').soundex,
-
-
-
-
-# CODE below is TODO, untested and NOT IN USE
-#    people = []
-#    people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
-#    if people.size == 1
-#      return people
-#    elsif people.size >2
-#      filtered_by_family_name_and_gender = []
-#      filtered_by_family_name = []
-#      filtered_by_gender = []
-#      people.each{|person|
-#        gender_match = person.gender == params[:gender] unless params[:gender].blank?
-#        filtered_by_gender.push person if gender_match
-#        family_name_match = person.first.names.collect{|name|name.family_name.soundex}.include? params[:family_name].soundex
-#        filtered_by_family_name.push person if gender_match?
-#        filtered_by_family_name_and_gender.push person if family_name_match? and gender_match?
-#      }
-#      return filtered_by_family_name_and_gender unless filtered_by_family_name_and_gender.empty?
-#      return filtered_by_family_name unless filtered_by_family_name.empty?
-#      return filtered_by_gender unless filtered_by_gender.empty?
-#      return people
-#    else
-#    return people if people.size == 1
-#    people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
-#    "gender = ? AND \
-#     person.voided = 0 AND \
-#     (patient.voided = 0 OR patient.voided IS NULL) AND \
-#     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
-#     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
-#    params[:gender],
-#    params[:given_name],
-#    (params[:given_name] || '').soundex,
-#    params[:family_name],
-#    (params[:family_name] || '').soundex
-#    ]) if people.blank?
-#    
-    # temp removed
-    # AND (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL )"    
-    #  params[:family_name2],
-    #  (params[:family_name2] || '').soundex,
-
   end
 
   def self.find_by_demographics(person_demographics)
@@ -270,11 +219,6 @@ class Person < ActiveRecord::Base
         next if identifier.empty?
         patient.patient_identifiers.create("identifier" => identifier, "identifier_type" => identifier_type.patient_identifier_type_id)
       } if patient_params["identifiers"]
-
-
-      
-      # This might actually be a national id, but currently we wouldn't know
-      #patient.patient_identifiers.create("identifier" => patient_params["identifier"], "identifier_type" => PatientIdentifierType.find_by_name("Unknown id")) unless params["identifier"].blank?
     end
     return person
   end
@@ -413,5 +357,5 @@ class Person < ActiveRecord::Base
     phone_numbers
    phone_numbers.delete_if {|key, value| value == "" } 
   end
-  
+
 end

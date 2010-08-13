@@ -4,4 +4,3 @@ class ConceptName < ActiveRecord::Base
   include Openmrs
   belongs_to :concept
 end
-
