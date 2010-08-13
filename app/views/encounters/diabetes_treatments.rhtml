@@ -140,7 +140,7 @@ end
     :tt_pageStyleClass => "LongSelectList",
     :tt_onUnLoad => "onMonthUpdateDateTime('diet_date_started', 'diet_month_started', 'diet_value_modifier');",
     :condition => '$("diet_value_coded_or_text").value.toLowerCase() == "yes" && $("diet_year_started").value.toLowerCase() != "unknown" && ((this_year - $("diet_year_started").value) <= 2)',
-    :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
+    :tt_onLoad => "showProgressBar('finishButton');$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
 <%#= text_field_tag "diet[day_started]",  nil, :field_type => 'number',
@@ -530,5 +530,5 @@ if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value 
 
   <%= hidden_field_tag("next_url",@destination_page) %>
 
-  <%= submit_tag "Finish" %>
+  <%= submit_tag("Finish",{:id=> 'finishButton'}) %>
 </form>
