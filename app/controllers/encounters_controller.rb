@@ -244,11 +244,6 @@ class EncountersController < ApplicationController
   end
   
   def new
-    
-    #if(params[:encounter_id] && params[:group_type])
-    #  @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
-    #end
-    
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @diabetes_test_type = params[:diabetes_test_type] rescue ""
     @patient_height = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
@@ -270,7 +265,6 @@ class EncountersController < ApplicationController
           'Diabetes Treatments',
           'Hospital Admissions',
           'Past Diabetes Medical History',
-          #'Initial Complications',
           'Complications',
           'Hypertension Management',
           'General Health'
@@ -344,7 +338,6 @@ class EncountersController < ApplicationController
     @graph_data = @patient.person.observations.find_by_concept_name("WEIGHT (KG)").
       sort_by{|obs| obs.obs_datetime}.
       map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
-    #render :layout => false
   end
 
   def complications

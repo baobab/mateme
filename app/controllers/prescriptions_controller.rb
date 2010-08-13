@@ -16,11 +16,6 @@ class PrescriptionsController < ApplicationController
         @patient_hypertension_treatements << treatement
       end
     }
-
-    #raise @patient_diabetes_treatements.to_yaml
-    
-    #@orders = @patient_diabetes_treatements
-    
     redirect_to "/prescriptions/new?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @patient_diabetes_treatements.blank?   #@orders.blank?
     render :template => 'prescriptions/index', :layout => 'menu'
   end
@@ -46,15 +41,11 @@ class PrescriptionsController < ApplicationController
   
   def void
     @order = Order.find(params[:order_id])
-    
     @order.void!
-    #flash.now[:notice] = "Order was successfully voided"
     index and return
   end
   
   def create
-    #raise params.to_yaml
-
     (params[:prescriptions] || []).each{|prescription|
       @suggestion = prescription[:suggestion]
       @patient    = Patient.find(prescription[:patient_id] || session[:patient_id]) rescue nil

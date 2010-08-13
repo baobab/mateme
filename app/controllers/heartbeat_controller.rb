@@ -5,7 +5,6 @@ class HeartbeatController < ApplicationController
   def update
     ip = request.env['REMOTE_ADDR']
 		time = Time.now
-#		@location = params[:location] || ""
 		url = params[:url] || ""
     username = params[:username] rescue nil
     username = User.find(session[:user_id]).username rescue '' unless username
