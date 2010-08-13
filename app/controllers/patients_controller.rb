@@ -182,7 +182,16 @@ class PatientsController < ApplicationController
 
     @gender = @person.gender
     
-    # render :layout => "menu"
+  end
+
+  # Influenza method for accessing the influenza view
+  def chronic_conditions
+
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @person = Person.find(@patient.patient_id)
+
+    @gender = @person.gender
+
   end
 
   # Specimen Labelling method for accessing the specimen labelling view

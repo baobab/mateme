@@ -13,7 +13,7 @@
   <!--
       Case 1: The patient is an adult, present adults form and ask adults questions
   -->
-  <form id='outpatient_diagnosis' action="/encounters/create_adult_influenza_entry"
+  <form id='influenza_data' action="/encounters/create_adult_influenza_entry"
         method='post'>
     <% default={
       :allowFreeText => 'true',
@@ -27,9 +27,10 @@
     <label for='vaccine_in_last_1_year'>Influenza vaccine in the last 1 year?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "vaccine_in_last_1_year"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
         "",
         "Yes",
         "No"
@@ -42,24 +43,26 @@
     <label for='currently_taking_antibiotics'>Currently (or in the last week) taking antibiotics?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "currently_taking_antibiotics"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
         "",
         "Yes",
         "No"
     ]), options ) %>
     <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND INFORMATION") %>
-    <%= hidden_field_tag("observations[][concept_name]", "CURRENTLY TAKING ANTIBIOTICS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "CURRENTLY (OR IN THE LAST WEEK) TAKING ANTIBIOTICS") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <label for='current_smoker'>Current Smoker?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "current_smoker"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -72,9 +75,10 @@
     <label for='smoker_3_months_ago'>Were You A Smoker 3 Months Ago?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "smoker_3_months_ago"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -87,25 +91,27 @@
     <label for='pregnant'>Pregnant?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
       :condition=>"gender == 'F'",
       :id => "pregnant"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
     ]), options ) %>
     <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND INFORMATION") %>
-    <%= hidden_field_tag("observations[][concept_name]", "PREGNANT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "PREGNANT?") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <label for='rdt_or_blood_smear_positive_for_malaria'>RDT or blood smear positive for malaria?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "rdt_or_blood_smear_positive_for_malaria"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -118,9 +124,10 @@
     <label for='fever_greater_than_38_degrees'>Fever > 38<sup>o</sup>C?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "fever_greater_than_38_degrees"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -133,9 +140,10 @@
     <label for='cough'>Cough?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "cough"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -148,9 +156,10 @@
     <label for='sore_throat'>Sore Throat?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "sore_throat"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -163,9 +172,10 @@
     <label for='headache'>Headache?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "headache"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -178,9 +188,10 @@
     <label for='rhinorrhea'>Rhinorrhea?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "rhinorrhea"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -193,9 +204,10 @@
     <label for='limb_joint_pain'>Limb/joint-pain?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "limb_joint_pain"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -208,9 +220,10 @@
     <label for='vomiting_diarrhoea'>Vomiting/Diarrhoea?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "vomiting_diarrhoea"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -223,9 +236,10 @@
     <label for='patient_confused'>Patient confused (newly disoriented in place, person or time)?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "patient_confused"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -238,9 +252,10 @@
     <label for='respiratory_rate_greater_than_30'>Respiratory Rate &ge; 30?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "respiratory_rate_greater_than_30"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -250,27 +265,29 @@
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-    <label for='oxygen_saturation_greater_than_90'>Oxygen Saturation &ge; 90%?</label>
+    <label for='oxygen_saturation_less_than_90'>Oxygen Saturation &le; 90%?</label>
     <% options=default.merge({
       :field_type => 'text',
-       :id => "oxygen_saturation_greater_than_90"
+      :tt_requireNextClick => false,
+       :id => "oxygen_saturation_less_than_90"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
     ]), options ) %>
     <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
-    <%= hidden_field_tag("observations[][concept_name]", "OXYGEN SATURATION GREATER THAN OR EQUAL TO 90 PERCENT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "OXYGEN SATURATION LESS THAN OR EQUAL TO 90 PERCENT") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <label for='blood_pressure_systolic'>Blood Pressure Systolic < 90 mmHg?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "blood_pressure_systolic"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -283,9 +300,10 @@
     <label for='heart_rate_greater_than_120'>Heart Rate > 120/min?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "heart_rate_greater_than_120"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -298,9 +316,10 @@
     <label for='inability_to_stand'>Inability to Stand?</label>
     <% options=default.merge({
       :field_type => 'text',
+      :tt_requireNextClick => false,
        :id => "inability_to_stand"
     }) %>
-    <%= select_tag( "observations[][value_text]", options_for_select([
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
       "",
       "Yes",
       "No"
@@ -318,8 +337,394 @@
                 relevant questions
   -->
 
-  <form id='outpatient_diagnosis' action="/encounters/create_paeds_influenza_entry"
+  <form id='influenza_data' action="/encounters/create_paeds_influenza_entry"
         method='post'>
+    
+    <% default={
+      :allowFreeText => 'true',
+    } %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "INFLUENZA DATA" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <label for='vaccine_in_last_1_year'>Influenza vaccine in the last 1 year?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "vaccine_in_last_1_year"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Yes",
+        "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "INFLUENZA VACCINE IN THE LAST 1 YEAR") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='pneumococcal_vaccine'>Pneumococcal vaccine?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "pneumococcal_vaccine"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Yes",
+        "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "PNEUMOCOCCAL VACCINE") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='measles_vaccine'>Measles vaccine?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "measles_vaccine"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Yes",
+        "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "MEASLES VACCINE") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='muac'>MUAC < 11.5(cm)?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "muac"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Yes",
+        "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "MUAC LESS THAN 11.5 (CM)") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='blood_smear'>Blood Smear Positive for Malaria?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "blood_smear"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Yes",
+        "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "BLOOD SMEAR POSITIVE FOR MALARIA") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='weight'>Weight?</label>
+    <% options=default.merge({
+      :field_type => 'number',
+      :allowFreeText => 'true',
+       :id => "weight"
+    }) %>
+    <%= text_field_tag("observations[][value_numeric]", nil, options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "Weight") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='hb'>HB (g/dl)?</label>
+    <% options=default.merge({
+      :field_type => 'number',
+      :allowFreeText => 'true',
+       :id => "hb"
+    }) %>
+    <%= text_field_tag("observations[][value_numeric]", nil, options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "HB (G/DL)") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='pcv'>PCV (%)?</label>
+    <% options=default.merge({
+      :field_type => 'number',
+      :allowFreeText => 'true',
+      :id => "pcv"
+    }) %>
+    <%= text_field_tag("observations[][value_numeric]", nil, options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "PCV (%)") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='fever_greater_than_38_degrees'>Fever > 38<sup>o</sup>C?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "fever_greater_than_38_degrees"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "CASE DEFINITION") %>
+    <%= hidden_field_tag("observations[][concept_name]", "FEVER GREATER THAN 38 DEGREES CELSIUS") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='cough'>Cough?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "cough"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "FLU-LIKE ILLNESS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "COUGH") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='sore_throat'>Sore Throat?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "sore_throat"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "FLU-LIKE ILLNESS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "SORE THROAT") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='headache'>Headache?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "headache"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "FLU-LIKE ILLNESS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "HEADACHE") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='coryza'>Coryza?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "coryza"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "FLU-LIKE ILLNESS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "CORYZA") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='limb_joint_pain'>Limb/joint-pain?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "limb_joint_pain"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "FLU-LIKE ILLNESS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LIMB OR JOINT-PAIN") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='vomiting_diarrhoea'>Vomiting/Diarrhoea?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "vomiting_diarrhoea"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "FLU-LIKE ILLNESS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "VOMITING OR DIARRHOEA") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='presence_of_bilateral_crackles_and_wheeze'>Presence of bilateral crackles and wheeze?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "presence_of_bilateral_crackles_and_wheeze"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "FLU-LIKE ILLNESS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "PRESENCE OF BILATERAL CRACKLES AND WHEEZE") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='lethargy_convulsion_or_unconsciousness'>Lethargy, convulsion or unconsciousness?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "lethargy_convulsion_or_unconsciousness"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LETHARGY, CONVULSION OR UNCONSCIOUSNESS") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='fast_breathing'>Fast Breathing?* <br/>*
+      <i style="font-size:0.8em"><b>Respiratory Rate:</b>
+        <br/><span style="padding-left:20px">&ge; 60/min in < 2months,</span>
+        <br/><span style="padding-left:20px">&ge; 50/min in 2-11 months,</span>
+        <br/><span style="padding-left:20px">&ge; 40/min in 1-5 years</span></i>
+    </label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "fast_breathing"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "FAST BREATHING") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='chest_recession'>Chest Recession?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "chest_recession"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "CHEST RECESSION") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='nasal_flaring'>Nasal Flaring?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "nasal_flaring"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "NASAL FLARING") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='head_nodding_grunting'>Head Nodding, Grunting?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "head_nodding_grunting"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "HEAD NODDING GRUNTING") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='central_cyanosis'>Central Cyanosis?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "central_cyanosis"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "CENTRAL CYANOSIS") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='unable_to_breast_feed_or_drink'>Unable to Breastfeed / Drink?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "unable_to_breast_feed_or_drink"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "UNABLE TO BREASTFEED OR DRINK") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='oxygen_saturation_greater_than_90'>Oxygen Saturation &ge; 90% room air?</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :tt_requireNextClick => false,
+       :id => "oxygen_saturation_greater_than_90"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+      "",
+      "Yes",
+      "No"
+    ]), options ) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
+    <%= hidden_field_tag("observations[][concept_name]", "UNABLE TO BREASTFEED OR DRINK") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
      <%= submit_tag "Finish" %>    
   </form>
