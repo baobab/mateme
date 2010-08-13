@@ -198,3 +198,22 @@ String.prototype.titleize = function(){
 
 	return titleized_string.join(" ");
 }
+
+function showProgressBar(id){
+  var info, element;
+
+    if(typeof(custom_message) == "undefined"){
+    custom_message="The system is processing your request.";
+    }
+
+    info = "<div id='popupBox'  align='center'>";
+    info += "<p id='p1'>"+custom_message+"</p>";
+    info += "<p id='p2'>Please wait......</p>";
+    info += "</div>";
+
+    element = document.getElementById(id);
+    element.innerHTML += info;
+
+    alert(element.innerHTML);
+
+}
