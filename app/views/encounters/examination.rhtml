@@ -6,7 +6,6 @@
   <% default={
     :allowFreeText => 'true',
   } %>
-	///////////////////////////////
 	<%= hidden_field_tag "encounter[encounter_type_name]", "EXAMINATION" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
@@ -24,7 +23,7 @@
   <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR EXAM: Heart Regular") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-///////////////////////////////////////////
+
 	<label for='cardiovascular_exam_heart_murmurs'>CARDIOVASCULAR EXAM: Heart Murmurs?</label>
   <% options=default.merge({
     :field_type => 'text'
@@ -37,7 +36,7 @@
   <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR EXAM: Heart Murmurs") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-	////////////////////////////////////
+
 	<label for='cardiovascular_exam_carotid_articles'>CARDIOVASCULAR EXAM: Carotid Arteries Bruit Present</label>
   <% options=default.merge({
     :field_type => 'text'
@@ -50,7 +49,7 @@
   <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR EXAM: Carotid Artiries Bruit Present") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-	/////////////////////////////////
+
 	<label for='foot_exam_ulcers'>FOOT EXAM: Any ulcers/sores?</label>
   <% options=default.merge({
     :field_type => 'text'
@@ -98,3 +97,6 @@
   <%= hidden_field_tag("observations[][concept_name]", "FOOT EXAM: Sensation intact") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+<%= submit_tag "Finish" %>
+</form>

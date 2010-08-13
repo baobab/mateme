@@ -191,7 +191,6 @@
       :tt_requireNextClick => false,
       :helpText => "When did you stop smoking?",
       :condition => "$('previously_smoking_value_coded_or_text').value == 'YES'",
-      #:validationCode =>"if($('previous_smoking_start_date').value != 'Unknown' && $('previous_smoking_stop_date').value != 'Unknown' ){$('previous_smoking_stop_date').value >= $('previous_smoking_start_date').value}",
       :tt_onUnLoad => "$('previous_smoking_stop_date_value_coded_or_text').value = $('previous_smoking_stop_date').value",
       :tt_pageStyleClass => "LongSelectList"
     }) %>
@@ -379,5 +378,4 @@
   <%= hidden_field_tag("next_url",@destination_page) %>
 
   <%= submit_tag "Finish" %>
-
  </form>

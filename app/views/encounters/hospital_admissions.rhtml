@@ -10,15 +10,9 @@ end
 <script>
   var tt_cancel_destination = "<%= @destination_page -%>"
 
-<%
-
-unless(params[:encounter_id])
-%>
+<%unless(params[:encounter_id])%>
   <%= "var save_state = true;" %>
-<%
-end
-
-%>
+<%end%>
 
   function setConceptNamesAndValues(){
 
@@ -106,19 +100,6 @@ end
     "SKIN INFECTIONS/ABCESSESES/SEVERE UTIS/PNEUMONIA"] %>
   <%= select_tag("admissions_values",             options_for_select(@admissions_list, ((@encounter_obs)?(@encounter_obs["admissions"]):"")),options) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:id => "hyperglycemia",
-:tt_requireNextClick => false,
-:helpText => "DKA/HONK/Hyperglycemia",
-:tt_onUnLoad => "$('hyperglycemia_value_coded_or_text').value = $('hyperglycemia').value"
-}) %>
-<%#= select_tag("hyperglycemia[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
-
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'hyperglycemia'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "hyperglycemia_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -159,19 +140,6 @@ end
   <%= hidden_field_tag("observations[][parent_concept_name]", "HYPERGLYCEMIA SYMPTOMS PRESENT") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Hypoglycemia",
-:tt_requireNextClick => false,
-:tt_onUnLoad => "$('hypoglycemia_value_coded_or_text').value = $('hypoglycemia').value",
-:id => "hypoglycemia"
-}) %>
-<%#= select_tag("(hypoglycemia[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
 
   <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'hypoglycemia'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "hypoglycemia_value_coded_or_text"})%>
@@ -216,18 +184,6 @@ end
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:helpText => "Amputations/foot ulcers",
-:tt_onUnLoad => "$('amputations_value_coded_or_text').value = $('amputations').value",
-:id => "amputations"
-}) %>
-<%#= select_tag("amputations[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options) %>
   <%= hidden_field_tag("observations[][concept_name]",  "", {:id => 'amputations'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "amputations_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
@@ -303,19 +259,6 @@ end
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:id => "foot_infections",
-:helpText => "Foot Infections",
-:tt_onUnLoad => "$('foot_infections_value_coded_or_text').value = $('foot_infections').value"
-}) %>
-<%#= select_tag("foot_infections[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
-
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'foot_infections'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "foot_infections_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -355,20 +298,6 @@ end
   <%= hidden_field_tag("observations[][parent_concept_name]", "FOOT INFECTIONS") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:id => "skin_infections",
-:helpText => "Skin Infections/abcesses/severe UTIs/Pneumonia",
-:tt_onLoad => "addOnMouseDownAction(['No'])",
-:tt_onUnLoad => "$('skin_infections_value_coded_or_text').value = $('skin_infections').value"
-}) %>
-<%#= select_tag("skin_infections[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'skin_infections'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "skin_infections_value_coded_or_text"})%>

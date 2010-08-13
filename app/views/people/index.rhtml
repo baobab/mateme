@@ -19,13 +19,6 @@
     <% if @super_user%>
       <button id="admin_button" class="button green" style="width:106.5%" onclick="window.location = '/user/user_menu'"><span>Administration</span></button>
     <%end%>
-    <!-- <br/>
-    <br/>
-    <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
-    <!-- TODO: need to show current date
-         TODO: need set date/reset date button
-         TODO: need reports button
-         TODO: need summary to be adjusted based on visit? -->
       <table style="margin-left:50px;margin-top:40px;background:#ddddff;width:300px;">
       <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
          type = "Reception - patients seen" if type == "REGISTRATION"

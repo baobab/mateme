@@ -66,7 +66,6 @@
     'UREA'
   ]
 %>
-<%#= select_tag( "diabetes_test_type", options_for_select(@diabetes_test_types), options) %>
 
   <%= hidden_field_tag( "diabetes_test_type",params[:diabetes_test_type],{:id=>"diabetes_test_type"}) %>
 
@@ -96,8 +95,6 @@
     " } %>
   <%= hidden_field_tag("observations[][value_numeric]", "", {:id => 'creatinine_result_value_numeric',:disabled => true}) %>
   <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'diabetes_type_concept',:disabled => true}) %>
-<%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-<%#= hidden_field_tag("observations[][obs_datetime]", '') %>
 
   <%= hidden_field_tag("urea_unit","mg/dl") %>
   <%= text_field_tag "observations[][value_numeric]", nil,

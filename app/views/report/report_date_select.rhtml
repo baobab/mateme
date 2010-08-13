@@ -1,5 +1,17 @@
 <%= stylesheet_link_tag "touch" %>
 <script src="/javascripts/dateselector.js" type="text/javascript"></script>
+<script type='text/javascript'>
+
+function loadHelpText() {
+  helpText = $('helpText'+tstCurrentPage);
+  helpTextString = helpText.innerHTML;
+  helpText.innerHTML = helpTextString + "<div id='infofield'/>";
+  var selectedDates = "<div>Selected start date: <b>" + selectedValue('start_year') + ' ' + selectedValue('start_month') + ' ' + selectedValue('start_day') + "</b></div><div>Selected end date: <b>" + selectedValue('end_year') + ' ' + selectedValue('end_month') + ' ' + selectedValue('end_day') + "</b></div>"
+
+  $('infofield').innerHTML = selectedDates;
+}
+</script>
+
 <style>
 .tt_controls_start_year .buttonLine {
   height:95px;
@@ -140,7 +152,6 @@
         end
   
     form_tag :action =>"#{action}"do
-   # form_tag :action =>'show'do
  %>
  
 <label for="calendar">Start Year</label><br/>
@@ -156,9 +167,6 @@
 <%=select_tag(:start_month, optionsString,  {:field_type => 'alpha', :helpText => "Start Month", :tt_requireNextClick => false, :tt_onLoad => "loadHelpText();"})%>
 <label for="calendar">Start Date</label><br/>
 <%day=Array.new(31){|d|d + 1 } %>
-<%#unknown=Array.new %>
-<%#days_with_unknown = day<< "Unknown" %>
-<%#days = [].concat day%>
 <%
  options = "<option>" "" "</option>"
     day.each{ |number| 
@@ -193,22 +201,5 @@
 
 </div>
 
-
-<script type='text/javascript'>
-           
-function loadHelpText() {
-  helpText = $('helpText'+tstCurrentPage);
-  helpTextString = helpText.innerHTML;
-  helpText.innerHTML = helpTextString + "<div id='infofield'/>";
-  var selectedDates = "<div>Selected start date: <b>" + selectedValue('start_year') + ' ' + selectedValue('start_month') + ' ' + selectedValue('start_day') + "</b></div><div>Selected end date: <b>" + selectedValue('end_year') + ' ' + selectedValue('end_month') + ' ' + selectedValue('end_day') + "</b></div>"
-
-
-$('infofield').innerHTML = selectedDates;
-
-}
-
-
-
-</script>
 
 

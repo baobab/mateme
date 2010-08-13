@@ -1,4 +1,3 @@
-
 <style type="text/css" >
 </style>
 <%
@@ -22,7 +21,7 @@ had_tb = @patient.person.observations.find_by_concept_id(
 
 
 %>
-<!--div -->
+
   <table cellpadding="2" cellspacing="1"  cellpadding="1" width="100%">
     <tr>
       <th class="tableHeader">Medical History</th>
@@ -49,4 +48,3 @@ had_tb = @patient.person.observations.find_by_concept_id(
       <td>Ever had TB:</td><td><%= had_tb %></td>
     </tr>
   </table>
-<!--/div-->

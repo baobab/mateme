@@ -1,10 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <style>
-    body{
+      body{
       font-size: 2em;
-    }
+      }
     </style>
+    <script>
+      document.getElementById("currentPage").innerHTML = '(' + new Date() + '): ' + document.location
+    </script>
   </head>
   <body>
     The page you are trying to view does not exist. Please contact the EMR team and they will do their best to help.<br/>
@@ -22,8 +25,5 @@
     <div style="font-size:.5em" id="currentPage"></div>
     <div style="font-size:.5em"><%= @message %></div>
     <pre style="font-size: .3em"><%= @backtrace %></pre>
-    <script>
-      document.getElementById("currentPage").innerHTML = '(' + new Date() + '): ' + document.location
-    </script>
   </body>
 </html> 

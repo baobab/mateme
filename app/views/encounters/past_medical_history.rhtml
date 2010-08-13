@@ -3,7 +3,6 @@
 
 if(params[:encounter_id] && params[:group_type])
   @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
-  #raise @encounter_obs.inspect
 end
 
 %>
@@ -111,19 +110,6 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
   <% @past_medical_history_list = ["STROKES", "SERIOUS CARDIAC PROBLEMS", "HYPERTENSION", "TUBERCULOSIS", "OTHER MEDICAL CONDITIONS"] %>
   <%= select_tag("past_medical_history_values",             options_for_select(@past_medical_history_list),options) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:id => "strokes",
-:helpText => "Strokes",
-:tt_onUnLoad => "$('strokes_value_coded_or_text').value = $('strokes').value"
-}) %>
-<%#= select_tag("strokes[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
-
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id=> "strokes"}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "strokes_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -144,19 +130,6 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
   <%= hidden_field_tag("observations[][parent_concept_name]", "EVER HAD A STROKE") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:id => "cardiac_problem",
-:helpText => "Serious cardiac problems",
-:tt_onUnLoad => "$('cardiac_problem_value_coded_or_text').value = $('cardiac_problem').value"
-}) %>
-<%#= select_tag("cardiac_problem[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => "cardiac_problem"}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "cardiac_problem_value_coded_or_text"})%>
@@ -232,18 +205,6 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:helpText => "Hypertension?",
-:tt_onUnLoad => "$('hypertension_value_coded_or_text').value = $('hypertension').value",
-:id => "hypertension"
-}) %>
-<%#= select_tag("hypertension[value_corded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => "hypertension"}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "hypertension_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -272,18 +233,6 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-<%#= text_field_tag "hypertension[day_started]",  nil,
-:field_type => 'number',
-:helpText => 'HYPERTENSION: Day of diagnosis',
-:id => "hypertension_day_of_diagnosis",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('hypertension_value_coded_or_text').value == 'Yes' && ($('hypertension_year_of_diagnosis').value.toLowerCase() != 'unknown') && ($('hypertension_month_of_diagnosis').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('hypertension_date_of_diagnosis').value, $('hypertension_day_of_diagnosis').value,2);
-$('hypertension_date_of_diagnosis').value = my_date['value_datetime'];
-if($('hypertension_value_modifier').value!= 'ES') {$('hypertension_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-' + months[$('hypertension_month_of_diagnosis').value] + '-<font color=#FF0000>DD</font>' "
-%>
-
   <%= hidden_field_tag("observations[][concept_name]",        "DIAGNOSIS DATE") %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "HYPERTENSION") %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'hypertension_value_modifier'} ) %>
@@ -291,17 +240,6 @@ if($('hypertension_value_modifier').value!= 'ES') {$('hypertension_value_modifie
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Tuberculosis?",
-:tt_onUnLoad => "$('tuberculosis_value_coded_or_text').value = $('tuberculosis').value",
-:id => "tuberculosis"
-}) %>
-<%#= select_tag("tuberculosis[value_corded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'tuberculosis'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "tuberculosis_value_coded_or_text"})%>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -354,37 +292,12 @@ if($('hypertension_value_modifier').value!= 'ES') {$('hypertension_value_modifie
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-<%#= text_field_tag "tuberculosis[day_started]",  nil,
-:field_type => 'number',
-:helpText => 'TUBERCULOSIS: Day of diagnosis',
-:id => "tuberculosis_day_of_diagnosis",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('tuberculosis').value == 'Yes' && ($('tuberculosis_year_of_diagnosis').value.toLowerCase() != 'unknown') && ($('tuberculosis_month_of_diagnosis').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('tuberculosis_date_of_diagnosis').value, $('tuberculosis_day_of_diagnosis').value,2);
-$('tuberculosis_date_of_diagnosis').value = my_date['value_datetime'];
-if($('tuberculosis_value_modifier').value!= 'ES') {$('tuberculosis_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-' + months[$('tuberculosis_month_of_diagnosis').value] + '-<font color=#FF0000>DD</font>' "
-%>
-
   <%= hidden_field_tag("observations[][concept_name]",        "DIAGNOSIS DATE") %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'tuberculosis_value_modifier'} ) %>
   <%= hidden_field_tag("observations[][value_datetime]",      "", {:id => 'tuberculosis_date_of_diagnosis'} ) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "TUBERCULOSIS") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:id => "other_medical_condition",
-:helpText => "Any other medical conditions?",
-:tt_onUnLoad => "$('medical_condition_value_coded_or_text').value = $('other_medical_condition').value",
-:tt_onLoad=> "addOnMouseDownAction(['No'])"
-}) %>
-<%#= select_tag( "other_medical_condition[value_corded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
 
   <%= text_field_tag "specified_medical_condition[value_corded_or_text]", nil,
     {

@@ -10,7 +10,7 @@
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
-  <label for='complication_hyperglycemia_polyuria'>HYPERGLYCEMIA SYMPTOMS:<br>Polyuria?</label>
+  <label for='complication_hyperglycemia_polyuria'>HYPERGLYCEMIA SYMPTOMS:<br/>Polyuria?</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "complication_hyperglycemia_polyuria"
@@ -23,7 +23,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hyperglycemia_polydipsia'>HYPERGLYCEMIA SYMPTOMS:<br>Polydipsia?</label>
+  <label for='complication_hyperglycemia_polydipsia'>HYPERGLYCEMIA SYMPTOMS:<br/>Polydipsia?</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "complication_hyperglycemia_polydipsia"
@@ -36,7 +36,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hypoglycemia_dizziness'>HYPOGLYMECIA SYMPTOMS: <br>Dizziness?</label>
+  <label for='complication_hypoglycemia_dizziness'>HYPOGLYMECIA SYMPTOMS: <br/>Dizziness?</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "complication_hypoglycemia_dizziness"
@@ -49,7 +49,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hypoglycemia_sweating'>HYPOGLYMECIA SYMPTOMS:<br>Sweating or Feeling Clammy?</label>
+  <label for='complication_hypoglycemia_sweating'>HYPOGLYMECIA SYMPTOMS:<br/>Sweating or Feeling Clammy?</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "complication_hypoglycemia_sweating"
@@ -62,7 +62,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hypoglycemia_loseconsciousness'>HYPOGLYMECIA SYMPTOMS:<br>Loss of Consciousness?</label>
+  <label for='complication_hypoglycemia_loseconsciousness'>HYPOGLYMECIA SYMPTOMS:<br/>Loss of Consciousness?</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "complication_hypoglycemia_loseconsciousness"
@@ -75,7 +75,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS:<br>General body weakness?</label>
+  <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS:<br/>General body weakness?</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "complication_hyperglycemia_weakness"
@@ -88,7 +88,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <label for='complication_hyperglycemia_sexual_dysfunction'>HYPOGLYMECIA SYMPTOMS:<br>Erectile or sexual dysfunction?</label>
+  <label for='complication_hyperglycemia_sexual_dysfunction'>HYPOGLYMECIA SYMPTOMS:<br/>Erectile or sexual dysfunction?</label>
   <% options=default.merge({
     :field_type => 'text',
     :id => "complication_hyperglycemia_sexual_dysfunction"

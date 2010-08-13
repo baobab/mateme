@@ -71,11 +71,6 @@
 
   <%= select_tag "person[attributes][occupation]", options_for_select([" ", "Housewife", "Farmer", "Police", "Soldier", "Business", "Teacher", "Student", "Healthcare Worker"].sort.concat(["Other"]), params[:occupation]), {:helpText => 'Occupation'}%>
 
-  <!-- Make sure patient is created -->
-
-  <%#= hidden_field_tag "person[patient]", "" %>
-
-  <%#= hidden_field_tag :identifier, params[:identifier] %>
   <%= text_field_tag "person[patient][identifiers][diabetes_number]", nil, :field_type => 'number', :helpText => 'Diabetes Number' %>
 
   <%= submit_tag "Create person" %>
