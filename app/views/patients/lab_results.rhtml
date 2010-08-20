@@ -2,5 +2,64 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 %>
+<script type="text/javascript">
+  tt_cancel_destination = '/patients/show?patient_id=<%= @patient.patient_id%>';
+</script>
+<style type="text/css">
 
-<%= "lab_results" %>
+  a.button.green {
+    width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:green none repeat scroll 0 0;
+    font-size:1.4em;
+    height:50px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
+  }
+#menu {
+    overflow:auto;
+    position:absolute;
+    height:620px;
+    width:257px;
+    top: 200px;
+    right: 1px;
+  }
+
+.buttonsDiv{
+  width: 995px;
+}
+
+ul.list{
+  overflow-x: hidden;
+}
+
+</style>
+
+<div style="margin:10px;">
+  <div style="font-size:1.1em; position:relative;top: 0px;">
+    <%= render :partial => "details" %>
+  </div>
+    <%= render :partial => "current_tests" %>
+
+    <div id="menu">
+      <!--a class="button green" href='/patients/print_lab_identifier?patient_id=<%= @patient.id -%>&identifier=LAB+6575'>Print Identifier</a-->
+      <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Add Lab Tests</a>
+    </div>
+</div>
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 100px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
+    <span>
+      Cancel
+    </span>
+  </button>
+</div>

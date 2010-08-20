@@ -33,6 +33,21 @@ class Drug < ActiveRecord::Base
     render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.sort.join("</li><li>") + "</li>"
   end
 
+  def self.generic
+    self.all.collect {|drug|
+      [Concept.find(drug.concept_id).name.name, drug.concept_id] rescue nil
+    }.compact.uniq rescue []
+  end
+
+  def self.drugs
+    generic = self.generic
+
+    generic.collect {|g|
+      self.drugs[g[0]] = self.find(:all, :conditions => ["concept_id = ?", g[1]]).collect {|d|
+        ["#{d.dose_strength}#{d.units.upcase}", "OD"]
+      }
+    }
+  end
 end
 
 # CREATE TABLE `drug` (

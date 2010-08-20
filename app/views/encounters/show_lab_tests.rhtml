@@ -1,9 +1,8 @@
 <script type="text/javascript">
-  tt_cancel_destination = '/patients/end_visit?patient_id=<%= @patient.patient_id%>';
-  tt_cancel_to_peole_index = '/people/index';
+  tt_cancel_destination = '/encounters/lab_results_entry';
 </script>
 <style type="text/css">
- 
+
   a.button.green {
     width:220px;
     -moz-user-select:none;
@@ -30,7 +29,7 @@
     top: 0px;
     right: 1px;
   }
- 
+
 .buttonsDiv{
   width: 995px;
 }
@@ -40,29 +39,20 @@ ul.list{
 }
 
 </style>
- 
+
 <div style="margin:10px;">
-  <div style="font-size:1.1em; position:relative;top: 0px;">
+  <div style="font-size:1.1em; position:relative;top: 0px; width:650px;">
     <%= render :partial => "details" %>
   </div>
+  <div style="font-size:1.1em; position:absolute; top: 260px; border:dotted 1px #eee; height:360px; width:670px;">
     <%= render :partial => "current_encounters" %>
- 
-  <div id="menu">
-
-      <a class="button green" href='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</a>
-      <a class="button green" href='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</a>
-      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
-      <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
-      <!--a class="button green" href='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</a-->
-      <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Results</a>
-      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
-      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
-    
   </div>
+    <%= render :partial => "current_tests" %>
+
 </div>
 
 <div style="z-index:11;bottom:15px; height: 64px; width: 100px; left: -4px; right: -66px; position: absolute;">
-  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_to_peole_index) window.location = tt_cancel_to_peole_index;">
+  <button id="cancelButton" class="button navButton red" onclick="window.location = tt_cancel_destination">
     <span>
       Cancel
     </span>

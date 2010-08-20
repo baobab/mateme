@@ -1,49 +1,33 @@
 <script type="text/javascript">
   var tt_cancel_destination = "/prescriptions/?patient_id=<%= @patient.id %>"
+
+  var selected_drugs = {};
+  var durations = {};
+  var doses = {};
+  var freqs = {};
+
 </script>
-<script language="javascript" type="text/javascript" src="/javascripts/prescription.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/drugs.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/drugsdata.js"></script>
 <style type="text/css">
   #space { display:inline; font-size:1.2em; }
   #helpText0 { width:680px}
 </style>
 <%= stylesheet_link_tag "drug-style" %>
-<form id='inpatient_prescriptions' action="/prescriptions/create" method='post'>
+<form id='prescription' action="/prescriptions/create" method='post'>
 
-   <input type="hidden" id="obs_id" name="obs_id" value="<%= @patient.id %>" /> 
-   <%# where @patient.id in this case is a place holder for obs_id later %>
+  <input
+    type='text' name='drugs' tt_onLoad='generateDrugs()'
+    tt_onUnLoad='removeDrugs()' tt_pageStyleClass='NoControls'
+    optional />
 
-   <input type="hidden" id="all_prescriptions" name="all_prescriptions" value="" />
-   
-   <input type='text' name='drug_prescribed_ctrl' tt_onUnLoad="removeDrugsPrescribed()" tt_onLoad='createDrugsPrescribed();updateDrugList();$("drug-inputbox").focus()' tt_pageStyleClass='NoControls' optional />
-   
-   <!--input type='text' name='drugs_given_ctrl' tt_onLoad='createDrugsGiven();' tt_pageStyleClass='NoControls' optional /-->
+  <!--input type="hidden" name="diagnosis" value="DIABETES MEDICATION" /-->
+
+  <!--input type="hidden" name="suggestion" value="0" /-->
+
+  <input type="hidden" value="<%= @patient.id %>" id="patient_id" name="patient_id" />
 
 
   <%= submit_tag "Finish" %>
 
 </form>
-<div id='subDiagnosisPopUpDiv' class='diagnosisBarDiv'>
-
-<div id='subDiagnosisPopUp' class='diagnosisBar'>
-</div> 
-<div>
-  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
-  </div>
-</div>
-
-<div id='subSubDiagnosisPopUpDiv' class='diagnosisBarDiv'>
-<div id='subSubDiagnosisPopUp' class='diagnosisBar'>
-</div> 
-<div>
-  <button onmousedown='hidePopUp();'><span>Cancel</span></button>
-  </div>
-</div>
-
-<script type='text/javascript'>
-var finalAnswers = [<%= DiagnosisTree.diagnosis_data.to_json %>];
-var finalTests = [<%= DiagnosisTree.confirmatory_evidence.to_json %>];  
-var mainDataArray = [];
-var tempDataArray = [];
-var confirmatoryEvidenceData = {};
-</script>
-

@@ -1,0 +1,14 @@
+<script type="text/javascript">
+  var tt_cancel_destination = "/encounters/lab_results_entry"
+
+</script>
+
+<% form_tag "show_lab_tests", :method => :get do %>
+    <%= text_field_tag "identifier", nil,
+          {:id => "identifier",
+           :field_type => 'text',
+           :helptext =>"Lab Access Number",
+           :allowFreeText => 'true',
+           :validationRule => "^(Lab\\d+)|(LAB\\d+)|(lab\\d+)$",
+           :validationMessage => "You must enter a valid Lab Access Number."} %>
+<% end -%>

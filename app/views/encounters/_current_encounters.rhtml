@@ -1,0 +1,25 @@
+<div style="margin-top:10px;">
+  <b  style="font-size: 22pt; padding-left:8px;">Test Results</b>
+  <!--div style="border:solid 1px #eee; width:650px; height:290px; margin-left:10px; overflow:auto; margin-top:10px;"-->
+  <ul class="list" style="height: 280px; width: 650px; left: 8px; right: -66px; position: relative;">
+    <%@enc_names.each{|encounter_name|
+     header = 'true' 
+     for encounter in @obs_encounters do %>
+      <%if encounter.name == encounter_name%>
+      <li class="data <%= cycle('even', 'odd') %>">
+      <div style="float:right;padding:7px;">
+          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png",
+              {:confirm => "Are you sure you want to void this prescription?"},
+              {:encounter_id => encounter.encounter_id, :identifier => params[:identifier]}-%>
+       </div>
+       
+       <%if header == 'true' %><div style="float:left"><%=h encounter.name.humanize %></div><%end; header = 'false'%>
+         <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%#=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M") %></span>
+</div>
+      </li>  
+    <%end
+    end 
+    }%>
+  </ul>
+  <!--/div-->
+</div>

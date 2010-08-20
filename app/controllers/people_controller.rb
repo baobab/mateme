@@ -147,4 +147,5 @@ class PeopleController < ApplicationController
     session["category"] = "paeds"
     render :layout => "menu"
   end
+
 end

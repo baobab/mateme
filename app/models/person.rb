@@ -452,4 +452,9 @@ class Person < ActiveRecord::Base
 
   end
   
+  # Person's short name to fit on small labels
+  def short_name
+    "#{self.names.first.given_name.first}. #{self.names.first.family_name}" rescue nil
+  end
+
 end

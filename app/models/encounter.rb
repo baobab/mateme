@@ -67,7 +67,7 @@ class Encounter < ActiveRecord::Base
         test_text = ''
         myh = {}
         observations.each{|observe|
-          #diagnosis_text = "#{observe.concept.name.name}: #{observe.answer_concept.name.name}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
+          # diagnosis_text = "#{observe.concept.name.name}: #{observe.answer_concept.name.name}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
           diagnosis_text = "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
           next if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
           myh[observe.answer_concept.name.name] = {} if not myh[observe.answer_concept.name.name]
@@ -86,6 +86,12 @@ class Encounter < ActiveRecord::Base
 
       end
 =end
+    elsif  name == 'LAB'
+
+      observations.collect{|observation|
+        observation.obs_answer_string
+      }.compact.join(", ")
+      
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  
@@ -129,5 +135,31 @@ class Encounter < ActiveRecord::Base
     end  
   end
 
+  def label
+    case self.type.name
+    when "LAB"
+      label = ZebraPrinter::Label.new(500,165)
+      label.font_size = 2
+      label.font_horizontal_multiplier = 1
+      label.font_vertical_multiplier = 1
+      label.left_margin = 300
+      label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")} \
+                     #{self.patient.national_id_with_dashes}",
+                    :font_reverse => false)
+      label.draw_multi_text("#{self.patient.name} #{self.lab_accession_number}")
+      label.draw_multi_text("#{self.to_s}", :font_reverse => true)
+      label.draw_barcode(50,130,0,1,4,8,20,false,self.lab_accession_number)
+      label.print
+    end
+  end
+
+  def lab_accession_number
+    case self.type.name
+    when "LAB"
+      observations.select {|obs| 
+        obs.concept.concept_names.map(&:name).include?("LAB TEST SERIAL NUMBER")
+      }[0].value_text rescue nil
+    end
+  end
 
 end

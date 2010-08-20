@@ -29,6 +29,11 @@
             onclick="window.location = '/people/paeds'" style="min-width:480px;">
             <span>Paediatrics</span>
     </button>
+
+    <button id="find_lab_entries_button" class="button green"
+            onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
+            <span>Lab Results Entry</span>
+    </button>
     
     <%# end%>
     <% if @super_user%>
@@ -36,14 +41,12 @@
               onclick="window.location = '/admin'"><span>Administration</span>
       </button>
     <%end%>
-    <br/>
-    <br/>
     <!-- <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
     <!-- TODO: need to show current date
          TODO: need set date/reset date button
          TODO: need reports button
          TODO: need summary to be adjusted based on visit? -->
-      <table style="margin-left:50px;margin-top:40px;background:#ddddff;width:300px;">
+      <table style="margin-left:50px;margin-top:20px;background:#ddddff;width:380px;">
       <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
          type = "Reception - patients seen" if type == "REGISTRATION"
          type = "patients referred to other clinics" if type == "REFERRED" %>
