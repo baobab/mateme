@@ -1557,6 +1557,8 @@ function getDayOfMonthPicker(aYear, aMonth) {
 
     for(var i=1;i <= numberOfDays;i++){
         keyboard.innerHTML += getButtonString(i,i)
+        /* break on the seventh button, implying the end of the week*/
+        if(i%7 == 0) keyboard.innerHTML +="<span><br/></span>";
     }
     keyboard.innerHTML += getButtonString("Unknown","Unknown")
 	
