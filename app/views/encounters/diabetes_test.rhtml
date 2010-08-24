@@ -887,6 +887,7 @@
       :helpText => 'Test Day',
       :field_type => 'number',
       :absoluteMin => 1, :absoluteMax => 31,
+      :tt_onLoad =>"getDayOfMonthPicker($('diabetes_test_year').value,$('diabetes_test_month').value)",
       :condition => '($("diabetes_test_year").value != "Unknown") && ($("diabetes_test_month").value != "Unknown")',
       :tt_onUnLoad => "my_date = formatDate($('encounter_encounter_datetime').value, $('diabetes_test_day').value,2);
     $('encounter_encounter_datetime').value = my_date['value_datetime'];"
