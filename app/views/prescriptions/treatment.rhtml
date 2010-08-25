@@ -15,6 +15,11 @@
 <%= stylesheet_link_tag "drug-style" %>
 <form id='prescription' action="/prescriptions/create_prescription" method='post'>
 
+  <%= hidden_field_tag "encounter[encounter_type_name]", "TREATMENT" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
   <input
     type='text' name='drugs' tt_onLoad='generateGenerics()'
     tt_onUnLoad='removeGenerics()' tt_pageStyleClass='NoControls'

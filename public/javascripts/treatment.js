@@ -735,13 +735,20 @@ function removeGenerics(){
 
     for(var diagnosis in selectedGenerics){
         for(var generic in selectedGenerics[diagnosis]){
-            
+
             var parent_diagnosis = document.createElement("input");
             parent_diagnosis.type = "hidden";
-            parent_diagnosis.name = "prescriptions[][parent_concept_name]";
-            parent_diagnosis.value = diagnosis;
+            parent_diagnosis.name = "prescriptions[][concept_name]";
+            parent_diagnosis.value = "DIAGNOSIS";
 
             document.forms[0].appendChild(parent_diagnosis);
+
+            var valueCodedText = document.createElement("input");
+            valueCodedText.type = "hidden";
+            valueCodedText.name = "prescriptions[][value_coded_or_text]";
+            valueCodedText.value = diagnosis;
+
+            document.forms[0].appendChild(valueCodedText);
 
             var concept = document.createElement("input");
             concept.type = "hidden";
@@ -758,30 +765,30 @@ function removeGenerics(){
             document.forms[0].appendChild(patientid);
 
             if(selectedGenerics[diagnosis][generic]["dosage"]){
-                var obsdate = document.createElement("input");
-                obsdate.type = "hidden";
-                obsdate.name = "prescriptions[][dosage]";
-                obsdate.value = selectedGenerics[diagnosis][generic]["dosage"];
+                var dosage = document.createElement("input");
+                dosage.type = "hidden";
+                dosage.name = "prescriptions[][dosage]";
+                dosage.value = selectedGenerics[diagnosis][generic]["dosage"];
 
-                document.forms[0].appendChild(obsdate);
+                document.forms[0].appendChild(dosage);
             }
 
             if(selectedGenerics[diagnosis][generic]["frequency"]){
-                var obsdate = document.createElement("input");
-                obsdate.type = "hidden";
-                obsdate.name = "prescriptions[][frequency]";
-                obsdate.value = selectedGenerics[diagnosis][generic]["frequency"];
+                var frequency = document.createElement("input");
+                frequency.type = "hidden";
+                frequency.name = "prescriptions[][frequency]";
+                frequency.value = selectedGenerics[diagnosis][generic]["frequency"];
 
-                document.forms[0].appendChild(obsdate);
+                document.forms[0].appendChild(frequency);
             }
 
             if(selectedGenerics[diagnosis][generic]["duration"]){
-                var obsdate = document.createElement("input");
-                obsdate.type = "hidden";
-                obsdate.name = "prescriptions[][duration]";
-                obsdate.value = selectedGenerics[diagnosis][generic]["duration"];
+                var duration = document.createElement("input");
+                duration.type = "hidden";
+                duration.name = "prescriptions[][duration]";
+                duration.value = selectedGenerics[diagnosis][generic]["duration"];
 
-                document.forms[0].appendChild(obsdate);
+                document.forms[0].appendChild(duration);
             }
         }
     }

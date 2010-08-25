@@ -45,7 +45,7 @@ class PrescriptionsController < ApplicationController
       @drug = drug_order.drug
       params[:dose_strength] = drug_order.dose
       DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], params[:frequency], prn, params[:order_type])
-     # DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order, params[:order_type])
+      # DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order, params[:order_type])
     else
       prescriptions_array.each{|arr|
         @drug = Drug.find_by_name(arr[0]) rescue nil
@@ -57,7 +57,7 @@ class PrescriptionsController < ApplicationController
         end
         
         DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, auto_expire_date, params[:dose_strength], arr[1], prn, params[:order_type])
-    }
+      }
     end  
     redirect_to "/prescriptions?patient_id=#{@patient.id}"
   end
@@ -176,7 +176,83 @@ class PrescriptionsController < ApplicationController
   end
   
   # Save the prescriptions made
+  # This method has been added as the one used in SPINE is different from the
+  # approach in DMHT which was the preferred model of saving treatments at the
+  # time of writing
   def create_prescription
-    raise params.to_yaml
+    #raise params.to_yaml
+
+    encounter = Encounter.new(params[:encounter])
+    encounter.encounter_datetime ||= session[:datetime]
+    encounter.save
+
+    (params[:prescriptions] || []).each{|prescription|      
+      @patient    = Patient.find(prescription[:patient_id] || session[:patient_id]) rescue nil
+      @encounter  = encounter
+
+      diagnosis_name = prescription[:value_coded_or_text]
+
+      values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+        prescription["value_#{value_name}"] unless prescription["value_#{value_name}"].blank? rescue nil
+      }.compact
+
+      next if values.length == 0
+      prescription.delete(:value_text) unless prescription[:value_coded_or_text].blank?
+
+      prescription[:encounter_id]  = @encounter.encounter_id
+      prescription[:obs_datetime]  = @encounter.encounter_datetime ||= Time.now()
+      prescription[:person_id]     = @encounter.patient_id
+
+      diagnosis_observation = Observation.create("encounter_id" => prescription[:encounter_id],
+        "concept_name" => "DIAGNOSIS",
+        "obs_datetime" => prescription[:obs_datetime],
+        "person_id" => prescription[:person_id],
+        "value_coded_or_text" => diagnosis_name)
+
+      prescription[:diagnosis] = diagnosis_observation.id
+
+      @diagnosis = Observation.find(prescription[:diagnosis]) rescue nil
+
+      prescription[:dosage] =  "" unless !prescription[:dosage].nil?
+
+      prescription[:formulation] = [prescription[:drug], prescription[:dosage], prescription[:frequency]]
+
+      drug_info = @patient.drug_details(prescription[:formulation]).first
+
+      prescription[:formulation]    = drug_info[:drug_formulation] rescue nil
+      prescription[:frequency]      = drug_info[:drug_frequency] rescue nil
+      prescription[:prn]            = drug_info[:drug_prn] rescue nil
+      prescription[:dosage]         = drug_info[:drug_strength] rescue nil
+
+      @formulation = (prescription[:formulation] || '').upcase
+
+      @drug = Drug.find_by_name(@formulation) rescue nil
+
+      unless @drug
+        flash[:notice] = "No matching drugs found for formulation #{prescription[:formulation]}"
+        @patient = Patient.find(prescription[:patient_id] || session[:patient_id]) rescue nil
+        @generics = Drug.generic
+        @frequencies = Drug.frequencies
+        @diagnosis = @patient.current_diagnoses["DIAGNOSIS"] rescue []
+        
+        render :treatment
+        return
+      end
+
+      start_date = Time.now
+      auto_expire_date = Time.now + prescription[:duration].to_i.days
+      
+      DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, 
+        auto_expire_date, prescription[:dosage], prescription[:frequency], 0, 1)
+      
+    }
+
+    if(@patient)
+      redirect_to "/prescriptions?patient_id=#{@patient.id}"
+    else
+      redirect_to "/prescriptions?patient_id=#{params[:patient_id]}"
+    end
+
   end
+
 end
