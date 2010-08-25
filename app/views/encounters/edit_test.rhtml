@@ -1,5 +1,11 @@
+<script src="/javascripts/antibiotics.js" type="text/javascript"></script>
 <script type="text/javascript">
   tt_cancel_destination = '/encounters/show_lab_tests?identifier=<%= params[:identifier].upcase if !params[:identifier].nil? %>';
+
+  var antibiotics = <%= @antibiotic_results.to_json %>;
+  var patient_id = '<%= @patient.id %>';
+  var datetime = '<%= DateTime.now() %> '
+
 </script>
 
 <% case params[:test]
@@ -72,18 +78,25 @@ when "BLOOD CULTURE" %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-    <label for='antibiotic_result'>Antibiotics Result</label>
-    <% options=default.merge({
+    <input
+    type='text' name='antibiotics' tt_onLoad='generateAntibiotics()'
+    tt_onUnLoad='removeAntibiotics()' tt_pageStyleClass='NoControls'
+    condition = "$('growth').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'" optional />
+    
+    <!--label for='antibiotic_result'>Antibiotics Result</label-->
+    <%# options=default.merge({
         :field_type => 'text',
         :id => "antibiotic_result",
-        :condition=>"$('growth').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'"
+        :condition=>"$('growth').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'",
+        :multiple => true,
+        :tt_onLoad => "antibiotics_click()"
       }) %>
-    <%= select_tag( "observations[][value_coded_or_text]",
+    <%#= select_tag( "observations[][value_coded_or_text]",
       options_for_select(@antibiotic_results), options) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
-    <%= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
-    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%#= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
+    <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <%= submit_tag "Finish" %>
   </form>
@@ -401,18 +414,23 @@ when "BLOOD CULTURE" %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-    <label for='antibiotic_result'>Antibiotics Result</label>
-    <% options=default.merge({
+    <input
+    type='text' name='antibiotics' tt_onLoad='generateAntibiotics()'
+    tt_onUnLoad='removeAntibiotics()' tt_pageStyleClass='NoControls'
+    condition = "$('culture').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'" optional />
+
+    <!--label for='antibiotic_result'>Antibiotics Result</label-->
+    <%# options=default.merge({
         :field_type => 'text',
         :id => "antibiotic_result",
         :condition=>"$('culture').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'"
       }) %>
-    <%= select_tag( "observations[][value_coded_or_text]",
+    <%#= select_tag( "observations[][value_coded_or_text]",
       options_for_select(@antibiotic_results), options) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
-    <%= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
-    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%#= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
+    <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <%= submit_tag "Finish" %>
   </form>

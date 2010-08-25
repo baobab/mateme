@@ -3,6 +3,7 @@ class ConceptName < ActiveRecord::Base
   set_primary_key :concept_name_id
   include Openmrs
   belongs_to :concept
+  has_many :map, :class_name => "ConceptNameTagMap"
 
   # Get the set of tests for the Gram Stain test set
   def self.gram_stain_result_set
@@ -47,7 +48,7 @@ class ConceptName < ActiveRecord::Base
         concept.concept.name.name.titleize
       }
 
-      @result << ""
+      # @result << ""
 
       @result.sort
     else
@@ -91,5 +92,19 @@ class ConceptName < ActiveRecord::Base
     end
   end
 
+  # This method gets the collection of all short forms of frequencies as used in
+  # the Diabetes Module and returns only no-empty values or an empty array if none
+  # exist
+  def self.drug_frequency
+    self.find_by_sql("SELECT name FROM concept_name WHERE concept_id IN \
+                        (SELECT answer_concept FROM concept_answer c WHERE \
+                        concept_id = (SELECT concept_id FROM concept_name \
+                        WHERE name = 'DRUG FREQUENCY CODED')) AND concept_name_id \
+                        IN (SELECT concept_name_id FROM concept_name_tag_map \
+                        WHERE concept_name_tag_id = (SELECT concept_name_tag_id \
+                        FROM concept_name_tag WHERE tag = 'preferred_dmht'))").collect {|freq|
+                            freq.name rescue nil
+                        }.compact rescue []
+  end
 end
 

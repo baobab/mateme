@@ -18,7 +18,6 @@ class PrescriptionsController < ApplicationController
   end
   
   def create
-    raise params.to_yaml
     
     prescriptions_array = params['all_prescriptions'].chop.split(/;/).map{|arr| arr.split(/,/)} rescue []
 
@@ -164,8 +163,20 @@ class PrescriptionsController < ApplicationController
     render :layout => false
   end
 
-  def drug_list
-    
+  def treatment
+    @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @generics = Drug.generic
+    @frequencies = Drug.frequencies
+    @diagnosis = @patient.current_diagnoses["DIAGNOSIS"] rescue []
+  end
+
+  def load_frequencies_and_dosages
+    @drugs = Drug.drugs(params[:concept_id]).to_json
+    render :text => @drugs
   end
   
+  # Save the prescriptions made
+  def create_prescription
+    raise params.to_yaml
+  end
 end

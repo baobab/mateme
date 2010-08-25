@@ -123,4 +123,9 @@ class SearchController < ApplicationController
     render :text => frequency.collect{|freq| "#{freq}"}.join(",")
   end
 
+  def load_frequencies_and_dosages
+    drugs = Drug.dosages(params[:concept_id])
+    render :text => drugs.to_json
+  end
+  
 end

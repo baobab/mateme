@@ -1,0 +1,46 @@
+<script type="text/javascript">
+  var tt_cancel_destination = "/prescriptions/?patient_id=<%= @patient.id %>"
+
+  var generics = <%= @generics.sort.to_json %>;
+  var frequencies = <%= @frequencies.to_json %>;
+  var diagnosisList = <%= @diagnosis.to_json %>;
+  var patient_id = <%= params[:patient_id] rescue "" %>;
+
+</script>
+<script language="javascript" type="text/javascript" src="/javascripts/treatment.js"></script>
+<style type="text/css">
+  #space { display:inline; font-size:1.2em; }
+  #helpText0 { width:680px}
+</style>
+<%= stylesheet_link_tag "drug-style" %>
+<form id='prescription' action="/prescriptions/create_prescription" method='post'>
+
+  <input
+    type='text' name='drugs' tt_onLoad='generateGenerics()'
+    tt_onUnLoad='removeGenerics()' tt_pageStyleClass='NoControls'
+    optional />
+
+  <input type="hidden" value="<%= @patient.id %>" id="patient_id" name="patient_id" />
+
+
+  <%= submit_tag "Finish" %>
+
+</form>
+
+
+<div style="z-index:11;bottom:28px; height: 64px; width: 435px; left: 230px; 
+     right: -66px; position: absolute;">
+  <button id="viewSelectedOnlyButton" class="button navButton blue" style="min-width:350px;"
+          onclick="if(this.innerHTML=='<span>Show Selected Drugs Only</span>'){
+            this.innerHTML = '<span>Show All Drugs</span>';
+            showSelectedDrugsOnly();
+          } else {
+            this.innerHTML = '<span>Show Selected Drugs Only</span>';
+            $('inputTxt').value = '';
+            searchDrug();
+          }">
+    <span>
+      Show Selected Drugs Only
+    </span>
+  </button>
+</div>

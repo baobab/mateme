@@ -82,7 +82,7 @@ function elementSelectedValue(element){
       return result.substring(1, result.length);
     } else {
 			if (element.selectedIndex >= 0  && element.options.length > 0) {
-				return element.options[element.selectedIndex].text
+				return element.options[element.selectedIndex].text;
 			}
 		}
   }
@@ -740,7 +740,7 @@ function updateTouchscreenInputForSelect(element){
   	if (element.value.length>1)
 	  	inputTarget.value = element.value;
   	else if (element.innerHTML.length>1)
-	  	inputTarget.value = element.innerHTML;
+	  	inputTarget.value = unescape(element.innerHTML);
 	}  	
 
   highlightSelection(element.parentNode.childNodes, inputTarget)

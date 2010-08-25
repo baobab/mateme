@@ -42,7 +42,7 @@
 <%if !@orders.empty?%>
 
     <div style="float:right;padding-right:20px;margin-top:-15px;">
-    <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
+    <button class="button green" onclick="window.location = '/prescriptions/treatment?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
     </div>
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">
@@ -62,7 +62,7 @@
 <%else%>
 
     <div style="float:right;padding-right:20px;margin-top:-15px;">
-    <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
+    <button class="button green" onclick="window.location = '/prescriptions/treatment?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
     </div>
 
     <div style="float:left;padding-right:20px;margin-top:-15px;">

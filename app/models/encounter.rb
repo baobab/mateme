@@ -86,12 +86,24 @@ class Encounter < ActiveRecord::Base
 
       end
 =end
-    elsif  name == 'LAB'
+    elsif name == 'LAB ORDERS'
 
       observations.collect{|observation|
         observation.obs_answer_string
       }.compact.join(", ")
-      
+
+    elsif name == 'LAB RESULTS'
+
+      observations.collect{|observation|
+        observation.obs_lab_results_string
+      }.compact.join(",<br /> ")
+
+    elsif name == 'CHRONIC CONDITIONS' || name == 'INFLUENZA DATA'
+
+      observations.collect{|observation|
+        observation.obs_chronics_string
+      }.compact.join(", ")
+
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  

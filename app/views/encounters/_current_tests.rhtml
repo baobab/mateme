@@ -7,12 +7,20 @@
       @i = 0
       @encounter_names.each{|encounter_name|
         found = nil
+
+        if encounter_name == "CSF"
+          encounter_name = "CEREBROSPINAL FLUID"
+        end
         
         @tests.each {|el|
           if el.match(encounter_name)
             found = true
           end
         }
+
+        if encounter_name == "CEREBROSPINAL FLUID"
+          encounter_name = "CSF"
+        end
 
         unless !found.nil?
         @i += 1
@@ -26,6 +34,20 @@
               </span>
             </button>
           </div>
+      <%
+        else
+
+      %>
+
+        <div style="width:100%;">
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button gray"
+                    style="min-width:250px;">
+              <span>
+                <%=  encounter_name %>
+              </span>
+            </button>
+          </div>
+
       <%
         end
       }

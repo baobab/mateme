@@ -110,4 +110,28 @@ class Observation < ActiveRecord::Base
       []
     end
   end
+
+  # Added to filter Chronic Conditions and Influenza Data
+  def obs_chronics_string
+    if self.answer_concept
+      if !self.answer_concept.name.name.include?("NO")
+        "#{self.concept.name.name rescue nil}: #{self.answer_concept.name.name rescue nil}#{self.value_text rescue nil}#{self.value_numeric rescue nil}"
+      end
+    else
+      "#{self.concept.name.name rescue nil}: #{self.value_text rescue nil}#{self.value_numeric rescue nil}"
+    end
+  end
+
+  # Added to filter Chronic Conditions and Influenza Data
+  def obs_lab_results_string
+    if self.answer_concept
+      if !self.answer_concept.name.name.include?("NO")
+        "#{(self.concept.name.name == "LAB TEST RESULT" ? "<b>#{self.answer_concept.name.name rescue nil}</b>" : 
+        "#{self.concept.name.name}: #{self.answer_concept.name.name rescue nil}#{self.value_text rescue nil}#{self.value_numeric rescue nil}") rescue nil}"
+      end
+    else
+      "#{self.concept.name.name rescue nil}: #{self.value_text rescue nil}#{self.value_numeric rescue nil}"
+    end
+  end
+
 end

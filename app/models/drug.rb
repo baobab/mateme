@@ -33,21 +33,40 @@ class Drug < ActiveRecord::Base
     render :text => "<li>" + @drug_concepts.map{|drug_concept| drug_concept.name }.uniq.sort.join("</li><li>") + "</li>"
   end
 
+  # This method gets all generic drugs in the database
   def self.generic
     self.all.collect {|drug|
       [Concept.find(drug.concept_id).name.name, drug.concept_id] rescue nil
     }.compact.uniq rescue []
   end
 
-  def self.drugs
-    generic = self.generic
-
-    generic.collect {|g|
-      self.drugs[g[0]] = self.find(:all, :conditions => ["concept_id = ?", g[1]]).collect {|d|
-        ["#{d.dose_strength}#{d.units.upcase}", "OD"]
+  # For a selected generic drug, this method gets all corresponding drug
+  # combinations
+  def self.drugs(generic_drug_concept_id)
+    frequencies = ConceptName.drug_frequency
+    collection = []
+    
+    self.find(:all, :conditions => ["concept_id = ?", generic_drug_concept_id]).each {|d|
+      frequencies.each {|freq|
+        collection << ["#{d.dose_strength.to_i rescue 1}#{d.units.upcase rescue ""}", "#{freq}"]
       }
-    }
+    }.uniq.compact rescue []
+
+    collection
   end
+
+  def self.dosages(generic_drug_concept_id)    
+
+    self.find(:all, :conditions => ["concept_id = ?", generic_drug_concept_id]).collect {|d|
+      "#{d.dose_strength.to_i rescue 1}#{d.units.upcase rescue ""}"
+    }.uniq.compact rescue []
+
+  end
+
+  def self.frequencies
+    ConceptName.drug_frequency
+  end
+  
 end
 
 # CREATE TABLE `drug` (
