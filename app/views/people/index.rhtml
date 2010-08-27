@@ -20,22 +20,21 @@
       <%end%>
 
 
-    <button id="find_or_register_adult_button" class="button green"
-            onclick="window.location = '/people/adults'" style="min-width:480px;">
-            <span>Adults</span>
+    <button id="find_or_register_button" class="button green"
+            onclick="window.location = '/people/search'" style="min-width:480px;">
+            <span>Find or register patient by name</span>
     </button>
 
-    <button id="find_or_register_paeds_button" class="button green"
-            onclick="window.location = '/people/paeds'" style="min-width:480px;">
-            <span>Paediatrics</span>
+    <button id="reports_button" class="button green"
+            onclick="window.location = '/report/select'" style="min-width:480px;">
+            <span>Reports</span>
     </button>
 
-    <button id="find_lab_entries_button" class="button green"
-            onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
-            <span>Lab Results Entry</span>
+    <button id="set_date_button" class="button green"
+            onclick="window.location = '/people/set_datetime'" style="min-width:480px;">
+            <span>Set Date</span>
     </button>
-    
-    <%# end%>
+
     <% if @super_user%>
       <button id="admin_button" class="button green"  style="min-width:480px;"
               onclick="window.location = '/admin'"><span>Administration</span>
