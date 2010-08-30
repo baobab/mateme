@@ -325,6 +325,14 @@ class PatientsController < ApplicationController
           )
 
           @enc.save
+
+          @obs = Observation.new(:concept_name => "APPOINTMENT DATE",
+             :value_datetime => params[:appointment_date],
+             :encounter_id => @enc.encounter_id             
+          )
+
+          @obs.save
+
         end
         
       end

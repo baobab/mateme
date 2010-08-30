@@ -4,8 +4,25 @@
   tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
   var patient_id = <%= @patient.id %>;
 
-  <%#= raise @counts.to_yaml %>
+<%#= raise @counts.to_yaml %>
 
   counts = <%= @counts.to_json() %>;
 
 </script>
+
+
+<form id="frmMain" action="/encounters/create/" method="post">
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "APPOINTMENT" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= hidden_field_tag("observations[][concept_name]", "APPOINTMENT DATE") %>
+  <%= hidden_field_tag("observations[][value_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= hidden_field_tag("next_url", "/patients/generate_booking?patient_id=#{@patient.id}") %>
+
+</form>

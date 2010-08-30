@@ -128,6 +128,27 @@ function setMonth(){
         $("divDate" + i).setAttribute("hashvalue", "");
         changeRange(i, 0);
         $("divDate" + i + "Status").innerHTML = 0;
+        $("remove_" + i).style.display = "none";
+        $("add_" + i).style.display = "none";
+    }
+
+    var found = 0;
+
+    // Check if the record exists at least twice. If it does, quit and report
+    // the number of occurences
+    for(var item in counts){
+        var dt = item.match(/(\d{4})-(\d+)-(\d+)/);
+        var od = new Date(dt[1], dt[2], dt[3]);
+        var td = new Date();
+
+        if(od >= td){
+            if(counts[item][patient_id]){
+                found++;
+                if(found >= 2){
+                    break;
+                }
+            }
+        }
     }
 
     for(var i = 1; i < 6; i++){
@@ -143,11 +164,32 @@ function setMonth(){
             $("divDate" + i + "Status").innerHTML = 0;
         }
 
+        var dateTime = new Date();
+        
+        if($("divDate" + i).innerHTML.match(/\d+/) && d >= dateTime){
+            $("remove_" + i).style.display = "block";
+
+            if(found < 2){
+                $("add_" + i).style.display = "block";
+            } else {
+                $("add_" + i).style.display = "block";
+                
+                $("add_" + i).onclick = function(){
+                    var response = confirm("This patient already has 2 or more active " +
+                        "bookings. Are you sure you want to add another booking?");
+
+                    if(response == true){
+                        setData($('divDate' + this.id.match(/\d+/)).getAttribute('hashvalue'));
+                    }                    
+                }
+            }
+        }
+
         d.setDate(d.getDate() + 7);
 
         if(d.getMonth() != month){
             break;
-        }
+        } 
     }
 }
 
@@ -194,18 +236,30 @@ function makeBooking(pos, subtract){
                 alert("This patient already has a booking on this day!");
                 return;
             } else {
-                ajaxRequest($(pos), "/patients/make_booking?patient_id="+patient_id+"&appointment_date="+app_date)
+                $("observations__value_datetime").value = app_date;
+                $("observations__obs_datetime").value = app_date;
+                $("encounter_encounter_datetime").value = app_date;
+                
+                //ajaxRequest($(pos), "/patients/make_booking?patient_id="+patient_id+"&appointment_date="+app_date)
                 counts[pos][sel] = true;
                 counts[pos]["count"] = (parseInt(counts[pos]["count"]) + 1);
+
+                document.forms[0].submit();
             }
         }
 
     } else {
         if(!subtract){
-            ajaxRequest($(pos), "/patients/make_booking?patient_id="+patient_id+"&appointment_date="+app_date)
+            $("observations__value_datetime").value = app_date;
+            $("observations__obs_datetime").value = app_date;
+            $("encounter_encounter_datetime").value = app_date;
+
+            //ajaxRequest($(pos), "/patients/make_booking?patient_id="+patient_id+"&appointment_date="+app_date)
             counts[pos] = {};
             counts[pos][sel] = true;
             counts[pos]["count"] = 1;
+
+            document.forms[0].submit();
         }
     }
 
@@ -728,24 +782,26 @@ function generateBalancer(){
         var colWidth = section_size + "px";
 
         var divIn26 = document.createElement("button");
-        divIn26.id = parseInt(1+i);
+        divIn26.id = "remove_" + parseInt(1+i);
         divIn26.style.cssFloat = "left";
         divIn26.className = "button green";
         divIn26.onclick= function(){
-            setData($('divDate' + this.id).getAttribute('hashvalue'), true);
+            setData($('divDate' + this.id.match(/\d+/)).getAttribute('hashvalue'), true);
         }
         divIn26.innerHTML = "<span>-</span>"
+        divIn26.style.display = "none";
 
         div.appendChild(divIn26);
 
         var divIn27 = document.createElement("button");
         divIn27.style.cssFloat = "left";
-        divIn27.id = parseInt(1+i);
+        divIn27.id = "add_" + parseInt(1+i);
         divIn27.onclick= function(){
-            setData($('divDate' + this.id).getAttribute('hashvalue'));
+            setData($('divDate' + this.id.match(/\d+/)).getAttribute('hashvalue'));
         }
         divIn27.className = "button green";
         divIn27.innerHTML = "<span>+</span>"
+        divIn27.style.display = "none";
 
         div.appendChild(divIn27);
 
