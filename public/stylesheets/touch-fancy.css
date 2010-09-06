@@ -56,7 +56,7 @@ form{
   border-left:none;
   border-right:none;
   border-bottom: 1px solid silver;
-  width:940px;
+  width:945px;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:2.2em;
   background:none;
@@ -65,7 +65,7 @@ form{
 
 .options{
 	overflow: auto;
-  height:14em;
+  height:15em;
 }
 
 .options ul{
@@ -104,8 +104,8 @@ form{
   display:block;
   height:80px;
   position:absolute;
-  top:620px;
-  width:995px;
+  top:660px;
+  width:1000px;
   z-index:10;
 }
 
@@ -166,7 +166,7 @@ form{
   display: block;
   z-index: 10;
   bottom: 85px;
-  left: 110px;
+  left: 50px;
 }
 
 .buttonLine{
@@ -191,7 +191,7 @@ form{
   top: 0px;
   left: 0px;
   z-index: 1;
-  height: 520px;
+  height: 670px;
   width: 995px;
   overflow: hidden;
 }
@@ -210,7 +210,7 @@ form{
   font-size: 2em;
   padding-top: 5px;
   padding-left: 25px;
-  width: 620px;
+  width: 820px;
   -moz-user-select: none;
 }
 
@@ -218,7 +218,7 @@ form{
   border: 2px solid black;
   margin-left:25px;
   background: #F0F0F0;
-  width:940px;  
+  width:950px;
 }
 
 .progressAreaSearchPage {
@@ -277,7 +277,7 @@ form{
 }
 .messageBar {
 /*  height: 1em;*/
-  left: 175px;
+  left: 275px;
   width: 450px;
   position: absolute;
   top: 10px;
@@ -321,16 +321,13 @@ form{
 	width: 250px;
 }
 
-#SHIFT, #space, #showDataButton, #lessthan, #greaterthan, #equals, #unknown {
+#showDataButton, #lessthan, #greaterthan, #equals, #unknown {
 	display: none;
 }
 
 button.navButton {
  float:right;
  margin-top:20px;
-}
-
-button span {
 }
 
 button { 
@@ -340,8 +337,8 @@ button {
   border:0; 
   cursor:pointer; 
   font-weight:bold; 
-  padding:0 8px 0 0; 
-  text-align:center; 
+  padding:0 8px 0 0;
+  text-align:center;
 }
 
 button span { 
@@ -350,7 +347,8 @@ button span {
   position:relative; 
   display:block; 
   white-space:nowrap; 
-  padding:0 0 0 8px; 
+  padding:0 10px 0 18px;
+  min-width:15px;
 }
 
 
@@ -679,14 +677,14 @@ display:block;
   font-size:1.3em;
   margin-left:25px;
   padding-top:5px;
-  width:950px;  
+  width:750px;  
   border-bottom:2px dotted;
 }  
 
 .LongSelectList #viewport,
 .LongSelectList #options{
   -moz-user-select:none;
-  height: 17em;
+  height: 27em;
 }
 
 .LongSelectList #keyboard{
@@ -694,6 +692,24 @@ display:block;
 }
 
 .LongSelectList #li {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.MultiSelectList #viewport,
+.MultiSelectList #options{
+  -moz-user-select:none;
+  height: 27em;
+  background: #FAFAD2;
+}
+
+.MultiSelectList #keyboard{
+  display:none;
+}
+
+.MultiSelectList #li {
   margin-top: 20px;
   margin-bottom: 20px;
   padding-top: 10px;

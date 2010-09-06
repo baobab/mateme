@@ -56,7 +56,7 @@ form{
   border-left:none;
   border-right:none;
   border-bottom: 1px solid silver;
-  width:940px;
+  width:945px;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:2.2em;
   background:none;
@@ -65,7 +65,7 @@ form{
 
 .options{
 	overflow: auto;
-  height:14em;
+  height:10em;
 }
 
 .options ul{
@@ -104,8 +104,8 @@ form{
   display:block;
   height:80px;
   position:absolute;
-  top:620px;
-  width:995px;
+  top:520px;
+  width:1000px;
   z-index:10;
 }
 
@@ -167,7 +167,7 @@ form{
   display: block;
   z-index: 10;
   bottom: 85px;
-  left: 110px;
+  left: 30px;
 }
 
 .buttonLine{
@@ -211,7 +211,7 @@ form{
   font-size: 2em;
   padding-top: 5px;
   padding-left: 25px;
-  width: 620px;
+  width: 820px;
   -moz-user-select: none;
 }
 
@@ -219,7 +219,7 @@ form{
   border: 2px solid black;
   margin-left:25px;
   background: #F0F0F0;
-  width:940px;  
+  width:750px;  
 }
 
 .progressAreaSearchPage {
@@ -322,7 +322,7 @@ form{
 	width: 250px;
 }
 
-#SHIFT, #space, #qwerty, #showDataButton, #lessthan, #greaterthan, #equals, #unknown {
+#showDataButton, #lessthan, #greaterthan, #equals, #unknown {
 	display: none;
 }
 
@@ -392,7 +392,7 @@ button:hover.red span {
 }*/
 
 button.green { 
-  background:#0f0; 
+  background:green;
 }
 button.green span { 
   background:#0f0; 
@@ -693,7 +693,7 @@ display:block;
   font-size:1.3em;
   margin-left:25px;
   padding-top:5px;
-  width:950px;  
+  width:750px;  
   border-bottom:2px dotted;
 }  
 
@@ -708,6 +708,23 @@ display:block;
 }
 
 .LongSelectList #li {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.MultiSelectList #viewport,
+.MultiSelectList #options{
+  -moz-user-select:none;
+  height: 17em;
+}
+
+.MultiSelectList #keyboard{
+  display:none;
+}
+
+.MultiSelectList #li {
   margin-top: 20px;
   margin-bottom: 20px;
   padding-top: 10px;

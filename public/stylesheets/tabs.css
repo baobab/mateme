@@ -1,0 +1,50 @@
+#tabbedcontent {
+  padding: 15px 0px 0px;
+  width: 720px;
+}
+
+#tabbedcontent #tabmenu {
+  margin-bottom: 0px;
+  /*margin-left: 8px;*/
+}
+
+#tabbedcontent ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+#tabbedcontent #tabmenu ul li {
+  display: inline;
+  padding: 3px 7px;
+  cursor: default;
+  background-color: #eeeeee;
+  border: 1px solid #cccccc;
+  border-bottom: none;
+  /*margin-right: 2px;*/
+}
+
+#tabbedcontent #tabmenu ul li.activated {
+  border: 1px solid #eee;
+  border-bottom: 1px solid white;
+  background-color: #ffffff;
+}
+
+#tabbedcontent #tabmenu ul li:hover {
+   background-color: #ffffff;
+}
+
+#tabbedcontent #tabbedbody {
+  margin-top: 3px;
+}
+#tabbedcontent #tabbedbody div {
+  display: none;
+  border: 1px solid #eee;
+  padding: 10px;
+  height: 360px;
+  width: 695px;
+}
+
+#tabbedcontent #tabbedbody div.activated {
+  display: block;
+  overflow: auto;
+}
