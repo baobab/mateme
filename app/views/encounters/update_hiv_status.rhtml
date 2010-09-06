@@ -14,6 +14,17 @@
       skipped[i] = 1;
     }
   }
+
+  function setDate(elementId){
+
+          if ($(elementId).value.toLowerCase() == 'unknown'){
+            $(elementId+'_value_datetime').value = null;
+            $(elementId+'_value_modifier').value = null;
+            }
+          else{
+            $(elementId+'_value_datetime').value = new Date($(elementId).value.replace(/-/g, '/'));
+            }
+  }
 </script>
 
 <form id='hiv_status' action="/encounters/create" method='post'>
@@ -28,7 +39,6 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%#= select_tag("hiv_status_update_visit", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit' })%>
   <%= text_field_tag("hiv_test_date",DateTime.now().strftime("%Y-%m-%d"), {:field_type => 'date', :id => "hiv_test_date",
       :tt_onUnLoad => "setDate('hiv_test_date'); $('hiv_test_date_value_datetime').value = $('hiv_test_date').value",
       :helpText => 'Hiv test date',
@@ -41,7 +51,6 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%#= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "ON ART", {}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "YES","NO","UNKNOWN"]), {:helpText => 'On ART',:id => 'on_art',
                                              :condition => '$("new_hiv_status").value.toLowerCase() == "reactive"', :tt_requireNextClick => false})%>
@@ -65,20 +74,5 @@
   <%= submit_tag "Finish" %>
 </form>
 
-<script type="text/javascript">
-  function setDate(elementId){
-
-          if ($(elementId).value.toLowerCase() == 'unknown'){
-            //$(elementId+'_value_coded_or_text').value = 'Unknown';
-            $(elementId+'_value_datetime').value = null;
-            $(elementId+'_value_modifier').value = null;
-            }
-          else{
-            $(elementId+'_value_datetime').value = new Date($(elementId).value.replace(/-/g, '/'));
-            //$(elementId+'_value_coded_or_text').value = null;
-            }
-  }
-
-  </script>
 
 

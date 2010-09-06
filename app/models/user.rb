@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   has_many :user_roles, :foreign_key => :user_id, :dependent => :delete_all
 
   def name
-    #self.first_name + " " + self.last_name
     Person.find(self.user_id).name.titleize
   end
     
@@ -24,12 +23,9 @@ class User < ActiveRecord::Base
   def self.authenticate(login, password)
     u = find :first, :conditions => {:username => login} 
     u && u.authenticated?(password) ? u : nil
-    #raise password
   end
       
   def authenticated?(plain)
-  #  raise "#{plain} #{password} #{encrypt(plain, salt)} #{salt} :  #{Digest::SHA1.hexdigest(plain+salt)} : #{self.salt}"
-    #raise "#{self.salt}"
     encrypt(plain, salt) == password || Digest::SHA1.hexdigest("#{plain}#{salt}") == password
   end
   
@@ -49,7 +45,7 @@ class User < ActiveRecord::Base
   end  
 
    def self.random_string(len)
-    #generat a random password consisting of strings and digits
+    #generate a random password consisting of strings and digits
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
     newpass = ""
     1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
@@ -111,8 +107,6 @@ class User < ActiveRecord::Base
 
     last.compact!
     return last
-
-
   end
 
   def self.decode_hash(login_barcode)
@@ -143,5 +137,4 @@ class User < ActiveRecord::Base
     label.draw_multi_text(' ')
     label.print(1)
   end
-
  end

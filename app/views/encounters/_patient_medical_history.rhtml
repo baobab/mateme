@@ -12,17 +12,9 @@ font-size:0.7em;
 
 <div id =" patient_history" style="position: relative;  top: 0px;">
   <h2> Medical History</h2>
-  <!--table cellpadding="2" cellspacing="0" width="100%" bgcolor="#808080">
-    <tr>
-      <td style="font-size: 1.2em;"> <font color="#FFFFFF"> <b>Date</b> </font></td>
-      <td style="font-size: 1.2em;"> <font color="#FFFFFF"> <b>Medical History Observed</b> </font></td>
-    </tr>
-  </table-->
 
   <ul class="list" style="height: 570px; width: 700px;">
     <table cellpadding="2" cellspacing="0" border ="1" width="100%">
-
-      <%#= raise @encounter_datetimes.inspect %>
       
       <%@encounter_datetimes.each { |encounter_datetime|%>
         <tr>
@@ -56,7 +48,6 @@ font-size:0.7em;
                         url_name = "Past Medical History" if url_name.upcase == "Past Diabetes Medical History".upcase
                         url_name = "Hospital Admissions" if url_name.upcase == "Diabetes Admissions".upcase
                         url_name = "Initial Complications" if url_name.upcase == "Complications".upcase
-                        #raise url_name
                     %>
                       <span class="voidButton" style="width:50px;">
                         <%= img_button_submit_to "/encounters/#{url_name.downcase.gsub(' ','_')}?edit=true&patient_id=#{@patient.patient_id}&encounter_id=#{encounter.encounter_id}&group_type=#{url_name.downcase.gsub(' ','_')}",

@@ -1,7 +1,7 @@
 <style type="text/css">
   table { margin: 15px;}
   td {
-    background: #EEEEEE; 
+    background: #EEEEEE;
   }
   .label {
     font-weight: bold;
@@ -11,7 +11,6 @@
     border:1px dotted #AAA;
     background: #FFFFFF;
     min-width:175px;
-    /*font-size:25px;*/
   }
 
   #patient_history {
@@ -19,7 +18,6 @@
     overflow: auto;
     height:532px;
     width: 975px;
-    /*left: 5px;*/
   }
   #header_row_font{
     font-size: 20px;
@@ -63,34 +61,10 @@
   function $(id){
     return document.getElementById(id);
   }
-  
+
 </script>
 
 <center><h2>DIABETES CLINIC</h2></center>
-<!--
-<table>
-  <tr>
-    <td class="label">NAME OF PATIENT:</td><td><a href='/person_names/edit/<%= @patient.id%>'><%= @person.name %></a></td>
-    <td class="label">CARD NO:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=14'><%= @patient.diabetes_number %></a></td>
-  </tr>
-  <tr>
-    <td class="label">DISTRICT:</td><td><%= @address.address2 %></td>
-    <td class="label">AGE:</td><td><a href='/people/edit/<%= @patient.id%>?field=birthdate'><%= @person.age %></a></td>
-  </tr>
-  <tr>
-    <td class="label">CONTACT ADDRESS/PHONE NO:</td><td><a href='/person_attributes/edit/<%= @patient.id%>?type=12'><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></a></td>
-    <td class="label">GENDER:</td><td><a href='/people/edit/<%= @patient.id%>?field=gender'><%= @person.gender %></a></td>
-  </tr>
-  <tr>
-    <td colspan="2"><a href='/person_addresses/edit/<%= @patient.id%>'><%= "#{@address.city_village}, #{@address.state_province},
-#{@address.county_district}, #{@address.address2}" %></a></td>
-    <td class="label">HIV STATUS:</td><td><a href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id%>'><%= @patient.hiv_status %></a></td>
-  </tr
-</table>
-
--->
-
-<%#= render :partial => "patient_history"%>
 
 <ul class="list" id ="patient_history" >
   <center>
@@ -101,7 +75,7 @@
       header = false
     %>
       <%if @creatinine_obs.blank?%>
-                    <tr> <!--class ="data <%#= cycle('even', 'odd')%>" -->
+                    <tr> 
           <td id ="header_row_font" class="tableborder"> <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'> <%=header ? h('') : h("#{row_heading}")%> </a> </td>
           <td id ="non_header_row_font" class="tableborder"> <%= h("") %> </td>
           <td id ="non_header_row_font" class="tableborder"> <i><%= h("") %></i></td>
@@ -285,7 +259,7 @@
                     <td id ="non_header_row_font" class="tableborder">
                       <%
                       for observation in @visual_acuity_obs[encounter.encounter_id] do
-                        
+
                       %>
 
                         <%= h("#{observation.concept.name.name.titleize}: #{observation.answer_string.titleize}") %><br/>
@@ -593,11 +567,6 @@
 <div style="float:right;padding-right:5px;margin-top:-2px;">
     <button class="button green" onclick="window.location = '/patients/print_complications?patient_id=<%= @patient.id -%>'"><span>Print complications label</span></button><br/>
   </div>
-<!--
-<div id="menu">
-  <a class="button green" href='/encounters/new/diabetes_test?patient_id=<%= @patient.id -%>'>Screen Complications</a>
-</div>
-<p/>
--->
+
 <form action=<%="/patient/show/#{@patient.id}"%>>
 </form>

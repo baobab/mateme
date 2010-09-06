@@ -4,7 +4,6 @@
 
   if(params[:encounter_id] && params[:group_type])
     @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type]) rescue nil
-    #raise @encounter_obs.inspect
   end
 
 %>
@@ -35,8 +34,6 @@
   <% default={
     :allowFreeText => 'true'
   } %>
-
-  <%#=  raise "#{@existing_encounter_types.to_yaml}" %>
   
   <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
 
@@ -71,17 +68,6 @@
       :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown" && (year - $("year_of_initial_diagnosis").value <= 2)',
       :tt_onUnLoad => "onMonthUpdateDateTime('initial_diagnosis_date', 'month_of_initial_diagnosis', 'diagnosis_date_value_modifier');"}%>
 
-  <%#= text_field_tag "day_of_initial_diagnosis",  nil,
-      :field_type => 'number',
-      :id => "day_of_initial_diagnosis",
-      :helpText => 'Day of Diagnosis',
-      :absoluteMin => 1, :absoluteMax => 31,
-      :condition => '($("year_of_initial_diagnosis").value != "Unknown") && ($("month_of_initial_diagnosis").value != "Unknown")',
-      :tt_onUnLoad => "$('initial_diagnosis_date').value =
-                            $('year_of_initial_diagnosis').value + '-'
-                          + $('month_of_initial_diagnosis').value + '-'
-                          + $('day_of_initial_diagnosis').value"
-  %>
   <%= hidden_field_tag("observations[][value_datetime]", "", {:id => 'initial_diagnosis_date'}) %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'diagnosis_date_value_modifier'} ) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>

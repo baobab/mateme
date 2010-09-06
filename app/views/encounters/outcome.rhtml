@@ -14,11 +14,7 @@
 
    <% options = {:allowFreeText => 'false', :allowFreeText => 'false', :ajaxURL => "/encounters/diagnoses?search_string=", :textCase => "upper",:condition => "($('select').value == 'option2')" } %>
 
-
-
- 
-
-  <%= select_tag ("observations[][value_coded_or_text]", options_for_select(["", "ALIVE","DEAD", "TRANSFER IN", "TRANSFER OUT", "ABSCONDED"]), {:helpText => 'Discharge outcome'})%>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "ALIVE","DEAD", "TRANSFER IN", "TRANSFER OUT", "ABSCONDED"]), {:helpText => 'Discharge outcome'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "OUTCOME", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>

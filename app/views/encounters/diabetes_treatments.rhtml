@@ -3,7 +3,6 @@
 
 if(params[:encounter_id] && params[:group_type])
   @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type]) rescue nil
-  #raise @encounter_obs.inspect
 end
 
 %>
@@ -103,20 +102,7 @@ end
 
   <% @treatements_list = ["ON DIET", "GLIBENCLAMIDE", "METFORMIN", "INSULIN"] %>
   <%= select_tag("diabetes_treatements_values",             options_for_select(@treatements_list, ((@encounter_obs)?(@encounter_obs["diabetes_treatments"]):"")),options) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:helpText  => "Diet only?",
-:tt_onUnLoad => "$('diet_value_coded_or_text').value = $('diet').value",
-:id => "diet"
-}) %>
-<%#= select_tag("diet[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
-
+  
   <% options=default.merge({
       :helpText  => 'DIET: Year started',
       :tt_requireNextClick => false,
@@ -126,7 +112,6 @@ end
       :condition => '$("diet").value == "ON DIET"',
       :optional => true,  :multiple => false,
       :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
-      #:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: Year started (' +'<font color=#FF0000>YYYY</font>-MMM-DD')",
       :tt_onUnLoad => "onYearUpdateDateTime('diet_date_started', 'diet_year_started', 'diet_value_modifier');",
       :tt_pageStyleClass => "LongSelectList"
     } ) %>
@@ -140,39 +125,16 @@ end
     :tt_pageStyleClass => "LongSelectList",
     :tt_onUnLoad => "onMonthUpdateDateTime('diet_date_started', 'diet_month_started', 'diet_value_modifier');",
     :condition => '$("diet_value_coded_or_text").value.toLowerCase() == "yes" && $("diet_year_started").value.toLowerCase() != "unknown" && ((this_year - $("diet_year_started").value) <= 2)',
-    :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
+    :tt_onLoad => "showProgressBar('finishButton');$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-<%#= text_field_tag "diet[day_started]",  nil, :field_type => 'number',
-:helpText  => 'DIET: Day started',
-:absoluteMin => 1,
-:absoluteMax => 31,
-:tt_onUnLoad => "my_date = formatDate($('diet_date_started').value, $('diet_day_started').value,2);
-$('diet_date_started').value = my_date['value_datetime'];
-if($('diet_value_modifier').value!= 'ES'){$('diet_value_modifier').value = my_date['value_modifier'];}",
-:condition => "$('diet_value_coded_or_text').value.toLowerCase() == 'yes' && ($('diet_year_started').value.toLowerCase() != 'unknown') && ($('diet_month_started').value.toLowerCase() != 'unknown');",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'DIET: ' + $('diet_year_started').value + '-' + months[$('diet_month_started').value] + '-<font color=#FF0000>DD</font>' "
-%>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'diet'}) %>
   <%= hidden_field_tag("observations[][date_started]",        "", {:id => 'diet_date_started'} ) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'diet_value_coded_or_text'} ) %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'diet_value_modifier'} ) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:helpText  => "Glibenclamide",
-:tt_onUnLoad => "$('glibenclamide_value_coded_or_text').value = $('glibenclamide').value",
-:id => "glibenclamide"
-}) %>
-<%#= select_tag( "glibenclamide[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
-
+  
   <% options=default.merge({
       :tt_requireNextClick => false,
       :helpText  => 'GLIBENCLAMIDE: Year started',
@@ -197,18 +159,6 @@ if($('diet_value_modifier').value!= 'ES'){$('diet_value_modifier').value = my_da
     :condition => '$("glibenclamide_value_coded_or_text").value.toLowerCase() == "yes" && $("glibenclamide_year_started").value.toLowerCase() != "unknown" && ((this_year - $("glibenclamide_date_started").value) <= 2)',
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
-
-<%#= text_field_tag "glibenclamide[day_started]",  nil,
-:field_type => 'number',
-:helpText  => 'GLIBENCLAMIDE: Day started',
-:id => "glibenclamide_day_started",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('glibenclamide_value_coded_or_text').value.toLowerCase() == 'yes' && ($('glibenclamide_year_started').value.toLowerCase() != 'unknown') && ($('glibenclamide_month_started').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('glibenclamide_date_started').value, $('glibenclamide_day_started').value,2);
-$('glibenclamide_date_started').value = my_date['value_datetime'];
-if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_started').value + '-' + months[$('glibenclamide_month_started').value] + '-<font color=#FF0000>DD</font>' "
-%>
 
   <%= select_tag( "on_glibenclamide[value_coded_or_text]", options_for_select([
         "",
@@ -248,18 +198,6 @@ if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modif
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_stopped').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-<%#= text_field_tag "glibenclamide[day_stopped]",  nil,
-:field_type => 'number',
-:helpText  => 'GLIBENCLAMIDE: Day stopped',
-:id => "glibenclamide_day_stopped",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('on_glibenclamide').value == 'No' && ($('glibenclamide_year_stopped').value.toLowerCase() != 'unknown') && ($('glibenclamide_month_stopped').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('glibenclamide_date_stopped').value, $('glibenclamide_day_stopped').value,2);
-$('glibenclamide_date_stopped').value = my_date['value_datetime'];
-if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'GLIBENCLAMIDE: ' + $('glibenclamide_year_stopped').value + '-' + months[$('glibenclamide_month_stopped').value] + '-<font color=#FF0000>DD</font>' "
-%>
-
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'glibenclamide'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'glibenclamide_value_coded_or_text'} ) %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'glibenclamide_value_modifier'} ) %>
@@ -268,25 +206,12 @@ if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modif
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# Save if the patient is taking medication now%>
+<!-- Save if the patient is taking medication now% -->
   <%= hidden_field_tag("observations[][concept_name]",        "TAKING MEDICATION") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'on_glibenclamide_value_coded_or_text'}) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "GLIBENCLAMIDE" ) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:helpText  => "Metformin",
-:tt_onUnLoad => "$('metformin_value_coded_or_text').value = $('metformin').value",
-:id => "metformin"
-}) %>
-<%#= select_tag( "metformin[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
 
   <% options=default.merge({
       :tt_requireNextClick => false,
@@ -312,18 +237,6 @@ if($('glibenclamide_value_modifier').value!= 'ES') {$('glibenclamide_value_modif
     :condition => "$('metformin_value_coded_or_text').value.toLowerCase() == 'yes' && $('metformin_year_started').value.toLowerCase() != 'unknown' && ((this_year - $('metformin_date_started').value) <= 2)",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
-
-<%#= text_field_tag "metformin[day_started]",  nil,
-:field_type => 'number',
-:helpText  => 'METFORMIN: Day started',
-:id => "metformin_day_started",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('metformin_value_coded_or_text').value.toLowerCase() == 'yes' && ($('metformin_year_started').value.toLowerCase() != 'unknown') && ($('metformin_month_started').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('metformin_date_started').value, $('metformin_day_started').value,2);
-$('metformin_date_started').value = my_date['value_datetime'];
-if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_started').value + '-' + months[$('metformin_month_started').value] + '-<font color=#FF0000>DD</font>' "
-%>
 
   <%= select_tag( "on_metformin[value_coded_or_text]", options_for_select([
         "",
@@ -364,18 +277,6 @@ if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').va
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_stopped').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
 
-<%#= text_field_tag "metformin[day_stopped]",  nil,
-:field_type => 'number',
-:helpText  => 'METFORMIN: Day stopped',
-:id => "metformin_day_stopped",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('on_metformin').value == 'No' && ($('metformin_year_stopped').value.toLowerCase() != 'unknown') && ($('metformin_month_stopped').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('metformin_date_stopped').value, $('metformin_day_stopped').value,2);
-$('metformin_date_stopped').value = my_date['value_datetime'];
-if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'METFORMIN: ' + $('metformin_year_stopped').value + '-' + months[$('metformin_month_stopped').value] + '-<font color=#FF0000>DD</font>' "
-%>
-
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'metformin'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'metformin_value_coded_or_text'} ) %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'metformin_value_modifier'} ) %>
@@ -384,26 +285,12 @@ if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').va
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# Save if the patient is taking medication now%>
+<!-- Save if the patient is taking medication now -->
   <%= hidden_field_tag("observations[][concept_name]",        "TAKING MEDICATION") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'on_metformin_value_coded_or_text'}) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", 'METFORMIN') %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:tt_requireNextClick => false,
-:helpText  => "Insulin",
-:tt_onUnLoad => "$('insulin_value_coded_or_text').value = $('insulin').value",
-:tt_onLoad => "addOnMouseDownAction(['No'])",
-:id => "insulin"
-}) %>
-<%#= select_tag( "insulin[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
 
   <% options=default.merge({
       :tt_requireNextClick => false,
@@ -429,19 +316,6 @@ if($('metformin_value_modifier').value!= 'ES') {$('metformin_value_modifier').va
     :condition => "$('insulin_value_coded_or_text').value.toLowerCase() == 'yes' && $('insulin_year_started').value.toLowerCase() != 'unknown' && ((this_year - $('insulin_date_started').value) <= 2)",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_started').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
-
-<%#= text_field_tag "insulin[day_started]",  nil,
-:field_type => 'number',
-:helpText  => 'INSULIN: Day started',
-:id => "insulin_day_started",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('insulin_value_coded_or_text').value.toLowerCase() == 'yes' && ($('insulin_year_started').value.toLowerCase() != 'unknown') && ($('insulin_month_started').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('insulin_date_started').value, $('insulin_day_started').value,2);
-$('insulin_date_started').value = my_date['value_datetime'];
-if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_started').value + '-' + months[$('insulin_month_started').value] + '-<font color=#FF0000>DD</font>' "
-%>
-
   <%= select_tag( "on_insulin[value_coded_or_text]", options_for_select([
         "",
         "Yes",
@@ -479,19 +353,6 @@ if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value 
     :tt_onUnLoad => "onMonthUpdateDateTime('insulin_date_stopped', 'insulin_month_stopped', 'insulin_value_modifier');",
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_stopped').value + '-<font color=#FF0000>MMM</font>-DD'"
   }%>
-
-<%#= text_field_tag "insulin[day_stopped]",  nil,
-:field_type => 'number',
-:helpText  => 'INSULIN: Day stopped',
-:id => "insulin_day_stopped",
-:absoluteMin => 1, :absoluteMax => 31,
-:condition => "$('on_insulin').value == 'No' && ($('insulin_year_stopped').value.toLowerCase() != 'unknown') && ($('insulin_month_stopped').value.toLowerCase() != 'unknown');",
-:tt_onUnLoad => "my_date = formatDate($('insulin_date_stopped').value, $('insulin_day_stopped').value,2);
-$('insulin_date_stopped').value = my_date['value_datetime'];
-if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value = my_date['value_modifier'];}",
-:tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'INSULIN: ' + $('insulin_year_stopped').value + '-' + months[$('insulin_month_stopped').value] + '-<font color=#FF0000>DD</font>' "
-%>
-
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'insulin'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'insulin_value_coded_or_text'} ) %>
   <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'insulin_value_modifier'} ) %>
@@ -500,7 +361,7 @@ if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value 
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# Save if the patient is taking medication now%>
+<!--Save if the patient is taking medication now -->
   <%= hidden_field_tag("observations[][concept_name]",        "TAKING MEDICATION") %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'on_insulin_value_coded_or_text'}) %>
   <%= hidden_field_tag("observations[][parent_concept_name]", "INSULIN, SOLUBLE" ) %>
@@ -530,5 +391,5 @@ if($('insulin_value_modifier').value!= 'ES') {$('insulin_value_modifier').value 
 
   <%= hidden_field_tag("next_url",@destination_page) %>
 
-  <%= submit_tag "Finish" %>
+  <%= submit_tag("Finish",{:id=> 'finishButton'}) %>
 </form>

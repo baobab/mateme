@@ -218,7 +218,6 @@ class PatientsController < ApplicationController
         @foot_check_obs[e.encounter_id] = value
       end
     }
-    #raise @foot_check_obs.to_yaml
 
     # Visual Acuity RIGHT EYE FUNDOSCOPY
     @visual_acuity_encounters = @patient.encounters.find(:all,
@@ -241,7 +240,7 @@ class PatientsController < ApplicationController
           diabetes_test_id, e.encounter_id],
         :order => 'obs_datetime DESC')
     }
-    #raise @visual_acuity_encounters.to_yaml
+
 
     # Fundoscopy
     @fundoscopy_encounters = @patient.encounters.find(:all,
@@ -264,7 +263,6 @@ class PatientsController < ApplicationController
           diabetes_test_id, e.encounter_id],
         :order => 'obs_datetime DESC')
     }
-    #raise @foot_check_obs.to_yaml
     
     # Urea
     urea_id = Concept.find_by_name('UREA').id

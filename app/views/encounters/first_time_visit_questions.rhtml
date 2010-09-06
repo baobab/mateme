@@ -1,39 +1,6 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
 </script>
-<!--
-<style type="text/css">
-.keyboard{
-  position:absolute;
-  display: none;
-  z-index: 10;
-  bottom: 85px;
-  left: 30px;
-}
-
-.options {
-height:auto;
-overflow:auto;
-}
-</style>
--->
-
-<!-- <form id='question_type' action="/encounters/first_time_visit_questions" method='post'> -->
-  <%#= select_tag(:select_question_type,
-    options_for_select([
-          " ",
-          "Diabetes History",
-          "Diabetes Treatments",
-          "Hospital Admissions due to Diabetes",
-          "Past Medical History",
-          "Complications",
-          "Hypertension Management",
-          "General Health"
-          ]),
-    :helpText => "MEDICAL HISTORY<br/>Select the catergory of questions:")%>
-  <%#= hidden_field_tag("[patient_id]", @patient.patient_id) %>
-  <%#= submit_tag("Next", :id => "nextButton") %>
-<!--</form> -->
 
 <style type="text/css">
 
@@ -92,15 +59,6 @@ overflow:auto;
             @encounter_url[name.upcase],
             @button_classes[name.upcase]) %>
     <% end %>
-
-    <!--a class="button green" href='/encounters/diabetes_history?patient_id=<%= @patient.id -%>'>Diabetes History</a>
-    <a class="button <%= @button_classes['DIABETES TREATMENTS'] %>" 
-       href="<%= @encounter_url['DIABETES TREATMENTS'] -%>">Diabetes Treatments</a>
-    <a class="button green" href='/encounters/hospital_admissions?patient_id=<%= @patient.id -%>'>Hospital Admissions</a>
-    <a class="button green" href='/encounters/past_medical_history?patient_id=<%= @patient.id -%>'>Past Medical History</a>
-    <a class="button green" href='/encounters/initial_complications?patient_id=<%= @patient.id -%>'>Complications</a>
-    <a class="button green" href='/encounters/hypertension_management?patient_id=<%= @patient.id -%>'>Hypertension Mgt</a>
-    <a class="button green" href='/encounters/general_health?patient_id=<%= @patient.id -%>'>General Health</a-->
   </div>
 </div>
 

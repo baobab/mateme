@@ -7,7 +7,7 @@
   %>
 
 <p><label for ="retrospective_patient_year">Year when visit occured</label> </p>
-  <%= text_field_tag (:retrospective_patient_year,nil,{:field_type => 'number', :absoluteMin => "1940", :absoluteMax => Time.now.year}) %>
+  <%= text_field_tag(:retrospective_patient_year,nil,{:field_type => 'number', :absoluteMin => "1940", :absoluteMax => Time.now.year}) %>
 <p><label for ="retrospective_patient_month">Month when visit occured</label> </p>
   <% optionsString = "<option>" "" "</option>"
   1.upto(12){ |number| 

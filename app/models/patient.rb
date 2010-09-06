@@ -195,7 +195,6 @@ class Patient < ActiveRecord::Base
       name = "%"+drug_info[0]+"%"+drug_info[1]+"%"
 
     end
-    #raise insulin.inspect
     
     diagnosis_id = Concept.find_by_name(diagnosis_name);
 
@@ -389,6 +388,7 @@ class Patient < ActiveRecord::Base
     
     patient_diabetes_medication_duration = return_string
 
+    patient_diabetes_medication_duration
   end
 
 end

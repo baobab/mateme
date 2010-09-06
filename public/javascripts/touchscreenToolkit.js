@@ -1556,7 +1556,14 @@ function getDayOfMonthPicker(aYear, aMonth) {
     numberOfDays = DateUtil.getLastDate(aYear,aMonth-1).getDate();
 
     for(var i=1;i <= numberOfDays;i++){
-        keyboard.innerHTML += getButtonString(i,i)
+        keyboard.innerHTML += getButtonString(i,i);
+
+        /* set minimum width for the button to 80 pixels */
+        button = document.getElementById(i);
+        button.setAttribute("style","min-width:80px;");
+        
+        /* break on the seventh button, implying the end of the week*/
+        if(i%7 == 0) keyboard.innerHTML +="<span><br/></span>";
     }
     keyboard.innerHTML += getButtonString("Unknown","Unknown")
 	

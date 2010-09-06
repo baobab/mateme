@@ -4,7 +4,6 @@
 
   if(params[:encounter_id] && params[:group_type])
     @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type]) rescue nil
-    #raise @encounter_obs.inspect
   end
 
 %>
@@ -150,17 +149,6 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
 %>
   <%= select_tag("complications_values", options_for_select(@complications_list, ((@encounter_obs)?(@encounter_obs["complications"]):"")),options) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Peripheral neuropathy",
-:tt_onUnLoad => "$('peripheral_neuropathy_value_coded_or_text').value = $('peripheral_neuropathy').value",
-:id => "peripheral_neuropathy"
-}) %>
-<%#= select_tag("peripheral_neuropathy[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'peripheral_neuropathy'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "peripheral_neuropathy_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -185,33 +173,11 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Suspected PVD",
-:tt_onUnLoad => "$('suspected_pvd_value_coded_or_text').value = $('suspected_pvd').value",
-:id => "suspected_pvd"
-}) %>
-<%#= select_tag("suspected_pvd[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'suspected_pvd'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "suspected_pvd_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Amputations",
-:tt_onUnLoad => "$('amputation_value_coded_or_text').value = $('amputation').value",
-:id => "amputation"
-}) %>
-<%#= select_tag("amputation[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'amputation'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "amputation_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -253,33 +219,11 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Impotence",
-:tt_onUnLoad => "$('impotence_value_coded_or_text').value = $('impotence').value",
-:id => "impotence"
-}) %>
-<%#= select_tag("impotence[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'impotence'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "impotence_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Retinopathy",
-:tt_onUnLoad => "$('retinopathy_value_coded_or_text').value = $('retinopathy').value",
-:id => "retinopathy"
-}) %>
-<%#= select_tag("retinopathy[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'retinopathy'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "retinopathy_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -303,17 +247,6 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Renal Disease",
-:tt_onUnLoad => "$('renal_disease_value_coded_or_text').value = $('renal_disease').value",
-:id => "renal_disease"
-}) %>
-<%#= select_tag("renal_disease[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'renal_disease'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "renal_disease_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -336,20 +269,7 @@ begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; 
   <%= hidden_field_tag("observations[][parent_concept_name]", "RENAL DISEASE") %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Past Cataract Surgery",
-:tt_onUnload => "$('past_cataract_value_coded_or_text').value = $('past_cataract').value;
-if ($('past_cataract').value == 'Yes') $('cataract_value_coded_or_text').value = 'Yes'",
-:id => "past_cataract"
-}) %>
-
-<%#= select_tag("past_cataract[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
+  
 <%# save the parent concept first, before saving its children%>
   <%= hidden_field_tag("observations[][concept_name]",        "CATARACT SURGERY", {:id => 'cataract_surgery'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "cataract_surgery_value_coded_or_text"}) %>
@@ -393,20 +313,6 @@ if ($('past_cataract').value == 'Yes') $('cataract_value_coded_or_text').value =
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Is Cataract Present",
-:condition => "$('past_cataract').value != 'Yes'",
-:tt_onUnload => "$('cataract_value_coded_or_text').value = $('cataract_present').value;
-if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').value = 'Yes'",
-:id => "cataract_present"
-}) %>
-
-<%#= select_tag("cataract_present[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'present_cataract'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "present_cataract_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -449,18 +355,6 @@ if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').valu
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-<%# options=default.merge({
-:field_type => 'text',
-:helpText => "Suspected Neuropathy",
-:id => "suspected_neuropathy",
-:tt_onUnLoad => "$('suspected_neuropathy_value_coded_or_text').value = $('suspected_neuropathy').value",
-:tt_onLoad => "addOnMouseDownAction(['No'])"
-}) %>
-<%#= select_tag("suspected_neuropathy[value_coded_or_text]", options_for_select([
-"",
-"Yes",
-"No"
-]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'suspected_neuropathy'}) %>
   <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "suspected_neuropathy_value_coded_or_text"}) %>
   <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -497,16 +391,7 @@ if ($('cataract_present').value == 'Yes') $('cataract_value_coded_or_text').valu
       :multiple => false
     }) %>
 
-<%#
-
-id = Concept.find_by_name("SUSPECTED NEUROPATHY").id
-
-creatinine_value_numeric = encounter.observations.find(Concept.find_by_name("YEAR RAISED CREATININE FIRST NOTED").id,
-:conditions => ["group_id = ", id]).concept.name.name
-
-%>
-
-  <%= select_tag "suspected_neuropathy[creatinine]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["creatinine"]):"")),options %>
+<%= select_tag "suspected_neuropathy[creatinine]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["creatinine"]):"")),options %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "YEAR RAISED CREATININE FIRST NOTED") %>
   <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "creatinine_value_numeric"}) %>
