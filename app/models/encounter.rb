@@ -28,6 +28,8 @@ class Encounter < ActiveRecord::Base
   end
 
   def to_s
+    @encounter_types =["OBSERVATIONS"]
+
     if name == 'REGISTRATION'
       'Patient was seen at the registration desk on' 
     elsif name == 'TREATMENT'
@@ -60,32 +62,6 @@ class Encounter < ActiveRecord::Base
        diagnosis_array << " : "
       }
       diagnosis_array.compact.to_s.gsub(/ : $/, "")
-
-=begin
-      if observations.map{|ob| ob.concept.name.name}.include?('PRIMARY DIAGNOSIS')
-        diagnosis_text = ''
-        test_text = ''
-        myh = {}
-        observations.each{|observe|
-          # diagnosis_text = "#{observe.concept.name.name}: #{observe.answer_concept.name.name}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
-          diagnosis_text = "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
-          next if observe.concept.name.name == 'PRIMARY DIAGNOSIS'
-          myh[observe.answer_concept.name.name] = {} if not myh[observe.answer_concept.name.name]
-          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'YES'
-          myh[observe.answer_concept.name.name]['TEST NOT REQUESTED'] = '' if observe.concept.name.name == "TEST REQUESTED" && observe.value_text == 'NO'
-          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = 'RESULT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'YES'
-          myh[observe.answer_concept.name.name]['TEST REQUESTED'] = 'RESULT NOT AVAILABLE' if observe.concept.name.name == "RESULT AVAILABLE" && observe.value_text == 'NO'
-        }
-        myh.each{|k,v|
-          test_text = test_text + "<span style='font-size:8pt'><b>#{k}:</b> #{v.keys.to_s} #{v.values.to_s}</span> <br>"
-        }
-        diagnosis_text + '<br>' + test_text
-      else
-
-        observations.collect{|observation| observation.answer_string}.join(", ")
-
-      end
-=end
     elsif name == 'LAB ORDERS'
 
       observations.collect{|observation|
@@ -103,6 +79,9 @@ class Encounter < ActiveRecord::Base
       observations.collect{|observation|
         observation.obs_chronics_string
       }.compact.join(", ")
+
+      elsif @encounter_types.include? name
+      observations.collect{|observation| observation.to_s}.compact.join(", ")
 
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
