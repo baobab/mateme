@@ -1030,6 +1030,8 @@ function gotoPage(destPage, validate){
         if (validate) {
             if (!inputIsValid()) return;
             //if (!inputIsAcceptable()) return;
+
+            if(dispatchFlag()) return;
         }
         tt_update(currentInput);
         tstPageValues[currentPage] = currentInput.value;
@@ -2103,6 +2105,31 @@ TTInput.prototype = {
             num = RegExp.$1;
         }
         return parseFloat(num);
+    },
+/*
+ * The flag() function dispatches message flags from a TTInput object.
+ * To use it, add a 'JSON' flag in the options list of a given TTInput object.
+ * Syntax:
+ *  1. a string:
+ *      :flag => '{"message":"This is a TTInput flag message", "condition":"expression"}'
+ *  2. Using Rails JSON Object
+ *      :flag => ({:message=>'This is a TTInput flag message', :condition => 'expression'}).to_json
+ */
+    flag: function(){
+        var flag    = this.element.getAttribute("flag");
+        if (flag){
+            flag    = JSON.parse(flag);
+            value   = (this.element.value || this.formElement.value);
+
+            // return if  the message, the condition and the value is missing
+            if(!(flag['message'] && flag['condition'] && value)) return false;
+
+            if (value.match(flag['condition'])){
+                dispatchMessage(flag['message'], tstMessageBoxType.OKOnly);
+                return true;
+            }
+        }
+        return false;
     }
 
 }
@@ -2409,7 +2436,8 @@ function getPreferredKeyboard(){
 
 window.addEventListener("load", loadTouchscreenToolkit, false);
 
-/* dispatchMessage(message, messageBoxType) displays a 'message' with a custom message box
+/*
+ * The dispatchMessage(message, messageBoxType) displays a 'message' with a custom message box
  * The message box can be any of the types defined by tstMessageBoxType
  * i.e. tstMessageBoxType.OKOnly,   tstMessageBoxType.OKCancel,
  *      tstMessageBoxType.YesNo,    tstMessageBoxType.YesNoCancel
@@ -2460,4 +2488,14 @@ function dispatchMessage(message, messageBoxType) {
     tstMessageBar.style.display = "block";
 
     return true;
+}
+
+/*
+ * The dispatchFlag() function returns 'true' or 'false' depending on
+ * whether a TTInput flag is raised on the current page.
+ */
+function dispatchFlag(){
+    var thisPage = new TTInput(tstCurrentPage);
+
+    return thisPage.flag();
 }
