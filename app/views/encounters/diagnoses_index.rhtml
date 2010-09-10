@@ -5,7 +5,7 @@
 </style>
 
 <script type="text/javascript">
-  tt_cancel_destination = '/patients/show/<%= @patient.id %>?diagnosis_done=true&admitted=false';
+  tt_cancel_destination = '/patients/show/<%= @patient.id %>';
   tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false&admitted=false';
 </script>
 
@@ -13,7 +13,7 @@
   <h2>Patient Diagnoses</h2>
   <div style="font-size: 22pt;">
     <ul class="list" style="height:400px;width:970px;">
-      <% diagnoses = @primary_diagnosis + @secondary_diagnosis + @additional_diagnosis + @syndromic_diagnosis + @diagnosis
+      <% diagnoses = @diagnosis
       for observation in diagnoses do %>
         <li class="data <%= cycle('even', 'odd') %>">
           <!--div style="float:right;padding:7px;">
@@ -28,51 +28,10 @@
       <% end %>
     </ul>
   </div>
-  <%recorded_diagnosis =  @primary_diagnosis.last.answer_concept_name.name rescue  "TTTTTTTT" if  @primary_diagnosis.last
-    if @primary_diagnosis.last && recorded_diagnosis == 'UNKNOWN'%>
-
     <div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button gray" ><span>New Diagnosis</span></button><br/>
+      <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Admission Diagnosis</span></button><br/>
     </div>
-
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
-      <button class="button gray"><span>Uknown Diagnosis</span></button>
-    </div>
-
-<%elsif @primary_diagnosis.last or @syndromic_diagnosis.last %>
-
-<div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
-    </div>
-
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
-      <button class="button gray"><span>Uknown Diagnosis</span></button>
-    </div>
-
-  <%else%>
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
-    </div>
-
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="submitForm();"><span>Unknown Diagnosis</span></button>
-    </div>
-  <%end%>
-
 </div>
-
-<form method='post' action='/encounters/create' id="unknown_diagnosis">
-  <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
-  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
-
-  <%= hidden_field_tag("observations[][value_coded_or_text]", 'UNKNOWN') %>
-  <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "PRIMARY DIAGNOSIS") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-</form>
 
 <div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
   <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
@@ -81,9 +40,3 @@
     </span>
   </button>
 </div>
-
-<script>
-  function submitForm(){
-  document.getElementById('unknown_diagnosis').submit();
-  }
-</script>

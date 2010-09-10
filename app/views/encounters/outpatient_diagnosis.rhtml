@@ -1,34 +1,6 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
-</script>
-<style>
-  #space { display:inline; font-size:1.2em; }
-</style>
-<form id='outpatient_diagnosis' action="/encounters/create" method='post'>
-  
-  <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
-  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
- 
-   
-  <%# This options hash allows us to define our options in one place %>
-  <% options = {
-    :helpText => 'Outpatient diagnosis',
-    :allowFreeText => 'true',
-    :ajaxURL => "/encounters/diagnoses?search_string=",
-    :textCase => "upper" } %>
- 
-  <label for='observations[][value_coded_or_text]'>Outpatient diagnosis</label>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
-  <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
- 
-  <% options[:optional] = 'true' %>
-  <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
-  <script>
+
     // Every 500 milliseconds update the Next/Finish button
     function updateNextFinish(){
       if (tstInputTarget.value == '')
@@ -38,16 +10,44 @@
       setTimeout(updateNextFinish, 500)
     }
   </script>
- 
-  <% 5.times do |counter| %>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='outpatient_diagnosis' action="/encounters/create" method='post'>
+  
+  <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+
+  <%# This options hash allows us to define our options in one place %>
+  <% options = {
+    :helpText       => 'Select admission diagnosis',
+    :allowFreeText  => 'true',
+    :ajaxURL        => "/encounters/diagnoses?search_string=",
+    :textCase       => "upper"
+  } %>
+
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options[:optional] = 'true' %>
+  <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
+
+  <% 10.times do |counter| %>
     <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
-    <% counter += 1 %>
-    <% options[:helpText] = "Additional diagnosis" %>
+    <% options[:helpText] = "Select the next diagnosis" %>
+
     <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
     <%= hidden_field_tag("observations[][value_text]", nil) %>
     <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <% counter += 1 %>
   <% end %>
   <%= submit_tag "Finish" %>    
 </form>
