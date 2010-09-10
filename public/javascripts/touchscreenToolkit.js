@@ -56,6 +56,16 @@ tstMultipleSplitChar = ";";
 var tstKeyboard;
 var tstNextButton;
 
+/* tstMessageBoxType defines types of Touchscreen Toolkit Message Boxes:
+ *
+ *  tstMessageBoxType.OKOnly      :   Displays OK button only.
+ *  tstMessageBoxType.OKCancel    :   Displays OK and Cancel buttons.
+ *  tstMessageBoxType.YesNo       :   Displays Yes and No buttons.
+ *  tstMessageBoxType.YesNoCancel :   Displays Yes, No, and Cancel buttons.
+ */
+
+var tstMessageBoxType = {OKOnly:{}, OKCancel:{}, YesNo:{}, YesNoCancel:{}}
+
 // --------------------------------------
 
 function $(elementID){
