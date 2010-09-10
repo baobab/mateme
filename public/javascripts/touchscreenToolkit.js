@@ -2408,3 +2408,56 @@ function getPreferredKeyboard(){
 }
 
 window.addEventListener("load", loadTouchscreenToolkit, false);
+
+/* dispatchMessage(message, messageBoxType) displays a 'message' with a custom message box
+ * The message box can be any of the types defined by tstMessageBoxType
+ * i.e. tstMessageBoxType.OKOnly,   tstMessageBoxType.OKCancel,
+ *      tstMessageBoxType.YesNo,    tstMessageBoxType.YesNoCancel
+ *
+ * By default, dispatchMessage(msg, messageBoxType) displays an OKCancel message box if:
+ *  a. the messageBoxType is not specified
+ *  b. the messageBoxType parameter does not match any of the message box types defined by tstMessageBoxType
+ */
+
+function dispatchMessage(message, messageBoxType) {
+
+    var buttons = "";
+
+    /* if there is no message return false */
+    if(!message) return false;
+
+    switch(messageBoxType){
+        case tstMessageBoxType.OKOnly:
+            buttons = "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\"; gotoPage(tstCurrentPage+1, false);'> <span> OK </span> </button>"
+        break;
+
+        case tstMessageBoxType.OKCancel:
+            buttons = "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\"; gotoPage(tstCurrentPage+1, false);'> <span> OK </span> </button>" +
+                      "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\";'> <span> Cancel </span> </button>"
+        break;
+
+        case tstMessageBoxType.YesNo:
+            buttons = "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\"; gotoPage(tstCurrentPage+1, false);'> <span> Yes </span> </button>" +
+                      "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\";'> <span>No</span> </button>"
+        break;
+
+        case tstMessageBoxType.YesNoCancel:
+            buttons = "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\"; gotoPage(tstCurrentPage+1, false);'> <span> Yes </span> </button>" +
+                      "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\";'> <span> No </span> </button>" +
+                      "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\";'> <span> Cancel </span> </button>"
+        break;
+
+        default:
+            buttons = "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\"; gotoPage(tstCurrentPage+1, false);'> <span> OK </span> </button>" +
+                      "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\";'> <span> Cancel </span> </button>"
+        break;
+
+    }
+    /* TODO: consider adding style = 'text-lign: left;' to the message div */
+    message =  "<div  style = 'margin:20px;'>" + message + "</div>"
+    tstMessageBar.innerHTML = message + buttons
+
+    tstMessageBar.style.display = "block";
+
+    return true;
+}
