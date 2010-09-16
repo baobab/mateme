@@ -491,10 +491,11 @@ function getHelpText(inputElement, aPageNum) {
         helpTextClass = "helpTextClass";
     }
 
-    var helpText = document.createElement("div");
+    var helpText = document.createElement("label");
     helpText.setAttribute('id','helpText'+aPageNum);
     helpText.setAttribute('class',helpTextClass);
     helpText.setAttribute('refersToTouchscreenInputID',aPageNum);
+    helpText.setAttribute('for','touchscreenInput'+aPageNum);
     if(inputElement.getAttribute("helpText") != null){
         helpText.innerHTML = inputElement.getAttribute("helpText");
     }
