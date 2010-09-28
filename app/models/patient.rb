@@ -391,4 +391,19 @@ class Patient < ActiveRecord::Base
     patient_diabetes_medication_duration
   end
 
+  def self.dc_number
+    id = PatientIdentifier.find_by_sql("SELECT (CONVERT(SUBSTRING(COALESCE(identifier, ''), 6), UNSIGNED) + 1) identifier FROM patient_identifier \
+                                  WHERE identifier_type = (SELECT patient_identifier_type_id \
+                                  FROM patient_identifier_type WHERE name = 'Diabetes Number') \
+                                  AND identifier LIKE (SELECT CONCAT(property_value, '%') \
+                                  FROM global_property WHERE property = 'dc.number.prefix') \
+                                  AND date_created = (SELECT MAX(date_created) FROM patient_identifier \
+                                  WHERE identifier_type = (SELECT patient_identifier_type_id \
+                                  FROM patient_identifier_type WHERE name = 'Diabetes Number'))")
+
+    prefix = GlobalProperty.find_by_sql("SELECT property_value FROM global_property WHERE property = 'dc.number.prefix'")
+
+    return prefix.last["property_value"].to_s + id.last["identifier"].to_s
+  end
+
 end

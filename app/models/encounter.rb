@@ -66,6 +66,10 @@ class Encounter < ActiveRecord::Base
       vitals << temp_str if temp_str                          
       vitals.join(', ')
 
+    elsif name == 'UPDATE OUTCOME'
+      # observations.collect{|observation| observation.answer_string}.join(", ")
+      observations.last.answer_string
+      
     elsif @encounter_types.include? name
       observations.collect{|observation| observation.to_s(:show_negatives => false)}.compact.join(", ")
     else
