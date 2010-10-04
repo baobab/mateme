@@ -590,7 +590,7 @@ function setNextAttribute(){
 
 function validateEntry(updateElement){
 
-  if ($(updateElement).value.search(/OTHER/) != -1){
+  if ($(updateElement).value.search(/OTHER/) != -1 || $(updateElement).value.search(/SPECIFY/) != -1){
     activatePopup('otherDiagnosisPopUp');
   }else{
     if (updateElement == 'diagnosis-select'){
@@ -815,7 +815,7 @@ function stringfyArray(arrayToStringfy, sort){
 
 function processMultiSelect(aElement){
   var finalString = "";
-  if (aElement.innerHTML.search(/OTHER/) != -1){
+  if (aElement.innerHTML.search(/OTHER/) != -1 || aElement.innerHTML.search(/SPECIFY/) != -1){
     activatePopup('otherDiagnosisPopUp');
   }else{
     finalString = stringfyArray(tempDataArray,false) + " " + aElement.innerHTML;
