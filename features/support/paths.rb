@@ -10,18 +10,15 @@ module NavigationHelpers
     
     when /the home\s?page/
       '/'
-  when /the main menu/
+    when /login/
       '/'
-    when /the login page/
-      '/login'
     
-    when /the clinic dashboard/
-      '/clinic'
+    # Add more mappings here.
+    # Here is an example that pulls values out of the Regexp:
+    #
+    #   when /^(.*)'s profile page$/i
+    #     user_profile_path(User.find_by_login($1))
 
-    when /the treatment dashboard/
-      require_patient
-      "/patients/treatment/#{@patient.patient_id}"
-    
     else
       raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
         "Now, go and add a mapping in #{__FILE__}"

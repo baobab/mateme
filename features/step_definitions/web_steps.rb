@@ -131,9 +131,9 @@ Then /^(?:|I )should not see \/([^\/]*)\/(?: within "([^\"]*)")?$/ do |regexp, s
   regexp = Regexp.new(regexp)
   with_scope(selector) do
     if defined?(Spec::Rails::Matchers)
-      page.shoul have_not_xpath('//*', :text => regexp)
+      page.should have_no_xpath('//*', :text => regexp)
     else
-      assert page.has_not_xpath?('//*', :text => regexp)
+      assert page.has_no_xpath?('//*', :text => regexp)
     end
   end
 end
@@ -163,7 +163,7 @@ Then /^the "([^\"]*)" checkbox(?: within "([^\"]*)")? should be checked$/ do |la
     if defined?(Spec::Rails::Matchers)
       find_field(label)['checked'].should == 'checked'
     else
-      assert field_labeled(label)['checked'] == 'checked'
+      assert_equal 'checked', field_labeled(label)['checked']
     end
   end
 end
@@ -173,17 +173,27 @@ Then /^the "([^\"]*)" checkbox(?: within "([^\"]*)")? should not be checked$/ do
     if defined?(Spec::Rails::Matchers)
       find_field(label)['checked'].should_not == 'checked'
     else
-      assert field_labeled(label)['checked'] != 'checked'
+      assert_not_equal 'checked', field_labeled(label)['checked']
     end
   end
 end
-
+ 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
-  current_path = URI.parse(current_url).select(:path, :query).compact.join('?')
   if defined?(Spec::Rails::Matchers)
-    current_path.should == path_to(page_name)
+    URI.parse(current_url).path.should == path_to(page_name)
   else
-    assert_equal path_to(page_name), current_path
+    assert_equal path_to(page_name), URI.parse(current_url).path
+  end
+end
+
+Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
+  actual_params   = CGI.parse(URI.parse(current_url).query)
+  expected_params = Hash[expected_pairs.rows_hash.map{|k,v| [k,[v]]}]
+ 
+  if defined?(Spec::Rails::Matchers)
+    actual_params.should == expected_params
+  else
+    assert_equal expected_params, actual_params
   end
 end
 
