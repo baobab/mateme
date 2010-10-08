@@ -54,12 +54,14 @@ function destinationUrl(){
 }
 
 function resetTimer(){
-  document.getElementById('logoutMessage').innerHTML = "You will be logged out in<br/>" +
+  if (auto_logout_screen){
+    document.getElementById('logoutMessage').innerHTML = "You will be logged out in<br/>" +
                               "<span id='countDown'> </span> seconds <br />" +
 															"<button onmousedown='hideMessage(); destinationUrl();'><span>Cancel</span></button><br />";
-  document.getElementById('logoutMessage').style.display = "block";
-  continueCount = true;
-  display(); 
+    document.getElementById('logoutMessage').style.display = "block";
+    continueCount = true;
+    display();
+  } 
 }
 
 setTimeout("resetTimer()", 60000*3);
