@@ -23,7 +23,7 @@
   <% form_tag "search", :method => :get do %>
     <%= text_field_tag :given_name, params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%> 
     <%= text_field_tag :family_name, params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%> 
-    Gender: <%= select_tag :gender, options_for_select({"" => "", "Male" => "M", "Female" => "F"}), {:helpText => "Gender"} %> 
+    <%= hidden_field_tag :gender, "F" %>
     <%= hidden_field_tag :create_patient, params[:create_patient] %>
     <%= submit_tag "Find person" %>
   <% end -%>
