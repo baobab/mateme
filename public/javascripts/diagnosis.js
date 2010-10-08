@@ -458,7 +458,7 @@ function createConfirmatoryEvidence(){
  
  var testsRequestedHeader = document.createElement('div');
  testsRequestedHeader.id = 'tests-header';
- testsRequestedHeader.innerHTML = "<span>CONFIRMATORY EVIDENCE - Selection of a test below confirms the test was requested</span>";
+ testsRequestedHeader.innerHTML = "<span>TESTS DONE</span>";
  $('confirmatory-container').appendChild(testsRequestedHeader);
 
  var diagnosesInfobarMain = document.createElement('div');
@@ -533,7 +533,7 @@ function objectConverter(a){
 function populateConfirmatoryEvidence(){
   var tmpHash = {};
   confirmatoryEvidenceData = {};
-  var processArray = function(x,idx){
+  var processArray = function(x,idx){ //Assign relevent tests to elements in mainDataArray 
         for (i in finalTests[0]){
           if(x in objectConverter(finalTests[0][i])){
             if (typeof(confirmatoryEvidenceData[x]) == 'undefined'){
