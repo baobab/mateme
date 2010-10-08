@@ -12,27 +12,7 @@ class Patient < ActiveRecord::Base
       find(:all, :conditions => ["DATE(encounter_datetime) = DATE(?)", encounter_date]) # Use the SQL DATE function to compare just the date part
     end
   end
-=begin
-  def current_diagnoses
-    diagnosis_hash = {"DIAGNOSIS" => [], "DIAGNOSIS, NON-CODED" => [], "PRIMARY DIAGNOSIS" => [], "SECONDARY DIAGNOSIS" => [], "ADDITIONAL DIAGNOSIS" =>[], "SYNDROMIC DIAGNOSIS" => []}
-
-    concept_ids = diagnosis_hash.collect{|k,v| ConceptName.find_by_name(k).concept_id}.compact rescue []
-
-     type = EncounterType.find_by_name('DIAGNOSIS')
-     self.current_visit.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
-       encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
-         next if observation.obs_group_id != nil
-         observation_string =  observation.answer_string
-         child_ob = observation.child_observation
-         while child_ob != nil do
-           observation_string += child_ob.answer_string
-           child_ob = child_ob.child_observation
-         end
-         diagnosis_hash[observation.concept.name.name] << observation_string
-       }
-       diagnosis_hash
-  end
-=end
+  
   def current_diagnoses(concept_ids = [ConceptName.find_by_name('DIAGNOSIS').concept_id, ConceptName.find_by_name('DIAGNOSIS, NON-CODED').concept_id, ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id, ConceptName.find_by_name('SECONDARY DIAGNOSIS').concept_id, ConceptName.find_by_name('ADDITIONAL DIAGNOSIS').concept_id, ConceptName.find_by_name('SYNDROMIC DIAGNOSIS').concept_id])
     self.current_visit.encounters.active.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
@@ -81,24 +61,6 @@ class Patient < ActiveRecord::Base
     label.draw_multi_text("#{address}")
     label.print(1)
   end
-=begin
-  def visit_label
-    label = ZebraPrinter::StandardLabel.new
-    label.font_size = 3
-    label.font_horizontal_multiplier = 1
-    label.font_vertical_multiplier = 1
-    label.left_margin = 50
-    encs = encounters.current.active.find(:all)
-    return nil if encs.blank?
-    
-    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
-    encs.each {|encounter|
-      next if encounter.name.humanize == "Registration"
-      label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_print}", :font_reverse => false)
-    }
-    label.print(1)
-  end
-=end
 
   def visit_label
     label = ZebraPrinter::StandardLabel.new
@@ -185,8 +147,23 @@ class Patient < ActiveRecord::Base
         encounter.orders.active.all}}.flatten.compact
   end
 
-  def current_visit(session_date = nil)
-    current_visit = self.visits.current.last
+  def current_visit(session_date=nil)
+    current_visit = nil
+    begin 
+      #return open visit if session_date falls after the start_date
+      current_visit = self.visits.find(:last, 
+                                       :conditions => ["start_date <= DATE(?) AND ISNULL(end_date)", session_date]
+                                      ) 
+      #if above visit doesnt exist, check if there is a closed visit where session date falls within range
+      current_visit = self.visits.find(:last, 
+                                       :conditions => ["start_date <= DATE(?) AND end_date >= DATE(?)", session_date, session_date]
+                                      ) if current_visit.nil?
+    rescue
+      #otherwise there is no visit where given session date falls within
+      current_visit = nil
+    end
+
+    return current_visit
   end
 
   def previous_visits
