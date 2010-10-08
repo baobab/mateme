@@ -1071,8 +1071,10 @@ function gotoPage(destPage, validate){
         }
         try {
             var thisPage = $('page'+currentPage);
+            if(thisPage){
             var pageWrapper = thisPage.parentNode;
             pageWrapper.parentNode.removeChild(pageWrapper);
+            }
         } catch(e) {
             var pages = document.getElementsByClassName('inputPage');
             for(var i=0; i<pages.length; i++) {
