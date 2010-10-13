@@ -1060,8 +1060,10 @@ function gotoPage(destPage, validate){
 		}
 		try {
 			var thisPage = $('page'+currentPage);
-			var pageWrapper = thisPage.parentNode;
-			pageWrapper.parentNode.removeChild(pageWrapper);
+                        if(thisPage){
+                            var pageWrapper = thisPage.parentNode;
+                            pageWrapper.parentNode.removeChild(pageWrapper);
+                        }
 		} catch(e) {
 		}
 	
@@ -2320,5 +2322,5 @@ String.prototype.trim = function()
 };
 
 
-window.addEventListener("load", loadTouchscreenToolkit, false);
+//window.addEventListener("load", loadTouchscreenToolkit, false);
 

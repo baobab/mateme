@@ -43,11 +43,21 @@ class SearchController < ApplicationController
   def role
     search_string = params[:search_string]
 
-     @results = UserRole.distinct_roles.map{|role| role.role}.grep(/#{search_string}/i).compact.sort_by{|role|
+    # couldn't make out what this does but then I am only interested in the possibilities
+=begin
+     @results = Role.distinct_roles.map{|role| role.role}.grep(/#{search_string}/i).compact.sort_by{|role|
       role.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
     }[0..15]
+=end
 
-   render :text => @results.collect{|role|"<li>#{role}</li>"}.join("\n")
+    @results = Role.find(:all, :select => "DISTINCT role").collect{|r|
+      if(r.role.downcase.include?("adults") || r.role.downcase.include?("lab") ||
+            r.role.downcase.include?("paediatrics"))
+        r.role
+      end
+    }.compact
+
+    render :text => @results.collect{|role|"<li>#{role}</li>"}.join("\n")
   end
 
   def main_diagnosis
@@ -66,7 +76,7 @@ class SearchController < ApplicationController
     render :text => sub_diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
   end
 
-   def sub_sub_diagnosis
+  def sub_sub_diagnosis
     main_diagnosis = params[:main_diagnosis].upcase
     sub_diagnosis = params[:sub_diagnosis].upcase
     diagnosis_hash = DiagnosisTree.diagnosis_data rescue {}
@@ -75,7 +85,7 @@ class SearchController < ApplicationController
     render :text => sub_sub_diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
   end
 
-    def confirmatory_evidence
+  def confirmatory_evidence
     diagnosis = params[:diagnosis].upcase
     tests_hash = DiagnosisTree.confirmatory_evidence rescue {}
     tests_list = tests_hash.collect{|k,v| k if v.include?(diagnosis)}.compact.sort
@@ -103,18 +113,18 @@ class SearchController < ApplicationController
   def drugs
     search_string = params[:search_string]
 
-     @results = Drug.find(:all).collect{|drug| drug.name}.compact.sort.grep(/^#{search_string}/) rescue []
+    @results = Drug.find(:all).collect{|drug| drug.name}.compact.sort.grep(/^#{search_string}/) rescue []
 
-   render :text => @results.collect{|name|"<li>#{name}</li>"}.join("\n")
+    render :text => @results.collect{|name|"<li>#{name}</li>"}.join("\n")
 
   end
 
   def location_drugs
     search_string = params[:search_string].titleize
 
-     @results = LocationDrug.find(:all).collect{|drug| drug.drug_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
+    @results = LocationDrug.find(:all).collect{|drug| drug.drug_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
 
-   render :text => @results.collect{|name|"#{name}"}.join(';')
+    render :text => @results.collect{|name|"#{name}"}.join(';')
 
   end
 

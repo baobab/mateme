@@ -24,7 +24,19 @@ class PeopleController < ApplicationController
     session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
     @show_set_date = true unless session[:datetime].blank? 
 
-    render :layout => "menu"
+    @roles = user.user_roles.collect{|x|x.role.downcase} rescue []
+
+    # redirect based on user role
+    if @roles.include?("adults")
+      redirect_to :action => :adults and return
+    elsif @roles.include?("paediatrics")
+      redirect_to :action => :paeds and return
+    elsif @roles.include?("lab")
+      redirect_to :controller => :encounters, :action => :lab_results_entry and return
+    else
+      render :layout => "menu"
+    end
+
   end
  
   def new

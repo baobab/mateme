@@ -310,8 +310,8 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params[:encounter][:patient_id])
     
     # redirect to a custom destination page 'next_url'
-    if encounter.type.name == "LAB"
-      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient))  if encounter.type.name == "LAB"
+    if encounter.type.name == "LAB ORDERS"
+      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient))  if encounter.type.name == "LAB ORDERS"
       return
     elsif(params[:next_url])
       redirect_to params[:next_url] and return

@@ -28,6 +28,9 @@ class Role < ActiveRecord::Base
     rp.save
   end
 
+  def self.distinct_roles
+    Role.find(:all, :select => "DISTINCT role")
+  end
 
 end
 

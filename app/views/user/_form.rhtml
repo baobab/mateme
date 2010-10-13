@@ -2,7 +2,7 @@
 <%case  controller.action_name when "search_user"%>
       <p><label for="user_username">Username</label><br/>
         <%= @username = User.find(:all, :conditions =>["voided = ?",false], :order =>'username').map{|u|[u.username]}
-           select(:user, :username, @username,{},{:include_blank => true ,:textCase => "lower" ,:validationRule =>"\\w{6}\\w*" ,:validationMessage => "Username must be at least SIX characters long"})%>
+           select(:user, :username, @username,{},{:include_blank => true ,:textCase => "lower" ,:validationRule =>"\\w{3}\\w*" ,:validationMessage => "Username must be at least SIX characters long"})%>
   <%when "change_password"%>
       <p><label for="user_password">New Password</label><br/>
       <%= password_field 'user', 'password', :xhelpText => 'Password' ,:textCase =>"lower", :validationRule => "\\w{4}\\w*", :validationMessage => "Password less than Four characters", :value =>"" %></p>
@@ -46,7 +46,7 @@
       <p><label for="person_name_family_name">Last name</label><br/>
       <%= text_field 'person_name', 'family_name', :ajaxURL => '/person_names/family_names?search_string=', :value => @user_last_name, :allowFreeText => true%></p>
 
-      <p><label for="user_role_role_id">User Role</label></br>
+      <p><label for="user_role_role_id">User Role</label><br />
       <%= text_field 'user_role', 'role_id', :xhelpText => 'User role', :ajaxURL => '/search/role?search_string=', :allowFreeText => true%></p>
         
 
