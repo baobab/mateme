@@ -49,12 +49,19 @@ ul.list{
  
   <div id="menu">
 
-      <a class="button green" href='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</a>
-      <a class="button green" href='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</a>
+      <!--a class="button green" href='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</a>
+      <a class="button green" href='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</a-->
+      <a class="button green" href='/encounters/new/outpatient_diagnosis?diagnosis_type=PRIMARY DIAGNOSIS&patient_id=<%= @patient.id -%>'>Sent Home</a>
+      <a class="button green" href='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Admitted</a>
       <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
       <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
       <!--a class="button green" href='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</a-->
       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
+
+      <%if @super_user%>
+        <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
+      <% end %>
+      
       <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
     

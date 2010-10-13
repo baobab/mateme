@@ -7,6 +7,8 @@ function $(id){
 }
 
 function checkCtrl(obj){
+    if(!obj) return [];
+    
     var o = obj;
     var t = o.offsetTop;
     var l = o.offsetLeft + 1;

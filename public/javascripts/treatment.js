@@ -72,7 +72,7 @@ function generateGenerics(){
     //topBannerDiv.style.border = "1px solid #ccc";
     topBannerDiv.style.paddingTop = "10px";
     topBannerDiv.style.paddingLeft = "10px";
-    topBannerDiv.innerHTML = "Select Treatment Details for:";
+    topBannerDiv.innerHTML = "Select Treatment Details";
     topBannerDiv.style.fontSize = "1.8em";
 
     mainDiv.appendChild(topBannerDiv);
@@ -89,6 +89,7 @@ function generateGenerics(){
     diagnoses.style.top = "12px";
     diagnoses.style.right = "12px";
     diagnoses.style.position = "absolute";
+    diagnoses.style.display = "none";
 
     topBannerDiv.appendChild(diagnoses);
 
@@ -286,7 +287,7 @@ function generateGenerics(){
 
     freqsDosePeriodDiv.appendChild(keyboardDiv);
 
-    showKeyboard($("keyboardDiv"), "inputTxt");
+    showFixedKeyboard($("keyboardDiv"), "inputTxt");
 
     var ulDrugs = document.createElement("ul");
     ulDrugs.id = "ulDrugs";
@@ -801,7 +802,7 @@ function removeGenerics(){
 /*
  * We create a custom keyboard for the interface to fit on the available space
  */
-function showKeyboard(ctrl, global_control){
+function showFixedKeyboard(ctrl, global_control){
     var full_keyboard = "full";
     
     var div = document.createElement("div");

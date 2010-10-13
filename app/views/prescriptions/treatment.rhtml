@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  var tt_cancel_destination = "/prescriptions/?patient_id=<%= @patient.id %>"
+  var tt_cancel_destination = "/patients/show/?patient_id=<%= @patient.id %>"
 
   var generics = <%= @generics.sort.to_json %>;
   var frequencies = <%= @frequencies.to_json %>;

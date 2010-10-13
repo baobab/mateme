@@ -461,22 +461,22 @@
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='blood_smear'>Blood Smear Positive for Malaria?</label>
-          <% options=default.merge({
+          <!--label for='blood_smear'>Blood Smear Positive for Malaria?</label-->
+          <%# options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "blood_smear",
               :position => "e"
             }) %>
-          <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+          <%#= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
                 "Yes",
                 "No"
               ]), options ) %>
-          <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
-          <%= hidden_field_tag("observations[][concept_name]", "BLOOD SMEAR POSITIVE FOR MALARIA") %>
-          <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-          <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+          <%#= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+          <%#= hidden_field_tag("observations[][concept_name]", "BLOOD SMEAR POSITIVE FOR MALARIA") %>
+          <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+          <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
           <label for='weight'>Weight?</label>
           <% options=default.merge({
@@ -491,31 +491,31 @@
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='hb'>HB (g/dl)?</label>
-          <% options=default.merge({
+          <!--label for='hb'>HB (g/dl)?</label-->
+          <%# options=default.merge({
               :field_type => 'number',
               :allowFreeText => 'true',
               :id => "hb",
               :position => "g"
             }) %>
-          <%= text_field_tag("observations[][value_numeric]", nil, options) %>
-          <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
-          <%= hidden_field_tag("observations[][concept_name]", "HB (G/DL)") %>
-          <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-          <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+          <%#= text_field_tag("observations[][value_numeric]", nil, options) %>
+          <%#= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+          <%#= hidden_field_tag("observations[][concept_name]", "HB (G/DL)") %>
+          <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+          <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='pcv'>PCV (%)?</label>
-          <% options=default.merge({
+          <!--label for='pcv'>PCV (%)?</label-->
+          <%# options=default.merge({
               :field_type => 'number',
               :allowFreeText => 'true',
               :id => "pcv",
               :position => "h"
             }) %>
-          <%= text_field_tag("observations[][value_numeric]", nil, options) %>
-          <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
-          <%= hidden_field_tag("observations[][concept_name]", "PCV (%)") %>
-          <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-          <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+          <%#= text_field_tag("observations[][value_numeric]", nil, options) %>
+          <%#= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
+          <%#= hidden_field_tag("observations[][concept_name]", "PCV (%)") %>
+          <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+          <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
         </td>
       </tr>
@@ -644,7 +644,7 @@
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='presence_of_bilateral_crackles_and_wheeze'>Presence of bilateral crackles and wheeze?</label>
+          <label for='presence_of_bilateral_crackles_and_wheeze'>Presence of bilateral crackles and/or wheeze?</label>
           <% options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
@@ -792,7 +792,7 @@
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='oxygen_saturation_greater_than_90'>Oxygen Saturation &ge; 90% room air?</label>
+          <label for='oxygen_saturation_greater_than_90'>Oxygen Saturation &le; 90% room air?</label>
           <% options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
@@ -805,7 +805,7 @@
                 "No"
               ]), options ) %>
           <%= hidden_field_tag("observations[][parent_concept_name]", "ADMISSION CRITERIA") %>
-          <%= hidden_field_tag("observations[][concept_name]", "UNABLE TO BREASTFEED OR DRINK") %>
+          <%= hidden_field_tag("observations[][concept_name]", "OXYGEN SATURATION LESS THAN OR EQUAL TO 90 PERCENT ROOM AIR") %>
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
