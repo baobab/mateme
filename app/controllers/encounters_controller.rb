@@ -81,9 +81,9 @@ class EncountersController < ApplicationController
   def diagnoses
     search_string = (params[:search_string] || '').upcase
     filter_list = params[:filter_list].split(/, */) rescue []
-    outpatient_diagnosis = ConceptName.find_by_name("DIAGNOSIS").concept
+    outpatient_diagnosis = ConceptName.find_by_name("QECH OUTPATIENT DIAGNOSIS LIST").concept
 
-    diagnosis_concepts = ConceptName.find_by_name("DIAGNOSIS", :joins => [:concept],
+    diagnosis_concepts = ConceptName.find_by_name("QECH OUTPATIENT DIAGNOSIS LIST", :joins => [:concept],
       :conditions => ["concept.retired = 0"]).concept.concept_answers.collect {|answer|
       Concept.find(answer.answer_concept) rescue nil
     }.compact rescue []
