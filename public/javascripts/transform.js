@@ -146,7 +146,7 @@ function generatePage(action, method, section){
     btnNext.innerHTML = (tstCurrentPage >= sections.length - 1 ? "<span>Finish</span>" : "<span>Next</span>");
     btnNext.style.cssFloat = "right";
     btnNext.className = "green navButton";
-    btnNext.onmousedown = function(){
+    btnNext.onclick = function(){
         tstCurrentPage += 1;
         navigateTo(tstCurrentPage);
     }
@@ -158,7 +158,7 @@ function generatePage(action, method, section){
     btnClear.innerHTML = "<span>Clear</span>";
     btnClear.style.cssFloat = "right";
     btnClear.className = "gray navButton";
-    btnClear.onmousedown = function(){
+    btnClear.onclick = function(){
         $("frmAnswers").reset();
     }
 
@@ -170,7 +170,7 @@ function generatePage(action, method, section){
     btnBack.style.cssFloat = "right";
     btnBack.className = "gray navButton";
     btnBack.style.display = (tstCurrentPage > 0 ? "block" : "none");
-    btnBack.onmousedown = function(){
+    btnBack.onclick = function(){
         tstCurrentPage -= 1;
         navigateTo(tstCurrentPage);
     }
@@ -182,7 +182,7 @@ function generatePage(action, method, section){
     btnCancel.innerHTML = "<span>Cancel</span>";
     btnCancel.style.cssFloat = "left";
     btnCancel.className = "red navButton";
-    btnCancel.onmousedown = function(){
+    btnCancel.onclick = function(){
         if(tt_cancel_destination){
             window.location = tt_cancel_destination;
         } else {
@@ -234,7 +234,7 @@ function generatePage(action, method, section){
 
         switch(actualElements[el][2]){
             case "number":
-                input.onmousedown = function(){
+                input.onclick = function(){
                     if($('divMenu')){
                         document.body.removeChild($('divMenu'));
                     } else {
@@ -243,7 +243,7 @@ function generatePage(action, method, section){
                 }
                 break;
             case "year":
-                input.onmousedown = function(){
+                input.onclick = function(){
                     if($('divMenu')){
                         document.body.removeChild($('divMenu'));
                     } else {
@@ -253,7 +253,7 @@ function generatePage(action, method, section){
                 break;
             case "date":
                 //input.className = "input-date";
-                input.onmousedown = function(){
+                input.onclick = function(){
                     if($('divMenu')){
                         document.body.removeChild($('divMenu'));
                     } else {
@@ -262,7 +262,7 @@ function generatePage(action, method, section){
                 }
                 break;
             case "select":
-                input.onmousedown = function(){
+                input.onclick = function(){
                     if($('divMenu')){
                         document.body.removeChild($('divMenu'));
                     } else {
@@ -271,7 +271,7 @@ function generatePage(action, method, section){
                 }
                 break;
             default:
-                input.onmousedown = function(){
+                input.onclick = function(){
                     if($('divMenu')){
                         document.body.removeChild($('divMenu'));
                     } else {

@@ -21,9 +21,6 @@ function checkCtrl(obj){
         l += o.offsetLeft;
     }
 
-    console.log(obj.id);
-    console.log(Array(w, h, t, l));
-
     return Array(w, h, t, l);
 }
 
@@ -554,8 +551,6 @@ function showMenu(id, original_id){
 
     p = checkCtrl($(id));
 
-    console.log(p);
-    
     var div = document.createElement("div");
     div.id = "divMenu";
     div.style.zIndex = 1001;
@@ -569,20 +564,21 @@ function showMenu(id, original_id){
     sel.style.height = "200px";
     sel.style.width = "100%";
     sel.size = 10;
-    sel.style.fontSize = "1.5em";
-
-    div.appendChild(sel);
+    sel.style.fontSize = "1.8em";
 
     sel.onclick = function(){
         $(id).value = unescape(this[this.selectedIndex].innerHTML);
         document.body.removeChild($("divMenu"));
     }
 
+    div.appendChild(sel);
+
 
     document.body.appendChild(div);
 
     for(var i = 0; i < $(original_id).options.length; i++){
         var opt = document.createElement("option");
+        opt.style.padding = "10px";
 
         opt.value = $(original_id).options[i].value;
         opt.innerHTML = unescape($(original_id).options[i].innerHTML);
