@@ -61,7 +61,7 @@ class EncountersController < ApplicationController
       end
     end
     @patient = Patient.find(params[:encounter][:patient_id])
-    redirect_to next_task(@patient) 
+    redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
   end
 
 

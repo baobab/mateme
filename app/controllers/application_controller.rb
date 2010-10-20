@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     return "/encounters/new/registration?patient_id=#{patient.id}" if !current_visit_encounters.include?("REGISTRATION") || patient.current_visit.nil? || patient.current_visit.end_date != nil
 
     # If previous encounter was DIAGNOSIS, goto TREATMENT
-    return "/prescriptions/treatment?patient_id=#{patient.id}" if current_visit_encounters.include?("DIAGNOSIS")
+    # return "/prescriptions/treatment?patient_id=#{patient.id}" if current_visit_encounters.include?("DIAGNOSIS")
 
     return "/patients/show/#{patient.id}" 
   end
