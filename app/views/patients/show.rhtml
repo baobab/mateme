@@ -58,12 +58,12 @@ ul.list{
       <!--a class="button green" href='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</a-->
       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
 
-      <%if @super_user%>
+      <%#if @super_user%>
         <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
-      <% end %>
+      <%# end %>
       
       <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
-      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
+      <!--a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a-->
     
   </div>
 </div>

@@ -19,6 +19,8 @@
             :allowFreeText => 'true',
           } %>
 
+    <%= hidden_field_tag "next_url", "/patients/influenza_recruitment?patient_id=#{@patient.id}" %>
+
     <table>
       <tr>
         <td>
@@ -384,6 +386,8 @@
     <% default={
       :allowFreeText => 'true',
     } %>
+
+    <%= hidden_field_tag "next_url", "/patients/influenza_recruitment?patient_id=#{@patient.id}" %>
 
     <table>
       <tr>

@@ -61,7 +61,13 @@ class EncountersController < ApplicationController
       end
     end
     @patient = Patient.find(params[:encounter][:patient_id])
-    redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
+
+    if(params[:next_url])
+      redirect_to params[:next_url] and return
+    else
+      redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
+    end
+    
   end
 
 
@@ -480,4 +486,12 @@ class EncountersController < ApplicationController
 
   end
 
+  def referral
+    @patient = Patient.find(params[:patient_id])
+    
+  end
+  
+  def create_influenza_recruitment
+    create_influenza_data
+  end
 end

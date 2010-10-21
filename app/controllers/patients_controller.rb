@@ -189,6 +189,12 @@ class PatientsController < ApplicationController
     
   end
 
+  def influenza_recruitment
+
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    
+  end
+  
   # Influenza method for accessing the influenza view
   def chronic_conditions
 
