@@ -112,7 +112,8 @@ class PeopleController < ApplicationController
         
         if found_person
           found_person.patient.national_id_label
-          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
+          # print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
+          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", "/patients/show/#{found_person.patient.id}")
         else
           redirect_to :action => "index"
         end
@@ -121,7 +122,7 @@ class PeopleController < ApplicationController
       
       if params[:person][:patient]
         person.patient.national_id_label
-        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))
+        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", "/patients/show/#{person.patient.id}")
       else
         redirect_to :action => "index"
       end
