@@ -66,12 +66,15 @@ class ApplicationController < ActionController::Base
      return "/people"
    end
 
-  def send_label(label_data)
+  # Send a label to a label printer. If <tt>type</tt> is lbs it prints to a 
+  # specimen label printer otherwise label will be sent to a normal passport 
+  # label printer
+  def send_label(label_data, type='lbl')
     send_data(
       label_data,
       :type=>"application/label; charset=utf-8",
       :stream => false,
-      :filename => "#{Time.now.to_i}#{rand(100)}.lbl",
+      :filename => "#{Time.now.to_i}#{rand(100)}.#{type}",
       :disposition => "inline"
     )
   end

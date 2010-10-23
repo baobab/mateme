@@ -383,7 +383,14 @@ class EncountersController < ApplicationController
   end
 
   def label
-    send_label(Encounter.find(params[:encounter_id]).label)
+    encounter = Encounter.find(params[:encounter_id])
+    if encounter.type.name == 'LAB ORDERS'
+      label_type = 'lbs' # specimen label
+    else
+      label_type = 'lbl'
+    end
+
+    send_label(encounter.label, label_type)
   end
 
   # Capture Lab Test Results
