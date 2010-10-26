@@ -9,6 +9,8 @@ class PatientsController < ApplicationController
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
 
+    @session_datetime = session[:datetime]
+
     if @user_privilege.include?("superuser")
       @super_user = true
     elsif @user_privilege.include?("clinician")
@@ -19,9 +21,9 @@ class PatientsController < ApplicationController
       @regstration_clerk  = true
     end  
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
-    outcome = @patient.current_outcome
-    @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
-    @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+    outcome = @patient.current_outcome(session[:datetime])
+    @encounters = @patient.current_visit(session[:datetime]).encounters.active.find(:all) rescue []
+    @encounter_names = @patient.current_visit(session[:datetime]).encounters.active.map{|encounter| encounter.name}.uniq rescue []
     @past_diagnosis = @patient.visit_diagnoses
     @past_treatments = @patient.visit_treatments
     session[:auto_load_forms] = false if params[:auto_load_forms] == 'false'
@@ -102,18 +104,18 @@ class PatientsController < ApplicationController
 
   def end_visit
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
-    current_visit = @patient.current_visit
-    primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
-    treatment = @patient.current_treatment_encounter.orders.active rescue []
+    current_visit = @patient.current_visit(session[:datetime])
+    primary_diagnosis = @patient.current_diagnoses(:concept_names => ["PRIMARY DIAGNOSIS"], :encounter_datetime => session[:datetime]).last rescue nil
+    treatment = @patient.current_treatment_encounter(:encounter_datetime => session[:datetime]).orders.active rescue []
     session[:admitted] = false
 
-    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
+    if (@patient.current_outcome(session[:datetime]) && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done(session[:datetime]))) or ['DEAD','REFERRED'].include?(@patient.current_outcome(session[:datetime]))
       current_visit.ended_by = session[:user_id]
-      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
+      current_visit.end_date = @patient.current_treatment_encounter(:encounter_datetime => session[:datetime]).encounter_datetime rescue Time.now()
       current_visit.save
       print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
 
-    elsif @patient.admitted_to_ward && session[:ward] == 'WARD 4B'
+    elsif @patient.admitted_to_ward(session[:datetime]) && session[:ward] == 'WARD 4B'
 
       print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", close_visit) and return
 

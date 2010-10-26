@@ -46,7 +46,7 @@ class DrugOrder < ActiveRecord::Base
 =end
 
   def self.write_order(encounter, patient, obs, drug, start_date, auto_expire_date, dose, frequency, prn, order_type, diagnosis_concept_id)
-    encounter ||= patient.current_treatment_encounter
+    encounter ||= patient.current_treatment_encounter(:encounter_datetime => start_date.to_date)
     drug_order = nil
     ActiveRecord::Base.transaction do
       order = encounter.orders.create(

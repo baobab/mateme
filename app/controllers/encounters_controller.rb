@@ -1,6 +1,7 @@
 class EncountersController < ApplicationController
 
   def create
+    #raise session[:datetime].to_yaml
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
     encounter.save
@@ -32,7 +33,7 @@ class EncountersController < ApplicationController
     @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
     @diagnosis_type = params[:diagnosis_type]
-    @admission_date = @patient.current_visit.start_date.strftime("%Y/%m/%d") rescue Date.today.strftime("%Y/%m/%d")
+    @admission_date = @patient.current_visit(session[:datetime]).start_date.strftime("%Y/%m/%d") rescue Date.today.strftime("%Y/%m/%d")
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
@@ -92,10 +93,10 @@ class EncountersController < ApplicationController
    def diagnoses_index
     @diagnosis_type = 'PRIMARY DIAGNOSIS'
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @primary_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "PRIMARY DIAGNOSIS"}.compact rescue []
-    @secondary_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "SECONDARY DIAGNOSIS"}.compact rescue []
-    @additional_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "ADDITIONAL DIAGNOSIS"}.compact rescue []
-    @syndromic_diagnosis = @patient.current_diagnoses.collect{|observation| observation if observation.concept.name.name == "SYNDROMIC DIAGNOSIS"}.compact rescue []
+    @primary_diagnosis = @patient.current_diagnoses(:encounter_datetime => session[:datetime]).collect{|observation| observation if observation.concept.name.name == "PRIMARY DIAGNOSIS"}.compact rescue []
+    @secondary_diagnosis = @patient.current_diagnoses(:encounter_datetime => session[:datetime]).collect{|observation| observation if observation.concept.name.name == "SECONDARY DIAGNOSIS"}.compact rescue []
+    @additional_diagnosis = @patient.current_diagnoses(:encounter_datetime => session[:datetime]).collect{|observation| observation if observation.concept.name.name == "ADDITIONAL DIAGNOSIS"}.compact rescue []
+    @syndromic_diagnosis = @patient.current_diagnoses(:encounter_datetime => session[:datetime]).collect{|observation| observation if observation.concept.name.name == "SYNDROMIC DIAGNOSIS"}.compact rescue []
 
     if !@primary_diagnosis.empty? and !@secondary_diagnosis.empty?
       @diagnosis_type = 'ADDITIONAL DIAGNOSIS'
@@ -111,9 +112,9 @@ class EncountersController < ApplicationController
 
    def confirmatory_evidence
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil 
-    @primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id]).last rescue nil
-    @requested_test_obs = @patient.current_diagnoses([ConceptName.find_by_name('TEST REQUESTED').concept_id]) rescue []
-    @result_available_obs = @patient.current_diagnoses([ConceptName.find_by_name('RESULT AVAILABLE').concept_id]) rescue []
+    @primary_diagnosis = @patient.current_diagnoses(:concept_names => ['PRIMARY DIAGNOSIS'], :encounter_datetime => session[:datetime]).last rescue nil
+    @requested_test_obs = @patient.current_diagnoses(:concept_names => ['TEST REQUESTED'], :encounter_datetime => session[:datetime]) rescue []
+    @result_available_obs = @patient.current_diagnoses(:concept_names => ['RESULT AVAILABLE'], :encounter_datetime => session[:datetime]) rescue []
     
     best_tests_hash = DiagnosisTree.best_tests
     @diagnosis_name = @primary_diagnosis.answer_concept_name.name rescue 'NONE'

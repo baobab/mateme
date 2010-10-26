@@ -13,23 +13,35 @@ class Patient < ActiveRecord::Base
     end
   end
   
-  def current_diagnoses(concept_ids = [ConceptName.find_by_name('DIAGNOSIS').concept_id, ConceptName.find_by_name('DIAGNOSIS, NON-CODED').concept_id, ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id, ConceptName.find_by_name('SECONDARY DIAGNOSIS').concept_id, ConceptName.find_by_name('ADDITIONAL DIAGNOSIS').concept_id, ConceptName.find_by_name('SYNDROMIC DIAGNOSIS').concept_id])
-    self.current_visit.encounters.active.all(:include => [:observations]).map{|encounter| 
+  def current_diagnoses(options = {})
+   
+   concept_ids = Array.new()
+   if !options[:concept_names]
+     options[:concept_names] = ['DIAGNOSIS','DIAGNOSIS, NON-CODED',
+                                'PRIMARY DIAGNOSIS','SECONDARY DIAGNOSIS',
+                                'ADDITIONAL DIAGNOSIS','SYNDROMIC DIAGNOSIS'
+                              ]
+   end
+  
+   options[:concept_names].each{|concept_name| concept_ids.push(ConceptName.find_by_name(concept_name).concept_id)}
+
+    self.current_visit(options[:encounter_datetime]).encounters.active.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id IN (?)", concept_ids])
     }.flatten.compact
   end
 
-  def current_treatment_encounter(force = false)
+  def current_treatment_encounter(options = {})
     type = EncounterType.find_by_name('TREATMENT')
-    encounter = self.current_visit.encounters.active.find_by_encounter_type(type.id) rescue nil
-    return encounter unless force
+    options[:force] = false if !options[:force] 
+    encounter = self.current_visit(options[:encounter_datetime]).encounters.active.find_by_encounter_type(type.id) rescue nil
+    return encounter unless options[:force]
     encounter ||= encounters.create(:encounter_type => type.id)
     encounter
   end
   
-  def current_orders
-    encounter = current_treatment_encounter 
+  def current_orders(session_datetime = Date.today)
+    encounter = current_treatment_encounter(:encounter_datetime => session_datetime) 
     orders = encounter.orders.active rescue []
     orders
   end
@@ -113,8 +125,8 @@ class Patient < ActiveRecord::Base
     self.remote_art_info['person']['arv_number'] rescue nil
   end
 
-  def current_outcome
-    self.current_visit.encounters.all(:include => [:observations]).map{|encounter| 
+  def current_outcome(session_datetime = Date.today)
+    self.current_visit(session_datetime).encounters.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("OUTCOME").concept_id,])
     }.flatten.compact.last.answer_concept_name.name rescue nil
@@ -127,11 +139,6 @@ class Patient < ActiveRecord::Base
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
     }.flatten.compact.last.answer_concept_name.name rescue 'UNKNOWN'
   end
-  
-  def diagnosis_confirmatory_evidence
-    (self.encounters.current.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?",  
-          EncounterType.find_by_name("DIAGNOSIS")]).map{|encounter| encounter.observations.active.all()}.flatten.compact - self.current_diagnoses).last rescue nil
-  end 
   
   def previous_diagnoses(concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id])
     self.encounters.all(:include => [:observations]).map{|encounter| 
@@ -147,22 +154,19 @@ class Patient < ActiveRecord::Base
         encounter.orders.active.all}}.flatten.compact
   end
 
-  def current_visit(session_date=nil)
+  def current_visit(session_date=Date.today)
+    
     current_visit = nil
-    begin 
-      #return open visit if session_date falls after the start_date
-      current_visit = self.visits.find(:last, 
-                                       :conditions => ["start_date <= DATE(?) AND ISNULL(end_date)", session_date]
-                                      ) 
-      #if above visit doesnt exist, check if there is a closed visit where session date falls within range
-      current_visit = self.visits.find(:last, 
-                                       :conditions => ["start_date <= DATE(?) AND end_date >= DATE(?)", session_date, session_date]
-                                      ) if current_visit.nil?
-    rescue
-      #otherwise there is no visit where given session date falls within
-      current_visit = nil
+    self.visits.each do |visit|
+      begin
+        current_visit = visit if (visit.start_date.to_date..visit.end_date) === session_date.to_date
+      rescue ArgumentError
+        current_visit = visit if (visit.start_date.to_date <= session_date.to_date && visit.end_date == nil)
+      rescue
+        current_visit = nil
+      end
     end
-
+    
     return current_visit
   end
 
@@ -197,13 +201,13 @@ class Patient < ActiveRecord::Base
     }
     return visit_hash
   end
-  def treatment_not_done
-    self.current_treatment_encounter.observations.active.all(
+  def treatment_not_done(encounter_datetime = Date.today)
+    self.current_treatment_encounter(:encounter_datetime => encounter_datetime).observations.active.all(
       :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("TREATMENT").concept_id]).last rescue nil
   end
 
-  def admitted_to_ward
-    self.current_visit.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("ADMIT PATIENT").id]).map{|encounter|
+  def admitted_to_ward(session_date = Date.today)
+    self.current_visit(session_date).encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("ADMIT PATIENT").id]).map{|encounter|
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("ADMIT TO WARD").concept_id])
     }.flatten.compact.last rescue nil

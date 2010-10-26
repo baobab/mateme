@@ -1,7 +1,7 @@
 class PrescriptionsController < ApplicationController
   def index
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @orders = @patient.current_orders rescue []
+    @orders = @patient.current_orders(session[:datetime]) rescue []
     #redirect_to "/prescriptions/new?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @orders.blank?
     render :template => 'prescriptions/index', :layout => 'menu'
   end
@@ -12,7 +12,7 @@ class PrescriptionsController < ApplicationController
     @common_prescriptions = {}
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @diagnoses = {}
-    @patient.current_diagnoses.each do |diagnosis|
+    @patient.current_diagnoses(:encounter_datetime => session[:datetime]).each do |diagnosis|
       @diagnoses[diagnosis.answer_string] = diagnosis.id
     end
 
@@ -42,7 +42,7 @@ class PrescriptionsController < ApplicationController
   
   def create
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @encounter = @patient.current_treatment_encounter
+    @encounter = @patient.current_treatment_encounter(:encounter_datetime => session[:datetime])
     prn = 0
     start_date = Time.now
 
@@ -150,7 +150,7 @@ class PrescriptionsController < ApplicationController
   
   def diagnoses
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
-    @diagnoses = @patient.current_diagnoses
+    @diagnoses = @patient.current_diagnoses(:encounter_datetime => session[:datetime])
     render :layout => false
   end
   

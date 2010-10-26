@@ -32,7 +32,7 @@ class Encounter < ActiveRecord::Base
       'Patient was seen at the registration desk on' 
     elsif name == 'TREATMENT'
       o = orders.active.collect{|order| order.to_s}.join("\n")
-      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done
+      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done(self.encounter_datetime.to_date)
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'VITALS'
@@ -76,7 +76,7 @@ class Encounter < ActiveRecord::Base
   end
 
   def after_save
-    current_visit = self.patient.current_visit
+    current_visit = self.patient.current_visit(self.encounter_datetime.to_date)
     if (current_visit.nil? or current_visit.end_date != nil )
       visit = Visit.new({:patient_id => self.patient_id, :start_date => self.encounter_datetime})
       visit.creator ||= 1
@@ -94,7 +94,7 @@ class Encounter < ActiveRecord::Base
   def to_print
    if name == 'TREATMENT'
       o = orders.active.collect{|order| order.to_s if order.order_type_id == OrderType.find_by_name('Drug Prescribed').order_type_id}.join("\n")
-      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done
+      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done(self.encounter_datetime)
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'UPDATE HIV STATUS'
