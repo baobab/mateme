@@ -328,9 +328,12 @@ class Patient < ActiveRecord::Base
         drug.dose_strength AS strength, drug.name AS formulation",
       :joins => "INNER JOIN concept       ON drug.concept_id = concept.concept_id
                INNER JOIN concept_name  ON concept_name.concept_id = concept.concept_id",
-      :conditions => ["drug.name LIKE ?", name],
+      :conditions => ["drug.name LIKE ? OR (concept_name.name LIKE ? AND COALESCE(drug.dose_strength, 0) = ? " +
+          "AND COALESCE(drug.units, '') = ?)", name, "%" + drug_info[0] + "%", drug_info[3], drug_info[4]],
       :group => "concept.concept_id, drug.name, drug.dose_strength")
 
+    # raise drugs.to_yaml
+    
     unless(insulin)
 
       drug_frequency = drug_info[2].upcase rescue nil

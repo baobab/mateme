@@ -180,7 +180,7 @@ class PrescriptionsController < ApplicationController
   # approach in DMHT which was the preferred model of saving treatments at the
   # time of writing
   def create_prescription
-    #raise params.to_yaml
+    # raise params.to_yaml
 
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime ||= session[:datetime]
@@ -215,7 +215,11 @@ class PrescriptionsController < ApplicationController
 
       prescription[:dosage] =  "" unless !prescription[:dosage].nil?
 
-      prescription[:formulation] = [prescription[:drug], prescription[:dosage], prescription[:frequency]]
+      prescription[:formulation] = [prescription[:drug],
+                                    prescription[:dosage],
+                                    prescription[:frequency],
+                                    prescription[:strength],
+                                    prescription[:units]]
 
       drug_info = @patient.drug_details(prescription[:formulation]).first
 

@@ -93,16 +93,6 @@ function generateGenerics(){
 
     topBannerDiv.appendChild(diagnoses);
 
-    /*
-    var opt = document.createElement("option");
-    opt.innerHTML = "";
-    opt.onclick = function(){
-        current_diagnosis = null;
-    }
-    
-    diagnoses.appendChild(opt);
-     */
-        
     for(var g = 0; g < diagnosisList.length; g++){
         var optio = document.createElement("option");
         optio.innerHTML = diagnosisList[g].toProperCase();
@@ -437,7 +427,7 @@ function generateGenerics(){
                     selectedGenerics[current_diagnosis][current_generic]["duration"] = this.value;
                 } else {
                     selectedGenerics[current_diagnosis][current_generic] = {
-                        "dosage":null,
+                        "dosage":[],
                         "frequency":null,
                         "duration":this.value
                     };
@@ -445,7 +435,7 @@ function generateGenerics(){
             }else {
                 selectedGenerics[current_diagnosis] = {};
                 selectedGenerics[current_diagnosis][current_generic] = {
-                    "dosage":null,
+                    "dosage":[],
                     "frequency":null,
                     "duration":this.value
                 };
@@ -464,68 +454,6 @@ function generateGenerics(){
 
         tr.appendChild(td2);
     }
-
-    /*
-     *
-    // Create Period options
-    var duration = ["1 WEEK", "2 WEEKS", "1 MONTH", "2 MONTHS", "3 MONTHS", "4 MONTHS", "5 MONTHS", "6 MONTHS"];
-    var duration_values = ["7", "14", "30", "60", "90", "120", "150", "180"];
-
-    for(var d = 0; d < duration.length; d++){
-        var li = document.createElement("li");
-        li.id = "option" + duration_values[d];
-        li.setAttribute("duration", duration_values[d]);
-        li.innerHTML = duration[d].toProperCase();
-        li.style.padding = "15px";
-
-        if(d%2>0){
-            li.style.backgroundColor = "#eee";
-        }
-        li.style.color = "#000";
-
-        if(selectedGenerics[current_diagnosis]){
-            if(selectedGenerics[current_diagnosis][current_generic]){
-                if(selectedGenerics[current_diagnosis][current_generic]["duration"] == duration_values[i].toUpperCase()){
-                    li.style.backgroundColor = "yellowgreen";
-                    li.style.color = "#fff";
-                }
-            }
-        }
-
-        li.onclick = function(){
-            for(var j = 0; j < $('ulPeriod').childNodes.length; j++){
-                $('ulPeriod').childNodes[j].style.backgroundColor = "";
-                if(j%2>0){
-                    $('ulPeriod').childNodes[j].style.backgroundColor = "#eee";
-                }
-                $('ulPeriod').childNodes[j].style.color = "#000";
-
-                if(selectedGenerics[current_diagnosis]){
-                    if(selectedGenerics[current_diagnosis][current_generic]) {
-                        selectedGenerics[current_diagnosis][current_generic]["duration"] = this.getAttribute("duration").toUpperCase();
-                    } else {
-                        selectedGenerics[current_diagnosis][current_generic] = {
-                            "dosage":null,
-                            "frequency":null,
-                            "duration":this.getAttribute("duration").toUpperCase()
-                        };
-                    }
-                }else {
-                    selectedGenerics[current_diagnosis] = {};
-                    selectedGenerics[current_diagnosis][current_generic] = {
-                        "dosage":null,
-                        "frequency":null,
-                        "duration":this.getAttribute("duration").toUpperCase()
-                    };
-                }
-            }
-            this.style.backgroundColor = "lightblue";
-        }
-
-        ulPeriod.appendChild(li);
-    }
-
-*/
 
     // Create Generic Drugs list
     for(var d = 0; d < generics.length; d++){
@@ -574,28 +502,6 @@ function generateGenerics(){
 
             }
             
-            /*
-            // Clear Periods
-            for(var j = 0; j < $('ulPeriod').childNodes.length; j++){
-                $('ulPeriod').childNodes[j].style.backgroundColor = "";
-                if(j%2>0){
-                    $('ulPeriod').childNodes[j].style.backgroundColor = "#eee";
-                }
-                $('ulPeriod').childNodes[j].style.color = "#000";
-
-                if(selectedGenerics[current_diagnosis]){
-                    if(selectedGenerics[current_diagnosis][current_generic]){
-                        if(selectedGenerics[current_diagnosis][current_generic]["duration"] ==
-                            $('ulPeriod').childNodes[j].getAttribute("duration").toUpperCase()){
-                        
-                            $('ulPeriod').childNodes[j].style.backgroundColor = "yellowgreen";
-                            $('ulPeriod').childNodes[j].style.color = "#fff";
-                        }
-                    }
-                }
-            }
-*/
-
             // Clear Frequencies
             for(var j = 0; j < $('ulFreqs').childNodes.length; j++){
                 $('ulFreqs').childNodes[j].style.backgroundColor = "";
@@ -680,7 +586,7 @@ function generateGenerics(){
                         selectedGenerics[current_diagnosis][current_generic]["frequency"] = this.innerHTML.toUpperCase();
                     } else {
                         selectedGenerics[current_diagnosis][current_generic] = {
-                            "dosage":null,
+                            "dosage":[],
                             "frequency":this.innerHTML.toUpperCase(),
                             "duration":null
                         };
@@ -688,7 +594,7 @@ function generateGenerics(){
                 } else {
                     selectedGenerics[current_diagnosis] = {};
                     selectedGenerics[current_diagnosis][current_generic] = {
-                        "dosage":null,
+                        "dosage":[],
                         "frequency":this.innerHTML.toUpperCase(),
                         "duration":null
                     };
@@ -769,28 +675,6 @@ function searchDrug(){
 
                 }
 
-                /*
-                // Clear Periods
-                for(var j = 0; j < $('ulPeriod').childNodes.length; j++){
-                    $('ulPeriod').childNodes[j].style.backgroundColor = "";
-                    if(j%2>0){
-                        $('ulPeriod').childNodes[j].style.backgroundColor = "#eee";
-                    }
-                    $('ulPeriod').childNodes[j].style.color = "#000";
-
-                    if(selectedGenerics[current_diagnosis]){
-                        if(selectedGenerics[current_diagnosis][current_generic]){
-                            if(selectedGenerics[current_diagnosis][current_generic]["duration"] ==
-                                $('ulPeriod').childNodes[j].getAttribute("duration").toUpperCase()){
-
-                                $('ulPeriod').childNodes[j].style.backgroundColor = "yellowgreen";
-                                $('ulPeriod').childNodes[j].style.color = "#fff";
-                            }
-                        }
-                    }
-                }
-*/
-
                 // Clear Frequencies
                 for(var j = 0; j < $('ulFreqs').childNodes.length; j++){
                     $('ulFreqs').childNodes[j].style.backgroundColor = "";
@@ -851,7 +735,7 @@ function searchDrug(){
  */
 function loadDosageFrequency(concept_id){
     $('ulDoses').innerHTML = "";
-    ajaxRequest("/search/load_frequencies_and_dosages?concept_id=" + concept_id);
+    ajaxDFRequest("/search/load_frequencies_and_dosages?concept_id=" + concept_id);
 }
 
 /*
@@ -860,10 +744,10 @@ function loadDosageFrequency(concept_id){
  * Frequencies which are filled on demand
  * 
  */
-function ajaxRequest(aUrl) {
+function ajaxDFRequest(aUrl) {
     var httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
-        handleResult(httpRequest);
+        handleDFResult(httpRequest);
     };
     try {
         httpRequest.open('GET', aUrl, true);
@@ -872,7 +756,7 @@ function ajaxRequest(aUrl) {
     }
 }
 
-function handleResult(aXMLHttpRequest) {
+function handleDFResult(aXMLHttpRequest) {
     if (!aXMLHttpRequest) return;
 
     if (aXMLHttpRequest.readyState == 4 && aXMLHttpRequest.status == 200) {
@@ -880,8 +764,10 @@ function handleResult(aXMLHttpRequest) {
 
         for(var i = 0; i < dosesFreqs.length; i++){
             var li = document.createElement("li");
-            li.id = "option" + dosesFreqs[i];
-            li.innerHTML = dosesFreqs[i];
+            li.id = "option" + dosesFreqs[i][0];
+            li.innerHTML = dosesFreqs[i][0];
+            li.setAttribute("strength", dosesFreqs[i][1]);
+            li.setAttribute("units", dosesFreqs[i][2]);
             li.style.padding = "15px";
 
             if(i%2>0){
@@ -891,7 +777,9 @@ function handleResult(aXMLHttpRequest) {
 
             if(selectedGenerics[current_diagnosis]){
                 if(selectedGenerics[current_diagnosis][current_generic]){
-                    if(selectedGenerics[current_diagnosis][current_generic]["dosage"] == dosesFreqs[i].toUpperCase()){
+                    if(selectedGenerics[current_diagnosis][current_generic]["dosage"] == [dosesFreqs[i][0].toUpperCase(),
+                                                                                         dosesFreqs[i][1].toUpperCase(),
+                                                                                         dosesFreqs[i][2].toUpperCase()]){
                         li.style.backgroundColor = "yellowgreen";
                         li.style.color = "#fff";
                     }
@@ -908,10 +796,13 @@ function handleResult(aXMLHttpRequest) {
                 }
                 if(selectedGenerics[current_diagnosis]){
                     if(selectedGenerics[current_diagnosis][current_generic]) {
-                        selectedGenerics[current_diagnosis][current_generic]["dosage"] = this.innerHTML.toUpperCase();
+                        selectedGenerics[current_diagnosis][current_generic]["dosage"] = [this.innerHTML.toUpperCase(),
+                                                                    this.getAttribute("strength"),
+                                                                    this.getAttribute("units")];
                     } else {
                         selectedGenerics[current_diagnosis][current_generic] = {
-                            "dosage":this.innerHTML.toUpperCase(),
+                            "dosage":[this.innerHTML.toUpperCase(), this.getAttribute("strength"),
+                                                                    this.getAttribute("units")],
                             "frequency":null,
                             "duration":null
                         };
@@ -919,7 +810,8 @@ function handleResult(aXMLHttpRequest) {
                 } else {
                     selectedGenerics[current_diagnosis] = {};
                     selectedGenerics[current_diagnosis][current_generic] = {
-                        "dosage":this.innerHTML.toUpperCase(),
+                        "dosage":[this.innerHTML.toUpperCase(), this.getAttribute("strength"),
+                                                                    this.getAttribute("units")],
                         "frequency":null,
                         "duration":null
                     };
@@ -970,9 +862,23 @@ function removeGenerics(){
                 var dosage = document.createElement("input");
                 dosage.type = "hidden";
                 dosage.name = "prescriptions[][dosage]";
-                dosage.value = selectedGenerics[diagnosis][generic]["dosage"];
+                dosage.value = selectedGenerics[diagnosis][generic]["dosage"][0];
 
                 document.forms[0].appendChild(dosage);
+
+                var strength = document.createElement("input");
+                strength.type = "hidden";
+                strength.name = "prescriptions[][strength]";
+                strength.value = selectedGenerics[diagnosis][generic]["dosage"][1];
+
+                document.forms[0].appendChild(strength);
+                
+                var units = document.createElement("input");
+                units.type = "hidden";
+                units.name = "prescriptions[][units]";
+                units.value = selectedGenerics[diagnosis][generic]["dosage"][2];
+
+                document.forms[0].appendChild(units);
             }
 
             if(selectedGenerics[diagnosis][generic]["frequency"]){
@@ -1209,29 +1115,6 @@ function showSelectedDrugsOnly(){
                         }
 
                     }
-
-                    /*
-                    // Clear Periods
-                    for(var j = 0; j < $('ulPeriod').childNodes.length; j++){
-                        $('ulPeriod').childNodes[j].style.backgroundColor = "";
-                        if(j%2>0){
-                            $('ulPeriod').childNodes[j].style.backgroundColor = "#eee";
-                        }
-                        $('ulPeriod').childNodes[j].style.color = "#000";
-
-                        if(selectedGenerics[current_diagnosis]){
-                            if(selectedGenerics[current_diagnosis][current_generic]){
-                                if(selectedGenerics[current_diagnosis][current_generic]["duration"] ==
-                                    $('ulPeriod').childNodes[j].getAttribute("duration").toUpperCase()){
-
-                                    $('ulPeriod').childNodes[j].style.backgroundColor = "yellowgreen";
-                                    $('ulPeriod').childNodes[j].style.color = "#fff";
-                                }
-                            }
-                        }
-                    }
-*/
-
 
                     // Clear Frequencies
                     for(var j = 0; j < $('ulFreqs').childNodes.length; j++){

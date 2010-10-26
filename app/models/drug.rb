@@ -58,7 +58,7 @@ class Drug < ActiveRecord::Base
   def self.dosages(generic_drug_concept_id)    
 
     self.find(:all, :conditions => ["concept_id = ?", generic_drug_concept_id]).collect {|d|
-      "#{d.dose_strength.to_i rescue 1}#{d.units.upcase rescue ""}"
+      ["#{d.dose_strength.to_i rescue 1}#{d.units.upcase rescue ""}", "#{d.dose_strength.to_i rescue 1}", "#{d.units.upcase rescue ""}"]
     }.uniq.compact rescue []
 
   end
