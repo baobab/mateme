@@ -247,12 +247,10 @@ class PrescriptionsController < ApplicationController
       
     }
 
-    redirect_to "/encounters/referral?patient_id=#{@patient.id}" and return
-    
     if(@patient)
-      redirect_to "/patients/show?patient_id=#{@patient.id}" and return
+      redirect_to "/encounters/referral?patient_id=#{@patient.id}" and return
     else
-      redirect_to "/patients/show?patient_id=#{params[:patient_id]}" and return
+      redirect_to "/encounters/referral?patient_id=#{params[:patient_id]}" and return
     end
 
   end
