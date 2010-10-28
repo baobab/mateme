@@ -6,6 +6,12 @@
 </style>
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
 
+  <% if(params[:nexturl]) %>
+
+    <%= hidden_field_tag "next_url", "/patients/show/#{ @patient.id }" %>
+
+  <% end %>
+
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
@@ -15,10 +21,10 @@
 
     <label for='weight'>Weight?</label>
     <% options={
-        :field_type => 'number',
-        :allowFreeText => 'true',
-        :id => "weight"
-      } %>
+      :field_type => 'number',
+      :allowFreeText => 'true',
+      :id => "weight"
+    } %>
     <%= text_field_tag("observations[][value_numeric]", nil, options) %>
     <%= hidden_field_tag("observations[][concept_name]", "WEIGHT") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
