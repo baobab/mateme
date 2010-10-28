@@ -12,7 +12,7 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
 
-  <select id="select" name="observations[][value_coded_or_text]" helptext="Is the Patient a Referral Case From Another Health Center?">
+  <select id="select" name="observations[][value_coded_or_text]" helptext="Is the Patient a Referral Case From Another Health Facility?">
     <option value="YES">Yes</option>
     <option value="NO">No</option>
   </select>
@@ -24,11 +24,11 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   
-  <label for="refer">Referral Hospital?</label>
+  <label for="refer">Referral Facility?</label>
   <% options = {
     :id => "referrer",
     :field_type => 'text',
-    :helptext =>"Referral Clinic if Referred",
+    :helptext =>"Referral Facility if Referred",
     :condition => "($('select').value == 'YES')",
     :allowFreeText => 'true',
     :ajaxURL => "/encounters/locations?search_string="

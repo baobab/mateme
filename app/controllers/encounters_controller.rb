@@ -75,8 +75,16 @@ class EncountersController < ApplicationController
     @facility_outcomes =  JSON.parse(GlobalProperty.find_by_property("facility.outcomes").property_value) rescue {}
     #raise @facility_outcomes.to_yaml
     @new_hiv_status = params[:new_hiv_status]
-    @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
-    @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
+
+    if session["category"].include?("adults")
+      @admission_wards = [' '] + GlobalProperty.find_by_property('facility.adults_admission_wards').property_value.split(',') rescue []
+    elsif session["category"].include?("paeds")
+      @admission_wards = [' '] + GlobalProperty.find_by_property('facility.paeds_admission_wards').property_value.split(',') rescue []
+    else
+      @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
+    end
+
+    @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @diagnosis_type = params[:diagnosis_type]
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
