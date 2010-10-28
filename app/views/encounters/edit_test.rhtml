@@ -79,24 +79,24 @@ when "BLOOD CULTURE" %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <input
-    type='text' name='antibiotics' tt_onLoad='generateAntibiotics()'
-    tt_onUnLoad='removeAntibiotics()' tt_pageStyleClass='NoControls'
-    condition = "$('growth').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'" optional />
-    
+      type='text' name='antibiotics' tt_onLoad='generateAntibiotics()'
+      tt_onUnLoad='removeAntibiotics()' tt_pageStyleClass='NoControls'
+      condition = "$('growth').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'" optional />
+
     <!--label for='antibiotic_result'>Antibiotics Result</label-->
-    <%# options=default.merge({
-        :field_type => 'text',
-        :id => "antibiotic_result",
-        :condition=>"$('growth').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'",
-        :multiple => true,
-        :tt_onLoad => "antibiotics_click()"
-      }) %>
-    <%#= select_tag( "observations[][value_coded_or_text]",
-      options_for_select(@antibiotic_results), options) %>
-    <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
-    <%#= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
-    <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%# options=default.merge({
+  :field_type => 'text',
+  :id => "antibiotic_result",
+  :condition=>"$('growth').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'",
+  :multiple => true,
+  :tt_onLoad => "antibiotics_click()"
+  }) %>
+  <%#= select_tag( "observations[][value_coded_or_text]",
+  options_for_select(@antibiotic_results), options) %>
+  <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+  <%#= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
+  <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <%= submit_tag "Finish" %>
   </form>
@@ -415,24 +415,113 @@ when "BLOOD CULTURE" %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <input
-    type='text' name='antibiotics' tt_onLoad='generateAntibiotics()'
-    tt_onUnLoad='removeAntibiotics()' tt_pageStyleClass='NoControls'
-    condition = "$('culture').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'" optional />
+      type='text' name='antibiotics' tt_onLoad='generateAntibiotics()'
+      tt_onUnLoad='removeAntibiotics()' tt_pageStyleClass='NoControls'
+      condition = "$('culture').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'" optional />
 
     <!--label for='antibiotic_result'>Antibiotics Result</label-->
-    <%# options=default.merge({
-        :field_type => 'text',
-        :id => "antibiotic_result",
-        :condition=>"$('culture').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'"
-      }) %>
-    <%#= select_tag( "observations[][value_coded_or_text]",
-      options_for_select(@antibiotic_results), options) %>
-    <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
-    <%#= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
-    <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%# options=default.merge({
+  :field_type => 'text',
+  :id => "antibiotic_result",
+  :condition=>"$('culture').value == 'Growth' && $('gram_stain').value != 'No Organisms Seen'"
+  }) %>
+  <%#= select_tag( "observations[][value_coded_or_text]",
+  options_for_select(@antibiotic_results), options) %>
+  <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+  <%#= hidden_field_tag("observations[][concept_name]", "ANTIBIOTIC RESULT") %>
+  <%#= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     <%= submit_tag "Finish" %>
+  </form>
+
+<% when "MP TEST" %>
+
+  <h1>MP TEST</h1>
+
+  <form id='other' action="/encounters/create_encounter" method='post'>
+    <% default={
+      :allowFreeText => 'true',
+    } %>
+
+    <%= hidden_field_tag("next_url", "/encounters/show_lab_tests?identifier=#{params[:identifier]}") %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "MP") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "#{params[:identifier]}") %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST SERIAL NUMBER") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='mp_test'>MP Test Result</label>
+    <% options=default.merge({
+        :field_type => 'text',
+        :id => "mp_test",
+      }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+          "",
+          "+",
+          "++",
+          "+++",
+          "++++",
+          "+++++"
+        ]), options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "MP") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  </form>
+
+<% when "PCV" %>
+
+  <h1>PCV</h1>
+
+  <form id='other' action="/encounters/create_encounter" method='post'>
+    <% default={
+      :allowFreeText => 'true',
+    } %>
+
+    <%= hidden_field_tag("next_url", "/encounters/show_lab_tests?identifier=#{params[:identifier]}") %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "PCV") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "#{params[:identifier]}") %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST SERIAL NUMBER") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <label for='pcv'>PCV (%) Test Result</label>
+    <%= text_field_tag( "observations[][value_coded_or_text]", "", {
+        :field_type => 'number',
+        :id => "pcv",
+        :helpText => 'PCV (%) Test Result',
+        :absoluteMin => "1",
+        :absoluteMax => "100"
+      }) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "PCV") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
   </form>
 
 <% end %>

@@ -5,13 +5,22 @@
     <%
     unless @encounter_names.nil?
       @i = 0
+
       @encounter_names.each{|encounter_name|
         found = nil
 
         if encounter_name == "CSF"
           encounter_name = "CEREBROSPINAL FLUID"
         end
-        
+
+        if encounter_name == "PCV"
+          encounter_name = "HEMATOCRIT"
+        end
+
+        if encounter_name == "MP TEST"
+          encounter_name = "MALARIAL SMEAR"
+        end
+
         @tests.each {|el|
           if el.match(encounter_name)
             found = true
@@ -20,6 +29,14 @@
 
         if encounter_name == "CEREBROSPINAL FLUID"
           encounter_name = "CSF"
+        end
+
+        if encounter_name == "HEMATOCRIT"
+          encounter_name = "PCV"
+        end
+
+        if encounter_name == "MALARIAL SMEAR"
+          encounter_name = "MP TEST"
         end
 
         unless !found.nil?
