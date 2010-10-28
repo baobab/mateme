@@ -6,6 +6,16 @@ class PatientsController < ApplicationController
     @doctor     = false
     @regstration_clerk  = false
 
+    @ili = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "ILI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
+    @sari = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "SARI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
 

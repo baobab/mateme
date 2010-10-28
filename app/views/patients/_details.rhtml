@@ -11,13 +11,80 @@
 </style>
 
 <div >
-<h2><%= @patient.person.name %></h2>
-<table cellpadding="2" cellspacing="0">
-<tr> <td> <span class='title'> National id: </span> </td> <td class='data'> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Birthdate: </span> </td> <td class='data'> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Gender: </span> </td> <td class='data'> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr>
-<!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
-<tr> <td> <span class='title'> Current Village: </span> </td> <td class='data'> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
-<!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
-</table>
+  <h2><%= @patient.person.name %></h2>
+  <table cellpadding="2" cellspacing="0" width="720px" border="0">
+    <tr>
+      <td style="width:160px">
+        <span class='title'>
+          National id:
+        </span>
+      </td>
+      <td style="width:240px" class='data'> <%= @patient.national_id_with_dashes rescue '' %>
+        <br/>
+      </td>
+      <td rowspan="4" valign="top">
+        <% unless @paediatrics || @hmis_lab_order || @adults %>
+
+        <table width="100%" border="0" cellpadding="5" style="border: 1px solid green; -moz-border-radius:10px; padding: 5px;">
+          <tr>
+            <th colspan="2" style="background-color:#eee; -moz-border-radius:10px; color:#999;">
+              Influenza Summary <br /><i style="color:red; font-weight: normal;">as of <%= Date.today.strftime("%Y/%m/%d") %> </i>
+            </th>
+          </tr>
+          <tr>
+            <td style="padding-left:10px; width: 120px;">
+              <b>ILI Cases</b>
+            </td>
+            <td style="border:1px solid #ccc; -moz-border-radius:10px;" align="center">
+              <%= @ili %>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-left:10px; width: 120px;">
+              <b>SARI Cases</b>
+            </td>
+            <td style="border:1px solid #ccc; -moz-border-radius:10px;" align="center">
+              <%= @sari %>
+            </td>
+          </tr>
+        </table>
+
+        <% else %>
+          &nbsp;
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class='title'>
+          Birthdate:
+        </span>
+      </td>
+      <td class='data'> <%= @patient.person.birthdate_formatted rescue '' %>
+        <br/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class='title'>
+          Gender:
+        </span>
+      </td>
+      <td class='data'> <%= @patient.person.formatted_gender rescue '' %>
+        <br/>
+      </td>
+    </tr>
+    <!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
+    <tr>
+      <td>
+        <span class='title'>
+          Current Village:
+        </span>
+      </td>
+      <td class='data'> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %>
+        <br/>
+      </td>
+    </tr>
+    <!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
+  </table>
 </div>
