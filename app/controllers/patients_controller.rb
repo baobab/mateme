@@ -17,7 +17,16 @@ class PatientsController < ApplicationController
       @doctor     = true
     elsif @user_privilege.include?("regstration_clerk")
       @regstration_clerk  = true
-    end  
+    elsif @user_privilege.include?("adults")
+      @adults  = true
+    elsif @user_privilege.include?("paediatrics")
+      @paediatrics  = true
+    elsif @user_privilege.include?("hmis lab order")
+      @hmis_lab_order  = true
+    elsif @user_privilege.include?("spine clinician")
+      @spine_clinician  = true
+    end
+    
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     outcome = @patient.current_outcome
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []

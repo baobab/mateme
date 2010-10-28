@@ -29,7 +29,7 @@ class PeopleController < ApplicationController
     # redirect based on user role
     if @roles.include?("adults")
       redirect_to :action => :adults and return
-    elsif @roles.include?("paediatrics")
+    elsif @roles.include?("paediatrics") || @roles.include?("hmis lab order")
       redirect_to :action => :paeds and return
     elsif @roles.include?("lab")
       redirect_to :controller => :encounters, :action => :lab_results_entry and return
