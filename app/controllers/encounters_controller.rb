@@ -135,7 +135,7 @@ class EncountersController < ApplicationController
   def locations
     search_string = (params[:search_string] || 'neno').upcase
     filter_list = params[:filter_list].split(/, */) rescue []    
-    locations =  Location.find(:all, :select =>'name', :conditions => ["retired = 0 AND name LIKE ?", '%' + search_string + '%'])
+    locations =  Location.find(:all, :select =>'name', :conditions => ["retired = 0 AND name LIKE ? AND NOT name LIKE '%QECH%'", '%' + search_string + '%'])
     render :text => "<li>" + locations.map{|location| location.name }.join("</li><li>") + "</li>"
   end
 
