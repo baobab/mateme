@@ -8,7 +8,7 @@ class AdminController < ApplicationController
 private
   
   def require_admin
-    unless current_user.admin? || current_user.superuser?
+    unless current_user.admin.downcase? || current_user.superuser.downcase?
       flash[:error] = "You must be an admin to view the admin page"
       redirect_to '/'
     end  
