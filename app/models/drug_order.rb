@@ -11,7 +11,7 @@ class DrugOrder < ActiveRecord::Base
   end
   
   def to_short_s
-    s = "#{drug.name}: #{self.dose} #{self.units} #{frequency} for #{duration} days"
+    s = "#{drug.concept.name.name.humanize}: #{self.dose} #{self.units} #{frequency} for #{duration} days"
     s << " (prn)" if prn?
     s
   end

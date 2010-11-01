@@ -93,7 +93,7 @@ class Encounter < ActiveRecord::Base
 
   def to_print
    if name == 'TREATMENT'
-      o = orders.active.collect{|order| order.to_s if order.order_type_id == OrderType.find_by_name('Drug Prescribed').order_type_id}.join("\n")
+      o = orders.active.collect{|order| order.to_print if order.order_type_id == OrderType.find_by_name('Drug Prescribed').order_type_id}.join("\n")
       o = "TREATMENT NOT DONE" if self.patient.treatment_not_done(self.encounter_datetime)
       o = "No prescriptions have been made" if o.blank?
       o

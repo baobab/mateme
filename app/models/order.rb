@@ -14,6 +14,10 @@ class Order < ActiveRecord::Base
   def to_s
     "#{drug_order} (#{OrderType.find(self.order_type).name rescue ''})"
   end
+  
+  def to_print
+    "#{drug_order.to_short_s}"
+  end
 end
 
 # CREATE TABLE `orders` (
