@@ -1399,7 +1399,7 @@ function getQwertyKeyboard(){
 //		getButtonString('date','Date') +
 		"</span><span style='padding-left:15px' class='buttonLine'>" +
 		getButtons("ASDFGHJKL") +
-    //getButtonString('apostrophe',"'") +
+    getButtonString('apostrophe',"'") +
 		getButtonString('space','Space') +
     getButtonString('Unknown','Unknown') +
 		"</span><span style='padding-left:25px' class='buttonLine'>" +
