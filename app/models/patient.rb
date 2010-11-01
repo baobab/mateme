@@ -74,13 +74,13 @@ class Patient < ActiveRecord::Base
     label.print(1)
   end
 
-  def visit_label
+  def visit_label(session_datetime = Date.today)
     label = ZebraPrinter::StandardLabel.new
     label.font_size = 3
     label.font_horizontal_multiplier = 1
     label.font_vertical_multiplier = 1
     label.left_margin = 50
-    encs = self.last_visit.encounters.active
+    encs = self.current_visit(session_datetime).encounters.active
     enc_names = encs.map{|encounter| encounter.name}.uniq rescue []
     return nil if encs.blank?
     
