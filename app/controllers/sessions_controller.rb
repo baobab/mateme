@@ -62,7 +62,10 @@ class SessionsController < ApplicationController
   protected
   # Track failed login attempts
   def note_failed_signin
-    flash[:error] = "Invalid user name or password"
+    # flash[:error] = "Invalid user name or password"
+
+    # Changed default message to application preferred message
+    flash[:error] = "Please enter the correct username and correct password"
     logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
   end
 end
