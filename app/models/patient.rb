@@ -84,7 +84,7 @@ class Patient < ActiveRecord::Base
     enc_names = encs.map{|encounter| encounter.name}.uniq rescue []
     return nil if encs.blank?
     
-    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")} - #{encs.last.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
+    label.draw_multi_text("Admission: #{encs.first.encounter_datetime.strftime("%d/%b/%Y")} - #{encs.last.encounter_datetime.strftime("%d/%b/%Y")}", :font_reverse => true)
     
     enc_names.each{|name|
       next if ["Registration", "Admit patient", "Update outcome"].include?(name.humanize)
