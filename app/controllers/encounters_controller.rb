@@ -410,7 +410,10 @@ class EncountersController < ApplicationController
 
   def referral
     @patient = Patient.find(params[:patient_id])
+  end
 
+  def update_hiv_status
+    @patient = Patient.find(params[:patient_id])
   end
   
 end

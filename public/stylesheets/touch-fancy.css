@@ -538,6 +538,9 @@ button:hover.dark span {
 .NumbersOnly #decimal,
 .NumbersOnly #slash,
 .NumbersOnly #comma,
+.NumbersOnly #qwerty,
+.NumbersOnly #SHIFT,
+.NumbersOnly #Unknown,
 .NumbersOnly #percent{
   display: none
 }
@@ -685,7 +688,7 @@ display:block;
 .LongSelectList #viewport,
 .LongSelectList #options{
   -moz-user-select:none;
-  height: 27em;
+  height: 23em;
 }
 
 .LongSelectList #keyboard{

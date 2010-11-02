@@ -40,7 +40,7 @@
   :helptext => "Enter Gravida",
   :field_type => "number",
   :absoluteMin => "1",
-  :absoluteMax => "15",
+  :max => "15",
   :flag => '{"message":"Patient at risk of PPH.<br/> Ensure family planing is discussed.","condition":"^([5-9]|[1][0-9])"}',
   :tt_pageStyleClass => "NumbersOnly"
 }) %>
@@ -54,8 +54,8 @@
   :id => "parity_value",
   :helptext => "Enter Parity",
   :field_type => "number",
-  :absoluteMin => "1",
-  :absoluteMax => "15",
+  :absoluteMin => "0",
+  :max => "15",
   :tt_pageStyleClass => "NumbersOnly"
 }) %>
 
@@ -68,9 +68,9 @@
   :id => "tt_status_value",
   :helptext => "Enter TT status",
   :field_type => "number",
-  :absoluteMin => "1",
-  :absoluteMax => "1",
-  :flag => '{"condition":"^([1])","message":"TT is inadequate"}',
+  :absoluteMin => "0",
+  :max => "5",
+  :flag => '{"condition":"^1$","message":"TT is inadequate"}',
   :tt_pageStyleClass => "NumbersOnly"
 }) %>
 
@@ -83,7 +83,8 @@
   :id => "gestation_weeks_value",
   :helptext => "Enter Gestation weeks",
   :field_type => "number",
-  :flag => '{"condition":"^([3][2])","message":"Premature"}',
+  :absoluteMin => "1",
+  :flag => '{"condition":"^[1-2][0-9]$|^[3][0-2]$|^[0-9]$","message":"Premature"}',
   :tt_pageStyleClass => "NumbersOnly"
 }) %>
 
@@ -122,5 +123,34 @@
 <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
+  <%# This options hash allows us to define our options in one place %>
+  <% options = {
+    :helpText       => 'Select admission diagnosis',
+    :allowFreeText  => 'true',
+    :ajaxURL        => "/encounters/diagnoses?search_string=",
+    :textCase       => "upper"
+  } %>
+
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options[:optional] = 'true' %>
+  <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
+
+  <% 10.times do |counter| %>
+    <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
+    <% options[:helpText] = "Select the next diagnosis" %>
+
+    <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+    <%= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <% counter += 1 %>
+  <% end %>
+  
 <%= submit_tag "Finish" %>
 </form>

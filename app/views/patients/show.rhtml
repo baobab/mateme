@@ -49,6 +49,7 @@ ul.list{
  
   <div id="menu">
 
+      <a class="button green" href='/encounters/new/observations?patient_id=<%= @patient.id -%>'>Observations</a>
       <a class="button green" href='/patients/diagnosis?patient_id=<%= @patient.id -%>'>Diagnosis</a>
       <!-- a class="button green" href='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</a -->
       <!-- a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a -->
@@ -56,7 +57,7 @@ ul.list{
       <!-- a class="button green" href='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</a-->
       <!-- a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a -->
       <a class="button green" href='/encounters/new/outcome?patient_id=<%= @patient.id -%>'>Update Outcome</a>
-      <a class="button green" href='/encounters/new/observations?patient_id=<%= @patient.id -%>'>Observations</a>
+      <a class="button green" href='/encounters/update_hiv_status?patient_id=<%= @patient.id -%>'>Update HIV Status</a>
       <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
     
