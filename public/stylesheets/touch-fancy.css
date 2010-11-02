@@ -278,7 +278,7 @@ form{
 .messageBar {
 /*  height: 1em;*/
   left: 165px;
-  min-width: 450px;
+  min-width: 650px;
   max-width: 700px;
   position: absolute;
   top: 10px;

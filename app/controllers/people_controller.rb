@@ -55,15 +55,15 @@ class PeopleController < ApplicationController
         # TODO - figure out how to write a test for this
         # This is sloppy - creating something as the result of a GET
         found_person_data = Person.find_remote_by_identifier(params[:identifier])
-         if found_person_data.to_s ==  'timeout' || found_person_data.to_s == 'creationfailed'
+        if found_person_data.to_s ==  'timeout' || found_person_data.to_s == 'creationfailed'
           
           flash[:error] = "Could not create patient due to loss of connection to server" if found_person_data.to_s == 'timeout'
           flash[:error] = "Was unable to create patient with the given details" if found_person_data.to_s == 'creationfailed'
           redirect_to :action => "index" and return
-         else
+        else
 
           found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
-         end
+        end
       end
       if found_person
         redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
@@ -76,38 +76,48 @@ class PeopleController < ApplicationController
   def select
     redirect_to :controller => :encounters, :action => :new, :patient_id => params[:person] and return unless params[:person].blank? || params[:person] == '0'
     redirect_to :action => :new, :gender => params[:gender], :given_name => params[:given_name], :family_name => params[:family_name],
-    :family_name2 => params[:family_name2], :address2 => params[:address2], :identifier => params[:identifier]
+      :family_name2 => params[:family_name2], :address2 => params[:address2], :identifier => params[:identifier]
   end
  
   def create
     remote_parent_server = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value
     if !remote_parent_server.blank?
-        found_person_data = Person.create_remote(params)
-        #redirect to people index with flash notice if remote timed out or creation of patient on remote failed
-        if found_person_data.to_s ==  'timeout' || found_person_data.to_s == 'creationfailed'
+      found_person_data = Person.create_remote(params)
+      #redirect to people index with flash notice if remote timed out or creation of patient on remote failed
+      if found_person_data.to_s ==  'timeout' || found_person_data.to_s == 'creationfailed'
           
-          flash[:error] = "Could not create patient due to loss of connection to server" if found_person_data.to_s == 'timeout'
-          flash[:error] = "Was unable to create patient with the given details" if found_person_data.to_s == 'creationfailed'
-          redirect_to :action => "index" and return
-        end
+        flash[:error] = "Could not create patient due to loss of connection to server" if found_person_data.to_s == 'timeout'
+        flash[:error] = "Was unable to create patient with the given details" if found_person_data.to_s == 'creationfailed'
+        redirect_to :action => "index" and return
+      end
 
-        found_person = nil
-        if found_person_data
-          diabetes_number = params[:person][:patient][:identifiers][:diabetes_number] rescue nil
-          found_person_data['person']['patient']['identifiers']['diabetes_number'] = diabetes_number if diabetes_number
-          found_person = Person.create_from_form(found_person_data)
+      found_person = nil
+      if found_person_data
+        diabetes_number = params[:person][:patient][:identifiers][:diabetes_number] rescue nil
+        found_person_data['person']['patient']['identifiers']['diabetes_number'] = diabetes_number if diabetes_number
+        found_person = Person.create_from_form(found_person_data)
+      end
+              
+      if found_person
+
+        found_person.patient.national_id_label
+        if params[:next_url]
+          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}",
+            params[:next_url] + "?patient_id=#{ found_person.patient.id }")
+        else
+          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
         end
         
-        if found_person
-          found_person.patient.national_id_label
-          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
-        else
-          redirect_to :action => "index"
-        end
+      else
+        redirect_to :action => "index"
+      end
     else
       person = Person.create_from_form(params[:person])
-      
-      if params[:person][:patient]
+
+      if params[:next_url]
+        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}",
+          params[:next_url] + "?patient_id=#{ person.patient.id }")
+      elsif params[:person][:patient]
         person.patient.national_id_label
         print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))
       else
@@ -123,8 +133,8 @@ class PeopleController < ApplicationController
       unless params["retrospective_patient_day"]== "" or params["retrospective_patient_month"]== "" or params["retrospective_patient_year"]== ""
         # set for 1 second after midnight to designate it as a retrospective date
         date_of_encounter = Time.mktime(params["retrospective_patient_year"].to_i,
-                                        params["retrospective_patient_month"].to_i,
-                                        params["retrospective_patient_day"].to_i,0,0,1)
+          params["retrospective_patient_month"].to_i,
+          params["retrospective_patient_day"].to_i,0,0,1)
         session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today
       end
       redirect_to :action => "index"
@@ -146,6 +156,45 @@ class PeopleController < ApplicationController
   def paeds
     session["category"] = "paeds"
     render :layout => "menu"
+  end
+
+  def create_maternity_patient
+    remote_parent_server = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value
+    if !remote_parent_server.blank?
+      found_person_data = Person.create_remote(params)
+      #redirect to people index with flash notice if remote timed out or creation of patient on remote failed
+      if found_person_data.to_s ==  'timeout' || found_person_data.to_s == 'creationfailed'
+
+        flash[:error] = "Could not create patient due to loss of connection to server" if found_person_data.to_s == 'timeout'
+        flash[:error] = "Was unable to create patient with the given details" if found_person_data.to_s == 'creationfailed'
+        redirect_to :action => "index" and return
+      end
+
+      found_person = nil
+      if found_person_data
+        diabetes_number = params[:person][:patient][:identifiers][:diabetes_number] rescue nil
+        found_person_data['person']['patient']['identifiers']['diabetes_number'] = diabetes_number if diabetes_number
+        found_person = Person.create_from_form(found_person_data)
+      end
+
+      if found_person
+        found_person.patient.national_id_label
+        print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
+      else
+        redirect_to :action => "index"
+      end
+    else
+      # raise params.to_yaml
+      person = Person.create_from_form(params[:person])
+
+      if params[:person][:patient]
+        person.patient.national_id_label
+        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))
+      else
+        redirect_to :action => "index"
+      end
+    end
+
   end
 
 end

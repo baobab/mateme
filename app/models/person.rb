@@ -17,7 +17,7 @@ class Person < ActiveRecord::Base
       find(:all, :conditions => ['concept_id = ?', concept_name.concept_id]) rescue []
     end
   end
-#  accepts_nested_attributes_for :names, :addresses, :patient
+  #  accepts_nested_attributes_for :names, :addresses, :patient
 
   
   def name
@@ -39,7 +39,7 @@ class Person < ActiveRecord::Base
     birth_date=self.birthdate
     estimate=self.birthdate_estimated
     patient_age += (estimate && birth_date.month == 7 && birth_date.day == 1  && 
-      today.month < birth_date.month && self.date_created.year == today.year) ? 1 : 0
+        today.month < birth_date.month && self.date_created.year == today.year) ? 1 : 0
   end
 
   def age_in_months(today = Date.today)
@@ -101,21 +101,21 @@ class Person < ActiveRecord::Base
     end
 
     demographics = {"person" => {
-      "date_changed" => self.date_changed.to_s,
-      "gender" => self.gender,
-      "birth_year" => self.birthdate.year,
-      "birth_month" => birth_month,
-      "birth_day" => birth_day,
-      "names" => {
-        "given_name" => self.names[0].given_name,
-        "family_name" => self.names[0].family_name,
-        "family_name2" => ""
-      },
-      "addresses" => {
-        "county_district" => "",
-        "city_village" => self.addresses[0].city_village
-      },
-    }}
+        "date_changed" => self.date_changed.to_s,
+        "gender" => self.gender,
+        "birth_year" => self.birthdate.year,
+        "birth_month" => birth_month,
+        "birth_day" => birth_day,
+        "names" => {
+          "given_name" => self.names[0].given_name,
+          "family_name" => self.names[0].family_name,
+          "family_name2" => ""
+        },
+        "addresses" => {
+          "county_district" => "",
+          "city_village" => self.addresses[0].city_village
+        },
+      }}
  
     if not self.patient.patient_identifiers.blank? 
       demographics["person"]["patient"] = {"identifiers" => {}}
@@ -136,17 +136,17 @@ class Person < ActiveRecord::Base
 
     return people.first.id unless people.blank? || people.size > 1
     people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
-    "gender = ? AND \
+        "gender = ? AND \
      person.voided = 0 AND \
      (patient.voided = 0 OR patient.voided IS NULL) AND \
      (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
      (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
-    params[:gender],
-    params[:given_name],
-    (params[:given_name] || '').soundex,
-    params[:family_name],
-    (params[:family_name] || '').soundex
-    ]) if people.blank?
+        params[:gender],
+        params[:given_name],
+        (params[:given_name] || '').soundex,
+        params[:family_name],
+        (params[:family_name] || '').soundex
+      ]) if people.blank?
 
     return people
     
@@ -158,41 +158,41 @@ class Person < ActiveRecord::Base
 
 
 
-# CODE below is TODO, untested and NOT IN USE
-#    people = []
-#    people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
-#    if people.size == 1
-#      return people
-#    elsif people.size >2
-#      filtered_by_family_name_and_gender = []
-#      filtered_by_family_name = []
-#      filtered_by_gender = []
-#      people.each{|person|
-#        gender_match = person.gender == params[:gender] unless params[:gender].blank?
-#        filtered_by_gender.push person if gender_match
-#        family_name_match = person.first.names.collect{|name|name.family_name.soundex}.include? params[:family_name].soundex
-#        filtered_by_family_name.push person if gender_match?
-#        filtered_by_family_name_and_gender.push person if family_name_match? and gender_match?
-#      }
-#      return filtered_by_family_name_and_gender unless filtered_by_family_name_and_gender.empty?
-#      return filtered_by_family_name unless filtered_by_family_name.empty?
-#      return filtered_by_gender unless filtered_by_gender.empty?
-#      return people
-#    else
-#    return people if people.size == 1
-#    people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
-#    "gender = ? AND \
-#     person.voided = 0 AND \
-#     (patient.voided = 0 OR patient.voided IS NULL) AND \
-#     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
-#     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
-#    params[:gender],
-#    params[:given_name],
-#    (params[:given_name] || '').soundex,
-#    params[:family_name],
-#    (params[:family_name] || '').soundex
-#    ]) if people.blank?
-#    
+    # CODE below is TODO, untested and NOT IN USE
+    #    people = []
+    #    people = PatientIdentifier.find_all_by_identifier(params[:identifier]).map{|id| id.patient.person} unless params[:identifier].blank?
+    #    if people.size == 1
+    #      return people
+    #    elsif people.size >2
+    #      filtered_by_family_name_and_gender = []
+    #      filtered_by_family_name = []
+    #      filtered_by_gender = []
+    #      people.each{|person|
+    #        gender_match = person.gender == params[:gender] unless params[:gender].blank?
+    #        filtered_by_gender.push person if gender_match
+    #        family_name_match = person.first.names.collect{|name|name.family_name.soundex}.include? params[:family_name].soundex
+    #        filtered_by_family_name.push person if gender_match?
+    #        filtered_by_family_name_and_gender.push person if family_name_match? and gender_match?
+    #      }
+    #      return filtered_by_family_name_and_gender unless filtered_by_family_name_and_gender.empty?
+    #      return filtered_by_family_name unless filtered_by_family_name.empty?
+    #      return filtered_by_gender unless filtered_by_gender.empty?
+    #      return people
+    #    else
+    #    return people if people.size == 1
+    #    people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
+    #    "gender = ? AND \
+    #     person.voided = 0 AND \
+    #     (patient.voided = 0 OR patient.voided IS NULL) AND \
+    #     (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
+    #     (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
+    #    params[:gender],
+    #    params[:given_name],
+    #    (params[:given_name] || '').soundex,
+    #    params[:family_name],
+    #    (params[:family_name] || '').soundex
+    #    ]) if people.blank?
+    #
     # temp removed
     # AND (person_name.family_name2 LIKE ? OR person_name_code.family_name2_code LIKE ? OR person_name.family_name2 IS NULL )"    
     #  params[:family_name2],
@@ -249,14 +249,21 @@ class Person < ActiveRecord::Base
     person.save
     person.names.create(names_params)
     person.addresses.create(address_params)
-    
+
+    # raise person_attribute_params.to_yaml
+
     # add person attributes
-      person_attribute_params.each{|attribute_type_name, attribute|
-        attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || PersonAttributeType.find_by_name("Unknown id")
-        person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
-      } if person_attribute_params
- 
-# TODO handle the birthplace attribute
+    person_attribute_params.each do |attribute_type_name, attribute|
+      attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || 
+        PersonAttributeType.find_by_name("Unknown id")
+
+      # raise attribute_type.to_yaml
+
+      person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
+
+    end if person_attribute_params
+
+    # TODO handle the birthplace attribute
  
     if (!patient_params.nil?)
       patient = person.create_patient
@@ -296,10 +303,10 @@ class Person < ActiveRecord::Base
     result = demographic_servers.map{|demographic_server, local_port|
 
       begin
-      # Note: we don't use the demographic_server because it is port forwarded to localhost
-      output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
+        # Note: we don't use the demographic_server because it is port forwarded to localhost
+        output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
 
-       rescue Timeout::Error 
+      rescue Timeout::Error
         return 'timeout'
       rescue
         return 'creationfailed'
@@ -308,9 +315,9 @@ class Person < ActiveRecord::Base
       
       output if output and output.match(/person/)
 
-    # TODO need better logic here to select the best result or merge them
-    # Currently returning the longest result - assuming that it has the most information
-    # Can't return multiple results because there will be redundant data from sites
+      # TODO need better logic here to select the best result or merge them
+      # Currently returning the longest result - assuming that it has the most information
+      # Can't return multiple results because there will be redundant data from sites
     }.sort{|a,b|b.length <=> a.length}.first
 
     result ? JSON.parse(result) : nil
@@ -320,51 +327,51 @@ class Person < ActiveRecord::Base
   def formatted_gender
 
     if self.gender == "F" then "Female"
-      elsif self.gender == "M" then "Male"
-        else "Unknown"
+    elsif self.gender == "M" then "Male"
+    else "Unknown"
     end
     
   end
 
   def self.create_remote(received_params)
-     new_params = received_params[:person]
-     known_demographics = Hash.new()
-     new_params['gender'] == 'F' ? new_params['gender'] = "Female" : new_params['gender'] = "Male"
+    new_params = received_params[:person]
+    known_demographics = Hash.new()
+    new_params['gender'] == 'F' ? new_params['gender'] = "Female" : new_params['gender'] = "Male"
 
-       known_demographics = {
-                  "occupation"=>"#{new_params[:attributes][:occupation]}",
-                   "patient_year"=>"#{new_params[:birth_year]}",
-                   "patient"=>{
-                    "gender"=>"#{new_params[:gender]}",
-                    "birthplace"=>"#{new_params[:addresses][:address2]}",
-                    "creator" => 1,
-                    "changed_by" => 1
-                    },
-                   "p_address"=>{
-                    "identifier"=>"#{new_params[:addresses][:state_province]}"},
-                   "home_phone"=>{
-                    "identifier"=>"#{new_params[:attributes][:home_phone_number]}"},
-                   "cell_phone"=>{
-                    "identifier"=>"#{new_params[:attributes][:cell_phone_number]}"},
-                   "office_phone"=>{
-                    "identifier"=>"#{new_params[:attributes][:office_phone_number]}"},
-                   "patient_id"=>"",
-                   "patient_day"=>"#{new_params[:birth_day]}",
-                   "patientaddress"=>{"city_village"=>"#{new_params[:addresses][:city_village]}"},
-                   "patient_name"=>{
-                    "family_name"=>"#{new_params[:names][:family_name]}",
-                    "given_name"=>"#{new_params[:names][:given_name]}", "creator" => 1
-                    },
-                   "patient_month"=>"#{new_params[:birth_month]}",
-                   "patient_age"=>{
-                    "age_estimate"=>"#{new_params[:age_estimate]}"
-                    },
-                   "age"=>{
-                    "identifier"=>""
-                    },
-                   "current_ta"=>{
-                    "identifier"=>"#{new_params[:addresses][:county_district]}"}
-                  }
+    known_demographics = {
+      "occupation"=>"#{new_params[:attributes][:occupation]}",
+      "patient_year"=>"#{new_params[:birth_year]}",
+      "patient"=>{
+        "gender"=>"#{new_params[:gender]}",
+        "birthplace"=>"#{new_params[:addresses][:address2]}",
+        "creator" => 1,
+        "changed_by" => 1
+      },
+      "p_address"=>{
+        "identifier"=>"#{new_params[:addresses][:state_province]}"},
+      "home_phone"=>{
+        "identifier"=>"#{new_params[:attributes][:home_phone_number]}"},
+      "cell_phone"=>{
+        "identifier"=>"#{new_params[:attributes][:cell_phone_number]}"},
+      "office_phone"=>{
+        "identifier"=>"#{new_params[:attributes][:office_phone_number]}"},
+      "patient_id"=>"",
+      "patient_day"=>"#{new_params[:birth_day]}",
+      "patientaddress"=>{"city_village"=>"#{new_params[:addresses][:city_village]}"},
+      "patient_name"=>{
+        "family_name"=>"#{new_params[:names][:family_name]}",
+        "given_name"=>"#{new_params[:names][:given_name]}", "creator" => 1
+      },
+      "patient_month"=>"#{new_params[:birth_month]}",
+      "patient_age"=>{
+        "age_estimate"=>"#{new_params[:age_estimate]}"
+      },
+      "age"=>{
+        "identifier"=>""
+      },
+      "current_ta"=>{
+        "identifier"=>"#{new_params[:addresses][:county_district]}"}
+    }
 
     demographics_params = CGI.unescape(known_demographics.to_param).split('&').map{|elem| elem.split('=')}
     
@@ -376,7 +383,7 @@ class Person < ActiveRecord::Base
 
       begin
 
-      output = mechanize_browser.post("http://localhost:#{local_port}/patient/create_remote", demographics_params).body 
+        output = mechanize_browser.post("http://localhost:#{local_port}/patient/create_remote", demographics_params).body
 
       rescue Timeout::Error 
         return 'timeout'
@@ -398,7 +405,7 @@ class Person < ActiveRecord::Base
       phone_numbers[attribute_type_name] = number 
     }
     phone_numbers
-   phone_numbers.delete_if {|key, value| value == "" } 
+    phone_numbers.delete_if {|key, value| value == "" }
   end
 
   def occupation
@@ -440,15 +447,15 @@ class Person < ActiveRecord::Base
 
     #update or add new person attribute
     person_attribute_params.each{|attribute_type_name, attribute|
-        attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || PersonAttributeType.find_by_name("Unknown id")
-        #find if attribute already exists
-        exists_person_attribute = PersonAttribute.find(:first, :conditions => ["person_id = ? AND person_attribute_type_id = ?", person.id, attribute_type.person_attribute_type_id]) rescue nil 
-        if exists_person_attribute
-          exists_person_attribute.update_attributes({'value' => attribute})
-        else
-          person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
-        end
-      } if person_attribute_params
+      attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || PersonAttributeType.find_by_name("Unknown id")
+      #find if attribute already exists
+      exists_person_attribute = PersonAttribute.find(:first, :conditions => ["person_id = ? AND person_attribute_type_id = ?", person.id, attribute_type.person_attribute_type_id]) rescue nil
+      if exists_person_attribute
+        exists_person_attribute.update_attributes({'value' => attribute})
+      else
+        person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
+      end
+    } if person_attribute_params
 
   end
   

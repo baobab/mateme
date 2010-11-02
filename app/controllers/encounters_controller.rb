@@ -408,4 +408,9 @@ class EncountersController < ApplicationController
 
   end
 
+  def referral
+    @patient = Patient.find(params[:patient_id])
+
+  end
+  
 end
