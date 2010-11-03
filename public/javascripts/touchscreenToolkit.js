@@ -1321,6 +1321,9 @@ function showBestKeyboard(aPageNum) {
         case "date":
             getDatePicker();
             break;
+        case "time":
+            getTimePicker();
+            break;
         case "boolean":
             $("keyboard").innerHTML = "";
             break;
@@ -1543,6 +1546,45 @@ function getDatePicker() {
             element: keyboardDiv,
             target: tstInputTarget,
             format: "dd/MMM/yyyy"
+        });
+    }
+
+    $("options").innerHTML = "";
+}
+
+function getTimePicker() {
+    if (typeof(TimeSelector) == "undefined")
+        return;
+
+    var inputElement = tstFormElements[tstPages[tstCurrentPage]];
+    var keyboardDiv = $('keyboard');
+    keyboardDiv.innerHTML = "";
+	
+    var railsDate = new RailsDate(inputElement);
+    if (railsDate.isDayOfMonthElement()) {
+        getDayOfMonthPicker(railsDate.getYearElement().value, railsDate.getMonthElement().value);
+        return;
+    }
+
+    var defaultDate = joinDateValues(inputElement);
+    //defaultDate = defaultDate.replace("-", "/", "g");
+    var arrDate = defaultDate.split(':');
+    $("touchscreenInput"+tstCurrentPage).value = defaultDate;
+
+    if (arrDate.length == 3) {
+        ds = new TimeSelector({
+            element: keyboardDiv,
+            target: tstInputTarget,
+            hour: arrDate[0],
+            minute: arrDate[1],
+            second: arrDate[2],
+            format: "H:M:S"
+        });
+    } else {
+        ds = new TimeSelector({
+            element: keyboardDiv,
+            target: tstInputTarget,
+            format: "H:M:S"
         });
     }
 

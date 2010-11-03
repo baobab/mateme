@@ -76,7 +76,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 
 <% options = {
   :id => "time_of_delivery",
-  :field_type => 'number',
+  :field_type => 'time',
   :helptext =>"Time of Delivery",
   :condition => "($('delivery_period').value == 'DELIVERED IN THE WARD')"
 }%>
