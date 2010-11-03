@@ -719,3 +719,17 @@ display:block;
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.NumbersWithUnkown #star,
+.NumbersWithUnkown #abc,
+.NumbersWithUnkown #date,
+.NumbersWithUnkown #minus,
+.NumbersWithUnkown #plus,
+.NumbersWithUnkown #decimal,
+.NumbersWithUnkown #slash,
+.NumbersWithUnkown #comma,
+.NumbersWithUnkown #qwerty,
+.NumbersWithUnkown #SHIFT,
+.NumbersWithUnkown #percent{
+  display: none
+}

@@ -38,7 +38,7 @@
     :condition => '$("family_name").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } %>
 
   <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number', 
-    :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly",
+    :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersWithUnkown",
     :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
   <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth',
@@ -62,7 +62,7 @@
     :helpText => 'Current place of residence', :ajaxURL => '/search/village?search_string=', :allowFreeText => true }%>
 
   <%= text_field_tag "person[attributes][landmark_or_plot_number]",  params[:state_province], {:field_type => 'alpha',
-    :helpText => 'Current District', :ajaxURL => '/search/district?search_string=', :allowFreeText => true }%>
+    :helpText => 'Landmark or plot number', :ajaxURL => '/search/district?search_string=', :allowFreeText => true }%>
 
 <%if @ask_cell_phone == 'true'%>
   <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Primary Phone Number',

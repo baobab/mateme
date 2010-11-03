@@ -14,7 +14,9 @@
   #space { display:inline; font-size:1.2em; }
 </style>
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
-  
+
+  <%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}" %>
+
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>

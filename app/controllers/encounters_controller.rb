@@ -20,7 +20,13 @@ class EncountersController < ApplicationController
       Observation.create(observation)
     end
   @patient = Patient.find(params[:encounter][:patient_id])
-  redirect_to next_task(@patient)
+
+    if params[:next_url]
+      redirect_to params[:next_url] and return
+    else
+      redirect_to next_task(@patient)
+    end
+  
   end
 
   def new

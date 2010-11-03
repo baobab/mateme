@@ -1,0 +1,42 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='referral' action="/encounters/create" method='post'>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "REFER PATIENT OUT? " %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+
+  <select id="select" name="observations[][value_coded_or_text]" helptext="Referral Case To Another Health Facility?">
+    <option value="YES">Yes</option>
+    <option value="NO">No</option>
+  </select>
+    <% options = {
+	:id => "referred",
+	:field_type => 'text'
+	} %>
+  <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER HOSPITAL", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for="refer">Referral Facility?</label>
+  <% options = {
+    :id => "referrer",
+    :field_type => 'text',
+    :helptext =>"Referral Facility if Referred",
+    :condition => "($('select').value == 'YES')",
+    :allowFreeText => 'true',
+    :ajaxURL => "/encounters/locations?search_string="
+  } %>
+  <%= text_field_tag "observations[][value_coded_or_text]", nil, options %>
+  <%= hidden_field_tag("observations[][concept_name]", "REFERRAL CLINIC IF REFERRED", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("next_url", "/patients/show/#{ @patient.patient_id }") %>
+
+</form>
