@@ -76,18 +76,21 @@ TimeSelector.prototype = {
 			<table><tr> \
 			<td valign="top"> \
 			<div style="display: inline;" > \
+                                <div style="text-align:center; width:100%; font-size:1.8em;">Hr</div>\
 				<button id="timeselector_nextHour" onmousedown="ds.incrementHour();"><span>+</span></button> \
 				<input id="timeselector_hour" type="text" > \
 				<button id="timeselector_preHour" onmousedown="ds.decrementHour();"><span>-</span></button> \
 			</div> \
 			</td><td> \
 			<div style="display: inline;"> \
+                                <div style="text-align:center; width:100%; font-size:1.8em;">Min</div>\
 				<button id="timeselector_nextMinute" onmousedown="ds.incrementMinute();"><span>+</span></button> \
 				<input id="timeselector_minute" type="text"> \
 				<button id="timeselector_preMinute" onmousedown="ds.decrementMinute();"><span>-</span></button> \
 			</div> \
 			</td><td> \
 			<div style="display: inline;"> \
+                                <div style="text-align:center; width:100%; font-size:1.8em;">Sec</div>\
 				<button id="timeselector_nextSecond" onmousedown="ds.incrementSecond();"><span>+</span></button> \
 				<input id="timeselector_second" type="text"> \
 				<button id="timeselector_preSecond" onmousedown="ds.decrementSecond();"><span>-</span></button> \

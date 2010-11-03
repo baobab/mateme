@@ -8,6 +8,13 @@ class EncountersController < ApplicationController
     (params[:observations] || []).each do |observation|
       # Check to see if any values are part of this observation
       # This keeps us from saving empty observations
+
+      if observation[:value_time]
+        observation["value_datetime"] = Time.now.strftime("%Y-%m-%d ") + observation["value_time"]
+        observation.delete(:value_time)
+        # raise observation.to_yaml
+      end
+      
       values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
         observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
       }.compact

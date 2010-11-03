@@ -14,7 +14,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 
 <% options = {
     :id =>"discharge_outcome",
-    :helpText => 'Discharge outcome'
+    :helpText => 'Outcome'
 } %>
 
 <% @main_outcomes = [""] + Concept.find_by_name("MATERNITY OUTCOME").concept_members_names rescue [] %>
@@ -53,7 +53,8 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   :id => "number_of_babies",
   :field_type => 'number',
   :helptext =>"Number of babies",
-  :condition => "($('delivery_period').value == 'DELIVERED IN THE WARD')"
+  :condition => "($('delivery_period').value == 'DELIVERED IN THE WARD')",
+  :tt_pageStyleClass => "Numeric NumbersOnly"
 }%>
 
 <%= text_field_tag("observations[][value_numeric]",   nil, options)%>
@@ -81,7 +82,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   :condition => "($('delivery_period').value == 'DELIVERED IN THE WARD')"
 }%>
 
-<%= text_field_tag("observations[][value_numeric]",   nil, options)%>
+<%= text_field_tag("observations[][value_time]",   nil, options)%>
 <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
@@ -93,20 +94,20 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   :condition => "($('delivery_period').value == 'DELIVERED IN THE WARD')"
 }%>
 
-<%= text_field_tag("observations[][value_numeric]",   nil, options)%>
-<%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED DATE OF DELIVERY")%>
+<%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+<%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 <% options = {
   :id => "estimated_time_of_delivery",
-  :field_type => 'number',
+  :field_type => 'time',
   :helptext =>"Estimated Time of Delivery",
   :condition => "($('delivery_period').value == 'DELIVERED BEFORE ARRIVAL')"
 }%>
 
-<%= text_field_tag("observations[][value_numeric]",   nil, options)%>
-<%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED TIME OF DELIVERY")%>
+<%= text_field_tag("observations[][value_time]",   nil, options)%>
+<%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED TIME FOR DELIVERY BEFORE ARRIVAL")%>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
@@ -117,8 +118,8 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   :condition => "($('delivery_period').value == 'DELIVERED BEFORE ARRIVAL')"
 }%>
 
-<%= text_field_tag("observations[][value_numeric]",   nil, options)%>
-<%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED DATE OF DELIVERY")%>
+<%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+<%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED DATE")%>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
@@ -166,7 +167,9 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   :field_type => 'text',
   :helptext =>"Discharged to where?",
   :condition => "($('discharge_outcome').value == 'DISCHARGED')",
-  :tt_onUnLoad => "if($('discharged_to_where').value == 'HOME') $('discharged_to_where_value_coded_or_text').value = $('discharged_to_where').value;"
+  :tt_onUnLoad => "if($('discharged_to_where').value == 'HOME')\
+            {$('discharged_to_where_value_coded_or_text').value = $('discharged_to_where').value; \
+            $('next_url').disabled = false;} else {$('next_url').disabled = true;}"
 }%>
 
 <%@discharged_to_where = ["", "HOME", "ANOTHER HEALTH FACILITY"]%>
@@ -175,18 +178,23 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <% options = {
   :id => "health_facility",
   :field_type => 'text',
-  :helptext =>"Select health facility",
+  :helptext =>"Which health facility",
+  :allowFreeText => true,
+  :ajaxURL => "/encounters/locations?search_string=",
   :condition => "($('discharged_to_where').value == 'ANOTHER HEALTH FACILITY')",
   :tt_onUnLoad => "$('discharged_to_where_value_coded_or_text').value = $('health_facility').value;"
 }%>
 
 <%@health_facility = ["", "KCH"]%>
-<%= select_tag("health_facility", options_for_select(@health_facility), options)%>
+<%#= select_tag("health_facility", options_for_select(@health_facility), options)%>
+<%= text_field_tag("health_facility", nil, options)%>
 
-<%= hidden_field_tag("observations[][concept_name]",  "DISCHARGED TO") %>
+<%= hidden_field_tag("observations[][concept_name]",  "DISCHARGED") %>
 <%= hidden_field_tag("observations[][value_coded_or_text]",  "", {:id => 'discharged_to_where_value_coded_or_text'}) %>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+<%= hidden_field_tag "next_url", "/encounters/new/admission_diagnosis/?patient_id=#{@patient.id}", {:disabled => true} %>
 
 <%= submit_tag "Finish" %>
 
