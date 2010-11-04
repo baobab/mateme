@@ -1,38 +1,43 @@
+<%= javascript_include_tag "barcode" %>
 <script type="text/javascript">
   tt_cancel_destination = '/logout';  
 </script>
 
 <div style="text-align:center;margin:10px;">
-  <div style="color:gray; font-size: 16pt; border-bottom:1px gray dotted;
-       margin-top:20px; padding-bottom:20px;">Select Activity</div>
+  <form id='barcodeForm' action="/people/search">
+      <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
+      <%= submit_tag "Submit", :style => "display:none" %>
+      <div style="color:gray">scan a barcode</div>
+    </form>
+
   <div class="centered">
     
-    <% date = session[:datetime] ||= Date.today 
+    <% date = session[:datetime] ||= Date.today
     #if @super_user or @regstration_clerk %>
     <%if !@show_set_date%>
       <span style="font-size: 16pt">
         <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
-        </span>
-      <%else%>
+      </span>
+    <%else%>
       <span style="font-size: 16pt; background-color: red">
         <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
-        </span>
-      <%end%>
+      </span>
+    <%end%>
 
 
     <button id="find_or_register_button" class="button green"
             onclick="window.location = '/people/search'" style="min-width:480px;">
-            <span>Find or register client by name</span>
+      <span>Find or register client by name</span>
     </button>
 
     <button id="reports_button" class="button green"
             onclick="window.location = '/report/select'" style="min-width:480px;">
-            <span>Reports</span>
+      <span>Reports</span>
     </button>
 
     <button id="set_date_button" class="button green"
             onclick="window.location = '/people/set_datetime'" style="min-width:480px;">
-            <span>Set Date</span>
+      <span>Set Date</span>
     </button>
 
     <% if @super_user%>
@@ -45,10 +50,10 @@
          TODO: need set date/reset date button
          TODO: need reports button
          TODO: need summary to be adjusted based on visit? -->
-      <table style="margin-left:50px;margin-top:20px;background:#ddddff;width:380px;">
-      <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
-         type = "Reception - patients seen" if type == "REGISTRATION"
-         type = "patients referred to other clinics" if type == "REFERRED" %>
+    <table style="margin-left:50px;margin-top:20px;background:#ddddff;width:380px;">
+      <% Encounter.count_by_type_for_date(Date.today).each do |type,total|
+        type = "Reception - patients seen" if type == "REGISTRATION"
+        type = "patients referred to other clinics" if type == "REFERRED" %>
         <tr>
           <td><%= type.upcase %>:</td>
           <td><strong><%= total %></strong></td>

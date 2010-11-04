@@ -58,8 +58,8 @@ class Encounter < ActiveRecord::Base
           observation_string += " #{child_ob.answer_string}"
           child_ob = child_ob.child_observation
         end
-       diagnosis_array << observation_string    
-       diagnosis_array << " : "
+        diagnosis_array << observation_string
+        diagnosis_array << " : "
       }
       diagnosis_array.compact.to_s.gsub(/ : $/, "")
     elsif name == 'LAB ORDERS'
@@ -80,7 +80,7 @@ class Encounter < ActiveRecord::Base
         observation.obs_chronics_string
       }.compact.join(", ")
 
-      elsif @encounter_types.include? name
+    elsif @encounter_types.include? name
       observations.collect{|observation| observation.to_s}.compact.join(", ")
 
     else  
@@ -114,7 +114,7 @@ class Encounter < ActiveRecord::Base
   end
 
   def to_print
-   if name == 'TREATMENT'
+    if name == 'TREATMENT'
       o = orders.active.collect{|order| order.to_s if order.order_type_id == OrderType.find_by_name('Drug Prescribed').order_type_id}.join("\n")
       o = "TREATMENT NOT DONE" if self.patient.treatment_not_done
       o = "No prescriptions have been made" if o.blank?
@@ -122,7 +122,7 @@ class Encounter < ActiveRecord::Base
     elsif name == 'UPDATE HIV STATUS'
       'Hiv Status: ' + patient.hiv_status.to_s
     elsif name == 'DIAGNOSIS'
-       observations.collect{|observe| "Primary Diagnosis: #{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'}
+      observations.collect{|observe| "Primary Diagnosis: #{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'}
     end  
   end
 
@@ -136,11 +136,37 @@ class Encounter < ActiveRecord::Base
       label.left_margin = 300
       label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")} \
                      #{self.patient.national_id_with_dashes}",
-                    :font_reverse => false)
+        :font_reverse => false)
       label.draw_multi_text("#{self.patient.name} #{self.lab_accession_number}")
       label.draw_multi_text("#{self.to_s}", :font_reverse => true)
       label.draw_barcode(50,130,0,1,4,8,20,false,self.lab_accession_number)
       label.print
+    when "ACTUAL DIAGNOSIS"
+      label = ZebraPrinter::Label.new(500,165)
+      label.font_size = 2
+      label.font_horizontal_multiplier = 1
+      label.font_vertical_multiplier = 1
+      label.left_margin = 300
+      label.draw_multi_text("Admitted: #{self.admission_date}")
+      label.draw_multi_text("Discharged: #{Time.now.strftime("%d %b %Y %H:%M")}", :font_reverse => false)
+      label.draw_multi_text("#{self.patient.name}")
+      label.draw_multi_text("#{self.to_s}", :font_reverse => true)
+      # label.draw_multi_text("#{session[:user_id]}")
+      label.print
+    when "UPDATE OUTCOME"
+      if self.to_s.include?("ADMITTED")
+        label = ZebraPrinter::Label.new(500,165)
+        label.font_size = 2
+        label.font_horizontal_multiplier = 1
+        label.font_vertical_multiplier = 1
+        label.left_margin = 300
+        label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")} \
+                     #{self.patient.national_id_with_dashes}",
+          :font_reverse => false)
+        label.draw_multi_text("#{self.patient.name} (Age: #{(Date.today - self.patient.person.birthdate).to_i / 365})")
+        label.draw_multi_text("#{self.patient.person.current_residence}", :font_reverse => true)
+        label.print
+      end
     end
   end
 
@@ -153,4 +179,15 @@ class Encounter < ActiveRecord::Base
     end
   end
 
+  def admission_date
+    patient_id = self.patient.id
+
+    Observation.find(:last, :conditions => ["person_id = ? AND value_coded = ? AND voided = 0 AND encounter_id IN (?)", patient_id,
+        ConceptName.find_by_name("ADMITTED").concept_id, Encounter.find(:all,
+          :conditions => ["patient_id = ? AND encounter_type = ? AND voided = 0", patient_id,
+            EncounterType.find_by_name("UPDATE OUTCOME").encounter_type_id]).collect{|e| 
+          e.encounter_id}]).obs_datetime.strftime("%d %b %Y %H:%M") rescue "Unknown"
+
+  end
+  
 end

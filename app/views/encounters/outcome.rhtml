@@ -5,7 +5,6 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   #space { display:inline; font-size:1.2em; }
 </style>
 <form id='outcome' action="/encounters/create" method='post'>
-
     
 <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
 <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
@@ -167,7 +166,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   :field_type => 'text',
   :helptext =>"Discharged to where?",
   :condition => "($('discharge_outcome').value == 'DISCHARGED')",
-  :tt_onUnLoad => "if($('discharged_to_where').value == 'HOME')\
+  :tt_onUnLoad => "if($('discharged_to_where').value == 'HOME' || $('discharged_to_where').value == 'ANOTHER HEALTH FACILITY')\
             {$('discharged_to_where_value_coded_or_text').value = $('discharged_to_where').value; \
             $('next_url').disabled = false;} else {$('next_url').disabled = true;}"
 }%>

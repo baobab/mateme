@@ -464,4 +464,9 @@ class Person < ActiveRecord::Base
     "#{self.names.first.given_name.first}. #{self.names.first.family_name}" rescue nil
   end
 
+  def current_residence
+    current_residence = PersonAttribute.find(:first,:conditions => ["voided = 0 AND person_attribute_type_id = ? AND person_id = ?",
+        PersonAttributeType.find_by_name('Current Place Of Residence').id, self.id]).value rescue 'Unknown'
+  end
+
 end

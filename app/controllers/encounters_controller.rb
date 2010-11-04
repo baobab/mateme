@@ -2,7 +2,7 @@ class EncountersController < ApplicationController
 
   def create
     encounter = Encounter.new(params[:encounter])
-    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
+    # encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? # not sure why this was put here. It's spoiling the dates
     encounter.save
 
     (params[:observations] || []).each do |observation|
@@ -29,9 +29,21 @@ class EncountersController < ApplicationController
   @patient = Patient.find(params[:encounter][:patient_id])
 
     if params[:next_url]
-      redirect_to params[:next_url] and return
+      if encounter.type.name == "ACTUAL DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", params[:next_url]) if encounter.type.name == \
+          "ACTUAL DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+        return
+      else
+        redirect_to params[:next_url] and return
+      end
     else
-      redirect_to next_task(@patient)
+      if encounter.type.name == "ACTUAL DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient)) if encounter.type.name == \
+          "ACTUAL DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+        return
+      else
+        redirect_to next_task(@patient)
+      end
     end
   
   end
