@@ -1,6 +1,8 @@
 class EncountersController < ApplicationController
 
   def create
+    #raise params.to_yaml
+    
     encounter = Encounter.new(params[:encounter])
     # encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? # not sure why this was put here. It's spoiling the dates
     encounter.save

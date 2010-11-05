@@ -1,0 +1,107 @@
+body{
+  overflow: auto;
+}
+
+.main-table-cell {
+   padding:1px;
+  font-size:0.5em;
+}
+
+.main_legend {
+    font-size:1em;
+    border:1px #CCCCCC solid;
+    -moz-border-radius:20px;
+    color:white; background-color:green;
+    padding:10px;
+}
+
+.main_fieldset {
+    margin: 5px;
+    border:1px #CCCCCC solid;
+    -moz-border-radius:10px;
+    padding:10px;
+}
+
+.cellleft {
+    border-left:1px #ccc solid;
+}
+
+.cellright {
+    border-right:1px #ccc solid;
+}
+
+.celltop {
+    border-top:1px #ccc solid;
+}
+
+.cellbottom {
+    border-bottom:1px #ccc solid;
+}
+
+.textbold {
+    font-weight:bold;
+}
+
+.topic {
+    font-size:0.8em;
+}
+
+.padding-bottom-20 {
+    padding-bottom:5px;
+}
+
+.SelectList {
+    background-color:#FFFF99;
+    list-style: none;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size:2em;
+    width: 500px;
+    border:1px lightblue solid;
+    margin-left:15px;
+    margin-bottom:20px;
+    margin-top:20px;
+}
+
+.menu-buttons {
+    border:1px solid #ccc;
+    background-color:#eee;
+    -moz-border-radius:10px;
+    margin-top:7.5px;
+    margin-left:25px;
+    width:200px;
+    padding:15px;
+    height:210px;
+    display:none;
+}
+
+.input-date {
+    width:100%;
+    text-align:center;
+    font-size:2em;
+    margin-top:10px;
+    margin-bottom:10px;
+    border:#ccc 1px solid;
+    -moz-border-radius:30px;
+    background-color:lightblue;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.label-text {
+    font-size:0.8em;
+}
+
+.main_heading {
+    font-size:0.5em;
+    padding: 2px;
+    color:white;
+    border:1px #CCCCCC solid;
+    -moz-border-radius:10px;
+    background-color:black;
+}
+
+.btn-menu {
+    display:none;
+}
