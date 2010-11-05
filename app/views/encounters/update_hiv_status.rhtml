@@ -21,8 +21,7 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= hidden_field_tag ("observations[][value_coded_or_text]", @new_hiv_status)%>
-  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "POSITIVE","NEGATIVE"]))%>
   <%= hidden_field_tag("observations[][concept_name]", "HIV STATUS", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
