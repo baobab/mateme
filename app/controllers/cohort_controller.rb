@@ -88,6 +88,14 @@ class CohortController < ApplicationController
 
     @bba1630_0730 = report.bba1630_0730
 
+    @triplets0730_1630 = report.triplets0730_1630
+
+    @triplets1630_0730 = report.triplets1630_0730
+
+    @twins0730_1630 = report.twins0730_1630
+
+    @twins1630_0730 = report.twins1630_0730
+
     render :layout => "menu"
   end
   

@@ -60,11 +60,11 @@ var TimeSelector = function() {
 
     this.currentHour = $('timeselector_hour');
     this.currentMinute = $('timeselector_minute');
-    this.currentSecond = $('timeselector_second');
+    //this.currentSecond = $('timeselector_second');
 
     this.currentHour.value = this.time[0];
     this.currentMinute.value = this.time[1];
-    this.currentSecond.value = this.time[2];
+    //this.currentSecond.value = this.time[2];
 };
 
 TimeSelector.prototype = {
@@ -89,14 +89,14 @@ TimeSelector.prototype = {
 				<button id="timeselector_preMinute" onmousedown="ds.decrementMinute();"><span>-</span></button> \
 			</div> \
 			</td><td> \
-			<div style="display: inline;"> \
+			<!--div style="display: inline;"> \
                                 <div style="text-align:center; width:100%; font-size:1.8em;">Sec</div>\
 				<button id="timeselector_nextSecond" onmousedown="ds.incrementSecond();"><span>+</span></button> \
 				<input id="timeselector_second" type="text"> \
 				<button id="timeselector_preSecond" onmousedown="ds.decrementSecond();"><span>-</span></button> \
-			</div> \
+			</div--> \
 			</td><td> \
-			<button id="Unknown" onmousedown="updateKeyColor(this);press(this.id);" style=""><span>Unknown</span></button> \
+			<!--button id="Unknown" onmousedown="updateKeyColor(this);press(this.id);" style=""><span>Unknown</span></button--> \
 			</tr></table> \
 			</div> \
 		';

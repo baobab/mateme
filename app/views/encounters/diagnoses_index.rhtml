@@ -5,8 +5,14 @@
 </style>
 
 <script type="text/javascript">
-  tt_cancel_destination = '/patients/show/<%= @patient.id %>';
-  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false&admitted=false';
+  tt_cancel_show = '/patients/show/<%= @patient.id %>';
+
+<%  if @diagnosis.length <= 0 %>
+    tt_cancel_destination = '/encounters/new/outpatient_diagnosis/?patient_id=<%=  "#{@patient.id}&next=true" %>';
+<%  else %>
+    tt_cancel_destination = '/encounters/procedure_index/?patient_id=<%=  "#{@patient.id}" %>';
+<%  end %>
+  
 </script>
 
 <div style="padding: 15px;">
@@ -17,7 +23,7 @@
       for observation in diagnoses do %>
         <li class="data <%= cycle('even', 'odd') %>">
           <!--div style="float:right;padding:7px;">
-            <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => 77} -%>
+          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => 77} -%>
           </div-->
           <div style="float:left">Diagnosis</div>
           <div style="clear:left" class="summary"><%= observation -%></div>
@@ -28,12 +34,17 @@
       <% end %>
     </ul>
   </div>
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Admission Diagnosis</span></button><br/>
-    </div>
+  <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?patient_id=<%= @patient.id %>&next=true'"><span>Add Diagnoses</span></button><br/>
+  </div>
 </div>
 
-<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
+<div style="z-index:11;bottom:15px; height: 64px; width: 890px; left: -4px; right: -66px; position: absolute;">
+  <button id="backButton" class="button navButton gray" onclick="window.location = '/encounters/new/outcome?patient_id=<%= @patient.id %>';">
+    <span>
+      Back
+    </span>
+  </button>
   <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
     <span>
       Cancel

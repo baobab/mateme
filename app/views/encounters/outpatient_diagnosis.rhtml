@@ -1,21 +1,24 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
 
-    // Every 500 milliseconds update the Next/Finish button
-    function updateNextFinish(){
-      if (tstInputTarget.value == '')
+  // Every 500 milliseconds update the Next/Finish button
+  function updateNextFinish(){
+    if (tstInputTarget.value == '')
       $('nextButton').innerHTML = '<span>Finish</span>';
-      else
+    else
       $('nextButton').innerHTML = '<span>Next</span>';
-      setTimeout(updateNextFinish, 500)
-    }
-  </script>
+    setTimeout(updateNextFinish, 500)
+  }
+</script>
 <style>
   #space { display:inline; font-size:1.2em; }
 </style>
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
 
-  <%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}" %>
+  <% if params[:next] %>
+    <%= hidden_field_tag "next_url", "/encounters/procedure_index/?patient_id=#{@patient.id}" %>
+  <% end %>
+
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
@@ -23,7 +26,7 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
 
-  <%# This options hash allows us to define our options in one place %>
+<%# This options hash allows us to define our options in one place %>
   <% options = {
     :helpText       => 'Select admission diagnosis',
     :allowFreeText  => 'true',
@@ -49,7 +52,35 @@
     <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  <% counter += 1 %>
+
+    <% counter += 1 %>
   <% end %>
-  <%= submit_tag "Finish" %>    
+
+  <% 10.times do |counter| %>
+    <% options = {
+      :id => "estimated_time_of_delivery",
+      :field_type => 'time',
+      :helptext =>"Estimated Time of Delivery",
+      :condition => "(tstFormElements[#{counter}].value == 'BORN BEFORE ARRIVAL')"
+    }%>
+    <%= text_field_tag("observations[][value_time]",   nil, options)%>
+    <%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED TIME FOR DELIVERY BEFORE ARRIVAL")%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+    <% options = {
+      :id => "estimated_date_of_delivery",
+      :field_type => 'date',
+      :helptext =>"Estimated Date of Delivery",
+      :condition => "(tstFormElements[#{counter}].value == 'BORN BEFORE ARRIVAL')"
+    }%>
+    <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+    <%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED DATE")%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+    <% counter += 1 %>
+  <% end %>
+
+  <%= submit_tag "Finish" %>
 </form>

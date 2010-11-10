@@ -1,7 +1,7 @@
 class EncountersController < ApplicationController
 
   def create
-    #raise params.to_yaml
+    # raise params.to_yaml
     
     encounter = Encounter.new(params[:encounter])
     # encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? # not sure why this was put here. It's spoiling the dates
@@ -28,6 +28,21 @@ class EncountersController < ApplicationController
       observation[:person_id]     ||= encounter.patient_id
       Observation.create(observation)
     end
+
+    if encounter.type.name.eql?("REFER PATIENT OUT?")
+      encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+    end
+
+    if encounter.patient.current_visit.encounters.active.collect{|e| 
+        e.observations.collect{|o|
+          o.answer_string if o.answer_string.include?("PATIENT DIED")
+        }.compact if e.type.name.eql?("UPDATE OUTCOME")
+      }.compact.collect{|p| true if p.include?("PATIENT DIED")}.compact.include?(true) == true
+
+      encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+
+    end
+
   @patient = Patient.find(params[:encounter][:patient_id])
 
     if params[:next_url]
@@ -442,5 +457,12 @@ class EncountersController < ApplicationController
   def update_hiv_status
     @patient = Patient.find(params[:patient_id])
   end
-  
+
+  def procedure_index
+    @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @procedures  = @patient.current_procedures["PROCEDURE DONE"] rescue []
+
+    render :template => '/encounters/procedure_index', :layout => 'menu'
+  end
+
 end

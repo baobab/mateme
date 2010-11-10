@@ -16,14 +16,14 @@
     <option value="YES">Yes</option>
     <option value="NO">No</option>
   </select>
-    <% options = {
-	:id => "referred",
-	:field_type => 'text'
-	} %>
+  <% options = {
+    :id => "referred",
+    :field_type => 'text'
+  } %>
   <%= hidden_field_tag("observations[][concept_name]", "IS PATIENT REFERRED?", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  
+
   <label for="refer">Referral Facility?</label>
   <% options = {
     :id => "referrer",
@@ -38,5 +38,27 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
   <%= hidden_field_tag("next_url", "/patients/show/#{ @patient.patient_id }") %>
-  
+
+  <% options = {
+    :id => "time_of_delivery",
+    :field_type => 'time',
+    :helptext =>"Time of referral arrival",
+    :condition => "($('select').value == 'YES')"
+  }%>
+  <%= text_field_tag("observations[][value_time]",   nil, options)%>
+  <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL ARRIVAL TIME")%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = {
+    :id => "date_of_delivery",
+    :field_type => 'date',
+    :helptext =>"Date of referral arrival",
+    :condition => "($('select').value == 'YES')"
+  }%>
+  <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+  <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL ARRIVAL DATE")%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
 </form>

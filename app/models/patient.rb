@@ -377,5 +377,25 @@ class Patient < ActiveRecord::Base
     orders = encounter.orders.active rescue []
     orders
   end
-  
+
+  def current_procedures
+    procedures_hash = {"PROCEDURE DONE" => []}
+
+    concept_ids = procedures_hash.collect{|k,v| ConceptName.find_by_name(k).concept_id}.compact rescue []
+
+     type = EncounterType.find_by_name('UPDATE OUTCOME')
+     self.current_visit.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
+       encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
+         next if observation.obs_group_id != nil
+         observation_string =  observation.answer_string
+         child_ob = observation.child_observation
+         while child_ob != nil do
+           observation_string += child_ob.answer_string
+           child_ob = child_ob.child_observation
+         end
+         procedures_hash[observation.concept.name.name] << observation_string
+       }
+       procedures_hash
+  end
+
 end

@@ -1,0 +1,33 @@
+<script>
+var tt_cancel_destination = "/encounters/procedure_index/?patient_id=<%=  "#{@patient.id}" %>"
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='outcome' action="/encounters/create" method='post'>
+
+<%@procedure_done = ["", "UTERINE EVACUATION",
+                        "EXAM UNDER ANAESTHESIA",
+                        "TUBAL LIGATION",
+                        "POSTPARTUM HYSTERECTOMY",
+                        "CONSERVATIVE MANAGEMENT",
+                        "NONE"]%>
+
+<%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
+<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+<%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+<%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+<% options = {
+  :id => "procedure_done",
+  :field_type => 'text',
+  :helptext =>"Procedure Done"
+}%>
+<%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
+<%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
+<%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+<%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  
+<%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}" %>
+
+</form>

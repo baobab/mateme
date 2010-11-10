@@ -20,17 +20,17 @@
     <div>
       <fieldset class="main_fieldset">
         <legend class="main_legend" style="color:white; background-color:green;">
-          Maternity Bed State
+          Maternity Bed State 
         </legend>
 
         <table cellspacing="0" width="100%">
           <tr>
             <td align="center" colspan="4" class="padding-bottom-20">
               <label class="main_heading" style="float:left;">
-                <b><i>Start Date:</i></b> <%= @specified_period[0].to_date.strftime("%a %d %b, %Y") %>
+                <b><i>Start Date:</i></b> <%= @specified_period[0].to_time.strftime("%a %d %b, %Y %H:%M") %>
               </label>
               <label class="main_heading" style="float:right;">
-                <b><i>End Date:</i></b> <%= @specified_period[1].to_date.strftime("%a %d %b, %Y") %>
+                <b><i>End Date:</i></b> <%= @specified_period[1].to_time.strftime("%a %d %b, %Y %H:%M") %>
               </label>
             </td>
           </tr>
@@ -56,13 +56,13 @@
               <td class="cellleft cellbottom main-table-cell topic" style="width:220px;">
                 <i>ADMISSION</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center" style="width:200px;">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="width:200px; font-size:1.5em;">
                 <%=  @admissions0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center" style="width:200px;">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="width:200px; font-size:1.5em;">
                 <%=  @admissions1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @admissions0730_1630 + @admissions1630_0730 %>
               </td>
             </tr>
@@ -70,13 +70,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>DISCHARGES</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @discharged0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @discharged1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @discharged0730_1630 + @discharged1630_0730 %>
               </td>
             </tr>
@@ -84,13 +84,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>REFERRALS</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @referrals0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @referrals1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @referrals0730_1630 + @referrals1630_0730 %>
               </td>
             </tr>
@@ -98,13 +98,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>MATERNAL DEATHS</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @deaths0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @deaths1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @deaths0730_1630 + @deaths1630_0730 %>
               </td>
             </tr>
@@ -112,13 +112,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>CESARIAN SECTIONS</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @cesarean0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @cesarean1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @cesarean0730_1630 + @cesarean1630_0730 %>
               </td>
             </tr>
@@ -126,13 +126,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>SVDS</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @svds0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @svds1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @svds0730_1630 + @svds1630_0730 %>
               </td>
             </tr>
@@ -140,13 +140,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>VACUUM EXTRACTION</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @vacuum0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @vacuum1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @vacuum0730_1630 + @vacuum1630_0730 %>
               </td>
             </tr>
@@ -154,13 +154,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>BREECH</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @breech0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @breech1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @breech0730_1630 + @breech1630_0730 %>
               </td>
             </tr>
@@ -168,13 +168,13 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>RUPTURED UTERUS</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @ruptured0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @ruptured1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @ruptured0730_1630 + @ruptured1630_0730 %>
               </td>
             </tr>
@@ -182,69 +182,73 @@
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>TRIPLETS</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
-                &nbsp;
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  @triplets0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
-                &nbsp;
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  @triplets1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
-                &nbsp;
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  @triplets0730_1630 + @triplets1630_0730 %>
               </td>
             </tr>
             <tr>
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>TWINS</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
-                &nbsp;
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  @twins0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
-                &nbsp;
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  @twins1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
-                &nbsp;
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  @twins0730_1630 + @twins1630_0730 %>
               </td>
             </tr>
             <tr>
               <td class="cellleft cellbottom main-table-cell topic">
                 <i>BBA</i>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @bba0730_1630 %>
               </td>
-              <td class="cellleft cellbottom main-table-cell" align="center">
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @bba1630_0730 %>
               </td>
-              <td class="cellleft cellbottom cellright main-table-cell" align="center">
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
                 <%=  @bba0730_1630 + @bba1630_0730 %>
               </td>
             </tr>
           </table>
         </div>
-        
+
         <table cellspacing="0" width="100%" style="background-color:green; color:white;">
-            <tr>
-              <td class="cellleft celltop cellbottom main-table-cell topic" style="width:220px;">
-                <b><i>TOTALS</i></b>
-              </td>
-              <td class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center">
-                &nbsp;
-              </td>
-              <td class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center">
-                &nbsp;
-              </td>
-              <td class="cellleft celltop cellbottom cellright main-table-cell" align="center">
-                &nbsp;
-              </td>
-            </tr>
+          <tr>
+            <td class="cellleft celltop cellbottom main-table-cell topic" style="width:220px;">
+              <!--b><i>TOTALS</i></b-->
+            </td>
+            <td class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
+              &nbsp;
+            </td>
+            <td class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
+              &nbsp;
+            </td>
+            <td class="cellleft celltop cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+              &nbsp;
+            </td>
+          </tr>
         </table>
       </fieldset>
 
     </div>
 
-    <button onclick="window.location = '/cohort';" class="button navButton red"
-            id="cancelButton" style="position: absolute; z-index: 100; "><span>Cancel</span></button>
-    
+    <div style="z-index:11;bottom:15px; height: 64px; width: 890px; left: -4px; right: -66px; position: absolute;">
+      <button onclick="window.location = '/cohort';" class="button navButton red"
+              id="cancelButton" style="position: absolute; z-index: 100; "><span>Cancel</span></button>
+
+      <button onclick="window.location = '/cohort';" class="button navButton gray"
+              id="backButton" ><span>Back</span></button>
+    </div>
   </body>
 </html>
