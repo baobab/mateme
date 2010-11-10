@@ -1,0 +1,47 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='outpatient_diagnosis' action="/encounters/create_influenza_recruitment" method='post'>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "INFLUENZA DATA" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <label for='ili'>Influenza-like illness?</label>
+  <% options={
+    :field_type => 'text',
+    :tt_requireNextClick => false,
+    :id => "ili"
+  } %>
+  <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Yes",
+        "No"
+      ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "ILI") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <label for='sari'>Severe Acute Respiratory Infection?</label>
+  <% options={
+    :field_type => 'text',
+    :tt_requireNextClick => false,
+    :id => "sari",
+    :condition => "$('ili').value == 'Yes';"
+  } %>
+  <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Yes",
+        "No"
+      ]), options ) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SARI") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%= submit_tag "Finish" %>
+
+</form>

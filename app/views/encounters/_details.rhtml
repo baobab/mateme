@@ -1,0 +1,32 @@
+<style type="text/css">
+  .title {
+    font-weight:bold;
+    font-size: 20px;
+  }
+
+  .data {
+    font-size: 20px;
+  }
+
+</style>
+
+<% unless @patient.nil? %>
+<div style="border:dotted 1px #eee; width:650px; float:left; height: 240px; padding-left:20px;">
+<h2><%= @patient.person.name %></h2>
+<table cellpadding="2" cellspacing="0">
+<tr> <td> <span class='title'> National id: </span> </td> <td class='data'> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Birthdate: </span> </td> <td class='data'> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Gender: </span> </td> <td class='data'> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr>
+<!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
+<tr> <td> <span class='title'> Current Village: </span> </td> <td class='data'> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
+<!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
+</table>
+</div>
+
+<% else %>
+
+<div style="border:dotted 1px #eee; width:650px; float:left; height: 240px; padding-left:20px;">
+  <h2>Sorry, record not found!</h2>
+</div>
+
+<% end %>

@@ -1,0 +1,74 @@
+<center>
+<div style="margin-top:0px; border:dotted 1px #eee; width:300px; float:right; height: 600px; padding-top:10px;">
+  <b  style="font-size: 22pt; padding-left:8px;">Tests <%= " for #{params[:identifier].upcase}" if !params[:identifier].nil? %> </b>
+  
+    <%
+    unless @encounter_names.nil?
+      @i = 0
+
+      @encounter_names.each{|encounter_name|
+        found = nil
+
+        if encounter_name == "CSF"
+          encounter_name = "CEREBROSPINAL FLUID"
+        end
+
+        if encounter_name == "PCV"
+          encounter_name = "HEMATOCRIT"
+        end
+
+        if encounter_name == "MP TEST"
+          encounter_name = "MALARIAL SMEAR"
+        end
+
+        @tests.each {|el|
+          if el.match(encounter_name)
+            found = true
+          end
+        }
+
+        if encounter_name == "CEREBROSPINAL FLUID"
+          encounter_name = "CSF"
+        end
+
+        if encounter_name == "HEMATOCRIT"
+          encounter_name = "PCV"
+        end
+
+        if encounter_name == "MALARIAL SMEAR"
+          encounter_name = "MP TEST"
+        end
+
+        unless !found.nil?
+        @i += 1
+      %>  
+          <div style="width:100%;">
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue"
+                    style="min-width:250px;"
+                    onclick="window.location = '/encounters/edit_test/?test=<%= encounter_name.gsub(/\s/, "+") %>&patient_id=<%= @patient.patient_id rescue nil %>&identifier=<%= params[:identifier].upcase if !params[:identifier].nil? %>'">
+              <span>
+                <%=  encounter_name %>
+              </span>
+            </button>
+          </div>
+      <%
+        else
+
+      %>
+
+        <div style="width:100%;">
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button gray"
+                    style="min-width:250px;">
+              <span>
+                <%=  encounter_name %>
+              </span>
+            </button>
+          </div>
+
+      <%
+        end
+      }
+    end
+  %>
+</div>
+</center>

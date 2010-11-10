@@ -1,0 +1,229 @@
+<%#
+# Page to capture Additional Information for Admitted Patients
+# capturing Chronic Conditions present.
+# Currently this section is for both Adults and Paediatrics
+%>
+
+<script type="text/javascript" language="javascript">
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+<style type="text/css" media="screen">
+  #space { display:inline; font-size:1.2em; }
+</style>
+
+
+<form extended="true" id='influenza_chronics' action="/encounters/create_chronics"
+      method='post'>
+
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+  <table>
+    <tr>
+      <td>
+        <%= hidden_field_tag "encounter[encounter_type_name]", "CHRONIC CONDITIONS" %>
+        <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+        <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+        <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+        <label for='cancer'>Cancer?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "cancer",
+            :position => "a"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "CANCER") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='diabetes'>Diabetes?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "diabetes",
+            :position => "b"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "DIABETES") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='hiv'>HIV?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "hiv",
+            :position => "c"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "HIV") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='chronic_heart_condition'>Chronic Heart Condition?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "chronic_heart_condition",
+            :position => "d"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "CHRONIC HEART CONDITION") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='chronic_liver_deisease'>Chronic Liver Disease?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "chronic_liver_deisease",
+            :position => "e"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "CHRONIC LIVER DISEASE") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='tb'>TB?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "tb",
+            :position => "f"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "TB") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='asthma'>Asthma?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "asthma",
+            :position => "g"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "ASTHMA") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='epilepsy'>Epilepsy?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "epilepsy",
+            :position => "h"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "EPILEPSY") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='kidney_disease'>Kidney Disease?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "kidney_disease",
+            :position => "i"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No",
+              "Not Known"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "KIDNEY DISEASE") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='bmi'>BMI?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :tt_requireNextClick => false,
+            :id => "bmi",
+            :position => "j"
+          }) %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "<18.5",
+              "18.5-24.9",
+              "25-29.9",
+              ">=30"
+            ]), options ) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "BMI") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <label for='other'>Other (specify)?</label>
+        <% options=default.merge({
+            :field_type => 'text',
+            :allowFreeText => 'true',
+            :optional => true,
+            :id => "other",
+            :position => "k"
+          }) %>
+        <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+        <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
+        <%= hidden_field_tag("observations[][concept_name]", "OTHER (SPECIFY)") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+        <%= submit_tag "Finish" %>
+      </td>
+    </tr>
+  </table>
+</form>

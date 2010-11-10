@@ -1,0 +1,32 @@
+<%= javascript_include_tag "barcode" %>
+<script type="text/javascript">
+  tt_cancel_destination = '/logout';
+</script>
+
+<div style="text-align:center;margin:10px;">
+  <form id='barcodeForm' action="/people/search">
+    <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
+    <%= submit_tag "Submit", :style => "display:none" %>
+    <div style="color:gray">scan a barcode</div>
+  </form>
+  <div class="centered">
+    <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or Register Paediatric by Name</span></button>
+    <br/>
+    <br/>
+    <!--button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button-->
+    <!-- TODO: need to show current date
+         TODO: need set date/reset date button
+         TODO: need reports button
+         TODO: need summary to be adjusted based on visit? -->
+      <table style="margin-left:50px;margin-top:40px;background:#ddddff;width:300px;">
+      <% Encounter.count_by_type_for_date(Date.today).each do |type,total|
+         type = "Reception - patients seen" if type == "REGISTRATION"
+         type = "patients referred to other clinics" if type == "REFERRED" %>
+        <tr>
+          <td><%= type.upcase %>:</td>
+          <td><strong><%= total %></strong></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

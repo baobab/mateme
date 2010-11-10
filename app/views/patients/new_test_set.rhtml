@@ -1,0 +1,44 @@
+<script type="text/javascript" language="javascript">
+  var tt_cancel_destination = "/patients/show?patient_id=<%= @patient.patient_id %>"
+</script>
+<style type="text/css" media="screen">
+  #space { display:inline; font-size:1.2em; }
+</style>
+
+  <form id='lab_tests' action="/encounters/create_lab_entry"
+        method='post'>
+    <% default={
+      :allowFreeText => 'false',
+    } %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "LAB ORDERS" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <%= hidden_field_tag "patient_identifier[patient_id]", @patient.id %>
+    <%= hidden_field_tag "patient_identifier[identifier_type_name]", "LAB IDENTIFIER" %>
+    <%= hidden_field_tag "patient_identifier[lab_id]", "LAB" %>
+
+    <label for='tests'>Select Tests of interest</label>
+    <% options=default.merge({
+      :field_type => 'text',
+      :multiple => true,
+      :id => "tests"
+    }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "Blood Culture",
+        "CSF",
+        "Other",
+        "Molecular",
+        "MP Test",
+        "PCV"
+    ]), options ) %>
+    <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST SERIAL NUMBER") %>
+    <%= hidden_field_tag("observations[][concept_name]", "REQUESTED LAB TEST SET") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+    <%= submit_tag "Finish" %>
+  </form>
