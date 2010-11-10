@@ -61,7 +61,7 @@ ul.list{
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient} rescue nil%>
     <%end%>
   <div id="menu">
-
+      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
       <a class="button green" href='/encounters/new/label_specimens/?patient_id=<%= @patient.id -%>'>Label Specimens</a>
 
   <%if @doctor%>

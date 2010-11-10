@@ -164,5 +164,14 @@ class PatientsController < ApplicationController
      show and return
    end
 
+    def influenza
+    
+    @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil
+    @person = Person.find(@patient.patient_id)
+
+    @gender = @person.gender
+    
+  end
+
 
 end
