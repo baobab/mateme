@@ -134,4 +134,8 @@ class Observation < ActiveRecord::Base
     end
   end
 
+  def obs_concept_name
+    "#{ConceptName.find_by_concept_id(self.concept_id).name rescue ""}"
+  end
+  
 end

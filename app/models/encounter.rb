@@ -141,30 +141,34 @@ class Encounter < ActiveRecord::Base
       label.draw_multi_text("#{self.to_s}", :font_reverse => true)
       label.draw_barcode(50,130,0,1,4,8,20,false,self.lab_accession_number)
       label.print
-    when "ACTUAL DIAGNOSIS"
-      label = ZebraPrinter::Label.new(500,165)
-      label.font_size = 2
+    when "REFER PATIENT OUT?"
+      label = ZebraPrinter::Label.new()
+      label.font_size = 3
       label.font_horizontal_multiplier = 1
       label.font_vertical_multiplier = 1
       label.left_margin = 300
       label.draw_multi_text("Admitted: #{self.admission_date}")
       label.draw_multi_text("Discharged: #{Time.now.strftime("%d %b %Y %H:%M")}", :font_reverse => false)
       label.draw_multi_text("#{self.patient.name}")
-      label.draw_multi_text("#{self.to_s}", :font_reverse => true)
-      # label.draw_multi_text("#{session[:user_id]}")
+      label.draw_multi_text("Diagnoses: #{self.discharge_summary[0]}", :font_reverse => false)
+      label.draw_multi_text("Management: #{self.discharge_summary[1]}", :font_reverse => false)
+      label.draw_multi_text("Discharged by: #{User.current_user.name.titleize rescue ''}")
       label.print
     when "UPDATE OUTCOME"
       if self.to_s.include?("ADMITTED")
-        label = ZebraPrinter::Label.new(500,165)
-        label.font_size = 2
+        label = ZebraPrinter::Label.new()
+        label.font_size = 3
         label.font_horizontal_multiplier = 1
         label.font_vertical_multiplier = 1
-        label.left_margin = 300
-        label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")} \
-                     #{self.patient.national_id_with_dashes}",
+        label.left_margin = 350
+        label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")}",
           :font_reverse => false)
-        label.draw_multi_text("#{self.patient.name} (Age: #{(Date.today - self.patient.person.birthdate).to_i / 365})")
-        label.draw_multi_text("#{self.patient.person.current_residence}", :font_reverse => true)
+        label.draw_multi_text("#{self.patient.national_id_with_dashes}",
+          :font_reverse => false)
+        label.draw_multi_text("Name: #{self.patient.name}")
+        label.draw_multi_text("Age: #{(Date.today - self.patient.person.birthdate).to_i / 365}")
+        label.draw_multi_text("Current Residence: #{self.patient.person.current_residence}", :font_reverse => false)
+        label.draw_barcode(120,200,0,1,3,10,80,false,"#{self.patient.national_id_with_dashes}")
         label.print
       end
     end
@@ -189,5 +193,39 @@ class Encounter < ActiveRecord::Base
           e.encounter_id}]).obs_datetime.strftime("%d %b %Y %H:%M") rescue "Unknown"
 
   end
-  
+
+  def discharge_summary
+    output = ["",""]
+    
+    result = self.patient.visits.map{|v|
+      v.visit_encounters.map{|o|
+        v.visit_id if o.encounter_id.eql?(self.encounter_id)
+      }.compact
+    }.compact.delete_if{|x| x == []} rescue []
+
+    if result.length > 0
+      visit = Visit.find(result[0]).first rescue nil
+
+      if visit
+        diagnoses = visit.visit_encounters.collect{|e|
+          e.encounter.observations.collect{|o|
+            o.answer_string if !o.answer_string.match(/^\d+\/.+\/\d+$/)
+          }.compact if e.encounter.type.name.eql?("DIAGNOSIS")
+        }.compact.join(", ")
+
+        procedures = visit.visit_encounters.collect{|e|
+          e.encounter.observations.collect{|o|
+            o.answer_string if o.obs_concept_name == "PROCEDURE DONE"
+          }.compact if e.encounter.type.name.eql?("UPDATE OUTCOME")
+        }.compact.delete_if{|x| x == []}.join(", ")
+
+        output = [diagnoses, procedures]
+      end
+      
+    end
+
+    output
+    
+  end
+
 end

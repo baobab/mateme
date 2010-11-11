@@ -10,8 +10,10 @@ var tt_cancel_destination = "/encounters/procedure_index/?patient_id=<%=  "#{@pa
                         "EXAM UNDER ANAESTHESIA",
                         "TUBAL LIGATION",
                         "POSTPARTUM HYSTERECTOMY",
+                        "SUTURING OF CERVICAL OR VAGINAL INJURY UNDER ANAESTHESIA",
                         "CONSERVATIVE MANAGEMENT",
                         "NONE"]%>
+<%@postpartum_type = ["", "TOTAL POSTPARTUM HYSTERECTOMY", "SUB-TOTAL POSTPARTUM HYSTERECTOMY"]%>
 
 <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
 <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
@@ -27,7 +29,18 @@ var tt_cancel_destination = "/encounters/procedure_index/?patient_id=<%=  "#{@pa
 <%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-  
+
+<% options = {
+  :id => "postpartum_type",
+  :field_type => 'text',
+  :helptext =>"Select Postpartum Hesterectomy Type",
+  :condition => "($('procedure_done').value == 'POSTPARTUM HYSTERECTOMY')"
+}%>
+<%= hidden_field_tag("observations[][concept_name]",  "POSTPARTUM HYSTERECTOMY") %>
+<%= select_tag("observations[][value_coded_or_text]", options_for_select(@postpartum_type), options)%>
+<%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+<%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
 <%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}" %>
 
 </form>
