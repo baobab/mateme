@@ -1,21 +1,28 @@
 <div style="margin-top:20px;">
   <b  style="font-size: 22pt; padding-left:8px;">Visit Summary</b>
+  <% if !@patient.current_hiv_status.nil? %>
+    <% if @patient.current_hiv_status[0].upcase.eql?("NOT TESTED") %>
+      <i style="color: red;">
+        (Patient can't be discharged. HIV Status not known yet!)
+      </i>
+    <% end %>
+  <% end %>
   <ul class="list" style="height: 340px; width: 690px; left: 8px; right: -66px; position: relative;">
     <%@encounter_names.each{|encounter_name|
-     header = 'true' 
-     for encounter in @encounters do %>
-      <%if encounter.name == encounter_name%> 
-      <li class="data <%= cycle('even', 'odd') %>">
-      <div style="float:right;padding:7px;">
-          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
-       </div>
-       
-       <%if header == 'true' %><div style="float:left"><%=h encounter.name.humanize %></div><%end; header = 'false'%>
-         <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M") %></span>
-</div>
-      </li>  
-    <%end 
-    end 
+      header = 'true'
+      for encounter in @encounters do %>
+        <%if encounter.name == encounter_name%>
+          <li class="data <%= cycle('even', 'odd') %>">
+            <div style="float:right;padding:7px;">
+              <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
+            </div>
+
+            <%if header == 'true' %><div style="float:left"><%=h encounter.name.humanize %></div><%end; header = 'false'%>
+            <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M") %></span>
+            </div>
+          </li>
+        <%end
+      end
     }%>
   </ul>
 </div>

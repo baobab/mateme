@@ -32,11 +32,32 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
 <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
+<%
+  # A condition for redirection to the HIV Status Update page if the patient has not been tested
+  
+  condition = "if($('discharge_outcome').value == 'DISCHARGED') {$('next_url').disabled = false;} \
+    else {$('next_url').disabled = true; }"
+
+  if @patient.nil?
+
+    condition = "if($('discharge_outcome').value == 'DISCHARGED') {document.forms[0].method='post'; document.forms[0].action = \
+          'update_hiv_status?patient_id=#{@patient.id}';} \
+          else {$('next_url').disabled = true; }"
+
+  elsif @patient.current_hiv_status[0].upcase.eql?("NOT TESTED")
+
+    condition = "if($('discharge_outcome').value == 'DISCHARGED') {document.forms[0].method='post'; document.forms[0].action = \
+          'update_hiv_status?patient_id=#{@patient.id}';} \
+          else {$('next_url').disabled = true; }"
+
+  end
+  
+%>
+
 <% options = {
     :id =>"discharge_outcome",
     :helpText => 'Outcome',
-    :tt_onUnLoad => "if($('discharge_outcome').value == 'DISCHARGED') {$('next_url').disabled = false;} \
-    else {$('next_url').disabled = true; }"
+    :tt_onUnLoad => condition
 } %>
 <%= hidden_field_tag("observations[][concept_name]",  "OUTCOME") %>
 <%= select_tag("observations[][value_coded_or_text]", options_for_select(@main_outcomes.sort()), options)%>

@@ -398,4 +398,36 @@ class Patient < ActiveRecord::Base
        procedures_hash
   end
 
+  def current_hiv_status
+    results = self.current_visit.encounters.active.all.collect{|e|
+      e.observations.collect{|o|
+        [o.obs_concept_name, o.answer_string, o.obs_datetime.strftime("%Y-%m-%d %H:%M")] if o.obs_concept_name == "HIV STATUS"
+      }.compact if e.type.name == "OBSERVATIONS" || e.type.name == "UPDATE HIV STATUS"
+    }.compact rescue []
+
+    if results.length > 0
+      position_date = nil
+      output = []
+
+      results.each{|e|
+        e.each{|o|
+          if position_date.nil?
+            position_date = o[2]
+            output = [o[1], o[2]]
+          else
+            if o[2].to_time > position_date.to_time
+              output = [o[1], o[2]]
+            end
+          end
+        }
+      }
+
+      output
+
+    else
+      nil
+    end
+    
+  end
+  
 end

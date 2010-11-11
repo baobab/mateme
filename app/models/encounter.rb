@@ -147,12 +147,12 @@ class Encounter < ActiveRecord::Base
       label.font_horizontal_multiplier = 1
       label.font_vertical_multiplier = 1
       label.left_margin = 300
-      label.draw_multi_text("Admitted: #{self.admission_date}")
-      label.draw_multi_text("Discharged: #{Time.now.strftime("%d %b %Y %H:%M")}", :font_reverse => false)
-      label.draw_multi_text("#{self.patient.name}")
-      label.draw_multi_text("Diagnoses: #{self.discharge_summary[0]}", :font_reverse => false)
-      label.draw_multi_text("Management: #{self.discharge_summary[1]}", :font_reverse => false)
-      label.draw_multi_text("Discharged by: #{User.current_user.name.titleize rescue ''}")
+      label.draw_multi_text("ADMITTED ON: #{self.admission_date}")
+      label.draw_multi_text("DISCHARGED ON: #{Time.now.strftime("%d %b %Y %H:%M")}", :font_reverse => false)
+      label.draw_multi_text("NAME: #{self.patient.name}")
+      label.draw_multi_text("DIAGNOSES: #{self.discharge_summary[0].titleize}", :font_reverse => false)
+      label.draw_multi_text("MANAGEMENT: #{self.discharge_summary[1].titleize}", :font_reverse => false)
+      label.draw_multi_text("DISCHARGED BY: #{User.current_user.name.titleize rescue ''}")
       label.print
     when "UPDATE OUTCOME"
       if self.to_s.include?("ADMITTED")
