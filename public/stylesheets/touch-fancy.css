@@ -350,7 +350,8 @@ button span {
   position:relative; 
   display:block; 
   white-space:nowrap; 
-  padding:0 0 0 8px; 
+  padding:0 0 0 8px;
+  min-width:30px;
 }
 
 
