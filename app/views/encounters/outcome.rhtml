@@ -38,7 +38,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   condition = "if($('discharge_outcome').value == 'DISCHARGED') {$('next_url').disabled = false;} \
     else {$('next_url').disabled = true; }"
 
-  if @patient.nil?
+  if @patient.current_hiv_status.nil?
 
     condition = "if($('discharge_outcome').value == 'DISCHARGED') {document.forms[0].method='post'; document.forms[0].action = \
           'update_hiv_status?patient_id=#{@patient.id}';} \
