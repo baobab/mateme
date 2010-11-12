@@ -203,14 +203,16 @@ function generatePage(action, method, section){
 
     var tbl = document.createElement("table");
     tbl.width = "95%";
-    tbl.cellSpacing = 10;
-    tbl.cellPadding = 5;
+    tbl.cellSpacing = 1;
+    tbl.cellPadding = 2;
 
     frm.appendChild(tbl);
 
     var tbody = document.createElement("tbody");
 
     tbl.appendChild(tbody);
+
+    var textThere = false;
 
     for(var el in actualElements){
         var tr = document.createElement("tr");
@@ -241,6 +243,7 @@ function generatePage(action, method, section){
                         showNumber(this.id);
                     }
                 }
+                textThere = true;
                 break;
             case "year":
                 input.onclick = function(){
@@ -250,6 +253,7 @@ function generatePage(action, method, section){
                         showYear(this.id);
                     }
                 }
+                textThere = true;
                 break;
             case "date":
                 //input.className = "input-date";
@@ -260,15 +264,20 @@ function generatePage(action, method, section){
                         showCalendar(this.id);
                     }
                 }
+                textThere = true;
                 break;
             case "select":
-                input.onclick = function(){
-                    if($('divMenu')){
-                        document.body.removeChild($('divMenu'));
-                    } else {
-                        showMenu(this.id, this.getAttribute("initial_id"));
+                // Check if select control options are greater than 3
+                if($(el).options.length > 4) {
+                    input.onclick = function(){
+                        if($('divMenu')){
+                            document.body.removeChild($('divMenu'));
+                        } else {
+                            showMenu(this.id, this.getAttribute("initial_id"));
+                        }
                     }
                 }
+
                 break;
             default:
                 input.onclick = function(){
@@ -278,6 +287,7 @@ function generatePage(action, method, section){
                         showKeyboard(this.id);
                     }
                 }
+                textThere = true;
                 break;
         }
 
@@ -285,11 +295,68 @@ function generatePage(action, method, section){
             input.value = $(el).value;
         }
 
-        td2.appendChild(input);
+        // Add buttons if options are less than 3
+        if($(el).tagName == "SELECT"){
+
+            if($(el).options.length <= 4){
+
+                var button_table = document.createElement("table");
+                button_table.style.cssFloat = "right";
+                button_table.style.minWidth = "150px";
+
+                var button_tr = document.createElement("tr");
+                button_table.appendChild(button_tr);
+
+                for(var i = 0; i < $(el).options.length; i++){
+                    if($(el).options[i].innerHTML.length > 0){
+                        var button_td = document.createElement("td");
+                        button_tr.appendChild(button_td);
+
+                        var button = document.createElement("button");
+                        button.className = ($(el).value == unescape($(el).options[i].innerHTML) ? "green" : "gray");
+                        button.innerHTML = "<span>" + unescape($(el).options[i].innerHTML) + "</span>";
+                        button.value = $(el).options[i].value;
+                        button.id = el + "_" + $(el).options[i].value;
+                        button.name = el + "_buttons";
+                        button.setAttribute("initial_id", el)
+
+                        button.onclick = function(){
+                            var btns = document.getElementsByName(this.name);
+
+                            for(var b = 0; b < btns.length; b++){
+                                if(btns[b].id == this.id){
+                                    btns[b].className = "green";
+                                    $(this.getAttribute("initial_id")).value = this.value;
+                                } else {
+                                    btns[b].className = "gray";
+                                }
+                            }
+                            return false;
+                        }
+
+                        button_td.appendChild(button);
+                    }
+                }
+
+                td2.appendChild(button_table);
+
+            } else {
+
+                td2.appendChild(input);
+
+            }
+            
+        } else {
+            td2.appendChild(input);
+        }
+        
     }
 
     var spacer = document.createElement("div");
-    spacer.style.height = "400px";
+
+    if(textThere == true){
+        spacer.style.height = "400px";
+    }
 
     $("divScroller").appendChild(spacer);
     

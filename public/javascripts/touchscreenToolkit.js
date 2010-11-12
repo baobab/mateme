@@ -2321,5 +2321,5 @@ String.prototype.trim = function()
 };
 
 
-window.addEventListener("load", loadTouchscreenToolkit, false);
+//window.addEventListener("load", loadTouchscreenToolkit, false);
 

@@ -59,6 +59,12 @@ class Encounter < ActiveRecord::Base
       
       enc_string
 
+     elsif name == 'CHRONIC CONDITIONS' || name == 'INFLUENZA DATA'
+
+      observations.collect{|observation|
+        observation.obs_chronics_string
+      }.compact.join(", ")
+
     else  
       observations.collect{|observation| observation.answer_string}.join(", ")
     end  

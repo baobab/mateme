@@ -585,6 +585,7 @@ function showMenu(id, original_id){
 
         sel.appendChild(opt);
     }
+    
 }
 
 <!-- Calender Script  -->

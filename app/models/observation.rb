@@ -84,4 +84,15 @@ class Observation < ActiveRecord::Base
     self.visit_encounter.visit rescue nil
   end
 
+   # Added to filter Chronic Conditions and Influenza Data
+  def obs_chronics_string
+    if self.answer_concept
+      if !self.answer_concept.name.name.include?("NO")
+        "#{self.concept.name.name rescue nil}: #{self.answer_concept.name.name rescue nil}#{self.value_text rescue nil}#{self.value_numeric rescue nil}"
+      end
+    else
+      "#{self.concept.name.name rescue nil}: #{self.value_text rescue nil}#{self.value_numeric rescue nil}"
+    end
+  end
+
 end

@@ -152,4 +152,305 @@ class EncountersController < ApplicationController
      session[:auto_load_forms] = true
    end
 
+   
+  # create_adult_influenza_entry: is a method to save the results of an influenza
+  # Adult question set
+  def create_adult_influenza_entry
+=begin
+    @found = false
+
+    (params[:observations] || []).each{|observation|
+      # Check to see if any values are part of this observation
+      # This keeps us from saving empty observations
+      values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+        observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
+      }.compact
+
+      next if values.length == 0
+      if(observation[:parent_concept_name])
+        if(observation[:parent_concept_name] == "ADMISSION CRITERIA" && observation["value_coded_or_text"] == "Yes")
+          params[:next_url] = "/patients/chronic_conditions?patient_id=" + params[:encounter][:patient_id]
+          @found = true
+          # Get out if you've found a 'Yes'
+          break
+        end
+      end
+      
+    }
+=end
+    create_influenza_data
+  end
+
+  # create_paeds_influenza_entry is a method to save the results of an influenza
+  # Paediatrics' question set
+  def create_paeds_influenza_entry
+=begin
+    @found = false
+
+    (params[:observations] || []).each{|observation|
+      # Check to see if any values are part of this observation
+      # This keeps us from saving empty observations
+      values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+        observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
+      }.compact
+
+      next if values.length == 0
+      if(observation[:parent_concept_name])
+        if(observation[:parent_concept_name] == "ADMISSION CRITERIA" && observation["value_coded_or_text"] == "Yes")
+          params[:next_url] = "/patients/chronic_conditions?patient_id=" + params[:encounter][:patient_id]
+          @found = true
+          # Get out if you've found a 'Yes'
+          break
+        end
+      end
+
+    }
+=end
+    create_influenza_data
+  end
+
+  # create_chronics is a method to save the results of an influenza
+  # Chronic Conditions question set
+  def create_chronics
+    create_influenza_data
+  end
+
+  # create_lab_entry is a method to save requested lab tests grouped by accession number
+  def create_lab_entry
+
+    encounter = Encounter.new(params[:encounter])
+    
+    # We need the time as well here which was not captured by session[:datetime]
+    encounter.encounter_datetime = Time.now   #session[:datetime] unless session[:datetime].blank?
+    encounter.save
+
+    identifier = PatientIdentifier.new(params[:patient_identifier])
+    identifier.save
+
+    (params[:observations] || []).each{|observation|
+      # Check to see if any values are part of this observation
+      # This keeps us from saving empty observations
+      values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+        observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
+      }.compact
+
+      next if values.length == 0
+      observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
+      observation[:encounter_id] = encounter.id
+      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:person_id] ||= encounter.patient_id
+
+      observation[:concept_name] = "LAB TEST SERIAL NUMBER"
+
+      value_coded_or_text = observation[:value_coded_or_text]
+      observation[:value_coded_or_text] = identifier.identifier
+          
+      #observation[:value_text] = identifier.identifier
+
+      o = Observation.create(observation)
+
+      value_coded_or_text.each{|obs|
+
+        observation[:concept_name] = "REQUESTED LAB TEST SET"
+        observation[:obs_group_id] = o.obs_id
+        observation[:encounter_id] = encounter.id
+        observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+        observation[:person_id] ||= encounter.patient_id
+        observation[:value_text] = nil
+        observation[:value_coded_or_text] = obs
+        Observation.create(observation)
+
+      }
+    }
+
+    @patient = Patient.find(params[:encounter][:patient_id])
+    
+    # redirect to a custom destination page 'next_url'
+    if encounter.type.name == "LAB ORDERS"
+      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient))  if encounter.type.name == "LAB ORDERS"
+      return
+    elsif(params[:next_url])
+      redirect_to params[:next_url] and return
+    else
+      redirect_to next_task(@patient)
+    end
+    
+  end
+
+  # Save Adults, Paediatric, Chronic Conditions Influenza Data and Lab Tests based on the
+  # Encounter::create method from the Diabetes Module
+  def create_influenza_data
+   
+    encounter = Encounter.new(params[:encounter])
+    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
+    encounter.save
+
+    (params[:observations] || []).each{|observation|
+      # Check to see if any values are part of this observation
+      # This keeps us from saving empty observations
+      values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+        observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
+      }.compact
+
+      next if values.length == 0
+      observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
+      observation[:encounter_id] = encounter.id
+      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:person_id] ||= encounter.patient_id
+      observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
+
+      if(observation[:measurement_unit])
+        observation[:value_numeric] = observation[:value_numeric].to_f * 18 if ( observation[:measurement_unit] == "mmol/l")
+        observation.delete(:measurement_unit)
+      end
+
+      if(observation[:parent_concept_name])
+        concept_id = Concept.find_by_name(observation[:parent_concept_name]).id rescue nil
+        observation[:obs_group_id] = Observation.find(:first, :conditions=> ['concept_id = ? AND encounter_id = ?',concept_id, encounter.id]).id rescue ""
+        observation.delete(:parent_concept_name)
+      end
+
+      extracted_value_numerics = observation[:value_numeric]
+      if (extracted_value_numerics.class == Array)
+
+        extracted_value_numerics.each do |value_numeric|
+          observation[:value_numeric] = value_numeric
+          Observation.create(observation)
+        end
+      else
+        Observation.create(observation)
+      end
+    }
+    @patient = Patient.find(params[:encounter][:patient_id])
+
+    # redirect to a custom destination page 'next_url'
+    if(params[:next_url])
+      redirect_to params[:next_url] and return
+    else
+      redirect_to next_task(@patient)
+    end
+    
+  end
+
+  def label
+    encounter = Encounter.find(params[:encounter_id])
+    if encounter.type.name == 'LAB ORDERS'
+      label_type = 'lbs' # specimen label
+    else
+      label_type = 'lbl'
+    end
+
+    send_label(encounter.label, label_type)
+  end
+
+  # Capture Lab Test Results
+  def lab_results_entry
+    render :layout => 'menu'
+  end
+
+  def search_lab_test
+  end
+  
+  # Capture Lab Test Results
+  def show_lab_tests
+    @obs = Observation.search_lab_test(params[:identifier])
+    
+    @patient = Patient.find(@obs.person_id) rescue nil
+
+    @encounter_names = Observation.search_actual_tests(@obs.obs_id) rescue nil
+
+    @obs_encounters = Observation.lab_tests_encounters(params[:identifier]) rescue nil
+
+    @tests = @obs_encounters.collect {|enc|
+      enc.to_s
+    } rescue []
+
+    @enc_names = @obs_encounters.map{|encounter| encounter.name}.uniq rescue []
+
+    render :layout => 'menu'
+  end
+
+  # Edit the selected Lab Test
+  def edit_test
+    @obs = Observation.search_lab_test(params[:identifier])
+
+    @patient = Patient.find(@obs.person_id) rescue nil
+
+    @encounter_names = Observation.search_actual_tests(@obs.obs_id)
+
+    @gram_stain_result = ConceptName.gram_stain_result_set
+
+    @gram_stain_organisms = ConceptName.gram_stain_organisms_set
+
+    @antibiotic_results = ConceptName.antibiotic_results
+
+    @appearance_options = ConceptName.appearance_options
+
+    @virus_species = ConceptName.virus_species
+    
+  end
+  
+  def create_encounter
+
+    encounter = Encounter.new(params[:encounter])
+    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
+    encounter.save
+
+    (params[:observations] || []).each{|observation|
+      # Check to see if any values are part of this observation
+      # This keeps us from saving empty observations
+      values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
+        observation["value_#{value_name}"] unless observation["value_#{value_name}"].blank? rescue nil
+      }.compact
+
+      next if values.length == 0
+      observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
+      observation[:encounter_id] = encounter.id
+      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:person_id] ||= encounter.patient_id
+      observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
+
+      if(observation[:measurement_unit])
+        observation[:value_numeric] = observation[:value_numeric].to_f * 18 if ( observation[:measurement_unit] == "mmol/l")
+        observation.delete(:measurement_unit)
+      end
+
+      if(observation[:parent_concept_name])
+        concept_id = Concept.find_by_name(observation[:parent_concept_name]).id rescue nil
+        observation[:obs_group_id] = Observation.find(:first, :conditions=> ['concept_id = ? AND encounter_id = ?',concept_id, encounter.id]).id rescue ""
+        observation.delete(:parent_concept_name)
+      end
+
+      extracted_value_numerics = observation[:value_numeric]
+      if (extracted_value_numerics.class == Array)
+
+        extracted_value_numerics.each do |value_numeric|
+          observation[:value_numeric] = value_numeric
+          Observation.create(observation)
+        end
+      else
+        Observation.create(observation)
+      end
+    }
+    @patient = Patient.find(params[:encounter][:patient_id])
+
+    # redirect to a custom destination page 'next_url'
+    if(params[:next_url])
+      redirect_to params[:next_url] and return
+    else
+      redirect_to next_task(@patient)
+    end
+
+  end
+
+  def referral
+    @patient = Patient.find(params[:patient_id])
+    
+  end
+  
+  def create_influenza_recruitment
+    create_influenza_data
+  end
+
+
 end

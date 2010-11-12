@@ -61,10 +61,11 @@ ul.list{
       <%= render :partial => "simple_graph", :locals=>{:fields=>@patient} rescue nil%>
     <%end%>
   <div id="menu">
+
+    <%if @doctor%>
+       <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
       <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
       <a class="button green" href='/encounters/new/label_specimens/?patient_id=<%= @patient.id -%>'>Label Specimens</a>
-
-  <%if @doctor%>
       <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
     <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward(@session_datetime)%>
       <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
