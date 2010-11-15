@@ -406,4 +406,12 @@ class Patient < ActiveRecord::Base
     return prefix.last["property_value"].to_s + id.last["identifier"].to_s
   end
 
+  def ds_number
+    identifier_type = PatientIdentifierType.find_by_name("DS Number").id
+    test_condtion   = ["voided = 0 AND identifier_type = ? AND patient_id = ?", identifier_type, self.id]
+    ds_number = PatientIdentifier.find(:first,:conditions => test_condtion).identifier rescue "Unknown"
+
+    return ds_number
+  end
+
 end

@@ -2,10 +2,14 @@
   table { margin: 15px;}
   td {
     background: #F0F0F0;
-    font-size: 20px;
+    font-size: 1.5em;
+    width: 250px;
   }
+   a {text-decoration: none;}
+   a:visited{color:green;}
   .label {
     font-weight: bold;
+    padding: 25px;
   }
 
 </style>
@@ -18,19 +22,20 @@
 
 <table>
   <tr>
-    <td class="label">NAME OF PATIENT:</td><td><a href='/person_names/edit/<%= @patient.id%>'><%= @person.name %></a></td>
-    <td class="label">CARD NO:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=14'><%= @patient.diabetes_number %></a></td>
+    <td class="label">Name Of Patient:</td><td><a href='/person_names/edit/<%= @patient.id%>'><%= @person.name %></a></td>
+    <td class="label">Card No:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=14'><%= @patient.diabetes_number %></a></td>
   </tr>
   <tr>
-    <td class="label">HOME DISTRICT:</td><td><a href='/person_addresses/edit/<%= @patient.id%>?field=home_district'><%= "#{@address.address2}" %></a></td>
-    <td class="label">AGE:</td><td><a href='/people/edit/<%= @patient.id%>?field=birthdate'><%= @person.age %></a></td>
+    <td class="label">Home District:</td><td><a href='/person_addresses/edit/<%= @patient.id%>?field=home_district'><%= "#{@address.address2}" %></a></td>
+    <td class="label">Age:</td><td><a href='/people/edit/<%= @patient.id%>?field=birthdate'><%= @person.age %></a></td>
   </tr>
   <tr>
-    <td class="label">PHONE NO:</td><td><a href='/person_attributes/edit/<%= @patient.id%>?type=12'><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></a></td>
-    <td class="label">GENDER:</td><td><a href='/people/edit/<%= @patient.id%>?field=gender'><%= @person.gender %></a></td>
+    <td class="label">Phone No:</td><td><a href='/person_attributes/edit/<%= @patient.id%>?type=12'><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></a></td>
+    <td class="label">Gender:</td><td><a href='/people/edit/<%= @patient.id%>?field=gender'><%= @person.gender %></a></td>
   </tr>
   <tr>
-    <td class="label">CONTACT ADDRESS:</td><td colspan="3"><a href='/person_addresses/edit/<%= @patient.id%>?field=contact_address'><%= "#{@address.city_village},#{@address.county_district},
+    <td class="label">Contact Address:</td><td colspan="1"><a href='/person_addresses/edit/<%= @patient.id%>?field=contact_address'><%= "#{@address.city_village},#{@address.county_district},
         #{@address.state_province}" %></a></td>
+    <td class="label">DS No:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=16'><%= @patient.ds_number %></a></td>
   </tr
 </table>
