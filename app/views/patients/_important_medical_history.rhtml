@@ -9,6 +9,7 @@ had_stroke = @patient.person.observations.find_by_concept_id(
 
 had_serious_cardiac_problem = @patient.person.observations.find_by_concept_id(
   Concept.find_by_name('Serious Cardiac Problem').id).answer_string rescue 'No'
+
 cardiac_type = @patient.person.observations.find_by_concept_id(
   Concept.find_by_name('Type Of Cardiac Problem').id).answer_string rescue 'No'
 
@@ -19,6 +20,14 @@ has_hypertension = @patient.person.observations.find_by_concept_id(
 had_tb = @patient.person.observations.find_by_concept_id(
   Concept.find_by_name('Tuberculosis').id).answer_string rescue 'No'
 
+patient_smokes = @patient.person.observations.find_by_concept_id(
+  Concept.find_by_name('SMOKING').id).answer_string rescue 'No'
+
+current_cholesterol = @patient.person.observations.find_by_concept_id(
+  Concept.find_by_name('CHOLESTEROL TEST TYPE').id).answer_string rescue 'No'
+
+patient_smokes      = 'Yes' if(patient_smokes!= "No")
+current_cholesterol = 'Yes' if(current_cholesterol!= "No")
 
 %>
 
@@ -46,5 +55,11 @@ had_tb = @patient.person.observations.find_by_concept_id(
     </tr>
     <tr>
       <td>Ever had TB:</td><td><%= had_tb %></td>
+    </tr>
+    <tr>
+      <td>Smoking:</td><td><%= patient_smokes %></td>
+    </tr>
+    <tr>
+      <td>Current Cholesterol:</td><td><%= current_cholesterol %></td>
     </tr>
   </table>
