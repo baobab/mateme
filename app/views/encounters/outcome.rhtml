@@ -15,7 +15,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
                             "DELIVERED IN THEATRE",
                             "DELIVERED IN ANTENATAL WARD"] %>
 <% @admission_section = ["", "ANTENATAL WARD", "LABOUR WARD", "POSTNATAL WARD", "GYNECOLOGY", "HDU"] %>
-<%@delivery_mode = ["", "SPONTANEOUS VAGINAL DELIVERY", "VACUUM EXTRACTION DELIVERY", "CESAREAN SECTION"]%>
+<%@delivery_mode = ["", "SPONTANEOUS VAGINAL DELIVERY", "VACUUM EXTRACTION DELIVERY", "CESAREAN SECTION", "BREECH"]%>
 <%@procedure_done = ["", "UTERINE EVACUATION",
                         "EXAM UNDER ANAESTHESIA",
                         "TUBAL LIGATION", 
@@ -102,7 +102,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <% options = {
   :id => "presentation",
   :field_type => 'text',
-  :helptext =>"Presentation",
+  :helptext =>"1<sup>st</sup> Baby: Presentation",
   :condition => "($('discharge_outcome').value == 'DELIVERED')"
 }%>
 <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
@@ -113,7 +113,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <% options = {
   :id => "time_of_delivery",
   :field_type => 'time',
-  :helptext =>"Time of Delivery",
+  :helptext =>"1<sup>st</sup> Baby: Time of Delivery",
   :condition => "($('discharge_outcome').value == 'DELIVERED')"
 }%>
 <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
@@ -124,7 +124,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <% options = {
   :id => "date_of_delivery",
   :field_type => 'date',
-  :helptext =>"Date of Delivery",
+  :helptext =>"1<sup>st</sup> Baby: Date of Delivery",
   :condition => "($('discharge_outcome').value == 'DELIVERED')"
 }%>
 <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
@@ -135,33 +135,12 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <% options = {
   :id => "delivery_mode",
   :field_type => 'text',
-  :helptext =>"Delivery Mode",
-  :condition => "($('discharge_outcome').value == 'DELIVERED')"
+  :helptext =>"1<sup>st</sup> Baby: Delivery Mode",
+  :condition => "($('discharge_outcome').value == 'DELIVERED')",
+  :tt_pageStyleClass => "qwertyKeyboardOnly"
 }%>
 <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
 <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
-<%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-<%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-<% options = {
-  :id => "procedure_done",
-  :field_type => 'text',
-  :helptext =>"Procedure Done",
-  :condition => "($('discharge_outcome').value == 'DELIVERED')"
-}%>
-<%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
-<%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
-<%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-<%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-<% options = {
-  :id => "postpartum_type",
-  :field_type => 'text',
-  :helptext =>"Select Postpartum Hesterectomy Type",
-  :condition => "($('procedure_done').value == 'POSTPARTUM HYSTERECTOMY')"
-}%>
-<%= hidden_field_tag("observations[][concept_name]",  "POSTPARTUM HYSTERECTOMY") %>
-<%= select_tag("observations[][value_coded_or_text]", options_for_select(@postpartum_type), options)%>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
@@ -212,28 +191,6 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-<% options = {
-  :id => "procedure_done2",
-  :field_type => 'text',
-  :helptext =>"2<sup>nd</sup> Baby: Procedure Done",
-  :condition => "($('discharge_outcome').value == 'DELIVERED' && parseInt($('number_of_babies').value) > 1)"
-}%>
-<%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
-<%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
-<%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-<%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-<% options = {
-  :id => "postpartum_type2",
-  :field_type => 'text',
-  :helptext =>"Select Postpartum Hesterectomy Type",
-  :condition => "($('procedure_done2').value == 'POSTPARTUM HYSTERECTOMY')"
-}%>
-<%= hidden_field_tag("observations[][concept_name]",  "POSTPARTUM HYSTERECTOMY") %>
-<%= select_tag("observations[][value_coded_or_text]", options_for_select(@postpartum_type), options)%>
-<%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-<%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
 <!-- Finish here Set 2 -->
 
 <!-- From Here - Set 3 -->
@@ -281,11 +238,14 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
+<!-- Finish here Set 3 -->
+
 <% options = {
-  :id => "procedure_done3",
+  :id => "procedure_done",
   :field_type => 'text',
-  :helptext =>"3<sup>rd</sup> Baby: Procedure Done",
-  :condition => "($('discharge_outcome').value == 'DELIVERED' && parseInt($('number_of_babies').value) > 2)"
+  :helptext =>"Procedure Done",
+  :condition => "($('discharge_outcome').value == 'DELIVERED')",
+  :tt_pageStyleClass => "qwertyKeyboardOnly"
 }%>
 <%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
 <%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
@@ -293,17 +253,16 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 <% options = {
-  :id => "postpartum_type3",
+  :id => "postpartum_type",
   :field_type => 'text',
   :helptext =>"Select Postpartum Hesterectomy Type",
-  :condition => "($('procedure_done3').value == 'POSTPARTUM HYSTERECTOMY')"
+  :condition => "($('procedure_done').value == 'POSTPARTUM HYSTERECTOMY')",
+  :tt_pageStyleClass => "qwertyKeyboardOnly"
 }%>
 <%= hidden_field_tag("observations[][concept_name]",  "POSTPARTUM HYSTERECTOMY") %>
 <%= select_tag("observations[][value_coded_or_text]", options_for_select(@postpartum_type), options)%>
 <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
 <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-<!-- Finish here Set 3 -->
 
 <%# options = {
   :id => "discharged_to_where",

@@ -15,6 +15,10 @@
 
       //-->
     </script>
+    <style>
+      #Unknown {display: none;}
+      #num {display: none;}
+    </style>
   </head>
   <body>
     <%
@@ -117,7 +121,7 @@
             <% else %>
 
               <option value="min=<%= q["min"] %>&max=<%= q["max"] %>" style="text-align:center; padding:10px">
-                        <%= q["name"] %>
+                <%= q["name"] %>
               </option>
 
             <%

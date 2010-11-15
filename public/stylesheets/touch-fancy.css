@@ -541,6 +541,7 @@ button:hover.dark span {
 .NumbersOnly #qwerty,
 .NumbersOnly #SHIFT,
 .NumbersOnly #Unknown,
+.NumbersOnly #backspace,
 .NumbersOnly #percent{
   display: none
 }
@@ -730,6 +731,13 @@ display:block;
 .NumbersWithUnkown #comma,
 .NumbersWithUnkown #qwerty,
 .NumbersWithUnkown #SHIFT,
+.NumbersWithUnkown #backspace,
 .NumbersWithUnkown #percent{
+  display: none
+}
+
+.qwertyKeyboardOnly #abc,
+.qwertyKeyboardOnly #num,
+.qwertyKeyboardOnly #SHIFT {
   display: none
 }

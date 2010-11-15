@@ -66,13 +66,14 @@
 
 <%if @ask_cell_phone == 'true'%>
   <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Primary Phone Number',
-    :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number"%>
+    :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number",
+  :tt_pageStyleClass => "Numeric NumbersWithUnkown" %>
 <%end%>
 
 <%if @ask_home_phone == 'true'%>
   <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', :helpText => 'Secondary Phone Number', 
-    :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$",
-    :validationMessage => "Not a valid phone number"%>
+    :allowFreeText => "true", :validationRule => "^0\\d+$|Unknown|Not Available|^0\\d{9}$",
+    :validationMessage => "Not a valid phone number", :tt_pageStyleClass => "Numeric NumbersWithUnkown"%>
 <%end%>
 
 <%if @ask_office_phone == 'true'%>

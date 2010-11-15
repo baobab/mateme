@@ -12,6 +12,8 @@
 </script>
 <style>
   #space { display:inline; font-size:1.2em; }
+  #Unknown {display: none;}
+  #num {display: none;}
 </style>
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
 
@@ -31,7 +33,8 @@
     :helpText       => 'Select admission diagnosis',
     :allowFreeText  => 'true',
     :ajaxURL        => "/encounters/diagnoses?search_string=",
-    :textCase       => "upper"
+    :textCase       => "upper",
+    :tt_pageStyleClass => "qwertyKeyboardOnly"
   } %>
 
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
@@ -46,6 +49,7 @@
   <% 10.times do |counter| %>
     <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
     <% options[:helpText] = "Select the next diagnosis" %>
+    <% options[:tt_pageStyleClass] = "qwertyKeyboardOnly" %>
 
     <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
     <%= hidden_field_tag("observations[][value_text]", nil) %>
