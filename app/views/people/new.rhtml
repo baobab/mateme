@@ -55,10 +55,10 @@
   <%= text_field_tag "person[attributes][place_of_birth]",  params[:address2], {:field_type => 'alpha', :helpText => 'Place of birth',
     :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
 
-  <%= text_field_tag "person[attributes][ancestral_traditional_authority]",  params[:county_district], {:field_type => 'alpha',
+  <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha',
     :helpText => 'Ancestral Traditional Authority', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true }%>
 
-  <%= text_field_tag "person[attributes][current_place_of_residence]",  params[:city_village], {:field_type => 'alpha',
+  <%= text_field_tag "person[addresses][city_village]",  params[:city_village], {:field_type => 'alpha',
     :helpText => 'Current place of residence', :ajaxURL => '/search/village?search_string=', :allowFreeText => true }%>
 
   <%= text_field_tag "person[attributes][landmark_or_plot_number]",  params[:state_province], {:field_type => 'alpha',
