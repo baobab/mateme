@@ -15,7 +15,7 @@ end
       if((@hiv_test_date.upcase == "UNKNOWN") || ( (@hiv_test_date.upcase != "UNKNOWN") && (((((Time.now().to_f - (@hiv_test_date.to_datetime.to_f rescue 0))/ 31536000).to_i) > 0))))%>
 <table cellpadding="2" cellspacing="0" width="90%" align ="center">
    <tr> <td style="background: red; color: white;" align ="center">
-       <b>The patient is not positive and hasn't been tested within last 12 months </b>
+       <b>The patient has not tested in the last 12 months </b>
    </td></tr>
 </table>
 <%end
