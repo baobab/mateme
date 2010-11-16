@@ -444,6 +444,7 @@
                             case 'd': c = "" + d.getUTCDate(); break;
                             case 'm': c = "" + (d.getUTCMonth() + 1); break;
                             case 'y': c = "" + d.getUTCFullYear(); break;
+                            case 'Y': c = "" + d.getUTCFullYear().toString().slice(2); break;
                             case 'b': c = "" + monthNames[d.getUTCMonth()]; break;
                             }
                             r.push(c);
