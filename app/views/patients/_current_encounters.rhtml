@@ -1,28 +1,73 @@
 <div style="margin-top:20px;">
-  <b  style="font-size: 22pt; padding-left:8px;">Visit Summary</b>
-  <% if !@patient.current_hiv_status.nil? %>
-    <% if @patient.current_hiv_status[0].upcase.eql?("NOT TESTED") %>
-      <i style="color: red;">
-        (Patient can't be discharged. HIV Status not known yet!)
-      </i>
-    <% end %>
-  <% end %>
-  <ul class="list" style="height: 340px; width: 690px; left: 8px; right: -66px; position: relative;">
+  <b id="tab_summary" style="font-size: 22pt; margin-left:8px; padding: 8px; border: 1px solid #000;
+     background-color: #000; color: #fff;"
+     onclick="document.getElementById('visit_history').style.display = 'none';
+       document.getElementById('tab_history').style.backgroundColor = '#fff';
+       document.getElementById('tab_summary').style.backgroundColor = '#000';
+       document.getElementById('tab_summary').style.color = '#fff';
+       document.getElementById('tab_history').style.color = '#000';
+       document.getElementById('visit_summary').style.display = 'block';">
+    Visit Summary
+  </b>
+  <b id="tab_history" style="font-size: 22pt; margin-left:4px; padding:8px; border: 1px solid #000;"
+     onclick="document.getElementById('visit_summary').style.display = 'none';
+       document.getElementById('tab_summary').style.backgroundColor = '#fff';
+       document.getElementById('tab_history').style.backgroundColor = '#000';
+       document.getElementById('tab_history').style.color = '#fff';
+       document.getElementById('tab_summary').style.color = '#000';
+       document.getElementById('visit_history').style.display = 'block';">
+    Previous Diagnoses
+  </b>
+  <ul id="visit_summary" class="list" style="height: 340px; width: 690px; left: 8px; right: -66px; position: relative;">
     <%@encounter_names.each{|encounter_name|
       header = 'true'
       for encounter in @encounters do %>
         <%if encounter.name == encounter_name%>
           <li class="data <%= cycle('even', 'odd') %>">
             <div style="float:right;padding:7px;">
-              <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
+              <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png",
+              {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
             </div>
 
             <%if header == 'true' %><div style="float:left"><%=h encounter.name.humanize %></div><%end; header = 'false'%>
-            <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M") %></span>
+            <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span>
+              <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
             </div>
           </li>
         <%end
       end
     }%>
   </ul>
+  <div id="visit_history" style="height: 340px; width: 690px; left: 8px; right: -66px; 
+       position: relative; display: none; border: 3px solid #000; margin-top: 15px;">
+    <table width="100%" style="font-size: 2.0em; border-bottom: 1px solid #ccc;" cellspacing="0">
+      <tr>
+        <td style="padding-left: 5px;">
+          Diagnosis
+        </td>
+        <td style="width:190px;">
+          Date
+        </td>
+      </tr>
+    </table>
+    <ul class="list" style="height: 278px; width: 670px; left: 8px; right: -66px;
+        position: relative; margin-top: 8px; border: 1px solid #eee;">
+      <%
+      for entry in @past_diagnoses.reverse do
+      %>
+        <li class="data <%= cycle('even', 'odd') %>" style="padding: 8px;">
+          <table width="100%">
+            <tr>
+              <td>
+                <%= entry[0].titleize %>
+              </td>
+              <td style="width:150px;">
+                <%= entry[1] %>
+              </td>
+            </tr>
+          </table>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>

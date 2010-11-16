@@ -11,13 +11,56 @@
 </style>
 
 <div >
-<h2><%= @patient.person.name %></h2>
-<table cellpadding="2" cellspacing="0">
-<tr> <td> <span class='title'> National id: </span> </td> <td class='data'> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Birthdate: </span> </td> <td class='data'> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Gender: </span> </td> <td class='data'> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr>
-<!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
-<tr> <td> <span class='title'> Current Village: </span> </td> <td class='data'> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
-<!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
-</table>
+  <h2><%= @patient.person.name %></h2>
+  <table cellpadding="2" cellspacing="0">
+    <tr>
+      <td>
+        <span class='title'> National id: </span>
+      </td>
+      <td class='data'>
+        <%= @patient.national_id_with_dashes rescue '' %><br/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class='title'> Birthdate: </span>
+      </td>
+      <td class='data'>
+        <%= @patient.person.birthdate_formatted rescue '' %><br/>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <span class='title'> Gender: </span> 
+      </td>
+      <td class='data'>
+        <%= @patient.person.formatted_gender rescue '' %><br/>
+      </td>
+    </tr>
+    <!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
+    <tr>
+      <td>
+        <span class='title'> Current Village: </span>
+      </td>
+      <td class='data'>
+        <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <% if !@patient.current_hiv_status.nil? %>
+          <% if @patient.current_hiv_status[0].upcase.eql?("NOT TESTED") %>
+            <i style="color: red;">
+              (Patient can't be discharged. HIV Status not known yet!)
+            </i>
+          <% else %>
+            &nbsp;
+          <% end %>
+        <% else %>
+          &nbsp;
+        <% end %>
+      </td>
+    </tr>
+    <!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
+  </table>
 </div>

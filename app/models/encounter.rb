@@ -55,11 +55,13 @@ class Encounter < ActiveRecord::Base
         observation_string =  observation.answer_string
         child_ob = observation.child_observation
         while child_ob != nil
-          observation_string += " #{child_ob.answer_string}"
-          child_ob = child_ob.child_observation
+          observation_string += " #{child_ob.answer_string}" if !child_ob.answer_string.blank?
+          child_ob = child_ob.child_observation if !child_ob.answer_string.blank?
         end
-        diagnosis_array << observation_string
-        diagnosis_array << " : "
+        if !observation_string.nil?
+          diagnosis_array << observation_string if !observation_string.blank?
+          diagnosis_array << " : " if !observation_string.blank?
+        end
       }
       diagnosis_array.compact.to_s.gsub(/ : $/, "")
     elsif name == 'LAB ORDERS'

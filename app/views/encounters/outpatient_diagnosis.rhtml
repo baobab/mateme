@@ -38,7 +38,6 @@
   } %>
 
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
-  <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -52,7 +51,6 @@
     <% options[:tt_pageStyleClass] = "qwertyKeyboardOnly" %>
 
     <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
-    <%= hidden_field_tag("observations[][value_text]", nil) %>
     <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>

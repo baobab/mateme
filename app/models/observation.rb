@@ -69,7 +69,7 @@ class Observation < ActiveRecord::Base
   end
 
   def answer_string
-    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}" # #{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
   end
 
   def child_observation
@@ -79,7 +79,7 @@ class Observation < ActiveRecord::Base
   # Added to filter Lab Accession Numbers
   def obs_answer_string
     unless self.obs_group_id.nil?
-      "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+      "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}"  # #{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
     else
       nil
     end
@@ -136,6 +136,11 @@ class Observation < ActiveRecord::Base
 
   def obs_concept_name
     "#{ConceptName.find_by_concept_id(self.concept_id).name rescue ""}"
+  end
+
+  def diagnosis_string
+    "#{self.answer_concept_name.name rescue nil}#{self.value_text}".blank? ? "" : 
+      ["#{self.answer_concept_name.name rescue nil}#{self.value_text}", "#{self.obs_datetime.strftime("%d %b %Y")}"]
   end
   
 end

@@ -176,7 +176,7 @@ class Patient < ActiveRecord::Base
     self.encounters.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id IN (?) AND DATE(obs.obs_datetime) < ?", concept_ids, Date.today])
-    }.flatten.compact
+    }.flatten.compact.delete_if{|x| x == ""}
   end
 
   def previous_treatments
