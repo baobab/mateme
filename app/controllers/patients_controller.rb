@@ -23,7 +23,7 @@ class PatientsController < ApplicationController
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
     
-    @past_diagnoses = @patient.previous_diagnoses.collect{|o| 
+    @past_diagnoses = @patient.previous_visits_diagnoses.collect{|o|
       o.diagnosis_string
     }.delete_if{|x|
       x == ""

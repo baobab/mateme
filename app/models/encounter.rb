@@ -83,10 +83,10 @@ class Encounter < ActiveRecord::Base
       }.compact.join(", ")
 
     elsif @encounter_types.include? name
-      observations.collect{|observation| observation.to_s}.compact.join(", ")
+      observations.collect{|observation| observation.to_s}.delete_if{|x| x.blank? }.compact.join(", ")
 
     else  
-      observations.collect{|observation| observation.answer_string}.join(", ")
+      observations.collect{|observation| observation.answer_string}.delete_if{|x| x.blank? }.join(", ")
     end  
   end
 

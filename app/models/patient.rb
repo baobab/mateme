@@ -198,7 +198,7 @@ class Patient < ActiveRecord::Base
     self.previous_visits.map{|visit| visit.encounters.active.map{|encounter|
         encounter.observations.active.all(
           :conditions => ["obs.concept_id IN (?)", concept_ids])
-      }}.flatten.compact
+      }}.flatten.compact.delete_if{|x| x == ""}
   end
 
   def visit_diagnoses
