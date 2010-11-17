@@ -16,7 +16,7 @@
     border: 1px solid #eee;
     display: block;
     width: 450px;
-    height: 190px;
+    height: 250px;
     padding: 5px;
   }
   #graph{
@@ -182,25 +182,25 @@
 
     switch(key){
       case 0: /* blood sugar tab */
-        y_axis = { min: 40, max: 500, ticks: 10};
+        y_axis = { min: 40, max: 500, ticks: 8};
       break;
 
       case 1:/* BP tab */
-        y_axis = { min: 40, max: 240, ticks: 5};
+        y_axis = { min: 40, max: 240, ticks: 8};
       break;
 
       case 2: /*  Weight */
-        y_axis = { min: 40, max: 250, ticks: 10};
+        y_axis = { min: 40, max: 250, ticks: 8};
       break;
 
       case 3: /* BMI */
-        y_axis = {min: 10, max: 50, ticks: 5,
+        y_axis = {min: 10, max: 50, ticks: 8,
                   tickFormatter: function (v, axis) { return v.toFixed(axis.tickDecimals) },
                   tickDecimals: 1};
       break;
 
       case 4: /* HbA1c */
-        y_axis = { min: 6, max: 20, ticks: 5};
+        y_axis = { min: 6, max: 20, ticks: 8};
       break;
 
     }
