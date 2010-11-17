@@ -262,7 +262,7 @@ class EncountersController < ApplicationController
         @button_classes = Hash.new('green')
         @encounter_url = Hash.new
         @medical_history_encounters = ['Diabetes History',
-          'Diabetes Treatments',
+         # 'Diabetes Treatments',
           'Hospital Admissions',
           'Past Diabetes Medical History',
           'Complications',
