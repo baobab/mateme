@@ -84,9 +84,19 @@ class Patient < ActiveRecord::Base
     excluded_encounters = ["Registration", "Diabetes history","Complications",
       "General health", "Diabetes treatments", "Diabetes admissions",
       "Hypertension management", "Past diabetes medical history", "Diabetes test", "Hospital admissions"]
+    outcome_printed = false
+    
     encs.each {|encounter|
-     section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
-      label.draw_multi_text("#{section_title}#{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
+      section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
+
+      if encounter.name.titleize == "Update Outcome"
+        next if outcome_printed
+
+        label.draw_multi_text("#{section_title}#{self.updated_outcome.to_s.titleize}", :font_reverse => false)
+        outcome_printed = true
+      else
+        label.draw_multi_text("#{section_title}#{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
+      end
     }
     label.print(1)
   end
