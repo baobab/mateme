@@ -25,10 +25,10 @@
       <td rowspan="4" valign="top">
         <% unless @paediatrics || @hmis_lab_order || @adults %>
 
-        <table width="100%" border="0" cellpadding="5" style="border: 1px solid green; -moz-border-radius:10px; padding: 5px;">
+        <!--table width="100%" border="0" cellpadding="5" style="border: 1px solid green; -moz-border-radius:10px; padding: 5px;">
           <tr>
             <th colspan="2" style="background-color:#eee; -moz-border-radius:10px; color:#999;">
-              Influenza Summary <br /><i style="color:red; font-weight: normal;">as of <%= Date.today.strftime("%Y/%m/%d") %> </i>
+              Influenza Summary <br /><i style="color:red; font-weight: normal;">as of <%#= Date.today.strftime("%Y/%m/%d") %> </i>
             </th>
           </tr>
           <tr>
@@ -36,7 +36,7 @@
               <b>ILI Cases</b>
             </td>
             <td style="border:1px solid #ccc; -moz-border-radius:10px;" align="center">
-              <%= @ili %>
+              <%#= @ili %>
             </td>
           </tr>
           <tr>
@@ -44,10 +44,10 @@
               <b>SARI Cases</b>
             </td>
             <td style="border:1px solid #ccc; -moz-border-radius:10px;" align="center">
-              <%= @sari %>
+              <%#= @sari %>
             </td>
           </tr>
-        </table>
+        </table-->
 
         <% else %>
           &nbsp;

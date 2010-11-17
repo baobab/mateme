@@ -54,6 +54,16 @@
           <td><%= type.upcase %>:</td>
           <td><strong><%= total %></strong></td>
         </tr>
+        <%if type == "INFLUENZA DATA"%>
+          <tr>
+            <td>ILI Cases</td>
+            <td><%=@ili%></td>
+          </tr>
+          <tr>
+            <td>SARI Cases</td>
+            <td><%=@sari%></td>
+          </tr>
+        <%end%>
       <% end %>
     </table>
   </div>  
