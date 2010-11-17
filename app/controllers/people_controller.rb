@@ -26,6 +26,16 @@ class PeopleController < ApplicationController
 
     @roles = user.user_roles.collect{|x|x.role.downcase} rescue []
 
+     @ili = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "ILI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
+    @sari = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "SARI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
     # redirect based on user role
     if @roles.include?("adults")
       redirect_to :action => :adults and return
@@ -37,6 +47,7 @@ class PeopleController < ApplicationController
       render :layout => "menu"
     end
 
+   
   end
  
   def new
