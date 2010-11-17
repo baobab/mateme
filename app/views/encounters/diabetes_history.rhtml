@@ -107,6 +107,7 @@
   <% options=default.merge({
     :field_type => 'text',
     :id => "cause_of_secondary_diabetes",
+    :flag => '{"message":"Please update  HIV status screen", "condition":"ART"}',
     :tt_onUnLoad => "$('final_cause').value = $('cause_of_secondary_diabetes').value",
     :tt_requireNextClick => false,
     :condition => "$('secondary_diabetes').value.capitalize() != 'No'",
