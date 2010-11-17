@@ -15,7 +15,7 @@
   #simplegraphholder {
     border: 1px solid #eee;
     display: block;
-    width: 370px;
+    width: 450px;
     height: 190px;
     padding: 5px;
   }
@@ -135,8 +135,8 @@
     var bpGraphData = [{color: "green", points: { show: true }, lines: {show: true}, data: systolic,  label: "Systolic"},
                    {color: "red", points: { show: true }, lines: {show: true}, data: diastolic ,  label: "Diastolic"}];
 
-    var bsGraphData = [ {color: "blue", bars: {show: true, fill:true, lineWidth: 10}, data: fasting ,  label: "Fasting"},
-                    {color: "green", bars: {show: true, fill:true, lineWidth: 10}, data: random,  label: "Random"}];
+    var bsGraphData = [ {color: "blue", points: { show: true }, lines: {show: true}, data: fasting ,  label: "Fasting"},
+                    {color: "green", points: { show: true }, lines: {show: true}, data: random,  label: "Random"}];
 
     var weightLabel = "Weight <br/>("+ patientBmi +")";
     var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label:weightLabel}];
@@ -170,12 +170,46 @@
       return displayBmiInfo;
    }
 
-  function setPlotOptions() {  
+  function setPlotOptions(key) {
     var options;
+
+    max_x_axis = new Date();
+    min_x_axis = new Date();
+
+    min_x_axis.setYear( min_x_axis.getFullYear() - 2 );
+    max_x_axis = (new Date(max_x_axis.getFullYear() +"/"+ max_x_axis.getMonth() +"/"+ max_x_axis.getDate())).getTime();    
+    min_x_axis = (new Date(min_x_axis.getFullYear() +"/"+ min_x_axis.getMonth() +"/"+ min_x_axis.getDate())).getTime();
+
+    switch(key){
+      case 0: /* blood sugar tab */
+        y_axis = { min: 40, max: 500, ticks: 10};
+      break;
+
+      case 1:/* BP tab */
+        y_axis = { min: 40, max: 240, ticks: 5};
+      break;
+
+      case 2: /*  Weight */
+        y_axis = { min: 40, max: 250, ticks: 10};
+      break;
+
+      case 3: /* BMI */
+        y_axis = {min: 10, max: 50, ticks: 5,
+                  tickFormatter: function (v, axis) { return v.toFixed(axis.tickDecimals) },
+                  tickDecimals: 1};
+      break;
+
+      case 4: /* HbA1c */
+        y_axis = { min: 6, max: 20, ticks: 5};
+      break;
+
+    }
+
     options = {
       grid: { clickable: true },
       legend: {position:"nw"},
-      xaxis: {mode: "time",timeformat: "%y %b"}
+      xaxis:  {min:min_x_axis, max: max_x_axis, ticks: 8, mode: "time",timeformat: "%b-%Y"},
+      yaxis:  y_axis
     };
     return options;
   }
@@ -195,7 +229,7 @@
     if (typeof(key) == 'undefined') key = 0;
     jQuery('#choices div').attr('class', 'graph-button');
     jQuery('#graph'+key).attr('class', 'graph-button active');
-    jQuery.plot(jQuery("#simplegraphholder"), datasets[key], setPlotOptions());
+    jQuery.plot(jQuery("#simplegraphholder"), datasets[key], setPlotOptions(key));
   }
 
   plotAccordingToChoices(0);
