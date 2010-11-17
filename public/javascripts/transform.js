@@ -110,6 +110,7 @@ function generatePage(action, method, section){
     document.forms[0].style.display = "none";
 
     var cntr = document.createElement("center");
+    var headerText = sections[section].getAttribute("name")
     cntr.id = "cntr";
 
     $("content").appendChild(cntr);
@@ -119,18 +120,29 @@ function generatePage(action, method, section){
 
     cntr.appendChild(divmain);
 
+     var divheader = document.createElement("div");
+    divheader.id = "divheader";
+    divheader.style.width = "900px";
+    divheader.style.textAlign = "left";
+    divheader.innerHTML = "<span style='font-size:1.9em;font-weight:bold;'>" + headerText + "</span>";
+
+    divmain.appendChild(divheader);
+
+
+    
     var divcontent = document.createElement("div");
     divcontent.id = "divcontent";
     divcontent.style.padding = "10px";
     divcontent.style.overflow = "hidden";
-    divcontent.style.height = "575px";
+    divcontent.style.height = "550px";
     divcontent.style.width = "900px";
+    divcontent.style.marginTop = "0px";
 
     divmain.appendChild(divcontent);
 
     var divInside = document.createElement("div");
     divInside.id = "divScroller";
-    divInside.style.overflow = "auto";
+    //divInside.style.overflow = "auto";
     divInside.style.width = "100%"
     divInside.style.height = "100%"
 

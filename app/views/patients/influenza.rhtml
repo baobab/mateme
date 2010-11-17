@@ -4,6 +4,7 @@
 </script>
 <style type="text/css" media="screen">
   #space { display:inline; font-size:1.2em; }
+  #divcontent{height:500px;}
 </style>
 
 <!--
@@ -21,7 +22,7 @@
 
     <%= hidden_field_tag "next_url", "/patients/influenza_recruitment?patient_id=#{@patient.id}" %>
 
-    <table>
+    <table name="Background Information">
       <tr>
         <td>
 
@@ -137,7 +138,7 @@
       </tr>
     </table>
 
-    <table>
+    <table name="Symptom">
       <tr>
         <td>
           <label for='fever_greater_than_38_degrees'>Fever > 38<sup>o</sup>C?</label>
@@ -156,7 +157,13 @@
           <%= hidden_field_tag("observations[][concept_name]", "FEVER GREATER THAN 38 DEGREES CELSIUS") %>
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        </td>
+      </tr>
+    </table>
 
+    <table name="Flu-like illness">
+      <tr>
+        <td>
           <label for='cough'>Cough?</label>
           <% options=default.merge({
               :field_type => 'text',
@@ -263,7 +270,7 @@
       </tr>
     </table>
 
-    <table>
+    <table name="Admission criteria">
       <tr>
         <td>
           <label for='patient_confused'>Patient confused (newly disoriented in place, person or time)?</label>
@@ -389,7 +396,7 @@
 
     <%= hidden_field_tag "next_url", "/patients/influenza_recruitment?patient_id=#{@patient.id}" %>
 
-    <table>
+    <table name="Background and lab data">
       <tr>
         <td>
           <%= hidden_field_tag "encounter[encounter_type_name]", "INFLUENZA DATA" %>
@@ -525,7 +532,7 @@
       </tr>
     </table>
 
-    <table>
+    <table name="Case definition">
       <tr>
         <td>
 
@@ -545,7 +552,13 @@
           <%= hidden_field_tag("observations[][concept_name]", "FEVER GREATER THAN 38 DEGREES CELSIUS") %>
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        </td>
+      </tr>
+    </table>
 
+    <table name="Flu-like illness">
+      <tr>
+        <td>
           <label for='cough'>Cough?</label>
           <% options=default.merge({
               :field_type => 'text',
@@ -669,7 +682,7 @@
       </tr>
     </table>
 
-    <table>
+    <table name="Admission features/findings">
       <tr>
         <td>
           <label for='lethargy_convulsion_or_unconsciousness'>Lethargy, convulsion or unconsciousness?</label>
@@ -690,10 +703,7 @@
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
           <label for='fast_breathing'>Fast Breathing?* <br/>*
-            <i style="font-size:0.8em"><b>Respiratory Rate:</b>
-              <br/><span style="padding-left:20px">&ge; 60/min in < 2months,</span>
-              <br/><span style="padding-left:20px">&ge; 50/min in 2-11 months,</span>
-              <br/><span style="padding-left:20px">&ge; 40/min in 1-5 years</span></i>
+            <i style="font-size:0.8em">(<span style="padding-left:14px;font-size:0.8em">&ge; 60/min in < 2months, &ge; 50/min in 2-11 months, &ge; 40/min in 1-5 yrs)</span></i>
           </label>
           <% options=default.merge({
               :field_type => 'text',

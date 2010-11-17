@@ -19,7 +19,7 @@
     :allowFreeText => 'true',
   } %>
 
-  <table>
+  <table name="Condition">
     <tr>
       <td>
         <%= hidden_field_tag "encounter[encounter_type_name]", "CHRONIC CONDITIONS" %>
@@ -134,7 +134,13 @@
         <%= hidden_field_tag("observations[][concept_name]", "TB") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
         <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
+      </td>
+    </tr>
+  </table>
+  
+  <table name="Condition continued...">
+    <tr>
+      <td>
         <label for='asthma'>Asthma?</label>
         <% options=default.merge({
             :field_type => 'text',
