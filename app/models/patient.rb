@@ -414,4 +414,8 @@ class Patient < ActiveRecord::Base
     return ds_number
   end
 
+  def updated_outcome
+    self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
+  end
+
 end
