@@ -25,16 +25,16 @@
       :field_type => 'text',
       :multiple => true,
       :id => "tests"
-    }) %>
-    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
-        "",
-        "Blood Culture",
-        "CSF",
-        "Other",
-        "Molecular",
-        "MP Test",
-        "PCV"
-    ]), options ) %>
+    })
+
+    tests_to_request = Array.new()
+    if(session["category"] == "paeds") 
+      tests_to_request = [ "","MP Test","PCV"]
+    else 
+      tests_to_request = [ "","Blood Culture","CSF","Other","Molecular","MP Test","PCV"]
+    end  
+  %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select(tests_to_request), options ) %>
     <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST SERIAL NUMBER") %>
     <%= hidden_field_tag("observations[][concept_name]", "REQUESTED LAB TEST SET") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
