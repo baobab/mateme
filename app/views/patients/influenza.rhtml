@@ -141,7 +141,7 @@
     <table name="Symptom">
       <tr>
         <td>
-          <label for='fever_greater_than_38_degrees'>Fever > 38<sup>o</sup>C?</label>
+          <label for='fever_greater_than_38_degrees'>Fever &gt; 38<sup>o</sup>C?</label>
           <% options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
@@ -324,7 +324,7 @@
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='blood_pressure_systolic'>Blood Pressure Systolic < 90 mmHg?</label>
+          <label for='blood_pressure_systolic'>Blood Pressure Systolic &lt; 90 mmHg?</label>
           <% options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
@@ -341,7 +341,7 @@
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='heart_rate_greater_than_120'>Heart Rate > 120/min?</label>
+          <label for='heart_rate_greater_than_120'>Heart Rate &gt; 120/min?</label>
           <% options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
@@ -455,7 +455,7 @@
           <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-          <label for='muac'>MUAC < 11.5(cm)?</label>
+          <label for='muac'>MUAC &lt; 11.5(cm)?</label>
           <% options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
@@ -536,7 +536,7 @@
       <tr>
         <td>
 
-          <label for='fever_greater_than_38_degrees'>Fever > 38<sup>o</sup>C?</label>
+          <label for='fever_greater_than_38_degrees'>Fever &gt; 38<sup>o</sup>C?</label>
           <% options=default.merge({
               :field_type => 'text',
               :tt_requireNextClick => false,
@@ -703,7 +703,7 @@
           <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
           <label for='fast_breathing'>Fast Breathing?* <br/>*
-            <i style="font-size:0.8em">(<span style="padding-left:14px;font-size:0.8em">&ge; 60/min in < 2months, &ge; 50/min in 2-11 months, &ge; 40/min in 1-5 yrs)</span></i>
+            <i style="font-size:0.8em">(<span style="padding-left:14px;font-size:0.8em">&ge; 60/min in &lt; 2months, &ge; 50/min in 2-11 months, &ge; 40/min in 1-5 yrs)</span></i>
           </label>
           <% options=default.merge({
               :field_type => 'text',
