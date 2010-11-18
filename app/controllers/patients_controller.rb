@@ -179,9 +179,28 @@ class PatientsController < ApplicationController
     
   end
 
-     def influenza_recruitment
+  def influenza_recruitment
 
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @influenza_data = Array.new()
+    @influenza_concepts = Array.new()
+
+    excluded_concepts = ["INFLUENZA VACCINE IN THE LAST 1 YEAR",
+                         "CURRENTLY (OR IN THE LAST WEEK) TAKING ANTIBIOTICS",
+                         "CURRENT SMOKER","WERE YOU A SMOKER 3 MONTHS AGO",
+                         "PREGNANT?","RDT OR BLOOD SMEAR POSITIVE FOR MALARIA",
+                         "PNEUMOCOCCAL VACCINE","MEASLES VACCINE",
+                         "MUAC LESS THAN 11.5 (CM)","WEIGHT",
+                         "PATIENT CURRENTLY SMOKES","IS PATIENT PREGNANT?"]
+
+        
+    influenza_data = @patient.encounters.current.active.all(
+                                        :conditions => ["encounter.encounter_type = ?",EncounterType.find_by_name('INFLUENZA DATA').encounter_type_id],
+                                        :include => [:observations]
+                                      ).map{|encounter| encounter.observations.active.all}.flatten.compact.map{|obs|
+                                        @influenza_data.push("#{obs.concept.name.name.humanize}: #{obs.answer_string}") if !excluded_concepts.include?(obs.to_s.split(':')[0])
+                                      }
+
     
   end
   
