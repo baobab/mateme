@@ -266,7 +266,7 @@ class EncountersController < ApplicationController
           'Hospital Admissions',
           'Past Diabetes Medical History',
           'Complications',
-          'Hypertension Management',
+          #'Hypertension Management',
           'General Health'
         ]
 
