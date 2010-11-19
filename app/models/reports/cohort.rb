@@ -72,14 +72,14 @@ class Reports::Cohort
   def cesarean0730_1630
     result = Observation.find(:all, :conditions => ["value_coded = ? AND TIME(obs_datetime) >= TIME('07:30') \
             AND TIME(obs_datetime) < TIME('16:30') AND voided = 0 AND obs_datetime >= ? AND obs_datetime <= ?",
-        ConceptName.find_by_name("CESAREAN SECTION").concept_id, @start_date, @end_date]).length
+        ConceptName.find_by_name("CAESAREAN SECTION").concept_id, @start_date, @end_date]).length
   end
 
   def cesarean1630_0730
     result = Observation.find(:all, :conditions => ["value_coded = ? AND ((TIME(obs_datetime) >= TIME('16:30') \
             AND TIME(obs_datetime) < TIME('23:59')) OR (TIME(obs_datetime) >= TIME('00:00') \
             AND TIME(obs_datetime) < TIME('07:30'))) AND voided = 0 AND voided = 0 AND obs_datetime >= ? AND obs_datetime <= ?",
-        ConceptName.find_by_name("CESAREAN SECTION").concept_id, @start_date, @end_date]).length
+        ConceptName.find_by_name("CAESAREAN SECTION").concept_id, @start_date, @end_date]).length
   end
 
   def svds0730_1630
