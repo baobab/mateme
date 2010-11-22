@@ -63,24 +63,31 @@
         <%= obs.value_numeric -%>],<% end %>
         ];
 
-    var currentWeight  = null;
+    var currentWeight = null;
     var currentHeight = null;
     if (patient_weight.length > 0) {
       currentWeight = patient_weight[patient_weight.length - 1][1];
     }
-    if (patient_weight.length > 0) {
+    if (patient_height.length > 0) {
       currentHeight = patient_height[patient_height.length - 1][1];
     }
 
     var patientBMIHistory = []
-    for (var i=0;i<patient_height.length;i++) {
-      if (patient_height[i] && patient_weight[i]) {
-        patientBMIHistory.push([patient_weight[i][0],
-                                calculateBMI(patient_height[i][1], patient_weight[i][1])]);
+
+     /* TODO: Revise this code to allow for BMI rates over time */
+    if(currentHeight > 1.0){
+      patientBMIHistory.push([patient_weight[patient_weight.length - 1][0], calculateBMI(currentHeight, currentWeight)]);
+    }
+    else{
+      for (var i=0;i<patient_height.length;i++) {
+        if (patient_height[i] && patient_weight[i]) {
+          patientBMIHistory.push([patient_weight[i][0],
+                                  calculateBMI(patient_height[i][1], patient_weight[i][1])]);
+        }
       }
     }
 
-    var patientBmi = showBMI(currentHeight, currentWeight);
+    var patientBMI = showBMI(currentHeight, currentWeight);
 
     var systolic = [
         <% @min = Time.now
@@ -138,12 +145,12 @@
     var bsGraphData = [ {color: "blue", points: { show: true }, lines: {show: true}, data: fasting ,  label: "Fasting"},
                     {color: "green", points: { show: true }, lines: {show: true}, data: random,  label: "Random"}];
 
-    var weightLabel = "Weight <br/>("+ patientBmi +")";
+    var weightLabel = "Weight <br/>("+ patientBMI +")";
     var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label:weightLabel}];
     
-    var bmiLabel = "BMI ";
+    var bmiLabel = patientBMI+"<br/>";
     if (currentWeight) {
-      bmiLabel += "Weight: <br/>("+ currentWeight +" kg)";
+      bmiLabel += "Weight: "+ currentWeight +" kg";
     }
     var bmiGraphData = [{data: patientBMIHistory, points: { show: true },lines: {show: true},  label:bmiLabel}];
 
@@ -177,8 +184,8 @@
     min_x_axis = new Date();
 
     min_x_axis.setYear( min_x_axis.getFullYear() - 2 );
-    max_x_axis = (new Date(max_x_axis.getFullYear() +"/"+ max_x_axis.getMonth() +"/"+ max_x_axis.getDate())).getTime();    
-    min_x_axis = (new Date(min_x_axis.getFullYear() +"/"+ min_x_axis.getMonth() +"/"+ min_x_axis.getDate())).getTime();
+    max_x_axis = (new Date(max_x_axis.getFullYear() +"/"+ (max_x_axis.getMonth() + 2) +"/"+ max_x_axis.getDate())).getTime();
+    min_x_axis = (new Date(min_x_axis.getFullYear() +"/"+ (min_x_axis.getMonth() + 2) +"/"+ min_x_axis.getDate())).getTime();
 
     switch(key){
       case 0: /* blood sugar tab */
