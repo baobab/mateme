@@ -13,7 +13,7 @@
 <div >
 <h2><%= @patient.person.name %></h2>
 <table cellpadding="2" cellspacing="0">
-<tr> <td> <span class='title'> National id: </span> </td> <td class='data'> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
+<tr> <td> <span class='title'> Patient id: </span> </td> <td class='data'> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
 <tr> <td> <span class='title'> Birthdate: </span> </td> <td class='data'> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
 <tr> <td> <span class='title'> Gender: </span> </td> <td class='data'> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr>
 <!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
