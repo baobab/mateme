@@ -247,6 +247,7 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @diabetes_test_type = params[:diabetes_test_type] rescue ""
     @patient_height = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
+    @patient_height = [] if(!@patient_height.blank? && @patient_height.last.value_numeric < 1.0)
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
