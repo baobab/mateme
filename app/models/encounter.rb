@@ -118,5 +118,37 @@ class Encounter < ActiveRecord::Base
     self.visit_encounter.visit
   end
 
+  def label
+    case self.type.name
+    when "LAB ORDERS"
+      observations.collect{|observation|
+        if(observation.obs_answer_string)
+          label = ZebraPrinter::Label.new(500,165)
+          label.font_size = 2
+          label.font_horizontal_multiplier = 1
+          label.font_vertical_multiplier = 1
+          label.left_margin = 300
+          label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")} \
+                     #{self.patient.national_id_with_dashes}",
+            :font_reverse => false)
+          label.draw_multi_text("#{self.patient.person.name} #{self.lab_accession_number}")
+          label.draw_multi_text("#{observation.obs_answer_string}", :font_reverse => true)
+          label.draw_barcode(50,130,0,1,4,8,20,false,self.lab_accession_number)
+          label.print
+        end
+      }
+    end
+  end
+
+  def lab_accession_number
+    case self.type.name
+    when "LAB ORDERS"
+      observations.select {|obs| 
+        obs.concept.concept_names.map(&:name).include?("LAB TEST SERIAL NUMBER")
+      }[0].value_text rescue nil
+    end
+  end
+
+
 
 end

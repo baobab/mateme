@@ -84,7 +84,43 @@ class Observation < ActiveRecord::Base
     self.visit_encounter.visit rescue nil
   end
 
-   # Added to filter Chronic Conditions and Influenza Data
+
+  # Added to filter Lab Accession Numbers
+  def obs_answer_string
+    unless self.obs_group_id.nil?
+      "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+    else
+      nil
+    end
+  end
+
+  # Search Obs table by Lab Identifier
+  def self.search_lab_test(identifier)
+    Observation.find_by_value_text(identifier)    
+  end
+
+  # Search Obs table by Lab Identifier for all child entries
+  def self.search_actual_tests(group_id)
+    Observation.find(:all, :conditions => ["obs_group_id = ?", group_id]).collect{|observation|
+      observation.answer_string
+    } rescue []
+  end
+
+  # Get Encounters of Lab Tests in the group of the identifier
+  def self.lab_tests_encounters(identifier)
+    @concept_id = ConceptName.find_by_name("LAB TEST SERIAL NUMBER").concept_id rescue nil
+
+    unless @concept_id.nil?
+      Observation.find(:all, :conditions => ["value_text = ? AND concept_id = ?", identifier, @concept_id]).collect{|observation|
+        Encounter.find(observation.encounter_id, :joins => [:type],
+          :conditions => ["voided = ? AND encounter_type.name = ?", 0, "LAB RESULTS"]) rescue nil
+      }.compact rescue []
+    else 
+      []
+    end
+  end
+
+  # Added to filter Chronic Conditions and Influenza Data
   def obs_chronics_string
     if self.answer_concept
       if !self.answer_concept.name.name.include?("NO")
@@ -94,5 +130,18 @@ class Observation < ActiveRecord::Base
       "#{self.concept.name.name rescue nil}: #{self.value_text rescue nil}#{self.value_numeric rescue nil}"
     end
   end
+
+  # Added to filter Chronic Conditions and Influenza Data
+  def obs_lab_results_string
+    if self.answer_concept
+      if !self.answer_concept.name.name.include?("NO")
+        "#{(self.concept.name.name == "LAB TEST RESULT" ? "<b>#{self.answer_concept.name.name rescue nil}</b>" : 
+        "#{self.concept.name.name}: #{self.answer_concept.name.name rescue nil}#{self.value_text rescue nil}#{self.value_numeric rescue nil}") rescue nil}"
+      end
+    else
+      "#{self.concept.name.name rescue nil}: #{self.value_text rescue nil}#{self.value_numeric rescue nil}"
+    end
+  end
+
 
 end
