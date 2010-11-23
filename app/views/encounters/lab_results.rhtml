@@ -236,15 +236,17 @@
     <% options = default.merge({
         :id             => "HbA1c_value",
         :field_type     => 'number',
-        :helpText       =>"HbA1c Value",
+        :helpText       =>"Enter HbA1c Value",
         :condition      => "$('HbA1c_test_type_value_coded_or_text').value == 'HbA1c'",
-        :min            => 50,
-        :max            => 500,
+        :min            => 0,
+        :max            => 30,
+        :absoluteMin    => 0,
+        :absoluteMax    => 50,
         :validationRule    => "([0-9]+(\\.)*[0-9]*)|Unknown$",
         :validationMessage => "You must enter a decimal between 0 and 9 (for example: 36<b>.6</b>)",
         :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
         :tt_onUnLoad  => "$('HbA1c_value_numeric').value = $('HbA1c_value').value",
-        :tt_onload    => "resetPageAttributes('touchscreenInput'+tstCurrentPage, 'HbA1c');"
+        :tt_onload    => "resetPageAttributes('touchscreenInput'+tstCurrentPage, 'hba1c');"
       }) %>
 
     <%= text_field_tag "HbA1c_value_numeric", nil, options%>
