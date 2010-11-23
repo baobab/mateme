@@ -66,6 +66,56 @@ class Encounter < ActiveRecord::Base
       vitals << temp_str if temp_str                          
       vitals.join(', ')
 
+    #TODO: This 'LAB RESULTS' section needs to be rewritten clearily.
+    # This was a hack
+    elsif name == 'LAB RESULTS'
+      sugar_type  = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("BLOOD SUGAR TEST TYPE")} rescue nil
+      cholesterol = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("CHOLESTEROL TEST TYPE")} rescue nil
+      random      = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("RANDOM") && "#{obs.answer_string}".upcase != '0.0' }
+      hba1c       = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HbA1c") && "#{obs.answer_string}".upcase != '0.0' }
+      non_fasting = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("NOT FASTING") && "#{obs.answer_string}".upcase != '0.0' }
+
+      cholesterol_types = ["LO", "HI"]
+
+      hba1c       = "Hba1c: "       + hba1c.first.answer_string       + " mg/dl" rescue nil
+      non_fasting = "Non Fasting:" + non_fasting rescue nil
+
+      lab_results = []
+
+      if (!sugar_type.to_s.blank?)
+        sugar_fasting = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("FASTING") && (obs.obs_group_id == sugar_type.first.obs_id) && "#{obs.answer_string}".upcase != '0.0' }
+        if sugar_fasting.first
+          lab_results << "Fasting Blood Sugar:" + sugar_fasting.first.answer_string + " mg/dl" if(sugar_type.first.obs_id == sugar_fasting.first.obs_group_id)
+        end
+      end
+
+      if (!sugar_type.to_s.blank? && random)
+        if random.first
+          lab_results << "Random Blood Sugar:" + random.first.answer_string + " mg/dl" if(sugar_type.first.obs_id == random.first.obs_group_id)
+        end
+      end
+
+      if (!cholesterol.to_s.blank?)
+        cholesterol_fasting = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("FASTING") && (obs.obs_group_id == cholesterol.first.obs_id) && "#{obs.answer_string}".upcase != '0.0' }
+        if(cholesterol.first.obs_id == cholesterol_fasting.first.obs_group_id)
+          fasting     = ((cholesterol_types.include?cholesterol_fasting.first.answer_string.upcase)? (cholesterol_fasting.first.answer_string):(cholesterol_fasting.first.answer_string + " mg/dl")) rescue nil
+          lab_results << "Cholesterol Fasting :" + fasting if fasting
+        end
+      end
+
+      if (!cholesterol.to_s.blank? && non_fasting)
+        if(cholesterol.first.obs_id == non_fasting.first.obs_group_id)
+          cholesterol_non_fasting = ((cholesterol_types.include?non_fasting.first.answer_string.upcase)? (non_fasting.first.answer_string):(non_fasting.first.answer_string + " mg/dl")) rescue nil
+          lab_results << "Cholesterol Non-fasting:" + cholesterol_non_fasting if cholesterol_non_fasting
+        end
+      end
+
+
+      lab_results << hba1c if hba1c
+
+      lab_results = lab_results.compact.reject(&:blank?)
+      lab_results.join(', ')
+
     elsif name == 'UPDATE OUTCOME'
       # observations.collect{|observation| observation.answer_string}.join(", ")
       observations.last.answer_string
