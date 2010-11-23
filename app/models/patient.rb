@@ -162,10 +162,7 @@ class Patient < ActiveRecord::Base
 
   def hiv_status
     return 'REACTIVE' if self.arv_number && !self.arv_number.empty?
-    latest_hiv_status = self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
-      encounter.observations.active.last(
-        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
-    }.flatten.compact.last
+    latest_hiv_status = hiv_status_observation
     "#{latest_hiv_status.answer_concept_name.name rescue nil}#{latest_hiv_status.value_text}" rescue 'UNKNOWN'
   end
 
@@ -426,6 +423,21 @@ class Patient < ActiveRecord::Base
 
   def updated_outcome
     self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
+  end
+
+  def hiv_status_observation
+    self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
+      encounter.observations.active.last(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("HIV STATUS").concept_id])
+    }.flatten.compact.last
+  end
+
+  def art_start_date
+    start_date = self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
+      encounter.observations.active.last(
+        :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("ART START DATE").concept_id])
+    }.flatten.compact.last
+    start_date.value_datetime rescue nil
   end
 
 end
