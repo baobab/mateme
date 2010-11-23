@@ -12,7 +12,7 @@
 <div style="padding: 15px;">
   <h2>Patient Prescriptions</h2>
   <div style="font-size: 22pt;">
-    <ul class="list" style="height:400px;width:940px;">
+    <ul class="list" style="height:370px;width:940px;">
 
           <%if @patient.treatment_not_done(session[:datetime])%>
         <li class="data <%= cycle('even', 'odd') %>">
@@ -20,7 +20,7 @@
            <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => @patient.treatment_not_done(session[:datetime]).encounter_id} -%>
           </div>
           <div style="float:left">&nbsp;</div>
-          <div style="clear:left" class="summary">TREATMENT NOT DONE</div>
+          <div style="clear:left" class="summary">NO PRESCRIPTION MADE</div>
         </li>
       <% else %>
 
@@ -39,37 +39,41 @@
       <% end %>
     </ul>
   </div>
+
+
+    <div style="float:right">
 <%if !@orders.empty?%>
 
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <div>
     <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
-      <button class="button gray" onclick=""><span>Treatment not done</span></button>
+    <div>
+      <button class="button gray" onclick=""><span>No prescription made</span></button>
     </div>
 
   <%elsif @patient.treatment_not_done(session[:datetime])%>
 
-<div style="float:right;padding-right:20px;margin-top:-15px;">
+<div>
     <button class="button gray" ><span>Prescribe</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
-      <button class="button gray" onclick=""><span>Treatment not done</span></button>
+    <div>
+      <button class="button gray" onclick=""><span>No prescription made</span></button>
     </div>
 
-<%else%>
+  <%else%>
 
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <div>
     <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
-      <button class="button green" onclick="submitForm();"><span>Treatment not done</span></button>
+    <div>
+      <button class="button green" onclick="submitForm();"><span>No prescription made</span></button>
     </div>
 
   <%end%>
+    </div>
 
 </div>
 

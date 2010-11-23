@@ -32,7 +32,7 @@ class Encounter < ActiveRecord::Base
       'Patient was seen at the registration desk on' 
     elsif name == 'TREATMENT'
       o = orders.active.collect{|order| order.to_s}.join("\n")
-      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done(self.encounter_datetime.to_date)
+      o = "NO PRESCRIPTIONS MADE" if self.patient.treatment_not_done(self.encounter_datetime.to_date)
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'VITALS'
@@ -100,7 +100,7 @@ class Encounter < ActiveRecord::Base
   def to_print
    if name == 'TREATMENT'
       o = orders.active.collect{|order| order.to_print if order.order_type_id == OrderType.find_by_name('Drug Prescribed').order_type_id}.join("\n")
-      o = "TREATMENT NOT DONE" if self.patient.treatment_not_done(self.encounter_datetime)
+      o = "NO PRESCRIPTIONS MADE" if self.patient.treatment_not_done(self.encounter_datetime)
       o = "No prescriptions have been made" if o.blank?
       o
     elsif name == 'UPDATE HIV STATUS'
