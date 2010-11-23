@@ -73,12 +73,8 @@ class Encounter < ActiveRecord::Base
       cholesterol = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("CHOLESTEROL TEST TYPE")} rescue nil
       random      = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("RANDOM") && "#{obs.answer_string}".upcase != '0.0' }
       hba1c       = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("HbA1c") && "#{obs.answer_string}".upcase != '0.0' }
-      non_fasting = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("NOT FASTING") && "#{obs.answer_string}".upcase != '0.0' }
 
       cholesterol_types = ["LO", "HI"]
-
-      hba1c       = "Hba1c: "       + hba1c.first.answer_string       + " mg/dl" rescue nil
-      non_fasting = "Non Fasting:" + non_fasting rescue nil
 
       lab_results = []
 
@@ -97,20 +93,26 @@ class Encounter < ActiveRecord::Base
 
       if (!cholesterol.to_s.blank?)
         cholesterol_fasting = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("FASTING") && (obs.obs_group_id == cholesterol.first.obs_id) && "#{obs.answer_string}".upcase != '0.0' }
-        if(cholesterol.first.obs_id == cholesterol_fasting.first.obs_group_id)
-          fasting     = ((cholesterol_types.include?cholesterol_fasting.first.answer_string.upcase)? (cholesterol_fasting.first.answer_string):(cholesterol_fasting.first.answer_string + " mg/dl")) rescue nil
-          lab_results << "Cholesterol Fasting :" + fasting if fasting
+        if cholesterol_fasting.first
+          if(cholesterol.first.obs_id == cholesterol_fasting.first.obs_group_id)
+            fasting     = ((cholesterol_types.include?cholesterol_fasting.first.answer_string.upcase)? (cholesterol_fasting.first.answer_string):(cholesterol_fasting.first.answer_string + " mg/dl")) rescue nil
+            lab_results << "Cholesterol Fasting :" + fasting if fasting
+          end
         end
       end
 
-      if (!cholesterol.to_s.blank? && non_fasting)
-        if(cholesterol.first.obs_id == non_fasting.first.obs_group_id)
-          cholesterol_non_fasting = ((cholesterol_types.include?non_fasting.first.answer_string.upcase)? (non_fasting.first.answer_string):(non_fasting.first.answer_string + " mg/dl")) rescue nil
-          lab_results << "Cholesterol Non-fasting:" + cholesterol_non_fasting if cholesterol_non_fasting
+      if (!cholesterol.to_s.blank?)
+        cholesterol_non_fasting = observations.select {|obs| obs.concept.concept_names.map(&:name).include?("NOT FASTING") && (obs.obs_group_id == cholesterol.first.obs_id) && "#{obs.answer_string}".upcase != '0.0' }
+
+        if cholesterol_non_fasting.first
+          if(cholesterol.first.obs_id == cholesterol_non_fasting.first.obs_group_id)
+            cholesterol_non_fasting = ((cholesterol_types.include?cholesterol_non_fasting.first.answer_string.upcase)? (cholesterol_non_fasting.first.answer_string):(cholesterol_non_fasting.first.answer_string + " mg/dl")) rescue nil
+            lab_results << "Cholesterol Not fasting:" + cholesterol_non_fasting if cholesterol_non_fasting
+          end
         end
       end
 
-
+      hba1c       = "Hba1c: " + hba1c.first.answer_string rescue nil
       lab_results << hba1c if hba1c
 
       lab_results = lab_results.compact.reject(&:blank?)
