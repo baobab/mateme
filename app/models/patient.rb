@@ -87,20 +87,28 @@ class Patient < ActiveRecord::Base
     outcome_printed = false
     
     ["Vitals", "Lab Results", "Update Hiv Status", "Treatment", "Appointment"].map do |type|
+
+    section_title_disabled = false
+
+    print_line = ""
     encs.each {|encounter|
       if (encounter.name.titleize == type.titleize)
         section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
+        section_title = ", " if section_title_disabled
 
         if encounter.name.titleize == "Update Outcome"
           next if outcome_printed
 
-          label.draw_multi_text("#{section_title}#{self.updated_outcome.to_s.titleize}", :font_reverse => false)
+          print_line += section_title + self.updated_outcome.to_s.titleize..chomp("\n")
+          section_title_disabled = true
           outcome_printed = true
         else
-          label.draw_multi_text("#{section_title}#{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
+           print_line += section_title + encounter.to_s.titleize.chomp("\n") unless (excluded_encounters.include? encounter.name.humanize)
+          section_title_disabled = true
         end
      end
     }
+    label.draw_multi_text((print_line), :font_reverse => false)
     end
     label.print(1)
   end
