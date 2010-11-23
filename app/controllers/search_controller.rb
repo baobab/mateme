@@ -128,7 +128,8 @@ class SearchController < ApplicationController
     selected_drug_name = params[:selected_drug_name]
     @concept_ids = ConceptName.find_all_by_name(selected_drug_name).map{|c| c.concept_id}
     @drugs = Drug.active.find(:all, :conditions => ["!ISNULL(dose_strength) AND concept_id IN (?)", @concept_ids], :order => 'dose_strength')
-    render :text => @drugs.map{|drug| "#{drug.dose_strength} #{drug.units}"}.join(",")
+    #render :text => @drugs.map{|drug| "#{drug.dose_strength} #{drug.units}"}.join(",")
+    render :text => @drugs.map{|drug| "#{drug.dose_strength} #{drug.units if drug.units.downcase == 'mg'}"}.join(",")
   end
 
   def final_diagnosis
