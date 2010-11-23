@@ -79,25 +79,29 @@ class Patient < ActiveRecord::Base
     role  = user.user_roles.collect{|x|x.role}
     label.draw_multi_text("QECH DM CLINIC")
     label.draw_multi_text("Doctor: #{user.name}") if (role.first.downcase.include?("doctor") || role.first.downcase.include?("superuser"))
-    label.draw_multi_text("Patient: #{self.person.name.titleize.delete("'")} (#{self.national_id_with_dashes}#{dc_number}) ")
+    label.draw_multi_text("Patient: #{self.person.name.titleize.delete("'")}")
     label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
     excluded_encounters = ["Registration", "Diabetes history","Complications",
       "General health", "Diabetes treatments", "Diabetes admissions",
       "Hypertension management", "Past diabetes medical history", "Diabetes test", "Hospital admissions"]
     outcome_printed = false
     
+    ["Vitals", "Lab Results", "Update Hiv Status", "Treatment", "Appointment"].map do |type|
     encs.each {|encounter|
-      section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
+      if (encounter.name.titleize == type.titleize)
+        section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
 
-      if encounter.name.titleize == "Update Outcome"
-        next if outcome_printed
+        if encounter.name.titleize == "Update Outcome"
+          next if outcome_printed
 
-        label.draw_multi_text("#{section_title}#{self.updated_outcome.to_s.titleize}", :font_reverse => false)
-        outcome_printed = true
-      else
-        label.draw_multi_text("#{section_title}#{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
-      end
+          label.draw_multi_text("#{section_title}#{self.updated_outcome.to_s.titleize}", :font_reverse => false)
+          outcome_printed = true
+        else
+          label.draw_multi_text("#{section_title}#{encounter.to_s.titleize}", :font_reverse => false) unless (excluded_encounters.include? encounter.name.humanize)
+        end
+     end
     }
+    end
     label.print(1)
   end
 
