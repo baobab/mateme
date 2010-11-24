@@ -37,7 +37,7 @@ function createSimpleKeyboard(){
   simpleKeyBoard.zIndex = 1001;
   $('diagnosis-container').appendChild(simpleKeyBoard);
   
-  var keyboardRowTop = ["Q","W","E","R","T","Y","U","I","O","P"];
+  var keyboardRowTop = ["Q","W","E","R","T","Y","U","I","O","P","?"];
   var keyboardRowMiddle = ["A","S","D","F","G","H","J","K","L"];
   var keyboardRowBottom = ["Z","X","C","V","B","N","M"];
 
