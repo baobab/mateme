@@ -216,14 +216,14 @@ class Encounter < ActiveRecord::Base
         diagnoses = visit.visit_encounters.collect{|e|
           e.encounter.observations.collect{|o|
             o.answer_string if !o.answer_string.match(/^\d+\/.+\/\d+$/)
-          }.compact if e.encounter.type.name.eql?("DIAGNOSIS")
-        }.compact.join(", ")
+          }.compact.delete_if{|x| x == ""} if e.encounter.type.name.eql?("DIAGNOSIS")
+        }.compact.uniq.join(", ")
 
         procedures = visit.visit_encounters.collect{|e|
           e.encounter.observations.collect{|o|
             o.answer_string if o.obs_concept_name == "PROCEDURE DONE"
-          }.compact if e.encounter.type.name.eql?("UPDATE OUTCOME")
-        }.compact.delete_if{|x| x == []}.join(", ")
+          }.compact.delete_if{|x| x == ""} if e.encounter.type.name.eql?("UPDATE OUTCOME")
+        }.compact.uniq.join(", ")
 
         output = [diagnoses, procedures]
       end

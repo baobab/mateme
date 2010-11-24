@@ -29,8 +29,8 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
 <%
   # A condition for redirection to the HIV Status Update page if the patient has not been tested
   
-  condition = "if($('discharge_outcome').value == 'DISCHARGED') {$('next_url').disabled = false;} \
-    else {$('next_url').disabled = true; }"
+  condition = "if($('discharge_outcome').value == 'DISCHARGED') {\
+    $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
 
   if @patient.current_hiv_status.nil?
 
