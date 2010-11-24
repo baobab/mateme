@@ -174,7 +174,7 @@ class Encounter < ActiveRecord::Base
         label.draw_multi_text("Name: #{self.patient.name}")
         label.draw_multi_text("Age: #{(Date.today - self.patient.person.birthdate).to_i / 365}")
         label.draw_multi_text("Current Residence: #{self.patient.person.current_residence}", :font_reverse => false)
-        label.draw_barcode(120,200,0,1,3,10,80,false,"#{self.patient.national_id_with_dashes}")
+        label.draw_barcode(120,200,0,1,3,10,80,false,"#{self.patient.national_id}")
         label.print
       end
     end
