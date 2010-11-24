@@ -2,6 +2,8 @@
   tt_cancel_destination = "/user/user_menu"; 
 </script>
 
-<% form_tag :action => "add_role", :id =>@user do %>
-  <%= render:partial => "form"%>
+<% form_tag :action => "save_role", :id =>@user do %>
+  <%= error_messages_for 'user' %>
+   <p><label for="user_role_role_id">User Role</label></br>
+      <%= text_field 'user_role', 'role_id', :xhelpText => 'User role', :ajaxURL => '/search/role?search_string=', :allowFreeText => false%></p>
 <% end %>
