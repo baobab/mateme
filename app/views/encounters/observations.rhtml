@@ -13,7 +13,7 @@
   }
 
   function checkHIVTestDate(){
-    var hiv_test_date_str = $("hiv_test_date").value;
+    var hiv_test_date_str = $("hiv_test_date").value.replace(/-/g, '/');
     var hiv_test_date     = new Date(hiv_test_date_str);
     var today             = new Date(Date.now());
 
