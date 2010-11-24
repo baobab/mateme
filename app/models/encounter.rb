@@ -213,17 +213,17 @@ class Encounter < ActiveRecord::Base
       visit = Visit.find(result[0]).first rescue nil
 
       if visit
-        diagnoses = visit.visit_encounters.collect{|e|
+        diagnoses = visit.visit_encounters.active.collect{|e|
           e.encounter.observations.collect{|o|
             o.answer_string if !o.answer_string.match(/^\d+\/.+\/\d+$/)
           }.compact.delete_if{|x| x == ""} if e.encounter.type.name.eql?("DIAGNOSIS")
-        }.compact.uniq.join(", ")
+        }.compact.uniq.delete_if{|x| x.blank?}.join(", ")
 
-        procedures = visit.visit_encounters.collect{|e|
+        procedures = visit.visit_encounters.active.collect{|e|
           e.encounter.observations.collect{|o|
             o.answer_string if o.obs_concept_name == "PROCEDURE DONE"
           }.compact.delete_if{|x| x == ""} if e.encounter.type.name.eql?("UPDATE OUTCOME")
-        }.compact.uniq.join(", ")
+        }.compact.uniq.delete_if{|x| x.blank?}.join(", ")
 
         output = [diagnoses, procedures]
       end

@@ -8,7 +8,7 @@
       $(elementId+'_value_modifier').value = null;
     }
     else{
-      $(elementId+'_value_datetime').value = new Date($(elementId).value.replace(/-/g, '/'));
+      $(elementId+'_value_datetime').value = new Date($(elementId).value);  //.replace(/-/g, '/'));
     }
   }
 
