@@ -1051,7 +1051,11 @@ function gotoPage(destPage, validate){
         // tt_OnUnload
         var onUnloadCode = tstInputTarget.getAttribute('tt_OnUnload');
         if (onUnloadCode) {
-            eval(onUnloadCode);
+            var result = eval(onUnloadCode);
+
+            if(result == true){
+                return;
+            }
         }
 
     }
@@ -2501,7 +2505,7 @@ function dispatchMessage(message, messageBoxType) {
 
     switch(messageBoxType){
         case tstMessageBoxType.OKOnly:
-            buttons = "<button class = 'button' onclick = 'this.offsetParent.style.display=\"none\"; gotoPage(tstCurrentPage+1, false);'> <span> OK </span> </button>"
+            buttons = "<button class = 'button' onclick = '$(\"touchscreenInput\" + tstCurrentPage).setAttribute(\"tt_onUnLoad\", \"\"); this.offsetParent.style.display=\"none\"; gotoPage(tstCurrentPage+1, false);'> <span> OK </span> </button>"
         break;
 
         case tstMessageBoxType.OKCancel:
