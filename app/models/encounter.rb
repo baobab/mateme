@@ -48,6 +48,10 @@ class Encounter < ActiveRecord::Base
       vitals.join(', ')
     elsif name == 'UPDATE HIV STATUS'
       observations.collect{|observation| observation.answer_string}.join(", ")
+    elsif name == 'IS PATIENT REFERRED?'
+      observations.collect{|observation| "#{(observation.obs_concept_name == "IS PATIENT REFERRED?" ? "Referred" :
+        (observation.obs_concept_name == "REFERRAL CLINIC IF REFERRED" ? "From" :
+        observation.obs_concept_name.humanize))}: #{observation.answer_string}" if !observation.answer_string.blank?}.join(", ")
     elsif name == 'DIAGNOSIS'
       diagnosis_array = []
       observations.each{|observation|
