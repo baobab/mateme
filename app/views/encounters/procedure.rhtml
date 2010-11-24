@@ -6,13 +6,14 @@ var tt_cancel_destination = "/encounters/procedure_index/?patient_id=<%=  "#{@pa
 </style>
 <form id='outcome' action="/encounters/create" method='post'>
 
-<%@procedure_done = ["", "UTERINE EVACUATION",
+<%#@procedure_done = ["", "UTERINE EVACUATION",
                         "EXAM UNDER ANAESTHESIA",
                         "TUBAL LIGATION",
                         "POSTPARTUM HYSTERECTOMY",
                         "SUTURING OF CERVICAL OR VAGINAL INJURY UNDER ANAESTHESIA",
                         "CONSERVATIVE MANAGEMENT",
                         "NONE"]%>
+<%@procedure_done = [""] + Concept.find_by_name("PROCEDURE DONE").concept_answers.collect{|c| c.name} %>
 <%@postpartum_type = ["", "TOTAL POSTPARTUM HYSTERECTOMY", "SUB-TOTAL POSTPARTUM HYSTERECTOMY"]%>
 
 <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
