@@ -43,9 +43,10 @@ class SearchController < ApplicationController
   def role
     search_string = params[:search_string]
 
-     @results = UserRole.distinct_roles.map{|role| role.role}.grep(/#{search_string}/i).compact.sort_by{|role|
+     #@results = UserRole.distinct_roles.map{|role| role.role}.grep(/#{search_string}/i).compact.sort_by{|role|
+     @results = Role.distinct_role.map{|role| role.role}.grep(/#{search_string}/i).compact.sort_by{|role|
       role.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
-    }[0..15]
+    }[0..100]
 
    render :text => @results.collect{|role|"<li>#{role}</li>"}.join("\n")
   end
