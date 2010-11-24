@@ -54,6 +54,43 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <% options = default.merge({
+      :id => "hiv_status_value",
+      :helptext => "HIV Status",
+      :field_type => "text",
+      :flag => '{"condition":"(Not Tested)","message":"Patient needs to be tested now"}',
+      :tt_pageStyleClass => "LongSelectList"
+    }) %>
+  <% @hiv_status = ["", "Not Tested", "Negative", "Positive"]%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "HIV STATUS", {:id => 'hiv_status_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@hiv_status),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "hiv_test_date",
+      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
+      :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
+      :helptext => "HIV test date",
+      :field_type => "date"
+    }) %>
+
+  <%= text_field_tag("hiv_test_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
+
+  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {:id => 'hiv_test_date_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "hiv_test_date_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "dummy",
+      :condition => "$('hiv_status_value').value.toLowerCase() == 0",
+      :helptext => "HIV test date 2",
+      :field_type => "date"
+    }) %>
+
+  <% options = default.merge({
       :id => "gravida_value",
       :helptext => "Enter Gravida",
       :field_type => "number",
@@ -111,43 +148,6 @@
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "hiv_status_value",
-      :helptext => "HIV Status",
-      :field_type => "text",
-      :flag => '{"condition":"(Not Tested)","message":"Patient needs to be tested now"}',
-      :tt_pageStyleClass => "LongSelectList"
-    }) %>
-  <% @hiv_status = ["", "Not Tested", "Negative", "Positive"]%>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "HIV STATUS", {:id => 'hiv_status_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@hiv_status),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "hiv_test_date",
-      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
-      :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
-      :helptext => "HIV test date",
-      :field_type => "date"
-    }) %>
-
-  <%= text_field_tag("hiv_test_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
-
-  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {:id => 'hiv_test_date_concept_name'}) %>
-  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "hiv_test_date_value_datetime"}) %>
-  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "dummy",
-      :condition => "$('hiv_status_value').value.toLowerCase() == 0",
-      :helptext => "HIV test date 2",
-      :field_type => "date"
-    }) %>
 
   <%= text_field_tag("hiv_test_date_2",DateTime.now().strftime("%Y-%m-%d"),options) %>
 
