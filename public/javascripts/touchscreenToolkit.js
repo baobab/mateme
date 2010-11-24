@@ -1051,9 +1051,10 @@ function gotoPage(destPage, validate){
         // tt_OnUnload
         var onUnloadCode = tstInputTarget.getAttribute('tt_OnUnload');
         if (onUnloadCode) {
+            // Modification done to accomodate new methods introduced like dispatchMessage()
             var result = eval(onUnloadCode);
 
-            if(result == true){
+            if(result == "true"){
                 return;
             }
         }

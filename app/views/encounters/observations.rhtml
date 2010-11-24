@@ -21,9 +21,9 @@
    
     if (weeks_ago > 12){
       dispatchMessage("Patient needs to be tested again", tstMessageBoxType.OKOnly);
-      return true;
+      return "true";
     }
-    return false;
+    return "false";
   }
 
   // Every 500 milliseconds update the Next/Finish button
