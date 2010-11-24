@@ -15,7 +15,7 @@ class Encounter < ActiveRecord::Base
   def before_save    
     self.provider = User.current_user if self.provider.blank?
     # TODO, this needs to account for current visit, which needs to account for possible retrospective entry
-    self.encounter_datetime = Time.now if self.encounter_datetime.blank?
+    self.encounter_datetime = Time.now if self.encounter_datetime.blank? || self.encounter_datetime.to_date == Date.today
   end
 
   def encounter_type_name=(encounter_type_name)

@@ -36,7 +36,7 @@ class Patient < ActiveRecord::Base
     options[:force] = false if !options[:force] 
     encounter = self.current_visit(options[:encounter_datetime]).encounters.active.find_by_encounter_type(type.id) rescue nil
     return encounter unless options[:force]
-    encounter ||= encounters.create(:encounter_type => type.id)
+    encounter ||= encounters.create(:encounter_type => type.id, :encounter_datetime => options[:encounter_datetime])
     encounter
   end
   
