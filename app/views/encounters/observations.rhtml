@@ -84,13 +84,6 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   <% options = default.merge({
-      :id => "dummy",
-      :condition => "$('hiv_status_value').value.toLowerCase() == 0",
-      :helptext => "HIV test date 2",
-      :field_type => "date"
-    }) %>
-
-  <% options = default.merge({
       :id => "gravida_value",
       :helptext => "Enter Gravida",
       :field_type => "number",
@@ -148,6 +141,13 @@
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "dummy",
+      :condition => "$('hiv_status_value').value.toLowerCase() == 0",
+      :helptext => "HIV test date 2",
+      :field_type => "date"
+    }) %>
 
   <%= text_field_tag("hiv_test_date_2",DateTime.now().strftime("%Y-%m-%d"),options) %>
 
