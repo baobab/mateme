@@ -114,7 +114,7 @@
     -moz-user-focus:disabled;
     border:0;
     cursor:pointer;
-    font-weight:bold;
+    font-weight:normal;
     padding:0 8px 0 0;
     text-align:center;
 }
