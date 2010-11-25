@@ -4,13 +4,35 @@
 <style>
   #space { display:inline; font-size:1.2em; }
 </style>
-<form id='outpatient_diagnosis' action="/encounters/create_influenza_recruitment" method='post'>
+<form id='influenza_recruitment' extended="true" action="/encounters/create_influenza_recruitment" method='post'>
+  
+  <table name="Influenza recruitment">
+    <tr>
+      <td>
+        <%= hidden_field_tag "encounter[encounter_type_name]", "INFLUENZA DATA" %>
+        <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+        <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+        <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+        <!--Create incomlete select tags-->
 
-  <%= hidden_field_tag "encounter[encounter_type_name]", "INFLUENZA DATA" %>
-  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
-
+        <%array_length = @influenza_data.length
+          half_way = array_length/2
+          for i in 0..half_way%>
+           <label for=<%=@influenza_data[i].downcase.gsub!(" ","_")%>><%=@influenza_data[i]%></label>
+           <%= select_tag( "", options_for_select([]),:id => @influenza_data[i].downcase.gsub!(" ","_")) %>
+         <%end%>
+      </td>
+    </tr>
+  </table>
+  
+  <table name="Influenza recruitment continued...">
+    <tr>
+      <td>
+        <%for i in half_way+1..array_length-1%>
+           <label for=<%=@influenza_data[i].downcase.gsub!(" ","_")%>><%=@influenza_data[i]%></label>
+           <%= select_tag( "", options_for_select([]),:id => @influenza_data[i].downcase.gsub!(" ","_")) %>
+         <%end%>
+  
   <label for='ili'>Influenza-like illness?</label>
   <% options={
     :field_type => 'text',
@@ -43,5 +65,11 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   <%= submit_tag "Finish" %>
+
+  
+        </td>
+      </tr>
+    </table>
+
 
 </form>
