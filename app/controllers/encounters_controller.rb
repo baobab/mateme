@@ -336,7 +336,7 @@ class EncountersController < ApplicationController
     label_type = 'lbl'
     label_type = 'lbs'  if encounter.type.name == 'LAB ORDERS' # specimen label
     #send_label(encounter.label, label_type)
-     send_data(print_string, :type=>"application/label; charset=utf-8", :stream => false, :filename => "#{rand(100)}.#{label_type}", :disposition => "inline")
+     send_data(print_string, :type=>"application/label; charset=utf-8", :stream => false, :filename => "#{Time.now.to_i}#{rand(100)}.#{label_type}", :disposition => "inline")
 
   end
 
