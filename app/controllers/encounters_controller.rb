@@ -266,8 +266,7 @@ class EncountersController < ApplicationController
     
     # redirect to a custom destination page 'next_url'
     if encounter.type.name == "LAB ORDERS"
-      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient))  if encounter.type.name == "LAB ORDERS"
-      return
+      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient))
     elsif(params[:next_url])
       redirect_to params[:next_url] and return
     else
@@ -333,13 +332,12 @@ class EncountersController < ApplicationController
 
   def label
     encounter = Encounter.find(params[:encounter_id])
-    if encounter.type.name == 'LAB ORDERS'
-      label_type = 'lbs' # specimen label
-    else
-      label_type = 'lbl'
-    end
+    print_string = encounter.label
+    label_type = 'lbl'
+    label_type = 'lbs'  if encounter.type.name == 'LAB ORDERS' # specimen label
+    #send_label(encounter.label, label_type)
+     send_data(print_string, :type=>"application/label; charset=utf-8", :stream => false, :filename => "#{Time.now.to_i}#{rand(100)}.#{label_type}", :disposition => "inline")
 
-    send_label(encounter.label, label_type)
   end
 
   # Capture Lab Test Results

@@ -119,8 +119,6 @@ class Encounter < ActiveRecord::Base
   end
 
   def label
-    case self.type.name
-    when "LAB ORDERS"
       observations.collect{|observation|
         if(observation.obs_answer_string)
           label = ZebraPrinter::Label.new(500,165)
@@ -137,7 +135,6 @@ class Encounter < ActiveRecord::Base
           label.print
         end
       }
-    end
   end
 
   def lab_accession_number

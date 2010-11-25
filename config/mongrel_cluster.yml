@@ -1,8 +1,10 @@
 --- 
-cwd: /var/www/mateme/current/
-log_file: /var/www/mateme/current/log/mongrel.log
-port: 8000
+user: root
+group: root
+cwd: /var/www/spine/
+log_file: /var/www/spine/log/mongrel.log
+port: 7000
 environment: production
 address: 127.0.0.1
-pid_file:  /var/www/mateme/current/tmp/pids/mongrel.pid
-servers: 3 
+pid_file:  /var/www/spine/tmp/pids/mongrel.pid
+servers: 3
