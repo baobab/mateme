@@ -5,21 +5,19 @@ class PatientsController < ApplicationController
     @clinician  = false
     @doctor     = false
     @regstration_clerk  = false
+    @spine_clinician = false
 
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
 
     @session_datetime = session[:datetime]
 
-    if @user_privilege.include?("superuser")
-      @super_user = true
-    elsif @user_privilege.include?("clinician")
-      @clinician  = true
-    elsif @user_privilege.include?("doctor")
-      @doctor     = true
-    elsif @user_privilege.include?("regstration_clerk")
-      @regstration_clerk  = true
-    end  
+    @super_user = true if @user_privilege.include?("superuser")
+    @clinician  = true if @user_privilege.include?("clinician")
+    @doctor     = true  if @user_privilege.include?("doctor")
+    @regstration_clerk  = true if @user_privilege.include?("regstration_clerk") || @user_privilege.include?("registration clerk")
+    @spine_clinician  = true if @user_privilege.include?("spine clinician")
+
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     outcome = @patient.current_outcome(session[:datetime])
     @encounters = @patient.current_visit(session[:datetime]).encounters.active.find(:all) rescue []

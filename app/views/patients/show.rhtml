@@ -62,12 +62,8 @@ ul.list{
     <%end%>
   <div id="menu">
 
-       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
     <%if @doctor%>
-       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
-       <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
-      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
-      <a class="button green" href='/encounters/new/label_specimens/?patient_id=<%= @patient.id -%>'>Label Specimens</a>
+      <!--a class="button green" href='/encounters/new/label_specimens/?patient_id=<%= @patient.id -%>'>Label Specimens</a-->
       <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
     <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward(@session_datetime)%>
       <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
@@ -85,6 +81,12 @@ ul.list{
     <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
   <%end %>
 
+  <%if @spine_clinician%>
+      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
+       <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
+       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
+  <%end%>
+
 
   <%if @super_user%>
      <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
@@ -95,6 +97,9 @@ ul.list{
       <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
       <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
       <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
+      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
+       <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
+       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
     <%end %>
   </div>
 </div>
