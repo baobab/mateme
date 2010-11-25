@@ -332,7 +332,7 @@ class EncountersController < ApplicationController
 
   def label
     encounter = Encounter.find(params[:encounter_id])
-    print_string = encounter.label
+    print_string = encounter.label.last
     label_type = 'lbl'
     label_type = 'lbs'  if encounter.type.name == 'LAB ORDERS' # specimen label
     #send_label(encounter.label, label_type)
