@@ -21,7 +21,7 @@
   <form id='barcodeForm' action="/people/search">
     <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
     <%= submit_tag "Submit", :style => "display:none" %>
-    <div style="color:gray">scan a barcode</div>
+    <div style="color:gray">scan a patient barcode</div>
   </form>
   <div class="centered">
     <%if @days_left <= 7%>

@@ -198,5 +198,12 @@ render :text => @results.collect{|k,v|"<li>#{k}</li>"}.sort.join("\n")
 
 end
 
+   def facility_drugs
+    search_string = params[:search_string].titleize
+    @results = LocationDrug.find(:all).collect{|drug| drug.drug_concept_name.titleize}.compact.sort.grep(/^#{search_string}/) rescue []
+    render :text => "<li>" + @results.collect{|name|"#{name}"}.join("</li><li>") + "</li>"
+  end
+
+
 
 end

@@ -1,0 +1,12 @@
+<script>
+  var tt_cancel_destination = "/location_drugs"
+</script>
+
+<% form_for :person, @person, :url => { :action => "remove" } do |f| %>
+
+  <%= text_field_tag "location_drug", "", {:id => 'location_drug', :helpText => 'Drug', :ajaxURL => '/search/facility_drugs?search_string=', :allowFreeText => false } %>
+  
+    
+  <%= submit_tag "Remove Location Drug" %>
+  
+<% end %>

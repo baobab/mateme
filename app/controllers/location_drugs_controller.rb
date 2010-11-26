@@ -22,4 +22,18 @@ class LocationDrugsController < ApplicationController
     end
   end
 
+  def list
+  end
+
+  def remove
+    drug_to_remove = LocationDrug.find_by_drug_concept_name(params[:location_drug])
+     
+    if drug_to_remove.destroy
+      flash[:notice] = "#{params[:location_drug]} removed from list successfully"
+      redirect_to :controller => :location_drugs, :action => :index
+    else
+      render :action => :list
+    end
+  end
+
 end
