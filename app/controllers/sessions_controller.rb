@@ -33,7 +33,8 @@ class SessionsController < ApplicationController
 
   # Update the session with the location information
   def update
-    unless ['WARD 3A', 'WARD 3B', 'WARD 4A', 'WARD 4B'].include?(params[:ward])
+    @login_wards = [' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
+    unless @login_wards.include?(params[:ward])
       flash[:error] = "Invalid Ward"
       render :action => 'location'
       return 
