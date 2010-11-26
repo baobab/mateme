@@ -43,7 +43,8 @@
       <%end%>
 
 
-    <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+      <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+      
     <%if !@show_set_date%>
       <button id="set_date_button" class="button green" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
       <%else%>
@@ -52,8 +53,18 @@
     <%end%>
     <br />
     <% if @super_user%>
+      <button id="find_lab_entries_button" class="button green" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
+            <span>Lab Results Entry</span>
+          </button><br />
+
       <button id="admin_button" class="button green" onclick="window.location = '/admin'"><span>Administration</span></button>
     <%end%>
+    <%if @spine_clinician || @super_user%>
+      <button id="find_lab_entries_button" class="button green" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
+            <span>Lab Results Entry</span>
+          </button> <br />
+        <%end%>
+
 
     <%if @doctor
       if !@show_set_date%>

@@ -16,10 +16,12 @@ class PeopleController < ApplicationController
 
     @password_expired = true if @days_left < 0
 
+    @user_privilege = user.user_roles.collect{|x|x.role.downcase}
 
-    @super_user = true  if user.user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
-    @regstration_clerk = true  if user.user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
-    @doctor = true  if user.user_roles.collect{|x|x.role.downcase}.include?("doctor") rescue nil
+    @super_user = true  if @user_privilege.include?("superuser") rescue nil
+    @regstration_clerk = true  if @user_privilege.include?("regstration_clerk") || @user_privilege.include?("registration clerk") rescue nil
+    @doctor = true  if @user_privilege.include?("doctor") rescue nil
+    @spine_clinician  = true if @user_privilege.include?("spine clinician")
     
     @show_set_date = false
     session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
