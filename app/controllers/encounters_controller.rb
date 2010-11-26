@@ -332,12 +332,9 @@ class EncountersController < ApplicationController
 
   def label
     encounter = Encounter.find(params[:encounter_id])
-    print_string = encounter.label.to_s
     label_type = 'lbl'
     label_type = 'lbs'  if encounter.type.name == 'LAB ORDERS' # specimen label
-    #send_label(encounter.label, label_type)
-     send_data(print_string, :type=>"application/label; charset=utf-8", :stream => false, :filename => "#{Time.now.to_i}#{rand(100)}.#{label_type}", :disposition => "inline")
-
+    send_label(encounter.label.to_s, label_type)
   end
 
   # Capture Lab Test Results
