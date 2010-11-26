@@ -169,7 +169,9 @@ class PatientsController < ApplicationController
 
     @gender = @person.gender
 
-    if @patient.person.age < 16
+    @paeds_wards = GlobalProperty.find_by_property('facility.paeds_admission_wards').property_value.split(',') rescue []
+    
+    if @paeds_wards.include?(session[:ward])
       session["category"] = 'paeds'
     else
       session["category"] = 'adults'
