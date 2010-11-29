@@ -68,7 +68,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'alpha', :id => "art_clinic_location", :helpText => 'ART Clinic Location', :condition => '$("art_started").value == "DEFAULTER" || $("art_started").value == "YES"' }) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, {:field_type => 'alpha', :id => "art_clinic_location", :helpText => 'ART Clinic Location', :condition => '$("art_started").value == "DEFAULTER" || $("art_started").value == "YES"', :ajaxURL => '/search/health_facilities?search_string='}) %>  
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "ART CLINIC LOCATION", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>

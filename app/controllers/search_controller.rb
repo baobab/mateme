@@ -204,6 +204,13 @@ end
     render :text => "<li>" + @results.collect{|name|"#{name}"}.join("</li><li>") + "</li>"
   end
 
+   def health_facilities
+    search_string = params[:search_string]
+    @results = Location.get_health_facility.grep(/#{search_string}/i).compact.sort
+    render :text => @results.collect{|facility|"<li>#{facility}</li>"}.join("\n")
+  end
+
+
 
 
 end

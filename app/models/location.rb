@@ -21,6 +21,11 @@ class Location < ActiveRecord::Base
   def Location.get_list
     return @@location_list
   end
+
+  def Location.get_health_facility
+    return @@health_facilities
+  end
+
   
   def Location.initialize_location_list
     locations = <<EOF
@@ -545,7 +550,7 @@ EOF
     return locations.split("\n")
   end
 
-  def initialize_health_facilities
+  def Location.initialize_health_facilities
      facilities = <<EOF
 Unknown
 Other
