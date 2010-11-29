@@ -53,7 +53,7 @@ end
 
 JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value).each{|demographic_server, local_port|
   # Use ssh-copy-id for passing keys around during setup
-  command_for_starting_autossh = "autossh -L #{local_port}:localhost:80 #{demographic_server} -N -oPasswordAuthentication=no"
+  command_for_starting_autossh = "autossh -L #{local_port}:localhost #{demographic_server} -N -oPasswordAuthentication=no"
   (pid = fork) ? Process.detach(pid) : exec(command_for_starting_autossh)
 } rescue nil
 
