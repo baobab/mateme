@@ -68,6 +68,11 @@ class Observation < ActiveRecord::Base
   def to_s(options={})
     show_negatives = options[:show_negatives] rescue true
     question = self.concept.name.name rescue 'Unknown concept name'
+
+    #Forcing DRUG ALLERGY observation to display "DRUG ALLERGY"
+    #TODO:  Remove this hack using concept name tagging
+    question = "DRUG ALLERGY" if (self.concept.id == Concept.find_by_name('DRUG ALLERGY').name.concept_id)
+
     if !show_negatives # ignore observations with No or Unknown answers
       return nil if ['no','unknown',' ', ''].include? self.answer_string.downcase
       question = self.concept.short_name if self.concept.short_name && self.concept.short_name.length>0
