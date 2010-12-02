@@ -1,352 +1,174 @@
 <%= @destination_page =  "/encounters/new/first_time_visit_questions?patient_id=" + @patient.id.to_s %>
+
 <%
 
   if(params[:encounter_id] && params[:group_type])
-    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type])
-    #raise @encounter_obs.inspect
+    @encounter_obs = Encounter.encounter_observations(params[:encounter_id], params[:group_type]) rescue nil
   end
 
 %>
-<script>
+
+<script type ="text/javascript">
   var tt_cancel_destination = "<%= @destination_page -%>"
 
-  function setDrugAllegyValue(){
-    if($('drug_allergy').value.toLowerCase() == 'aspirin' || $('drug_allergy').value.toLowerCase() == 'aspirin + other drugs (specify)'){
+   <%unless(params[:encounter_id])%>
+      <%= "var save_state = true;" %>
+   <%end%>
 
-      $('drug_allergy_value_coded_or_text').value       = "ASPIRIN";
-      $('other_drug_allergy_parent_concept_name').value = "ASPIRIN";
-      }
+  function setConceptNames(item){
 
-    else if($('drug_allergy').value.toLowerCase() == 'other drugs (specify)'){
-      $('drug_allergy_value_coded_or_text').value = "";
-    }
-    else{
-      $('drug_allergy_value_coded_or_text').value = ('drug_allergy').value;
+    switch(item){
+      case "smoking":
+        $('smoking_concept_name').value                   = "";
+        $('smoking_value_coded_or_text').value            = "";
+        $('smoking_frequency_parent_concept_name').value  = "";
+
+        if($('smoking').value == "Current Smoker"){
+          $('smoking_concept_name').value                   = "PATIENT CURRENTLY SMOKES";
+          $('smoking_value_coded_or_text').value            = "Yes";
+          $('smoking_frequency_concept_name').value         = "SMOKING FREQUENCY";
+          $('smoking_frequency_parent_concept_name').value  = "PATIENT CURRENTLY SMOKES";
+        }
+        else if($('smoking').value == "Past Smoker"){
+          $('smoking_concept_name').value                   = "PATIENT PREVIOUSLY SMOKED";
+          $('smoking_value_coded_or_text').value            = "Yes";
+          $('smoking_frequency_concept_name').value         = "SMOKING FREQUENCY";
+          $('smoking_frequency_parent_concept_name').value  = "PATIENT PREVIOUSLY SMOKED";
+        }
+        else {
+          $('smoking_concept_name').value                   = "PATIENT CURRENTLY SMOKES";
+          $('smoking_value_coded_or_text').value            = "No";
+        }
+      break;
+
+      case "alcohol":
+        $('alcohol_concept_name').value                   = "";
+        $('alcohol_value_coded_or_text').value            = "";
+        $('alcohol_frequency_parent_concept_name').value  = "";
+
+        if($('alcohol').value == "Current"){
+          $('alcohol_concept_name').value                   = "PATIENT CURRENTLY CONSUMES ALCOHOL";
+          $('alcohol_value_coded_or_text').value            = "Yes";
+          $('alcohol_frequency_concept_name').value         = "ALCOHOL ABSORPTION FREQUENCY";
+          $('alcohol_frequency_parent_concept_name').value  = "PATIENT CURRENTLY CONSUMES ALCOHOL";
+        }
+        else if($('alcohol').value == "Past"){
+          $('alcohol_concept_name').value                   = "PATIENT PREVIOUSLY CONSUMED ALCOHOL";
+          $('alcohol_value_coded_or_text').value            = "Yes";
+          $('alcohol_frequency_concept_name').value         = "ALCOHOL ABSORPTION FREQUENCY";
+          $('alcohol_frequency_parent_concept_name').value  = "PATIENT PREVIOUSLY CONSUMED ALCOHOL";
+        }
+        else {
+          $('alcohol_concept_name').value         = "PATIENT CURRENTLY CONSUMES ALCOHOL";
+          $('alcohol_value_coded_or_text').value  = "No";
+        }
+      break;
+
+      case "allergy":
+        if($('drug_allergy').value.toLowerCase() == 'aspirin' || $('drug_allergy').value.toLowerCase() == 'aspirin + other drugs (specify)'){
+
+          $('drug_allergy_value_coded_or_text').value       = "ASPIRIN";
+          $('other_drug_allergy_parent_concept_name').value = "ASPIRIN";
+          }
+
+        else if($('drug_allergy').value.toLowerCase() == 'other drugs (specify)'){
+          $('drug_allergy_value_coded_or_text').value = "";
+        }
+        else{
+          $('drug_allergy_value_coded_or_text').value = ('drug_allergy').value;
+        }
+      break;
     }
   }
-
-   <%
-
-   unless(params[:encounter_id])
-   %>
-      <%= "var save_state = true;" %>
-   <%
-   end
-
-   %>
 </script>
-<form id='complications' action="/encounters/<%= ((params[:edit])?"update":"create") %>" method='post'>
+
+<form id='medical_history' action="/encounters/<%= ((params[:edit])?"update":"create") %>" method='post'>
+
   <% default={
-    :allowFreeText => 'true'
+    :allowFreeText => 'true',
   } %>
 
-    <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
+  <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
 
-    <%= hidden_field_tag "encounter[encounter_type_name]", "GENERAL HEALTH" %>
-    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%= hidden_field_tag "encounter[encounter_type_name]",  "GENERAL HEALTH" %>
+  <%= hidden_field_tag "encounter[patient_id]",           @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]",   DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]",          session[:user_id] %>
 
-    <%
-      @select_years = ["", "Unknown"]
-      this_year = Date.today.year
-      begin @select_years << Array.new(1){this_year.to_s}; this_year = this_year - 1; end while (this_year != 1949)
-    %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "currently_smoking",
+  <% options = default.merge({
+      :field_type   => 'text',
+      :helpText     => "Smoking?",
+      :id           => "smoking",
       :tt_requireNextClick => false,
-      :helpText => "Do you currently smoke tobacco?",
-      :tt_onUnLoad => "$('currently_smoking_value_coded_or_text').value = $('currently_smoking').value"
-    }) %>
-
-    <%= select_tag( "currently_smokes[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["currently_smoking"]):"")), options )%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "PATIENT CURRENTLY SMOKES") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "currently_smoking_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "current_smoking_start_date",
-      :tt_requireNextClick => false,
-      :helpText => "When did you start smoking?",
-      :condition => "$('currently_smoking_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('current_smoking_start_date_value_coded_or_text').value = $('current_smoking_start_date').value",
+      :tt_onUnLoad  => "setConceptNames('smoking');",
       :tt_pageStyleClass => "LongSelectList"
     }) %>
-    <%= select_tag( "current_smoking_start_date[value_coded_or_text]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["current_smoking_start_date"]):"")),options) %>
+  <% @smoking_list = ["", "Current Smoker", "Past Smoker","Never Smoked"]%>
+  <%= select_tag("smoking_value", options_for_select(@smoking_list, ((@encounter_obs)?(@encounter_obs["smoking"]):"")),options) %>
 
-    <%= hidden_field_tag("observations[][concept_name]",  "YEAR STARTED SMOKING") %>
-    <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "current_smoking_start_date_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT CURRENTLY SMOKES") %>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'smoking_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'smoking_value_coded_or_text'}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "current_smoking_daily",
+<% options = default.merge({
+      :field_type   => 'text',
+      :helpText     => "Smoking Frequency",
+      :id           => "smoking_frequency",
       :tt_requireNextClick => false,
-      :helpText => "Do you smoke tobacco daily?",
-      :condition => "$('currently_smoking_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('current_smoking_daily_value_coded_or_text').value = $('current_smoking_daily').value"
-    }) %>
-    <%= select_tag( "smoking[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["current_smoking_daily"]):"")), options )%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "SMOKING TOBACCO DAILY") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "current_smoking_daily_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT CURRENTLY SMOKES") %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "current_manufactured_tobacco",
-      :tt_requireNextClick => false,
-      :helpText => "Do you smoke manufactured cigarette?",
-      :condition => "$('currently_smoking_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('current_manufactured_tobacco_value_coded_or_text').value = $('current_manufactured_tobacco').value"
-    }) %>
-    <%= select_tag( "current_manufactured_tobacco[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["current_manufactured_tobacco"]):"")), options )%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "SMOKING MANUFACTURED CIGARETTES") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "current_manufactured_tobacco_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT CURRENTLY SMOKES") %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <%options=default.merge({
-        :helpText => 'Average number of manufactured cigarretes smoked per day', :field_type => 'number',
-        :id => "current_cigarretes_per_day",
-        :absoluteMin => "1",
-        :max => "20",
-        :absoluteMax => "50",
-        :tt_pageStyleClass => "Numeric NumbersOnly",
-        :tt_onUnLoad => "$('current_cigarretes_per_day_value_numeric').value = $('current_cigarretes_per_day').value",
-        :condition => "$('current_manufactured_tobacco_value_coded_or_text').value == 'YES'",
-      }) %>
-
-    <%= text_field_tag "current_cigarretes_per_day[value_numeric]", ((@encounter_obs)?(@encounter_obs["current_cigarettes_per_day"]):""), options%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "NUMBER OF CIGARETTES SMOKED PER DAY") %>
-    <%= hidden_field_tag("observations[][value_numeric]",       "",{:id => "current_cigarretes_per_day_value_numeric"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "SMOKING MANUFACTURED CIGARETTES") %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "previously_smoking",
-      :tt_requireNextClick => false,
-      :helpText => "Have you ever smoked tobacco?",
-      :condition => "$('currently_smoking_value_coded_or_text').value == 'NO'",
-      :tt_onUnLoad => "$('previously_smoking_value_coded_or_text').value = $('previously_smoking').value"
-    }) %>
-
-    <%= select_tag( "previously_smokes[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["previously_smoking"]):"")), options )%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "PATIENT PREVIOUSLY SMOKED") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "previously_smoking_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "previous_smoking_start_date",
-      :tt_requireNextClick => false,
-      :helpText => "When did you start smoking?",
-      :condition => "$('previously_smoking_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('previous_smoking_start_date_value_coded_or_text').value = $('previous_smoking_start_date').value",
+      :condition    => "$('smoking_value_coded_or_text').value != 'No';",
+      :tt_onUnLoad  => "$('smoking_frequency_value_coded_or_text').value = $('smoking_frequency').value;",
       :tt_pageStyleClass => "LongSelectList"
     }) %>
-    <%= select_tag( "previous_smoking_start_date[value_coded_or_text]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["previous_smoking_start_date"]):"")),options) %>
+  <% @smoking_frequency_list = ["", "Daily", "Weekly", "Less Than Once a Month", "Monthly"]%>
+  <%= select_tag("smoking_frequency_value", options_for_select(@smoking_frequency_list, ((@encounter_obs)?(@encounter_obs["smoking_frequency"]):"")),options) %>
 
-    <%= hidden_field_tag("observations[][concept_name]",  "YEAR STARTED SMOKING") %>
-    <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "previous_smoking_start_date_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT PREVIOUSLY SMOKED") %>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'smoking_frequency_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'smoking_frequency_value_coded_or_text'}) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "", {:id => 'smoking_frequency_parent_concept_name'}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "previous_smoking_stop_date",
+  <% options = default.merge({
+      :field_type   => 'text',
+      :helpText     => "Alcohol?",
+      :id           => "alcohol",
       :tt_requireNextClick => false,
-      :helpText => "When did you stop smoking?",
-      :condition => "$('previously_smoking_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('previous_smoking_stop_date_value_coded_or_text').value = $('previous_smoking_stop_date').value",
+      :tt_onUnLoad  => "setConceptNames('alcohol');",
       :tt_pageStyleClass => "LongSelectList"
     }) %>
-    <%= select_tag( "previous_smoking_stop_date[value_coded_or_text]", options_for_select(@select_years, ((@encounter_obs)?(@encounter_obs["previous_smoking_stop_date"]):"")),options) %>
+  <% @alcohol_list = ["", "Current", "Past", "Never"]%>
+  <%= select_tag("alcohol_value", options_for_select(@alcohol_list, ((@encounter_obs)?(@encounter_obs["alcohol"]):"")),options) %>
 
-    <%= hidden_field_tag("observations[][concept_name]",  "YEAR STOPPED SMOKING") %>
-    <%= hidden_field_tag("observations[][value_numeric]", "",  {:id => "previous_smoking_stop_date_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT PREVIOUSLY SMOKED") %>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'alcohol_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'alcohol_value_coded_or_text'}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "previous_smoking_daily",
+  <% options = default.merge({
+      :field_type   => 'text',
+      :helpText     => "Alcohol Frequency",
+      :id           => "alcohol_frequency",
       :tt_requireNextClick => false,
-      :helpText => "Did you smoke tobacco daily?",
-      :condition => "$('previously_smoking_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('previous_smoking_daily_value_coded_or_text').value = $('previous_smoking_daily').value"
+      :condition    => "$('alcohol_value_coded_or_text').value != 'No';",
+      :tt_onUnLoad  => "$('alcohol_frequency_value_coded_or_text').value = $('alcohol_frequency').value;",
+      :tt_pageStyleClass => "LongSelectList"
     }) %>
-    <%= select_tag( "smoking[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["previous_smoking_daily"]):"")), options )%>
+  <% @alcohol_frequency_list = ["", "Daily", "Weekly", "Less Than Once a Month", "Monthly"]%>
+  <%= select_tag("alcohol_frequency_value", options_for_select(@alcohol_frequency_list, ((@encounter_obs)?(@encounter_obs["alcohol_frequency"]):"")),options) %>
 
-    <%= hidden_field_tag("observations[][concept_name]",        "SMOKING TOBACCO DAILY") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "previous_smoking_daily_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT PREVIOUSLY SMOKED") %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+  <%= hidden_field_tag("observations[][concept_name]",        "", {:id => 'alcohol_frequency_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => 'alcohol_frequency_value_coded_or_text'}) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "", {:id => 'alcohol_frequency_parent_concept_name'}) %>
+  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
 
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "previous_manufactured_tobacco",
-      :tt_requireNextClick => false,
-      :helpText => "Did you smoke manufactured cigarette?",
-      :condition => "$('previously_smoking_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('previous_manufactured_tobacco_value_coded_or_text').value = $('previous_manufactured_tobacco').value"
-    }) %>
-    <%= select_tag( "previous_manufactured_tobacco[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["previous_manufactured_tobacco"]):"")), options )%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "SMOKING MANUFACTURED CIGARETTES") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "previous_manufactured_tobacco_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT PREVIOUSLY SMOKED") %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <%options=default.merge({
-        :helpText => 'Average number of manufactured cigarretes smoked per day', :field_type => 'number',
-        :id => "previous_cigarretes_per_day",
-        :absoluteMin => "1",
-        :max => "20",
-        :absoluteMax => "50",
-        :tt_pageStyleClass => "Numeric NumbersOnly",
-        :tt_onUnLoad => "$('previous_cigarretes_per_day_value_numeric').value = $('previous_cigarretes_per_day').value",
-        :condition => "$('previous_manufactured_tobacco_value_coded_or_text').value == 'YES'",
-      }) %>
-
-    <%= text_field_tag "previous_cigarretes_per_day[value_numeric]", ((@encounter_obs)?(@encounter_obs["previous_cigarettes_per_day"]):""), options%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "NUMBER OF CIGARETTES SMOKED PER DAY") %>
-    <%= hidden_field_tag("observations[][value_numeric]",       "",{:id => "previous_cigarretes_per_day_value_numeric"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "SMOKING MANUFACTURED CIGARETTES") %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "alcohol",
-      :tt_requireNextClick => false,
-      :helpText => "Have you ever drunk alcohol?",
-      :tt_onLoad => "addOnMouseDownAction(['NO'])",
-      :tt_onUnLoad => "$('alcohol_value_coded_or_text').value = $('alcohol').value"
-    }) %>
-
-    <%= select_tag( "alcohol[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["alcohol"]):"")), options )%>
-
-    <%= hidden_field_tag("observations[][concept_name]",        "PATIENT EVER DRUNK ALCOHOL") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "alcohol_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "alcohol_in_the_last_year",
-      :tt_requireNextClick => false,
-      :helpText => "Have you drunk alcohol in the last year?",
-      :condition => "$('alcohol_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('alcohol_in_the_last_year_value_coded_or_text').value = $('alcohol_in_the_last_year').value",
-    }) %>
-    <%= select_tag( "alcohol_in_the_last_year[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["alcohol_in_the_last_year"]):"")),options) %>
-
-    <%= hidden_field_tag("observations[][concept_name]",  "PATIENT EVER DRUNK ALCOHOL IN THE PREVIOUS YEAR") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "alcohol_in_the_last_year_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT EVER DRUNK ALCOHOL") %>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "alcohol_in_the_last_month",
-      :tt_requireNextClick => false,
-      :helpText => "Have you drunk alcohol in the last 30 days?",
-      :condition => "$('alcohol_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('alcohol_in_the_last_month_value_coded_or_text').value = $('alcohol_in_the_last_month').value",
-    }) %>
-    <%= select_tag( "alcohol_in_the_last_month[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["alcohol_in_the_last_month"]):"")),options) %>
-
-    <%= hidden_field_tag("observations[][concept_name]",  "PATIENT EVER DRUNK ALCOHOL IN THE PREVIOUS 30 DAYS") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "alcohol_in_the_last_month_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT EVER DRUNK ALCOHOL") %>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-   <% patient_gender_based_question =  @patient.person.gender == 'M'? "Have you ever drunk more than 5 drinks in any single day in the last month?" : "Have you ever drunk more than 4 drinks in any single day in the last month?"%>
-    <% options=default.merge({
-      :field_type => 'text',
-      :id => "heavy_alcohol_in_the_last_month",
-      :helpText => (patient_gender_based_question || "Have you ever drunk more than 5 drinks in any single day in the last month?"),
-      :condition => "$('alcohol_value_coded_or_text').value == 'YES'",
-      :tt_onUnLoad => "$('heavy_alcohol_in_the_last_month_value_coded_or_text').value = $('heavy_alcohol_in_the_last_month').value",
-    }) %>
-    <%= select_tag( "heavy_alcohol_in_the_last_month[value_coded_or_text]", options_for_select([
-      "",
-      "YES",
-      "NO"
-    ], ((@encounter_obs)?(@encounter_obs["heavy_alcohol_in_the_last_month"]):"")),options) %>
-
-    <%= hidden_field_tag("observations[][concept_name]",  "HEAVY DRINKING IN THE PREVIOUS 30 DAYS") %>
-    <%= hidden_field_tag("observations[][value_coded_or_text]", "",  {:id => "heavy_alcohol_in_the_last_month_value_coded_or_text"}) %>
-    <%= hidden_field_tag("observations[][parent_concept_name]", "PATIENT EVER DRUNK ALCOHOL") %>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options=default.merge({
+  <% options = default.merge({
     :field_type => 'text',
     :id => "drug_allergy",
     :helpText => "Drug allergy/side affects",
     :tt_onLoad=> "addOnMouseDownAction(['Aspirin', 'Sulphur containing drugs', 'None'])",
-    :tt_onUnLoad => "setDrugAllegyValue();"
+    :tt_onUnLoad => "setConceptNames('allergy');"
    }) %>
   <%= select_tag( "drug_allergy[value_coded_or_text]", options_for_select([
     "",
@@ -375,7 +197,8 @@
   <%= hidden_field_tag("observations[][parent_concept_name]", "", {:id => "other_drug_allergy_parent_concept_name"}) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
   <%= hidden_field_tag("next_url",@destination_page) %>
 
   <%= submit_tag "Finish" %>
- </form>
+</form>
