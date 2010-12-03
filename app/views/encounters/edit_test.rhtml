@@ -469,12 +469,12 @@ when "BLOOD CULTURE" %>
       }) %>
     <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
           "",
-          "+",
+          "1 PLUS",
           "++",
           "+++",
           "++++",
           "+++++",
-          "Negative"
+          "No parasites"
         ]), options) %>
     <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
     <%= hidden_field_tag("observations[][concept_name]", "MP") %>
