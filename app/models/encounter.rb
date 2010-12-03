@@ -106,7 +106,7 @@ class Encounter < ActiveRecord::Base
     elsif name == 'UPDATE HIV STATUS'
       'Hiv Status: ' + patient.hiv_status.to_s
     elsif name == 'DIAGNOSIS'
-       observations.collect{|observe| "Primary Diagnosis: #{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'}
+       observations.collect{|observe| "#{observe.answer_concept.name.name}; " rescue "#{observe.value_text}; " if  ['PRIMARY DIAGNOSIS', 'SECONDARY DIAGNOSIS', 'ADDITIONAL DIAGNOSIS'].include?(observe.concept.name.name)}
     end  
   end
 
