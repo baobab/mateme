@@ -59,8 +59,8 @@ class ApplicationController < ActionController::Base
 
   end
 
-   def close_visit
-     session[:datetime] = nil
+   def close_visit(patient)
+     patient.close_visit(session[:datetime])
      return "/people"
    end
 

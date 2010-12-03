@@ -64,7 +64,8 @@ class PatientsController < ApplicationController
   end
   
   def visit_label
-    print_string = Patient.find(params[:patient_id]).visit_label(session[:datetime]) rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
+    #print_string = Patient.find(params[:patient_id]).visit_label(session[:datetime]) rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
+    print_string = Patient.find(params[:patient_id]).visit_label(session[:datetime]) 
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
 
@@ -102,24 +103,19 @@ class PatientsController < ApplicationController
 
   def end_visit
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
-    current_visit = @patient.current_visit(session[:datetime])
     primary_diagnosis = @patient.current_diagnoses(:concept_names => ["PRIMARY DIAGNOSIS"], :encounter_datetime => session[:datetime]).last rescue nil
     treatment = @patient.current_treatment_encounter(:encounter_datetime => session[:datetime]).orders.active rescue []
     session[:admitted] = false
 
     if (@patient.current_outcome(session[:datetime]) && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done(session[:datetime]))) or ['DEAD','REFERRED'].include?(@patient.current_outcome(session[:datetime]))
-      current_visit.ended_by = session[:user_id]
-      current_visit.end_date = @patient.current_treatment_encounter(:encounter_datetime => session[:datetime]).encounter_datetime rescue Time.now()
-      current_visit.save
-      print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
-
+      print_and_redirect("/patients/visit_label/?patient_id=#{@patient.id}", close_visit(@patient)) and return  
     elsif @patient.admitted_to_ward(session[:datetime]) && session[:ward] == 'WARD 4B'
 
-      print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", close_visit) and return
+      print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", "/people") and return
 
     end
 
-    redirect_to close_visit and return
+    redirect_to "/people" and return
     
   end
 

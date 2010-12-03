@@ -158,13 +158,17 @@ class Patient < ActiveRecord::Base
     
     current_visit = nil
     self.visits.each do |visit|
-      begin
-        current_visit = visit if (visit.start_date.to_date..visit.end_date) === session_date.to_date
-      rescue ArgumentError
+      s_date = visit.start_date.to_date rescue nil
+      e_date = visit.end_date.to_date rescue nil
+
+      if (s_date && e_date)
+          current_visit = visit if (s_date <= session_date.to_date && e_date >= session_date.to_date)
+      elsif(s_date && !e_date)
         current_visit = visit if (visit.start_date.to_date <= session_date.to_date && visit.end_date == nil)
-      rescue
+      else
         current_visit = nil
-      end
+      end 
+
     end
     
     return current_visit
@@ -248,5 +252,12 @@ class Patient < ActiveRecord::Base
 
     result ? JSON.parse(result) : nil
 
+  end
+
+  def close_visit(session_date = Date.today)
+    current_visit = self.current_visit(session_date)
+    current_visit.ended_by = User.current_user.user_id
+    current_visit.end_date = self.current_treatment_encounter(:encounter_datetime => session_date).encounter_datetime rescue Time.now()
+    current_visit.save
   end
 end
