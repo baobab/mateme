@@ -105,7 +105,7 @@ form{
   height:80px;
   position:absolute;
   top:620px;
-  width:995px;
+  width:1000px;
   z-index:10;
 }
 
@@ -338,10 +338,10 @@ button {
   -moz-user-select:none;
   -moz-user-focus:disabled;
   border:0; 
-  cursor:pointer; 
-  font-weight:normal;
+  cursor:pointer;
   padding:0 8px 0 0; 
-  text-align:center; 
+  text-align:center;
+  min-width:48px;
 }
 
 button span { 
@@ -350,8 +350,7 @@ button span {
   position:relative; 
   display:block; 
   white-space:nowrap; 
-  padding:0 0 0 8px;
-  min-width:30px;
+  padding:0 0 0 8px; 
 }
 
 
@@ -528,6 +527,7 @@ button:hover.dark span {
 .NumbersOnlyWithDecimal #plus,
 .NumbersOnlyWithDecimal #slash,
 .NumbersOnlyWithDecimal #comma,
+.NumbersOnlyWithDecimal #qwerty,
 .NumbersOnlyWithDecimal #percent{
   display: none
 }
@@ -540,6 +540,7 @@ button:hover.dark span {
 .NumbersOnly #decimal,
 .NumbersOnly #slash,
 .NumbersOnly #comma,
+.NumbersOnly #qwerty,
 .NumbersOnly #percent{
   display: none
 }

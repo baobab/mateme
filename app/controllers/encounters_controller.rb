@@ -60,6 +60,12 @@ class EncountersController < ApplicationController
         Observation.create(observation)
       end
     end
+
+
+    if encounter.type.name.eql?("IS PATIENT REFERRED?")
+      encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+    end
+
     @patient = Patient.find(params[:encounter][:patient_id])
 
     if(params[:next_url])

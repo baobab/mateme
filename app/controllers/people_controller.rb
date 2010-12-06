@@ -163,12 +163,76 @@ class PeopleController < ApplicationController
   # Adults: this is the access method for the adult section of the application
   def adults
     session["category"] = "adults"
+
+    @user = User.find(session[:user_id])
+    @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
+
+    if @user_privilege.include?("superuser")
+      @super_user = true
+    elsif @user_privilege.include?("clinician")
+      @clinician  = true
+    elsif @user_privilege.include?("doctor")
+      @doctor     = true
+    elsif @user_privilege.include?("regstration_clerk")
+      @regstration_clerk  = true
+    elsif @user_privilege.include?("adults")
+      @adults  = true
+    elsif @user_privilege.include?("paediatrics")
+      @paediatrics  = true
+    elsif @user_privilege.include?("hmis lab order")
+      @hmis_lab_order  = true
+    elsif @user_privilege.include?("spine clinician")
+      @spine_clinician  = true
+    end
+    
+    @ili = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "ILI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
+    @sari = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "SARI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
     render :layout => "menu"
   end
 
   # Paediatrics this is the access method for the paediatrics section of the application
   def paeds
     session["category"] = "paeds"
+
+    @user = User.find(session[:user_id])
+    @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
+
+    if @user_privilege.include?("superuser")
+      @super_user = true
+    elsif @user_privilege.include?("clinician")
+      @clinician  = true
+    elsif @user_privilege.include?("doctor")
+      @doctor     = true
+    elsif @user_privilege.include?("regstration_clerk")
+      @regstration_clerk  = true
+    elsif @user_privilege.include?("adults")
+      @adults  = true
+    elsif @user_privilege.include?("paediatrics")
+      @paediatrics  = true
+    elsif @user_privilege.include?("hmis lab order")
+      @hmis_lab_order  = true
+    elsif @user_privilege.include?("spine clinician")
+      @spine_clinician  = true
+    end
+    
+    @ili = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "ILI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
+    @sari = Observation.find(:all, :joins => [:concept => :name], :conditions =>
+        ["name = ? AND value_coded IN (?) AND obs.voided = 0", "SARI",
+        ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
+          o.concept_id}]).length
+
     render :layout => "menu"
   end
 

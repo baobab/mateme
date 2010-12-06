@@ -18,15 +18,42 @@
          TODO: need set date/reset date button
          TODO: need reports button
          TODO: need summary to be adjusted based on visit? -->
-      <table style="margin-left:50px;margin-top:40px;background:#ddddff;width:300px;">
+    <table style="margin-left:50px;margin-top:40px;background:#ddddff;width:300px;">
       <% Encounter.count_by_type_for_date(Date.today).each do |type,total|
-         type = "Reception - patients seen" if type == "REGISTRATION"
-         type = "patients referred to other clinics" if type == "REFERRED" %>
+        type = "Reception - patients seen" if type == "REGISTRATION"
+        type = "patients referred to other clinics" if type == "REFERRED" %>
         <tr>
           <td><%= type.upcase %>:</td>
           <td><strong><%= total %></strong></td>
         </tr>
       <% end %>
     </table>
+    
+    <% if @paediatrics || @hmis_lab_order || @adults || @spine_clinician %>
+
+      <table width="100%" border="0" cellpadding="5" style="border: 1px solid green; -moz-border-radius:10px; padding: 5px;margin-left:30px;">
+        <tr>
+          <th colspan="2" style="background-color:#eee; -moz-border-radius:10px; color:#999;">
+            Influenza Summary <br /><i style="color:red; font-weight: normal;">as of <%= Date.today.strftime("%Y/%m/%d") %> </i>
+          </th>
+        </tr>
+        <tr>
+          <td style="padding-left:10px; width: 120px;">
+            <b>ILI Cases</b>
+          </td>
+          <td style="border:1px solid #ccc; -moz-border-radius:10px;" align="center">
+            <%= @ili %>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding-left:10px; width: 120px;">
+            <b>SARI Cases</b>
+          </td>
+          <td style="border:1px solid #ccc; -moz-border-radius:10px;" align="center">
+            <%= @sari %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
   </div>
 </div>
