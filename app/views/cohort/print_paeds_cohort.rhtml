@@ -1,0 +1,151 @@
+<html>
+  <head>
+    <title>Queen Elizabeth Paediatrics OPD Routine Report</title>
+    <%#= stylesheet_link_tag "mateme" %>
+    <%#= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <link href="/stylesheets/cohort.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/cohortprint.css" media="print" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+      tt_cancel_destination = '/people';
+    </script>
+
+  </head>
+  <body>
+    <form id="frmMain" action="/cohort/cohort" method="post">
+      <input type="hidden" id="start_date" name="start_date" value="<%#= @specified_period[0].to_date.strftime('%d-%m-%Y') %>" />
+      <input type="hidden" id="end_date" name="end_date" value="<%#= @specified_period[1].to_date.strftime('%d-%m-%Y') %>" />
+    </form>
+
+    <div>
+      <fieldset class="main_fieldset" id="fldPaeds">
+        <legend class="main_legend" style="color:white; background-color:#393;">
+          Queen Elizabeth Paediatrics OPD Routine Report
+        </legend>
+
+        <table cellspacing="2" cellpadding="0" width="100%">
+          <tr>
+            <td align="center" colspan="6" class="padding-bottom-20">
+              <label class="main_heading" style="float:left;">
+                <b><i>Start Date:</i></b> <%= @specified_period[0].to_time.strftime("%a %d %b, %Y") %>
+              </label>
+              <label class="main_heading" style="float:right;">
+                <b><i>End Date:</i></b> <%= @specified_period[1].to_time.strftime("%a %d %b, %Y") %>
+              </label>
+            </td>
+          </tr>
+          <tr style="color:white; background-color:#393;">
+            <th class="cellleft celltop cellbottom cellright main-table-cell" style="width:22px;">
+              <i>No</i>
+            </th>
+            <th class="cellleft celltop cellbottom cellright main-table-cell" style="width:320px;" align="left">
+              <i>Data Element</i>
+            </th>
+            <th class="cellleft celltop cellbottom cellright main-table-cell" style="width:152px;" align="center" colspan="2">
+              <i>Normal Range</i>
+            </th>
+            <th class="cellleft celltop cellbottom cellright main-table-cell" style="width:100px;" align="center">
+              <i>Value</i>
+            </th>
+            <th class="cellleft celltop cellbottom cellright main-table-cell" align="left" style="min-width:200px;">
+              <i>Comment</i>
+            </th>
+          </tr>
+
+        <%
+
+        element = [
+          ["HIV confirmed positive - new cases", @hiv_positive],
+          ["Number of OPD attendance", @attendance],
+          ["Measles - new cases(under 5)", @measles_u_5],
+          ["Measles - new cases (all ages)", @measles],
+          ["TB - new diagnosed cases", @tb],
+          ["Upper respiratory infections - new cases", @upper_respiratory_infections],
+          ["Pneumonia - new cases (under 5)", @pneumonia_u_5],
+          ["Pneumonia - new cases (all ages)", @pneumonia],
+          ["Asthma - new cases", @asthma],
+          ["Other lower respiratory infections - new cases", @lower_respiratory_infection],
+          ["Cholera - new cases (under 5)", @cholera_u_5],
+          ["Dysentery - new cases (under 5)", @dysentery_u_5],
+          ["Dysentery - new cases (all ages)", @dysentery],
+          ["Diarrhoea non-bloody - new cases (under 5)", @diarrhoea_u_5],
+          ["Diarrhoea non-bloody - new cases (all ages)", @diarrhoea],
+          ["Anaemia - new cases", @anaemia],
+          ["Malnutrition - new cases", @malnutrition],
+          ["Other heart diseases - new cases", @heart],
+          ["Epilepsy", @epilepsy],
+          ["Acute eye infections - new cases", @acute_eye_infection],
+          ["Dental decay - new cases", @dental_decay],
+          ["Other Oral conditions - new cases", @other_dental_conditions],
+          ["Scabies - new cases", @scabies],
+          ["Other skin conditions - new cases", @skin],
+          ["Clinical malaria - new cases", @malaria],
+          ["Bilharzia - new cases", @bilharzia],
+          ["Chicken pox - new cases", @chicken_pox],
+          ["Intestinal worms - new cases", @intestinal_worms],
+          ["Jaundice and infective hepatitis - new cases", @jaundice],
+          ["Meningitis - new cases", @meningitis],
+          ["Rabies - new cases", @rabies],
+          ["All other communicable diseases - new cases", @communicable_diseases],
+          ["Other genito-urinary tract infections - new cases", @genito_urinary_infections],
+          ["Musculoskeletal pains - new cases", @musculoskeletal_pains],
+          ["Traumatic conditions - new cases", @traumatic_conditions],
+          ["Ear infections - new cases", @ear_infections],
+          ["Number of fully immunised under 1 children", "n/a"],
+          ["Number of Vitamin A doses given to under 5 children", "n/a"],
+          ["Number of under-weight in under-fives attending", "n/a"],
+          ["Number of under 1 children given BCG", "n/a"],
+          ["Number of under 1 children given DPT-III", "n/a"],
+          ["Number of under 1 children given polio-III", "n/a"],
+          ["Number of under 1 children given measles 1st dosage", "n/a"],
+          ["Total number of children attending under-five clinic", "n/a"],
+          ["Road Traffic Accidents = new cases", @accident],
+          ["Diabetes mellitus - new cases", @diabetes],
+          ["OPD Death", @opd_deaths],
+          ["PUD (Ulcers)", @pud]
+        ]
+
+        i = 0
+      %>
+
+            <% element.each{|el|
+                  i += 1
+            %>
+
+              <tr>
+                <td class="cellleft cellbottom cellright celltop main-table-cell" >
+                  <i><%= i %></i>
+                </td>
+                <td class="cellleft cellbottom cellright celltop main-table-cell">
+                  <i><%= el[0] %> </i>
+                </td>
+                <td class="cellleft cellbottom cellright celltop main-table-cell" align="center" style="width:65px;">
+                  &nbsp;
+                </td>
+                <td class="cellleft cellbottom cellright celltop main-table-cell" align="center" style="width:65px;">
+                  &nbsp;
+                </td>
+                <td class="cellleft cellbottom cellright celltop main-table-cell" align="center">
+                  <%=  el[1] %>
+                </td>
+                <td class="cellleft cellbottom cellright celltop main-table-cell" align="left">
+                  &nbsp;
+                </td>
+              </tr>
+
+            <% } %>
+
+        </table>
+      </fieldset>
+
+    </div>
+
+    <!--div style="z-index:11;bottom:15px; height: 64px; width: 870px; left: -4px; right: -66px; position: absolute;">
+      <button onclick="window.location = '/cohort';" class="button navButton red"
+              id="cancelButton" style="position: absolute; z-index: 100; "><span>Cancel</span></button>
+
+      <button onclick="window.location = '/cohort';" class="button navButton gray"
+              id="backButton" ><span>Back</span></button>
+    </div-->
+  </body>
+</html>

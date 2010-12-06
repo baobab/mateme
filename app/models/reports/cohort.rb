@@ -265,7 +265,7 @@ class Reports::Cohort
          AND DATEDIFF(NOW(), person.birthdate)/365 >= ? AND DATEDIFF(NOW(), person.birthdate)/365 <= ?",
         EncounterType.find_by_name("DIAGNOSIS").encounter_type_id,
         ConceptName.find(:all, :conditions => ["name IN (?)", ["DENTAL PAIN", "DENTAL ABSCESS", \
-                "DENTAL DISORDERS"]]).collect{|c| c.concept_id},
+                "DENTAL DISORDERS", "OTHER ORAL CONDITIONS"]]).collect{|c| c.concept_id},
         @start_date, @end_date, @start_age, @end_age]).length # rescue 0
   end
 
