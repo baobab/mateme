@@ -405,7 +405,7 @@ class EncountersController < ApplicationController
       label_type = 'lbl'
     end
 
-    send_label(encounter.label, label_type)
+    send_label(encounter.label.to_s, label_type)
   end
 
   # Capture Lab Test Results
