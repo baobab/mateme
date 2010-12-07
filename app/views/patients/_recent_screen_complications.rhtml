@@ -28,6 +28,16 @@
     @urine_protein_color = highlight_test(urine_protein)
     @fundoscopy_color    = highlight_test(fundoscopy)
     @urea_color          = highlight_test(urea)
+
+    complications_colors = [@creatinine_color, @foot_check_color,
+                            @visual_acuity_color, @urine_protein_color,
+                            @fundoscopy_color, @urea_color]
+
+    if complications_colors.include? "#FF9999"
+      @colorize_tab = true
+    else
+      @colorize_tab = false
+    end
   %>
 
     <% if(creatinine) %>
@@ -128,3 +138,10 @@
 
   </table>
 
+<script type="text/javascript">
+  var new_tab_color =  "<%= @colorize_tab %>"
+  /* set recent complications tab to red if there are outstanding tests to be done */
+  if (new_tab_color){
+    colorolizeTab('tabmenu', 'recent_complications_tab', '#FF0000');
+  }
+</script>
