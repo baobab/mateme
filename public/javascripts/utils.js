@@ -217,3 +217,14 @@ function showProgressBar(id){
     alert(element.innerHTML);
 
 }
+
+/* color ize on a given tab */
+function colorolizeTab(menu, tabId, newColor) {
+    menu      = document.getElementById(menu);
+    tabLinks  = menu.getElementsByTagName('LI');
+
+    for (i = 0; i < tabLinks.length; i++) {
+        if(tabLinks[i].id == tabId)
+          tabLinks[i].style.backgroundColor = newColor;
+    }
+}
