@@ -63,6 +63,10 @@ class CohortController < ApplicationController
 
     @oral_treatments = report.oral_treatments
 
+    @insulin_ever = report.insulin_ever
+
+    @insulin = report.insulin
+
     @oral_and_insulin_ever = report.oral_and_insulin_ever
 
     @oral_and_insulin = report.oral_and_insulin
@@ -106,7 +110,18 @@ class CohortController < ApplicationController
     
     @neuropathy = @numbness_symptoms
 
+    @cataracts_ever = report.cataracts_ever
+    
+    @cataracts = report.cataracts
 
+    @macrovascular_ever = report.macrovascular_ever
+
+    @macrovascular = report.macrovascular
+
+    @no_complications_ever = report.no_complications_ever
+
+    @no_complications = report.no_complications
+    
     @amputation_ever = report.amputation_ever
 
     @amputation = report.amputation
@@ -141,17 +156,27 @@ class CohortController < ApplicationController
 
     @non_reactive = report.non_reactive
 
-    @unknown_ever = report.unknown_ever
+    @unknown_ever = (report.total_ever_registered.to_i - report.non_reactive_ever.to_i -
+      report.reactive_on_art_ever.to_i - report.reactive_not_on_art_ever.to_i)
 
-    @unknown = report.unknown
+    @unknown = (report.total_registered.to_i - report.non_reactive.to_i -
+      report.reactive_on_art.to_i - report.reactive_not_on_art.to_i)
 
     @dead_ever = report.dead_ever
 
     @dead = report.dead
 
-    @alive_ever = report.alive_ever
+    @alive_ever = report.alive_ever.to_i - report.defaulters_ever.to_i
 
-    @alive = report.alive
+    @alive = report.alive.to_i - report.defaulters.to_i
+
+    @transfer_out_ever = report.transfer_out_ever
+
+    @transfer_out = report.transfer_out
+
+    @stopped_treatment_ever = report.stopped_treatment_ever
+
+    @stopped_treatment = report.stopped_treatment
 
     @on_diet_ever = report.on_diet_ever
 

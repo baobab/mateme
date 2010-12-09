@@ -45,7 +45,7 @@
               <%= @specified_period[1].to_date.strftime("%B, %Y") %>)</i>
           </th>
           <th class="cellleft celltop cellbottom main-table-cell">
-            <i>Cumulative Cohort up to <%= Time.now.to_date.strftime("%d %B, %Y") %></i>
+            <i>Cumulative Cohort up to <%= @specified_period[1].to_date.strftime("%d %B, %Y") %></i>
           </th>
         </tr>
         <tr>
@@ -70,7 +70,7 @@
             &nbsp;
           </td>
         </tr>
-        <tr>
+        <!--tr>
           <td class="cellleft cellbottom main-table-cell topic">
             <i>Adults</i>
           </td>
@@ -91,7 +91,7 @@
           <td class="cellleft cellbottom cellright main-table-cell" align="center">
             <%= @total_children_ever_registered %>
           </td>
-        </tr>
+        </tr-->
         <tr>
           <td class="cellleft cellbottom main-table-cell topic">
             <i>Males</i>
@@ -103,7 +103,7 @@
             <%= @total_men_ever_registered %>
           </td>
         </tr>
-        <tr>
+        <!--tr>
           <td class="cellleft cellbottom main-table-cell" style="padding-left:40px;">
             <b>Adult Males</b>
           </td>
@@ -124,7 +124,7 @@
           <td class="cellleft cellbottom cellright main-table-cell" align="center">
             <%= @total_boy_children_ever_registered %>
           </td>
-        </tr>
+        </tr-->
         <tr>
           <td class="cellleft cellbottom main-table-cell topic">
             <i>Females</i>
@@ -136,7 +136,7 @@
             <%= @total_women_ever_registered %>
           </td>
         </tr>
-        <tr>
+        <!--tr>
           <td class="cellleft cellbottom main-table-cell" style="padding-left:40px;">
             <b>Adult Females</b>
           </td>
@@ -157,7 +157,7 @@
           <td class="cellleft cellbottom cellright main-table-cell" align="center">
             <%= @total_girl_children_ever_registered %>
           </td>
-        </tr>
+        </tr-->
         <tr>
           <td class="cellleft cellbottom main-table-cell">
             &nbsp;
@@ -176,7 +176,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
-            <b>Alive</b>
+            <b>Alive and on treatment</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
             <%= @alive %>
@@ -209,6 +209,28 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
+            <b>Transfer Out</b>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @transfer_out %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @transfer_out_ever %>
+          </td>
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom main-table-cell">
+            <b>Stop Treatment</b>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @stopped_treatment %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @stopped_treatment_ever %>
+          </td>
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom main-table-cell">
             &nbsp;
           </td>
           <td class="cellleft cellbottom main-table-cell">
@@ -220,12 +242,12 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom topic cellright main-table-cell" colspan="4">
-            <i>Treatment (Alive and even defaulters)</i>
+            <i>Treatment</i>
           </td>
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
-            <b>Diet only (Diabetic but Not on treatment)</b>
+            <b>Diet only</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
             <%= @on_diet %>
@@ -236,7 +258,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
-            <b>Oral treatments</b>
+            <b>Oral hypoglycaemic agents</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
             <%= @oral_treatments %>
@@ -247,7 +269,18 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
-            <b>Oral and Insulin</b>
+            <b>Insulin</b>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @insulin %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @insulin_ever %>
+          </td>
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom main-table-cell">
+            <b>Insulin and oral hypoglycaemic agents</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
             <%= @oral_and_insulin %>
@@ -256,7 +289,7 @@
             <%= @oral_and_insulin_ever %>
           </td>
         </tr>
-        <tr>
+        <!--tr>
           <td class="cellleft cellbottom main-table-cell">
             &nbsp;
           </td>
@@ -271,7 +304,7 @@
           <td class="cellleft cellbottom topic cellright main-table-cell" colspan="3">
             <i>Diabetic Treatment and regimen</i>
           </td>
-        </tr>
+        </tr-->
         <tr>
           <td class="cellleft cellbottom main-table-cell">
             <b>Metformin</b>
@@ -329,7 +362,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom topic cellright main-table-cell" colspan="3">
-            <i>Complications (either on Left or Right side)</i>
+            <i>Complications</i>
           </td>
         </tr>
         <tr>
@@ -341,6 +374,17 @@
           </td>
           <td class="cellleft cellbottom cellright main-table-cell" align="center">
             <%= @diabetic_retinopathy_ever %>
+          </td>
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom textbold main-table-cell">
+            <i>Cataracts</i>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @cataracts %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @cataracts_ever %>
           </td>
         </tr>
         <!--tr>
@@ -445,6 +489,28 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom textbold main-table-cell">
+            <i>Macrovascular</i>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @macrovascular %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @macrovascular_ever %>
+          </td>
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom textbold main-table-cell">
+            <i>No recorded complications</i>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @no_complications %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @no_complications_ever %>
+          </td>
+        </tr>
+        <!--tr>
+          <td class="cellleft cellbottom textbold main-table-cell">
             <i>Amputations/Current foot ulcers</i>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
@@ -453,7 +519,7 @@
           <td class="cellleft cellbottom cellright main-table-cell" align="center">
             <%= @amputations_or_ulcers_ever %>
           </td>
-        </tr>
+        </tr-->
         <!--tr>
           <td class="cellleft cellbottom textbold main-table-cell">
             <ul>
@@ -511,7 +577,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
-            <b>Within Last Two Years</b>
+            <b>TB Ever</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
             <%= @tb_within_the_last_two_years %>
