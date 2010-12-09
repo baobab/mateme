@@ -154,6 +154,7 @@ function createDrugsPrescribed(){
     /*add sub diagnosis header*/
     var dosageHeader = document.createElement('div');
     dosageHeader.className = "diagnosis-headers";
+    dosageHeader.id = "dosage-header";
     dosageHeader.innerHTML = "DOSAGE";
     dosage.appendChild(dosageHeader);
     //sub diagnosis notification area
@@ -193,6 +194,7 @@ function createDrugsPrescribed(){
     /*add sub diagnosis header*/
     var subDiagnosisHeader = document.createElement('div');
     subDiagnosisHeader.className = "diagnosis-headers";
+    subDiagnosisHeader.id = "sub-diagnosis-header";
     subDiagnosisHeader.innerHTML = "FREQUENCY";
     subDiagnosis.appendChild(subDiagnosisHeader);
     //sub diagnosis notification area
@@ -205,6 +207,7 @@ function createDrugsPrescribed(){
     /*Select div*/
     var subDiagnosisSelectDiv = document.createElement('div');
     subDiagnosisSelectDiv.className = "drug-select-div";
+    subDiagnosisSelectDiv.id = "frequency-div";
     subDiagnosis.appendChild(subDiagnosisSelectDiv);
 
     /*Added Select*/
@@ -301,7 +304,7 @@ function getHTTPObject() {
 var http = getHTTPObject(); // We create the HTTP Object
 
 function updateDrugList(){
-    $('frequency-select').innerHTML = "<option></option>";
+    $('frequency-div').innerHTML = "<select class='drug-select' id='frequency-select' size='10'><option></option></select>"
     $('dosage-div').innerHTML = "";
     $('duration-div').innerHTML = "";
     $('duration-values').innerHTML = "";
@@ -351,12 +354,19 @@ function appendDrug(){
     //var drug = $("drug-select")[$("drug-select").selectedIndex].innerHTML;
     var drug = $("drug-select").value;
     //var freq = $("frequency-select")[$("frequency-select").selectedIndex].innerHTML;
-    var freq = $("frequency-select").value;
+    
+    var freq = "";
     var duration ="";
     var dosage = "";
     var checkedDos = document.getElementsByName("dosage");
     var rdos = document.getElementsByName("subRange");
-
+    var amDosage = "";
+    var pmDosage = "";
+    
+    if (typeof(drugs[currentDiagnoses[activeDiagnosis]]) == 'undefined'){
+      drugs[currentDiagnoses[activeDiagnosis]] = [];
+    }
+//Get duration
     for(var i = 0; i < rdos.length; i++){
         if(rdos[i].checked){
             duration = rdos[i].value;
@@ -364,20 +374,36 @@ function appendDrug(){
         }
     }
 
-    for(var i = 0; i < checkedDos.length; i++){
-        if(checkedDos[i].checked){
-            dosage = checkedDos[i].value;
-            break;
+    if (drug.toLowerCase().search(/insulin/) != -1){
+
+      var amcheckedDos = document.getElementsByName("amSubRange");
+      var pmcheckedDos = document.getElementsByName("pmSubRange");
+      for(var i = 0; i < amcheckedDos.length; i++){
+        if(amcheckedDos[i].checked){
+          amDosage = amcheckedDos[i].value;
+          drugs[currentDiagnoses[activeDiagnosis]].push(drug + ':' + amDosage + 'unit(s):' + 'AM' + ':' + duration);
         }
+      
+        if(pmcheckedDos[i].checked){
+          pmDosage = pmcheckedDos[i].value;
+          drugs[currentDiagnoses[activeDiagnosis]].push(drug + ':' + pmDosage + 'unit(s):' + 'PM' + ':' + duration);
+        }
+      }
+
+    }else{
+      freq = $("frequency-select").value;
+      for(var i = 0; i < checkedDos.length; i++){
+        if(checkedDos[i].checked){
+          dosage = checkedDos[i].value;
+          break;
+        }
+      }
+      drugs[currentDiagnoses[activeDiagnosis]].push(drug + ':' + dosage + ':' + freq + ':' + duration);
     }
+//
+    $('drug-inputbox').value = "";
 
 
-  if (typeof(drugs[currentDiagnoses[activeDiagnosis]]) == 'undefined'){
-    drugs[currentDiagnoses[activeDiagnosis]] = [];
-  }
-
-    drugs[currentDiagnoses[activeDiagnosis]].push(drug + ':' + dosage + ':' + freq + ':' + duration);
-  
     createDiagnosesInfo();
 
     //updateFrequency();
@@ -439,7 +465,15 @@ function createDrugsGiven(){
 function updateDosage(){
   var selectedDrug =  $("drug-select")[$("drug-select").selectedIndex].innerHTML
   var aUrl = "/search/drug_dosages?selected_drug_name=" + selectedDrug;
-  updateList(aUrl, 'dosage');
+  if (selectedDrug.toLowerCase().search(/insulin/) != -1){
+    $('dosage-header').innerHTML = "AM";
+    $('sub-diagnosis-header').innerHTML = "PM";
+    updateInsulinDosage();
+  }else{
+    $('dosage-header').innerHTML = "DOSAGE";
+    $('sub-diagnosis-header').innerHTML = "FREQUENCY";
+    updateList(aUrl, 'dosage');
+  }
 }
 
 function updateDosageAndFrequency(aValue){
@@ -451,3 +485,49 @@ $('frequency-select').innerHTML = "<option>" + frequency + "</option>";
 $('frequency-select').value = frequency;
 showMainRange();
 }
+/////////////////////////////////Insulin stuff. Need to review this code for possible reuse. A lot of redundncy here. Had to get it working first though!
+function updateInsulinDosage(){
+  var amUpdateText = "";
+  var pmUpdateText = "";
+  $('dosage-div').innerHTML = "<div class='range' id='amRange'></div><div id='amSubRange' class='subRange'></div>";
+  $('frequency-div').innerHTML = "<div class='range' id='pmRange'></div><div id='pmSubRange' class='subRange'></div>";
+  
+  for (var min = 1; min < 92; min +=10){
+    amUpdateText += "<label><input name='aminsulinMainrange' type='radio' value="+ eval(min) + " onClick=updateInsulinSubRange(" + min +",'am'"+")>" + min + "-"+ eval(min+9) +"</label><br/>";
+    }
+
+  for (var min = 1; min < 92; min +=10){
+    pmUpdateText += "<label><input name='pminsulinMainrange' type='radio' value="+ eval(min) + " onClick=updateInsulinSubRange(" + min +",'pm'" + ")>" + min + "-"+ eval(min+9) +"</label><br/>";
+    }
+
+  $('amRange').innerHTML = amUpdateText;
+  $('pmRange').innerHTML = pmUpdateText;
+  updateInsulinSubRange(1,'all');
+}
+
+function updateInsulinSubRange(minimum,amOrpm){
+    var amupdateText = "";
+    var pmupdateText = "";
+    var maximum = minimum + 10
+      if(amOrpm == 'all'){
+        for (var i = minimum; i < maximum; i++){
+          amupdateText += "<label><input name='amSubRange' type='radio' value='"+ i +"'>" + i +"</label><br/>";
+          pmupdateText += "<label><input name='pmSubRange' type='radio' value='"+ i +"'>" + i +"</label><br/>";
+          $('amSubRange').innerHTML = amupdateText;
+          $('pmSubRange').innerHTML = pmupdateText;
+        }
+      }else if(amOrpm == 'am'){
+         for (var i = minimum; i < maximum; i++){
+          amupdateText += "<label><input name='amSubRange' type='radio' value='"+ i +"'>" + i +"</label><br/>";
+          $('amSubRange').innerHTML = amupdateText;
+        }
+      }else if(amOrpm == 'pm'){
+         for (var i = minimum; i < maximum; i++){
+          pmupdateText += "<label><input name='pmSubRange' type='radio' value='"+ i +"'>" + i +"</label><br/>";
+          $('pmSubRange').innerHTML = pmupdateText;
+        }
+      }
+    showMainRange();
+}
+
+
