@@ -139,7 +139,7 @@
   </table>
 
 <script type="text/javascript">
-  var new_tab_color =  "<%= @colorize_tab %>"
+  var new_tab_color =  <%= @colorize_tab %>
   /* set recent complications tab to red if there are outstanding tests to be done */
   if (new_tab_color){
     colorolizeTab('tabmenu', 'recent_complications_tab', '#FF0000');
