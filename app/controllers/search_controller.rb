@@ -52,8 +52,8 @@ class SearchController < ApplicationController
 
     @results = Role.find(:all, :select => "DISTINCT role").collect{|r|
       if(r.role.downcase.include?("adults") || r.role.downcase.include?("lab") ||
-            r.role.downcase.include?("paediatrics") || r.role.downcase.include?("hmis lab order") ||
-          r.role.downcase.include?("spine clinician"))
+            r.role.downcase.include?("paediatrics") || r.role.downcase.include?("hmis lab order") || 
+            r.role.downcase.include?("superuser") || r.role.downcase.include?("spine clinician"))
         r.role
       end
     }.compact
