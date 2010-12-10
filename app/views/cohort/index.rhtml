@@ -71,9 +71,12 @@
       <input type="text" id="endAge" name="endAge" helpText="End Age" value="" field_type="number"
              tt_pageStyleClass="NumbersOnlyWithDecimal" />
 
-      <select id="selType" name="selType" helpText="Report Type:" condition="$('endAge').value <= 15">
+      <select id="selType" name="selType" helpText="Report Type:"> <!--condition="$('endAge').value <= 15"-->
         <option value="adults">General Outpatient</option>
         <option value="paeds">Paediatrics</option>
+        <option value="diagnoses">General Diagnoses</option>
+        <option value="diagnoses_adults">Adults Diagnoses</option>
+        <option value="diagnoses_paeds">Paediatrics Diagnoses</option>
       </select>
 
       <select id="selSelect" name="selSelect" helpText="Report By:">

@@ -10,6 +10,7 @@ class CohortController < ApplicationController
     @end_date = nil
     @start_age = params[:startAge]
     @end_age = params[:endAge]
+    @type = params[:selType]
     
     case params[:selSelect]
     when "day"
@@ -45,7 +46,7 @@ class CohortController < ApplicationController
 
     end
     
-    report = Reports::Cohort.new(@start_date, @end_date, @start_age, @end_age)
+    report = Reports::Cohort.new(@start_date, @end_date, @start_age, @end_age, @type)
 
     @specified_period = report.specified_period
 
@@ -148,13 +149,19 @@ class CohortController < ApplicationController
     @pud = report.pud
 
     @gastritis = report.gastritis
-    
+
+    if @type == "diagnoses"
+      @general = report.general
+    end
+
     if params[:selType]
       case params[:selType]
       when "adults"
         render :layout => "menu", :action => "adults_cohort" and return
       when "paeds"
         render :layout => "menu", :action => "paeds_cohort" and return
+      else
+        render :layout => "menu", :action => "general_cohort" and return
       end
     end
     render :layout => "menu"
@@ -167,6 +174,7 @@ class CohortController < ApplicationController
     @end_date = nil
     @start_age = params[:startAge]
     @end_age = params[:endAge]
+    @type = params[:selType]
 
     case params[:selSelect]
     when "day"
@@ -202,7 +210,7 @@ class CohortController < ApplicationController
 
     end
 
-    report = Reports::Cohort.new(@start_date, @end_date, @start_age, @end_age)
+    report = Reports::Cohort.new(@start_date, @end_date, @start_age, @end_age, @type)
 
     @specified_period = report.specified_period
 
@@ -306,12 +314,18 @@ class CohortController < ApplicationController
 
     @gastritis = report.gastritis
 
+    if @type == "diagnoses"
+      @general = report.general
+    end
+
     if params[:selType]
       case params[:selType]
       when "adults"
         render :layout => false, :action => "print_adults_cohort" and return
       when "paeds"
         render :layout => false, :action => "print_paeds_cohort" and return
+      else
+        render :layout => false, :action => "print_general_cohort" and return
       end
     end
     
