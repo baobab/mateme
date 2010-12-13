@@ -422,7 +422,7 @@ class Patient < ActiveRecord::Base
 
     prefix = GlobalProperty.find_by_sql("SELECT property_value FROM global_property WHERE property = 'dc.number.prefix'")
 
-    return prefix.last["property_value"].to_s + id.last["identifier"].to_s
+    return prefix.last["property_value"].to_s + (id.last["identifier"].to_s rescue "1")
   end
 
   def ds_number
