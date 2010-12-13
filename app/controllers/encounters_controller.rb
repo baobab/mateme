@@ -240,13 +240,6 @@ class EncountersController < ApplicationController
     render :text => "<li>" + locations.map{|location| location.name }.join("</li><li>") + "</li>"
   end
 
-  def simple_graph
-    @patient = Patient.find(params[:patient_id] || session[:patient_id])
-    @graph_data = @patient.person.observations.find_by_concept_name("WEIGHT (KG)").
-      sort_by{|obs| obs.obs_datetime}.
-      map{|x| [(x.obs_datetime.to_i * 1000), x.value_numeric]}.to_json
-  end
-
   def complications
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     if request.post?
