@@ -83,63 +83,16 @@ class EncountersController < ApplicationController
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
 
+       # saving  of encounter states
     if(params[:complete])
-      state = EncounterState.find(encounter.encounter_id) rescue nil
+      encounter_state = EncounterState.find(encounter.encounter_id) rescue nil
 
-      if(state)
-        stat = 1
-
-        case params[:complete]
-        when "true"
-          stat = 1
-        when "false"
-          stat = 0
-        end
-
-        state = EncounterState.update_attributes(:encounter_id => encounter.encounter_id, :state => stat)
-
-      else
-        stat = 1
-
-        case params[:complete]
-        when "true"
-          stat = 1
-        when "false"
-          stat = 0
-        end
-
-        state = EncounterState.new(:encounter_id => encounter.encounter_id, :state => stat)
-        state.save
-
-      end
-    else
-      state = EncounterState.find(encounter.encounter_id) rescue nil
-
-      if(state)
-        stat = 1
-
-        case params[:complete]
-        when "true"
-          stat = 1
-        when "false"
-          stat = 0
-        end
-
-        state = EncounterState.update_attributes(:encounter_id => encounter.encounter_id, :state => stat)
-
-      else
-        stat = 1
-
-        case params[:complete]
-        when "true"
-          stat = 1
-        when "false"
-          stat = 0
-        end
-
-        state = EncounterState.new(:encounter_id => encounter.encounter_id, :state => stat)
-        state.save
-
+      if(encounter_state) # update an existing encounter_state
+        state =  params[:complete] == "true"? 1 : 0
+        EncounterState.update_attributes(:encounter_id => encounter.encounter_id, :state => state)
+      else # a new encounter_state
+        state =  params[:complete] == "true"? 1 : 0
+        EncounterState.create(:encounter_id => encounter.encounter_id, :state => state)
       end
     end
 
