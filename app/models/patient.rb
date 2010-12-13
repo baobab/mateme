@@ -71,7 +71,7 @@ class Patient < ActiveRecord::Base
     return nil if encs.blank?
 
     if(self.diabetes_number && self.diabetes_number.to_s.downcase != "unknown")
-      dc_number = ";QECH DC "+ self.diabetes_number
+      dc_number = self.diabetes_number
     else
       dc_number = ""
     end
@@ -123,7 +123,7 @@ class Patient < ActiveRecord::Base
     return nil if recent_complications.blank?
 
     if(self.diabetes_number && self.diabetes_number.to_s.downcase != "unknown")
-      dc_number = ", DC "+ self.diabetes_number
+      dc_number = self.diabetes_number
     else
       dc_number = ""
     end
