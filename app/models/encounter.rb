@@ -40,7 +40,9 @@ class Encounter < ActiveRecord::Base
       "RENAL COMPLICATIONS", "GENERAL HEALTH", "UPDATE HIV STATUS"]
 
     if name == 'REGISTRATION'
-      "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}" 
+      "Patient was seen at the registration desk at #{encounter_datetime.strftime('%I:%M')}"
+    elsif name == 'APPOINTMENT'
+      observations.collect {|obs| obs.answer_string}.join(", ")
     elsif name == 'TREATMENT'
       o = orders.active.collect{|order| order.to_s}.join("\n")
       o = "No prescriptions have been made" if o.blank?

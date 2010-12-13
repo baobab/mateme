@@ -237,10 +237,7 @@ function makeBooking(pos, subtract){
                 return;
             } else {
                 $("observations__value_datetime").value = app_date;
-                $("observations__obs_datetime").value = app_date;
-                $("encounter_encounter_datetime").value = app_date;
-                
-                //ajaxRequest($(pos), "/patients/make_booking?patient_id="+patient_id+"&appointment_date="+app_date)
+
                 counts[pos][sel] = true;
                 counts[pos]["count"] = (parseInt(counts[pos]["count"]) + 1);
 
@@ -251,10 +248,7 @@ function makeBooking(pos, subtract){
     } else {
         if(!subtract){
             $("observations__value_datetime").value = app_date;
-            $("observations__obs_datetime").value = app_date;
-            $("encounter_encounter_datetime").value = app_date;
-
-            //ajaxRequest($(pos), "/patients/make_booking?patient_id="+patient_id+"&appointment_date="+app_date)
+            
             counts[pos] = {};
             counts[pos][sel] = true;
             counts[pos]["count"] = 1;

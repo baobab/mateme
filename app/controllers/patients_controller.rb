@@ -30,7 +30,7 @@ class PatientsController < ApplicationController
       "Hypertension management", "Past diabetes medical history"]
     @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq.delete_if{ |encounter| excluded_encounters.include? encounter.humanize } rescue []
     ignored_concept_id = Concept.find_by_name("NO").id;
-    
+
     @observations = Observation.find(:all, :order => 'obs_datetime DESC', 
       :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? AND value_coded != ?",
         @patient.patient_id, Time.now.to_date, ignored_concept_id])
@@ -316,15 +316,16 @@ class PatientsController < ApplicationController
       @type = EncounterType.find_by_name("APPOINTMENT").id rescue nil
 
       if(@type)
+        appointment_date = DateTime.now.strftime("%Y-%m-%d")
         @enc = Encounter.find(:last, :conditions =>
             ["voided = 0 AND patient_id = ? AND encounter_type = ? AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
-            params[:patient_id], @type, params[:appointment_date]])
+            params[:patient_id], @type, appointment_date])
 
         unless @enc
           @enc = Encounter.new(:encounter_type => @type,
             :patient_id => params[:patient_id],
             :provider_id => session[:user_id],
-            :encounter_datetime => params[:appointment_date],
+            :encounter_datetime => appointment_date,
             :creator => session[:user_id],
             :voided => 0
           )
@@ -333,7 +334,8 @@ class PatientsController < ApplicationController
 
           @obs = Observation.new(:concept_name => "APPOINTMENT DATE",
              :value_datetime => params[:appointment_date],
-             :encounter_id => @enc.encounter_id             
+             :encounter_id => @enc.encounter_id,
+             :person_id => @enc.patient_id
           )
 
           @obs.save
