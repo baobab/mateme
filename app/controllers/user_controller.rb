@@ -140,10 +140,10 @@ class UserController < ApplicationController
       user_role.user_id=@user.user_id
       user_role.save
       # end
-      flash[:notice] = 'User was successfully created.'
+      flash[:notice] = "#{@user.username} was successfully created."
       redirect_to :action => 'show'
     else
-      flash[:notice] = 'OOps! User was not created!.'
+      flash[:notice] = 'OOps! #{@user.username} was not created!.'
       render :action => 'new'
     end
   end
@@ -151,14 +151,26 @@ class UserController < ApplicationController
   def edit
     @user = User.find(session[:user_edit])
   end
-
+	
+	def edit
+    @user = User.find(session[:user_edit]) rescue nil
+    @field = params[:field]
+    render :action => "edit", :field =>@field, :layout => true and return  
+  end
+	
+	def edit_username
+    @user = User.find(session[:user_edit]) rescue nil
+    @field = params[:field]
+    render :action => "edit", :field =>@field, :layout => true and return  
+  end
+	
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      flash[:notice] = 'User was successfully updated.'
+      flash[:notice] = "#{@user.username} successfully updated."
       redirect_to :action => 'show', :id => @user
     else
-      flash[:notice] = "OOps! User was not updated!."
+      flash[:notice] = "OOps! #{@user.username} was not updated!."
       render :action => 'edit'
     end
   end
@@ -181,9 +193,9 @@ class UserController < ApplicationController
   end
   
   def delete_role
-    @user = User.find(params[:id])
     unless request.post?
-      @roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role.role}
+    	@user = User.find(params[:id])
+      @roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role}#.role}
     else
       role = Role.find_by_role(params[:user_role][:role_id]).role
       user_role =  UserRole.find_by_role_and_user_id(role,@user.user_id)  
