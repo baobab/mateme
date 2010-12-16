@@ -1,7 +1,7 @@
 <center>
-<div style="margin-top:0px; border:dotted 1px #eee; width:300px; float:right; height: 600px; padding-top:10px;">
-  <b  style="font-size: 22pt; padding-left:8px;">Tests <%= " for #{params[:identifier].upcase}" if !params[:identifier].nil? %> </b>
-  
+  <div style="margin-top:0px; border:dotted 1px #eee; width:300px; float:right; height: 600px; padding-top:10px;">
+    <b  style="font-size: 22pt; padding-left:8px;">Tests <%= " for #{params[:identifier].upcase}" if !params[:identifier].nil? %> </b>
+
     <%
     unless @encounter_names.nil?
       @i = 0
@@ -40,35 +40,38 @@
         end
 
         unless !found.nil?
-        @i += 1
-      %>  
+          @i += 1
+        %>
           <div style="width:100%;">
-            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue"
-                    style="min-width:250px;"
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue testButtons"
                     onclick="window.location = '/encounters/edit_test/?test=<%= encounter_name.gsub(/\s/, "+") %>&patient_id=<%= @patient.patient_id rescue nil %>&identifier=<%= params[:identifier].upcase if !params[:identifier].nil? %>'">
               <span>
                 <%=  encounter_name %>
               </span>
             </button>
           </div>
-      <%
+        <%
         else
 
-      %>
+        %>
 
-        <div style="width:100%;">
-            <button id="edit_test_button<%= "_#{@i}" %>" class="button gray"
-                    style="min-width:250px;">
+          <div style="width:100%;">
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button gray testButtons"
               <span>
                 <%=  encounter_name %>
               </span>
             </button>
           </div>
 
-      <%
+        <%
         end
       }
     end
   %>
-</div>
+  <!--a class="button green" href='/patients/print_lab_results?patient_id=<%= @patient.id -%>'
+     style="-moz-border-radius:10px; min-width: 237px; font-size: 1.7em; font-weight: normal; min-height: 57px;">Print Lab Results</a-->
+    <button class="button blue testButtons" onclick="window.location = '/patients/print_lab_results?patient_id=<%= @patient.id -%>';">
+      <span>Print Lab Results</span>
+    </button>
+  </div>
 </center>

@@ -89,13 +89,13 @@ class Encounter < ActiveRecord::Base
     elsif name == 'LAB ORDERS'
 
       observations.collect{|observation|
-        observation.obs_answer_string
+        observation.obs_answer_string     #.gsub("LAB TEST SERIAL NUMBER: ", "") rescue nil
       }.compact.join(", ")
 
     elsif name == 'LAB RESULTS'
 
       observations.collect{|observation|
-        observation.obs_lab_results_string
+        observation.obs_lab_results_string.gsub("LAB TEST SERIAL NUMBER: ", "LAB ID: ") rescue nil
       }.compact.join(",<br /> ")
 
     elsif name == 'CHRONIC CONDITIONS' || name == 'INFLUENZA DATA'
@@ -150,22 +150,33 @@ class Encounter < ActiveRecord::Base
   def label
     case self.type.name
     when "LAB ORDERS"
-      observations.collect{|observation|
-        if(observation.obs_answer_string)
-          label = ZebraPrinter::Label.new(500,165)
-          label.font_size = 2
-          label.font_horizontal_multiplier = 1
-          label.font_vertical_multiplier = 1
-          label.left_margin = 300
-          label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")} \
+      # observations.collect{|observation|
+      # if(observation.obs_answer_string)
+      label = ZebraPrinter::Label.new(500,165)
+      label.font_size = 2
+      label.font_horizontal_multiplier = 1
+      label.font_vertical_multiplier = 1
+      label.left_margin = 300
+      label.draw_multi_text("#{self.encounter_datetime.strftime("%d %b %Y %H:%M")} \
                      #{self.patient.national_id_with_dashes}",
-            :font_reverse => false)
-          label.draw_multi_text("#{self.patient.name} #{self.lab_accession_number}")
-          label.draw_multi_text("#{observation.obs_answer_string}", :font_reverse => true)
-          label.draw_barcode(50,130,0,1,4,8,20,false,self.lab_accession_number)
-          label.print
-        end
-      }
+        :font_reverse => false)
+      label.draw_multi_text("#{self.patient.full_name} #{self.lab_accession_number}")
+      # label.draw_multi_text("#{observation.obs_answer_string}", :font_reverse => true)
+      label.draw_multi_text("#{self.to_s}", :font_reverse => true)
+      label.draw_barcode(50,130,0,1,4,8,20,false,self.lab_accession_number)
+      label.print
+      # end
+      # }
+    when "LAB RESULTS"
+      label = ZebraPrinter::StandardLabel.new
+      label.font_size = 2
+      label.font_horizontal_multiplier = 2
+      label.font_vertical_multiplier = 2
+      label.left_margin = 50
+      label.draw_multi_text("#{self.person.name.titleize.delete("'")}") #'
+      label.draw_multi_text("#{self.national_id_with_dashes} #{self.person.birthdate_formatted}#{sex}")
+      label.draw_multi_text("#{address}")
+      label.print(1)
     end
   end
 

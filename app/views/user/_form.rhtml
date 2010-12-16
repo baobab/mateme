@@ -54,11 +54,23 @@
       <!--%= select(:user_role_admin, :role, %w{ Yes No},:include_blank =>"true", :value =>@user_admin_role) %></p-->
 
       <p><label for="user_username">Username</label><br/>
-      <%= text_field 'user', 'username', :xhelpText => 'Username',:textCase => "lower",:value => @user_name,:tt_onload =>"$('touchscreenInput5').value = ($('user_first_name').value.substring(0,3)+$('user_last_name').value.substring(0,3)).toLowerCase()" ,:validationRule =>"\\w{6}\\w*" ,:validationMessage => "Username must have at least SIX letters" ,:textCase => "lower"%></p>
+      <%= text_field 'user', 'username', 
+        :xhelpText => 'Username',
+        :textCase => "lower",
+        :value => @user_name,
+        :tt_onload =>"$('touchscreenInput' + tstCurrentPage).value = ($('person_name_given_name').value.substring(0,3)+\
+              $('person_name_family_name').value.substring(0,3)).toLowerCase()" ,
+        :validationRule =>"\\w{6}\\w*" ,:validationMessage => "Username must have at least SIX letters" ,:textCase => "lower"%></p>
 
       <p><label for="user_password">Password</label><br/>
-      <%= password_field 'user', 'password', :xhelpText => 'Password' ,:textCase =>"lower", :validationRule => "\\w{4}\\w*", :validationMessage => "Password less than Four characters" %></p>
+      <%= password_field 'user', 'password', 
+        :xhelpText => 'Password' ,
+        :textCase =>"lower",
+        :validationRule => "\\w{4}\\w*",
+        :validationMessage => "Password less than Four characters",
+        :tt_onUnLoad => "$('user_confirm_password').setAttribute('validationRule', '^' + $('touchscreenInput' + tstCurrentPage).value + '$');"
+      %></p>
 
       <p><label for="user_confirm_password">Re-enter Password</label><br/>
-      <%= password_field 'user_confirm', 'password', :xhelpText => 'Password',:textCase =>"lower",:validationRule =>"\\w{4}\\w*", :validationMessage =>"Password less than FOUR characters." %></p>
+      <%= password_field 'user_confirm', 'password', :xhelpText => 'Password',:textCase =>"lower",:validationRule =>"\\w{4}\\w*", :validationMessage =>"Password mismatch." %></p>
 <%end%>

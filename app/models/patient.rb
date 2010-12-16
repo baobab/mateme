@@ -380,5 +380,10 @@ class Patient < ActiveRecord::Base
     orders = encounter.orders.active rescue []
     orders
   end
-  
+
+  # Method to display the short name for the current patient
+  def full_name
+    self.person.name
+  end
+
 end

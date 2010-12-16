@@ -38,13 +38,22 @@ class PeopleController < ApplicationController
 
     # redirect based on user role
     if @roles.include?("adults")
+
       redirect_to :action => :adults and return
-    elsif @roles.include?("paediatrics") || @roles.include?("hmis lab order")
+
+    elsif @roles.include?("paediatrics") || @roles.include?("hmis lab order")   # hmis lab order only included here because
+      # currently only Paediatrics can order lab tests
+      
       redirect_to :action => :paeds and return
+
     elsif @roles.include?("lab")
+
       redirect_to :controller => :encounters, :action => :lab_results_entry and return
+
     else
+
       render :layout => "menu"
+
     end
 
    

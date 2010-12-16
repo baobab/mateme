@@ -36,7 +36,7 @@ function display(){
 } 
 
 function hideMessage(){ 
-  document.getElementById('logoutMessage').style.display = 'none' 
+  if(document.getElementById('logoutMessage')) document.getElementById('logoutMessage').style.display = 'none';
 }
 
 function destinationUrl(){

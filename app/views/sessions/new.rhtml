@@ -9,7 +9,7 @@
     }
 
     function hideMessage(){ 
-      document.getElementById('loggedOutMessage').style.display = 'none';
+      if(document.getElementById('loggedOutMessage')) document.getElementById('loggedOutMessage').style.display = 'none';
     }
 
 </script>

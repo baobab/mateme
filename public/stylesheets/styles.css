@@ -237,3 +237,7 @@ button:hover.dark span {
     padding: 5px;
     -moz-border-radius:15px;
 }
+
+button.testButtons {
+    min-width: 270px;
+}
