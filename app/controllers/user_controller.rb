@@ -143,7 +143,7 @@ class UserController < ApplicationController
       flash[:notice] = "#{@user.username} was successfully created."
       redirect_to :action => 'show'
     else
-      flash[:notice] = 'OOps! #{@user.username} was not created!.'
+      flash[:notice] = "OOps! #{@user.username} was not created!."
       render :action => 'new'
     end
   end
