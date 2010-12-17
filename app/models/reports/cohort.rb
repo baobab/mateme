@@ -1966,7 +1966,7 @@ class Reports::Cohort
       result << [diagnosis, cases]
     }
 
-    result.sort_by{|arr| arr.last}.reverse
+    result.sort_by{|arr| arr.last}.reverse rescue []
 
     # raise result.to_yaml
   end
