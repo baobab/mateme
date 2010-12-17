@@ -2,7 +2,8 @@
 
 var generic = ["CAPTOPRIL", "GLIBENCLAMIDE", "METFORMIN", "QUINAPRIL", "ASPIRIN", "AMLODIPINE",
         "LENTE INSULIN", "SOLUBLE INSULIN", "HYDROCHLOROTHIAZIDE", "NIFEDIPINE", "NIFEDIPINE SR", "PROPANOLOL",
-        "METHYLDOPA", "FUROSEMIDE", "ATENOLOL", "AMITRIPTYLINE", "IBUPROFEN", "VITAMIN B CO", "PYRIDOXINE", "LISINOPRIL"];
+        "METHYLDOPA", "FUROSEMIDE", "ATENOLOL", "AMITRIPTYLINE", "IBUPROFEN", "VITAMIN B CO", "PYRIDOXINE", 
+        "LISINOPRIL", "HYDRALAZINE", "PARACETAMOL"];
 
 var drugs = {};
 
@@ -12,7 +13,9 @@ drugs["AMLODIPINE"] = [["5MG", "OD"],
 drugs["LISINOPRIL"] = [["10MG", "OD"],
                           ["20MG", "OD"]];
 
-drugs["GLIBENCLAMIDE"] = [["5MG", "OD"],
+drugs["GLIBENCLAMIDE"] = [["2.5MG", "OD"],
+                          ["2.5MG", "BD"],
+                          ["5MG", "OD"],
                           ["5MG", "BD"],
                           ["10MG", "OD"],
                           ["10MG", "BD"]];
@@ -78,15 +81,15 @@ drugs["METHYLDOPA"] = [["125MG", "BD"],
                         ["500MG", "TDS"]];
   
 drugs["FUROSEMIDE"] = [["120MG", "BD"],
-                        ["120MG", "TDS"],
+                        ["120MG", "OD"],
                         ["20MG", "BD"],
-                        ["20MG", "TDS"],
+                        ["20MG", "OD"],
                         ["40MG", "BD"],
-                        ["40MG", "TDS"],
+                        ["40MG", "OD"],
                         ["60MG", "BD"],
-                        ["60MG", "TDS"],
+                        ["60MG", "OD"],
                         ["80MG", "BD"],
-                        ["80MG", "TDS"]];
+                        ["80MG", "OD"]];
 
 drugs["ATENOLOL"] = [["50MG", "OD"],
                         ["100MG", "OD"]];
@@ -100,6 +103,16 @@ drugs["VITAMIN B CO"] = [["15MG","BD"]];
 
 drugs["PYRIDOXINE"] = [["25MG","OD"],
                         ["50MG", "OD"]];
-                    
+
+drugs["HYDRALAZINE"] = [["25MG","OD"],
+                        ["25MG","BD"],
+                        ["50MG", "OD"],
+                        ["50MG", "BD"],
+                        ["100MG", "OD"],
+                        ["100MG", "BD"]];
+
+drugs["PARACETAMOL"] = [["1G","TDS"],
+                        ["500G", "TDS"]];
+
 
 //-->
