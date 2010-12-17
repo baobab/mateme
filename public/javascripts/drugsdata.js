@@ -112,7 +112,7 @@ drugs["HYDRALAZINE"] = [["25MG","OD"],
                         ["100MG", "BD"]];
 
 drugs["PARACETAMOL"] = [["1G","TDS"],
-                        ["500G", "TDS"]];
+                        ["500MG", "TDS"]];
 
 
 //-->
