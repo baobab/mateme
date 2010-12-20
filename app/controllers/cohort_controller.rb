@@ -150,7 +150,7 @@ class CohortController < ApplicationController
 
     @gastritis = report.gastritis
 
-    if @type == "diagnoses"
+    if @type == "diagnoses" || @type == "diagnoses_adults" || @type == "diagnoses_paeds"
       @general = report.general
     end
 
