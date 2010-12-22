@@ -8,7 +8,7 @@ class EncountersController < ApplicationController
       diagnoses.each{|obs_group|
       
         encounter = Encounter.new(params[:encounter])
-        encounter.encounter_datetime ||= session[:datetime]
+        encounter.encounter_datetime ||= session[:datetime].to_s + " " + Time.now.strftime("%H:%M").to_s
         encounter.save
 
 
@@ -41,7 +41,7 @@ class EncountersController < ApplicationController
     else
 
       encounter = Encounter.new(params[:encounter])
-      encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
+      encounter.encounter_datetime = session[:datetime].to_s + " " + Time.now.strftime("%H:%M").to_s unless session[:datetime].blank?
       encounter.save
 
       (params[:observations] || []).each do |observation|
@@ -61,17 +61,23 @@ class EncountersController < ApplicationController
       end
     end
 
-
+=begin
     if encounter.type.name.eql?("IS PATIENT REFERRED?")
       encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
     end
+=end
 
     @patient = Patient.find(params[:encounter][:patient_id])
 
     if(params[:next_url])
-      redirect_to params[:next_url] and return
+      if(params[:next_url] == "prescriptions")
+        redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
+      else
+        redirect_to params[:next_url] and return
+      end      
     else
-      redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
+      # redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
+      redirect_to "/patients/show?patient_id=#{@patient.id}"
     end
     
   end
@@ -516,4 +522,13 @@ class EncountersController < ApplicationController
   def create_influenza_recruitment
     create_influenza_data
   end
+
+  def close_visit
+    patient = Patient.find(params[:patient_id])
+    
+    patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+
+    redirect_to "/people/index"
+  end
+
 end

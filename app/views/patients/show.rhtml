@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  tt_cancel_destination = '/patients/end_visit?patient_id=<%= @patient.patient_id%>';
+  tt_cancel_destination = '/encounters/close_visit?patient_id=<%= @patient.patient_id%>';
   tt_cancel_to_peole_index = '/people/index';
 </script>
 <style type="text/css">
@@ -51,7 +51,7 @@
 
       <!--a class="button green" href='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</a>
       <a class="button green" href='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</a-->
-    <a class="button green" href='/encounters/new/outpatient_diagnosis?diagnosis_type=PRIMARY DIAGNOSIS&patient_id=<%= @patient.id -%>'>OPD Diagnosis</a>
+    <a class="button green" href='/encounters/new/outpatient_diagnosis?diagnosis_type=PRIMARY DIAGNOSIS&patient_id=<%= @patient.id -%>&nexturl=prescriptions'>OPD Diagnosis</a>
     <a class="button green" href='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Admitted</a>
 
     <% if @spine_clinician %>
