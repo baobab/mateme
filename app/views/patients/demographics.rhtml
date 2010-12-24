@@ -18,24 +18,25 @@
   tt_cancel_destination = '<%=  "/patients/show/#{@patient.id}" %>';
 </script>
 
-<center><h2>Patient Demographics</h2></center>
+<center><h2><%= "Demographics for #{@patient.person.name}"%></h2></center>
+<h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
 
 <table>
   <tr>
-    <td class="label">Name Of Patient:</td><td><a href='/person_names/edit/<%= @patient.id%>'><%= @person.name %></a></td>
-    <td class="label">Card No:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=14'><%= @patient.diabetes_number %></a></td>
+    <td><a class="label" href='/person_names/edit/<%= @patient.id%>'>Name Of Patient:</a></td><td class="label"><%= @person.name %></td>
+    <td><a class="label" href='/patient_identifiers/edit/<%= @patient.id%>?type=14'>Card Number:</a></td><td class="label"><%= @patient.diabetes_number %></td>
   </tr>
   <tr>
-    <td class="label">Home District:</td><td><a href='/person_addresses/edit/<%= @patient.id%>?field=home_district'><%= "#{@address.address2}" %></a></td>
-    <td class="label">Age:</td><td><a href='/people/edit/<%= @patient.id%>?field=birthdate'><%= @person.age %></a></td>
+    <td><a class="label" href='/person_addresses/edit/<%= @patient.id%>?field=home_district'>Home District:</a></td><td class="label"><%= "#{@address.address2}" %></td>
+    <td><a class="label" href='/people/edit/<%= @patient.id%>?field=birthdate'>Age:</a></td><td class="label"><%= @person.age %></td>
   </tr>
   <tr>
-    <td class="label">Phone No:</td><td><a href='/person_attributes/edit/<%= @patient.id%>?type=12'><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></a></td>
-    <td class="label">Gender:</td><td><a href='/people/edit/<%= @patient.id%>?field=gender'><%= @person.gender %></a></td>
+    <td><a class="label" href='/person_attributes/edit/<%= @patient.id%>?type=12'>Phone Number:</a></td><td class="label"><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></td>
+    <td><a class="label" href='/people/edit/<%= @patient.id%>?field=gender'>Gender:</a></td><td class="label"><%= @person.gender %></td>
   </tr>
   <tr>
-    <td class="label">Contact Address:</td><td colspan="1"><a href='/person_addresses/edit/<%= @patient.id%>?field=contact_address'><%= "#{@address.city_village},#{@address.county_district},
-        #{@address.state_province}" %></a></td>
-    <td class="label">DS No:</td><td><a href='/patient_identifiers/edit/<%= @patient.id%>?type=16'><%= @patient.ds_number %></a></td>
+    <td><a class="label" href='/person_addresses/edit/<%= @patient.id%>?field=contact_address'>Contact Address:</a></td><td class="label" colspan="1"><%= "#{@address.city_village},#{@address.county_district},
+        #{@address.state_province}" %></td>
+    <td><a class="label" href='/patient_identifiers/edit/<%= @patient.id%>?type=16'>DS Number:</a></td><td class="label"><%= @patient.ds_number %></td>
   </tr
 </table>
