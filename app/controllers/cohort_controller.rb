@@ -136,13 +136,21 @@ class CohortController < ApplicationController
     @amputations_or_ulcers = @amputation + @current_foot_ulceration
 
 
-    @tb_within_the_last_two_years_ever = report.tb_within_the_last_two_years_ever
+    @tb_known_ever = report.tb_known_ever
 
-    @tb_within_the_last_two_years = report.tb_within_the_last_two_years
+    @tb_known = report.tb_known
 
     @tb_after_diabetes_ever = report.tb_after_diabetes_ever
 
     @tb_after_diabetes = report.tb_after_diabetes
+
+    @tb_before_diabetes_ever = report.tb_before_diabetes_ever
+
+    @tb_before_diabetes = report.tb_before_diabetes
+
+    @tb_unknown_ever = report.tb_unkown_ever
+
+    @tb_unknown = report.tb_unkown
 
     @reactive_not_on_art_ever = report.reactive_not_on_art_ever
 
@@ -166,10 +174,6 @@ class CohortController < ApplicationController
 
     @dead = report.dead
 
-    @alive_ever = report.alive_ever.to_i - report.defaulters_ever.to_i
-
-    @alive = report.alive.to_i - report.defaulters.to_i
-
     @transfer_out_ever = report.transfer_out_ever
 
     @transfer_out = report.transfer_out
@@ -178,9 +182,13 @@ class CohortController < ApplicationController
 
     @stopped_treatment = report.stopped_treatment
 
-    @on_diet_ever = report.on_diet_ever
+    @alive_ever = report.alive_ever.to_i - report.defaulters_ever.to_i - report.transfer_out_ever.to_i - report.stopped_treatment_ever.to_i
 
-    @on_diet = report.on_diet
+    @alive = report.alive.to_i - report.defaulters.to_i - report.transfer_out.to_i - report.stopped_treatment.to_i
+
+    @on_diet_ever = @alive_ever.to_i - @oral_treatments_ever.to_i - @insulin_ever.to_i - @oral_and_insulin_ever.to_i
+
+    @on_diet = @alive.to_i - @oral_treatments.to_i - @insulin.to_i - @oral_and_insulin.to_i
 
     @defaulters_ever = report.defaulters_ever
 

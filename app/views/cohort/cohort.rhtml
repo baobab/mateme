@@ -242,7 +242,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom topic cellright main-table-cell" colspan="4">
-            <i>Treatment</i>
+            <i>Treatment Of Those Who Are Alive And On Treatment</i>
           </td>
         </tr>
         <tr>
@@ -258,7 +258,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
-            <b>Oral hypoglycaemic agents</b>
+            <b>Oral hypoglycaemic agents only</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
             <%= @oral_treatments %>
@@ -269,7 +269,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
-            <b>Insulin</b>
+            <b>Insulin only</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
             <%= @insulin %>
@@ -362,7 +362,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom topic cellright main-table-cell" colspan="3">
-            <i>Complications</i>
+            <i>Complications Of Those Who Are Alive And On Treatment</i>
           </td>
         </tr>
         <tr>
@@ -572,22 +572,33 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom topic cellright main-table-cell" colspan="4">
-            <i>TB</i>
+            <i>TB Status Of All Patients Registered</i>
           </td>
         </tr>
         <tr>
           <td class="cellleft cellbottom main-table-cell">
+            <b>TB Status Known</b>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @tb_known %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @tb_known_ever %>
+          </td>
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom main-table-cell" style="padding-left: 50px; font-style: italic;">
             <b>TB Ever</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
-            <%= @tb_within_the_last_two_years %>
+            <%= @tb_before_diabetes %>
           </td>
           <td class="cellleft cellbottom cellright main-table-cell" align="center">
-            <%= @tb_within_the_last_two_years_ever %>
+            <%= @tb_before_diabetes_ever %>
           </td>
         </tr>
         <tr>
-          <td class="cellleft cellbottom main-table-cell">
+          <td class="cellleft cellbottom main-table-cell" style="padding-left: 50px; font-style: italic;">
             <b>TB Since Diabetes Diagnosis</b>
           </td>
           <td class="cellleft cellbottom main-table-cell" align="center">
@@ -595,6 +606,17 @@
           </td>
           <td class="cellleft cellbottom cellright main-table-cell" align="center">
             <%= @tb_after_diabetes_ever %>
+          </td>
+        </tr>
+        <tr>
+          <td class="cellleft cellbottom main-table-cell">
+            <b>TB Status Unknown</b>
+          </td>
+          <td class="cellleft cellbottom main-table-cell" align="center">
+            <%= @tb_unknown %>
+          </td>
+          <td class="cellleft cellbottom cellright main-table-cell" align="center">
+            <%= @tb_unknown_ever %>
           </td>
         </tr>
         <tr>
@@ -610,7 +632,7 @@
         </tr>
         <tr>
           <td class="cellleft cellbottom topic cellright main-table-cell" colspan="4">
-            <i>HIV Status</i>
+            <i>HIV Status Of All Patients Registered</i>
           </td>
         </tr>
         <tr>
