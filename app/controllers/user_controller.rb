@@ -211,9 +211,8 @@ class UserController < ApplicationController
   end
   
   def change_password
-    @user = User.find(params[:id])
-   
-    unless request.get? 
+    @user = User.find(params[:user_id] || params[:id]) rescue nil
+	   unless request.get?
       if (params[:user][:password] != params[:user_confirm][:password])
         flash[:notice] = 'Password Mismatch'
         redirect_to :action => 'new'
