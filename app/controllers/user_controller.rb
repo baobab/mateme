@@ -12,6 +12,7 @@ class UserController < ApplicationController
         session[:ip_address] = request.env['REMOTE_ADDR']         
         location = Location.find(params[:location]) rescue nil        
         flash[:error] = "Invalid Workstation Location" and return unless location
+        #flash[:error] = "Location is not part of this health center" and return unless location.name.match(/Neno District Hospital/)
         session[:location_id] = nil
         session[:location_id] = location.id if location
         Location.current_location = location if location
@@ -29,24 +30,24 @@ class UserController < ApplicationController
   end          
   
   
- def health_centres
-     redirect_to(:controller => "patient", :action => "menu")
-     @health_centres = Location.find(:all,  :order => "name").map{|r|[r.name, r.location_id]}
- end 
+  def health_centres
+    redirect_to(:controller => "patient", :action => "menu")
+    @health_centres = Location.find(:all,  :order => "name").map{|r|[r.name, r.location_id]}
+  end
  
- def list_clinicians
- 	@clinician_role = Role.find_by_role("clinician").id
- 	@clinicians = UserRole.find_all_by_role_id(@clinician_role)
- end
+  def list_clinicians
+    @clinician_role = Role.find_by_role("clinician").id
+    @clinicians = UserRole.find_all_by_role_id(@clinician_role)
+  end
   
   def logout
-   #if time is 4 o'oclock then send report on logout. 
+    #if time is 4 o'oclock then send report on logout.
     reset_session
     redirect_to(:action => "login")
   end
 
   def signup
-    render :text => "Please sign up"
+    render_text "Please sign up"
   end
 
   def remind_password
@@ -66,26 +67,26 @@ class UserController < ApplicationController
   end
   
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-#  verify :method => :post, :only => [ :destroy, :create, :update ],
-        # :redirect_to => { :action => :list }
+  #  verify :method => :post, :only => [ :destroy, :create, :update ],
+  # :redirect_to => { :action => :list }
         
   def voided_list
-      session[:voided_list] = false 
+    session[:voided_list] = false
     @user_pages, @users = paginate(:users, :per_page => 50,:conditions =>["voided=?",true])
-      render :view => 'list'
+    render :view => 'list'
   end
   
   def list
     session[:voided_list] = true
     @user_pages, @users = paginate(:users, :per_page => 50,:conditions =>["voided=?",false])
- end
+  end
 
   def show
     unless session[:user_edit].nil?
-     @user = User.find(session[:user_edit])
+      @user = User.find(session[:user_edit])
     else
-     @user = User.find(:first, :order => 'date_created DESC')
-     session[:user_edit]=@user.user_id
+      @user = User.find(session[:user_id])
+      session[:user_edit]=@user.user_id
     end  
   end
 
@@ -94,13 +95,20 @@ class UserController < ApplicationController
   end
 
   def create
-      session[:user_edit] = nil
+    session[:user_edit] = nil
+    existing_user = User.find(:first, :conditions => {:username => params[:user][:username]}) rescue nil
+
+    if existing_user
+      flash[:notice] = 'Username already in use'
+      redirect_to :action => 'new'
+      return
+    end  
 
     if (params[:user][:password] != params[:user_confirm][:password])
       flash[:notice] = 'Password Mismatch'
-    #  flash[:notice] = nil
+      #  flash[:notice] = nil
       @user_first_name = params[:person_name][:given_name]
-#      @user_middle_name = params[:user][:middle_name]
+      #      @user_middle_name = params[:user][:middle_name]
       @user_last_name = params[:person_name][:family_name]
       @user_role = params[:user_role][:role_id]
       @user_admin_role = params[:user_role_admin][:role]
@@ -117,21 +125,21 @@ class UserController < ApplicationController
     @user.date_created = Time.now()
     @user.creator = session[:user_id]
     if @user.save
-     # if params[:user_role_admin][:role] == "Yes"  
+      # if params[:user_role_admin][:role] == "Yes"
       #  @roles = Array.new.push params[:user_role][:role_id] 
-       # @roles << "superuser"
-       # @roles.each{|role|
-       # user_role=UserRole.new
-       # user_role.role_id = Role.find_by_role(role).role_id
-       # user_role.user_id=@user.user_id
-       # user_role.save
+      # @roles << "superuser"
+      # @roles.each{|role|
+      # user_role=UserRole.new
+      # user_role.role_id = Role.find_by_role(role).role_id
+      # user_role.user_id=@user.user_id
+      # user_role.save
       #}
       #else
-        user_role=UserRole.new
-        user_role.role = Role.find_by_role(params[:user_role][:role_id])
-        user_role.user_id=@user.user_id
-        user_role.save
-     # end
+      user_role=UserRole.new
+      user_role.role = Role.find_by_role(params[:user_role][:role_id])
+      user_role.user_id=@user.user_id
+      user_role.save
+      # end
       flash[:notice] = 'User was successfully created.'
       redirect_to :action => 'show'
     else
@@ -146,9 +154,9 @@ class UserController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-       if @user.update_attributes(params[:user])
-        flash[:notice] = 'User was successfully updated.'
-       redirect_to :action => 'show', :id => @user
+    if @user.update_attributes(params[:user])
+      flash[:notice] = 'User was successfully updated.'
+      redirect_to :action => 'show', :id => @user
     else
       flash[:notice] = "OOps! User was not updated!."
       render :action => 'edit'
@@ -156,33 +164,33 @@ class UserController < ApplicationController
   end
 
   def destroy
-   unless request.get?
-   @user = User.find(session[:user_edit])
-    if @user.update_attributes(:voided => true, :void_reason => params[:user][:void_reason],:voided_by => session[:user_id],:date_voided => Time.now.to_s)
-      flash[:notice]='User has successfully been removed.'
-      redirect_to :action => 'voided_list'
-    else
-      flash[:notice]='User was not successfully removed'
-      redirect_to :action => 'destroy'
-    end    
-   end
+    unless request.get?
+      @user = User.find(session[:user_edit])
+      if @user.update_attributes(:voided => true, :void_reason => params[:user][:void_reason],:voided_by => session[:user_id],:date_voided => Time.now.to_s)
+        flash[:notice]='User has successfully been removed.'
+        redirect_to :action => 'voided_list'
+      else
+        flash[:notice]='User was not successfully removed'
+        redirect_to :action => 'destroy'
+      end
+    end
   end
   
   def add_role
-     @user = User.find(params[:id])
-     unless request.get?
-        user_role=UserRole.new
-        user_role.role = Role.find_by_role(params[:user_role][:role_id])
-        user_role.user_id=@user.user_id
-        user_role.save
-        flash[:notice] = "You have successfuly added the role of #{params[:user_role][:role_id]}"
-        redirect_to :action => "show"
-      else
+    @user = User.find(params[:id])
+    unless request.get?
+      user_role=UserRole.new
+      user_role.role = Role.find_by_role(params[:user_role][:role_id])
+      user_role.user_id=@user.user_id
+      user_role.save
+      flash[:notice] = "You have successfuly added the role of #{params[:user_role][:role_id]}"
+      redirect_to :action => "show"
+    else
       user_roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role.role}
       all_roles = Role.find(:all).collect{|r|r.role}
       @roles = (all_roles - user_roles)
       @show_super_user = true if UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role.role != "superuser" }
-   end
+    end
   end
   
   def delete_role
@@ -199,19 +207,20 @@ class UserController < ApplicationController
   end
   
   def user_menu
+    @super_user = true if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
     render(:layout => "layouts/menu")
   end
  
   def search_user
-   session[:user_edit] = nil
-   unless request.get?
-     session[:user_edit] = User.find_by_username(params[:user][:username]).user_id
-     redirect_to :action =>"show"
-   end
+    session[:user_edit] = nil
+    unless request.get?
+      session[:user_edit] = User.find_by_username(params[:user][:username]).user_id
+      redirect_to :action =>"show"
+    end
   end
   
   def change_password
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id] || params[:id]) rescue nil
    
     unless request.get? 
       if (params[:user][:password] != params[:user_confirm][:password])
@@ -242,6 +251,11 @@ class UserController < ApplicationController
     redirect_to(:controller => 'patient', :action => "menu")
   end
 
+  def barcode_label
+    print_string = User.find(params[:user_id]). login_barcode rescue (raise "Unable to find User (#{params[:user_id]}) or generate a barcode label for that user")
+    send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:user_id]}#{rand(10000)}.lbl", :disposition => "inline")
+  end
+
   def add_update_property
     if params.has_key?('username')
       user_id = User.find_by_username(params[:username]).id
@@ -252,10 +266,5 @@ class UserController < ApplicationController
     User.save_property(user_id, params[:property], params[:property_value]) if user_id
     render :text => ''
   end
-
-  def barcode_label
-    print_string = User.find(params[:user_id]). login_barcode rescue (raise "Unable to find User (#{params[:user_id]}) or generate a barcode label for that user")
-    send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:user_id]}#{rand(10000)}.lbl", :disposition => "inline")
-  end
-
+  
 end

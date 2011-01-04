@@ -14,6 +14,7 @@
   </tr>
   
 <% for user in @users %>
+    <!--% if !user.empty? %-->
   <tr>
   <% for column in User.content_columns %>
     <% next if column.name =~ /(Password|Salt|date|void|secret|creator|changed)/i %>

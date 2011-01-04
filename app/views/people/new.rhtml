@@ -58,15 +58,15 @@
   <%= text_field_tag "person[addresses][address2]",  params[:address2], {:field_type => 'alpha', :helpText => 'Home district', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
 
 <%if @ask_cell_phone == 'true'%>
-  <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Cell Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number", :tt_onLoad => "makeKeysToggleBlue()" %>
+  <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Cell Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number" %>
 <%end%>
 
 <%if @ask_home_phone == 'true'%>
-  <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', :helpText => 'Home Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number", :tt_onLoad => "makeKeysToggleBlue()" %>
+  <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', :helpText => 'Home Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number" %>
 <%end%>
 
 <%if @ask_office_phone == 'true'%>
-  <%= text_field_tag "person[attributes][office_phone_number]",  nil, :field_type => 'number', :helpText => 'Office Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number", :tt_onLoad => "makeKeysToggleBlue()" %>
+  <%= text_field_tag "person[attributes][office_phone_number]",  nil, :field_type => 'number', :helpText => 'Office Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number" %>
 <%end%>
 
   <%= select_tag "person[attributes][occupation]", options_for_select([" ", "Housewife", "Farmer", "Police", "Soldier", "Business", "Teacher", "Student", "Healthcare Worker"].sort.concat(["Other"]), params[:occupation]), {:helpText => 'Occupation'}%>
