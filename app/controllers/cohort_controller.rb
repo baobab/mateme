@@ -28,7 +28,7 @@ class CohortController < ApplicationController
     when "month"
       @start_date = ("#{params[:selYear]}-#{params[:selMonth]}-01").to_date.strftime("%Y-%m-%d")
       @end_date = ("#{params[:selYear]}-#{params[:selMonth]}-#{ (params[:selMonth] != 12 ?
-        ("2010-#{params[:selMonth].to_i + 1}-01".to_date - 1).strftime("%d") : 31) }").to_date.strftime("%Y-%m-%d")
+        ("#{params[:selYear]}-#{params[:selMonth].to_i + 1}-01".to_date - 1).strftime("%d") : 31) }").to_date.strftime("%Y-%m-%d")
 
     when "year"
       @start_date = ("#{params[:selYear]}-01-01").to_date.strftime("%Y-%m-%d")
@@ -192,7 +192,7 @@ class CohortController < ApplicationController
     when "month"
       @start_date = ("#{params[:selYear]}-#{params[:selMonth]}-01").to_date.strftime("%Y-%m-%d")
       @end_date = ("#{params[:selYear]}-#{params[:selMonth]}-#{ (params[:selMonth] != 12 ?
-        ("2010-#{params[:selMonth].to_i + 1}-01".to_date - 1).strftime("%d") : 31) }").to_date.strftime("%Y-%m-%d")
+        ("#{params[:selYear]}-#{params[:selMonth].to_i + 1}-01".to_date - 1).strftime("%d") : 31) }").to_date.strftime("%Y-%m-%d")
 
     when "year"
       @start_date = ("#{params[:selYear]}-01-01").to_date.strftime("%Y-%m-%d")
