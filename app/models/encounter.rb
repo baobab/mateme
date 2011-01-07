@@ -123,7 +123,10 @@ class Encounter < ActiveRecord::Base
     elsif name == 'UPDATE OUTCOME'
       # observations.collect{|observation| observation.answer_string}.join(", ")
       observations.last.answer_string
-      
+
+    elsif name == 'DIABETES INITIAL QUESTIONS'
+      observations.collect{|observation| observation.answer}.delete_if{|x| x == ''}.join(", ")
+
     elsif @encounter_types.include? name
       observations.collect{|observation| observation.to_s(:show_negatives => false)}.compact.join(", ")
     else

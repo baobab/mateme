@@ -278,6 +278,15 @@ class PatientsController < ApplicationController
       :conditions => ['encounter_type = ? AND concept_id = ?',
         diabetes_test_id, urea_id],
       :order => 'obs_datetime DESC')
+
+
+    # Macrovascular
+    macrovascular_id = Concept.find_by_name('MACROVASCULAR').id
+    @macrovascular_obs = @patient.person.observations.find(:all,
+      :joins => :encounter,
+      :conditions => ['encounter_type = ? AND concept_id = ?',
+        diabetes_test_id, macrovascular_id],
+      :order => 'obs_datetime DESC')
     render :layout => 'menu'
   end
 

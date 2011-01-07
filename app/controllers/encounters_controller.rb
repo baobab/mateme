@@ -3,7 +3,6 @@ class EncountersController < ApplicationController
   before_filter :set_patient_details
 
   def create
-
     # raise params.to_yaml
     
     encounter = Encounter.new(params[:encounter])
@@ -49,12 +48,21 @@ class EncountersController < ApplicationController
       end
 
       extracted_value_numerics = observation[:value_numeric]
+      extracted_value_coded_or_text = observation[:value_coded_or_text]
       if (extracted_value_numerics.class == Array)
 
         extracted_value_numerics.each do |value_numeric|
           observation[:value_numeric] = value_numeric
           Observation.create(observation)
         end
+
+      elsif (extracted_value_coded_or_text.class == Array)
+
+        extracted_value_coded_or_text.each do |value_coded_or_text|
+          observation[:value_coded_or_text] = value_coded_or_text
+          Observation.create(observation)
+        end
+
       else
         Observation.create(observation)
       end
@@ -303,5 +311,10 @@ class EncountersController < ApplicationController
       @encounter_datetimes = @encounters.map { |each|each.encounter_datetime.strftime("%b-%Y")}.uniq
 
     end
+  end
+
+  def finish_visit
+    raise session.inspect
+    @patient = Patient.find(params[:patient_id] || session[:patient_id])
   end
 end

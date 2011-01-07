@@ -120,4 +120,12 @@ class Observation < ActiveRecord::Base
     end
   end
   end
+
+  def answer
+    "#{(self.answer_concept_name.name == 'YES' ? 'TB: ' :
+        (self.answer_concept_name.name == 'NO' ? 'TB Never' : self.answer_concept_name.name.titleize)) rescue nil}" +
+     "#{self.value_text}#{self.value_numeric.to_i if self.value_numeric.to_i > 0}" +
+     "#{(self.value_datetime ? ', Diabetic Since: ' + self.value_datetime.strftime('%b %Y') : '') rescue nil}"
+  end
+  
 end

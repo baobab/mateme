@@ -63,7 +63,8 @@
     'VISUAL ACUITY',
     'FUNDOSCOPY',
     'FOOT CHECK',
-    'UREA'
+    'UREA',
+    'MACROVASCULAR'
   ]
 %>
 
@@ -97,21 +98,48 @@
   <%= hidden_field_tag("observations[][concept_name]", "", {:id => 'diabetes_type_concept',:disabled => true}) %>
 
   <%= hidden_field_tag("urea_unit","mg/dl") %>
-  <%= text_field_tag "observations[][value_numeric]", nil,
-    {:id => "urea_result",
-    :helptext =>"Urea Result",
-    :allowFreeText => 'true',
-    :disabled => true,
-    :min => 0,
-    :max => 25,
-    :condition => "$('diabetes_test_type').value.toLowerCase() == 'urea'",
-    :field_type => 'number',
-    :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
-    :tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
-  $('urea_result').disabled = false;
-  $('diabetes_type_concept').disabled = false;
-  $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
-    " } %>
+
+  <%= select_tag( "observations[][value_coded_or_text]", options_for_select(['', 'NORMAL', 'RAISED']), {
+      :id => "urea_result",
+      :helpText => 'Urea Result',
+      :tt_requireNextClick => false,
+      :allowFreeText => 'true',
+      :disabled => true,
+      :condition => "$('diabetes_test_type').value.toLowerCase() == 'urea'",
+      :tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
+    $('urea_result').disabled = false;
+    $('diabetes_type_concept').disabled = false;"
+    }) %>
+
+  <%= select_tag( "observations[][value_coded_or_text]", 
+    options_for_select(['', 'MYOCARDIAL INJACTIA',
+                          'ANGINA', 'STROKE', 'PERIPHERAL VASCULAR DISEASE']), {
+      :id => "macrovascular_result",
+      :helpText => 'Macrovascular Result',
+      :allowFreeText => 'true',
+      :disabled => true,
+      :multiple => true,
+      :condition => "$('diabetes_test_type').value.toLowerCase() == 'macrovascular'",
+      :tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
+    $('macrovascular_result').disabled = false;
+    $('diabetes_type_concept').disabled = false;"
+    }) %>
+
+<%#= text_field_tag "observations[][value_numeric]", nil,
+{:id => "urea_result",
+:helptext =>"Urea Result",
+:allowFreeText => 'true',
+:disabled => true,
+:min => 0,
+:max => 25,
+:condition => "$('diabetes_test_type').value.toLowerCase() == 'urea'",
+:field_type => 'number',
+:tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal",
+:tt_onload => "$('diabetes_type_concept').value = $('diabetes_test_type').value;
+$('urea_result').disabled = false;
+$('diabetes_type_concept').disabled = false;
+$('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
+" } %>
 
 
   <!--  AUTO GENERATED CODE STARTS FROM HERE  -->

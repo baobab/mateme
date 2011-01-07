@@ -22,6 +22,8 @@ class ApplicationController < ActionController::Base
   def next_task(patient)
     current_location_name = Location.current_location.name
     todays_encounters = patient.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name}
+    # Initial Questions have to be answered for every patient if not done yet
+    return "/encounters/new/supplementary_questions?patient_id=#{patient.id}" if !todays_encounters.include?("DIABETES INITIAL QUESTIONS")
     # Registration clerk needs to do registration if it hasn't happened yet
     return "/encounters/new/registration?patient_id=#{patient.id}" if current_location_name.match(/Registration/) && !todays_encounters.include?("REGISTRATION")
     # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
