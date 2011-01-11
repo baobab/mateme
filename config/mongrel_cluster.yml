@@ -1,10 +1,10 @@
 --- 
 user: root
 group: root
-cwd: /var/www/spine/
-log_file: /var/www/spine/log/mongrel.log
+cwd: /var/www/mateme/
+log_file: /var/www/mateme/log/mongrel.log
 port: 7000
 environment: production
 address: 127.0.0.1
-pid_file:  /var/www/spine/tmp/pids/mongrel.pid
+pid_file:  /var/www/mateme/tmp/pids/mongrel.pid
 servers: 3
