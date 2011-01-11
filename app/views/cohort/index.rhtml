@@ -78,7 +78,7 @@
       <input type="text" field_type="date" id="day" name="day" value="" helpText="Select Day:"
              condition="$('selSelect').value == 'day';" />
 
-      <select id="selYear" name="selYear" helpText="Select Year:" 
+      <select id="selYear" field_type="number" name="selYear" helpText="Select Year:"
               condition="$('selSelect').value == 'month' || $('selSelect').value == 'year' || $('selSelect').value == 'week';">
         <option></option>
         <% array.reverse.each do |y| %>
