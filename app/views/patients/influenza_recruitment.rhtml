@@ -5,7 +5,7 @@
   #space { display:inline; font-size:1.2em; }
 </style>
 <form id='influenza_recruitment' extended="true" action="/encounters/create_influenza_recruitment" method='post'>
-  
+
   <table name="Influenza recruitment">
     <tr>
       <td>
@@ -16,60 +16,67 @@
         <!--Create incomlete select tags-->
 
         <%array_length = @influenza_data.length
-          half_way = array_length/2
-          for i in 0..half_way%>
-           <label for=<%=@influenza_data[i].downcase.gsub!(" ","_")%>><%=@influenza_data[i]%></label>
-           <%= select_tag( "", options_for_select([]),:id => @influenza_data[i].downcase.gsub!(" ","_")) %>
-         <%end%>
+        half_way = array_length/2
+
+        #raise half_way.inspect
+
+        for i in 0..half_way%>
+          <%  if(@influenza_data[i]) %>
+
+            <label for=<%=@influenza_data[i].downcase.gsub!(" ","_")%>><%=@influenza_data[i]%></label>
+            <%= select_tag( "", options_for_select([]),:id => @influenza_data[i].downcase.gsub!(" ","_")) %>
+
+          <%end%>
+        <%end%>
       </td>
     </tr>
   </table>
-  
+
   <table name="Influenza recruitment continued...">
     <tr>
       <td>
         <%for i in half_way+1..array_length-1%>
-           <label for=<%=@influenza_data[i].downcase.gsub!(" ","_")%>><%=@influenza_data[i]%></label>
-           <%= select_tag( "", options_for_select([]),:id => @influenza_data[i].downcase.gsub!(" ","_")) %>
-         <%end%>
-  
-  <label for='ili'>Influenza-like illness?</label>
-  <% options={
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :id => "ili"
-  } %>
-  <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
-        "",
-        "Yes",
-        "No"
-      ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "ILI") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+          <label for=<%=@influenza_data[i].downcase.gsub!(" ","_")%>><%=@influenza_data[i]%></label>
+          <%= select_tag( "", options_for_select([]),:id => @influenza_data[i].downcase.gsub!(" ","_")) %>
+        <%end%>
 
-  <label for='sari'>Severe Acute Respiratory Infection?</label>
-  <% options={
-    :field_type => 'text',
-    :tt_requireNextClick => false,
-    :id => "sari",
-    :condition => "$('ili').value == 'Yes';"
-  } %>
-  <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
-        "",
-        "Yes",
-        "No"
-      ]), options ) %>
-  <%= hidden_field_tag("observations[][concept_name]", "SARI") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <label for='ili'>Influenza-like illness?</label>
+        <%= hidden_field_tag("observations[][concept_name]", "ILI") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <% options={
+          :field_type => 'text',
+          :tt_requireNextClick => false,
+          :id => "ili"
+        } %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No"
+            ]), options ) %>
 
-  <%= submit_tag "Finish" %>
+        <label for='sari'>Severe Acute Respiratory Infection?</label>
+        <%= hidden_field_tag("observations[][concept_name]", "SARI") %>
+        <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <% options={
+          :field_type => 'text',
+          :tt_requireNextClick => false,
+          :id => "sari",
+          :condition => "$('ili').value == 'Yes';"
+        } %>
+        <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+              "",
+              "Yes",
+              "No"
+            ]), options ) %>
 
-  
-        </td>
-      </tr>
-    </table>
+        <%= submit_tag "Finish" %>
+
+
+      </td>
+    </tr>
+  </table>
 
 
 </form>

@@ -223,7 +223,6 @@ class PatientsController < ApplicationController
                          "PNEUMOCOCCAL VACCINE","MEASLES VACCINE",
                          "MUAC LESS THAN 11.5 (CM)","WEIGHT",
                          "PATIENT CURRENTLY SMOKES","IS PATIENT PREGNANT?"]
-
         
     influenza_data = @patient.encounters.current.active.all(
                                         :conditions => ["encounter.encounter_type = ?",EncounterType.find_by_name('INFLUENZA DATA').encounter_type_id],
@@ -232,6 +231,9 @@ class PatientsController < ApplicationController
                                         @influenza_data.push("#{obs.concept.name.name.humanize}: #{obs.answer_string}") if !excluded_concepts.include?(obs.to_s.split(':')[0])
                                       }
 
+    if @influenza_data.length == 0
+      redirect_to :action => 'show', :patient_id => @patient.id and return
+    end
   end
   
   # Influenza method for accessing the influenza view

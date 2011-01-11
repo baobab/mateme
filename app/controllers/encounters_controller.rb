@@ -1,6 +1,7 @@
 class EncountersController < ApplicationController
 
   def create
+    
     diagnoses = JSON.parse(params['final_diagnosis']).delete_if{|x| x=="<br>"} rescue []
 
     if !diagnoses.compact.empty?
@@ -351,7 +352,8 @@ class EncountersController < ApplicationController
   # Save Adults, Paediatric, Chronic Conditions Influenza Data and Lab Tests based on the
   # Encounter::create method from the Diabetes Module
   def create_influenza_data
-   
+   # raise params.to_yaml
+    
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
