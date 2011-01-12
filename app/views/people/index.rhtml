@@ -43,24 +43,26 @@
       <%end%>
 
 
-      <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+      <button id="find_or_register_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
       
     <%if !@show_set_date%>
-      <button id="set_date_button" class="button green" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
+      <button id="set_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
       <%else%>
-      <button id="reset_date_button" class="button green" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+      <button id="reset_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
       <%end%>
     <%end%>
     <br />
+    
     <% if @super_user%>
-      <button id="find_lab_entries_button" class="button green" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
+      <button id="find_lab_entries_button" class="button green" style="min-width:515px;" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
             <span>Lab Results Entry</span>
           </button><br />
 
-      <button id="admin_button" class="button green" onclick="window.location = '/admin'"><span>Administration</span></button>
+      <button id="admin_button" class="button green" style="min-width:515px;" onclick="window.location = '/admin'"><span>Administration</span></button>
     <%end%>
-    <%if @spine_clinician || @super_user%>
-      <button id="find_lab_entries_button" class="button green" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
+    
+    <%if @spine_clinician %> <%#|| @super_user%>
+      <button id="find_lab_entries_button" class="button green" style="min-width:515px;" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:500px;">
             <span>Lab Results Entry</span>
           </button> <br />
         <%end%>
@@ -71,13 +73,15 @@
        <span style="font-size: 16pt">
         <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
       </span><br />
-      <button id="set_date_button" class="button green" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
+      <button id="set_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
     <%else%>
       <span style="font-size: 16pt; background-color: red">
         <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
       </span><br />
 
-        <button id="reset_date_button" class="button green" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+        <button id="reset_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+        
+
       <%end
     end
   %>
@@ -105,3 +109,4 @@
 </div> 
 
 <%end%>
+
