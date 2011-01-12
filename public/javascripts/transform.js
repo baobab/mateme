@@ -142,7 +142,7 @@ function generatePage(action, method, section){
 
     var divInside = document.createElement("div");
     divInside.id = "divScroller";
-    //divInside.style.overflow = "auto";
+    divInside.style.overflow = "auto";
     divInside.style.width = "100%"
     divInside.style.height = "100%"
 

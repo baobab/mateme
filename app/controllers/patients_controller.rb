@@ -197,7 +197,10 @@ class PatientsController < ApplicationController
                                         @influenza_data.push("#{obs.concept.name.name.humanize}: #{obs.answer_string}") if !excluded_concepts.include?(obs.to_s.split(':')[0])
                                       }
 
-    
+    if @influenza_data.length == 0
+      redirect_to :action => 'show', :patient_id => @patient.id and return
+    end
+   
   end
   
   # Influenza method for accessing the influenza view
