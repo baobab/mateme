@@ -528,7 +528,7 @@ class EncountersController < ApplicationController
   def close_visit
     patient = Patient.find(params[:patient_id])
     
-    patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+    patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S")) rescue nil
 
     redirect_to "/people/index"
   end
