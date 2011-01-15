@@ -152,6 +152,14 @@ class CohortController < ApplicationController
 
     @tb_unknown = report.tb_unkown
 
+    @no_tb_ever = report.no_tb_ever
+
+    @no_tb = report.no_tb
+
+    @tb_ever = report.tb_ever
+
+    @tb = report.tb
+
     @reactive_not_on_art_ever = report.reactive_not_on_art_ever
 
     @reactive_not_on_art = report.reactive_not_on_art

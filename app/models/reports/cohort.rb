@@ -772,8 +772,9 @@ class Reports::Cohort
   end
 
   # TB
-  def tb_known_ever
 =begin
+  def tb_known_ever
+
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o WHERE concept_id = \
                                     (SELECT concept_id FROM concept_name where name = 'DIAGNOSIS DATE') \
                                       AND obs_group_id IN (SELECT obs_id FROM obs s WHERE concept_id IN \
@@ -785,7 +786,7 @@ class Reports::Cohort
                                     (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS') \
                                       AND value_coded IN (SELECT DISTINCT concept_id FROM concept_name WHERE name = 'YES') \
                                         AND patient.voided = 0").length
-=end
+
 
     @orders = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM
                                     (SELECT person_id, value_datetime FROM obs
@@ -806,7 +807,7 @@ class Reports::Cohort
   end
 
   def tb_known
-=begin
+
       @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                     LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
                                       WHERE concept_id = \
@@ -825,9 +826,7 @@ class Reports::Cohort
                                       AND value_coded IN (SELECT DISTINCT concept_id FROM concept_name WHERE name = 'YES') \
                                       AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
         "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").length
-=end
-
+   
     tb = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM
                                     (SELECT person_id, value_datetime FROM obs
                                       LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id
@@ -847,6 +846,10 @@ class Reports::Cohort
                                 "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                         AND patient.voided = 0").length
   end
+                                 AND patient.voided = 0").length
+=end
+
+
 
   # TB After Diabetes
   def tb_after_diabetes_ever
@@ -908,6 +911,58 @@ class Reports::Cohort
         @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
   end
 
+  def no_tb_ever
+    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND value_coded IN \
+                              (SELECT concept_id FROM concept_name WHERE name = 'NO') AND patient.voided = 0 AND \
+                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' ").length
+  end
+
+  def no_tb
+    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND value_coded IN \
+                              (SELECT concept_id FROM concept_name WHERE name = 'NO') AND \
+                               DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
+                                "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
+                                        AND patient.voided = 0").length
+  end
+
+  def tb_ever
+    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND value_coded IN \
+                              (SELECT concept_id FROM concept_name WHERE name = 'YES') AND patient.voided = 0 AND \
+                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' ").length
+  end
+
+  def tb
+    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND value_coded IN \
+                              (SELECT concept_id FROM concept_name WHERE name = 'YES') AND \
+                               DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
+                                "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
+                                        AND patient.voided = 0").length
+  end
+
+  def tb_known_ever
+    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND patient.voided = 0 AND \
+                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' ").length
+  end
+
+  def tb_known
+    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND \
+                               DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
+                                "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
+                                        AND patient.voided = 0").length
+  end
+
   def tb_unkown_ever
 =begin
     tblasttwoyrs = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o
@@ -939,20 +994,12 @@ class Reports::Cohort
                                     (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS') \
                                       AND value_coded IN (SELECT DISTINCT concept_id FROM concept_name WHERE name = 'YES') \
                                         AND patient.voided = 0").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
+
 =end
     
-    tb = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM
-                                    (SELECT person_id, value_datetime FROM obs
-                                      LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id
-                                      WHERE concept_id IN (SELECT concept_id FROM concept_name
-                                        WHERE name = 'DIABETES DIAGNOSIS DATE') AND patient.voided = 0) AS v1,
-                                    (SELECT person_id, value_datetime FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id
-                                      WHERE concept_id = (SELECT concept_id FROM concept_name WHERE
-                                       name = 'DIAGNOSIS DATE') AND obs_group_id IN (SELECT obs_id FROM obs s WHERE
-                                        concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS'))
-                                      AND patient.voided = 0) AS v2
-                                      WHERE v1.person_id = v2.person_id").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
+    tb = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS')").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
     
     @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
                                 (" + (tb.length > 0 ? tb : "0") +  ") AND patient.voided = 0 AND \
@@ -1002,18 +1049,9 @@ class Reports::Cohort
                                         AND patient.voided = 0").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
 =end
 
-    tb = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM
-                                    (SELECT person_id, value_datetime FROM obs
-                                      LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id
-                                      WHERE concept_id IN (SELECT concept_id FROM concept_name
-                                        WHERE name = 'DIABETES DIAGNOSIS DATE') AND patient.voided = 0) AS v1,
-                                    (SELECT person_id, value_datetime FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id
-                                      WHERE concept_id = (SELECT concept_id FROM concept_name WHERE
-                                       name = 'DIAGNOSIS DATE') AND obs_group_id IN (SELECT obs_id FROM obs s WHERE
-                                        concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS'))
-                                      AND patient.voided = 0) AS v2
-                                      WHERE v1.person_id = v2.person_id").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
+    tb = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
+                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
+                              FROM concept_name WHERE name = 'TUBERCULOSIS')").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
     
     @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
                                 (" + (tb.length > 0 ? tb : "0") +  ")
