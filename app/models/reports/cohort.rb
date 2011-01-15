@@ -1080,7 +1080,7 @@ class Reports::Cohort
                                         WHERE value_coded = \
                                     (SELECT concept_id FROM concept_name WHERE name = 'NON-REACTIVE') and concept_id = \
                                       (SELECT concept_id FROM concept_name WHERE name = 'HIV STATUS') AND \
-                                        DATEDIFF(NOW(), obs_datetime)/365 > 1 AND patient.voided = 0 AND \
+                                        DATEDIFF(NOW(), obs_datetime)/365 < 1 AND patient.voided = 0 AND \
                                         DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
   end
 
@@ -1089,7 +1089,7 @@ class Reports::Cohort
                                     LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
                                     WHERE value_coded = (SELECT concept_id FROM concept_name WHERE name = 'NON-REACTIVE') AND \
                                     concept_id = (SELECT concept_id FROM concept_name WHERE name = 'HIV STATUS') AND \
-                                        DATEDIFF(NOW(), obs_datetime)/365 > 1 \
+                                        DATEDIFF(NOW(), obs_datetime)/365 < 1 \
                                       AND patient.patient_id = obs.person_id AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
         @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                     AND patient.voided = 0").length
