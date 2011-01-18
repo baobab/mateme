@@ -134,11 +134,11 @@ TimeSelector.prototype = {
     },
 
     incrementMinute: function() {
-        if(this.currentMinute.value >= (new Date().getMinutes())){
-
-        } else if(this.currentMinute.value == 59){
+        if(this.currentMinute.value == 59){
             this.currentMinute.value = 0;
-        } else {
+            //} else if(this.currentMinute.value >= (new Date().getMinutes())){
+            //  this.currentMinute.value++;
+        } else  {
             this.currentMinute.value++;
         }
 
