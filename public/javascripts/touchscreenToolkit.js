@@ -447,7 +447,7 @@ function addScrollButtons() {
 }
 
 function showAjaxResponse(aHttpRequest) {
-    $('options').innerHTML = aHttpRequest.responseText;
+    $('options' + tstCurrentPage).innerHTML = aHttpRequest.responseText;
 }
 
 function getFormPostParams() {
@@ -566,7 +566,7 @@ function getOptions() {
     viewPort.setAttribute('class',optionsClass);
 
     var options = document.createElement("div");
-    options.setAttribute('id','options');
+    options.setAttribute('id','options' + pageNum);
     options.setAttribute('class','scrollable');
     options.setAttribute('refersToTouchscreenInputID',pageNum);
 	
@@ -849,9 +849,10 @@ function handleResult(optionsList, aXMLHttpRequest) {
     if (!aXMLHttpRequest) return;
 
     if (!optionsList) return;
-
+    
     if (aXMLHttpRequest.readyState == 4 && aXMLHttpRequest.status == 200) {
         optionsList.innerHTML = aXMLHttpRequest.responseText;
+
         if(optionsList.getElementsByTagName("li")[0] != null){
             var optionNodes = optionsList.getElementsByTagName("li");
             var optionNodeCount = optionNodes.length;
@@ -869,6 +870,7 @@ function handleResult(optionsList, aXMLHttpRequest) {
                 }
             }
         }
+
         optionsList.innerHTML = "<ul>"+optionsList.innerHTML+"</ul>"
     }
 }
@@ -1310,7 +1312,7 @@ function showBestKeyboard(aPageNum) {
         }
         return;
     }
-    var optionCount = $('options').getElementsByTagName("li").length;
+    var optionCount = $('options' + aPageNum).getElementsByTagName("li").length;
     if ((optionCount > 0 && optionCount < 6 && inputElement.tagName == "SELECT") || (inputElement.getAttribute("multiple") == "multiple")) {
         $("keyboard").innerHTML = "";
         return;
@@ -1554,7 +1556,7 @@ function getDatePicker() {
         });
     }
 
-    $("options").innerHTML = "";
+    $("options" + tstCurrentPage).innerHTML = "";
 }
 
 function getTimePicker() {
@@ -1593,7 +1595,7 @@ function getTimePicker() {
         });
     }
 
-    $("options").innerHTML = "";
+    $("options" + tstCurrentPage).innerHTML = "";
 }
 
 function getYearPicker() {
@@ -1744,10 +1746,10 @@ function listSuggestions(inputTargetPageNumber) {
     var inputElement = $('touchscreenInput'+inputTargetPageNumber);
 
     if(inputElement.getAttribute("ajaxURL") != null){
-        ajaxRequest($('options'),inputElement.getAttribute("ajaxURL")+inputElement.value);
+        ajaxRequest($('options' + inputTargetPageNumber),inputElement.getAttribute("ajaxURL")+inputElement.value);
     }
     else{
-        var optionsList = document.getElementById('options');
+        var optionsList = document.getElementById('options' + inputTargetPageNumber);
         options = optionsList.getElementsByTagName("li");
         var searchTerm = new RegExp(inputElement.value,"i");
         for(var i=0; i<options.length; i++){
@@ -2129,7 +2131,7 @@ TTInput.prototype = {
                     break;
                 }
             } else {
-                selectOptions = $("options").getElementsByTagName("LI");
+                selectOptions = $("options" + tstCurrentPage).getElementsByTagName("LI");
                 for (var i=0; i<selectOptions.length; i++) {
                     if (selectOptions[i].value == this.value ||
                         selectOptions[i].text == this.value ||
