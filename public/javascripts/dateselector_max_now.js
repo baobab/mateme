@@ -129,8 +129,9 @@ DateSelector.prototype = {
     },
 	
     incrementMonth: function() {
-        if(this.date.getMonth() >= (new Date().getMonth())){
-        } else if (this.date.getMonth() >= 11) {
+        //if(this.date.getMonth() >= (new Date().getMonth())){
+        //} else
+        if (this.date.getMonth() >= 11) {
             this.date.setMonth(0);
             this.currentMonth.value = this.getMonth();
         } else {
@@ -167,7 +168,7 @@ DateSelector.prototype = {
     incrementDay: function() {
         var currentDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
 
-        if(new Date().getDate() > currentDate.getDate()){
+        //if(new Date().getDate() > currentDate.getDate()){
             var nextDay = DateUtil.nextDate(currentDate);
             if (nextDay.getMonth() == this.date.getMonth())
                 this.date.setDate(this.date.getDate()+1);
@@ -175,7 +176,7 @@ DateSelector.prototype = {
                 this.date.setDate(1);
 
             this.currentDay.value = this.date.getDate();
-        }
+        //}
 
         this.update(this.target);
     },
