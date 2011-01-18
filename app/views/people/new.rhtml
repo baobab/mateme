@@ -47,7 +47,7 @@
   <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', 
     :absoluteMin => 1, :absoluteMax => 31,
     :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")',
-    :tt_pageStyleClass => "Numeric NumbersOnly"%>
+    :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value,$('person_birth_month').value)"%>
 
   <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Please enter age of client', :absoluteMin => 1,
     :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"',

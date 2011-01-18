@@ -48,7 +48,7 @@
     </tr>
     <tr>
       <td colspan="2">
-        <% if !@patient.current_hiv_status.nil? %>
+        <% if !@patient.current_hiv_status.blank? %>
           <% if @patient.current_hiv_status[0].upcase.eql?("NOT TESTED") %>
             <i style="color: red;">
               (Patient can't be discharged. HIV Status not known yet!)
