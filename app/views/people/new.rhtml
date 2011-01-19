@@ -41,7 +41,7 @@
 
   <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %> 
 
-  <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :absoluteMin => 1, :absoluteMax => 31, :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")'%>
+  <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :absoluteMin => 1, :absoluteMax => 31, :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")' , :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value,$('person_birth_month').value)"%>
 
   <%= text_field_tag "person[addresses][city_village]",  params[:city_village], {:field_type => 'alpha', :helpText => 'Current Village (residence)', :ajaxURL => '/search/village?search_string=', :allowFreeText => true }%>
 
