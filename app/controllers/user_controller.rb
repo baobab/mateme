@@ -99,7 +99,7 @@ class UserController < ApplicationController
     existing_user = User.find(:first, :conditions => {:username => params[:user][:username]}) rescue nil
 
     if existing_user
-      flash[:notice] = 'Username already in use'
+      flash[:notice] = "#{@user.username} already in use"
       redirect_to :action => 'new'
       return
     end  
@@ -140,8 +140,8 @@ class UserController < ApplicationController
       user_role.user_id=@user.user_id
       user_role.save
       # end
-      flash[:notice] = 'User was successfully created.'
-      redirect_to :action => 'show'
+      flash[:notice] = "#{@user.username} was successfully created."
+      redirect_to :action => 'user_menu'
     else
       flash[:notice] = 'OOps! User was not created!.'
       render :action => 'new'
@@ -155,7 +155,7 @@ class UserController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params[:user])
-      flash[:notice] = 'User was successfully updated.'
+      flash[:notice] = "#{@user.username} was successfully updated."
       redirect_to :action => 'show', :id => @user
     else
       flash[:notice] = "OOps! User was not updated!."
@@ -168,9 +168,10 @@ class UserController < ApplicationController
       @user = User.find(session[:user_edit])
       if @user.update_attributes(:voided => true, :void_reason => params[:user][:void_reason],:voided_by => session[:user_id],:date_voided => (session[:datetime] ||=  Time.now).to_s)
         flash[:notice]='User has successfully been removed.'
+
         redirect_to :action => 'voided_list'
       else
-        flash[:notice]='User was not successfully removed'
+        flash[:notice]="#{@user.username} was not successfully removed"
         redirect_to :action => 'destroy'
       end
     end
