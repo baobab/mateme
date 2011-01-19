@@ -24,14 +24,14 @@
       <td>
         <%= hidden_field_tag "encounter[encounter_type_name]", "CHRONIC CONDITIONS" %>
         <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-        <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+        <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||= DateTime.now() %>
         <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
         <label for='cancer'>Cancer?</label>
         <%= hidden_field_tag("observations[][concept_name]", "CANCER") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -49,7 +49,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "DIABETES") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -67,7 +67,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "HIV") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -85,7 +85,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "CHRONIC HEART CONDITION") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -103,7 +103,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "CHRONIC LIVER DISEASE") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -121,7 +121,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "TB") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -145,7 +145,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "ASTHMA") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -163,7 +163,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "EPILEPSY") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -181,7 +181,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "KIDNEY DISEASE") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -199,7 +199,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "BMI") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <% options=default.merge({
             :field_type => 'text',
             :tt_requireNextClick => false,
@@ -225,7 +225,7 @@
         <%= hidden_field_tag("observations[][concept_name]", "OTHER (SPECIFY)") %>
         <%= hidden_field_tag("observations[][parent_concept_name]", "CHRONIC CONDITIONS") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
         <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
 
         <%= submit_tag "Finish" %>

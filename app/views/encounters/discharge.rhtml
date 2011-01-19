@@ -26,4 +26,4 @@
     <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
     <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER HOSPITAL", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>

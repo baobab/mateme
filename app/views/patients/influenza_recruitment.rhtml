@@ -11,7 +11,7 @@
       <td>
         <%= hidden_field_tag "encounter[encounter_type_name]", "INFLUENZA DATA" %>
         <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-        <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+        <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
         <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
         <!--Create incomlete select tags-->
 
@@ -43,7 +43,7 @@
         <label for='ili'>Influenza-like illness?</label>
         <%= hidden_field_tag("observations[][concept_name]", "ILI") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
         <% options={
           :field_type => 'text',
           :tt_requireNextClick => false,
@@ -58,7 +58,7 @@
         <label for='sari'>Severe Acute Respiratory Infection?</label>
         <%= hidden_field_tag("observations[][concept_name]", "SARI") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
         <% options={
           :field_type => 'text',
           :tt_requireNextClick => false,

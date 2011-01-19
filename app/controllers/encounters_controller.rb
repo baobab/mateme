@@ -9,7 +9,7 @@ class EncountersController < ApplicationController
       diagnoses.each{|obs_group|
       
         encounter = Encounter.new(params[:encounter])
-        encounter.encounter_datetime ||= session[:datetime].to_s + " " + Time.now.strftime("%H:%M").to_s
+        encounter.encounter_datetime ||= session[:datetime].to_s + " " + (session[:datetime] ||= Time.now).strftime("%H:%M").to_s
         encounter.save
 
 
@@ -26,7 +26,7 @@ class EncountersController < ApplicationController
           observation = {}
           observation[:value_coded_or_text] = obs
           observation[:encounter_id] = encounter.id
-          observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+          observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
           observation[:person_id] ||= encounter.patient_id
           if confirmatory_evidence.include?(obs)
             observation[:concept_name] = "RESULT AVAILABLE"
@@ -42,7 +42,7 @@ class EncountersController < ApplicationController
     else
 
       encounter = Encounter.new(params[:encounter])
-      encounter.encounter_datetime = session[:datetime].to_s + " " + Time.now.strftime("%H:%M").to_s unless session[:datetime].blank?
+      encounter.encounter_datetime = session[:datetime].to_s + " " + (session[:datetime] ||= Time.now).strftime("%H:%M").to_s unless session[:datetime].blank?
       encounter.save
 
       (params[:observations] || []).each do |observation|
@@ -55,7 +55,7 @@ class EncountersController < ApplicationController
         next if values.length == 0
         observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
         observation[:encounter_id] = encounter.id
-        observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+        observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
         observation[:person_id] ||= encounter.patient_id
         observation[:concept_name] ||= "DIAGNOSIS" if encounter.type.name == "DIAGNOSIS"
         Observation.create(observation)
@@ -64,7 +64,7 @@ class EncountersController < ApplicationController
 
 =begin
     if encounter.type.name.eql?("IS PATIENT REFERRED?")
-      encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+      encounter.patient.current_visit.update_attributes(:end_date => (session[:datetime] ||= Time.now).strftime("%Y-%m-%d %H:%M:%S"))
     end
 =end
 
@@ -293,7 +293,8 @@ class EncountersController < ApplicationController
     encounter = Encounter.new(params[:encounter])
     
     # We need the time as well here which was not captured by session[:datetime]
-    encounter.encounter_datetime = Time.now   #session[:datetime] unless session[:datetime].blank?
+    # encounter.encounter_datetime = (session[:datetime] ||= Time.now)   #session[:datetime] unless session[:datetime].blank?
+    encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank?
     encounter.save
 
     identifier = PatientIdentifier.new(params[:patient_identifier])
@@ -309,7 +310,7 @@ class EncountersController < ApplicationController
       next if values.length == 0
       observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
       observation[:encounter_id] = encounter.id
-      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
       observation[:person_id] ||= encounter.patient_id
 
       observation[:concept_name] = "LAB TEST SERIAL NUMBER"
@@ -326,7 +327,7 @@ class EncountersController < ApplicationController
         observation[:concept_name] = "REQUESTED LAB TEST SET"
         observation[:obs_group_id] = o.obs_id
         observation[:encounter_id] = encounter.id
-        observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+        observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
         observation[:person_id] ||= encounter.patient_id
         observation[:value_text] = nil
         observation[:value_coded_or_text] = obs
@@ -368,7 +369,7 @@ class EncountersController < ApplicationController
       next if values.length == 0
       observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
       observation[:encounter_id] = encounter.id
-      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
       observation[:person_id] ||= encounter.patient_id
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
 
@@ -479,7 +480,7 @@ class EncountersController < ApplicationController
       next if values.length == 0
       observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
       observation[:encounter_id] = encounter.id
-      observation[:obs_datetime] = encounter.encounter_datetime ||= Time.now()
+      observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
       observation[:person_id] ||= encounter.patient_id
       observation[:concept_name] ||= "OUTPATIENT DIAGNOSIS" if encounter.type.name == "OUTPATIENT DIAGNOSIS"
 
@@ -528,7 +529,7 @@ class EncountersController < ApplicationController
   def close_visit
     patient = Patient.find(params[:patient_id])
     
-    patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S")) rescue nil
+    patient.current_visit.update_attributes(:end_date => (session[:datetime] ||= Time.now).strftime("%Y-%m-%d %H:%M:%S")) rescue nil
 
     redirect_to "/people/index"
   end

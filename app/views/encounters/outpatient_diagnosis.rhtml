@@ -14,7 +14,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <% if(session["category"] == "paeds") %>
@@ -28,7 +28,7 @@
     <%= text_field_tag("observations[][value_numeric]", nil, options) %>
     <%= hidden_field_tag("observations[][concept_name]", "WEIGHT") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 
   <% end %>
 
@@ -45,7 +45,7 @@
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 
   <% options[:optional] = 'true' %>
   <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
@@ -68,7 +68,7 @@
     <%= hidden_field_tag("observations[][value_text]", nil) %>
     <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
   <% end %>
   <%= submit_tag "Finish" %>
 </form>

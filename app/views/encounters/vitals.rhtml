@@ -11,7 +11,7 @@
      
     <%= hidden_field_tag "encounter[encounter_type_name]", "VITALS" %>
     <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   
     <% if ask_temperature %>
@@ -29,7 +29,7 @@
            :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
         <%= hidden_field_tag("observations[][concept_name]", "TEMPERATURE (C)") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
      
          
     <label for='weight'>Weight (KG)</label>
@@ -46,7 +46,7 @@
          :tt_pageStyleClass => "Numeric NumbersOnlyWithDecimal"} %>
       <%= hidden_field_tag("observations[][concept_name]", "WEIGHT (KG)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
   
     <label for='height'>Height (CM)</label>
       <%= text_field_tag "observations[][value_numeric]", nil,
@@ -62,7 +62,7 @@
          :tt_pageStyleClass => "Numeric NumbersOnly"} %>
       <%= hidden_field_tag("observations[][concept_name]", "HEIGHT (CM)") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 <% end %> 
     <% if ask_blood_pressure %>
 
@@ -80,7 +80,7 @@
            :tt_pageStyleClass => "Numeric NumbersOnly"} %>
         <%= hidden_field_tag("observations[][concept_name]", "SYSTOLIC BLOOD PRESSURE (?/Y)") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 
       <label for='diastolic_blood_pressure'>DIASTOLIC BLOOD PRESSURE (X/?)</label>
         <%= text_field_tag "observations[][value_numeric]", nil,
@@ -96,7 +96,7 @@
            :tt_pageStyleClass => "Numeric NumbersOnly"} %>
         <%= hidden_field_tag("observations[][concept_name]", "DIASTOLIC BLOOD PRESSURE (X/?)") %>
         <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-        <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+        <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 
       <% end %>
  

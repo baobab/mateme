@@ -24,7 +24,7 @@
     <%
 
     min = 2008
-    max = Time.now.strftime("%Y").to_i
+    max = (session[:datetime] ||= Time.now).strftime("%Y").to_i
 
     array = []
 

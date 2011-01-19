@@ -2,7 +2,7 @@
   var tt_cancel_destination = "/people"
 </script>
 
-<%= stylesheet_link_tag "patient_set_datetime_for_retrospective_data_entry" %>
+<%#= stylesheet_link_tag "patient_set_datetime_for_retrospective_data_entry" %>
 <% form_tag :action => "set_datetime" do %>
   <% finish_year = Date.today %>
   <p><label for ="retrospective_encounter_date_time">Date when visit occured</label> </p>
@@ -11,7 +11,14 @@
   %>
 
 <p><label for ="retrospective_patient_year">Year when visit occured</label> </p>
-  <%= text_field_tag (:retrospective_patient_year,nil,{:field_type => 'number', :absoluteMin => "1940", :absoluteMax => Time.now.year}) %>
+  <%= text_field_tag(:retrospective_patient_year,nil,
+    {
+      :field_type => 'number',
+      :absoluteMin => "1940",
+      :absoluteMax => (session[:datetime] ||=  Time.now).year,
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
 <p><label for ="retrospective_patient_month">Month when visit occured</label> </p>
   <% optionsString = "<option>" "" "</option>"
   1.upto(12){ |number| 
@@ -19,7 +26,12 @@
       }
       optionsString << "<option>" "Unknown" "</option>"
   %>
-  <%=select_tag(:retrospective_patient_month, optionsString,  {:field_type => 'alpha', :tt_pageStyleClass => "ShortSelectList", :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown"'})%>
+  <%=select_tag(:retrospective_patient_month, optionsString,
+    {
+      :field_type => 'alpha',
+      :tt_pageStyleClass => "LongSelectList",
+      :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown"'
+    })%>
 
 <p><label for ="retrospective_patient_day">Day when visit occured</label> </p>
   <%day=Array.new(31){|d|d + 1 } 
@@ -27,6 +39,9 @@
     unknown[0]= "Unknown" 
     days_with_unknown = day<< "Unknown"
     days = [""].concat day%>
-    <%= select_tag(:retrospective_patient_day, options_for_select(days), :field_type => 'number', :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown" && $("retrospective_patient_month").value.toLowerCase() != "unknown"', :absoluteMax => Date.today.to_s)  %>
+    <%= text_field_tag(:retrospective_patient_day, nil, # options_for_select(days),
+      {:field_type => 'number',
+      :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown" && $("retrospective_patient_month").value.toLowerCase() != "unknown"',
+      :absoluteMax => Date.today.to_s})  %>
   <%= submit_tag "Set visit date" %>
 <% end %>

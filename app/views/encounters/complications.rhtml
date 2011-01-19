@@ -10,7 +10,7 @@
 
 	<%= hidden_field_tag "encounter[encounter_type_name]", "COMPLICATIONS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||= DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   
   <label for='complication_eyes_vision'>EYE COMPLICATIONS: Vision Changes/Blurry Vision</label>
@@ -24,7 +24,7 @@
   ]), options) %>
   <%= hidden_field_tag("observations[][concept_name]", "EYE COMPLICATIONS: Vision Changes/Blurry Vision") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_eyes_vision_frequency'>EYE COMPLICATIONS: How Frequent are Vision Changes</label>
   <% options=default.merge({
@@ -38,7 +38,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "EYE COMPLICATIONS: How Frequent are Vision Changes") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_neorologic_numbness'>NEOROLOGIC/EXTREMETIES: Numbness or Tingling in Hand, Feet, Legs</label>
   <% options=default.merge({
@@ -52,7 +52,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "NEOROLOGIC/EXTREMETIES: Numbness or Tingling in Hand, Feet, Legs") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_neorologic_soles'>NEOROLOGIC/EXTREMETIES: Non Healing Sores on Feet/Ankles</label>
   <% options=default.merge({
@@ -65,7 +65,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "NEOROLOGIC/EXTREMETIES: Non Healing Sores on Feet/Ankles") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_cardiovascular_chest_pains'>CARDIOVASCULAR: Chest Pains</label>
   <% options=default.merge({
@@ -78,7 +78,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR: Chest Pains") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
   
   <label for='complication_cardiovascular_short_breath'>CARDIOVASCULAR: Shortness of Breath</label>
   <% options=default.merge({
@@ -91,7 +91,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "CARDIOVASCULAR: Shortness of Breath") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_renal_urine'>RENAL: Urine Output</label>
   <% options=default.merge({
@@ -104,7 +104,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "RENAL: Urine Output") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_hyperglycemia_polyuria'>HYPERGLYCEMIA SYMPTOMS: Polyuria</label>
   <% options=default.merge({
@@ -117,7 +117,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "HYPERGLYCEMIA SYMPTOMS: Polyuria") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_hyperglycemia_polydipsia'>HYPERGLYCEMIA SYMPTOMS: Polydipsia</label>
   <% options=default.merge({
@@ -130,7 +130,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "HYPERGLYCEMIA SYMPTOMS: Polydipsia") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_hypoglycemia_dizziness'>HYPOGLYMECIA SYMPTOMS: Dizziness</label>
   <% options=default.merge({
@@ -143,7 +143,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: Dizziness") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_hypoglycemia_sweating'>HYPOGLYMECIA SYMPTOMS: Sweating/Feeling Clammy</label>
   <% options=default.merge({
@@ -156,7 +156,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: Sweating/Feeling Clammy") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
   
   <label for='complication_hypoglycemia_loseconsciousness'>HYPOGLYMECIA SYMPTOMS: Loss of Consciousness</label>
   <% options=default.merge({
@@ -169,7 +169,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: Loss of Consciousness") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
   <label for='complication_hyperglycemia_weakness'>HYPOGLYMECIA SYMPTOMS: General body weakness</label>
   <% options=default.merge({
@@ -182,7 +182,7 @@
   ]), options ) %>
   <%= hidden_field_tag("observations[][concept_name]", "HYPOGLYMECIA SYMPTOMS: General body weakness") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
   
   <%= submit_tag "Finish" %>    
 </form>

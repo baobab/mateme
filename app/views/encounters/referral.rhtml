@@ -8,7 +8,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "IS PATIENT REFERRED?" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%#= hidden_field_tag("next_url", "/people") %>
@@ -23,7 +23,7 @@
 	} %>
   <%= hidden_field_tag("observations[][concept_name]", "IS PATIENT REFERRED?", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
   
   <label for="refer">Referral Facility?</label>
   <% options = {
@@ -37,7 +37,7 @@
   <%= text_field_tag "observations[][value_coded_or_text]", nil, options %>
   <%= hidden_field_tag("observations[][concept_name]", "REFERRAL CLINIC IF REFERRED", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
   <%#= hidden_field_tag("next_url", "/patients/show/#{ @patient.patient_id }") %>
   
 </form>

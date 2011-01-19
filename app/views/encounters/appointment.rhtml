@@ -25,7 +25,7 @@
 <form id='appointment' action="/encounters/create" method='post'>
   <%= hidden_field_tag "encounter[encounter_type_name]", "APPOINTMENT" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||= DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <label for='time_until_next_visit'>Time Until Next Appointment</label>
@@ -43,8 +43,8 @@
   <label for='next_appointment_date'>Next Appointment Date</label>
   <%= hidden_field_tag("observations[][concept_name]", "RETURN VISIT DATE") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  <%= text_field_tag("observations[][value_datetime]", (Time.now + 1.month).year, {:helpText => 'Next Appointment Date', 
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+  <%= text_field_tag("observations[][value_datetime]", (session[:datetime] ||= Time.now + 1.month).year, {:helpText => 'Next Appointment Date',
                                                                                    :field_type => 'date', 
                                                                                    :absoluteMin => Date.today.year, 
                                                                                    :absoluteMax => Date.today.year + 1, 

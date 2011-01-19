@@ -27,8 +27,8 @@ class PrescriptionsController < ApplicationController
     @diagnosis = Observation.find(params[:diagnosis]) rescue nil
     order_type_text = params[:selected_order_type].to_s
 
-    start_date = Time.now
-    auto_expire_date = Time.now + params[:duration].to_i.days
+    start_date = session[:datetime] ||=  Time.now
+    auto_expire_date = (session[:datetime] ||=  Time.now) + params[:duration].to_i.days
     prn = 0
 
 
@@ -49,7 +49,7 @@ class PrescriptionsController < ApplicationController
     else
       prescriptions_array.each{|arr|
         @drug = Drug.find_by_name(arr[0]) rescue nil
-        auto_expire_date = Time.now + arr[2].to_i.days
+        auto_expire_date = (session[:datetime] ||=  Time.now) + arr[2].to_i.days
         unless @drug
           flash[:notice] = "No matching drugs found for formulation #{params[:formulation]}"
           render :new
@@ -200,7 +200,7 @@ class PrescriptionsController < ApplicationController
       prescription.delete(:value_text) unless prescription[:value_coded_or_text].blank?
 
       prescription[:encounter_id]  = @encounter.encounter_id
-      prescription[:obs_datetime]  = @encounter.encounter_datetime ||= Time.now()
+      prescription[:obs_datetime]  = @encounter.encounter_datetime ||= (session[:datetime] ||=  Time.now())
       prescription[:person_id]     = @encounter.patient_id
 
       diagnosis_observation = Observation.create("encounter_id" => prescription[:encounter_id],
@@ -243,8 +243,8 @@ class PrescriptionsController < ApplicationController
         return
       end
 
-      start_date = Time.now
-      auto_expire_date = Time.now + prescription[:duration].to_i.days
+      start_date = session[:datetime] ||=  Time.now
+      auto_expire_date = (session[:datetime] ||=  Time.now) + prescription[:duration].to_i.days
       
       DrugOrder.write_order(@encounter, @patient, @diagnosis, @drug, start_date, 
         auto_expire_date, prescription[:dosage], prescription[:frequency], 0, 1)

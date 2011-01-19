@@ -18,26 +18,26 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE HIV STATUS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%= hidden_field_tag ("observations[][value_coded_or_text]", @new_hiv_status)%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "HIV STATUS", {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
   <%= hidden_field_tag("observations[][value_datetime]", nil) %>
 
   <%= select_tag("hiv_status_update_visit", options_for_select(["", "CURRENT VISIT","PREVIOUS VISIT"]), {:helpText => 'HIV Test visit', :tt_requireNextClick => 'false'})%>
 
   <%= text_field_tag("hiv_test_date", nil, {:field_type => 'date', :id => "hiv_test_date",:tt_onUnLoad => 'setDate();', :helpText => 'Hiv test date'}) %>
 
-  <%= hidden_field_tag("observations[][value_datetime]", DateTime.now(), {:id => "hiv_test_date_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", session[:datetime] ||=  DateTime.now(), {:id => "hiv_test_date_value_datetime"}) %>
   <%= hidden_field_tag("observations[][value_text]", nil,{:id =>  "hiv_test_date_value_text"}) %>
   <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
   <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 
   <%= submit_tag "Finish" %>
 </form>

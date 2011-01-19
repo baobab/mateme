@@ -35,7 +35,7 @@
   <div id="details" style="float:left">
     <form>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 
     </form>
     <%= render :partial => "details" %>

@@ -122,7 +122,7 @@ class UserController < ApplicationController
     params[:user][:user_id] = person.id
     @user = User.new(params[:user])
     @user.id = person.id
-    @user.date_created = Time.now()
+    @user.date_created = session[:datetime] ||=  Time.now()
     @user.creator = session[:user_id]
     if @user.save
       # if params[:user_role_admin][:role] == "Yes"
@@ -166,7 +166,7 @@ class UserController < ApplicationController
   def destroy
     unless request.get?
       @user = User.find(session[:user_edit])
-      if @user.update_attributes(:voided => true, :void_reason => params[:user][:void_reason],:voided_by => session[:user_id],:date_voided => Time.now.to_s)
+      if @user.update_attributes(:voided => true, :void_reason => params[:user][:void_reason],:voided_by => session[:user_id],:date_voided => (session[:datetime] ||=  Time.now).to_s)
         flash[:notice]='User has successfully been removed.'
         redirect_to :action => 'voided_list'
       else

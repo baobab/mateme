@@ -13,7 +13,7 @@
 
     <%= hidden_field_tag "encounter[encounter_type_name]", "LAB ORDERS" %>
     <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-    <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
     <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
     <%= hidden_field_tag "patient_identifier[patient_id]", @patient.id %>
@@ -38,7 +38,7 @@
     <%#= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST SERIAL NUMBER") %>
     <%= hidden_field_tag("observations[][concept_name]", "REQUESTED LAB TEST SET") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 
     <%= submit_tag "Finish" %>
   </form>

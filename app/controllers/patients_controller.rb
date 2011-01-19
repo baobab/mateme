@@ -135,7 +135,7 @@ class PatientsController < ApplicationController
 
     if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
-      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
+      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue session[:datetime] ||=  Time.now()
       current_visit.save
       print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
 
