@@ -68,10 +68,12 @@
       }
     end
   %>
+  <% if !@patient.nil? %>
   <!--a class="button green" href='/patients/print_lab_results?patient_id=<%= @patient.id -%>'
      style="-moz-border-radius:10px; min-width: 237px; font-size: 1.7em; font-weight: normal; min-height: 57px;">Print Lab Results</a-->
     <button class="button blue testButtons" onclick="window.location = '/patients/print_lab_results?patient_id=<%= @patient.id -%>';">
       <span>Print Lab Results</span>
     </button>
+  <% end %>
   </div>
 </center>
