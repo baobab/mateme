@@ -1,6 +1,16 @@
 body{
-  overflow: auto;
+    overflow: auto;
 }
+table {
+    page-break-inside:auto;
+}
+
+@media print
+{
+table {page-break-after:always}
+}
+
+tr    { page-break-inside:avoid; page-break-after:auto }
 
 #divDisplay{
     overflow: visible;
@@ -25,8 +35,8 @@ body{
 }
 
 .main-table-cell {
-   padding:1px;
-  font-size:0.5em;
+    padding:1px;
+    font-size:0.5em;
 }
 
 .main_legend {

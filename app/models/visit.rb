@@ -24,7 +24,7 @@ class Visit < ActiveRecord::Base
       label.font_horizontal_multiplier = 1
       label.font_vertical_multiplier = 1
       label.left_margin = 50
-      label.draw_multi_text("#{(session[:datetime] ||=  DateTime.now).strftime("%d %b %Y %H:%M")} \
+      label.draw_multi_text("#{(DateTime.now).strftime("%d %b %Y %H:%M")} \
                      #{self.patient.national_id_with_dashes}",
         :font_reverse => false)
       label.draw_multi_text("#{self.patient.full_name.titleize.delete("'")}") #'
