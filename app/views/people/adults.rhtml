@@ -10,11 +10,12 @@
     <div style="color:gray">scan a barcode</div>
   </form>
   <div class="centered">
-    <button id="find_or_register_button" class="button green" onclick="window.location = '/people/search'"><span>Find or Register Adult by Name</span></button>
-    <button id="set_date_button" class="button green" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button><br />
-    <button id="reset_date_button" class="button green" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
-    <br/>
-    <br/>
+    <button id="find_or_register_button" class="button green" style="min-width:500px;" onclick="window.location = '/people/search'"><span>Find or Register Adult by Name</span></button>
+    <%if !@show_set_date%>
+    <button id="set_date_button" class="button green" style="min-width:500px;" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button><br />
+    <% else %>
+    <button id="reset_date_button" class="button green" style="min-width:500px;" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+    <% end %>
     <!--button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button-->
     <!-- TODO: need to show current date
          TODO: need set date/reset date button

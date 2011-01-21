@@ -115,8 +115,8 @@
         <option value="12">December</option>
       </select>
 
-      <select id="selQtr" name="selQtr" helpText="Select Quarter:"
-              condition="$('selSelect').value == 'quarter'">
+      <select id="selQtr" name="selQtr" helpText="Select Quarter:" field_type="number"
+              condition="$('selSelect').value == 'quarter'" tt_pageStyleClass="NumbersOnly">
         <option></option>
         <% qtr.reverse.each{|q|
 
@@ -153,8 +153,8 @@
       </select>
 
 
-      <select id="selWeek" name="selWeek" helpText="Select Week:"
-              condition="$('selSelect').value == 'week'">
+      <select id="selWeek" name="selWeek" helpText="Select Week:" field_type="number"
+              condition="$('selSelect').value == 'week'" tt_pageStyleClass="NumbersOnly">
         <option></option>
         <% (1..52).each do |w| %>
           <option value="<%= w %>">Week <%= w %></option>

@@ -16,13 +16,13 @@ class PeopleController < ApplicationController
 
     @password_expired = true if @days_left < 0
 
+		#can be done better
+		#call show_set_date method
+		show_set_date
 
     @super_user = true  if user.user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
     @regstration_clerk = true  if user.user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
-    
-    @show_set_date = false
-    session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
-    @show_set_date = true unless session[:datetime].blank? 
+
 
     @roles = user.user_roles.collect{|x|x.role.downcase} rescue []
 
@@ -59,6 +59,13 @@ class PeopleController < ApplicationController
    
   end
  
+#set_date method
+ def show_set_date
+		@show_set_date = false
+		session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
+    @show_set_date = true unless session[:datetime].blank?
+ end
+
   def new
     @ask_cell_phone = GlobalProperty.find_by_property("use_patient_attribute.cellPhone").property_value rescue nil
     @ask_home_phone = GlobalProperty.find_by_property("use_patient_attribute.homePhone").property_value rescue nil 
@@ -173,6 +180,9 @@ class PeopleController < ApplicationController
   def adults
     session["category"] = "adults"
 
+		#call show_set_date method
+		show_set_date
+
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
 
@@ -211,6 +221,10 @@ class PeopleController < ApplicationController
   def paeds
     session["category"] = "paeds"
 
+		#can be done better
+		#call show_set_date method
+		show_set_date
+
     @user = User.find(session[:user_id])
     @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
 
@@ -231,7 +245,7 @@ class PeopleController < ApplicationController
     elsif @user_privilege.include?("spine clinician")
       @spine_clinician  = true
     end
-    
+
     @ili = Observation.find(:all, :joins => [:concept => :name], :conditions =>
         ["name = ? AND value_coded IN (?) AND obs.voided = 0", "ILI",
         ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
