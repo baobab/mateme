@@ -198,10 +198,12 @@ class UserController < ApplicationController
       @roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role}#.role}
       session[:user_id] = @user.user_id
     else
-      role = Role.find_by_role(params[:user_role][:role_id]).role
-      user_role =  UserRole.find_by_role_and_user_id(role,session[:user_id])  
-      user_role.destroy
-      flash[:notice] = "You have successfuly removed the role of #{params[:user_role][:role_id]}"
+      role = Role.find_by_role(params[:user_role][:role_id]).role rescue nil
+      if !role.nil?
+				user_role =  UserRole.find_by_role_and_user_id(role,session[:user_id])  
+				user_role.destroy
+				flash[:notice] = "You have successfuly removed the role of #{params[:user_role][:role_id]}"
+      end
       redirect_to :action =>"show"
     end
   end
