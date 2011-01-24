@@ -534,4 +534,8 @@ class EncountersController < ApplicationController
     redirect_to "/people/index"
   end
 
+  def print_order
+    @patient = Patient.find(params[:patient_id])
+    print_and_redirect("/encounters/label/?encounter_id=#{params["encounter_id"]}", next_task(@patient))
+  end
 end
