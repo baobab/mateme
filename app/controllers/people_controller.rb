@@ -123,8 +123,15 @@ class PeopleController < ApplicationController
   # TODO refactor so this is restful and in the right controller.
   def set_datetime
     if request.post?
-      begin
-        session[:datetime] = params["past_visit_date"].to_date
+
+			begin
+        if params["past_visit_date"].to_date > DateTime.now
+					flash[:notice]="date greater than #{Date.today}"
+					render :set_datetime
+					return
+        else
+					session[:datetime] = params["past_visit_date"].to_date
+        end
       rescue
         flash[:notice] = "Please enter a valid date when the visit occurred."
         render :set_datetime

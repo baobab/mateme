@@ -76,7 +76,7 @@ class PatientsController < ApplicationController
     @arv_number = @remote_art_info['person']['arv_number'] rescue nil 
     @hiv_test_date = @patient.hiv_test_date
     @status = @patient.hiv_status
-    
+
     render :template => 'patients/hiv_status', :layout => 'menu'
   end
 
