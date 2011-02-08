@@ -419,6 +419,9 @@ class EncountersController < ApplicationController
 
   # Capture Lab Test Results
   def lab_results_entry
+    @show_set_date = false
+		session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
+    @show_set_date = true unless session[:datetime].blank?
     render :layout => 'menu'
   end
 
