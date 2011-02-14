@@ -1,9 +1,10 @@
 class DiagnosisTree
 
-
+=begin
   def self.diagnosis_data
     diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
   end
+=end
   
   def self.final_answers(diagnosis_hash = self.diagnosis_data, deep_list ={})
     diagnosis_hash.each do |k,v|
@@ -86,6 +87,29 @@ class DiagnosisTree
   
   def self.test_results
     test_results = JSON.parse(GlobalProperty.find_by_property("facility.test_results").property_value) rescue {}
+  end
+
+  def self.diagnosis_data
+    diagnoses_concepts = Concept.find(ConceptMap.spine_diagnosis_concept_ids)
+    diagnoses_hash = Hash.new()
+    diagnoses_concepts.each do |concept|
+      concept_name = concept.name.name
+      diagnoses_hash[concept_name] = Hash.new()
+      concept_answers = concept.concept_answers
+      if !concept_answers.empty?
+        concept_answers.each do |concept_answer|
+          diagnoses_hash[concept_name][concept_answer.name] = Hash.new()
+          concept_answer_answers = Concept.find(concept_answer.answer_concept).concept_answers
+          if !concept_answer_answers.empty?
+            concept_answer_answers.each do |concept_answer_answer|
+              diagnoses_hash[concept_name][concept_answer.name][concept_answer_answer.name] = Hash.new()
+            end
+          end
+        end
+      end
+    end
+    
+    return diagnoses_hash
   end
 
 end
