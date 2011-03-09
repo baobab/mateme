@@ -70,6 +70,7 @@ ul.list{
     <%end%>
       <a class="button green" href='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</a>
       <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
+      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
     <%end %>
 
     <%if @clinician%>
