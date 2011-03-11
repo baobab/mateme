@@ -372,29 +372,25 @@ function resetSelections(){
 }
 
 function checkObjectLength(selectedValue){
-  if (selectedValue == 'diagnosis-select'){
-    if(getObjectLength(finalAnswers[0][$(selectedValue).value]) == 0){
-      resetSelections();
-    } else{
-      updateSubDiagnosis();
-    }
-  } else if (selectedValue == 'sub-diagnosis-select'){
-    if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$(selectedValue).value]) == 0){
-      resetSelections();
-    }else{
-      updateSubSubDiagnosis();
-    }
-  } else if (selectedValue == 'sub-sub-diagnosis-select'){
-    if(getObjectLength(finalAnswers[0][$('diagnosis-select').value][$('sub-diagnosis-select').value][$(selectedValue).value]) == 0){
-      resetSelections();
-    }
-  } else if (selectedValue == 'pop-up-object'){
+  if (selectedValue == 'pop-up-object' || selectedValue == 'sub-sub-diagnosis-select'){
      $('subDiagnosisPopUpDiv').style.display = "none";
      $('subSubDiagnosisPopUpDiv').style.display = "none";
      $('synonymsPopUpDiv').style.display = "none";
      $('diagnosis-inputbox').value = "";
      resetSelections();
-  } 
+  } else{
+      if (stringfyArray(tempDataArray,false).replace(/\;/g," ") in objectConverter(inpatientDiagnoses)){
+        resetSelections();
+      }else{
+        if (selectedValue == 'diagnosis-select'){
+          updateSubDiagnosis();
+        } else if (selectedValue == 'sub-diagnosis-select'){
+          updateSubSubDiagnosis();
+        }
+        
+      }
+      
+      }
 }
 
 function removeMainValue(aValue){
