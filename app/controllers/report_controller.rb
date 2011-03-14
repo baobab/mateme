@@ -3,7 +3,11 @@ class ReportController < ApplicationController
   include PdfHelper
 
   def index
-    render :layout => "menu"
+    @reports = ['Report 1','Report 2']
+  end
+
+  def report1
+    render :layout => 'menu'
   end
 
   def weekly_report
