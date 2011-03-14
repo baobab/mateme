@@ -112,4 +112,8 @@ class DiagnosisTree
     return diagnoses_hash
   end
 
+  def self.inpatient_diagnoses
+    diagnoses_names = ConceptSet.find(:all, :conditions => ['concept_set = ?', Concept.find_by_name('INPATIENT DIAGNOSES LIST')]).map(&:concept_id).collect{|c_id| Concept.find(c_id).concept_names.map(&:name)}.flatten.compact.uniq rescue []
+  end
+
 end
