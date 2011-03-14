@@ -76,7 +76,7 @@ class SearchController < ApplicationController
     render :text => sub_sub_diagnosis_list.collect{|diagnosis|"#{diagnosis}"}.join(",")
   end
 
-    def confirmatory_evidence
+  def confirmatory_evidence
     diagnosis = params[:diagnosis].upcase
     tests_hash = DiagnosisTree.confirmatory_evidence rescue {}
     tests_list = tests_hash.collect{|k,v| k if v.include?(diagnosis)}.compact.sort

@@ -1,11 +1,5 @@
 class DiagnosisTree
 
-=begin
-  def self.diagnosis_data
-    diagnosis_hash = JSON.parse(GlobalProperty.find_by_property("facility.diagnosis").property_value) rescue {}
-  end
-=end
-  
   def self.final_answers(diagnosis_hash = self.diagnosis_data, deep_list ={})
     diagnosis_hash.each do |k,v|
       if v.blank?
