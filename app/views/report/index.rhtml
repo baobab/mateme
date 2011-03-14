@@ -1,11 +1,10 @@
-<script type="text/javascript">
-  tt_cancel_destination = '/people';
+<script>
+    var tt_cancel_destination = "/people"
 </script>
-<div style="text-align:center;margin:10px;">
-  <p class="centered">
-    <button id="users_button" class="button green" onclick="window.location = '/report/site_summary'"><span>Site Summary</span></button>
-    <button id="users_button" class="button green" onclick="window.location = '/report/weekly_report'"><span>Weekly Report</span></button>
-    <br/>
-    <br/>
-  </p>  
-</div>  
+<% form_tag :action => 'report1', :method => :put do -%>
+    <label for="report">Reports</label>
+    <%= select_tag("report", options_for_select(@reports), {:helpText => 'Select  Report'})%> <br>
+    <%= text_field_tag("start_date", nil, {:field_type => 'date', :helpText => 'Start date'}) %> <br>
+    <%= text_field_tag("end_date", nil, {:field_type => 'date', :helpText => 'End date'})%><br>
+    <%= submit_tag value="Submit"%>
+<% end %>
