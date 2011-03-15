@@ -88,27 +88,27 @@ class Patient < ActiveRecord::Base
     
     ["Vitals", "Lab Results", "Update Hiv Status", "Treatment", "Appointment"].map do |type|
 
-    section_title_disabled = false
+      section_title_disabled = false
 
-    print_line = ""
-    encs.each {|encounter|
-      if (encounter.name.titleize == type.titleize)
-        section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
-        section_title = ", " if section_title_disabled
+      print_line = ""
+      encs.each {|encounter|
+        if (encounter.name.titleize == type.titleize)
+          section_title = (encounter.name.titleize == "Update Hiv Status")? "":"#{encounter.name.titleize}: "
+          section_title = ", " if section_title_disabled
 
-        if encounter.name.titleize == "Update Outcome"
-          next if outcome_printed
+          if encounter.name.titleize == "Update Outcome"
+            next if outcome_printed
 
-          print_line += section_title + self.updated_outcome.to_s.titleize..chomp("\n")
-          section_title_disabled = true
-          outcome_printed = true
-        else
-           print_line += section_title + encounter.to_s.titleize.chomp("\n") unless (excluded_encounters.include? encounter.name.humanize)
-          section_title_disabled = true
+            print_line += section_title + self.updated_outcome.to_s.titleize..chomp("\n")
+            section_title_disabled = true
+            outcome_printed = true
+          else
+            print_line += section_title + encounter.to_s.titleize.chomp("\n") unless (excluded_encounters.include? encounter.name.humanize)
+            section_title_disabled = true
+          end
         end
-     end
-    }
-    label.draw_multi_text((print_line), :font_reverse => false)
+      }
+      label.draw_multi_text((print_line), :font_reverse => false)
     end
     label.print(1)
   end
@@ -211,7 +211,7 @@ class Patient < ActiveRecord::Base
     else
 
       # do not remove the '(' in the following string
-      name = "%"+drug_info[0]+"%"+drug_info[1]+"%"
+      name = "%"+drug_info[0]+"%("+drug_info[1]+"%"
 
     end
     
@@ -221,13 +221,14 @@ class Patient < ActiveRecord::Base
 
     concept_name_id = ConceptName.find_by_name("DRUG FREQUENCY CODED").concept_id
 
-    drugs = Drug.find(:all,:select => "concept.concept_id AS concept_id, concept_name.name AS name,
-        drug.dose_strength AS strength, drug.name AS formulation",
-      :joins => "INNER JOIN concept       ON drug.concept_id = concept.concept_id
-               INNER JOIN concept_set   ON concept.concept_id = concept_set.concept_id
-               INNER JOIN concept_name  ON concept_name.concept_id = concept.concept_id",
-      :conditions => ["concept_set.concept_set = ? AND drug.name LIKE ?", diagnosis_id, name],
-      :group => "concept.concept_id, drug.name, drug.dose_strength")
+    drugs = Drug.matching_drugs(diagnosis_id, name)
+
+    unless(drugs)
+      # no results found: try removing the '(' in the name string
+      name = "%"+drug_info[0]+"%"+drug_info[1]+"%"
+
+      drugs = Drug.matching_drugs(diagnosis_id, name)
+    end
 
     unless(insulin)
 

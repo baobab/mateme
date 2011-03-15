@@ -82,9 +82,9 @@ class PrescriptionsController < ApplicationController
 
         prescription[:formulation] = [prescription[:generic], prescription[:drug_strength], prescription[:frequency]]
 
-        #raise prescription[:formulation].inspect
-
         drug_info = @patient.drug_details(prescription[:formulation], diagnosis_name).first
+
+        # raise drug_info.inspect
 
         prescription[:formulation]    = drug_info[:drug_formulation]
         prescription[:frequency]      = drug_info[:drug_frequency]
@@ -97,7 +97,9 @@ class PrescriptionsController < ApplicationController
         DrugOrder.clone_order(@encounter, @patient, @diagnosis, @order)
       else
         @formulation = (prescription[:formulation] || '').upcase
+
         @drug = Drug.find_by_name(@formulation) rescue nil
+
         unless @drug
           flash[:notice] = "No matching drugs found for formulation #{prescription[:formulation]}"
           render :new

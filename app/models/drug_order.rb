@@ -6,7 +6,11 @@ class DrugOrder < ActiveRecord::Base
   
   def to_s 
     #remove trailing ".0"
-    dosage = self.dose.to_s.split(".").first
+    if(self.dose.to_s.split(".").last == "0")
+      dosage = self.dose.to_i
+    else
+      dosage = self.dose
+    end
 
     s = "#{drug.concept.name.name.titleize} #{dosage}#{self.units.downcase} #{frequency} for #{duration} days"
     s << " (prn)" if prn?
