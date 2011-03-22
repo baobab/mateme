@@ -7,6 +7,7 @@
   {
     border : 2px solid black;
     width : auto;
+    text-align : center;
   }
   
   table tr td:first-child
@@ -53,17 +54,24 @@
     </tr>
     <tr>
       <td></td>
-      <th>%</th>
+      <th></th>
+      <td><%=@total_males%></td>
+      <td><%=@total_females %></td>
+      <td><%=@patients_registered.length.to_i%></td>
+    </tr>
+    <tr>
       <td></td>
-      <td ></td>
+      <th>%</th>
+      <td><%=((@total_males.to_i*100) / @patients_registered.length.to_i) %></td>
+      <td ><%= 100-((@total_males.to_i*100) / @patients_registered.length.to_i) %></td>
       <td>100%</td>
     </tr>
     <tr>
       <td></td>
       <th>Median age</th>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%=@total_age_male.to_i/@total_males.to_i%></td>
+      <td><%=@total_age_female.to_i/@total_females.to_i%></td>
+      <td><%=(@total_age_male.to_i + @total_age_female.to_i)/@patients_registered.length.to_i%></td>
     </tr>
     
 </table>
@@ -92,43 +100,17 @@
       <th>Male</th>
       <th>Female</th>
     </tr>
+<%@admissions.keys.sort.reverse.each do |ward|%>
     <tr>
       <td></td>
-      <th>4B</th>
-      <td></td>
-      <td></td>
-      <td></td>
-		<td></td>
-		<td></td>
+      <th><%=ward%></th>
+      <td><%=total=@admissions[ward]["total_male"].to_i + @admissions[ward]["total_female"].to_i%></td>
+      <td><%=@admissions[ward]["total_male"].to_i%></td>
+      <td><%=@admissions[ward]["total_female"].to_i%></td>
+	  	<td><%=percent_males = ((100* @admissions[ward]["total_male"].to_i)/total) rescue 0 %></td>
+		<td><%= 100-percent_males %></td>
     </tr>
-    <tr>
-      <td></td>
-      <th>4A</th>
-      <td></td>
-      <td></td>
-      <td></td>
-		<td></td>
-		<td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <th>3A</th>
-      <td></td>
-      <td></td>
-      <td></td>
-		<td></td>
-		<td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <th>3B</th>
-      <td></td>
-      <td></td>
-      <td></td>
-		<td></td>
-		<td></td>
-    </tr>
-    
+<%end%>
 </table>
 
 <table>
@@ -151,18 +133,18 @@
     <tr>
       <td></td>
       <th>Number</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%=@total_patient_readmissions.to_i%></td>
+      <td><%=@readmission_in_three_months%></td>
+      <td><%=@readmission_in_six_months%></td>
+      <td><%=@total_primary_diag_equal_to_secondary.first.total.to_s%></td>
     </tr>
     <tr>
       <td></td>
       <th>% of total</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>100%</td>
+      <td><%=((@readmission_in_three_months*100)/@total_patient_readmissions.to_i) rescue 0%></td>
+      <td><%=((@readmission_in_six_months*100)/@total_patient_readmissions.to_i) rescue 0%></td>
+      <td><%= ((@total_primary_diag_equal_to_secondary.first.total.to_i*100)/@total_patient_readmissions.to_i) rescue 0%></td>
     </tr>
 
 </table>
@@ -178,69 +160,15 @@
       <th>Number</th>
       <th>Percentage of total</th>
     </tr>
+
+<%@top_ten_syndromic_diagnosis.each do |diagnosis|%>
     <tr>
       <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
+      <td style="text-align : left; padding-left:5px;" ><%=diagnosis.syndromic_diagnosis.to_s%></td>
+      <td><%=diagnosis.total_occurance.to_s%></td>
+      <td><%= ("%.2f." % ((diagnosis.total_occurance.to_f * 100)/ @total_top_ten_syndromic_diagnosis.to_f)).to_f rescue 0%></td>
     </tr>
-    <tr>
-      <td></td>
-      <td>g</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-    
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-    
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-     <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-     <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-     <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-     <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-    </tr>
-    
+<%end rescue ''%>
 </table>
 
 <table>
@@ -260,49 +188,23 @@
       <th>% SPINE compliance</th>
       <th>Average length of stay</th>
     </tr>
+    <%@patient_admission_discharge_summary.reverse.each do |ward|%>
     <tr>
       <td></td>
-      <th>4B</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <th style="width:105px;"><%=ward.ward.to_s%></th>
+      <td><%=ward.total_admissions.to_s%></td>
+      <td><%=ward.total_discharged.to_s%></td>
+      <td><%=((ward.total_discharged.to_i*100)/ward.total_admissions.to_i) rescue 0%></td>
+      <td><%=%></td>
+      <td><%=ward.average_days.to_s%></td>
     </tr>
-    <tr>
-      <td></td>
-      <th>4A</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-      <td></td>
-      <th>3A</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <th>3B</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    
+    <%end%>
 </table>
 
 <table> 
     <tr>
       <th>2</th>
     </tr>   
-    
     <tr>
       <td></td>
       <th>Discharge diagnosis</th>
@@ -311,86 +213,17 @@
       <th>Number HIV positive</th>
       <th>Percentage HIV positive</th>
     </tr>
+<%@primary_diagnosis_and_hiv_stat.each do |diagnosis|%>
     <tr>
       <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%=diagnosis.primary_diagnosis.to_s%></td>
+      <td><%=diagnosis.total.to_s%></td>
+      <td><%= ("%.2f." % ((diagnosis.total.to_f * 100)/ @total_top_ten_primary_diagnosis.to_f)).to_f rescue 0%></td>
+      <td><%=diagnosis.total_hiv_positive.to_s%></td>
+      <td><%= ("%.2f." % ((diagnosis.total_hiv_positive.to_f * 100)/ diagnosis.total.to_f)).to_f rescue 0%></td>
     </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>tt</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
+<%end%>
+
 </table>
 <table>
     <tr>
