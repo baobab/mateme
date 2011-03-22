@@ -1,7 +1,25 @@
 class Report < ActiveRecord::Base
 
+
+
   def self.patients_registered(period={})
-    Patient.find(:all, :conditions => ["date_created >= ? AND date_created <= ? AND voided = ?",period['start_date'],period['end_date'],false]).length
+      registered_patients = Observation.find_by_sql(" 
+                                SELECT v2.patient_id,national_id,gender,birthdate, DATE_FORMAT(FROM_DAYS(TO_DAYS(registration_date)-TO_DAYS(birthdate)), '%Y')+0 AS age
+                                FROM person right outer join (SELECT patient.patient_id,national_id,DATE(date_created) as registration_date
+                                FROM patient left outer join (SELECT patient_id, identifier as national_id FROM patient_identifier where identifier_type = 3 and voided=0) as v1 on v1.patient_id = patient.patient_id where voided=0) as v2 on v2.patient_id=person.person_id where person.voided=0
+                            ") 
+  end
+  
+  def self.patients_in_wards
+      patients_in_wards = Observation.find_by_sql("
+                                                  SELECT ward, gender , COUNT(gender) as total
+                                                  FROM 
+                                                  (SELECT person_id as patient_id, DATE(obs_datetime) as admission_date, IFNULL(value_text,(SELECT name from concept_name where concept_id = value_coded)) as ward, visit_start_date, visit_end_date,visit_id 
+                                                  FROM obs left outer join (SELECT visit.visit_id,encounter_id, DATE(start_date) as visit_start_date, DATE(end_date)as visit_end_date FROM visit_encounters left outer join visit on visit_encounters.visit_id = visit.visit_id) as v1 on v1.encounter_id=obs.encounter_id 
+                                                  WHERE concept_id=(SELECT concept_id FROM concept_name where name = 'ADMIT TO WARD' ) and voided = 0) AS patients_in_wards 
+                                                  left outer JOIN person on patients_in_wards.patient_id = person_id
+                                                  GROUP BY ward , gender
+                                                 ")
   end
 
   def self.admissions_by_ward(period={})
@@ -21,7 +39,283 @@ class Report < ActiveRecord::Base
    return avg_by_ward
    
   end
+  
+  def self.re_admissions
+      patient_readmissions = Observation.find_by_sql("
+                                                    SELECT patient_id, admission_date , DATEDIFF(NOW(), admission_date) AS days
+                                                      FROM
+                                                      (
+                                                      SELECT *
+                                                      FROM 
+                                                      (SELECT person_id as patient_id, DATE(obs_datetime) as admission_date, IFNULL(value_text,(SELECT name from concept_name where concept_id = value_coded)) as ward, visit_start_date, visit_end_date,visit_id 
+                                                      FROM obs left outer join (SELECT visit.visit_id,encounter_id, DATE(start_date) as visit_start_date, DATE(end_date)as visit_end_date FROM visit_encounters left outer join visit on visit_encounters.visit_id = visit.visit_id) as v1 on v1.encounter_id=obs.encounter_id 
+                                                      WHERE concept_id=(SELECT concept_id FROM concept_name where name = 'ADMIT TO WARD' ) and voided = 0) AS patients_in_wards
+                                                      WHERE EXISTS (
+                                                      SELECT * 
+                                                      FROM(
+                                                           SELECT person_id, count(person_id) AS total_admissions
+                                                           FROM obs
+                                                           WHERE concept_id = (SELECT concept_id FROM concept_name where name = 'ADMIT TO WARD')
+                                                           GROUP BY person_id )
+                                                           admitted_patient
+                                                      WHERE admitted_patient.total_admissions > 1 AND admitted_patient.person_id = patients_in_wards.patient_id
+                                                      )
+                                                      ORDER BY patient_id DESC , admission_date DESC
+                                                      ) readmission_patients_with_last_date_of_admission
+                                                    GROUP BY patient_id
+                                                          ")
+  end
 
+  def self.total_patients_with_primary_diagnosis_equal_to_secondary
+                       total = Observation.find_by_sql("
+                              SELECT COUNT( DISTINCT syndromic_diagnosis.patient_id ) AS total
+                              FROM ( SELECT person_id
+	                             AS     patient_id
+	                                  , IFNULL ( ( SELECT name
+			                                  FROM concept_name
+			                                 WHERE concept_id = value_coded
+			                                 LIMIT 1 )
+			                            , value_text )
+	                             AS     primary_diagnosis
+	                                  , visit_start_date
+	                                  , visit_end_date
+	                                  , visit_id
+	                               FROM obs
+	                               LEFT OUTER JOIN ( SELECT visit.visit_id
+				                              , encounter_id
+				                              , DATE ( start_date )
+			                                 AS     visit_start_date
+				                              , DATE ( end_date )
+			                                 AS     visit_end_date
+			                                   FROM visit_encounters
+			                                   LEFT OUTER JOIN visit
+			                                     ON visit_encounters.visit_id = visit.visit_id )
+	                             AS     v1
+	                                 ON v1.encounter_id = obs.encounter_id
+	                              WHERE concept_id = ( SELECT concept_id
+			                                     FROM concept_name
+			                                    WHERE name = 'PRIMARY DIAGNOSIS'
+			                                    LIMIT 1 )
+	                                AND voided = 0
+	                              ORDER BY patient_id ASC
+		                             , visit_start_date DESC )
+                            AS     primary_diagnosis
+                              LEFT OUTER JOIN ( SELECT person_id
+		                                AS     patient_id
+			                             , IFNULL ( ( SELECT name
+				                                     FROM concept_name
+				                                    WHERE concept_id = value_coded
+				                                    LIMIT 1 )
+				                               , value_text )
+		                                AS     syndromic_diagnosis
+			                             , visit_start_date
+			                             , visit_end_date
+			                             , visit_id
+		                                  FROM obs
+		                                  LEFT OUTER JOIN ( SELECT visit.visit_id
+					                                 , encounter_id
+					                                 , DATE ( start_date )
+					                            AS     visit_start_date
+					                                 , DATE ( end_date )
+					                            AS     visit_end_date
+					                              FROM visit_encounters
+					                              LEFT OUTER JOIN visit
+					                                ON visit_encounters.visit_id = visit.visit_id )
+		                                AS     v1
+		                                    ON v1.encounter_id = obs.encounter_id
+		                                 WHERE concept_id = ( SELECT concept_id
+					                                FROM concept_name
+					                               WHERE name = 'SYNDROMIC DIAGNOSIS'
+					                               LIMIT 1 )
+		                                   AND voided = 0
+		                                 ORDER BY patient_id ASC
+			                                , visit_start_date DESC
+			                                , visit_id DESC )
+                            AS     syndromic_diagnosis
+                                ON primary_diagnosis.patient_id = syndromic_diagnosis.patient_id
+                             WHERE syndromic_diagnosis.syndromic_diagnosis = primary_diagnosis.primary_diagnosis
+                               AND primary_diagnosis.primary_diagnosis != ' ' ")
+  end
+  
+  def  self.top_ten_syndromic_diagnosis
+       top_ten_syndromic_diagnosis = 
+                      Observation.find_by_sql("
+                      SELECT * FROM (
+                      SELECT COUNT(person_id) AS total_occurance
+                           , IFNULL ( ( SELECT name
+		                           FROM concept_name
+		                          WHERE concept_id = value_coded
+		                          LIMIT 1 )
+	                             , value_text )
+                      AS     syndromic_diagnosis
+                        FROM obs
+                        LEFT OUTER JOIN ( SELECT visit.visit_id
+			                       , encounter_id
+			                       , DATE ( start_date )
+		                          AS     visit_start_date
+			                       , DATE ( end_date )
+		                          AS     visit_end_date
+		                            FROM visit_encounters
+		                            LEFT OUTER JOIN visit
+		                              ON visit_encounters.visit_id = visit.visit_id )
+                      AS     v1
+                          ON v1.encounter_id = obs.encounter_id
+                       WHERE concept_id = ( SELECT concept_id
+		                              FROM concept_name
+		                             WHERE name = 'SYNDROMIC DIAGNOSIS'
+		                             LIMIT 1 )
+                         AND voided = 0
+                      GROUP BY syndromic_diagnosis ) AS syndromic_diagnosis
+                      ORDER BY total_occurance DESC LIMIT 0 , 10 ")                   
+  end
+  
+  def self.patient_admission_discharge_summary
+                 
+                admission_discharge_summary =  
+                 Observation.find_by_sql("
+                  SELECT ward
+                       , SUM(admission_count)
+                  AS     total_admissions
+                       , SUM(discharge_count)
+                  AS     total_discharged
+                       , ROUND((SUM( Date_Diff) / SUM(discharge_count))
+	                        , 0 )
+                  AS     average_days
+                    FROM ( SELECT person_id
+	                   AS     patient_id
+	                        , DATE ( obs_datetime )
+	                   AS     admission_date
+	                        , IFNULL ( value_text
+			                  , ( SELECT name
+			                         FROM concept_name
+			                        WHERE concept_id = value_coded ) )
+	                   AS     ward
+	                        , visit_start_date
+	                        , visit_end_date
+	                        , visit_id
+	                        , CASE WHEN visit_start_date IS NOT NULL
+	                   THEN   '1' ELSE '0' END
+	                   AS     admission_count
+	                        , CASE WHEN visit_end_date IS NOT NULL
+	                   THEN   '1' ELSE '0' END
+	                   AS     discharge_count
+	                        , CASE WHEN visit_end_date IS NULL
+	                       OR visit_start_date IS NULL
+	                   THEN   '0' ELSE DATEDIFF ( visit_end_date
+				                    , visit_start_date ) END
+	                   AS     Date_Diff
+	                     FROM obs
+	                     LEFT OUTER JOIN ( SELECT visit.visit_id
+				                    , encounter_id
+				                    , DATE ( start_date )
+			                       AS     visit_start_date
+				                    , DATE ( end_date )
+			                       AS     visit_end_date
+			                         FROM visit_encounters
+			                         LEFT OUTER JOIN visit
+			                           ON visit_encounters.visit_id = visit.visit_id )
+	                   AS     v1
+	                       ON v1.encounter_id = obs.encounter_id
+	                    WHERE concept_id = ( SELECT concept_id
+			                           FROM concept_name
+			                          WHERE name = 'ADMIT TO WARD' )
+	                      AND voided = 0 )
+                  AS     admission_and_discharges
+                   GROUP BY ward")
+  end
+  
+  def self.statistic_of_top_ten_primary_diagnosis_and_hiv_status
+    
+    report_data = Observation.find_by_sql(
+                 "SELECT * FROM (
+                  SELECT COUNT(patient_id) AS total , SUM(hiv_state) AS total_hiv_positive, primary_diagnosis FROM (
+                  SELECT patient_primary_diagnosis.patient_id,
+                  CASE
+	                  WHEN patient_hiv_status.hiv_status_sign IS NULL THEN '0'
+	                  ELSE patient_hiv_status.hiv_status_sign
+	                  END AS hiv_state
+	                  , patient_primary_diagnosis.primary_diagnosis  FROM
+                  (SELECT person_id
+                  AS     patient_id
+                       , IFNULL ( ( SELECT name
+		                       FROM concept_name
+		                      WHERE concept_id = value_coded
+		                      LIMIT 1 )
+	                         , value_text )
+                  AS     primary_diagnosis
+                       , visit_start_date
+                       , visit_end_date
+                       , visit_id
+                    FROM obs
+                    LEFT OUTER JOIN ( SELECT visit.visit_id
+			                   , encounter_id
+			                   , DATE ( start_date )
+		                      AS     visit_start_date
+			                   , DATE ( end_date )
+		                      AS     visit_end_date
+		                        FROM visit_encounters
+		                        LEFT OUTER JOIN visit
+		                          ON visit_encounters.visit_id = visit.visit_id )
+                  AS     v1
+                      ON v1.encounter_id = obs.encounter_id
+                   WHERE concept_id = ( SELECT concept_id
+		                          FROM concept_name
+		                         WHERE name = 'PRIMARY DIAGNOSIS'
+		                         LIMIT 1 )
+                     AND voided = 0) AS patient_primary_diagnosis
+                  LEFT OUTER JOIN
+                  (SELECT patient_id
+                       , hiv_status
+                       , CASE
+                          WHEN hiv_status = 'REACTIVE' THEN 1
+	                  ELSE '0'
+                         END AS hiv_status_sign
+                    FROM ( SELECT person_id
+	                   AS     patient_id
+	                        , IFNULL ( value_text
+			                  , ( SELECT name
+			                         FROM concept_name
+			                        WHERE concept_id = value_coded
+			                        LIMIT 1 ) )
+	                   AS     hiv_status
+	                        , hiv_test_date
+	                        , visit_start_date
+	                        , visit_end_date
+	                        , visit_id
+	                     FROM obs
+	                     LEFT OUTER JOIN ( SELECT visit.visit_id
+				                    , encounter_id
+				                    , DATE ( start_date )
+			                       AS     visit_start_date
+				                    , DATE ( end_date )
+			                       AS     visit_end_date
+			                         FROM visit_encounters
+			                         LEFT OUTER JOIN visit
+			                           ON visit_encounters.visit_id = visit.visit_id )
+	                   AS     v1
+	                       ON v1.encounter_id = obs.encounter_id
+	                     LEFT OUTER JOIN ( SELECT encounter_id
+				                    , IFNULL ( DATE ( value_datetime )
+					                      , value_text )
+			                       AS     hiv_test_date
+			                         FROM obs
+			                        WHERE concept_id = ( SELECT concept_id
+						                       FROM concept_name
+						                      WHERE name = 'HIV TEST DATE'
+						                      LIMIT 1 )
+			                          AND voided = 0 )
+	                   AS     test_date
+	                       ON test_date.encounter_id = obs.encounter_id
+	                    WHERE concept_id = ( SELECT concept_id
+			                           FROM concept_name
+			                          WHERE name = 'HIV STATUS' )
+	                      AND voided = 0 ) hiv_status_table
+                  ) AS patient_hiv_status
 
-
+                  ON patient_primary_diagnosis.patient_id=patient_hiv_status.patient_id
+                  ORDER BY patient_primary_diagnosis.patient_id ASC, hiv_status_sign DESC ) AS diagnosis_hiv_status_total
+                  GROUP BY primary_diagnosis ) AS diagnosis_and_hiv_status_total
+                  ORDER BY total DESC
+                  LIMIT 0, 10" )
+  end
 end
