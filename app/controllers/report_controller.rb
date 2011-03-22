@@ -7,7 +7,67 @@ class ReportController < ApplicationController
   end
 
   def report1
-    render :layout => 'menu'
+
+    @total_males = 0
+    @total_females = 0
+    @total_age_male = 0
+    @total_age_female = 0
+    @patients_registered = Report.patients_registered
+
+    @patients_registered.each do|patient|
+      if patient.gender == 'M'
+        @total_males += 1
+        @total_age_male += patient.age.to_i
+        else
+        @total_females += 1
+        @total_age_female += patient.age.to_i
+      end
+    end
+
+    @admissions = {}
+    @patients_in_wards = Report.patients_in_wards
+
+    @patients_in_wards.each do |ward|
+        @admissions[ward.ward] = {} if !@admissions[ward.ward]
+        if ward.gender == 'M'
+             @admissions[ward.ward]["total_male"] =  ward.total
+        else
+             @admissions[ward.ward]["total_female"] = ward.total
+        end
+     end
+
+     @patient_readmissions = Report.re_admissions
+     @total_patient_readmissions = @patient_readmissions.length
+     @readmission_in_three_months = 0
+     @readmission_in_six_months = 0
+
+     @day = []
+     @patient_readmissions.each do |patient|
+        if patient.days.to_i < 91
+          @readmission_in_three_months = @readmission_in_three_months + 1
+        elsif patient.days.to_i < 181
+          @readmission_in_six_months = @readmission_in_six_months + 1
+        end
+     end
+
+     @total_primary_diag_equal_to_secondary = Report.total_patients_with_primary_diagnosis_equal_to_secondary
+     @top_ten_syndromic_diagnosis =  Report.top_ten_syndromic_diagnosis
+     @total_top_ten_syndromic_diagnosis = 0
+
+     @top_ten_syndromic_diagnosis.each do |diagnosis|
+        @total_top_ten_syndromic_diagnosis += diagnosis.total_occurance.to_i
+     end
+
+     @patient_admission_discharge_summary = Report.patient_admission_discharge_summary
+
+     @primary_diagnosis_and_hiv_stat = Report.statistic_of_top_ten_primary_diagnosis_and_hiv_status
+
+     @total_top_ten_primary_diagnosis = 0
+     @primary_diagnosis_and_hiv_stat.each do |diagnosis|
+        @total_top_ten_primary_diagnosis += diagnosis.total.to_i
+     end
+
+     render :layout => 'menu'
   end
 
   def weekly_report
