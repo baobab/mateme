@@ -243,50 +243,19 @@
       <th>Death > 7 days</th>
       <th>Total No. deaths HIV+</th>
     </tr>
+    <%@dead_patients_statistic_per_ward.reverse.each do |ward|%>
     <tr>
       <td></td>
-      <th>4B</th>
+      <th><%=ward.ward.to_s%></th>
+      <td><%=ward.total_dead.to_s%></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%=ward.total_dated_in_24hrs.to_s%></td>
+      <td><%=ward.dead_btn_24_and_72hrs.to_s%></td>
+      <td><%=ward.dead_btn_3_and_7dys.to_s%></td>
+      <td><%=ward.dead_after_7dys.to_s%></td>
+      <td><%=ward.dead_patients_hiv_positive.to_s%></td>
     </tr>
-    <tr>
-      <td></td>
-      <th>4A</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <th>3A</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <th>3B</th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
+    <%end%>
 </table>
 
 <table>
