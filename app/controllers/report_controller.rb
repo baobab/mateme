@@ -66,8 +66,9 @@ class ReportController < ApplicationController
      @primary_diagnosis_and_hiv_stat.each do |diagnosis|
         @total_top_ten_primary_diagnosis += diagnosis.total.to_i
      end
-
+     @dead_patients_statistic_per_ward = Report.dead_patients_statistic_per_ward
      render :layout => 'menu'
+
   end
 
   def weekly_report
