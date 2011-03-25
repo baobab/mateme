@@ -7,7 +7,7 @@ class ReportController < ApplicationController
   end
 
   def report1
-
+    raise params.to_yaml
     @total_males = 0
     @total_females = 0
     @total_age_male = 0
@@ -67,6 +67,9 @@ class ReportController < ApplicationController
         @total_top_ten_primary_diagnosis += diagnosis.total.to_i
      end
      @dead_patients_statistic_per_ward = Report.dead_patients_statistic_per_ward
+
+     @specific_hiv_related_data = Report.specific_hiv_related_data
+     @total_patient_admission_per_ward = {}
      render :layout => 'menu'
 
   end
