@@ -7,7 +7,6 @@ class ReportController < ApplicationController
   end
 
   def report1
-    raise params.to_yaml
     @total_males = 0
     @total_females = 0
     @total_age_male = 0
