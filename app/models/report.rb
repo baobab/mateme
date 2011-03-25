@@ -432,4 +432,86 @@ class Report < ActiveRecord::Base
                      ON patients_death_statistic .patient_id = patients_hiv_status.patient_id
                      GROUP BY ward ")
   end
+  
+  def self.specific_hiv_related_data
+      report_data = Observation.find_by_sql("   
+                    SELECT COUNT( gender )
+                    AS     total_admissions
+                         , SUM( CASE WHEN hiv_status = 'REACTIVE'
+                            THEN '1' ELSE '0' END )
+                    AS     patient_admission_hiv_status
+                         , SUM( CASE WHEN on_art = 1
+                             AND gender = 'M'
+                            THEN '1' ELSE '0' END )
+                    AS     males_admission_and_on_art
+                         , SUM( CASE WHEN on_art = 1
+                             AND gender = 'F'
+                            THEN '1' ELSE '0' END )
+                    AS     females_admission_and_on_art
+                      FROM ( SELECT patients_admission.patient_id
+                            , patients_admission.gender
+                            , patients_hiv_status.hiv_status
+                         FROM ( SELECT patient_id
+	                             , ward
+	                             , gender
+	                          FROM ( SELECT person_id
+		                         AS     patient_id
+			                      , concept_id
+			                      , DATE ( obs_datetime )
+		                         AS     admission_date
+			                      , IFNULL ( value_text
+				                        , ( SELECT name
+				                               FROM concept_name
+				                              WHERE concept_id = value_coded ) )
+		                         AS     ward
+			                      , visit_start_date
+			                      , visit_end_date
+			                      , visit_id
+		                           FROM obs
+		                           LEFT OUTER JOIN ( SELECT visit.visit_id
+					                          , encounter_id
+					                          , DATE ( start_date )
+				                             AS     visit_start_date
+					                          , DATE ( end_date )
+				                             AS     visit_end_date
+				                               FROM visit_encounters
+				                               LEFT OUTER JOIN visit
+				                                 ON visit_encounters.visit_id = visit.visit_id )
+		                         AS     v1
+		                             ON v1.encounter_id = obs.encounter_id
+		                          WHERE concept_id = ( SELECT concept_id
+					                         FROM concept_name
+					                        WHERE name = 'ADMIT TO WARD' )
+		                            AND voided = 0 )
+	                        AS     patients_in_wards
+	                          LEFT OUTER JOIN person
+	                            ON patients_in_wards.patient_id = person_id )
+                       AS     patients_admission
+                         LEFT OUTER JOIN ( SELECT person_id
+		                           AS     patient_id
+			                        , IFNULL ( value_text
+				                          , ( SELECT name
+					                         FROM concept_name
+					                        WHERE concept_id = value_coded
+					                        LIMIT 1 ) )
+		                           AS     hiv_status
+		                             FROM obs
+		                            WHERE concept_id = ( SELECT concept_id
+					                           FROM concept_name
+					                          WHERE name = 'HIV STATUS' )
+		                              AND voided = 0 ) patients_hiv_status
+                           ON patients_admission.patient_id = patients_hiv_status.patient_id ) patient_admission_and_hiv_status
+                      LEFT OUTER JOIN ( SELECT DISTINCT person_id
+	                          AS     patient_id
+		                       , CASE WHEN concept_id
+	                          THEN   '1' ELSE '0' END
+	                          AS     on_art
+	                            FROM obs
+	                           WHERE concept_id = ( SELECT concept_id
+				                          FROM concept_name
+				                         WHERE name = 'ON ART' )
+	                             AND voided = 0 )
+                    AS     patients_on_art
+                        ON patient_admission_and_hiv_status.patient_id = patients_on_art.patient_id ")
+  end
 end
