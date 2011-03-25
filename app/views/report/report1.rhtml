@@ -105,6 +105,7 @@
       <td></td>
       <th><%=ward%></th>
       <td><%=total=@admissions[ward]["total_male"].to_i + @admissions[ward]["total_female"].to_i%></td>
+      <%@total_patient_admission_per_ward[ward]=total%>
       <td><%=@admissions[ward]["total_male"].to_i%></td>
       <td><%=@admissions[ward]["total_female"].to_i%></td>
 	  	<td><%=percent_males = ((100* @admissions[ward]["total_male"].to_i)/total) rescue 0 %></td>
@@ -248,7 +249,7 @@
       <td></td>
       <th><%=ward.ward.to_s%></th>
       <td><%=ward.total_dead.to_s%></td>
-      <td></td>
+      <td><%=((ward.total_dead.to_i*100)/@total_patient_admission_per_ward[ward.ward.to_s]) rescue nil%></td>
       <td><%=ward.total_dated_in_24hrs.to_s%></td>
       <td><%=ward.dead_btn_24_and_72hrs.to_s%></td>
       <td><%=ward.dead_btn_3_and_7dys.to_s%></td>
@@ -275,26 +276,26 @@
     <tr>
       <td></td>
       <th>Total HIV+ admitted</th>
-      <td></td>
-      <td></td>
+      <td><%=@specific_hiv_related_data.first.patient_admission_hiv_status.to_s%></td>
+      <td><%=((@specific_hiv_related_data.first.patient_admission_hiv_status.to_i * 100)/@specific_hiv_related_data.first.total_admissions.to_i) rescue 0%></td>
     </tr>
     <tr>
       <td></td>
       <th>No. reg ART clinic</th>
-      <td></td>
-      <td></td>
+      <td><%=total_art=@specific_hiv_related_data.first.females_admission_and_on_art.to_i + @specific_hiv_related_data.first.males_admission_and_on_art.to_i%></td>
+      <td><%=((total_art.to_i * 100)/@specific_hiv_related_data.first.total_admissions.to_i) rescue 0%></td>
     </tr>
     <tr>
       <td></td>
       <th>No. Male reg</th>
-      <td></td>
-      <td></td>
+      <td><%=@specific_hiv_related_data.first.males_admission_and_on_art.to_i %></td>
+      <td><%=(@specific_hiv_related_data.first.males_admission_and_on_art.to_i * 100)/total_art.to_i rescue 0%></td>
     </tr>
     <tr>
       <td></td>
       <th>No. female reg</th>
-      <td></td>
-      <td></td>
+      <td><%=@specific_hiv_related_data.first.females_admission_and_on_art.to_i%></td>
+      <td><%=(@specific_hiv_related_data.first.females_admission_and_on_art.to_i * 100)/total_art.to_i rescue 0%></td>
     </tr>
     
 </table>
