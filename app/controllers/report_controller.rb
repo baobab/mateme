@@ -7,11 +7,22 @@ class ReportController < ApplicationController
   end
 
   def report1
+
+    flash[:notice] = ""
+    unless params[:start_date].to_date <= params[:end_date].to_date
+      flash[:notice] = "Start Date must be less than or equal to End Date"
+      @reports = ['Report 1','Report 2']
+      render :index
+      return
+    end
+
+    start_date = params[:start_date]
+    end_date = params[:end_date]
     @total_males = 0
     @total_females = 0
     @total_age_male = 0
     @total_age_female = 0
-    @patients_registered = Report.patients_registered
+    @patients_registered = Report.patients_registered(start_date, end_date)
 
     @patients_registered.each do|patient|
       if patient.gender == 'M'
@@ -24,7 +35,7 @@ class ReportController < ApplicationController
     end
 
     @admissions = {}
-    @patients_in_wards = Report.patients_in_wards
+    @patients_in_wards = Report.patients_in_wards(start_date, end_date)
 
     @patients_in_wards.each do |ward|
         @admissions[ward.ward] = {} if !@admissions[ward.ward]
@@ -35,7 +46,7 @@ class ReportController < ApplicationController
         end
      end
 
-     @patient_readmissions = Report.re_admissions
+     @patient_readmissions = Report.re_admissions(start_date, end_date)
      @total_patient_readmissions = @patient_readmissions.length
      @readmission_in_three_months = 0
      @readmission_in_six_months = 0
@@ -49,25 +60,25 @@ class ReportController < ApplicationController
         end
      end
 
-     @total_primary_diag_equal_to_secondary = Report.total_patients_with_primary_diagnosis_equal_to_secondary
-     @top_ten_syndromic_diagnosis =  Report.top_ten_syndromic_diagnosis
+     @total_primary_diag_equal_to_secondary = Report.total_patients_with_primary_diagnosis_equal_to_secondary(start_date, end_date)
+     @top_ten_syndromic_diagnosis =  Report.top_ten_syndromic_diagnosis(start_date, end_date)
      @total_top_ten_syndromic_diagnosis = 0
 
      @top_ten_syndromic_diagnosis.each do |diagnosis|
         @total_top_ten_syndromic_diagnosis += diagnosis.total_occurance.to_i
      end
 
-     @patient_admission_discharge_summary = Report.patient_admission_discharge_summary
+     @patient_admission_discharge_summary = Report.patient_admission_discharge_summary(start_date, end_date)
 
-     @primary_diagnosis_and_hiv_stat = Report.statistic_of_top_ten_primary_diagnosis_and_hiv_status
+     @primary_diagnosis_and_hiv_stat = Report.statistic_of_top_ten_primary_diagnosis_and_hiv_status(start_date, end_date)
 
      @total_top_ten_primary_diagnosis = 0
      @primary_diagnosis_and_hiv_stat.each do |diagnosis|
         @total_top_ten_primary_diagnosis += diagnosis.total.to_i
      end
-     @dead_patients_statistic_per_ward = Report.dead_patients_statistic_per_ward
+     @dead_patients_statistic_per_ward = Report.dead_patients_statistic_per_ward(start_date, end_date)
 
-     @specific_hiv_related_data = Report.specific_hiv_related_data
+     @specific_hiv_related_data = Report.specific_hiv_related_data(start_date, end_date)
      @total_patient_admission_per_ward = {}
      render :layout => 'menu'
 
