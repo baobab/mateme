@@ -62,16 +62,16 @@
     <tr>
       <td></td>
       <th>%</th>
-      <td><%=((@total_males.to_i*100) / @patients_registered.length.to_i) %></td>
-      <td ><%= 100-((@total_males.to_i*100) / @patients_registered.length.to_i) %></td>
+      <td><%=((@total_males.to_i*100) / @patients_registered.length.to_i) rescue 0%></td>
+      <td ><%= 100-((@total_males.to_i*100) / @patients_registered.length.to_i) rescue 0%></td>
       <td>100%</td>
     </tr>
     <tr>
       <td></td>
       <th>Median age</th>
-      <td><%=@total_age_male.to_i/@total_males.to_i%></td>
-      <td><%=@total_age_female.to_i/@total_females.to_i%></td>
-      <td><%=(@total_age_male.to_i + @total_age_female.to_i)/@patients_registered.length.to_i%></td>
+      <td><%=@total_age_male.to_i/@total_males.to_i rescue 0%></td>
+      <td><%=@total_age_female.to_i/@total_females.to_i rescue 0%></td>
+      <td><%=(@total_age_male.to_i + @total_age_female.to_i)/@patients_registered.length.to_i rescue 0 %></td>
     </tr>
     
 </table>
@@ -249,7 +249,7 @@
       <td></td>
       <th><%=ward.ward.to_s%></th>
       <td><%=ward.total_dead.to_s%></td>
-      <td><%=((ward.total_dead.to_i*100)/@total_patient_admission_per_ward[ward.ward.to_s]) rescue nil%></td>
+      <td><%=((ward.total_dead.to_i*100)/@total_patient_admission_per_ward[ward.ward.to_s]) rescue 0%></td>
       <td><%=ward.total_dated_in_24hrs.to_s%></td>
       <td><%=ward.dead_btn_24_and_72hrs.to_s%></td>
       <td><%=ward.dead_btn_3_and_7dys.to_s%></td>
