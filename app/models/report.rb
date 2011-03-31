@@ -9,7 +9,7 @@ class Report < ActiveRecord::Base
                                              , national_id
                                              , gender
                                              , birthdate
-                                             , DATE_FORMAT ( FROM_DAYS ( TO_DAYS ( registration_date ) - TO_DAYS ( birthdate ) )
+                                             , DATE_FORMAT( FROM_DAYS ( TO_DAYS ( registration_date ) - TO_DAYS ( birthdate ) )
 	                                              , '%Y' ) + 0
                                         AS     age
                                           FROM person
