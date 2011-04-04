@@ -10,12 +10,14 @@ class PrescriptionsController < ApplicationController
 
     @patient.treatments.map{|treatement|
 
-      if (treatement.diagnosis_id.to_i == diabetes_id)
+
+      if (treatement.diagnosis_id.to_i == diabetes_id && @patient.treatments.first.start_date.to_date == treatement.start_date.to_date)
         @patient_diabetes_treatements << treatement
-      else
+      elsif(@patient.treatments.first.start_date.to_date == treatement.start_date.to_date)
         @patient_hypertension_treatements << treatement
       end
     }
+    #raise @patient_diabetes_treatements.to_yaml
     redirect_to "/prescriptions/new?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @patient_diabetes_treatements.blank?   #@orders.blank?
     render :template => 'prescriptions/index', :layout => 'menu'
   end
