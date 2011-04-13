@@ -93,8 +93,8 @@ class PeopleController < ApplicationController
 
       found_person = nil
       if found_person_data
-        diabetes_number = params[:person][:patient][:identifiers][:diabetes_number] rescue nil
-        found_person_data['person']['patient']['identifiers']['diabetes_number'] = diabetes_number if diabetes_number
+        # diabetes_number = params[:person][:patient][:identifiers][:diabetes_number] rescue nil
+        # found_person_data['person']['patient']['identifiers']['diabetes_number'] = diabetes_number if diabetes_number
         found_person = Person.create_from_form(found_person_data)
       end
               

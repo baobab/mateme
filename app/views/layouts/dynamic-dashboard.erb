@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title><%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %></title>
+        <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+        <%= stylesheet_link_tag "dashboard" %>
+        <%= stylesheet_link_tag "graytabs" %>
+        <script type="text/javascript" language="javascript" src="/javascripts/dashboard.js" ></script>
+    </head>
+    <body>
+        <%= yield %>
+    </body>
+</html>

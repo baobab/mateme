@@ -1,7 +1,7 @@
 class EncountersController < ApplicationController
 
   def create
-   # raise params.to_yaml
+    # raise params.to_yaml
     
     encounter = Encounter.new(params[:encounter])
     # encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? # not sure why this was put here. It's spoiling the dates
@@ -44,7 +44,7 @@ class EncountersController < ApplicationController
 
     end
 
-  @patient = Patient.find(params[:encounter][:patient_id])
+    @patient = Patient.find(params[:encounter][:patient_id])
 
     if params[:next_url]
       if encounter.type.name == "REFER PATIENT OUT?" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
@@ -80,14 +80,15 @@ class EncountersController < ApplicationController
   end
 
   def diagnoses
+    
     search_string         = (params[:search_string] || '').upcase
-    outpatient_diagnosis  = ConceptName.find_by_name("MATERNITY DIAGNOSIS LIST").concept
-    diagnosis_concepts    = Concept.find_by_name("MATERNITY DIAGNOSIS LIST").concept_members_names rescue []
-    previous_answers      = []
 
-    previous_answers    = Observation.find_most_common(outpatient_diagnosis, search_string)
-    @suggested_answers  = (previous_answers + diagnosis_concepts).sort.uniq
-    render :text => "<li>" + @suggested_answers.join("</li><li>") + "</li>"
+    diagnosis_concepts    = Concept.find_by_name("MATERNITY DIAGNOSIS LIST").concept_members_names.sort.uniq rescue []
+
+    @results = diagnosis_concepts.collect{|e| e}.delete_if{|x| !x.match(/^#{search_string}/)}
+    
+    render :text => "<li>" + @results.join("</li><li>") + "</li>"
+    
   end
 
   def treatment

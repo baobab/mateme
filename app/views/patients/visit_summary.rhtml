@@ -1,0 +1,52 @@
+<style type="text/css">
+  body {
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+    font-size: 1.2em;
+  }
+  .even {
+    background-color: #eee;
+    padding: 10px;
+    -moz-border-radius: 10px;
+    margin-bottom: 5px;
+  }
+  .odd {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #eee;
+    -moz-border-radius: 10px;
+    margin-bottom: 5px;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0px;
+  }
+</style>
+<div style="margin-top:20px;">
+  <!--h3 style="color: #666;">Visit Summary</h3-->  
+  <ul id="visit_summary" class="list" style="width: 97%; left: 8px; right: -66px; position: relative;">
+    <%@encounter_names.each{|encounter_name|
+      header = 'true'
+      for encounter in @encounters do %>
+        <%if encounter.name == encounter_name%>
+          <li class="data <%= cycle('even', 'odd') %>">
+            <% if session[:user_id] == encounter.creator %>
+              <div style="float:right;padding:7px;">
+                <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png",
+                {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
+              </div>
+            <% end %>
+            
+            <%if header == 'true' %>
+              <div style="float:left; font-size: 1.1em; font-style: normal; padding-bottom: 5px; ">
+                <%=h encounter.name.humanize %></div><%end; header = 'false'%>
+            <div style="clear:left; font-size:10pt" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span>
+              <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
+            </div>
+          </li>
+        <%end
+      end
+    }%>
+  </ul>
+
+</div>

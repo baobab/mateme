@@ -129,20 +129,23 @@ DateSelector.prototype = {
     },
 	
     incrementMonth: function() {
-        //if(this.date.getMonth() >= (new Date().getMonth())){
-        //} else
-        if (this.date.getMonth() >= 11) {
-            this.date.setMonth(0);
-            this.currentMonth.value = this.getMonth();
-        } else {
-            var lastDate = DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()+1).getDate();
-            if (lastDate < this.date.getDate()) {
-                this.currentDay.value = lastDate;
-                this.date.setDate(lastDate);
-            }
+        var currentDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
+
+        if(new Date() > currentDate){
+
+            if (this.date.getMonth() >= 11) {
+                this.date.setMonth(0);
+                this.currentMonth.value = this.getMonth();
+            } else {
+                var lastDate = DateUtil.getLastDate(this.date.getFullYear(), this.date.getMonth()+1).getDate();
+                if (lastDate < this.date.getDate()) {
+                    this.currentDay.value = lastDate;
+                    this.date.setDate(lastDate);
+                }
 			
-            this.date.setMonth(this.date.getMonth()+1);
-            this.currentMonth.value = this.getMonth();
+                this.date.setMonth(this.date.getMonth()+1);
+                this.currentMonth.value = this.getMonth();
+            }
         }
         this.update(this.target);
     },
@@ -166,9 +169,9 @@ DateSelector.prototype = {
     },
 	
     incrementDay: function() {
-        var currentDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+        var currentDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate() + 1);
 
-        //if(new Date().getDate() > currentDate.getDate()){
+        if(new Date() > currentDate){
             var nextDay = DateUtil.nextDate(currentDate);
             if (nextDay.getMonth() == this.date.getMonth())
                 this.date.setDate(this.date.getDate()+1);
@@ -176,7 +179,7 @@ DateSelector.prototype = {
                 this.date.setDate(1);
 
             this.currentDay.value = this.date.getDate();
-        //}
+        }
 
         this.update(this.target);
     },

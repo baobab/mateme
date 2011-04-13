@@ -18,19 +18,19 @@ class Patient < ActiveRecord::Base
 
     concept_ids = diagnosis_hash.collect{|k,v| ConceptName.find_by_name(k).concept_id}.compact rescue []
 
-     type = EncounterType.find_by_name('DIAGNOSIS')
-     self.current_visit.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
-       encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
-         next if observation.obs_group_id != nil
-         observation_string =  observation.answer_string
-         child_ob = observation.child_observation
-         while child_ob != nil do
-           observation_string += child_ob.answer_string
-           child_ob = child_ob.child_observation
-         end
-         diagnosis_hash[observation.concept.name.name] << observation_string
-       }
-       diagnosis_hash
+    type = EncounterType.find_by_name('DIAGNOSIS')
+    self.current_visit.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
+      encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
+      next if observation.obs_group_id != nil
+      observation_string =  observation.answer_string
+      child_ob = observation.child_observation
+      while child_ob != nil do
+        observation_string += child_ob.answer_string
+        child_ob = child_ob.child_observation
+      end
+      diagnosis_hash[observation.concept.name.name] << observation_string
+    }
+    diagnosis_hash
   end
 =begin
   def current_diagnoses(concept_ids = [ConceptName.find_by_name('DIAGNOSIS').concept_id, ConceptName.find_by_name('DIAGNOSIS, NON-CODED').concept_id, ConceptName.find_by_name('PRIMARY DIAGNOSIS').concept_id, ConceptName.find_by_name('SECONDARY DIAGNOSIS').concept_id, ConceptName.find_by_name('ADDITIONAL DIAGNOSIS').concept_id, ConceptName.find_by_name('SYNDROMIC DIAGNOSIS').concept_id])
@@ -115,9 +115,9 @@ class Patient < ActiveRecord::Base
     
     enc_names.each{|name|
       next if ["Registration", "Admit patient", "Update outcome"].include?(name.humanize)
-        for encounter in encs do
-          label.draw_multi_text("#{encounter.to_print}", :font_reverse => false) if encounter.name == name
-        end
+      for encounter in encs do
+        label.draw_multi_text("#{encounter.to_print}", :font_reverse => false) if encounter.name == name
+      end
     }
     label.draw_multi_text("Seen by: #{User.current_user.name rescue ''} at #{GlobalProperty.find_by_property('facility.short_name').property_value rescue ''} #{UserProperty.find_by_property_and_user_id('last_login_location', User.current_user.user_id).property_value rescue ''}", :font_reverse => true)
     label.print(1)
@@ -172,7 +172,12 @@ class Patient < ActiveRecord::Base
           EncounterType.find_by_name("DIAGNOSIS")]).map{|encounter| encounter.observations.active.all()}.flatten.compact - self.current_diagnoses).last rescue nil
   end 
   
-  def previous_diagnoses(concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id])
+  def previous_diagnoses(concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, 
+        ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id,
+        ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id,
+        ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id,
+        ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id,
+        ConceptName.find_by_name("PROCEDURE DONE").concept_id])
     self.encounters.all(:include => [:observations]).map{|encounter| 
       encounter.observations.active.all(
         :conditions => ["obs.concept_id IN (?) AND DATE(obs.obs_datetime) < ?", concept_ids, Date.today])
@@ -280,19 +285,19 @@ class Patient < ActiveRecord::Base
 
     concept_ids = diagnosis_hash.collect{|k,v| ConceptName.find_by_name(k).concept_id}.compact rescue []
 
-     type = EncounterType.find_by_name('OUTPATIENT DIAGNOSIS')
-     self.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
-       encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
-         next if observation.obs_group_id != nil
-         observation_string =  observation.answer_string
-         child_ob = observation.child_observation
-         while child_ob != nil do
-           observation_string += child_ob.answer_string
-           child_ob = child_ob.child_observation
-         end
-         diagnosis_hash[observation.concept.name.name] << observation_string
-       }
-       diagnosis_hash
+    type = EncounterType.find_by_name('OUTPATIENT DIAGNOSIS')
+    self.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
+      encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
+      next if observation.obs_group_id != nil
+      observation_string =  observation.answer_string
+      child_ob = observation.child_observation
+      while child_ob != nil do
+        observation_string += child_ob.answer_string
+        child_ob = child_ob.child_observation
+      end
+      diagnosis_hash[observation.concept.name.name] << observation_string
+    }
+    diagnosis_hash
   end
 
   # Similar to the method in DMHT but different
@@ -383,19 +388,19 @@ class Patient < ActiveRecord::Base
 
     concept_ids = procedures_hash.collect{|k,v| ConceptName.find_by_name(k).concept_id}.compact rescue []
 
-     type = EncounterType.find_by_name('UPDATE OUTCOME')
-     self.current_visit.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
-       encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
-         next if observation.obs_group_id != nil
-         observation_string =  observation.answer_string
-         child_ob = observation.child_observation
-         while child_ob != nil do
-           observation_string += child_ob.answer_string
-           child_ob = child_ob.child_observation
-         end
-         procedures_hash[observation.concept.name.name] << observation_string
-       }
-       procedures_hash
+    type = EncounterType.find_by_name('UPDATE OUTCOME')
+    self.current_visit.encounters.active.all(:include => [:observations], :conditions =>["encounter_type = ?", type.id] ).map{|encounter|
+      encounter.observations.active.all(:conditions => ["obs.concept_id IN (?)", concept_ids]) }.flatten.compact.each{|observation|
+      next if observation.obs_group_id != nil
+      observation_string =  observation.answer_string
+      child_ob = observation.child_observation
+      while child_ob != nil do
+        observation_string += child_ob.answer_string
+        child_ob = child_ob.child_observation
+      end
+      procedures_hash[observation.concept.name.name] << observation_string
+    }
+    procedures_hash
   end
 
   def current_hiv_status
@@ -428,6 +433,32 @@ class Patient < ActiveRecord::Base
       nil
     end
     
+  end
+
+  def past_history    
+    encs = {}
+
+    self.encounters.active.reverse.each{|e|
+      encs[e.encounter_datetime.strftime("%Y-%m-%d")] = {}
+    }
+
+    self.encounters.active.reverse.each{|e|
+      encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name] = {}
+    }
+
+    self.encounters.active.reverse.each{|e|
+      e.observations.each{|o|
+        encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name][o.to_a[0]] = []
+      }
+    }
+
+    self.encounters.active.reverse.each{|e|
+      e.observations.each{|o|
+        encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name][o.to_a[0]] << o.to_a[1]
+      }
+    }
+
+    encs
   end
   
 end

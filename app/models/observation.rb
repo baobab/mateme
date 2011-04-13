@@ -68,6 +68,14 @@ class Observation < ActiveRecord::Base
     "#{self.concept.name.name rescue 'Unknown concept name'}: #{self.answer_string}"
   end
 
+  def to_a
+    formatted_name = self.concept_name.name rescue nil
+    formatted_name ||= self.concept_name.name rescue nil
+    formatted_name ||= self.concept.concept_names.first.name rescue nil
+    formatted_name ||= self.concept.concept_names.first.name rescue 'Unknown concept name'
+    [formatted_name, self.answer_string]
+  end
+
   def answer_string
     "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}" # #{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
   end

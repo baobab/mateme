@@ -40,7 +40,9 @@ class PatientsController < ApplicationController
     #print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", next_task(@patient)) and return if session[:prescribed] = true 
     redirect_to next_discharge_task(@patient) and return if session[:auto_load_forms] == true && session[:admit] == false
     redirect_to next_admit_task(@patient) and return if session[:auto_load_forms] == true && session[:admit] == true
-    render :template => 'patients/show', :layout => 'menu'
+    render :template => 'patients/show', :layout => 'dynamic-dashboard' # 'menu'
+    #
+    # render :template => 'patients/showed', :layout => 'menu'
     
   end
 
@@ -114,11 +116,11 @@ class PatientsController < ApplicationController
   def end_visit
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
     current_visit = @patient.current_visit
-    primary_diagnosis = @patient.current_diagnoses([ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id]).last rescue nil
+    primary_diagnosis = @patient.current_diagnoses["DIAGNOSIS"] rescue nil
     treatment = @patient.current_treatment_encounter.orders.active rescue []
     session[:admitted] = false
 
-    if (@patient.current_outcome && primary_diagnosis && (!treatment.empty? or @patient.treatment_not_done)) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
+    if (@patient.current_outcome && primary_diagnosis) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
       current_visit.ended_by = session[:user_id]
       current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
       current_visit.save
@@ -262,4 +264,71 @@ class PatientsController < ApplicationController
       send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
     end
   end
+
+  def visit_summary
+    @super_user = false
+    @clinician  = false
+    @doctor     = false
+    @regstration_clerk  = false
+
+    @user = User.find(session[:user_id])
+    @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
+
+    if @user_privilege.include?("superuser")
+      @super_user = true
+    elsif @user_privilege.include?("clinician")
+      @clinician  = true
+    elsif @user_privilege.include?("doctor")
+      @doctor     = true
+    elsif @user_privilege.include?("regstration_clerk")
+      @regstration_clerk  = true
+    end
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    outcome = @patient.current_outcome
+    @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
+    @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+
+    @past_diagnoses = @patient.previous_visits_diagnoses.collect{|o|
+      o.diagnosis_string
+    }.delete_if{|x|
+      x == ""
+    }
+
+    @past_treatments = @patient.visit_treatments
+    render :layout => false
+  end
+
+  def visit_history
+    @super_user = false
+    @clinician  = false
+    @doctor     = false
+    @regstration_clerk  = false
+
+    @user = User.find(session[:user_id])
+    @user_privilege = @user.user_roles.collect{|x|x.role.downcase}
+
+    if @user_privilege.include?("superuser")
+      @super_user = true
+    elsif @user_privilege.include?("clinician")
+      @clinician  = true
+    elsif @user_privilege.include?("doctor")
+      @doctor     = true
+    elsif @user_privilege.include?("regstration_clerk")
+      @regstration_clerk  = true
+    end
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    outcome = @patient.current_outcome
+    @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
+    @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+
+    @past_diagnoses = @patient.past_history  # @patient.previous_visits_diagnoses.collect{|o|
+     # o.diagnosis_string
+    # }.delete_if{|x|
+    #  x == ""
+    # }
+
+    @past_treatments = @patient.visit_treatments
+    render :layout => false
+  end
+  
 end
