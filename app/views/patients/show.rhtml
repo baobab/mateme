@@ -1,100 +1,84 @@
-<script type="text/javascript">
-  tt_cancel_destination = '/encounters/close_visit?patient_id=<%= @patient.patient_id%>';
-  tt_cancel_to_peole_index = '/people/index';
+<!--<html>
+<head>
+<title>Patient Dashboard</title>
+<link href="stylesheets/dashboard.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" language="javascript" src="javascripts/dashboard.js" defer ></script>
+<meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+<script language='javascript' type='text/javascript' src='javascripts/jquery.js'></script>
+<script language="javascript" type="text/javascript" src="javascripts/jquery.flot.js"></script>
+<script language="javascript">
+tstUsername = "";
+tstCurrentDate = "2010/03/12";
+tt_cancel_destination = '/people';
+tt_cancel_show = '';
+</script>
+<link type="text/css" href="stylesheets/graytabs.css" rel="stylesheet" /><link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+<script src="javascripts/preload.js?1266397276" type="text/javascript"></script>
+<!-- Uncomment/Comment the line below to enable/disable the Touchscreen Toolkit-->
+<!--<script src="javascripts/dateselector.js?1266397276" type="text/javascript"></script>
+<script src="javascripts/utils.js?1266397276" type="text/javascript"></script> 
+</head>
+<body><div id='content'>
+<div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center> -->
+<script>
+  tt_cancel_destination = '/people';
 </script>
 <style type="text/css">
-
-  a.button.green {
-    width:220px;
-    -moz-user-select:none;
-    border:0 none;
-    color:white;
-    cursor:pointer;
-    display:block;
-    font-weight:bold;
-    padding:0 8px 0 0;
-    text-align:center;
-    text-decoration:none;
-    background:green none repeat scroll 0 0;
-    font-size:1.4em;
-    height:50px;
-    line-height:57px;
-    min-width:48px;
-    margin-top:10px
-  }
-  #menu {
-    overflow:auto;
-    position:absolute;
-    height:620px;
-    width:257px;
-    top: 0px;
-    right: 1px;
-  }
-
-  .buttonsDiv{
-    width: 995px;
-  }
-
-  ul.list{
-    overflow-x: hidden;
-  }
-
+    span 
+    {
+      font-size: 0.9em;
+      font-weight: normal;
+    }
 </style>
-
-<div style="margin:10px;">
-  <div style="font-size:1.1em; position:relative;top: 0px;">
-    <%= render :partial => "details" %>
-  </div>
-  <%= render :partial => "current_encounters" %>
-
-  <div id="menu">
-
-      <!--a class="button green" href='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</a>
-      <a class="button green" href='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</a-->
-    <a class="button green" href='/encounters/new/outpatient_diagnosis?diagnosis_type=PRIMARY DIAGNOSIS&patient_id=<%= @patient.id -%>&nexturl=prescriptions'>OPD Diagnosis</a>
-    <a class="button green" href='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Admitted</a>
-
-    <% if @spine_clinician %>
-
-      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
-      <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
-
-    <% end %>
-
-    <% if @spine_clinician || @hmis_lab_order %>
-
-        <!--a class="button green" href='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</a-->
-      <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
-
-    <% end %>
-
-    <% if @spine_clinician || @hmis_lab_order || @super_user || @lab %>
-
-        <!--a class="button green" href='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</a-->
-      <a class="button green" href='/patients/print_lab_results?patient_id=<%= @patient.id -%>'>Print Lab Results</a>
-      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
-
-    <% end %>
-
-<%#if @super_user%>
-    <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
-<%# end %>
-
-    <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
-    <!--a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a-->
-
-  </div>
+<form id = 'dashboard' action=''>
+  <table cellpadding=10>
+    <tr>
+      <th colspan=2>Patient Dashboard</th>
+    </tr>
+    <h1 id='project_name'>OPD</h1>
+      <span id='patient_name'><%= @patient.person.name %></span>
+      <span id='patient_id'><%= @patient.national_id_with_dashes rescue '' %></span>
+      <span id='patient_residence'><%= @patient.person.addresses.first.city_village rescue 'Unknown' %></span>
+      <span id='birthdate'><%= @patient.person.birthdate_formatted rescue '' %></span>
+      <span id='patient_gender'><%= @patient.person.formatted_gender rescue '' %></span>
+    <select id="tabs">
+      <option value="/patients/current_encounters?patient_id=<%=@patient.patient_id%>">Visits Summary</option>
+      <option value="/patients/past_diagnoses?patient_id=<%=@patient.patient_id%>">Medical History</option>
+      <option value="/patients/influenza_info?patient_id=<%=@patient.patient_id%>"> Influenza </option>
+      <option value="/patients/chronic_conditions_info?patient_id=<%=@patient.patient_id%>"> Chronic Diseases</option>
+      <option value="/patients/hiv_status_info?patient_id=<%=@patient.patient_id%>"> HIV Status</option>
+    </select>
+    <select id="links">
+        <!--<option value='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</option> -->
+        <option value='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</option>
+        <option value='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Admitted</option>
+      <% if @spine_clinician %>
+        <option value='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza data</option>
+        <option value='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</option> 
+      <%  end %>
+      <% if @spine_clinician || @hmis_lab_order %>
+        <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>-->
+        <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>
+      <% end %>
+      <% if @spine_clinician || @hmis_lab_order || @super_user || @lab %>
+        <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>-->
+        <option value='/patients/print_lab_results?patient_id=<%= @patient.id -%>'>Print Lab Results</option>
+        <option value='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</option>
+      <% end %>
+      <%#if @super_user%>
+        <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</option>
+      <%# end %>
+        <option value='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</option>       <!--<option value='/patients/print_visit?patient_id=<%= @patient.id -%>'> Print Visit</option>-->
+     </select>
+    <tr>
+    <td align='center'>
+    <!--<input type='submit' value='Finish' /> -->
+    </td>
+    </tr>
+  </table>
+</form>
+<!--</center>
 </div>
-
-<div style="z-index:11;bottom:15px; height: 64px; width: 100px; left: -4px; right: -66px; position: absolute;">
-  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_to_peole_index) window.location = tt_cancel_to_peole_index;">
-    <span>
-      Cancel
-    </span>
-  </button>
-</div>
-
- <!--div style="z-index:11;bottom:1px; height: 64px; width: 435px; left: 120px; position: absolute;"><table><tr><td>Location</td><td>: <span style='font-color:green'><span style='font-color:green'><%=session[:ward]%></span></td></tr>
-      <tr><td>User </td><td>: <span style='font-color:green'><%=User.find(session[:user_id]).name rescue 'User' %></span></td></tr></table></div-->
-
-
+</body>
+</html> -->
