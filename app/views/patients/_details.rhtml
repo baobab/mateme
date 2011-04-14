@@ -1,25 +1,13 @@
-<style type="text/css">
-  .title {
-    font-weight:bold;
-    font-size: 20px;
-  }
-
-  .data {
-    font-size: 20px;
-  }
-
-</style>
-
 <div >
   <h2><%= @patient.person.name %></h2>
   <table cellpadding="2" cellspacing="0" width="720px" border="0">
     <tr>
       <td style="width:160px">
-        <span class='title'>
+        <span  >
           National id:
         </span>
       </td>
-      <td style="width:240px" class='data'> <%= @patient.national_id_with_dashes rescue '' %>
+      <td style="width:240px"  > <%= @patient.national_id_with_dashes rescue '' %>
         <br/>
       </td>
       <td rowspan="4" valign="top">
@@ -56,35 +44,35 @@
     </tr>
     <tr>
       <td>
-        <span class='title'>
+        <span  >
           Birthdate:
         </span>
       </td>
-      <td class='data'> <%= @patient.person.birthdate_formatted rescue '' %>
+      <td  > <%= @patient.person.birthdate_formatted rescue '' %>
         <br/>
       </td>
     </tr>
     <tr>
       <td>
-        <span class='title'>
+        <span  >
           Gender:
         </span>
       </td>
-      <td class='data'> <%= @patient.person.formatted_gender rescue '' %>
+      <td  > <%= @patient.person.formatted_gender rescue '' %>
         <br/>
       </td>
     </tr>
-    <!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
+    <!--<tr> <td> <span  > Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
     <tr>
       <td>
-        <span class='title'>
+        <span  >
           Current Village:
         </span>
       </td>
-      <td class='data'> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %>
+      <td  > <%= @patient.person.addresses.first.city_village rescue 'Unknown' %>
         <br/>
       </td>
     </tr>
-    <!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
+    <!--<tr> <td> <span  > Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
   </table>
 </div>
