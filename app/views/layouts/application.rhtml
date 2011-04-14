@@ -20,20 +20,19 @@
 
       }
     </script>
-    <%= stylesheet_link_tag "mateme" %>
+    <%= stylesheet_link_tag "form" %>
     <%= stylesheet_link_tag "styles" %>
     <%= stylesheet_link_tag "calendar" %>
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
     <%= javascript_include_tag "preload" %>
-    <%= javascript_include_tag "touchscreenToolkit" %>
+    <%= javascript_include_tag "touchscreen" %>
     <%= javascript_include_tag "dateselector" %>
     <%= javascript_include_tag "utils" %>
     <%= javascript_include_tag "utilities", :defer => true  %>
     <%= javascript_include_tag "transform", :defer => true  %>
     <%= javascript_include_tag "calendar", :defer => true %>
   </head>
-  <body id="mateme">  
-    <div id="container">
+  <body id="container">
       <div id="content">
         <div id="description" style="color:#777;position:absolute;margin-top:-70px;">
           <% if show_intro_text %>
@@ -54,7 +53,6 @@
         <%= yield %>
         <div id="footer">
         </div>    
-      </div>  
-    </div>
+      </div> 
   </body>
 </html>
