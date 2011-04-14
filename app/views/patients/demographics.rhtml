@@ -1,10 +1,8 @@
 <style type="text/css">
-
   table {
-    width: 70%;
+    width: 90%;
     border-collapse: collapse;
   }
-
   .title {
     font-weight:bold;
     border-color: #000000;
@@ -28,7 +26,6 @@
     text-align: left;
     border-width: 0px 1px 1px;
   }
-
 </style>
 
 <script type="text/javascript">
@@ -36,59 +33,59 @@
 </script>
 
 <div style="margin:10px;">
-  <div id="details" style="float:none">
+  <div id="details" style="float:none; width: 550px; height: 600px">
     <form>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  </form>
+    </form>
 
-<div>
-<h2><%= "Demographics for #{@patient.person.name}"%></h2>
-<h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
-<table>
-  <tr>
-    <td class='title' style='border-width:1px 1px 1px'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=first_name">First Name</a></td>
-    <td class='data' style='border-width:1px 1px 1px'><%= @first_name %></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=last_name">Last Name</a></td>
-    <td class='data'><%=@last_name%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=birthdate">Birthdate </a></td>
-    <td class='data'><%=@birthdate%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=gender">Gender</a></td>
-    <td class='data'><%=@gender%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_village"> Current Residence</a></td>
-    <td class='data'> <%=@current_village%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_ta">Current Traditional Authority</a></td>
-    <td class='data'><%=@current_ta%></td>
-  </tr>
-  <tr> 
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_district"> Current District</a> </td> 
-    <td class='data'> <%=@current_district%></td>
-  </tr>
-  <tr> 
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=home_district"> Home District</a></td> 
-    <td class='data'><%=@home_district%></td>
-  </tr>
-  <tr> 
-    <td class='title'> <a href="edit_demographics?patient_id=<%=@patient.id%>&field=primary_phone">Primary Phone</a></td> 
-    <td class='data'><%=@primary_phone%></td>
-  </tr>
-<!--
-  <tr> <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=secondary_phone">Secondary Phone</a></td> <td class='data'><%=@secondary_phone%></td></tr>
--->
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=occupation">Occupation</a></td>
-    <td class='data'><%=@occupation%><br/> </td>
-  </tr>
-</table>
-</div>
-</div>
+    <div>
+      <h2><%= "Demographics for #{@patient.person.name}"%></h2>
+      <h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
+      <table style="margin-left:10px;">
+        <tr>
+          <td class='title' style='border-width:1px 1px 1px'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=first_name">First Name</a></td>
+          <td class='data' style='border-width:1px 1px 1px'><%= @first_name %></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=last_name">Last Name</a></td>
+          <td class='data'><%=@last_name%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=birthdate">Birthdate </a></td>
+          <td class='data'><%=@birthdate%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=gender">Gender</a></td>
+          <td class='data'><%=@gender%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_village"> Current Residence</a></td>
+          <td class='data'> <%=@current_village%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_ta">Current Traditional Authority</a></td>
+          <td class='data'><%=@current_ta%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_district"> Current District</a> </td>
+          <td class='data'> <%=@current_district%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=home_district"> Home District</a></td>
+          <td class='data'><%=@home_district%></td>
+        </tr>
+        <tr>
+          <td class='title'> <a href="edit_demographics?patient_id=<%=@patient.id%>&field=primary_phone">Primary Phone</a></td>
+          <td class='data'><%=@primary_phone%></td>
+        </tr>
+      <!--
+        <tr> <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=secondary_phone">Secondary Phone</a></td> <td class='data'><%=@secondary_phone%></td></tr>
+      -->
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=occupation">Occupation</a></td>
+          <td class='data'><%=@occupation%><br/> </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>
