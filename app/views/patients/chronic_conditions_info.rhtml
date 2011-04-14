@@ -1,0 +1,45 @@
+<style type="text/css" >
+.mytableborder {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+font-size:9pt;
+/*background-color: #660000;*/
+}
+</style>
+<div style="margin-top:20px;">
+  <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+    <th valign="top" class="mytableborder">
+      OPD Chronic Conditions info
+    </th>
+    <%
+        counter = 0
+        @opd_chronic_conditions.each do |opd_chronic_conditions_info|
+        counter +=1
+    %>
+    <tr class ="data" style="background-color: <%=counter % 2 == 0 ? 'white' : 'lightgrey'%>">
+      <td class="mytableborder">
+        <%=opd_chronic_conditions_info%>
+      </td>
+    </tr>
+    <%end%>
+  </table>
+  <br/>
+  <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+    <th valign="top" class="mytableborder">
+      IPD Chronic Conditions info
+    </th>
+   <%
+        counter = 0
+        @ipd_chronic_conditions.each do |ipd_chronic_conditions_info|
+        counter +=1
+    %>
+    <tr class ="data" style="background-color: <%=counter % 2 == 0 ? 'white' : 'lightgrey'%>">
+      <td class="mytableborder">
+        <%=ipd_chronic_conditions_info%>
+      </td>
+    </tr>
+    <%end%>
+  </table>
+</div>
