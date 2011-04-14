@@ -255,18 +255,18 @@ class Patient < ActiveRecord::Base
 
 
     result = demographic_servers.map{|demographic_server, local_port|
-      begin
-        output = mechanize_browser.post("http://localhost:#{local_port}/people/art_information", national_id_params).body
+     begin
+        output = mechanize_browser.post("http://localhost:local_port/people/art_information", national_id_params).body
 
-      rescue Timeout::Error 
+        rescue Timeout::Error
         return {}
-      rescue
+        rescue
         return {}
-      end
-      output if output and output.match(/person/)
+     end
+     output if output and output.match(/person/)
     }.sort{|a,b|b.length <=> a.length}.first
 
-    result ? JSON.parse(result) : nil
+    result ? JSON.parse(output) : nil
 
   end
 
@@ -373,7 +373,7 @@ class Patient < ActiveRecord::Base
   end
 
   def patient_orders
-    type = EncounterType.find_by_name('TREATMENT')
+    type =EncounterType.find_by_name('TREATMENT')
     
     encounter = self.encounters.active.find_by_encounter_type(type.id) rescue nil
 
@@ -386,4 +386,181 @@ class Patient < ActiveRecord::Base
     self.person.name
   end
 
+
+  def historic_diagnoses
+
+	 concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]
+    visit_hash = Hash.new()
+    self.previous_visits.each{|visit|
+      visit_hash[visit.visit_id] = visit.encounters.active.map{|encounter|
+        encounter.observations.active.all(
+          :conditions => ["obs.concept_id IN (?)", concept_ids])
+      }.flatten.compact
+    }
+    return visit_hash
+
+
+  end
+  #--------- Actions to request data from another application -------------
+  def remote_visit_diagnoses
+    # this retrieves the visit_diagnoses from another application
+    given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+
+    given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+    national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+    mechanize_browser = Mechanize.new
+    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+    
+     result = demographic_servers.map{|demographic_server, local_port|
+     begin
+        output = mechanize_browser.post("http://localhost:local_host/patients/retrieve_visit_diagnoses", national_id_params).body
+      
+        rescue Timeout::Error
+        return {}
+        rescue
+        return {}
+      end
+      output if output and output.match(/person/)
+    }.sort{|a,b|b.length <=> a.length}.first
+
+    #result ? JSON.parse(output) : nil
+    result  = JSON.parse(output) rescue nil
+    diagnoses = {} #this is the hash that we want to return
+
+     diagnoses = result.inject({}) do |new_diagnosis, diagnosis_array|
+         visit_number = diagnosis_array.first.to_i
+         obs          = diagnosis_array.last
+         observations = []
+
+         obs.each {|o| observations.push(Observation.new(o))}
+
+         new_diagnosis[visit_number] = observations
+
+         new_diagnosis
+      end
+
+    diagnoses
+  end
+  def remote_visit_treatments
+  # this retrieves the visit_treatments from another application
+    given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+    national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+    mechanize_browser = Mechanize.new
+    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+    
+    result = demographic_servers.map{|demographic_server, local_port|
+      begin
+        output = mechanize_browser.post("http://localhost:local_port/patients/retrieve_visit_treatments", national_id_params).body
+      
+        rescue Timeout::Error
+        return []
+        rescue
+        return []
+      end
+      output if output and output.match(/person/)
+    }.sort{|a,b|b.length <=> a.length}.first
+
+   # result ? JSON.parse(result) : nil
+   result = JSON.parse(output) rescue nil
+
+  end
+  def remote_influenza_info
+    #this gets the influenza info from IPD
+      given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+      national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+      mechanize_browser = Mechanize.new
+      demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+
+      result = demographic_servers.map{|demographic_server, local_port|
+       begin
+             
+          output = mechanize_browser.post("http://localhost:local_port/patients/retrieve_influenza_info", national_id_params).body
+
+        rescue Timeout::Error
+         return []
+         rescue
+         return []
+       end
+       output if output and output.match(/person/)
+       }.sort{|a,b|b.length <=> a.length}.first
+
+     # result ? JSON.parse(result) : nil
+     
+     result = JSON.parse(output) rescue nil
+
+  end
+  def get_remote_art_info
+       #this gets the influenza info from IPD
+      given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+      national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+      mechanize_browser = Mechanize.new
+      demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+
+      result = demographic_servers.map{|demographic_server, local_port|
+        begin
+      
+
+          output = mechanize_browser.post("http://localhost:local_port/patients/remote_hiv_status", national_id_params).body
+
+        rescue Timeout::Error
+         return []
+         rescue
+         return []
+        end
+        output if output and output.match(/person/)
+     
+      }.sort{|a,b|b.length <=> a.length}.first
+
+     # result ? JSON.parse(result) : nil
+    
+     result = JSON.parse(output) rescue nil
+
+  end
+  def get_remote_chronic_conditions
+    #this gets the influenza info from IPD
+      given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+      national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+      mechanize_browser = Mechanize.new
+      demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+
+      result = demographic_servers.map{|demographic_server, local_port|
+      begin
+          output = mechanize_browser.post("http://localhost:local_port/patients/remote_chronic_conditions", national_id_params).body
+
+      rescue Timeout::Error
+         return []
+         rescue
+         return []
+      end
+       output if output and output.match(/person/)
+      }.sort{|a,b|b.length <=> a.length}.first
+
+     #result ? JSON.parse(result) : nil
+
+     result = JSON.parse(output) rescue []
+
+  end
+  def visit_diagnoses
+    concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]
+    visit_hash = Hash.new()
+    self.previous_visits.each{|visit|
+      visit_hash[visit.visit_id] = visit.encounters.active.map{|encounter|
+        encounter.observations.active.all(
+          :conditions => ["obs.concept_id IN (?)", concept_ids])
+      }.flatten.compact
+    }
+    return visit_hash
+  end
+
+  def visit_treatments
+    visit_hash = Hash.new()
+    self.previous_visits.each{|visit|
+      visit_hash[visit.visit_id] = visit.encounters.all(:include => [:orders]).map{|encounter|
+        encounter.orders.active.all}.flatten.compact
+    }
+    return visit_hash
+  end
+  def previous_visits
+    previous_visits = self.visits.all - self.visits.current
+  end
 end
