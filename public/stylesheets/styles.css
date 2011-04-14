@@ -137,7 +137,7 @@ button span {
 
 button, button.white {
     background:url(../images/buttons/btn_right_white.png) right no-repeat;
-    font-size:1.3em;
+    font-size:0.9em;
     line-height:57px;
     min-width:48px;
 }
@@ -157,7 +157,7 @@ button:hover span, button:hover.white span {
 
 button, button.blue {
     background:url(../images/buttons/btn_right_blue.png) right no-repeat;
-    font-size:1.3em;
+    font-size:0.9em;
     line-height:57px;
     min-width:48px;
 }
