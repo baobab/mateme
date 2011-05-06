@@ -460,8 +460,20 @@ end
 
   def clinics
     search_string = params[:search_string]
-    clinics = [  "QECH Medical clinic", " QECH Chest and Cardiac clinic", "QECH Neuro clinic", "QECH Diabetes clinic", "QECH Renal Clinic", "QECH ART Clinic", "QECH Surgical clinic", "QECH Obstetrics/gynaecology clinic", "QECH other", "QECH medical ward", "QECH medical teaching annex", "ART clinic at a centre other than QECH", "Clinic at another government hospital", "Private practitioner clinic", "Clinic at a private hospital"]
-
+    field_name = "name"
+    #clinics = [  "QECH Medical clinic", " QECH Chest and Cardiac clinic", "QECH Neuro clinic", "QECH Diabetes clinic", "QECH Renal Clinic", "QECH ART Clinic", "QECH Surgical clinic", "QECH Obstetrics/gynaecology clinic", "QECH other", "QECH medical ward", "QECH medical teaching annex", "ART clinic at a centre other than QECH", "Clinic at another government hospital", "Private practitioner clinic", "Clinic at a private hospital"]
+    
+    sql = "SELECT * 
+       FROM location
+       WHERE location_id IN (SELECT location_id 
+                      FROM location_tag_map 
+                      WHERE location_tag_id = (SELECT location_tag_id 
+                                   FROM location_tag 
+                                   WHERE tag = 'Diabetes Referral Center'))
+       ORDER BY name ASC"
+    
+    clinics = Location.find_by_sql(sql).collect{|name| name.send(field_name)}
+    
     @results = clinics.grep(/#{search_string}/i).compact.sort_by{|location|
       location.index(/#{search_string}/) || 100 # if the search string isn't found use value 100
     }[0..15]

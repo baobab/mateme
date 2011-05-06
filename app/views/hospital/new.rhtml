@@ -1,0 +1,10 @@
+<script type="text/javascript">
+  tt_cancel_destination = "/people?active_tab=tab3"; 
+</script>
+
+<% form_tag :action => @act do -%>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end -%>
+
+<%= link_to 'Back',:controller=>'hospital', :action => 'menu' %>

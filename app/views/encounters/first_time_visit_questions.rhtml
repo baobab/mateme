@@ -42,12 +42,13 @@
 }
 </style>
 
-<div style="margin:10px;">
-  <div id="details" style="float:left">
-    <%= render :partial => "patient_medical_history"%>
-  </div>
+<div id="dashboard">
+    <%= render :partial => "/patients/details" %>
+    <select id="tabs">
+        <option value="/encounters/patient_medical_history?patient_id=<%= @patient.id -%>">Medical History</option>
+    </select>
 
-  <div id="menu">
+  <select id="links">
     <% short_names = {"INITIAL COMPLICATIONS" => "Complications",
                       "COMPLICATIONS" => "Complications",
                       "HYPERTENSION MANAGEMENT" => "HyperTension Mgt",
@@ -59,12 +60,13 @@
             @encounter_url[name.upcase],
             @button_classes[name.upcase]) %>
     <% end %>
-  </div>
+  </select>
 </div>
 
-<!-- setup the finish button -->
+<!-- setup the finish button
 <div id="footer">
 <div id="buttons" class="buttonsDiv" style="top:0px">
   <button id="finishButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Finish</span></button></div>
   <div id="tt_extraButtons"/>
 </div>
+ -->

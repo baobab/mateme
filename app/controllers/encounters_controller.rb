@@ -158,6 +158,7 @@ class EncountersController < ApplicationController
   end
   
   def new
+   
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @diabetes_test_type = params[:diabetes_test_type] rescue ""
     @patient_height = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
@@ -272,8 +273,14 @@ class EncountersController < ApplicationController
     redirect_to "/encounters/new/inpatient_diagnosis?patient_id=#{params[:patient_id] || session[:patient_id]}" and return if @obs.blank?
     render :template => 'encounters/diagnoses_index', :layout => 'menu'
   end
+  
+  def patient_medical_history
+ 
+    render :template => false, :layout => false
+  end
 
   def first_time_visit_questions
+  
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
 
     ignored_concept_id = Concept.find_by_name("NO").id;
@@ -314,7 +321,6 @@ class EncountersController < ApplicationController
   end
 
   def finish_visit
-    raise session.inspect
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
   end
 end

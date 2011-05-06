@@ -1,5 +1,8 @@
 class PeopleController < ApplicationController
   def index
+    flash[:notice] = ""
+    
+    @tt_active_tab = params[:active_tab]
     @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("superuser") rescue nil
     @doctor = true if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("doctor") rescue nil
 
@@ -127,5 +130,14 @@ class PeopleController < ApplicationController
   def reset_datetime
     session[:datetime] = nil
     redirect_to :action => "index" and return
+  end
+  
+  def overview
+    @types = ["DIABETES INITIAL QUESTIONS", "REGISTRATION","VITALS", "TREATMENT", "DIABETES TREATMENTS"]
+    @me = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW()) AND encounter.creator = ?', User.current_user.user_id])
+    @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW())'])
+    @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW())'])
+    @ever = Encounter.statistics(@types)
+    render :template => 'people/overview', :layout => 'clinic'
   end
 end

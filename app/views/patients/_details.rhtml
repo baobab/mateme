@@ -1,25 +1,10 @@
-<style type="text/css">
-  .title {
-    font-weight:bold;
-  }
-  #personalinfo{
-    font-size:1em;
-    float:left;
-    border: 1px solid #eee;
-    width: 250px;
-    height: 282px;
-    overflow: auto;
-  }
-</style>
-
-<div id="personalinfo">
-  <h3><%= @patient.person.name %></h3>
-    <table cellpadding="2" cellspacing="0">
-      <!-- <tr> <td> <span class='title'> National id: </span> </td> <td> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr> -->
-      <tr> <td> <span class='title'> Birthdate: </span> </td> <td> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
-      <!-- <tr> <td> <span class='title'> Gender: </span> </td> <td> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr> -->
-      <tr> <td> <span class='title'> Current Village: </span> </td> <td> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
-      <tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>
-      <tr> <td> <span class='title'> DC Number: </span> </td> <td> <%= @patient.diabetes_number rescue 'Unknown' %><br/> </td></tr>
-    </table>
+<div id="project_name" >DM</div>
+<div id="patient_name" ><%= @patient.person.name %></div>
+<div id="patient_id" ><%= @patient.diabetes_number rescue 'Unknown' %></div>
+<div id="patient_gender" ><%= @patient.person.formatted_gender rescue '' %> </div>
+<div id="patient_card">
+      <div id="birth_date" value="<%= @patient.person.birthdate_formatted rescue '' %>"> Birthdate </div>
+      <div id="birth_date" value="<%= @patient.person.addresses.first.city_village rescue 'Unknown' %>"> Current Village</div>
+      <div id="birth_date" value="<%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %>"> Phone Number</div>
+      <div id="birth_date" value="<%= @patient.diabetes_number rescue 'Unknown' %>">DC Number</div>
 </div>

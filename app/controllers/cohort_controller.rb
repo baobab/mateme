@@ -1,7 +1,11 @@
 class CohortController < ApplicationController
 
   def index
-    render :layout => false
+    render :layout => 'clinic'
+  end
+
+  def dm_cohort_report_options
+       render :layout => false
   end
 
   def cohort
@@ -26,7 +30,7 @@ class CohortController < ApplicationController
 
     @total_ever_registered = report.total_ever_registered
 
-    
+
 
     @total_men_registered = report.total_men_registered
 
@@ -105,13 +109,13 @@ class CohortController < ApplicationController
 
     @numbness_symptoms = report.numbness_symptoms
 
-    
+
     @neuropathy_ever = @numbness_symptoms_ever
-    
+
     @neuropathy = @numbness_symptoms
 
     @cataracts_ever = report.cataracts_ever
-    
+
     @cataracts = report.cataracts
 
     @macrovascular_ever = report.macrovascular_ever
@@ -121,7 +125,7 @@ class CohortController < ApplicationController
     @no_complications_ever = report.no_complications_ever
 
     @no_complications = report.no_complications
-    
+
     @amputation_ever = report.amputation_ever
 
     @amputation = report.amputation
@@ -230,5 +234,5 @@ class CohortController < ApplicationController
 
     render :layout => false
   end
-  
+
 end

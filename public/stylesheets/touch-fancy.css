@@ -1,32 +1,19 @@
-/******
-Browser: Firefox
-Interface: Touchscreen 
-Resolution: 800X600
-
- --------------------------------------------------------------------
- 
- Touchscreen Toolkit
-
- (c) 2006 Baobab Health Partnership www.baobabhealth.org
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
-
- --------------------------------------------------------------------
-
-
-******/
+/**************************************************************************
+  * touch-fancy.css
+  *   displays a fancy look and feel
+  *   it is used together with form.css or dashboard.css
+  *
+  *   CSS for the Touchscreen Toolkit library
+  *
+  * (c) 2011 Baobab Health Trust (http://www.baobabhealth.org)
+  *
+  * For lincense details, see the README.md file
+  *
+  * Browser:    Firefox
+  * Interface:  Touchscreen 
+  * Resolution: 800X600
+  *
+  **************************************************************************/
 
 body{
   font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
@@ -56,7 +43,20 @@ form{
   border-left:none;
   border-right:none;
   border-bottom: 1px solid silver;
-  width:945px;
+  width:965px;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:2.2em;
+  background:none;
+  padding-left:5px;
+}
+
+.touchscreenTextAreaInput{
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-bottom: 1px solid silver;
+  width:930px;
+  height: 370px;
   font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
   font-size:2.2em;
   background:none;
@@ -101,12 +101,14 @@ form{
 }
 
 .buttonsDiv {
-  display:block;
-  height:80px;
-  position:absolute;
-  top:660px;
-  width:1000px;
-  z-index:10;
+  background-color: #333333;
+  display: block;
+  height: 80px;
+  position: absolute;
+  top: 670px;
+  width:  98%;
+  padding-right: 20px;
+/*  z-index:10;*/
 }
 
 /*.button {
@@ -125,9 +127,6 @@ form{
 
 .keyboardButton, #launchButton{
   display: inline; /*-moz-inline-box;*/
-  margin: 5px;
-  text-align: center;
-  font-size: 1.5em;
   -moz-user-select:none;
 }
 
@@ -192,7 +191,7 @@ form{
   left: 0px;
   z-index: 1;
   height: 670px;
-  width: 995px;
+  width: 965px;
   overflow: hidden;
 }
 
@@ -210,7 +209,7 @@ form{
   font-size: 2em;
   padding-top: 5px;
   padding-left: 25px;
-  width: 820px;
+  width: 620px;
   -moz-user-select: none;
 }
 
@@ -218,7 +217,7 @@ form{
   border: 2px solid black;
   margin-left:25px;
   background: #F0F0F0;
-  width:950px;
+  width:935px;
 }
 
 .progressAreaSearchPage {
@@ -277,7 +276,7 @@ form{
 }
 .messageBar {
 /*  height: 1em;*/
-  left: 275px;
+  left: 175px;
   width: 450px;
   position: absolute;
   top: 10px;
@@ -321,13 +320,16 @@ form{
 	width: 250px;
 }
 
-#showDataButton, #lessthan, #greaterthan, #equals, #unknown {
+#SHIFT, #space, #qwerty, #showDataButton, #lessthan, #greaterthan, #equals, #unknown {
 	display: none;
 }
 
 button.navButton {
  float:right;
  margin-top:20px;
+}
+
+button span {
 }
 
 button { 
@@ -337,8 +339,7 @@ button {
   border:0; 
   cursor:pointer; 
   font-weight:bold; 
-  padding:0 8px 0 0;
-  text-align:center;
+  text-align:center; 
 }
 
 button span { 
@@ -347,8 +348,7 @@ button span {
   position:relative; 
   display:block; 
   white-space:nowrap; 
-  padding:0 10px 0 18px;
-  min-width:15px;
+  padding:0 0 0 8px; 
 }
 
 
@@ -357,7 +357,7 @@ button, button.blue {
   background:url(../images/buttons/btn_right_blue.png) right no-repeat; 
   font-size:1.3em; 
   line-height:57px;
-  min-width:48px;
+  min-width:56px;
 }
 button span, button.blue span { 
   background:url(../images/buttons/btn_left_blue.png) left no-repeat;
@@ -457,7 +457,8 @@ button:hover.dark span {
 }
 
 .dateselector input, button{
-	margin: 5px;
+  margin: 2px;
+	margin-top: 5px;
 	text-align: center;
 }
 
@@ -681,37 +682,11 @@ display:block;
   border-bottom:2px dotted;
 }  
 
-.LongSelectList #viewport,
-.LongSelectList #options{
-  -moz-user-select:none;
-  height: 27em;
-}
 
-.LongSelectList #keyboard{
-  display:none;
-}
-
-.LongSelectList #li {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.MultiSelectList #viewport,
-.MultiSelectList #options{
-  -moz-user-select:none;
-  height: 27em;
-  background: #FAFAD2;
-}
-
-.MultiSelectList #keyboard{
-  display:none;
-}
-
-.MultiSelectList #li {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
+.ShortSelectList, 
+.NumbersOnlyWithDecimal,
+.NumbersOnly,
+.DatesOnly { height: 320px !important }
+.NoKeyboard, .NoControls { height: 520px !important } 
+.NoKeyboard .inputFrameClass { height: 440px !important } 
+.NoKeyboard .options { height: 395px !important } 

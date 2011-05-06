@@ -1,0 +1,238 @@
+<html>
+  <head>
+    <title>DM Cohort Report Options</title>
+    <%= stylesheet_link_tag "mateme" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <link href="/stylesheets/cohort.css" media="screen" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/calendar.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" language="javascript" src="/javascripts/calendar.js"></script>
+    <script type="text/javascript" language="javascript">
+      <!--
+
+      function $(id){
+        return document.getElementById(id);
+      }
+
+      //-->
+    </script>
+  </head>
+  <body>
+    <%
+
+    min = 2008
+    max = Time.now.strftime("%Y").to_i
+
+    array = []
+
+    (min..max).each{|yr| array << yr}
+
+    quarters = []
+    qtr = []
+
+    i = 1
+
+    array.each do |a|
+      date = Date.parse("1.1.#{a}")
+
+      4.times do
+        if date > Date.today
+          break
+        end
+
+        qtr << {"name" => "Q" + i.to_s + " " + a.to_s,
+          "min" => date.strftime("%Y-%m-%d"),
+          "max" => (date+3.month-1.day).strftime("%Y-%m-%d")}
+
+        quarters << [date, date+3.month-1.day]
+        date += 3.month
+        i += 1
+      end
+
+      # Push year
+      qtr << a
+
+      i = 1
+    end
+    quarters
+
+    open = false
+  %>
+
+    <!-- Calender Script  -->
+
+    <table id="calenderTable">
+       <tbody id="calenderTableHead">
+         <tr>
+           <td colspan="4" align="center">
+	     <select onChange="showCalenderBody(
+                   createCalender(document.getElementById('selectYear').value,
+	           this.selectedIndex, false));"
+                   id="selectMonth" style="font-size:1.2em">
+	              <option value="0">Jan</option>
+	              <option value="1">Feb</option>
+	              <option value="2">Mar</option>
+	              <option value="3">Apr</option>
+	              <option value="4">May</option>
+	              <option value="5">Jun</option>
+	              <option value="6">Jul</option>
+	              <option value="7">Aug</option>
+	              <option value="8">Sep</option>
+	              <option value="9">Oct</option>
+	              <option value="10">Nov</option>
+	              <option value="11">Dec</option>
+	          </select>
+            </td>
+            <td colspan="2" align="center">
+	    <select onChange="showCalenderBody(createCalender(this.value,
+	      document.getElementById('selectMonth').selectedIndex, false));"
+              id="selectYear" style="font-size:1.2em">
+	    </select>
+			</td>
+           <td align="center">
+	    <a href="#" onClick="closeCalender();">
+              <font color="#003333" size="+1">X</font>
+            </a>
+	   </td>
+	</tr>
+       </tbody>
+       <tbody id="calenderTableDays">
+         <tr style="">
+           <td class="header-cell">Sun</td><td class="header-cell">Mon</td><td class="header-cell">Tue</td><td class="header-cell">Wed</td>
+           <td class="header-cell">Thu</td><td class="header-cell">Fri</td><td class="header-cell">Sat</td>
+         </tr>
+       </tbody>
+       <tbody id="calender"></tbody>
+    </table>
+
+<!-- End Calender Script  -->
+
+    <fieldset class="main_fieldset">
+      <legend class="main_legend" align="center">Cohort Report Period Specification</legend>
+
+      <table width="100%">
+        <tr>
+          <td align="center" width="40%">
+
+            <select class="SelectList" size="8">
+              <% qtr.reverse.each{|q|
+
+                if q.to_s.match(/^\d{4}$/)
+                  if open == true
+                  %>
+                    </optgroup>
+                  <%
+                  end
+                  open = true
+                %>
+
+                  <optgroup label="<%= q %>" style="padding:10px; border-bottom:1px dotted black;">
+
+                  <% else %>
+
+                    <option value="min=<%= q["min"] %>&max = <%= q["max"] %>" style="text-align:center; padding:10px"
+                            onclick="$('start_date').value = '<%= q["min"] %> '; $('end_date').value = '<%= q["max"] %> ';
+                            $('frmMain').submit();">
+                              <%= q["name"] %>
+                    </option>
+
+                  <%
+                  end
+
+                }
+
+                if open == true
+                %>
+
+                </optgroup>
+
+              <%
+              end
+            %>
+            </select>
+
+          </td>
+          <td align="center">
+
+            <div class="menu-buttons">
+              <table width="100%">
+                <tr>
+                  <th style="width:50%">
+                    <button class="button green" style="width:100%"
+                            onclick="if(this.innerHTML=='<span>SET PERIOD</span>'){
+                        $('period').style.display='block';
+                        this.innerHTML = '<span>HIDE</span>';
+                      } else {
+                        this.innerHTML = '<span>SET PERIOD</span>';
+                        $('period').style.display='none';
+                      }"><span>SET PERIOD</span></button>
+                  </th>
+                  <th style="width:50%">
+                    <button class="button gray" style="width:100%" onclick="window.location='/people?active_tab=tab2'"><span>BACK</span></button>
+                  </th>
+                </tr>
+                <tr>
+                  <th colspan="2">
+                    &nbsp;
+                  </th>
+                </tr>
+                <tr>
+                  <td height="300px" colspan="2" valign="bottom">
+                    <div id="period" style="width:100%; padding:5px; background-color:#fff; -moz-border-radius:20px;
+                         display:none; border:lightblue 1px solid;">
+
+                      <form id="frmMain" action="/cohort/cohort" method="post">
+
+                        <table width="95%" style="margin-left:5px;">
+                          <tr>
+                            <th colspan="2">
+                              &nbsp;
+                            </th>
+                          </tr>
+                          <tr>
+                            <td class="label-text" width="40%">
+                              Start Date:
+                            </td>
+                            <td>
+                              <input type="text" id="start_date" name="start_date" value=""
+                                     onClick="var yr = new Date(); setYears(yr.getFullYear() - 30, yr.getFullYear() + 10);
+                                     showCalender(this, 'start_date');" class="input-date" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="label-text" width="40%">
+                              End Date:
+                            </td>
+                            <td>
+                              <input type="text" id="end_date" name="end_date" value=""
+                                     onClick="var yr = new Date(); setYears(yr.getFullYear() - 30, yr.getFullYear() + 10);
+                                     showCalender(this, 'end_date');" class="input-date" />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colspan="2">
+                              <button class="button green" style="width:100%; margin-top:20px;" onclick="$('frmMain').submit();"><span>GO!</span></button>
+                            </td>
+                          </tr>
+                          <tr>
+                            <th colspan="2">
+                              &nbsp;
+                            </th>
+                          </tr>
+                        </table>
+
+                      </form>
+
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+          </td>
+        </tr>
+      </table>
+
+    </fieldset>
+
+  </body>
+</html>

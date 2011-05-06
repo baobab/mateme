@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <%= stylesheet_link_tag "miscellaneous" %>
+    </head>
+<body>
+    <%if !@patient_diabetes_treatements.blank? then%>
+      <table cellpadding="5" width="100%" cellspacing="2">
+        <tr>
+          <th class="tableHeader"> Date Started</th>
+          <th class="tableHeader"> Drug</th>
+          <th class="tableHeader"> Formulation</th>
+          <th class="tableHeader"> Length</th>
+          <th class="tableHeader"> Total Duration</th>
+        </tr>
+
+        <%@patient_diabetes_treatements.map{|treatment| %>
+        <tr>
+          <td style="font-size: 1em;"><%=treatment.start_date.strftime("%d-%b-%Y")%></td>
+          <td style="font-size: 1em;"><%=treatment.drug_name.titleize%></td>
+          <td style="font-size: 1em;"><%=(treatment.formulation.to_s + " "+ treatment.units)%></td>
+          <td style="font-size: 1em;"><%=convert_time(treatment.days)%> </td>
+          <td style="font-size: 1em;"><%=convert_time(treatment.duration)%></td>
+        </tr>
+        <%}%>
+      </table>
+
+      <%else%>
+      <p>
+        <i>The patient has <b> never</b> been on diabetes medicine </i>
+      </p>
+    <%end%>
+</body>
+</html>
+
+

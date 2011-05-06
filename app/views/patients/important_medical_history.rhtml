@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <%= stylesheet_link_tag "miscellaneous" %>
+    </head>
+<body>
+    <%
+    diabetes_diagnosis_date = @patient.person.observations.find_by_concept_id(
+      Concept.find_by_name('DIABETES DIAGNOSIS DATE').id).answer_string  rescue "Unknown"
+
+    had_stroke = @patient.person.observations.find_by_concept_id(
+      Concept.find_by_name('ACUTE CEREBROVASCULAR ATTACK').id).answer_string rescue 'No'
+
+    had_serious_cardiac_problem = @patient.person.observations.find_by_concept_id(
+      Concept.find_by_name('Serious Cardiac Problem').id).answer_string rescue 'No'
+
+    cardiac_type = @patient.person.observations.find_by_concept_id(
+      Concept.find_by_name('Type Of Cardiac Problem').id).answer_string rescue 'No'
+
+    ## TODO: Merge the 2 Hypertension concepts 183, 901
+    has_hypertension = @patient.person.observations.find_by_concept_id(
+      183).answer_string rescue 'No'
+
+    had_tb = @patient.person.observations.find_by_concept_id(
+      Concept.find_by_name('Tuberculosis').id).answer_string rescue 'No'
+
+    patient_smokes = @patient.person.observations.find_by_concept_id(
+      Concept.find_by_name('SMOKING').id).answer_string rescue 'No'
+
+    current_cholesterol = @patient.person.observations.find_by_concept_id(
+      Concept.find_by_name('CHOLESTEROL TEST TYPE').id).answer_string rescue 'No'
+
+    patient_smokes      = 'Yes' if(patient_smokes!= "No")
+    current_cholesterol = 'Yes' if(current_cholesterol!= "No")
+
+    %>
+
+  <table cellpadding="2" cellspacing="1"  cellpadding="1" width="100%">
+    <tr>
+      <th class="tableHeader">Medical History</th>
+      <th class="tableHeader">Result</th>
+    </tr>
+    <tr>
+      <td>Diabetes Diagnosis Date:</td><td><%= diabetes_diagnosis_date %></td>
+    </tr>
+    <tr>
+      <td>Ever had a Stroke:</td><td><%= had_stroke %></td>
+    </tr>
+    <tr>
+      <td>Serious Cardiac Problem:</td><td><%= had_serious_cardiac_problem %></td>
+    </tr>
+    <% if had_serious_cardiac_problem.downcase == 'yes' %>
+      <tr>
+        <td align="right">Type:</td><td><%= cardiac_type %></td>
+      </tr>
+    <% end%>
+    <tr>
+      <td>Hypertension:</td><td><%= has_hypertension %></td>
+    </tr>
+    <tr>
+      <td>Ever had TB:</td><td><%= had_tb %></td>
+    </tr>
+    <tr>
+      <td>Smoking:</td><td><%= patient_smokes %></td>
+    </tr>
+    <tr>
+      <td>Current Cholesterol:</td><td><%= current_cholesterol %></td>
+    </tr>
+  </table>
+</body>
+</html>

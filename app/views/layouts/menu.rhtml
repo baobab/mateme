@@ -4,19 +4,20 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+
+    <%= stylesheet_link_tag "dashboard" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <%= stylesheet_link_tag "graytabs" %>
+    <%= javascript_include_tag "dashboard" %>
+    <%= javascript_include_tag "preload" %>
+    <script type="text/javascript" language="javascript" src="/javascripts/utils.js"></script>
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
       var tt_cancel_destination = null;
-    </script>
-    <%= stylesheet_link_tag "mateme" %>
-    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
-    <%= javascript_include_tag "preload" %>
-    <script type="text/javascript" language="javascript" src="/javascripts/utils.js"></script>
+   </script>
   </head>
-  <body id="mateme">  
-    <div id="container">
-      <div id="content">
+  <body id="container">  
         <div id="description" style="color:#777;position:absolute;margin-top:-70px;">
           <% if show_intro_text %>
             This demonstration site contains the work of <a href="http://pih.org" style="color:white">Partners In Health</a>
@@ -36,7 +37,7 @@
           <% end %>
         </div>  
         <%= yield %>  
-        <div id="footer">
+   <!--     <div id="footer">
           <div id="buttons" class="buttonsDiv" style="top:0px">
             <button id="finishButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Finish</span></button></div>
             <div id="tt_extraButtons"/>
@@ -44,8 +45,6 @@
           <div id="popupBox"  align="center">
           <p id="p1">The system is processing your request.</p>
           <p id="p2">Please wait......</p>
-        </div>
-        </div>    
-      </div>  
+        </div> -->
   </body>
 </html>

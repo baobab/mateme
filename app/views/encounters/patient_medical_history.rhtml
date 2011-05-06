@@ -1,0 +1,79 @@
+<%= stylesheet_link_tag "miscellaneous" %>
+<%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+
+<%= javascript_include_tag "utils" %>
+
+<style type="text/css" >
+ul.list li.data .summary {
+font-size:0.7em;
+}
+
+.voidButton {
+  float:right;
+}
+
+</style>
+<div id =" patient_history" style="position: relative;  top: 0px;">
+
+ <base target="_parent" />
+
+  <ul class="list" >
+    <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+      <%@encounter_datetimes.each { |encounter_datetime|%>
+        <tr>
+          <td class="dottedTableBorder" style="font-size: 1.5em;">
+            <ul class="list" style="border:medium none;">
+
+              <%@encounter_names.each{|encounter_name|
+                header = 'true'
+                i = 0
+                for encounter in @encounters do
+                  i += 1
+                %>
+                 <div id = "content"></div>
+                  <%if (encounter.name == encounter_name) && ((encounter.encounter_datetime.strftime("%b-%Y") == encounter_datetime))%>
+                    <li class="data" <%= ((encounter.complete)?((encounter.complete.state==false)?"style='color: #FF0000' ":""):"") %> >
+                      
+                      <%if header == 'true' %><div style="float:left">
+                        <b><%=h ((encounter.name.humanize.length>0)?(encounter.name.humanize):"Not Applicable") %> </b>(<%=h(encounter_datetime)%>)  <i><%= ((encounter.complete)?((encounter.complete.state==false)?"(Not Complete)":""):"") %></i></div>
+                      
+                      <%end; header = 'false'%>
+                      <span class="voidButton">
+                        <%= img_button_submit_to "/encounters/new/first_time_visit_questions?patient_id=#{@patient.patient_id}",
+                             "/images/cancel_flat_small_red.png",
+                             {:confirm => "Are you sure you want to void this encounter?", :form_id => "frm_"+i.to_s}, # TODO enable this prompt
+                             {:encounter_id => encounter.encounter_id, :void => "true"} -%>
+                      </span>
+
+                    <%
+
+                        url_name = encounter_name
+                        url_name = "Past Medical History" if url_name.upcase == "Past Diabetes Medical History".upcase
+                        url_name = "Hospital Admissions" if url_name.upcase == "Diabetes Admissions".upcase
+                        url_name = "Initial Complications" if url_name.upcase == "Complications".upcase
+                    %>
+                      <span class="voidButton" style="width:50px;">
+                        <%= img_button_submit_to "/encounters/#{url_name.downcase.gsub(' ','_')}?edit=true&patient_id=#{@patient.patient_id}&encounter_id=#{encounter.encounter_id}&group_type=#{url_name.downcase.gsub(' ','_')}",
+                             "/images/pencil.png",
+                             {:encounter_id => encounter.encounter_id} %>
+                      </span>
+
+                      <div style="clear:left <%= ((encounter.complete)?((encounter.complete.state==false)?"; color: #FF0000":""):"") %>" class="summary">
+                        <span>
+                          <%= ((encounter.to_s.humanize.length>0)?(encounter.to_s.lstrip.gsub(/\n/, '<br/>').titleize):"Not Applicable")  -%>
+                        </span>
+
+                      </div>
+                      
+                    </li>
+                  <%end
+                end
+                
+              }%>
+            </ul>
+          </td>
+        </tr>
+      <%}%>
+    </table>
+  </ul>
+</div>

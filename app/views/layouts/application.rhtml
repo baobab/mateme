@@ -22,15 +22,21 @@
 
       }
     </script>
-    <%= stylesheet_link_tag "mateme" %>
+    <%= stylesheet_link_tag "form" %>
     <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
     <%= javascript_include_tag "preload" %>
-    <%= javascript_include_tag "touchscreenToolkit" %>
+    <%= javascript_include_tag "touchscreen" %>
     <%= javascript_include_tag "dateselector" %>
     <%= javascript_include_tag "utils" %>
+    <style>
+    .tableHeader {
+       text-align:left;
+       color:white;
+       background-color:#808080;
+    }
+  </style>
   </head>
-  <body id="mateme">  
-    <div id="container">
+  <body id="container">  
       <div id="content">
         <div id="description" style="color:#777;position:absolute;margin-top:-70px;">
           <% if show_intro_text %>
@@ -52,6 +58,5 @@
         <div id="footer">
         </div>    
       </div>  
-    </div>
   </body>
 </html>

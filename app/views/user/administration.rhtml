@@ -1,0 +1,33 @@
+<style type="text/css">
+  #stats {
+    width:98%;
+    border:1px solid black;
+    margin:10px;
+    background:white;
+  }
+  #stats td{
+    text-align:center;
+  }
+
+  #stats a {
+    width:175px;
+    float:right;
+  }
+
+</style>
+<%= stylesheet_link_tag 'extra_buttons' %>
+
+<div id="tab" style="height: 100%; width: 100%; overflow: auto;">
+    <h2 style="margin-left: 8px;">Select administrative task</h2>
+      <table id="stats" style="height: 303px;" cellpadding="10">
+          <tr>
+            <td>
+                  <%#if @super_user%>
+                   <button class="blue"  style="width:310px" onClick="location='/user/user_menu'"><span>User Management Menu</span></button><br />
+                   <button class="blue"  style="width:310px" onClick="location='/hospital/index'"><span>Referral Center Management</span></button><br />
+                 <%#end%>
+            </td>
+          </tr>
+      </table>
+</div>
+

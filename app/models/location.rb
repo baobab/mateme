@@ -7,6 +7,7 @@ class Location < ActiveRecord::Base
   belongs_to :parent, :foreign_key => :parent_location_id, :class_name => "Location"
   has_many :children, :foreign_key => :parent_location_id, :class_name => "Location"
   belongs_to :user, :foreign_key => :user_id
+  has_many :location_tag_map, :foreign_key => :location_id
 
   include Openmrs
 
@@ -20,6 +21,12 @@ class Location < ActiveRecord::Base
 
   def Location.get_list
     return @@location_list
+  end
+  
+  def self.search(search_string)
+      field_name = "name"
+      @names = self.find_by_sql("SELECT * FROM location WHERE name LIKE '%#{search_string}%' ORDER BY name ASC").collect{|name| name.send(field_name)}
+
   end
   
   def Location.initialize_location_list

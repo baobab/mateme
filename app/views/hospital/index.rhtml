@@ -1,0 +1,33 @@
+<script type="text/javascript">
+</script>
+<style type="text/css">
+  #stats {
+    width:98%;
+    border:1px solid black;
+    margin:10px;
+    background:white;
+  }
+  #stats td{
+    text-align:center;
+  }
+
+  #stats a {
+    width:175px;
+    float:right;
+  }
+
+</style>
+<%= stylesheet_link_tag 'extra_buttons' %>
+
+<div id="tab" style="height: 100%; width: 100%; overflow: auto;">
+    <h2 style="margin-left: 8px;">Referral center management</h2>
+      <table id="stats" style="height: 303px;" cellpadding="10">
+          <tr>
+            <td>
+               <button class="blue" style="width:250px;" onClick="parent.location='/hospital/new?act=create'"><span>Add Referral Center</span></button><br />
+               <button class="blue" style="width:250px;" onClick="parent.location='/hospital/new?act=delete'"><span>Delete Referral Center</span></button><br />
+            </td>
+          </tr>
+      </table>
+</div>
+

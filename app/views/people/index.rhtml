@@ -1,33 +1,38 @@
-<%= javascript_include_tag "barcode" %>
+<style type="text/css">
+   #overview { display:block; width:100%; border:none; margin:0; padding:0; height:100%; }
+</style>
 <script type="text/javascript">
-  tt_cancel_destination = '/logout';  
+  tt_cancel_destination ='/logout';
+  tt_cancel_show = '/people/search';
+  tt_active_tab = <%="'#{@tt_active_tab}'"%>
+ 
 </script>
+<div id="home">
+   <div id="project_name" >DM</div>
+    <div id="facility">QECH</div>
+    <div id="location">Reception</div>
+    <div id="user">Chawa</div>
+    <div id="date">01/01/2011</div>
+    
+    <base target="_parent" />
+    
+    <select id="tabs">
+        <option value="/people/overview">Overview</option>
+        <% if @super_user || @doctor %>
+             <option value="/cohort">Reports</option> 
+        <% end %>       
+        <% if @super_user%>
+            <option value="/user/administration">Administration</option>
+     <%end%>
+    </select>
+    
 
-<div style="text-align:center;margin:10px;">
-  <form id='barcodeForm' action="/people/search">
-    <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
-    <%= submit_tag "Submit", :style => "display:none" %>
-    <div style="color:gray">scan a barcode</div>
-  </form>
-  <div class="centered">
-    <button id="find_or_register_button" class="button green" style="width:106.5%" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
-    <button id="find_by_dc_number" class="button green" style="width:106.5%" onclick="window.location = '/people/identifiers'"><span>Find patient by DC number</span></button>
-    <% if @super_user || @doctor %>
-      <button id="cohort_button" class="button green" style="width:106.5%" onclick="window.location = '/cohort'"><span>Cohort Report</span></button>
-    <% end %>
-
-    <% if @super_user%>
-      <button id="admin_button" class="button green" style="width:106.5%" onclick="window.location = '/user/user_menu'"><span>Administration</span></button>
-    <%end%>
-      <table style="margin-left:50px;margin-top:40px;background:#ddddff;width:300px;">
-      <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
-         type = "Reception - patients seen" if type == "REGISTRATION"
-         type = "patients referred to other clinics" if type == "REFERRED" %>
-        <tr>
-          <td><%= type.upcase %>:</td>
-          <td><strong><%= total %></strong></td>
-        </tr>
-      <% end %>
-    </table>
-  </div>  
+    <select id="links">
+        <option value="">Logout</option>
+        <option value="/people/search" ttSize="210px">Find by Name</option>
+        <option value="/people/identifiers" ttSize="210px">Find by DC Number</option>
+    </select>
+    
 </div>  
+<script>
+</script>

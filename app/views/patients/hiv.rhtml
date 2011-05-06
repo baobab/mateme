@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <%= stylesheet_link_tag "miscellaneous" %>
+    </head>
+<body>
+<form>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    </form>
+
+    <%
+    status = 'UNKNOWN'
+    if @arv_number && !@arv_number.empty?
+      status = 'REACTIVE'
+    elsif @status
+      status = @status.to_s
+    end
+    %>
+    <%if((status != 'REACTIVE'))
+          if((@hiv_test_date.upcase == "UNKNOWN") || ( (@hiv_test_date.upcase != "UNKNOWN") && (((((Time.now().to_f - (@hiv_test_date.to_datetime.to_f rescue 0))/ 31536000).to_i) > 0))))%>
+    <table cellpadding="2" cellspacing="0" width="90%" align ="center">
+       <tr> <td style="background: red; color: white;" align ="center">
+           <b>The patient has not tested in the last 12 months </b>
+       </td></tr>
+    </table>
+    <%end
+      end%>
+    <table cellpadding="2" cellspacing="0">
+      <tr> <td> <span class='title'>&nbsp;</span> </td> <td>&nbsp;<br/></td></tr>
+
+      <tr> <td> <span class='title'> HIV Status: </span> </td> <td> <%= status.humanize rescue '' %><br/></td></tr>
+      <%if @arv_number && !@arv_number.empty?%>
+      <tr> <td> <span class='title'> ARV Number: </span> </td> <td> <%= @arv_number rescue '' %><br/></td></tr>
+      <%end%>
+      <%if status.humanize == "Advised to test"%>
+        <tr> <td> <span class='title'> Date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
+      <%else%>
+        <tr> <td> <span class='title'> HIV test date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
+      <%end%>
+
+      <%if @remote_art_info%>
+
+      <tr>
+        <td> <span class='title'> ART start date: </span> </td>
+        <td> <%= @remote_art_info['person']['art_start_date'] rescue '' %><br/></td>
+      </tr>
+      <tr>
+        <td> <span class='title'> Date tested positive: </span> </td>
+        <td> <%=@remote_art_info['person']['date_tested_positive']  rescue '' %><br/></td>
+      </tr>
+      <tr>
+        <td> <span class='title'> Dates of visit to clinic: </span> </td>
+        <td> <%= "#{@remote_art_info['person']['first_visit_date']} to #{@remote_art_info['person']['last_visit_date']}" rescue '' %><br/></td>
+      </tr>
+      <tr>
+        <td> <span class='title'> CD4 trail: </span> </td>
+        <td> <%= @remote_art_info['person']['cd4_data'] rescue '' %><br/></td>
+      </tr>
+      <tr>
+        <td> <span class='title'> Last given drugs: </span> </td>
+        <td> <%=@remote_art_info['person']['last_given_drugs']  rescue '' %><br/></td>
+      </tr>
+      <tr>
+        <td> <span class='title'> ART clinic outcome: </span> </td>
+        <td> <%=@remote_art_info['person']['art_clinic_outcome']  rescue '' %><br/></td>
+      </tr>
+
+      <%end%>
+    </table>
+</body>
+</html>

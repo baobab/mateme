@@ -1,0 +1,56 @@
+<script type="text/javascript">
+  tt_cancel_destination = "/admin"; 
+</script>
+
+<style type="text/css">
+
+  a.button.green {
+    width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:green none repeat scroll 0 0;
+    font-size:1.4em;
+    height:57px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
+  }User Manageme
+#menu {
+    float:right;
+    overflow:auto;
+    position:relative;
+    height:478px;
+    width:257px;;
+  }
+  
+</style>
+
+<%=stylesheet_link_tag "usermanagement"%>
+<%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+
+<h1 style="float:left">User Manangement</h1>
+<div id="menu" style="width:200px; margin: 10px auto;">
+  <%if @super_user%>
+   <button class="blue" style="width:100%;" onClick="parent.location='/user/new'"><span>Create New User</span></button><br />
+   <button class="blue" style="width:100%;" onClick="parent.location='/user/search_user'"><span>Edit User</span></button><br />
+ <%end%>
+</div>
+<!--
+commented by Edmond Kachale (16-Sep-2009)
+This was the old format of buttons
+<div class = "buttons" >
+
+    <%= link_to_onmousedown 'Create New User', :controller => 'user', :action => 'new'  %>
+
+    <%= link_to_onmousedown 'Edit User', :controller => 'user', :action => 'search_user'%>
+
+    <%= link_to_onmousedown 'Cancel', {:controller => 'people', :action => 'index'} ,:id => "logout"%>
+</div>
+-->

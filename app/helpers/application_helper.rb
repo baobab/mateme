@@ -58,8 +58,7 @@ module ApplicationHelper
   end
 
   def encounter_button(encounter_name, encounter_url, button_class)
-    "<a class=\"button #{button_class}\"
-       href=\"#{encounter_url}\">#{encounter_name}</a>"
+    "<option value=\"#{encounter_url}\">#{encounter_name}</option>"
   end
 
   def qwerty_or_abc_keyboard

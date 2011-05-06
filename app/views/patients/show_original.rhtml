@@ -1,0 +1,83 @@
+<script type="text/javascript">
+  tt_cancel_destination = '/people';
+</script>
+<%= javascript_include_tag "utils" %>
+<style type="text/css">
+  
+#menu {
+    float:right;
+    overflow:auto;
+    position:relative;
+    height:680px;
+    width:257px;;
+  }
+
+#details {
+  width:720px;
+  height:510px;
+}
+
+</style>
+
+<div style="margin:10px;">
+  <div id="details" style="float:left">
+    <%= render :partial => "details" %>    
+
+    <% if @super_user || @doctor || @nurse%>
+      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
+    <%end%>
+    <%= render :partial => "patient_visit_summary" %>
+  </div>
+  <div id="menu">
+
+  <a class="button green" href='/encounters/outcome?patient_id=<%= @patient.id -%>'>Outcome</a>
+  <%if @doctor%>
+      <a class="button green" href='/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>'>Medical history</a>
+      <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a>
+      <a class="button green" href='/encounters/new/lab_results?patient_id=<%= @patient.id -%>'>Lab Results</a>
+      <a class="button green" href='/patients/mastercard?patient_id=<%= @patient.id -%>'>Complications</a>
+      <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Treatments</a>
+      <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+      <a class="button green" href='/patients/generate_booking?patient_id=<%= @patient.id -%>'>Bookings</a>      
+      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
+      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
+    <%end %>
+
+    <%if @clinician%>
+
+      <a class="button green" href='/encounters/new/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+      <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a>
+  <%end %>
+  
+  <%if @nurse%>
+
+      <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a>
+
+      <a class="button green" href='/patients/mastercard?patient_id=<%= @patient.id -%>'>Complications</a>
+      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</a>
+
+      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
+      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
+  <%end %>
+
+  <%if @registration_clerk%>
+      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</a>
+      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
+      <a class="button green" href='/patients/generate_booking?patient_id=<%= @patient.id -%>'>Bookings</a>
+  <%end %>
+
+
+  <%if @super_user%>
+      <a class="button green" href='/encounters/new/first_time_visit_questions?patient_id=<%= @patient.id -%>'>Medical history</a>
+      <a class="button green" href='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Enter Vitals</a>
+      <a class="button green" href='/encounters/new/lab_results?patient_id=<%= @patient.id -%>'>Lab Results</a>
+      <a class="button green" href='/patients/mastercard?patient_id=<%= @patient.id -%>'>Complications</a>
+      <a class="button green" href='/prescriptions/?patient_id=<%= @patient.id -%>'>Treatments</a>
+      <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+      <a class="button green" href='/patients/generate_booking?patient_id=<%= @patient.id -%>'>Bookings</a>
+      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</a>
+      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
+      <a class="button green" href='/user/user_menu'>Admnistration</a>
+    <%end %>
+  </div>
+</div>  

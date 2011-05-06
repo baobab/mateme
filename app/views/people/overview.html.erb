@@ -1,0 +1,33 @@
+<%#= render :partial => 'clinic/nav', :locals => {:active => 'overview', :label => ""} %>
+<style type="text/css">
+  #stats {
+    width:98%;
+    border:1px solid black;
+    background:white;
+    margin-left: 8px;
+  } 
+  #stats td, #stats th {
+    text-align:center;
+  }
+</style>
+<div id="tab" style="height: 400px; width: 100%; overflow: auto;">
+    <h2 style="margin-left: 8px;">Current Patient Statistics</h2>
+    <table id="stats" style="height: 315px; margin-bottom: 8px;" cellpadding="5">
+      <tr>
+        <th style="text-align:left;">Encounter Type</th>
+        <th>Me</th>
+        <th>Today</th>
+        <th>This Year</th>
+        <th>Total to Date</th>
+      </tr>
+      <% @types.each do |type| %>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td style="text-align:left;"><%= type %></td>
+          <td><%= @me[type] %></td>
+          <td><%= @today[type] %></td>
+          <td><%= @year[type] %></td>
+          <td><%= @ever[type] %></td>
+        </tr>
+      <% end %>        
+    </table>
+</div>
