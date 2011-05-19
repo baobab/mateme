@@ -1,41 +1,12 @@
 <script>
     var tt_cancel_destination = "/people"
 </script>
+    <div id="reportData" style="position:relative; width:100%; height:85%; overflow:auto;">
+    <%= stylesheet_link_tag "report" %>
 
-<style>
-  table , tr td
-  {
-    border : 2px solid black;
-    width : auto;
-    text-align : center;
-  }
-  
-  table tr td:first-child
-  {
-    background-color: #CCC;
-    width: 150px;
-    border : 0px solid #CCC;
-  }
-  
-  table
-  {
-    width : 100%;
-    border-bottom : 20px solid #CCC;
-  }
-  
-  th
-  {
-    border : 5px solid black;
-  }
-  .none_cell
-  {
-  		border : 0px solid black;
-  }
-</style>
-<div style="position:relative; width:100%; height:85%; overflow:auto;">
-<div style="text-align : center; font-size : 1.5em">
-    SPINE - Monthly SPINE clinical data download <br>
-    tables for automatic reporting on a montly basis
+<div style="text-align : center;">
+    <h2>SPINE - Monthly SPINE(<%=" Period: <i>#{@start_date} to #{@end_date}</i> ) "%>clinical data download <br>
+        tables for automatic reporting on a monthly basis</h2>
 </div>
 <table>
     <tr>
@@ -196,7 +167,7 @@
       <td><%=ward.total_admissions.to_s%></td>
       <td><%=ward.total_discharged.to_s%></td>
       <td><%=((ward.total_discharged.to_i*100)/ward.total_admissions.to_i) rescue 0%></td>
-      <td><%=%></td>
+      <td><%=%>00</td>
       <td><%=ward.average_days.to_s%></td>
     </tr>
     <%end%>
