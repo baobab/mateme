@@ -18,6 +18,10 @@ class ReportController < ApplicationController
 
     start_date = params[:start_date]
     end_date = params[:end_date]
+
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
+
     @total_males = 0
     @total_females = 0
     @total_age_male = 0
@@ -80,7 +84,7 @@ class ReportController < ApplicationController
 
      @specific_hiv_related_data = Report.specific_hiv_related_data(start_date, end_date)
      @total_patient_admission_per_ward = {}
-     render :layout => 'menu'
+     render :layout => 'reports'
 
   end
 
