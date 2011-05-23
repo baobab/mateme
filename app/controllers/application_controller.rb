@@ -3,8 +3,8 @@ class ApplicationController < ActionController::Base
 
   helper :all
   filter_parameter_logging :password
-  before_filter :login_required, :except => ['login', 'logout','demographics', 'add_update_property']
-  before_filter :location_required, :except => ['login', 'logout', 'location','demographics', 'add_update_property']
+  before_filter :login_required, :except => ['login', 'logout','demographics', 'add_update_property', 'retrieve_visit_treatments', 'retrieve_visit_diagnoses','retrieve_influenza_info','remote_hiv_status','remote_chronic_conditions']
+  before_filter :location_required, :except => ['login', 'logout', 'location','demographics', 'add_update_property', 'retrieve_visit_treatments','retrieve_visit_diagnoses','retrieve_influenza_info','remote_hiv_status','remote_chronic_conditions']
 
   
   def rescue_action_in_public(exception)
