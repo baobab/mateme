@@ -149,7 +149,7 @@ class Patient < ActiveRecord::Base
 
   def previous_treatments
     treatment_encounters = encounters.find_by_encounter_type(EncounterType.find_by_name("TREATMENT").id)
-
+    
     self.previous_visits.map{|visit| visit.encounters.all(:include => [:orders]).map{|encounter| 
         encounter.orders.active.all}}.flatten.compact
   end
@@ -231,6 +231,7 @@ class Patient < ActiveRecord::Base
   end
 
   def remote_art_info
+  
     given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
 
     national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
@@ -240,8 +241,9 @@ class Patient < ActiveRecord::Base
 
     result = demographic_servers.map{|demographic_server, local_port|
       begin
+      #---replaced the local_port with port 3001 ---#
         output = mechanize_browser.post("http://localhost:#{local_port}/people/art_information", national_id_params).body
-
+      
       rescue Timeout::Error 
         return {}
       rescue
@@ -259,5 +261,121 @@ class Patient < ActiveRecord::Base
     current_visit.ended_by = User.current_user.user_id
     current_visit.end_date = self.current_treatment_encounter(:encounter_datetime => session_date).encounter_datetime rescue Time.now()
     current_visit.save
+  end
+  def self.retrieve_id_using_NationalID(national_ID) 
+    search_query = "SELECT patient_id
+                      FROM patient_identifier
+                    WHERE identifier = '#{national_ID}'
+                      AND identifier_type = 3"
+    retrieved_id = Patient.find_by_sql(search_query)
+  end
+  # methods for retrieving remote data i.e. other apps like opd
+  def remote_visit_diagnoses
+    # this retrieves the visit_diagnoses from another application
+    given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+
+    given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+    national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+    mechanize_browser = Mechanize.new
+    #demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+
+    # result = demographic_servers.map{|demographic_server, local_port|
+    # begin
+        output = mechanize_browser.post("http://localhost:3000/patients/retrieve_visit_diagnoses", national_id_params).body
+
+    #    rescue Timeout::Error
+    #    return {}
+    #    rescue
+    #    return {}
+    #  end
+      output if output and output.match(/person/)
+    #}.sort{|a,b|b.length <=> a.length}.first
+
+    #result ? JSON.parse(output) : nil
+    result  = JSON.parse(output) rescue nil
+    diagnoses = {} #this is the hash that we want to return
+    diagnoses = result.inject({}) do |new_diagnosis, diagnosis_array|
+         visit_number = diagnosis_array.first.to_i
+         obs          = diagnosis_array.last
+         observations = []
+
+         obs.each {|o| observations.push(Observation.new(o))}
+
+         new_diagnosis[visit_number] = observations
+
+         new_diagnosis
+      end
+
+    diagnoses
+  end
+  def remote_visit_treatments
+  # this retrieves the visit_treatments from another application
+    given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+    national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+    mechanize_browser = Mechanize.new
+    #demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+
+    #result = demographic_servers.map{|demographic_server, local_port|
+    #  begin
+    output = mechanize_browser.post("http://localhost:3000/patients/retrieve_visit_treatments", national_id_params).body
+
+    #    rescue Timeout::Error
+    #    return []
+    #    rescue
+    #    return []
+    #  end
+      output if output and output.match(/person/)
+    #}.sort{|a,b|b.length <=> a.length}.first
+
+   # result ? JSON.parse(result) : nil
+   result = JSON.parse(output) rescue nil
+
+  end
+  def remote_influenza_info
+    #this gets the influenza info from IPD
+      given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+      national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+      mechanize_browser = Mechanize.new
+      #demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+
+      #result = demographic_servers.map{|demographic_server, local_port|
+      # begin
+
+          output = mechanize_browser.post("http://localhost:3000/patients/retrieve_influenza_info", national_id_params).body
+      #  rescue Timeout::Error
+      #   return []
+      #  rescue
+      #  return []
+      # end
+      # output if output and output.match(/person/)
+      # }.sort{|a,b|b.length <=> a.length}.first
+
+     # result ? JSON.parse(result) : nil
+     result = JSON.parse(output) rescue nil
+
+  end
+  def get_remote_chronic_conditions
+    #this gets the influenza info from IPD
+      given_params = {:person => {:patient => { :identifiers => {"National id" => self.national_id }}}}
+      national_id_params = CGI.unescape(given_params.to_param).split('&').map{|elem| elem.split('=')}
+      mechanize_browser = Mechanize.new
+      #demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value)   rescue []
+
+      #result = demographic_servers.map{|demographic_server, local_port|
+      #begin
+          output = mechanize_browser.post("http://localhost:3000/patients/remote_chronic_conditions", national_id_params).body
+
+      #rescue Timeout::Error
+      #   return []
+      #   rescue
+      #   return []
+      #end
+       output if output and output.match(/person/)
+      #}.sort{|a,b|b.length <=> a.length}.first
+
+     #result ? JSON.parse(result) : nil
+     
+     result = JSON.parse(output) rescue []
+
   end
 end

@@ -1,8 +1,10 @@
 <style type="text/css">
 
   table {
-    width: 70%;
+    width: 100%;
     border-collapse: collapse;
+    height: 50%;
+    overflow: auto;
   }
 
   .title {
@@ -36,7 +38,7 @@
 </script>
 
 <div style="margin:10px;">
-  <div id="details" style="float:none">
+  <div id="details" style="float:none;">
     <form>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   </form>
@@ -44,6 +46,7 @@
 <div>
 <h2><%= "Demographics for #{@patient.person.name}"%></h2>
 <h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
+<div style="border-top:1px solid black; height:430px; overflow:auto;">
 <table>
   <tr>
     <td class='title' style='border-width:1px 1px 1px'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=first_name">First Name</a></td>
@@ -87,6 +90,7 @@
     <td class='data'><%=@occupation%><br/> </td>
   </tr>
 </table>
+</div>
 </div>
 </div>
 </div>

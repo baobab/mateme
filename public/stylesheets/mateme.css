@@ -13,32 +13,22 @@
   visibility:visible;
   width:100%;
 }
-/*
-#content {
-  background:#FFFFFF;
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:800px;
-  height:600px;
-  margin-left:-400px;
-  margin-top:-300px;
-*/
 
 #content {
   background:#FFFFFF;
   position:absolute;
-  left:1%;
-  /*top:50%;*/
+  left:40%;
+  top:50%;
   width:1000px;
-  height:712px;
-  /*margin-left:-400px;*/
-  margin-top:-360px;
+  height:750px;
+  margin-left:-400px;
+  margin-top:-380px;
+
 }
 
 #footer {
-  background: #BBCCD9 url(../images/spine_logo.png) no-repeat scroll 50% 50%;
-  border-top:3px solid #99AAB7;
+  background:#BBCCD9;
+  border-top:3px solid :#99AAB7;
   color:#CADCEA;
   height:80px;
   width:100%;
@@ -59,10 +49,10 @@
   width:400px;
   height:300px;
   position:absolute;
-  margin-top:-150px;
-  margin-left:-240px;
+  margin-top:-250px;
+  margin-left:-200px;
   left:50%;
-  top:40%;
+  top:50%;
   text-align:center;
 }
 
@@ -76,9 +66,9 @@
 
 ul.list {
   font-size:0.9em;
-  border:2px solid black;
+  border:3px solid black;
   padding:0px;
-  overflow:scroll;
+  overflow:auto;
 }  
 ul.list li.data {
   vertical-align:top;

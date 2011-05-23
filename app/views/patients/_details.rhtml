@@ -1,23 +1,11 @@
-<style type="text/css">
-  .title {
-    font-weight:bold;
-    font-size: 20px;
-  }
+<div id="project_name">IPD</div>
+<div id="patient_name"><%= @patient.person.name %></div>
+<div id="patient_id"> <%= @patient.national_id_with_dashes rescue '' %></div>
 
-  .data {
-    font-size: 20px;
-  }
-
-</style>
-
-<div >
-<h2><%= @patient.person.name %></h2>
-<table cellpadding="2" cellspacing="0">
-<tr> <td> <span class='title'> Patient id: </span> </td> <td class='data'> <%= @patient.national_id_with_dashes rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Birthdate: </span> </td> <td class='data'> <%= @patient.person.birthdate_formatted rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Gender: </span> </td> <td class='data'> <%= @patient.person.formatted_gender rescue '' %><br/></td></tr>
-<!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
-<tr> <td> <span class='title'> Current Village: </span> </td> <td class='data'> <%= @patient.person.addresses.first.city_village rescue 'Unknown' %><br/> </td></tr>
-<!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
-</table>
+<div id="patient_card" >
+  <div id="birthdate" value="<%= @patient.person.birthdate_formatted rescue '' %>"> Birth Date </div>
+  <div id="gender" value="<%= @patient.person.formatted_gender rescue '' %>"> Gender </div>
+  <!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
+  <div id="village" value="<%= @patient.person.addresses.first.city_village rescue 'Unknown' %>"> Village </div>
+  <!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
 </div>

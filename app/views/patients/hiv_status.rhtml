@@ -54,7 +54,7 @@
 <%end%>
 
 <%if @remote_art_info
-  
+ 
 if !@remote_art_info.empty? && @remote_art_info != {"person"=>{}}%>
 
 <tr> <td> <span class='title'> ART start date: </span> </td> <td class='data'> <%= @remote_art_info['person']['art_start_date'] rescue '' %><br/></td></tr>
@@ -62,7 +62,6 @@ if !@remote_art_info.empty? && @remote_art_info != {"person"=>{}}%>
 <tr> <td> <span class='title'> CD4 trail: </span> </td> <td class='data'> <%= @remote_art_info['person']['cd4_data'] rescue '' %><br/></td></tr>
 <tr> <td> <span class='title'> Last given drugs: </span> </td> <td class='data'> <%=@remote_art_info['person']['last_given_drugs']  rescue '' %><br/></td></tr>
 <tr> <td> <span class='title'> ART clinic outcome: </span> </td> <td class='data'> <%=@remote_art_info['person']['art_clinic_outcome']  rescue '' %><br/></td></tr>
-
 <%end%>
 <%end%>
 <%end%>
@@ -70,9 +69,12 @@ if !@remote_art_info.empty? && @remote_art_info != {"person"=>{}}%>
     
   </div>
   <div id="menu">
-    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=REACTIVE'>Reactive</a>
-    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=NON-REACTIVE'>Non-Reactive</a>
-    <a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=UNKNOWN'>Unknown</a>
+    <button class="button blue" style="min-width:240px;" onclick="parent.location = '/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=REACTIVE'"><span>Reactive</span></button>
+    <button class="button blue" style="min-width:240px;" onclick="parent.location = '/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=NON-REACTIVE'"><span>Non-Reactive</span></button>
+    <button class="button blue" style="min-width:240px;" onclick="parent.location = '/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=UNKNOWN'"><span>Unknown</span></button>
+    <!--a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=REACTIVE'>Reactive</a -->
+    <!--a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=NON-REACTIVE'>Non-Reactive</a -->
+    <!--a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @patient.id -%>&new_hiv_status=UNKNOWN'>Unknown</a -->
   </div>
 </div>
 

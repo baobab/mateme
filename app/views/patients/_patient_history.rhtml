@@ -28,8 +28,8 @@ font-size:9pt;
     %>
       <tr class ="data" style="background-color: <%=counter % 2 == 0 ? 'white' : 'lightgrey'%>" >
         <td valign="top" class="mytableborder"> <%= Visit.find(visit_id).end_date.strftime("%d-%b-%Y")%></td>
-      <td class="mytableborder"> <% @past_diagnosis[visit_id].each{|observation| %> <%= observation.to_s %> <br><%}%></td>
-        <td class="mytableborder"> <% @past_treatments[visit_id].each{|observation|%> <%= observation.to_s %> <br> <%}%></td>
+      <td class="mytableborder"> <% @past_diagnosis[visit_id].each{|observation| %> <%= observation.to_s %> <br/><%}%></td>
+        <td class="mytableborder"> <% @past_treatments[visit_id].each{|observation|%> <%= observation.to_s %> <br/> <%}%></td>
       </tr>
     <%}%>
   </table>
