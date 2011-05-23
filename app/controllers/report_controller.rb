@@ -238,6 +238,7 @@ class ReportController < ApplicationController
      render :layout => "menu"
   end
 
-
-
+  def reports
+      render :layout => 'clinic'
+  end
 end

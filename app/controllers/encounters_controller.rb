@@ -22,7 +22,7 @@ class EncountersController < ApplicationController
     end
     
     @patient = Patient.find(params[:encounter][:patient_id])
-    redirect_to next_task(@patient) 
+    redirect_to next_task(@patient) and return
   end
 
 
@@ -35,6 +35,7 @@ class EncountersController < ApplicationController
     @admission_date = @patient.current_visit(session[:datetime]).start_date.strftime("%Y/%m/%d") rescue Date.today.strftime("%Y/%m/%d")
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
+    #raise "fffffff"
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])
     render :action => params[:encounter_type] if params[:encounter_type]
   end

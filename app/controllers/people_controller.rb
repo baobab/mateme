@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
   
   def index
+    @tt_active_tab = params[:active_tab]
     user =  User.find(session[:user_id])
     @password_expired = false
 
@@ -140,9 +141,18 @@ class PeopleController < ApplicationController
       redirect_to :action => "index"
     end
   end
- 
+
   def reset_datetime
     session[:datetime] = nil
     redirect_to :action => "index" and return
+  end
+
+  def overview
+    @types = ["REFERRED", "REGISTRATION","VITALS", "TREATMENT", "DIABETES TREATMENTS"]
+    @me = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW()) AND encounter.creator = ?', User.current_user.user_id])
+    @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW())'])
+    @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW())'])
+    @ever = Encounter.statistics(@types)
+    render :template => 'people/overview', :layout => 'clinic'
   end
 end

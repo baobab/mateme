@@ -210,7 +210,7 @@ class UserController < ApplicationController
   
   def user_menu
     @super_user = true if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
-    render(:layout => "layouts/menu")
+    render :layout => 'clinic'
   end
  
   def search_user

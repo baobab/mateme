@@ -1,7 +1,7 @@
 class LocationDrugsController < ApplicationController
 
   def index
-    render(:layout => "layouts/menu")
+    render :layout => 'clinic'
   end
 
   def new
