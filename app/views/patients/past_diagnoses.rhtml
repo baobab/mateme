@@ -1,0 +1,43 @@
+<style type="text/css" >
+.mytableborder {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+font-size:9pt;
+/*background-color: #660000;*/
+}
+</style>
+
+ <div style="font-size: 1.2em;">
+   <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+     <tr class ="data"> <td class="mytableborder"><b> IPD </b></td> </tr>
+      <tr>
+        <th valign="top" class="mytableborder"> DATE</th>
+        <th class="mytableborder"> DIAGNOSIS</th>
+        <th class="mytableborder">TREATMENT</th>
+      </tr>
+      <%localcounter = 0
+        @local_diagnoses.keys.sort.reverse.each{|visit_id|
+          localcounter +=1
+      %>
+       <tr class ="data" style="background-color: <%=localcounter % 2 == 0 ? 'white' : 'lightgrey'%>" >
+        <td valign="top" class="mytableborder"> <%= Visit.find(visit_id).end_date.strftime("%d-%b-%Y")%></td>
+      <td class="mytableborder"> <% @local_diagnoses[visit_id].each{|observation| %> <%= observation.to_s%> <br/><%}%></td>
+        <td class="mytableborder"> <% @local_treatments[visit_id].each{|observation|%> <%= observation.to_s%> <br/> <%}%></td>
+      </tr>
+
+      <%}%>
+      <tr class ="data"> <td class="mytableborder"><b> OPD </b></td> </tr>
+        <%counter = 0
+        @remote_visit_diagnoses.keys.sort.reverse.each{|visit_id|
+          counter +=1
+        %>
+        <tr class ="data" style="background-color: <%=counter % 2 == 0 ? 'white' : 'lightgrey'%>" >
+          <td valign="top" class="mytableborder"> <%= Visit.find(visit_id).end_date.strftime("%d-%b-%Y")%></td>
+         <td class="mytableborder"> <% @remote_visit_diagnoses[visit_id].each{|observation|%> <%= observation.to_s  rescue ''%> <br/><%}%></td>
+          <td class="mytableborder"> <%=@remote_visit_treatments[visit_id.to_s] rescue ''%> </td>
+        </tr>
+      <%}%>
+  </table>
+  </div>

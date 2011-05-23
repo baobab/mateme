@@ -1,0 +1,119 @@
+<script type="text/javascript">
+  tt_cancel_destination = '/patients/end_visit?patient_id=<%= @patient.patient_id%>';
+  tt_cancel_to_peole_index = '/people/index';
+</script>
+<style type="text/css">
+ 
+  a.button.green {
+    width:220px;
+    -moz-user-select:none;
+    border:0 none;
+    color:white;
+    cursor:pointer;
+    display:block;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+    text-decoration:none;
+    background:#008000 none repeat scroll 0 0;
+    font-size:1.4em;
+    height:50px;
+    line-height:57px;
+    min-width:48px;
+    margin-top:10px
+  }
+#menu {
+    overflow:auto;
+    position:absolute;
+    height:250px;
+    width:257px;
+    top: 0px;
+    right: 1px;
+  }
+ 
+.buttonsDiv{
+  width: 995px;
+}
+
+ul.list{
+  overflow-x: hidden;
+}
+
+</style>
+ 
+<div style="margin:10px;">
+  <div id="details" style="height:250; position: relative; width: 510px; right: -440px; bottom: -17px;">
+    <form>
+    </form>
+  </div>
+  <div style="font-size:1.1em; position:relative;top: 0px; right: -344px;">
+    <%= render :partial => "details" %>
+  </div>
+    <%= render :partial => "current_encounters" %>
+ 
+    <% if @super_user || @doctor%>
+      <%= render :partial => "patient_history"%>
+      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient}  rescue nil%>
+    <%end%>
+    
+    <% if @nurse%>
+      <%= render :partial => "vitals_history"%>
+      <%= render :partial => "simple_graph", :locals=>{:fields=>@patient} rescue nil%>
+    <%end%>
+  <div id="menu">
+
+    <%if @doctor%>
+      <!--a class="button green" href='/encounters/new/label_specimens/?patient_id=<%= @patient.id -%>'>Label Specimens</a-->
+      <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+    <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward(@session_datetime)%>
+      <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
+    <%end%>
+      <a class="button green" href='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</a>
+      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
+      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
+    <%end %>
+
+    <%if @clinician%>
+      <a class="button green" href='/encounters/new/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+  <%end %>
+
+  <%if @regstration_clerk%>
+    <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
+    <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
+  <%end %>
+
+  <%if @spine_clinician%>
+      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
+       <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
+       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
+  <%end%>
+
+
+  <%if @super_user%>
+     <a class="button green" href='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</a>
+    <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward(@session_datetime)%>
+      <a class="button green" href='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</a>
+    <%end%>
+      <a class="button green" href='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</a>
+      <a class="button green" href='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</a>
+      <a class="button green" href='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</a>
+      <a class="button green" href='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</a>
+      <a class="button green" href='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</a>
+       <a class="button green" href='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</a>
+       <a class="button green" href='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</a>
+    <%end %>
+  </div>
+</div>
+
+<div style="z-index:11;bottom:15px; height: 64px; width: 100px; left: -4px; right: -66px; position: absolute;">
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_to_peole_index) window.location = tt_cancel_to_peole_index;">
+    <span>
+      Cancel
+    </span>
+  </button>
+</div>
+
+ <div style="z-index:11;bottom:1px; height: 64px; width: 435px; left: 120px; position: absolute;"><table><tr><td>Location</td><td>: <span style='font-color:green'><span style='font-color:green'><%=session[:ward]%></span></td></tr>
+      <tr><td>User </td><td>: <span style='font-color:green'><%=User.find(session[:user_id]).name rescue 'User' %></span></td></tr></table></div>
+
+

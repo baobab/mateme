@@ -1,0 +1,114 @@
+<%= javascript_include_tag "barcode" %>
+<script type="text/javascript">
+  tt_cancel_destination = '/logout'; 
+  auto_logout_screen = false; 
+</script>
+
+<%if @password_expired%>
+
+  <div style="text-align:center;margin:10px;">
+    <span style="font-size: 24pt">Your password has expired</span>
+    <div class="centered">
+      <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
+        <span>Change Password</span>
+      </button>
+    </div>
+  </div>
+
+<%else%>
+
+<div style="text-align:center;margin:10px;">
+  <form id='barcodeForm' action="/people/search">
+    <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
+    <%= submit_tag "Submit", :style => "display:none" %>
+    <div style="color:gray">scan a patient barcode</div>
+  </form>
+  <div class="centered">
+    <%if @days_left <= 7%>
+      <span style="font-size: 16pt"> <%= "Your password will expire in #{@days_left} days" %> </span> <br />
+      <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
+        <span>Change Password</span>
+      </button> <br />
+    <%end%>
+    <% date = session[:datetime] ||= Date.today 
+    if @super_user or @regstration_clerk %>
+    <%if !@show_set_date%>
+      <span style="font-size: 16pt">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+        </span>
+      <%else%>
+      <span style="font-size: 16pt; background-color: red">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+        </span>
+      <%end%>
+
+
+      <button id="find_or_register_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/search'"><span>Find or register patient by name</span></button>
+      
+    <%if !@show_set_date%>
+      <button id="set_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
+      <%else%>
+      <button id="reset_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+      <%end%>
+    <%end%>
+    <br />
+    
+    <% if @super_user%>
+      <button id="find_lab_entries_button" class="button green" style="min-width:515px;" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
+            <span>Lab Results Entry</span>
+          </button><br />
+
+      <button id="admin_button" class="button green" style="min-width:515px;" onclick="window.location = '/admin'"><span>Administration</span></button>
+    <%end%>
+    
+    <%if @spine_clinician %> <%#|| @super_user%>
+      <button id="find_lab_entries_button" class="button green" style="min-width:515px;" onclick="window.location = '/encounters/lab_results_entry'" style="min-width:500px;">
+            <span>Lab Results Entry</span>
+          </button> <br />
+        <%end%>
+
+
+    <%if @doctor
+      if !@show_set_date%>
+       <span style="font-size: 16pt">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+      </span><br />
+      <button id="set_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button>
+    <%else%>
+      <span style="font-size: 16pt; background-color: red">
+        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+      </span><br />
+
+        <button id="reset_date_button" class="button green" style="min-width:515px;" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+        
+
+      <%end
+    end
+  %>
+    <button id="reports_button" class="button green" style="min-width:515px;" onclick="window.location = '/report/'"><span>Reports</span></button>
+    <br />
+
+  <!--br /><button id="find_or_register_button" class="button green" onclick="window.location = '/report/'"><span>Reports</span></button-->
+
+    <br/>
+    <br/>
+    <!-- <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
+    <!-- TODO: need to show current date
+         TODO: need set date/reset date button
+         TODO: need reports button
+         TODO: need summary to be adjusted based on visit? -->
+      <table style="margin-left:50px;margin-top:40px;background:#ddddff;width:300px;">
+      <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
+         type = "Reception - patients seen" if type == "REGISTRATION"
+         type = "patients referred to other clinics" if type == "REFERRED" %>
+        <tr>
+          <td><%= type.upcase %>:</td>
+          <td><strong><%= total %></strong></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>  
+</div> 
+
+<%end%>
+

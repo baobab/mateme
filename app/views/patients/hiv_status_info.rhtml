@@ -1,0 +1,20 @@
+<style type="text/css" >
+.mytableborder {
+border-top:1px dotted ;
+border-right:1px dotted ;
+border-bottom:1px dotted ;
+border-left:1px dotted ;
+font-size:9pt;
+/*background-color: #660000;*/
+}
+.outstanding{
+  font-weight: bold ;
+}
+</style>
+<div style="margin-top:20px;">
+  <h3> Hiv Status info </h3>
+  <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+    <tr class ="data"> <td class="mytableborder"> <span class='title'>Status : </span> </td> <td class="mytableborder"> <%= @status rescue '' %><br/></td></tr>
+  </table>
+  <br/>
+</div>

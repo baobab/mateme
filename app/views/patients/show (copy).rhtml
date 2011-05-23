@@ -1,0 +1,60 @@
+<script>
+  tt_cancel_destination = '/patients/end_visit?patient_id=<%= @patient.patient_id%>';
+</script>
+
+<div id="dashboard">
+  <%= render :partial => "details" %>
+
+  <select id="tabs">
+        <option value="/patients/current_encounters?patient_id=<%=@patient.patient_id%>">Visits Summary</option>
+        <option value="/patients/past_diagnoses?patient_id=<%=@patient.patient_id%>">Medical History</option>
+        <option value="/patients/influenza_info?patient_id=<%=@patient.patient_id%>"> Influenza </option>
+        <option value="/patients/chronic_conditions_info?patient_id=<%=@patient.patient_id%>"> Chronic Diseases</option>
+        <option value="/patients/hiv_status_info?patient_id=<%=@patient.patient_id%>"> HIV Status</option>
+  </select>
+
+  <select id="links">
+
+    <%if @doctor%>
+      <!--a class="button green" href='/encounters/new/label_specimens/?patient_id=<%= @patient.id -%>'>Label Specimens</a-->
+      <option value='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</option>
+      <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward(@session_datetime)%>
+        <option value='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</option>
+      <%end%>
+      <option value='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</option>
+      <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</option>
+      <option value='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</option>
+    <%end %>
+
+    <%if @clinician%>
+      <option value='/encounters/new/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</option>
+    <%end %>
+
+    <%if @regstration_clerk%>
+      <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</option>
+      <option value='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</option>
+    <%end %>
+
+    <%if @spine_clinician%>
+      <option value='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</option>
+      <option value='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</option>
+      <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>
+    <%end%>
+
+
+    <%if @super_user%>
+      <option value='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</option>
+      <%if session[:ward] == 'WARD 4B' && !@patient.admitted_to_ward(@session_datetime)%>
+        <option value='/patients/admit?patient_id=<%= @patient.id -%>'>Admit to Ward</option>
+      <%end%>
+      <option value='/patients/discharge?patient_id=<%= @patient.id -%>'>Discharge Patient</option>
+      <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</option>
+      <option value='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</option>
+      <option value='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</option>
+      <option value='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza Data</option>
+      <option value='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</option>
+      <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>
+    <%end %>
+
+  </select>
+</div>
