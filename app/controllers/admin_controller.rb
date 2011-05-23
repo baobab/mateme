@@ -2,7 +2,7 @@ class AdminController < ApplicationController
   before_filter :require_admin
   
   def index
-    render :layout => "menu"
+      render :layout => 'clinic'
   end
   
 private
