@@ -23,6 +23,7 @@ tt_cancel_show = '';
 <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center> -->
 <script>
   tt_cancel_destination = '/people';
+  tt_cancel_show = '/people';
 </script>
 <style type="text/css">
     span 
@@ -40,7 +41,12 @@ tt_cancel_show = '';
       <span id='patient_name'><%= @patient.person.name %></span>
       <span id='patient_id'><%= @patient.national_id_with_dashes rescue '' %></span>
       <span id='patient_residence'><%= @patient.person.addresses.first.city_village rescue 'Unknown' %></span>
-      <span id='birthdate'><%= @patient.person.birthdate_formatted rescue '' %></span>
+      <span id="patient_age"><%= @patient.person.age rescue '' -%></span>
+      <%  if @patient.person.age <= 2 %>
+      <span id="patient_age"><%= "#{@patient.person.age_in_months} Months"  rescue '' -%></span>
+      <%  else %>
+      <span id="patient_age"><%= @patient.person.age rescue '' -%></span>
+      <%  end %>
       <span id='patient_gender'><%= @patient.person.formatted_gender rescue '' %></span>
     <select id="tabs">
       <option value="/patients/current_encounters?patient_id=<%=@patient.patient_id%>">Visits Summary</option>
@@ -50,7 +56,7 @@ tt_cancel_show = '';
       <option value="/patients/hiv_status_info?patient_id=<%=@patient.patient_id%>"> HIV Status</option>
     </select>
     <select id="links">
-        <!--<option value='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</option> -->
+     <option value='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>OPD Diagnosis</option>
         <option value='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</option>
         <option value='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Admitted</option>
       <% if @spine_clinician %>

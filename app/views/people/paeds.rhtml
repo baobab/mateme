@@ -10,11 +10,11 @@
     <div style="color:gray">scan a barcode</div>
   </form>
   <div class="centered">
-    <button id="find_or_register_button" class="button green" style="min-width:550px;" onclick="window.location = '/people/search'"><span>Find or Register Paediatric by Name</span></button>
+    <button id="find_or_register_button" class="button green" style="min-width:510px;" onclick="window.location = '/people/search'"><span>Find or Register Paediatric by Name</span></button>
     <%if !@show_set_date%>
-    <button id="set_date_button" class="button green" style="min-width:550px;" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button><br />
+    <button id="set_date_button" class="button green" style="min-width:510px;" onclick="window.location = '/people/set_datetime'"><span>Set Date</span></button><br />
     <% else %>
-    <button id="reset_date_button" class="button green" style="min-width:550px;" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
+    <button id="reset_date_button" class="button green" style="min-width:510px;" onclick="window.location = '/people/reset_datetime'"><span>Reset Date</span></button>
     <% end %>
 
     <!--button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button-->

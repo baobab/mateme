@@ -29,15 +29,17 @@ font-size:9pt;
 
       <%}%>
       <tr class ="data"> <td class="mytableborder"><b> IPD </b></td> </tr>
-        <%counter = 0
-        @remote_visit_diagnoses.keys.sort.reverse.each{|visit_id|
-          counter +=1
+        <%
+          counter = 0
+          if !@remote_visit_diagnoses.nil?
+            @remote_visit_diagnoses.keys.sort.reverse.each{|visit_id|
+            counter +=1
         %>
         <tr class ="data" style="background-color: <%=counter % 2 == 0 ? 'white' : 'lightgrey'%>" >
           <td valign="top" class="mytableborder"> <%= Visit.find(visit_id).end_date.strftime("%d-%b-%Y")%></td>
          <td class="mytableborder"> <% @remote_visit_diagnoses[visit_id].each{|observation|%> <%= observation.to_s  rescue ''%> <br/><%}%></td>
           <td class="mytableborder"> <%=@remote_visit_treatments[visit_id.to_s] rescue ''%> </td>
         </tr>
-      <%}%>
+      <%}end%>
   </table>
   </div>
