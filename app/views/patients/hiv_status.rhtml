@@ -2,52 +2,15 @@
   tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>?hiv_status_updated=true";
   tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
 </script>
-<style type="text/css">
 
-  a.button{
-    width:220px;
-    -moz-user-select:none;
-    border:0 none;
-    color:white;
-    cursor:pointer;
-    display:block;
-    font-weight:bold;
-    padding:0 8px 0 0;
-    text-align:center;
-    text-decoration:none;
-    background:green none repeat scroll 0 0;
-    font-size:1.4em;
-    height:57px;
-    line-height:57px;
-    min-width:48px;
-    margin-top:10px
-  }
-
-  a.button.green {
-    background:green none repeat scroll 0 0;
-  }
-
-
-  a.button.gray {
-    background: #AAAAAA none repeat scroll 0 0;
-  }
-  #menu {
-    float:right;
-    overflow:auto;
-    position:relative;
-    height:478px;
-    width:257px;;
-  }
-</style>
-
-<div style="margin:10px;">
+<div id="dashboard">
   <div id="details" style="float:left">
     <form>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
     </form>
-    <%= render :partial => "details" %>
+    <%= render :partial => "details_hiv_status" %>
     <%
     status = 'UNKNOWN'
     if @arv_number && !@arv_number.empty?
@@ -57,35 +20,15 @@
     end
   %>
 
-<table cellpadding="2" cellspacing="0">
-  <tr> <td> <span class='title'>&nbsp;</span> </td> <td>&nbsp;<br/></td></tr>
-  <tr> <td> <span class='title'> HIV Status: </span> </td> <td> <%= status.humanize rescue '' %><br/></td></tr>
-<%if @arv_number && !@arv_number.empty?%>
-  <tr> <td> <span class='title'> ARV Number: </span> </td> <td> <%= @arv_number rescue '' %><br/></td></tr>
-<%end%>
-<%if status.humanize == "Advised to test"%>
-  <tr> <td> <span class='title'> Date: </span> </td> <td> <%= @date_of_hiv_test_advice rescue '' %><br/></td></tr>
-<%else%>
-  <tr> <td> <span class='title'> HIV test date: </span> </td> <td> <%= @hiv_test_date rescue '' %><br/></td></tr>
-  <%if (!@remote_art_info && (status.humanize == "Reactive" || status.humanize =="Positive") && @art_start_date)%>
-      <tr> <td> <span class='title'> ART start date: </span> </td> <td> <%= @art_start_date rescue '' %><br/></td></tr>
-  <%end%>
-<%end%>
-
 <%if @remote_art_info%>
-
-<tr> <td> <span class='title'> ART start date: </span> </td> <td> <%= @remote_art_info['person']['art_start_date'] rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Date tested positive: </span> </td> <td> <%=@remote_art_info['person']['date_tested_positive']  rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Dates of visit to clinic: </span> </td> <td> <%= "#{@remote_art_info['person']['first_visit_date']} to #{@remote_art_info['person']['last_visit_date']}" rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> CD4 trail: </span> </td> <td> <%= @remote_art_info['person']['cd4_data'] rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> Last given drugs: </span> </td> <td> <%=@remote_art_info['person']['last_given_drugs']  rescue '' %><br/></td></tr>
-<tr> <td> <span class='title'> ART clinic outcome: </span> </td> <td> <%=@remote_art_info['person']['art_clinic_outcome']  rescue '' %><br/></td></tr>
-
+<select id="tabs">
+      <option value="/patients/hiv_art_info?patient_id=<%=@patient.patient_id%>">ART Info</option>
+</select>
 <%end%>
-</table>
+
 
   </div>
-  <div id="menu">
+  <select id="links">
     <% @hiv_status_encounters.map do |encounter| %>
       <% encounter[:url] = "/encounters/new/update_hiv_status?patient_id=#{@patient.id}&new_hiv_status=#{encounter[:param]}" %>
     <%  if((status.humanize == "Reactive" || status.humanize =="Positive") && @art_start_date)
@@ -94,16 +37,7 @@
             encounter[:class] = "gray"
           end
         end%>
-      <%= encounter_button(encounter[:name], encounter[:url], encounter[:class]) %>
+      <%=encounter_button(encounter[:name], encounter[:url], encounter[:class])%>
     <% end %>
-  </div>
-</div>
-
-
-<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
-  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
-    <span>
-      Cancel
-    </span>
-  </button>
+  </select>
 </div>
