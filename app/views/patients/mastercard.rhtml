@@ -1,3 +1,7 @@
+<script type="text/javascript">
+  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
+</script>
 <style type="text/css">
   table { margin: 15px;}
   td {
@@ -54,15 +58,6 @@
   }
 
 </style>
-
-<script type="text/javascript">
-  tt_cancel_destination = '<%=  "/patients/show/#{@patient.id}" %>';
-
-  function $(id){
-    return document.getElementById(id);
-  }
-
-</script>
 
 <center><h2>DIABETES CLINIC</h2></center>
 

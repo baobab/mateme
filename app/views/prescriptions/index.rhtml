@@ -1,12 +1,15 @@
 <script type="text/javascript" language="javascript" src="/javascripts/utils.js"></script>
+
+
 <script type="text/javascript">
+  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false';
+
   var global_ignore_click = false;
 
   function $(id){
     return document.getElementById(id);
   }
-
-  tt_cancel_destination = '/patients/show/<%= @patient.id %>';
 
   function create_fields(id, val1, val2, val3, val4){
     var prefix = id.match(/\d+$/g);
@@ -323,10 +326,10 @@
     </ul>
   </div>
 
-  <div style="float:right;padding-right:5px;margin-top:-15px;">
+  <div style="float:right;padding-right:5px;margin-top:-2px;">
     <button class="button green" onclick="window.location = '/prescriptions/new?patient_id=<%= @patient.id -%>'"><span>New Prescription</span></button><br/>
   </div>
-  <div style="float:right;padding-right:5px;margin-top:-15px;">
+  <div style="float:right;padding-right:5px;margin-top:-2px;">
     <button class="button green"
            onclick="var checked = false; var c = document.body.getElementsByTagName('input');
          for(var i=0; i<c.length; i++){

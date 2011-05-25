@@ -1,6 +1,6 @@
 <div id="project_name" >DM</div>
 <div id="patient_name" ><%= @patient.person.name %></div>
-<div id="patient_id" ><%= @patient.diabetes_number rescue 'Unknown' %></div>
+<div id="patient_id" ><%= @patient.national_id_with_dashes rescue '' %></div>
 <div id="patient_gender" ><%= @patient.person.formatted_gender rescue '' %> </div>
 <div id="patient_card">
       <div id="birth_date" value="<%= @patient.person.birthdate_formatted rescue '' %>"> Birthdate </div>
