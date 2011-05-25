@@ -13,12 +13,13 @@ font-size:0.7em;
 }
 
 </style>
-<div id =" patient_history" style="position: relative;  top: 0px;">
+<div id ="patient_history" style="position: relative;  top: 0px; height:340px; overflow:auto;">
 
  <base target="_parent" />
 
-  <ul class="list" >
+  <ul class="list">
     <table cellpadding="2" cellspacing="0" border ="1" width="100%">
+    <tbody>
       <%@encounter_datetimes.each { |encounter_datetime|%>
         <tr>
           <td class="dottedTableBorder" style="font-size: 1.5em;">
@@ -38,7 +39,7 @@ font-size:0.7em;
                         <b><%=h ((encounter.name.humanize.length>0)?(encounter.name.humanize):"Not Applicable") %> </b>(<%=h(encounter_datetime)%>)  <i><%= ((encounter.complete)?((encounter.complete.state==false)?"(Not Complete)":""):"") %></i></div>
                       
                       <%end; header = 'false'%>
-                      <span class="voidButton">
+                      <span class="voidButton" style="padding-right:15px;">
                         <%= img_button_submit_to "/encounters/new/first_time_visit_questions?patient_id=#{@patient.patient_id}",
                              "/images/cancel_flat_small_red.png",
                              {:confirm => "Are you sure you want to void this encounter?", :form_id => "frm_"+i.to_s}, # TODO enable this prompt
@@ -74,6 +75,7 @@ font-size:0.7em;
           </td>
         </tr>
       <%}%>
+      <tbody>
     </table>
   </ul>
 </div>
