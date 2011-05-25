@@ -561,8 +561,6 @@ class PatientsController < ApplicationController
       }
 
     end
-    
-    render :layout => 'menu'
   end
 
   def make_booking
@@ -657,6 +655,11 @@ class PatientsController < ApplicationController
         render :text => ""
       end
     end
+  end
+
+  def hiv_art_info
+    @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil
+    @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
   end
 
 end
