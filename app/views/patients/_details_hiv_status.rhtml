@@ -1,0 +1,35 @@
+<div id="project_name" >DM</div>
+<div id="patient_name" ><%= @patient.person.name %></div>
+<div id="patient_id" ><%= @patient.diabetes_number rescue 'Unknown' %></div>
+<div id="patient_gender" ><%= @patient.person.formatted_gender rescue '' %> </div>
+<div id="patient_card">
+      <div id="birth_date" value="<%= @patient.person.birthdate_formatted rescue '' %>"> Birthdate </div>
+      <div id="birth_date" value="<%= @patient.person.addresses.first.city_village rescue 'Unknown' %>"> Current Village</div>
+      <div id="birth_date" value="<%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %>"> Phone Number</div>
+      <div id="birth_date" value="<%= @patient.diabetes_number rescue 'Unknown' %>">DC Number</div>
+
+<%
+  status = 'UNKNOWN'
+  if @arv_number && !@arv_number.empty?
+    status = 'REACTIVE'
+  elsif @status
+    status = @status.to_s
+  end
+%>
+<br/></td></tr>
+  <div id="hiv_status" value="<%= status.humanize rescue '' %>">HIV Status</div>
+  
+<%if @arv_number && !@arv_number.empty?%>
+  <div id="arv_number" value="<%= @arv_number rescue '' %>">ARV Number</div>
+<%end%>
+
+<%if status.humanize == "Advised to test"%>
+  <div id="date" value="<%= @date_of_hiv_test_advice rescue '' %>">Date</div>
+<%else%>
+  <div id="hiv_test_date" value="<%= @hiv_test_date rescue '' %>">HIV test date</div>
+  <%if (!@remote_art_info && (status.humanize == "Reactive" || status.humanize =="Positive") && @art_start_date)%>
+      <div id="art_start_date" value="<%= @art_start_date rescue '' %>">ART start date</div>
+  <%end%>
+<%end%>
+
+</div>

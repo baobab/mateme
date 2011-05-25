@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <style>
+      #stats {
+        width:98%;
+        border:1px solid black;
+        background:white;
+        margin-left: 8px;
+      }
+
+      #stats td, #stats th {
+        text-align:left;
+      }
+    </style>
+    <%= stylesheet_link_tag "dashboard" %>
+  </head>
+<body>
+  <div style="margin:220px auto; width:700px;">
+      <table id="stats">
+          <tr class="even"> <td> <span> ART start date: </span> </td> <td> <%= @remote_art_info['person']['art_start_date'] rescue '' %><br/></td></tr>
+          <tr class="odd"> <td> <span> Date tested positive: </span> </td> <td> <%=@remote_art_info['person']['date_tested_positive']  rescue '' %><br/></td></tr>
+          <tr class="even"> <td> <span> Dates of visit to clinic: </span> </td> <td> <%= "#{@remote_art_info['person']['first_visit_date']} to #{@remote_art_info['person']['last_visit_date']}" rescue '' %><br/></td></tr>
+          <tr class="odd"> <td> <span> CD4 trail: </span> </td> <td> <%= @remote_art_info['person']['cd4_data'] rescue '' %><br/></td></tr>
+          <tr class="even"> <td> <span> Last given drugs: </span> </td> <td> <%=@remote_art_info['person']['last_given_drugs']  rescue '' %><br/></td></tr>
+          <tr class="odd"> <td> <span> ART clinic outcome: </span> </td> <td> <%=@remote_art_info['person']['art_clinic_outcome']  rescue '' %><br/></td></tr>
+      </table>
+  </div>
+<body>
+</html>
