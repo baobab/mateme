@@ -82,12 +82,12 @@ class UserController < ApplicationController
   end
 
   def show
-    unless session[:user_edit].nil?
-      @user = User.find(session[:user_edit])
+    unless params[:id].blank?
+     @user = User.find(params[:id])
     else
-      @user = User.find(session[:user_id])
-      session[:user_edit]=@user.user_id
+     @user = User.find(:first, :order => 'date_created DESC')
     end  
+    render :layout => 'menu'
   end
 
   def new
