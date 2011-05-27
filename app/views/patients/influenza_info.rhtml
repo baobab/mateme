@@ -31,6 +31,7 @@ font-size:9pt;
       OPD Influenza info
     </th>
    <%
+       if !@opd_influenza_data.nil?
         counter = 0
         @opd_influenza_data.each do |ipd_influenza_data|
         counter +=1
@@ -40,6 +41,7 @@ font-size:9pt;
         <%=ipd_influenza_data%>
       </td>
     </tr>
+    <% end %>
     <%end%>
   </table>
 </div>

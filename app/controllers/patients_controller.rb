@@ -379,11 +379,11 @@ class PatientsController < ApplicationController
   def past_diagnoses
     @patient_ID = params[:patient_id]  #--removed as I am only passing the patient_id  || params[:id] || session[:patient_id]
     @patient = Patient.find(@patient_ID) rescue nil
-    @remote_visit_diagnoses = @patient.remote_visit_diagnoses
-    @remote_visit_treatments = @patient.remote_visit_treatments
+    @remote_visit_diagnoses = @patient.remote_visit_diagnoses rescue nil
+    @remote_visit_treatments = @patient.remote_visit_treatments rescue nil
 
-    @local_diagnoses = @patient.visit_diagnoses
-    @local_treatments = @patient.visit_treatments
+    @local_diagnoses = @patient.visit_diagnoses rescue nil
+    @local_treatments = @patient.visit_treatments rescue nil
 
     render :layout => false
 
@@ -426,7 +426,7 @@ class PatientsController < ApplicationController
       @ipd_influenza_data = @influenza_data.last
     end
 
-    @opd_influenza_data = @patient.remote_influenza_info
+    @opd_influenza_data = @patient.remote_influenza_info rescue nil
 
     render :layout => false
   end
@@ -444,9 +444,8 @@ class PatientsController < ApplicationController
     @patient = Patient.find(@patient_id) rescue nil
     @opd_chronic_conditions = Array.new()
 
-    @opd_chronic_conditions = @patient.get_remote_chronic_conditions
+    opd_chronic_conditions = @patient.get_remote_chronic_conditions rescue []
     #Add None element if no conditions are returned from remote
-
     if @opd_chronic_conditions.length == 0
       @opd_chronic_conditions << "None"
     end
