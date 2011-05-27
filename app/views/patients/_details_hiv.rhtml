@@ -2,10 +2,14 @@
 <div id="patient_name"><%= @patient.person.name %></div>
 <div id="patient_id"> <%= @patient.national_id_with_dashes rescue '' %></div>
 
-<div id="patient_card" >
+<div id="patient_card">
   <div id="birthdate" value="<%= @patient.person.birthdate_formatted rescue '' %>"> Birth Date </div>
   <div id="gender" value="<%= @patient.person.formatted_gender rescue '' %>"> Gender </div>
-  <!--<tr> <td> <span class='title'> Home Village: </span> </td> <td> <%= @patient.person.addresses.first.address2 rescue '' %><br/></td></tr> -->
   <div id="village" value="<%= @patient.person.addresses.first.city_village rescue 'Unknown' %>"> Village </div>
-  <!--<tr> <td> <span class='title'> Phone Number: </span> </td> <td> <%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %><br/> </td></tr>-->
+
+  <div id="hivstatus" value="<%= @status.humanize rescue '' %>"> HIV Status </div>
+  
+  <%if @status.upcase != 'UNKNOWN'%>
+    <div id="hivtestdate" value="<%= @hiv_test_date rescue '' %>"> HIV test date: </div>
+  <%end%>
 </div>

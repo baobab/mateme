@@ -1,0 +1,30 @@
+table , tr td
+{
+  border : 2px solid black;
+  width : auto;
+  text-align : center;
+}
+
+table tr td:first-child
+{
+  background-color: #CCC;
+  width: 150px;
+  border : 0px solid #CCC;
+  font-size : 0.9em;
+}
+
+table
+{
+  width : 100%;
+  border-bottom : 20px solid #CCC;
+  font-size : 0.9em;
+}
+
+th
+{
+  border : 3px solid black;
+}
+.none_cell
+{
+		border : 0px solid black;
+}

@@ -1,0 +1,19 @@
+
+  <table cellpadding="2" cellspacing="0">
+    <%if @arv_number%>
+      <tr> <td> <span class='title'> ARV Number: </span> </td> <td class='data'> <%= @arv_number rescue '' %><br/></td></tr> 
+    <%end%>
+
+    <%if @remote_art_info
+     
+    if !@remote_art_info.empty? && @remote_art_info != {"person"=>{}}%>
+
+    <tr> <td> <span class='title'> ART start date: </span> </td> <td class='data'> <%= @remote_art_info['person']['art_start_date'] rescue '' %><br/></td></tr>
+    <tr> <td> <span class='title'> Dates of visit to clinic: </span> </td> <td class='data'> <%= "#{@remote_art_info['person']['first_visit_date']} to #{@remote_art_info['person']['last_visit_date']}" rescue '' %><br/></td></tr>
+    <tr> <td> <span class='title'> CD4 trail: </span> </td> <td class='data'> <%= @remote_art_info['person']['cd4_data'] rescue '' %><br/></td></tr>
+    <tr> <td> <span class='title'> Last given drugs: </span> </td> <td class='data'> <%=@remote_art_info['person']['last_given_drugs']  rescue '' %><br/></td></tr>
+    <tr> <td> <span class='title'> ART clinic outcome: </span> </td> <td class='data'> <%=@remote_art_info['person']['art_clinic_outcome']  rescue '' %><br/></td></tr>
+    <%end%>
+    <%end%>
+  </table>
+

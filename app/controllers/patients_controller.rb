@@ -479,4 +479,9 @@ class PatientsController < ApplicationController
 
   end
 
+  def hiv_status_reactive
+    @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil
+    @remote_art_info = @patient.remote_art_info rescue {}
+  end
+
 end
