@@ -1,7 +1,7 @@
-<script>
+<script type="text/javascript">
   tt_cancel_destination = "/people?active_tab=tab2";
+  tt_cancel_show = "/people?active_tab=tab2";
 </script>
-
 <% form_for :person, @person, :url => { :action => "remove" } do |f| %>
 
   <%= text_field_tag "location_drug", "", {:id => 'location_drug', :helpText => 'Drug', :ajaxURL => '/search/facility_drugs?search_string=', :allowFreeText => false } %>

@@ -1,5 +1,6 @@
 <script>
-  tt_cancel_destination = '/patients/end_visit?patient_id=<%= @patient.patient_id%>';
+  tt_cancel_destination = '/patients/show/<%= @patient.id %>?auto_load_forms=false&admitted=false';
+  tt_cancel_show = '/patients/show/<%= @patient.id %>?auto_load_forms=false&admitted=false';
   //alert("<%= @patient.person.id rescue '00' %>");
 </script>
 

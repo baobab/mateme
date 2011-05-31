@@ -1,7 +1,7 @@
 class LocationDrugsController < ApplicationController
 
   def index
-    render :layout => 'clinic'
+    render(:layout => "layouts/menu")
   end
 
   def new
@@ -13,12 +13,11 @@ class LocationDrugsController < ApplicationController
     location_drug.drug_concept_id = Concept.find_by_name(params[:location_drug]).concept_id
     location_drug.drug_concept_name = params[:location_drug]
     location_drug.created_by = session[:user_id]
-
     if location_drug.save
       flash[:notice] = "Drug added"
       redirect_to :controller => :location_drugs, :action => :index
     else
-      render :action => :new
+      render :action => 'new'
     end
   end
 
@@ -32,7 +31,7 @@ class LocationDrugsController < ApplicationController
       flash[:notice] = "#{params[:location_drug]} removed from list successfully"
       redirect_to :controller => :location_drugs, :action => :index
     else
-      render :action => :list
+      render :action => 'index'
     end
   end
 
