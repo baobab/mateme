@@ -50,19 +50,6 @@ form{
   padding-left:5px;
 }
 
-.touchscreenTextAreaInput{
-  border-top:none;
-  border-left:none;
-  border-right:none;
-  border-bottom: 1px solid silver;
-  width:930px;
-  height: 370px;
-  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
-  font-size:2.2em;
-  background:none;
-  padding-left:5px;
-}
-
 .options{
 	overflow: auto;
   height:15em;
@@ -690,3 +677,15 @@ display:block;
 .NoKeyboard, .NoControls { height: 520px !important } 
 .NoKeyboard .inputFrameClass { height: 440px !important } 
 .NoKeyboard .options { height: 395px !important } 
+
+#footer button, div.buttonsDiv button {
+  margin-top: 10px;
+  min-width: 140px;
+}
+
+textarea {
+  background-color: #eee;
+  border: 0px solid #eee;
+  padding: 10px;
+  font-size: 2.2em;
+}

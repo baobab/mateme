@@ -161,7 +161,7 @@ class PatientsController < ApplicationController
      show and return
    end
 
-    def influenza
+   def influenza
     
     @patient = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil
     @person = Person.find(@patient.patient_id)
@@ -175,7 +175,7 @@ class PatientsController < ApplicationController
     else
       session["category"] = 'adults'
     end
-    
+    render :layout => "multi_touch"
   end
 
   def influenza_recruitment
@@ -203,7 +203,7 @@ class PatientsController < ApplicationController
     if @influenza_data.length == 0
       redirect_to :action => 'show', :patient_id => @patient.id and return
     end
-   
+    render :layout => "multi_touch"
   end
   
   # Influenza method for accessing the influenza view

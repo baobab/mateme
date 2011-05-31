@@ -15,14 +15,14 @@
       Case 1: The patient is an adult, present adults form and ask adults questions
   -->
   <form extended="true" id='influenza_data' action="/encounters/create_adult_influenza_entry"
-        method='post'>
+        method='post' headerLabel="Influenza">
           <% default={
             :allowFreeText => 'true',
           } %>
 
     <%= hidden_field_tag "next_url", "/patients/influenza_recruitment?patient_id=#{@patient.id}" %>
 
-    <table name="Background Information">
+    <table name="Background Information" >
       <tr>
         <td>
 
@@ -40,7 +40,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "vaccine_in_last_1_year",
-              :position => "a"
+              :position => "a",
+              :helpText => "Influenza vaccine in the last 1 year?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -57,7 +58,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "currently_taking_antibiotics",
-              :position => "b"
+              :position => "b",
+              :helpText => "Currently (or in the last week) taking antibiotics?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -74,7 +76,9 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "current_smoker",
-              :position => "c"
+              :position => "c",
+              :helpText => "Current Smoker?"
+
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -91,7 +95,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "smoker_3_months_ago",
-              :position => "d"
+              :position => "d",
+              :helpText => "Were You A Smoker 3 Months Ago?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -109,7 +114,8 @@
               :tt_requireNextClick => false,
               :condition=>"gender == 'F'",
               :id => "pregnant",
-              :position => "e"
+              :position => "e",
+              :helpText => "Pregnant?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -126,7 +132,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "rdt_or_blood_smear_positive_for_malaria",
-              :position => "f"
+              :position => "f",
+              :helpText => "RDT or blood smear positive for malaria?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -150,7 +157,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "fever_greater_than_38_degrees",
-              :position => "g"
+              :position => "g",
+              :helpText => "Fever &gt; 38<sup>o</sup>C?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -173,7 +181,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "cough",
-              :position => "h"
+              :position => "h",
+              :helpText => "Cough?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -190,7 +199,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "sore_throat",
-              :position => "i"
+              :position => "i",
+              :helpText => "Sore Throat?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -207,7 +217,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "headache",
-              :position => "j"
+              :position => "j",
+              :helpText => "Headache?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -224,7 +235,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "rhinorrhea",
-              :position => "k"
+              :position => "k",
+              :helpText => "Rhinorrhea?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -241,7 +253,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "limb_joint_pain",
-              :position => "l"
+              :position => "l",
+              :helpText => "Limb/joint-pain?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -258,7 +271,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "vomiting_diarrhoea",
-              :position => "m"
+              :position => "m",
+              :helpText => "Vomiting/Diarrhoea?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -282,7 +296,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "patient_confused",
-              :position => "n"
+              :position => "n",
+              :helpText => "Patient confused (newly disoriented in place, person or time)?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -299,7 +314,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "respiratory_rate_greater_than_30",
-              :position => "o"
+              :position => "o",
+              :helpText => "Respiratory Rate &ge; 30?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -316,7 +332,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "oxygen_saturation_less_than_90",
-              :position => "p"
+              :position => "p",
+              :helpText => "Oxygen Saturation &le; 90%?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -333,7 +350,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "blood_pressure_systolic",
-              :position => "q"
+              :position => "q",
+              :helpText => "Blood Pressure Systolic &lt; 90 mmHg?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -350,7 +368,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "heart_rate_greater_than_120",
-              :position => "r"
+              :position => "r",
+              :helpText => "Heart Rate &gt; 120/min?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -367,7 +386,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "inability_to_stand",
-              :position => "s"
+              :position => "s",
+              :helpText => "Inability to Stand?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -393,7 +413,7 @@
     <% default={
       :allowFreeText => 'true',
     } %>
-
+:helpText => "Influenza vaccine in the last 1 year?"
     <%= hidden_field_tag "next_url", "/patients/influenza_recruitment?patient_id=#{@patient.id}" %>
 
     <table name="Background and lab data">
@@ -413,7 +433,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "vaccine_in_last_1_year",
-              :position => "a"
+              :position => "a",
+              :helpText => "Influenza vaccine in the last 1 year?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -430,7 +451,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "pneumococcal_vaccine",
-              :position => "b"
+              :position => "b",
+              :helpText => "Pneumococcal vaccine?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -447,7 +469,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "measles_vaccine",
-              :position => "c"
+              :position => "c",
+              :helpText => "Measles vaccine?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -464,7 +487,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "muac",
-              :position => "d"
+              :position => "d",
+              :helpText => "MUAC &lt; 11.5(cm)?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -494,7 +518,8 @@
               :field_type => 'number',
               :allowFreeText => 'true',
               :id => "weight",
-              :position => "f"
+              :position => "f",
+              :helpText => "Weight?"
             }) %>
           <%= hidden_field_tag("observations[][concept_name]", "WEIGHT") %>
           <%= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
@@ -507,7 +532,7 @@
   :field_type => 'number',
   :allowFreeText => 'true',
   :id => "hb",
-  :position => "g"
+  :position => "g",
   }) %>
   <%#= text_field_tag("observations[][value_numeric]", nil, options) %>
   <%#= hidden_field_tag("observations[][parent_concept_name]", "BACKGROUND AND LAB DATA") %>
@@ -545,7 +570,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "fever_greater_than_38_degrees",
-              :position => "i"
+              :position => "i",
+              :helpText => "Fever &gt; 38<sup>o</sup>C?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -568,7 +594,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "cough",
-              :position => "j"
+              :position => "j",
+              :helpText => "Cough?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -585,7 +612,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "sore_throat",
-              :position => "k"
+              :position => "k",
+              :helpText => "Sore Throat?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -602,7 +630,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "headache",
-              :position => "l"
+              :position => "l",
+              :helpText => "Headache?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -619,7 +648,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "coryza",
-              :position => "m"
+              :position => "m",
+              :helpText => "Coryza?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -636,7 +666,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "limb_joint_pain",
-              :position => "n"
+              :position => "n",
+              :helpText => "Limb/joint-pain?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -653,7 +684,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "vomiting_diarrhoea",
-              :position => "o"
+              :position => "o",
+              :helpText => "Vomiting/Diarrhoea?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -679,7 +711,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "presence_of_bilateral_crackles_and_wheeze",
-              :position => "p"
+              :position => "p",
+              :helpText => "Presence of bilateral crackles and/or wheeze?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -702,7 +735,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "lethargy_convulsion_or_unconsciousness",
-              :position => "q"
+              :position => "q",
+              :helpText => "Lethargy, convulsion or unconsciousness?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -721,7 +755,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "fast_breathing",
-              :position => "r"
+              :position => "r",
+              :helpText => "Fast Breathing?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -738,7 +773,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "chest_recession",
-              :position => "s"
+              :position => "s",
+              :helpText => "Chest Recession?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -755,7 +791,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "nasal_flaring",
-              :position => "t"
+              :position => "t",
+              :helpText => "Nasal Flaring?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -772,7 +809,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "head_nodding_grunting",
-              :position => "u"
+              :position => "u",
+              :helpText => "Head Nodding, Grunting?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -789,7 +827,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "central_cyanosis",
-              :position => "v"
+              :position => "v",
+              :helpText => "Central Cyanosis?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -817,7 +856,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "unable_to_breast_feed_or_drink",
-              :position => "w"
+              :position => "w",
+              :helpText => "Unable to Breastfeed / Drink?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
@@ -834,7 +874,8 @@
               :field_type => 'text',
               :tt_requireNextClick => false,
               :id => "oxygen_saturation_greater_than_90",
-              :position => "y"
+              :position => "y",
+              :helpText => "Oxygen Saturation &le; 90% room air?"
             }) %>
           <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
                 "",
