@@ -140,8 +140,8 @@ EOF
     end
 
     should "have lynx installed" do
-      lynx = backtick('which lynx')
-      assert_not_nil lynx.match(/lynx/)
+      lynx = backtick('uname')
+      assert_not_nil lynx.match(/Linux/)
     end
 
     should "send alert when there are no running mongrels" do

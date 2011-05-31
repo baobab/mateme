@@ -300,12 +300,12 @@ lab_results:
   date_retired:
   class_id: 1
   version: ""
-  short_name: LAB
+  short_name: LAB TEST RESULT
   default_charge:
   date_changed: 2006-06-07 21:13:50 -07:00
   form_text:
   description: "Lab results"
   retired: false
   datatype_id: 1
-  concept_id: 5086
+  concept_id: 7363
   date_created: 2004-08-12 00:00:00 -07:00

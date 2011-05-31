@@ -82,8 +82,7 @@ class Success
 		property.property_value = value
 		property.save!
   end
-
-	
+  
 protected
 
   def self.should_have_recent_encounter(since = 5.minutes.ago)
