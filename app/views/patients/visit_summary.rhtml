@@ -1,3 +1,4 @@
+<base target="_parent">
 <style type="text/css">
   body {
     font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
@@ -36,7 +37,7 @@
                 {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
               </div>
             <% end %>
-            
+
             <%if header == 'true' %>
               <div style="float:left; font-size: 1.1em; font-style: normal; padding-bottom: 5px; ">
                 <%=h encounter.name.humanize %></div><%end; header = 'false'%>
@@ -50,3 +51,4 @@
   </ul>
 
 </div>
+</base>

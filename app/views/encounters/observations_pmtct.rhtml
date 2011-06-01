@@ -1,0 +1,189 @@
+<script>
+  var tt_cancel_destination = "/encounters/new/observations/?patient_id=<%=  @patient.id %>"
+  var timedEvent;
+
+  function setDate(elementId){
+
+    if ($(elementId).value.toLowerCase() == 'unknown'){
+      $(elementId+'_value_datetime').value = null;
+      $(elementId+'_value_modifier').value = null;
+    }
+    else{
+      $(elementId+'_value_datetime').value = new Date($(elementId).value);  //.replace(/-/g, '/'));
+    }
+  }
+
+  function checkHIVTestDate(){
+    var hiv_test_date_str = $("hiv_test_date").value.replace(/-/g, '/');
+    var hiv_test_date     = new Date(hiv_test_date_str);
+    var today             = new Date(Date.now());
+
+    var weeks_ago = parseInt((today.getTime()- hiv_test_date.getTime())/ (1000 * 60 * 60 * 24 * 7));
+   
+    if (weeks_ago > 12){
+      dispatchMessage("Patient needs to be tested again", tstMessageBoxType.OKOnly);
+      return "true";
+    }
+    return "false";
+  }
+
+  // Every 500 milliseconds update the Next/Finish button
+  function updateNextFinish(){
+    if (tstInputTarget.value == '')
+      $('nextButton').innerHTML = '<span>Finish</span>';
+    else
+      $('nextButton').innerHTML = '<span>Next</span>';
+    setTimeout(updateNextFinish, 500)
+  }
+
+  function calculateEDOD(){
+    var edod = "";
+    var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    if(!$('expected_date_of_delivery')){
+      var div = document.createElement("div");
+      div.id = "expected_date_of_delivery";
+      div.className = "statusLabel";
+
+      $("inputFrame" + tstCurrentPage).appendChild(div);
+    }
+
+    if($("touchscreenInput" + tstCurrentPage).value.trim().length > 0){
+      var theDate = new Date($("touchscreenInput" + tstCurrentPage).value.trim());
+
+      theDate.setDate(theDate.getDate() + 7);
+
+      theDate.setMonth(theDate.getMonth() + 9);
+
+      edod = (theDate.getDate() + "-" + month[theDate.getMonth()] + "-" + theDate.getFullYear());
+    }
+
+    $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" + edod + "</i>";
+    
+    timedEvent = setTimeout('calculateEDOD()', 500);
+  }
+
+  function calculateBP(pos){
+    var bp;
+    
+    if(!$('bp')){
+      var div = document.createElement("div");
+      div.id = "bp";
+      div.className = "statusLabel";
+
+      $("inputFrame" + tstCurrentPage).appendChild(div);
+    }
+
+    if(pos == 1){
+      bp = ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+        tstCurrentPage).value.trim() : "?") +
+        "/" + ($("diastolic_blood_pressure").value.trim().length > 0 ? $("diastolic_blood_pressure").value.trim() : "?");
+    } else if(pos == 2){
+      bp = ($("systolic_blood_pressure").value.trim().length > 0 ? $("systolic_blood_pressure").value.trim() : "?") +
+        "/" + ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+        tstCurrentPage).value.trim() : "?");
+    }
+    
+    $("bp").innerHTML = "Blood Pressure: <i style='font-size: 1.2em; float: right;'>" + bp + "</i>";
+
+    timedEvent = setTimeout('calculateBP(' + pos + ')', 500);
+  }
+
+</script>
+<style>
+  .statusLabel {
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #efe;
+    font-size: 2em;
+    padding: 15px;
+    width: 920px;
+    top: 120px;
+    margin-left: 50%;
+    left: -470px;
+    -moz-border-radius: 20px;
+  }
+</style>
+<style>
+  #num {display: none;}
+  #Unknown {display: none;}
+</style>
+<form id='medical_history' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+  <%= hidden_field_tag "next_url", "/encounters/new/observations?patient_id=#{@patient.id}" %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% options = default.merge({
+      :id => "hiv_status_value",
+      :helptext => "PMTCT Status",
+      :field_type => "text",
+      :tt_pageStyleClass => "LongSelectList"
+    }) %>
+  <% @hiv_status = ["", "Non-Reactive", "Reactive"]%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "HIV STATUS", {:id => 'hiv_status_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@hiv_status),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "hiv_test_date",
+      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
+      :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
+      :helptext => "PMTCT test date",
+      :field_type => "date"
+    }) %>
+
+  <%= text_field_tag("hiv_test_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
+
+  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {:id => 'hiv_test_date_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "hiv_test_date_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "on_arvs",
+      :helptext => "On ARVs",
+      :field_type => "text",
+      :tt_pageStyleClass => "LongSelectList",
+      :condition => "$('hiv_status_value').value.trim().toUpperCase() == 'REACTIVE';"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "ON ARVS", {:id => 'on_arvs_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Yes", "No"]),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "period_on_arvs",
+      :helptext => "Period On ARVs",
+      :field_type => "text",
+      :condition => "$('on_arvs').value.trim().toUpperCase() == 'YES';"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "PERIOD ON ARVS", {:id => 'period_on_arvs_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "feeding_option",
+      :helptext => "Feeding Option",
+      :field_type => "text"
+    }) %>
+  <% @feeding_options = ["", "Exclusive Feeding", "Exclusive Breast Feeding", "Exclusive Formula Feeding", "Mixed Feeding"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "FEEDING OPTION", {:id => 'feeding_option_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@feeding_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+</form>

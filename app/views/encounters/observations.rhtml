@@ -1,155 +1,106 @@
-<script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
-
-  function setDate(elementId){
-
-    if ($(elementId).value.toLowerCase() == 'unknown'){
-      $(elementId+'_value_datetime').value = null;
-      $(elementId+'_value_modifier').value = null;
-    }
-    else{
-      $(elementId+'_value_datetime').value = new Date($(elementId).value);  //.replace(/-/g, '/'));
-    }
+<style type="text/css">
+  button.blue {
+    width: 350px;
+    margin: 15px;
+    margin-left: 60px;
   }
-
-  function checkHIVTestDate(){
-    var hiv_test_date_str = $("hiv_test_date").value.replace(/-/g, '/');
-    var hiv_test_date     = new Date(hiv_test_date_str);
-    var today             = new Date(Date.now());
-
-    var weeks_ago = parseInt((today.getTime()- hiv_test_date.getTime())/ (1000 * 60 * 60 * 24 * 7));
-   
-    if (weeks_ago > 12){
-      dispatchMessage("Patient needs to be tested again", tstMessageBoxType.OKOnly);
-      return "true";
-    }
-    return "false";
+  button.gray {
+    width: 350px;
+    margin: 15px;
+    margin-left: 60px;
   }
-
-  // Every 500 milliseconds update the Next/Finish button
-  function updateNextFinish(){
-    if (tstInputTarget.value == '')
-      $('nextButton').innerHTML = '<span>Finish</span>';
-    else
-      $('nextButton').innerHTML = '<span>Next</span>';
-    setTimeout(updateNextFinish, 500)
+  #nav {
+    background-color: #333333;
+    border-top:3px solid #99AAB7;
+    color:#CADCEA;
+    height:80px;
+    width:100%;
+    bottom:0px;
+    position:absolute;
+    overflow:hidden;
+    z-index: 1000;
   }
-    
-</script>
-
-<style>
-  #num {display: none;}
-  #Unknown {display: none;}
+  #footer {
+    background-color: #333333;
+  }
 </style>
-<form id='medical_history' action="/encounters/create" method='post'>
-  <% default={
-    :allowFreeText => 'true',
-  } %>
-
-  <%= hidden_field_tag "next_url", "/encounters/new/outpatient_diagnosis/?patient_id=#{@patient.id}" %>
-
-  <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
-  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
-  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
-
-  <% options = default.merge({
-      :id => "gravida_value",
-      :helptext => "Enter Gravida",
-      :field_type => "number",
-      :absoluteMin => "1",
-      :max => "15",
-      :flag => '{"message":"Patient at risk of PPH.<br/> Ensure family planing is discussed.","condition":"^([5-9]|[1][0-9])"}',
-      :tt_pageStyleClass => "NumbersOnly"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "GRAVIDA", {:id => 'gravida_concept_name'}) %>
-  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "parity_value",
-      :helptext => "Enter Parity",
-      :field_type => "number",
-      :absoluteMin => "0",
-      :max => "15",
-      :tt_pageStyleClass => "NumbersOnly"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "PARITY", {:id => 'parity_concept_name'}) %>
-  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "tt_status_value",
-      :helptext => "Enter TT status",
-      :field_type => "number",
-      :absoluteMin => "0",
-      :max => "5",
-      :flag => '{"condition":"^1$|^0$","message":"TT is inadequate"}',
-      :tt_pageStyleClass => "NumbersOnly"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "TT STATUS", {:id => 'tt_status_concept_name'}) %>
-  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "gestation_weeks_value",
-      :helptext => "Enter Gestation weeks",
-      :field_type => "number",
-      :absoluteMin => "1",
-      :max => 44,
-      :flag => '{"condition":"^[1-2][0-9]$|^[3][0-2]$|^[0-9]$","message":"Premature"}',
-      :tt_pageStyleClass => "NumbersOnly"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "GESTATION WEEKS", {:id => 'gestation_weeks_concept_name'}) %>
-  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "hiv_status_value",
-      :helptext => "HIV Status",
-      :field_type => "text",
-      :flag => '{"condition":"(Not Tested)","message":"Patient needs to be tested now"}',
-      :tt_pageStyleClass => "LongSelectList"
-    }) %>
-  <% @hiv_status = ["", "Not Tested", "Negative", "Positive"]%>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "HIV STATUS", {:id => 'hiv_status_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@hiv_status),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "hiv_test_date",
-      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
-      :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
-      :helptext => "HIV test date",
-      :field_type => "date"
-    }) %>
-
-  <%= text_field_tag("hiv_test_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
-
-  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {:id => 'hiv_test_date_concept_name'}) %>
-  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "hiv_test_date_value_datetime"}) %>
-  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
-  <%# options = default.merge({
-      :id => "dummy",
-      :condition => "$('hiv_status_value').value.toLowerCase() == 0",
-      :helptext => "HIV test date 2",
-      :field_type => "date"
-    }) %>
-
-  <%#= text_field_tag("hiv_test_date_2",DateTime.now().strftime("%Y-%m-%d"),options) %>
-
-  <%#= submit_tag "Finish" %>
-</form>
+<div id='content'>
+  <div id='description' style='color:#777;position:absolute;margin-top:-70px;'>
+  </div>
+  <center>
+    <div style="position: absolute; left: 60px; top: 30px; padding: 25px; background-color: #fff;
+         border: 1px solid #ccc; -moz-border-radius: 30px; width: 350px;">
+      <h1>Observations</h1>
+    </div>
+    <div style="display: table; -moz-border-radius: 30px;
+         border: 1px solid #eee; padding: 15px; width: 95%; margin-top: 100px;">
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          &nbsp;
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("HIV STATUS") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("HIV STATUS") ? "" : 
+                      "window.location = '/encounters/new/observations_pmtct?patient_id=#{@patient.id}'") %> ">
+            <span>PMTCT</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("SYSTOLIC") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("SYSTOLIC") ? "" :
+                      "window.location = '/encounters/new/observations_vitals?patient_id=#{@patient.id}'") %> ">
+            <span>Vitals</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("FUNDUS") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("FUNDUS") ? "" :
+                      "window.location = '/encounters/new/observations_physical_exam?patient_id=#{@patient.id}'") %> ">
+            <span>Physical Examination</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("LAST MENSTRUAL PERIOD") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("LAST MENSTRUAL PERIOD") ? "" :
+                      "window.location = '/encounters/new/observations_patient_history?patient_id=#{@patient.id}'") %> ">
+            <span>Patient History</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("STATION") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("STATION") ? "" :
+                      "window.location = '/encounters/new/observations_vaginal_exam?patient_id=#{@patient.id}'") %> ">
+            <span>Vaginal Examination</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("REFERRED") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("REFERRED") ? "" :
+                      "window.location = '/encounters/new/observations_admission?patient_id=#{@patient.id}'") %> ">
+            <span>Admission Details</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("PLAN") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("PLAN") ? "" :
+                      "window.location = '/encounters/new/observations_notes?patient_id=#{@patient.id}'") %> ">
+            <span>Notes</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </center>
+  <div id="nav">
+    <button class="green" onclick="window.location = '/patients/show/<%= @patient.id %>'" style="float: right; margin: 10px;">
+      <span>
+        Finish
+      </span>
+    </button>
+  </div>
+</div>

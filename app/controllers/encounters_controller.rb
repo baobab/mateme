@@ -73,6 +73,12 @@ class EncountersController < ApplicationController
     @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
     @diagnosis_type = params[:diagnosis_type]
+    
+    @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
+        EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).collect{|e| 
+      e.observations.collect{|o| o.concept.name.name}
+    }.join(", ") rescue ""
+
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase, 'encounter[patient_id]' => @patient.id and return if ['registration'].include?(params[:encounter_type])

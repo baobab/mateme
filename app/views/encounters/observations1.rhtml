@@ -1,0 +1,665 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  var timedEvent;
+
+  function setDate(elementId){
+
+    if ($(elementId).value.toLowerCase() == 'unknown'){
+      $(elementId+'_value_datetime').value = null;
+      $(elementId+'_value_modifier').value = null;
+    }
+    else{
+      $(elementId+'_value_datetime').value = new Date($(elementId).value);  //.replace(/-/g, '/'));
+    }
+  }
+
+  function checkHIVTestDate(){
+    var hiv_test_date_str = $("hiv_test_date").value.replace(/-/g, '/');
+    var hiv_test_date     = new Date(hiv_test_date_str);
+    var today             = new Date(Date.now());
+
+    var weeks_ago = parseInt((today.getTime()- hiv_test_date.getTime())/ (1000 * 60 * 60 * 24 * 7));
+   
+    if (weeks_ago > 12){
+      dispatchMessage("Patient needs to be tested again", tstMessageBoxType.OKOnly);
+      return "true";
+    }
+    return "false";
+  }
+
+  // Every 500 milliseconds update the Next/Finish button
+  function updateNextFinish(){
+    if (tstInputTarget.value == '')
+      $('nextButton').innerHTML = '<span>Finish</span>';
+    else
+      $('nextButton').innerHTML = '<span>Next</span>';
+    setTimeout(updateNextFinish, 500)
+  }
+
+  function calculateEDOD(){
+    var edod = "";
+    var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    if(!$('expected_date_of_delivery')){
+      var div = document.createElement("div");
+      div.id = "expected_date_of_delivery";
+      div.className = "statusLabel";
+
+      $("inputFrame" + tstCurrentPage).appendChild(div);
+    }
+
+    if($("touchscreenInput" + tstCurrentPage).value.trim().length > 0){
+      var theDate = new Date($("touchscreenInput" + tstCurrentPage).value.trim());
+
+      theDate.setDate(theDate.getDate() + 7);
+
+      theDate.setMonth(theDate.getMonth() + 9);
+
+      edod = (theDate.getDate() + "-" + month[theDate.getMonth()] + "-" + theDate.getFullYear());
+    }
+
+    $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" + edod + "</i>";
+    
+    timedEvent = setTimeout('calculateEDOD()', 500);
+  }
+
+  function calculateBP(pos){
+    var bp;
+    
+    if(!$('bp')){
+      var div = document.createElement("div");
+      div.id = "bp";
+      div.className = "statusLabel";
+
+      $("inputFrame" + tstCurrentPage).appendChild(div);
+    }
+
+    if(pos == 1){
+      bp = ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+        tstCurrentPage).value.trim() : "?") +
+        "/" + ($("diastolic_blood_pressure").value.trim().length > 0 ? $("diastolic_blood_pressure").value.trim() : "?");
+    } else if(pos == 2){
+      bp = ($("systolic_blood_pressure").value.trim().length > 0 ? $("systolic_blood_pressure").value.trim() : "?") +
+        "/" + ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+        tstCurrentPage).value.trim() : "?");
+    }
+    
+    $("bp").innerHTML = "Blood Pressure: <i style='font-size: 1.2em; float: right;'>" + bp + "</i>";
+
+    timedEvent = setTimeout('calculateBP(' + pos + ')', 500);
+  }
+
+</script>
+<style>
+  .statusLabel {
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #efe;
+    font-size: 2em;
+    padding: 15px;
+    width: 920px;
+    top: 120px;
+    margin-left: 50%;
+    left: -470px;
+    -moz-border-radius: 20px;
+  }
+</style>
+<style>
+  #num {display: none;}
+  #Unknown {display: none;}
+</style>
+<form id='medical_history' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+  <%= hidden_field_tag "next_url", "/encounters/new/outpatient_diagnosis/?patient_id=#{@patient.id}" %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% options = default.merge({
+      :id => "gravida_value",
+      :helptext => "Enter Gravida",
+      :field_type => "number",
+      :absoluteMin => "1",
+      :max => "15",
+      :flag => '{"message":"Patient at risk of PPH.<br/> Ensure family planing is discussed.","condition":"^([5-9]|[1][0-9])"}',
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "GRAVIDA", {:id => 'gravida_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "parity_value",
+      :helptext => "Enter Parity",
+      :field_type => "number",
+      :absoluteMin => "0",
+      :max => "15",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "PARITY", {:id => 'parity_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% (1..8).each{|e| %>
+
+    <%
+    indice = ""
+    case e
+    when 1
+      indice = "<sup>st</sup>"
+    when 2
+      indice = "<sup>nd</sup>"
+    when 3
+      indice = "<sup>rd</sup>"
+    else
+      indice = "<sup>th</sup>"
+    end
+
+    @delivery_modes = ["", "Spontaneous vaginal delivery", "Cesarean Section"]
+  %>
+
+    <% options = default.merge({
+        :id => "delivery_mode#{e}",
+        :helptext => "Delivery Mode #{e}#{indice} Pregnancy",
+        :field_type => "text",
+        :condition => "parseInt($('parity_value').value.trim()) >= #{e};"
+      }) %>
+
+    <%= hidden_field_tag("observations[][concept_name]",  "ON ARVS", {:id => 'delivery_mode#{e}_concept_name'}) %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_modes),options) %>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% } %>
+
+  <% options = default.merge({
+      :id => "tt_status_value",
+      :helptext => "Enter TT status",
+      :field_type => "number",
+      :absoluteMin => "0",
+      :max => "5",
+      :flag => '{"condition":"^1$|^0$","message":"TT is inadequate"}',
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "TT STATUS", {:id => 'tt_status_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "last_menstrual_period_date",
+      :helptext => "Last Menstrual Period Date",
+      :field_type => "date",
+      :tt_onLoad => "timedEvent = setTimeout('calculateEDOD()', 100);",
+      :tt_onUnLoad => "clearTimeout(timedEvent);"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "LAST MENSTRUAL PERIOD", {:id => 'last_menstrual_period_date_concept_name'}) %>
+  <%= text_field_tag("observations[][value_datetime]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "gestation_weeks_value",
+      :helptext => "Enter Gestation weeks",
+      :field_type => "number",
+      :absoluteMin => "1",
+      :max => 44,
+      :flag => '{"condition":"^[1-2][0-9]$|^[3][0-2]$|^[0-9]$","message":"Premature"}',
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "GESTATION WEEKS", {:id => 'gestation_weeks_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "hiv_status_value",
+      :helptext => "HIV Status",
+      :field_type => "text",
+      :flag => '{"condition":"(Not Tested)","message":"Patient needs to be tested now"}',
+      :tt_pageStyleClass => "LongSelectList"
+    }) %>
+  <% @hiv_status = ["", "Not Tested", "Negative", "Positive"]%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "HIV STATUS", {:id => 'hiv_status_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@hiv_status),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "hiv_test_date",
+      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
+      :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
+      :helptext => "HIV test date",
+      :field_type => "date"
+    }) %>
+
+  <%= text_field_tag("hiv_test_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
+
+  <%= hidden_field_tag("observations[][concept_name]", 'HIV TEST DATE', {:id => 'hiv_test_date_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "hiv_test_date_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "hiv_test_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "on_arvs",
+      :helptext => "On ARVs",
+      :field_type => "text",
+      :tt_pageStyleClass => "LongSelectList",
+      :condition => "$('hiv_status_value').value.trim().toUpperCase() == 'POSITIVE';"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "ON ARVS", {:id => 'on_arvs_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Yes", "No"]),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "feeding_option",
+      :helptext => "Feeding Option",
+      :field_type => "text"
+    }) %>
+  <% @feeding_options = ["", "Exclusive Breast Feeding", "Complimentary Feeing", "Formula"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "FEEDING OPTION", {:id => 'feeding_option_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@feeding_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "ward",
+      :helptext => "Ward",
+      :field_type => "text"
+    }) %>
+  <% @wards = ["", "Ward 1A", "Ward 1B"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "WARD", {:id => 'ward_concept_name'}) %>
+<%#= select_tag("observations[][value_coded_or_text]", options_for_select(@wards),options) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "room_no",
+      :helptext => "Room Number",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "ROOM NUMBER", {:id => 'room_no_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "bed_no",
+      :helptext => "Bed Number",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "BED NUMBER", {:id => 'bed_no_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "observation",
+      :helptext => "Observation",
+      :field_type => "text"
+    }) %>
+  <% @observation = ["", "Healthy", "Ill Looking"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "OBSERVATION", {:id => 'observation_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@observation),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "condition",
+      :helptext => "Condition",
+      :field_type => "text"
+    }) %>
+  <% @condition = ["", "Stable", "Critical"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "CONDITION", {:id => 'condition_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@condition),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "anaemic",
+      :helptext => "Anaemic",
+      :field_type => "text"
+    }) %>
+  <% @anaemic = ["", "No", "Yes"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "ANAEMIC", {:id => 'anaemic_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@anaemic),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "oedema",
+      :helptext => "Oedema",
+      :field_type => "text"
+    }) %>
+  <% @oedema = ["", "Negative", "Positive", "++", "+++", "+++"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "OEDEMA", {:id => 'oedema_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@oedema),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "systolic_blood_pressure",
+      :helptext => "Systolic Blood Pressure",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly",
+      :tt_onLoad => "timedEvent = setTimeout('calculateBP(1)', 100);",
+      :tt_onUnLoad => "clearTimeout(timedEvent);"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "SYSTOLIC BLOOD PRESSURE", {:id => 'systolic_blood_pressure_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "diastolic_blood_pressure",
+      :helptext => "Diastolic Blood Pressure",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly",
+      :tt_onLoad => "timedEvent = setTimeout('calculateBP(2)', 100);",
+      :tt_onUnLoad => "clearTimeout(timedEvent);"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "DIASTOLIC BLOOD PRESSURE", {:id => 'diastolic_blood_pressure_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "pulse",
+      :helptext => "Pulse",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "PULSE", {:id => 'pulse_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "respiration",
+      :helptext => "Respiration Rate",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "RESPIRATION RATE", {:id => 'respiration_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "temperature",
+      :helptext => "Temperature",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "TEMPERATURE", {:id => 'temperature_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "fundus",
+      :helptext => "Fundus (cm)",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "FUNDUS IN CM", {:id => 'fundus_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "lie",
+      :helptext => "Lie",
+      :field_type => "text"
+    }) %>
+  <% @lie = ["", "Longitudinal", "Transverse"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "LIE", {:id => 'lie_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@lie),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "presentation",
+      :helptext => "Presentation",
+      :field_type => "text"
+    }) %>
+  <% @presentation = ["", "Transverse", "Cephalic", "Breech"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION", {:id => 'presentation_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "position",
+      :helptext => "Position",
+      :field_type => "text"
+    }) %>
+  <% @position = ["", "Left Occiput Anterior", 
+                      "Right Occiput Anterior",
+                      "Left Occiput Transverse",
+                      "Right Occiput Transverse",
+                      "Left Occiput Posterior",
+                      "Right Occiput Posterior"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "POSITION", {:id => 'position_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@position),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "contractions",
+      :helptext => "Contractions",
+      :field_type => "text"
+    }) %>
+  <% @contractions = ["", "Yes", "No"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS", {:id => 'contractions_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@contractions),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "fhr",
+      :helptext => "Fetal Heart Rate",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "FETAL HEART RATE", {:id => 'fhr_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "descent",
+      :helptext => "Descent",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "DESCENT", {:id => 'descent_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "genetalia_inspection",
+      :helptext => "Genetalia Inspection",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "GENETALIA INSPECTION", {:id => 'genetalia_inspection_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "station",
+      :helptext => "Station",
+      :field_type => "number",
+      :tt_pageStyleClass => "LongSelectList"
+    }) %>
+  <% @station = ["", "Zero", "+1", "+2", "+3", "+4", "+4", "+5", "-1", "-2", "-3", "-4", "-5"] %>
+  
+  <%= hidden_field_tag("observations[][concept_name]",  "STATION", {:id => 'station_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@station),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "cervical_dilation",
+      :helptext => "Cervical Dilation (cm)",
+      :field_type => "number"
+    }) %>
+  <% @cervical_dilation = [""]
+      (1..10).each{|c| @cervical_dilation << "#{c}/10"}
+%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "CERVICAL DILATION IN CM", {:id => 'cervical_dilation_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", options_for_select(@cervical_dilation),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "caput_or_moulding",
+      :helptext => "Caput / Moulding",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "CAPUT OR MOULDING", {:id => 'caput_or_moulding_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "membranes",
+      :helptext => "Membranes",
+      :field_type => "text"
+    }) %>
+  <% @membranes = ["", "Intact", "Ruptured"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "MEMBRANES", {:id => 'membranes_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@membranes),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "rupture_date",
+      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
+      :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
+      :helptext => "HIV test date",
+      :field_type => "date"
+    }) %>
+
+  <%= text_field_tag("rupture_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
+
+  <%= hidden_field_tag("observations[][concept_name]", 'RUPTURE DATE', {:id => 'rupture_date_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_date_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "rupture_time",
+      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
+      :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
+      :helptext => "HIV test date",
+      :field_type => "date"
+    }) %>
+
+  <%= text_field_tag("rupture_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
+
+  <%= hidden_field_tag("observations[][concept_name]", 'RUPTURE TIME', {:id => 'rupture_time_concept_name'}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_time_value_datetime"}) %>
+  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_time_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "colour_of_liqour",
+      :helptext => "Colour of Liqour",
+      :field_type => "text"
+    }) %>
+  <% @colour_of_liqour = ["", "Meconium Grade 1", "Meconium Grade 2", "Meconium Grade 3", "Meconium Absent"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "COLOUR OF LIQOUR", {:id => 'colour_of_liqour_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@colour_of_liqour),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "presenting_apart",
+      :helptext => "Presenting Apart",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "PRESENTING APART", {:id => 'presenting_apart_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "impression",
+      :helptext => "Impression",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "IMPRESSION", {:id => 'impression_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "plan",
+      :helptext => "Plan",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "PLAN", {:id => 'plan_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+<%# options = default.merge({
+:id => "dummy",
+:condition => "$('hiv_status_value').value.toLowerCase() == 0",
+:helptext => "HIV test date 2",
+:field_type => "date"
+}) %>
+
+<%#= text_field_tag("hiv_test_date_2",DateTime.now().strftime("%Y-%m-%d"),options) %>
+
+<%#= submit_tag "Finish" %>
+</form>
