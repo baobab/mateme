@@ -36,11 +36,7 @@
       <option value = '/people/reset_datetime'>Reset Date</option>
     <%end%>
 
-    <% if @super_user%>
-      <option value = '/encounters/search_lab_test' ttSize="250px">Find Lab Test</option>
-    <%end%>
-
-    <%if @spine_clinician %> <%#|| @super_user%>
+    <% if @super_user || @spine_clinician%>
       <option value = '/encounters/search_lab_test' ttSize="250px">Find Lab Test</option>
     <%end%>
 
