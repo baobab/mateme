@@ -149,13 +149,16 @@ class UserController < ApplicationController
   end
 
   def edit
-    @user = User.find(session[:user_edit])
+    #@user = User.find(session[:user_edit])
   end
 	
 	def edit
+    @user = User.find(params[:id])
+=begin
     @user = User.find(session[:user_edit]) rescue nil
     @field = params[:field]
     render :action => "edit", :field =>@field, :layout => true and return  
+=end
   end
 	
 	def edit_username
@@ -270,7 +273,7 @@ class UserController < ApplicationController
   end
 
   def barcode_label
-    print_string = User.find(params[:user_id]). login_barcode rescue (raise "Unable to find User (#{params[:user_id]}) or generate a barcode label for that user")
+    print_string = User.find(params[:id]). login_barcode rescue (raise "Unable to find User (#{params[:user_id]}) or generate a barcode label for that user")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:user_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
 
