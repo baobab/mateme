@@ -247,10 +247,11 @@ class UserController < ApplicationController
       else
         if @user.update_attributes(params[:user])
           flash[:notice] = "Password successfully changed"
-          redirect_to :action => "show"
+          redirect_to :action => "show", :id => @user.id
           return
         else
-          flash[:notice] = "Password change failed"  
+          flash[:notice] = "Password change failed"
+          redirect_to :action => "show", :id => @user.id
         end    
       end
     end
