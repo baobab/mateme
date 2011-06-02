@@ -1,26 +1,36 @@
-<div style="margin-top:20px;">
- <!-- <b  style="font-size: 22pt; padding-left:8px;">Visit Summary</b> -->
-  <ul class="list" style="height: 300px; width: 600px; left: 1px; right: -66px; position: relative;">
-    <%@encounter_names.each{|encounter_name|
-      header = 'true'
-      for encounter in @encounters do %>
-        <%if encounter.name == encounter_name%>
-          <li class="data <%= cycle('even', 'odd') %>" style="min-height: 40px;">
-            <div style="float:right;padding:5px;">
-              <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
-            </div>
-            <% if(encounter_name == "LAB ORDERS") %>
-              <div style="float:right;padding-right:15px; margin-top: -3px;">
-                <%= img_button_submit_to "/encounters/print_order/?patient_id=#{@patient.patient_id}&encounter_id=#{encounter.id}", "/images/print.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
-              </div>
-            <% end %>
+<%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+<%= stylesheet_link_tag "miscellaneous" %>
+<%= javascript_include_tag "touchscreen" %>
 
-            <%if header == 'true' %><div style="float:left"><%=h encounter.name.humanize %></div><%end; header = 'false'%>
-            <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
+<base target="_parent">
+<div id = "current_encounters" style="margin-top:60px;  font-size: 0.9em;">
+  <!-- <b  style="font-size: 22pt; padding-left:8px;">Visit Summary</b> -->
+  <table class="list" style="bottom:54px; height:300px; width: 100%; left: 1px; right: -66px; position: relative;">
+    <tbody style="height:350px; overflow: auto;"
+    <%@encounter_names.each{|encounter_name|
+    header = 'true'
+    for encounter in @encounters do %>
+
+      <%if encounter.name == encounter_name%>
+       <%if header == 'true' %><div style="float:left;"><tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h encounter.name.humanize %></th> </tr> </div><%end; header = 'false'%>
+        <tr>
+          <td class="data <%= cycle('even', 'odd') %>" style="min-height: 40px;">
+          <div style="float:right;padding:7px;padding-right:40px;">
+              <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small_red.png", {:confirm => "Are you sure you want to void this prescription?", :container_id => "current_encounters"}, {:encounter_id => encounter.encounter_id} -%>
+          </div>
+          <% if(encounter_name == "LAB ORDERS") %>
+            <div style="float:right;padding-right:15px; margin-top: -3px;">
+              <%= img_button_submit_to "/encounters/print_order/?patient_id=#{@patient.patient_id}&encounter_id=#{encounter.id}", "/images/print.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
             </div>
-          </li>
-        <%end
-      end
-    } %>
-  </ul>
+          <% end %>
+
+          <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M") %></span></div>
+          <br />
+        </td></tr>
+      <%end
+    end
+    }%>
+   </tbody>
+  </table>
 </div>
+</base>

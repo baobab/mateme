@@ -1,29 +1,10 @@
 <script type="text/javascript">
-  tt_cancel_destination = "/user/user_menu/";
+     tt_cancel_destination = "/people?active_tab=tab2";
+     tt_cancel_show = "/people?active_tab=tab2";
 </script>
 <style type="text/css">
-
-      a.button.green {
-        width:220px;
-        -moz-user-select:none;
-        border:0 none;
-        color:white;
-        cursor:pointer;
-        display:block;
-        font-weight:bold;
-        padding:0 8px 0 0;
-        text-align:center;
-        text-decoration:none;
-        background:green none repeat scroll 0 0;
-        font-size:1.4em;
-        height:57px;
-        line-height:57px;
-        min-width:48px;
-        margin-top:10px
-      }
       #menu {
         float:right;
-        overflow:auto;
         position:relative;
         height:478px;
         width:257px;;
@@ -35,16 +16,27 @@
     <%= render :partial => "details" %>
   </div>
   <div id="menu">
-    <!--<a class="button green" href='/encounters/new/update_hiv_status?patient_id=<%= @user.id -%>'>Change Password</a>-->
-    <a class="button green" href='/user/barcode_label?user_id=<%= @user.id -%>'>Print Barcode</a>
-    <a class="button green" href='/user/change_password?user_id=<%= @user.id -%>'>Change Password</a>
+    <button class="button blue" style="width:100%"
+            onclick="window.location = '/user/barcode_label?id=<%= @user.id -%>'"
+      <span>Print Barcode</span>
+    </button><br />
+<!--
+    <button class="button green" style="width:100%"
+            onclick="window.location = '/user/add_role?id=<%= @user.id -%>'">
+      <span>Add Role</span>
+    </button><br />
+    <button class="button green" style="width:100%"
+            onclick="window.location ='/user/delete_role?id=<%= @user.id -%>'">
+      <span>Delete Role</span>
+    </button><br />
+-->
+    <button class="button blue" style="width:100%"
+      onclick="window.location ='/user/edit?id=<%= @user.id -%>'">
+      <span>Edit Names</span>
+    </button><br />
+    <button class="button blue" style="width:100%"
+            onclick="window.location ='/user/change_password?user_id=<%= @user.id -%>'">
+      <span>Change Password</span>
+    </button>
   </div>
-</div>
-
-<div style="z-index:11;bottom:25px; height: 64px; width: 435px; left: 880px; position: absolute;">
-  <button id="cancelButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
-    <span>
-      Finish
-    </span>
-  </button>
 </div>

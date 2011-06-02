@@ -181,7 +181,7 @@ class Patient < ActiveRecord::Base
 
   def previous_treatments
     treatment_encounters = encounters.find_by_encounter_type(EncounterType.find_by_name("TREATMENT").id)
-
+    
     self.previous_visits.map{|visit| visit.encounters.all(:include => [:orders]).map{|encounter| 
         encounter.orders.active.all}}.flatten.compact
   end
@@ -562,5 +562,13 @@ class Patient < ActiveRecord::Base
   end
   def previous_visits
     previous_visits = self.visits.all - self.visits.current
+  end
+  #obtain a patient id from the national_id
+  def self.retrieve_id_using_NationalID(national_ID)
+    search_query = "SELECT patient_id
+                      FROM patient_identifier
+                    WHERE identifier = '#{national_ID}'
+                      AND identifier_type = 3"
+    retrieved_id = Patient.find_by_sql(search_query)
   end
 end

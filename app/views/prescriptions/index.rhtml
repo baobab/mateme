@@ -83,14 +83,6 @@
   <%= hidden_field_tag("value_coded", 'NOT DONE') %>
 </form>
 
-<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
-  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
-    <span>
-      Cancel
-    </span>
-  </button>
-</div>
-
 <script>
   function submitForm(){
   document.getElementById('treatment_not_done').submit();

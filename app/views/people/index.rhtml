@@ -1,76 +1,105 @@
+<style type="text/css">
+   #overview { display:block; width:100%; border:none; margin:0; padding:0; height:100%; }
+</style>
 <script type="text/javascript">
-  tt_cancel_destination = '/logout';  
+  tt_cancel_destination ='/logout';
+  tt_cancel_show = '/people/search';
+  tt_active_tab = <%="'#{@tt_active_tab}'"%>;
+  tstSuppressBarcode = false;
+  auto_logout_screen = false;
 </script>
+<div id="home">
+    <div id="project_name" >OPD</div>
+    <div id="facility">QECH</div>
+    <div id="location">Reception</div>
+    <div id="user"><%=current_user.name%></div>
+    <div id="date"><%=Date.today%></div>
 
-<div style="text-align:center;margin:10px;">
-  <div style="color:gray; font-size: 16pt; border-bottom:1px gray dotted;
-       margin-top:20px; padding-bottom:20px;">Select Activity</div>
-  <div class="centered">
-    
-    <% date = session[:datetime] ||= Date.today 
-    #if @super_user or @regstration_clerk %>
+    <base target="_parent" />
+
+    <select id="tabs">
+       <option value = '/people/overview'>Overview</option>
+        <% if @super_user%>
+          <option value = '/admin'>Administration</option>
+        <%end%>
+    </select>
+
+<select id="links">
+    <option value="logout">Logout</option>
+    <option value="/people/search?category=adults" ttSize="180px">Find Adult</option>
+    <option value="/people/search?category=paeds" ttSize="180px">Find Paediatric</option>
     <%if !@show_set_date%>
-      <span style="font-size: 16pt">
-        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
-        </span>
-      <%else%>
-      <span style="font-size: 16pt; background-color: red">
-        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
-        </span>
-      <%end%>
-
-
-    <button id="find_or_register_adult_button" class="button green"
-            onclick="window.location = '/people/adults'" style="min-width:480px;">
-            <span>Adults</span>
-    </button>
-
-    <button id="find_or_register_paeds_button" class="button green"
-            onclick="window.location = '/people/paeds'" style="min-width:480px;">
-            <span>Paediatrics</span>
-    </button>
-
-    <button id="find_lab_entries_button" class="button green"
-            onclick="window.location = '/encounters/lab_results_entry'" style="min-width:480px;">
-            <span>Lab Results Entry</span>
-    </button>
-
-    <button id="reports_button" class="button green"
-            onclick="window.location = '/cohort'" style="min-width:480px;">
-            <span>Reports</span>
-    </button>
-
-    <%# end%>
-    <% if @super_user%>
-      <button id="admin_button" class="button green"  style="min-width:480px;"
-              onclick="window.location = '/admin'"><span>Administration</span>
-      </button>
+      <option value = '/people/set_datetime'>Set Date</option>
+    <%else%>
+      <option value = '/people/reset_datetime'>Reset Date</option>
     <%end%>
-    <!-- <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
-    <!-- TODO: need to show current date
-         TODO: need set date/reset date button
-         TODO: need reports button
-         TODO: need summary to be adjusted based on visit? -->
-      <table style="margin-left:50px;margin-top:20px;background:#ddddff;width:380px;">
-      <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
-         type = "Reception - patients seen" if type == "REGISTRATION"
-         type = "patients referred to other clinics" if type == "REFERRED" %>
+    
+    <% if @super_user || @spine_clinician%>
+      <option value = '/encounters/search_lab_test' ttSize="200px">Find Lab Test</option>
+    <%end%>
+</select>
+
+</div>
+
+
+<%if @password_expired%>
+
+    <div style="text-align:center;margin:10px;">
+    <span style="font-size: 24pt">Your password has expired</span>
+    <div class="centered">
+    <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
+    <span>Change Password</span>
+    </button>
+    </div>
+    </div>
+
+<%else%>
+
+    <div style="text-align:center;margin:10px;">
+
+        <div class="centered">
+        <%if @days_left <= 7%>
+            <span style="font-size: 16pt"> <%= "Your password will expire in #{@days_left} days" %> </span> <br />
+            <button id="reset_date_button" class="button green" onclick="window.location = '/user/change_password?user_id=<%= session[:user_id]%>'">
+            <span>Change Password</span>
+            </button> <br />
+        <%end%>
+
+        <% date = session[:datetime] ||= Date.today
+        if @super_user or @regstration_clerk %>
+            <%if !@show_set_date%>
+                <span style="font-size: 16pt">
+                <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+                </span>
+            <%else%>
+                <span style="font-size: 16pt; background-color: red">
+                <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+                </span>
+            <%end%>
+
+    <br />
+
+<table style="margin-left:50px;margin-top:20px;background:#ddddff;width:380px;">
+    <% Encounter.count_by_type_for_date(Date.today).each do |type,total| 
+        type = "Reception - patients seen" if type == "REGISTRATION"
+        type = "patients referred to other clinics" if type == "REFERRED" %>
         <tr>
-          <td><%= type.upcase %>:</td>
-          <td><strong><%= total %></strong></td>
+        <td><%= type.upcase %>:</td>
+        <td><strong><%= total %></strong></td>
         </tr>
         <%if type == "INFLUENZA DATA"%>
-          <tr>
-            <td>ILI Cases</td>
-            <td><%=@ili%></td>
-          </tr>
-          <tr>
-            <td>SARI Cases</td>
-            <td><%=@sari%></td>
-          </tr>
+        <tr>
+          <td>ILI Cases</td>
+          <td><%=@ili%></td>
+        </tr>
+        <tr>
+          <td>SARI Cases</td>
+          <td><%=@sari%></td>
+        </tr>
         <%end%>
-      <% end %>
-    </table>
+    <% end %>
+</table>
   </div>  
-</div> 
-
+</div>
+<%end%>
+<%end%>

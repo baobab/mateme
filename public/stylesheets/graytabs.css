@@ -34,9 +34,9 @@
 }
 
 #tabContainer {
-    width: 99.5%; 
+    width: 72%;
     height: 32px;
-    border: 1px solid #fff;
+    margin: 3px;
     -moz-border-radius: 10px;
     overflow: hidden;
 }
@@ -51,9 +51,9 @@
 }
 
 #tabContainer2 {
-    width: 99.5%;
+    width: 72%;
     height: 32px;
-    border: 1px solid #fff;
+    margin: 3px;
     -moz-border-radius: 10px;
     overflow: hidden;
     padding-left: 5px;

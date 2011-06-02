@@ -53,10 +53,10 @@ tt_cancel_show = '';
         <!--<option value='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>Diagnosis</option> -->
         <option value='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</option>
         <option value='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Admitted</option>
-      <% if @spine_clinician %>
+     <!-- < #if @spine_clinician  > -->
         <option value='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza data</option>
         <option value='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</option> 
-      <%  end %>
+      <!-- < # end > -->
       <% if @spine_clinician || @hmis_lab_order %>
         <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>-->
         <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>

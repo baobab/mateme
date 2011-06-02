@@ -677,3 +677,15 @@ display:block;
 .NoKeyboard, .NoControls { height: 520px !important } 
 .NoKeyboard .inputFrameClass { height: 440px !important } 
 .NoKeyboard .options { height: 395px !important } 
+
+#footer button, div.buttonsDiv button {
+  margin-top: 10px;
+  min-width: 140px;
+}
+
+textarea {
+  background-color: #eee;
+  border: 0px solid #eee;
+  padding: 10px;
+  font-size: 2.2em;
+}

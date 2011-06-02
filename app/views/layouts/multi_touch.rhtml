@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <% @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+
+  <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
+  <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
+    <script language="javascript">
+      tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
+      tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
+      tstUserKeyboardPref = "<%= qwerty_or_abc_keyboard %>";
+
+      function saveUserKeyboardPref(keyboardPref){
+        var aUrl = "/user/add_update_property?property=keyboard&property_value=" + keyboardPref;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('POST', aUrl, true);
+        xmlhttp.send(null);
+
+      }
+    </script>
+    <%= stylesheet_link_tag "transform" %>
+    <%= stylesheet_link_tag "styles" %>
+    <%= stylesheet_link_tag "calendar" %>
+    <%= stylesheet_link_tag "dashboard" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <%= javascript_include_tag "preload" %>
+    <%= javascript_include_tag "transform" , :defer => true %>
+    <%= javascript_include_tag "dateselector" %>
+    <%= javascript_include_tag "utils" %>
+    <%= javascript_include_tag "utilities", :defer => true  %>
+    <%= javascript_include_tag "calendar", :defer => true %>
+
+  </head>
+  <body id= "container">
+      <div id="content">
+        <div id="description" style="color:#777;position:absolute;margin-top:-70px;">
+          <% if show_intro_text %>
+            This demonstration site contains the work of <a href="http://pih.org" style="color:white">Partners In Health</a>
+            and <a href="http://baobabhealth.org" style="color:white">Baobab Health.</a>
+            This EMR is built on top of OpenMRS 1.4 and is currently being used in Neno and Ngoni, Malawi.
+            It is designed for an 800 by 600 pixel touch screen at the point of patient contact. 
+            <br/><a href="mailto:jeff@baobabhealth.org" style="color:white">Email</a> with questions.
+            Login using the sample login "demo", password "demo" and location "7".
+          <% end %>  
+        </div>
+        <% unless flash[:notice].nil? %>
+          <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
+        <% end %>
+        <% unless flash[:error].nil? %>
+          <p id="flash_error" style="color: red"><%= flash[:error] %></p>
+        <% end %>
+        <%= yield %>  
+        <div id="footer">
+        </div>    
+      </div>  
+  </body>
+</html>

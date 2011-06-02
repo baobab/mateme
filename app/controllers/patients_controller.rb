@@ -207,6 +207,8 @@ class PatientsController < ApplicationController
     @person = Person.find(@patient.patient_id)
 
     @gender = @person.gender
+    session["category"] = 'adults'
+    render :layout => "multi_touch"
     
   end
 
@@ -234,6 +236,7 @@ class PatientsController < ApplicationController
     if @influenza_data.length == 0
      redirect_to :action => 'show', :patient_id => @patient.id and return
     end
+    render :layout => "multi_touch"
   end
   
   # Influenza method for accessing the influenza view
@@ -352,7 +355,7 @@ class PatientsController < ApplicationController
                                       ).map{|encounter| encounter.observations.active.all}.flatten.compact.map{|obs|
                                         @influenza_data.push("#{obs.concept.name.name.humanize}: #{obs.answer_string} ") if !excluded_concepts.include?(obs.to_s.split(':')[0])
                                       }
-    if @opd_influenza_data.length == 0
+    if @influenza_data.length == 0
       @opd_influenza_data << "None"
     else
       @opd_influenza_data = @influenza_data.last
@@ -407,6 +410,90 @@ class PatientsController < ApplicationController
     end
     return chronic_conditions_array
     
+  end
+  #methods for getting data for remote calling application
+  def retrieve_visit_diagnoses
+
+    @national_id = params["person"]["patient"]["identifiers"]["National id"]
+
+    @patient_id = Patient.retrieve_id_using_NationalID(@national_id)
+    @patient = Patient.find(@patient_id) rescue nil
+    #retrieves the visit_diagnoses for the requesting application
+    visits = @patient.first.visit_diagnoses
+
+    render :text => visits.to_json
+  end
+  def retrieve_visit_treatments
+    #retrives the visit treatments for the requesting application
+    @national_id = params["person"]["patient"]["identifiers"]["National id"]
+    @patient_id = Patient.retrieve_id_using_NationalID(@national_id)
+    @patient = Patient.find(@patient_id)
+    visit_treatments = @patient.first.previous_treatments
+    
+   # visit_treatments = @patient.first.previous_treatments.inject({}) do |new_treatment, treatment|
+   #   visit_number = treatment.encounter.visit.id rescue
+   #   (new_treatment[visit_number].nil?) ? (new_treatment[visit_number] = [treatment.to_s]) : (new_treatment[visit_number].push(treatment.to_s))
+   #   new_treatment
+   # end
+   # raise visit_treatments.inspect
+    render :text => visit_treatments.to_json
+  end
+  def retrieve_influenza_info
+    
+    #retrives the Influenza Information for the requesting application
+    @national_id = params["person"]["patient"]["identifiers"]["National id"]
+    @patient_id = Patient.retrieve_id_using_NationalID(@national_id)
+    @patient = Patient.find(@patient_id) rescue nil
+
+    @influenza_data = Array.new()
+    @influenza_concepts = Array.new()
+    @opd_influenza_data = Array.new()
+
+    excluded_concepts = ["INFLUENZA VACCINE IN THE LAST 1 YEAR",
+                         "CURRENTLY (OR IN THE LAST WEEK) TAKING ANTIBIOTICS",
+                         "CURRENT SMOKER","WERE YOU A SMOKER 3 MONTHS AGO",
+                         "PREGNANT?","RDT OR BLOOD SMEAR POSITIVE FOR MALARIA",
+                         "PNEUMOCOCCAL VACCINE","MEASLES VACCINE",
+                         "MUAC LESS THAN 11.5 (CM)","WEIGHT",
+                         "PATIENT CURRENTLY SMOKES","IS PATIENT PREGNANT?"]
+
+
+    @influenza_data = @patient.first.encounters.active.all(
+                                        :conditions => ["encounter.encounter_type = ?",EncounterType.find_by_name('INFLUENZA DATA').encounter_type_id],
+                                        :include => [:observations]
+                                      ).map{|encounter| encounter.observations.active.all}.flatten.compact.map{|obs|
+                                        @influenza_data.push("#{obs.concept.name.name.humanize}: #{obs.answer_string}") if !excluded_concepts.include?(obs.to_s.split(':')[0])
+                                      }
+
+   if @influenza_data.length == 0
+     @opd_influenza_data << "None"
+   else
+      @opd_influenza_data = @influenza_data.last
+   end
+
+   render :text => @opd_influenza_data.to_json
+
+  end
+  def remote_chronic_conditions
+    #Used to get the Art Info for the requesting app (i.e. OPD)
+    #find patient object and arv number
+    @national_id = params["person"]["patient"]["identifiers"]["National id"]
+    @patient_id = Patient.retrieve_id_using_NationalID(@national_id)
+    @patient = Patient.find(@patient_id) rescue nil
+
+
+    @remote_chronic_conditions = @patient.first.encounters.active.all(
+                                        :conditions => ["encounter.encounter_type = ?",EncounterType.find_by_name('CHRONIC CONDITIONS').encounter_type_id],
+                                        :include => [:observations]
+                                      ) rescue []
+    #@arv_number = @remote_art_info['person']['arv_number'] rescue nil
+    #raise @remote_chronic_conditions.inspect
+    chronic_conditions = Array.new
+
+    @remote_chronic_conditions.each do |encounter|
+        chronic_conditions << encounter.to_s
+    end
+    render :text => chronic_conditions.to_json
   end
   
 end

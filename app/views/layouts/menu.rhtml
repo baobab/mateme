@@ -4,23 +4,23 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+    <%= stylesheet_link_tag "dashboard" %>
+    <%= stylesheet_link_tag "graytabs" %>
+    <%= stylesheet_link_tag "styles" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <%= javascript_include_tag "preload" %>
+    <%= javascript_include_tag "dashboard" %>
+    <%= javascript_include_tag "logout_timer"%>
+
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
-      tstCurrentDate = "<%= (session[:datetime] ||=  Time.now).strftime("%Y/%m/%d") %>";
-      var tt_cancel_destination = null;
+      tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
+      auto_logout_screen = true;
     </script>
-    <%= stylesheet_link_tag "dashboard" %>
-    <%= stylesheet_link_tag "graytabs.css" %>
-    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
-    <%= stylesheet_link_tag "styles" %>
-    <%= javascript_include_tag "preload" %>
-    <%#= javascript_include_tag "logout_timer"%>
-    <%= javascript_include_tag "dashboard"%>
   </head>
-  <body id="mateme">  
-    <div id="container">
-      <div id="content">
-        <div id="description" style="color:#777;position:absolute;margin-top:-70px;">
+  <body id="container">
+      <!--div id="dashboard" -->
+        <!--div id="description" style="color:#777;position:absolute;margin-top:-70px;">
           <% if show_intro_text %>
             This demonstration site contains the work of <a href="http://pih.org" style="color:white">Partners In Health</a>
             and <a href="http://baobabhealth.org" style="color:white">Baobab Health.</a>
@@ -29,7 +29,7 @@
             <br/><a href="mailto:jeff@baobabhealth.org" style="color:white">Email</a> with questions.
             Login using the sample login "demo", password "demo" and location "7".
           <% end %>  
-        </div>
+        </div-->
         <div style="padding-left: 15px;font-size:1.2em;">
           <% unless flash[:notice].nil? %>
             <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
@@ -38,17 +38,14 @@
             <p id="flash_error" style="color: red"><%= flash[:error] %></p>
           <% end %>
         </div> 
-        <div id='logoutMessage' class='messageBar' style='display:none'>
-        </div> 
+        <!--div id='logoutMessage' class='messageBar' style='display:none'>
+        </div -->
         <%= yield %>  
-        <div id="footer">
+        <!--div id="footer">
           <div id="buttons" class="buttonsDiv" style="top:0px">
             <button id="finishButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Finish</span></button></div>
             <div id="tt_extraButtons"/>
-          </div>
-          
-        </div>    
-      </div>  
-    </div>
-  </body>
+          </div -->
+        <!--/div -->
+      </body>
 </html>

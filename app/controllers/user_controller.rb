@@ -87,7 +87,8 @@ class UserController < ApplicationController
     else
       @user = User.find(session[:user_id])
       session[:user_edit]=@user.user_id
-    end  
+    end
+    render :layout => 'menu'
   end
 
   def new
@@ -209,7 +210,7 @@ class UserController < ApplicationController
   
   def user_menu
     @super_user = true if User.find(session[:user_id]).user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
-    render(:layout => "layouts/menu")
+    render(:layout => "layouts/clinic")
   end
  
   def search_user

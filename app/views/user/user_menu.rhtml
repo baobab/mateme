@@ -1,49 +1,22 @@
 <script type="text/javascript">
-  tt_cancel_destination = "/admin"; 
+  tt_cancel_destination = "/people?active_tab=tab2"; 
 </script>
 
-<style type="text/css">
+<%= stylesheet_link_tag 'iframelayouttable' %>
 
-  a.button.green {
-    width:220px;
-    -moz-user-select:none;
-    border:0 none;
-    color:white;
-    cursor:pointer;
-    display:block;
-    font-weight:bold;
-    padding:0 8px 0 0;
-    text-align:center;
-    text-decoration:none;
-    background:green none repeat scroll 0 0;
-    font-size:1.4em;
-    height:57px;
-    line-height:57px;
-    min-width:48px;
-    margin-top:10px
-  }
-#menu {
-    float:right;
-    overflow:auto;
-    position:relative;
-    height:478px;
-    width:257px;;
-  }
-</style>
-
-<%=stylesheet_link_tag "usermanagement"%>
-<form>
-</form>
-<h1 align = "center">User Management Menu</h1>
-<div id="menu" class="button green">
-  <%if @super_user%>
-   <a class="button green" href='/user/new'>Create New User</a>
-   <a class="button green" href='/user/search_user'>Edit User</a>
- <%end%>
-   <a class="button green" href='/admin'>Cancel</a>
-
+<div id="tab" style="height: 100%; width: 100%; overflow: auto;">
+    <h2 style="margin-left: 8px;">User Management Menu</h2>
+      <table id="stats" style="height: 303px;" cellpadding="10">
+          <tr>
+            <td>
+                  <%if @super_user%>
+                   <button class="button blue" style="min-width:380px;" onclick="parent.location = '/user/new'"><span>Create New User</span></button><br /><br />
+                   <button class="button blue" style="min-width:380px;" onclick="parent.location = '/user/search_user'"><span>Find User</span></button>
+                 <%end%>
+            </td>
+          </tr>
+      </table>
 </div>
-
 <!--
 commented by Edmond Kachale (16-Sep-2009)
 This was the old format of buttons
@@ -56,3 +29,5 @@ This was the old format of buttons
     <%= link_to_onmousedown 'Cancel', {:controller => 'people', :action => 'index'} ,:id => "logout"%>
 </div>
 -->
+
+

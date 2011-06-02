@@ -189,4 +189,15 @@ class Encounter < ActiveRecord::Base
     end
   end
 
+  def self.statistics(encounter_types, opts={})
+    encounter_types = EncounterType.all(:conditions => ['name IN (?)', encounter_types])
+    encounter_types_hash = encounter_types.inject({}) {|result, row| result[row.encounter_type_id] = row.name; result }
+    with_scope(:find => opts) do
+      rows = self.all(
+         :select => 'count(*) as number, encounter_type', 
+         :group => 'encounter.encounter_type',
+         :conditions => ['encounter_type IN (?)', encounter_types.map(&:encounter_type_id)]) 
+      return rows.inject({}) {|result, row| result[encounter_types_hash[row['encounter_type']]] = row['number']; result }
+    end     
+  end
 end

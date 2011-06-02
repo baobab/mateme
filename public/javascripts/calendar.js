@@ -155,13 +155,10 @@ function showCalender(elPos, tgtEl)
     }
     var calTable = document.getElementById('calenderTable');
 
-    //var positions = [0,0];
-    //var positions = getParentOffset(elPos, positions);
-    
-    var positions = checkCtrl($(tgtEl));
-
-    calTable.style.left = positions[3]+'px';
-    calTable.style.top = ( positions[2] - $("divScroller").scrollTop + elPos.offsetHeight)+'px';
+    var positions = [0,0];
+    var positions = getParentOffset(elPos, positions);
+    //calTable.style.left = positions[0]+'px';
+    //calTable.style.top = (positions[1]+elPos.offsetHeight)+'px';
 
     calTable.style.display='block';
 
@@ -183,8 +180,8 @@ function showCalender(elPos, tgtEl)
         showCalenderBody(trs);
     }
 
-    //calTable.style.left = (positions[0] + elPos.offsetWidth - calTable.offsetWidth)+'px';
-    //calTable.style.top = (positions[1]-calTable.offsetHeight)+'px';
+    calTable.style.left = (positions[0] + elPos.offsetWidth - calTable.offsetWidth)+'px';
+    calTable.style.top = (positions[1]-calTable.offsetHeight)+'px';
     
     hideSelect(document.body, 1);
 }

@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
   
   def index
+    @tt_active_tab = params[:active_tab]
     user =  User.find(session[:user_id])
     @password_expired = false
 
@@ -83,6 +84,12 @@ class PeopleController < ApplicationController
   end
  
   def search
+    if params[:category] == "adults"
+      adults
+    else
+      paeds
+    end
+    
     found_person = nil
     if params[:identifier]
       local_results = Person.search_by_identifier(params[:identifier])
@@ -214,7 +221,7 @@ class PeopleController < ApplicationController
         ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
           o.concept_id}]).length
 
-    render :layout => "menu"
+    #render :layout => "menu"
   end
 
   # Paediatrics this is the access method for the paediatrics section of the application
@@ -256,7 +263,15 @@ class PeopleController < ApplicationController
         ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
           o.concept_id}]).length
 
-    render :layout => "menu"
+    #render :layout => "menu"
   end
 
+  def overview
+    @types = ["REFERRED", "REGISTRATION","VITALS", "TREATMENT", "DIABETES TREATMENTS"]
+    @me = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW()) AND encounter.creator = ?', User.current_user.user_id])
+    @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW())'])
+    @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW())'])
+    @ever = Encounter.statistics(@types)
+    render :template => 'people/overview', :layout => 'clinic'
+  end
 end

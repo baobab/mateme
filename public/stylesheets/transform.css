@@ -1,45 +1,96 @@
-#divmain {
-    width:95%;
-    height:95%;
-    border:4px double #fff;
-    background-color: #fff;
-    -moz-border-radius:10px;
-    padding:5px;
-    margin: 5px;
+/**
+This stylesheet is part of the java script calendar and date picker and TouchScreenToolkit
+multiple Question interface
+ **/
+#calender {
+    width: 200px;
+    font-family: ms sans serif, sans serif;
+    padding:10px;
+}
+
+#calenderTable {
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    background-color: #EEE;
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    font-size: 1.5em;
+}
+
+#calenderTableHead TR {
+    background-color: #99f;
+}
+
+#calenderTableDays TR {
+    background-color: #B40404;
+    color: #E6E6E6;
+}
+
+.normalDay {
+    border: 1px dotted black;
+    cursor: pointer;
+}
+
+.hlDay {
+    border: 1px black;
+    background-color: #585858;
+    color: #E6E6E6;
+    cursor: pointer;
+}
+
+.toDay {
+    border: 1px solid #E70;
+    background-color: #FD8;
+    color: #E70;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.choosenDay {
+    border: 1px #000000;
+    background-color: #585858;
+    color: #E6E6E6;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header-cell {
+    width:60px;
 }
 
 #divcontent {
-    width:1250px;
-    height:82%;
+    width:98%;
+    height:80%;
     background-color: #fff;
     border:1px solid #ccf;
-    margin-bottom: 0.8%;
     -moz-border-radius:10px;
+    overflow: hidden;
+    margin: 10px;
+}
+
+#divheader {
+    font-size:1.9em;
+    font-weight:bold;
+    margin: 10px;
+    margin-bottom: 0px;
+    width: 900px;
+    text-align: left;
+}
+
+#divScroller {
+    width: 98%;
+    height: 97%;
+    margin: 10px;
     overflow: auto;
-}
-
-#divnav {
-    width:1255px;
-    height:92px;
-    background-color: #eee;
-    -moz-border-radius:10px;
-    overflow: visible;
-}
-
-#btnNext{
-}
-
-#btnCancel{
-}
-
-#btnClear{
-}
-
-#btnTransform {
 }
 
 .labelText {
     font-size: 1.8em;
+    vertical-align: top;
 }
 
 .textInput {
@@ -114,7 +165,7 @@
     -moz-user-focus:disabled;
     border:0;
     cursor:pointer;
-    font-weight:normal;
+    font-weight:bold;
     padding:0 8px 0 0;
     text-align:center;
 }
@@ -122,7 +173,7 @@
 button.navButton {
     margin-left: 15px;
     margin-right: 15px;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 button span {
@@ -132,32 +183,14 @@ button span {
     display:block;
     white-space:nowrap;
     padding:0 10px 0 18px;
-    min-width:30px;
+    min-width:15px;
 }
 
-button, button.white {
-    background:url(../images/buttons/btn_right_white.png) right no-repeat;
-    font-size:0.9em;
-    line-height:57px;
-    min-width:48px;
-}
-button span, button.white span {
-    background:url(../images/buttons/btn_left_white.png) left no-repeat;
-    height:57px;
-    line-height:57px;
-    color:gray;
-}
-button:hover, button:hover.white {
-    background:url(../images/buttons/btn_right_hover_white.png) right no-repeat;
-}
-button:hover span, button:hover.white span {
-    background:url(../images/buttons/btn_left_hover_white.png) left no-repeat;
-}
 
 
 button, button.blue {
     background:url(../images/buttons/btn_right_blue.png) right no-repeat;
-    font-size:0.9em;
+    font-size:1.3em;
     line-height:57px;
     min-width:48px;
 }
@@ -166,8 +199,6 @@ button span, button.blue span {
     height:57px;
     line-height:57px;
     color:#fff;
-    font-size:1.3em;
-    min-width:30px;
 }
 button:hover, button:hover.blue {
     background:url(../images/buttons/btn_right_hover_blue.png) right no-repeat;
@@ -207,9 +238,6 @@ button.gray {
 }
 button.gray span {
     background:url(../images/buttons/btn_left_gray.png) left no-repeat;
-    font-size:1.3em;
-    line-height:57px;
-    min-width:30px;
 }
 button:hover.gray {
     background:url(../images/buttons/btn_right_hover_gray.png) right no-repeat;
@@ -238,6 +266,50 @@ button:hover.dark span {
     -moz-border-radius:15px;
 }
 
-button.testButtons {
-    min-width: 270px;
+.missingValue {
+    background-color: #f00;
+    color: #fff;
+    font-weight: normal;
+}
+
+.availableValue {
+    background-color: #fff;
+    color: #000;
+    font-weight: normal;
+}
+
+a:link {
+	color: #000000;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #000000;
+}
+a:hover {
+	text-decoration: none;
+	color: #000000;
+}
+a:active {
+	text-decoration: none;
+	color: #000000;
+}
+
+.question {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: #eee;
+    padding: 10px;
+    padding-bottom: 40px;
+}
+
+.summary {
+    margin-left:70px;
+    width: 89.35%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -moz-border-radius: 10px;
+    padding: 10px;
+    margin-top: -32px;
+    color: #000;
 }
