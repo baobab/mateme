@@ -168,6 +168,7 @@ class PrescriptionsController < ApplicationController
     @generics = Drug.generic
     @frequencies = Drug.frequencies
     @diagnosis = @patient.current_diagnoses["DIAGNOSIS"] rescue []
+    render :layout => 'application'
   end
 
   def load_frequencies_and_dosages

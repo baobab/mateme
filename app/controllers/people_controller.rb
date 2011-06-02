@@ -37,6 +37,7 @@ class PeopleController < ApplicationController
         ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|
           o.concept_id}]).length
 
+
     # redirect based on user role
     if @roles.include?("adults")
 
