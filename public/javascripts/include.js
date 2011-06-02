@@ -23,7 +23,7 @@ function include(file){
     // pure HTML prototypes as well as RAILS application with 2 scenarios for pure
     // HTML prototypes in cases where sub-folders are used; a kind of overloading
     // due to javascript limitations as it can't check file existence
-    var script1 = document.createElement("script");
+	var script1 = document.createElement("script");
     script1.setAttribute("language", "javascript");
     script1.setAttribute("src", "../javascripts/" + file + (!file.match(/\.js$/) ? ".js" : ""));
     script1.setAttribute("type", "text/javascript");
@@ -154,11 +154,11 @@ if((document.forms[0] != undefined ? (document.forms[0].getAttribute("extended")
 } else if(__$('home') != null || __$('dashboard') != null){
 
     include("dashboard");
-    setTimeout("createPage()", 200);
+    //setTimeout("createPage()", 200);
 
 } else {
 
     include("touchscreen");
-    setTimeout("loadTouchscreenToolkit()", 200);
+    //setTimeout("loadTouchscreenToolkit()", 200);
 
 }

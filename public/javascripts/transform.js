@@ -2591,4 +2591,4 @@ function initMultipleQuestions(){
     createCalendarHTML();
 }
 
-window.addEventListener("load", initMultipleQuestions, false);
+//window.addEventListener("load", initMultipleQuestions, false);

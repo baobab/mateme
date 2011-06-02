@@ -1,17 +1,3 @@
-/*******************************************************************************
- *
- * Baobab Touchscreen Toolkit
- *
- * A library for transforming HTML pages into touch-friendly user interfaces.
- *
- * (c) 2011 Baobab Health Trust (http://www.baobabhealth.org)
- *
- * For lincense details, see the README.md file
- *
- * This file is part the Baobab Touchscreen Toolkit API
- * 
- ******************************************************************************/
-
 var patnum = ""
 var setFocusTimeout = 5000;
 var checkForBarcodeTimeout = 1500;
@@ -21,9 +7,10 @@ var barcodeId = null;
 var focusOnce = false;
 
 var title = "";
-var tt_cancel_show = (typeof(tt_cancel_show) == "undefined" ? null : tt_cancel_show);
-var tt_cancel_destination = (typeof(tt_cancel_destination) == "undefined" ? null : tt_cancel_destination);
-var tt_register_destination = (typeof(tt_register_destination) == "undefined" ? null : tt_register_destination);
+var tt_cancel_show = null;
+var tt_cancel_destination = null;
+var tt_active_tab = null;
+var tt_register_destination = null;
 var heading = [];
 var controls = [];
 var tstSuppressBarcode = false
@@ -52,7 +39,7 @@ function generateHomepage(){
     if(!__$('home')) return;
 
     __$('home').style.display = "none";
-
+    
     // Get the application name
     title = fetchTitle();
 
@@ -100,7 +87,7 @@ function generateHomepage(){
     var login = document.createElement("div");
     login.id = "login";
     login.innerHTML = (__$("date") ? __$("date").innerHTML : datenow) + "<br /><div id='user'>" +
-    (__$("user") ? __$("user").innerHTML : "&nbsp;") + "</div>";
+        (__$("user") ? __$("user").innerHTML : "&nbsp;") + "</div>";
 
     logininfo.appendChild(login);
 
@@ -178,7 +165,7 @@ function generateHomepage(){
 
     nav.appendChild(buttons);
 
-    /* var finish = document.createElement("button");
+   /* var finish = document.createElement("button");
     finish.id = "btnNext";
     finish.innerHTML = "<span>Find or Register Patient</span>";
     finish.className = "green";
@@ -248,15 +235,16 @@ function generateHomepage(){
             buttons.appendChild(button);
 			i++;
         }
+
     }
 
     if(__$("tabs")){
         var children = __$("tabs").options;
-
+        
         for(var i = 0; i < children.length; i++){
             var page = (children[i].value.trim() != children[i].innerHTML.trim() ? children[i].value :
                 "tabpages/" + children[i].innerHTML.trim().toLowerCase().replace(/\s/gi, "_") + ".html")
-
+            
             heading.push([children[i].innerHTML.trim(), page]);
         }
 
@@ -267,7 +255,7 @@ function generateHomepage(){
 }
 
 function generateDashboard(){
-    // Requires a container DIV with id "home"
+    // Requires a container DIV with id "dashboard"
     if(!__$('dashboard')) return;
 
     __$('dashboard').style.display = "none";
@@ -282,7 +270,7 @@ function generateDashboard(){
 
     var details = document.createElement("div");
     details.id = "details";
-
+    
     content.appendChild(details);
 
     var detailsRow1 = document.createElement("div");
@@ -349,7 +337,7 @@ function generateDashboard(){
 
         nameRow.appendChild(patientidvalue);
     }
-
+    
     if(__$('patient_residence')){
         var residenceRow = document.createElement("div");
         residenceRow.id = "residenceRow";
@@ -368,7 +356,7 @@ function generateDashboard(){
 
         residenceRow.appendChild(residencevalue);
     }
-
+    
     if(__$('patient_age')){
         var ageRow = document.createElement("div");
         ageRow.id = "ageRow";
@@ -381,7 +369,7 @@ function generateDashboard(){
         age.innerHTML = "Age";
         age.className = "patientLabel";
 
-        ageRow.appendChild(age);
+        ageRow.appendChild(age);    
 
         var agevalue = document.createElement("div");
         agevalue.id = "agevalue";
@@ -403,12 +391,12 @@ function generateDashboard(){
 
         application.appendChild(applicationname);
     }
-
+    
     if(__$('patient_card')){
         var opts = __$('patient_card').getElementsByTagName("span");
 
         if(opts.length > 0){
-
+            
         } else {
             opts = __$('patient_card').getElementsByTagName("div");
         }
@@ -416,7 +404,7 @@ function generateDashboard(){
         var extrarow = {};
         var extralabel = {};
         var extravalue = {};
-
+        
         for(var o = 0; o < opts.length; o++){
             extrarow[o] = document.createElement("div");
             extrarow[o].id = "extrarow_" + o;
@@ -439,7 +427,7 @@ function generateDashboard(){
             extrarow[o].appendChild(extravalue[o]);
         }
     }
-
+    
     var links = document.createElement("div");
     links.id = "links";
 
@@ -569,14 +557,10 @@ function generateGeneralDashboard(){
     nav.appendChild(logout);
 
     main.innerHTML = page;
-
+    
 }
 
 function createPage(){
-    if(document.getElementById("loadingProgressMessage")){
-        document.body.removeChild(document.getElementById("loadingProgressMessage"));
-    }
-    
     if(__$('home')){
         generateHomepage();
     } else if(__$('dashboard')){
@@ -600,7 +584,7 @@ function activate(id){
         if(controls[i] == id){
             var page = __$(id).getAttribute("link");
             var page_id = __$(id).innerHTML.trim().toLowerCase().replace(/\s/gi, "_");
-
+            
             __$(page_id).src = page;
 
             __$(controls[i]).className = "active-tab";
@@ -642,7 +626,7 @@ function repositionLayer(layer){
     }
 
 }
-
+                
 /* Before calling the function to generate tabs, the following variables should ve
  * supplied with values as follows:
  *      generateTab(
@@ -717,7 +701,7 @@ function generateTab(headings, target, content){
             tabContainer2.appendChild(tab);
         } else {
             tabContainer.appendChild(tab);
-        }
+        }        
 
         cumulative_width += tab.offsetWidth;
 
@@ -753,8 +737,12 @@ function generateTab(headings, target, content){
 
     __$("tabContainer").style.width = __$("mainContainer").offsetWidth;
     __$("tabContainer2").style.width = __$("mainContainer").offsetWidth;
-
+    
     repositionLayer("tabContainer");
+
+	if(__$(tt_active_tab)){
+		activate(tt_active_tab);
+	}
 }
 
 function loadBarcodePage() {
@@ -782,12 +770,12 @@ function checkForBarcode(validAction){
     if (!barcodeId) {
         barcodeId = "barcode";
     }
-
+    
     barcode_element = document.getElementById(barcodeId)
 
     if (!barcode_element)
         return
-
+    
     // Look for anything with a dollar sign at the end
     if (barcode_element.value.match(/.+\$$/i) != null || barcode_element.value.match(/.+\$$/i) != null){
         barcode_element.value = barcode_element.value.substring(0,barcode_element.value.length-1)

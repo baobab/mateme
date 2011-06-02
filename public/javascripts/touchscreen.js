@@ -1759,8 +1759,15 @@ function listSuggestions(inputTargetPageNumber) {
     }
     else{
         var optionsList = document.getElementById('options');
+		var searchTerm = "";
         options = optionsList.getElementsByTagName("li");
-        var searchTerm = new RegExp(inputElement.value,"i");
+
+ 		if(inputElement.getAttribute("ttMatchFromBeginning") != null && inputElement.getAttribute("ttMatchFromBeginning") == "true"){
+       		searchTerm = new RegExp("^" + inputElement.value,"i");
+     	}else{
+       		searchTerm = new RegExp(inputElement.value,"i");
+     	}
+
         for(var i=0; i<options.length; i++){
             if(options[i].innerHTML.search(searchTerm) == -1){
                 options[i].style.display = "none";
