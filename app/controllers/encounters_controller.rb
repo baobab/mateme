@@ -1,3 +1,6 @@
+require 'barby'
+require 'barby/outputter/rmagick_outputter'
+
 class EncountersController < ApplicationController
 
   def create
@@ -471,6 +474,62 @@ class EncountersController < ApplicationController
     @procedures  = @patient.current_procedures["PROCEDURE DONE"] rescue []
 
     render :template => '/encounters/procedure_index', :layout => 'menu'
+  end
+
+  def observations_printable
+    @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @user = params[:user_id]
+
+    @patient.create_barcode
+
+    @encounters = {}
+
+    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
+        EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).each{|e|
+      e.observations.each{|o|
+        if o.concept.name.name == "DELIVERY MODE"
+          if !@encounters[o.concept.name.name]
+            @encounters[o.concept.name.name] = []
+          end
+          
+          @encounters[o.concept.name.name] << o.answer_string
+        elsif o.concept.name.name.include?("TIME")
+          @encounters[o.concept.name.name] = o.value_datetime.strftime("%H:%M")
+        else
+          @encounters[o.concept.name.name] = o.answer_string
+        end
+      }
+    } rescue {}
+
+    # raise @encounters.to_yaml
+
+    render :layout => false
+  end
+
+  def print_note
+    @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    @user = params[:user_id]
+
+    if @patient
+      t1 = Thread.new{
+        Kernel.system "htmldoc --webpage -f /tmp/output-" + session[:user_id].to_s + ".pdf http://" +
+          request.env["HTTP_HOST"] + "\"/encounters/observations_printable?patient_id=" +
+          @patient.id.to_s + "&user_id=" + @user + "\"\n"
+      }
+
+      t2 = Thread.new{
+        sleep(5)
+        Kernel.system "lpr /tmp/output-" + session[:user_id].to_s + ".pdf\n"        
+      }
+
+      t3 = Thread.new{
+        sleep(10)
+        Kernel.system "rm /tmp/output-" + session[:user_id].to_s + ".pdf\n"
+      }
+
+    end
+
+    redirect_to "/encounters/new/observations_print?patient_id=#{@patient.id}" and return
   end
 
 end

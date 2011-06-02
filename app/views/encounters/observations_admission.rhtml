@@ -123,14 +123,16 @@
   <% options = default.merge({
       :id => "admission_date",
       :helptext => "Admission Date",
-      :field_type => "date"
+      :field_type => "date",
+      :tt_onUnLoad => "$('admission_date_value_datetime').value = " +
+        "$('admission_date').value.trim()"
     }) %>
 
   <%= text_field_tag("admission_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
 
   <%= hidden_field_tag("observations[][concept_name]", 'ADMISSION DATE', {:id => 'admission_date_concept_name'}) %>
-  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_date_value_datetime"}) %>
-  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "admission_date_value_datetime"}) %>
+  <%#= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "admission_date_value_modifier"}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
@@ -138,16 +140,29 @@
       :id => "admission_time",
       :condition => "$('admission_date').value.trim().length > 0;",
       :helptext => "Admission Time",
-      :field_type => "time"
+      :field_type => "time",
+      :tt_onUnLoad => "$('admission_time_value_datetime').value = " +
+        "$('admission_date_value_datetime').value.trim() + ' ' + $('admission_time').value.trim();"
     }) %>
 
   <%= text_field_tag("admission_time",DateTime.now().strftime("%Y-%m-%d"),options) %>
 
   <%= hidden_field_tag("observations[][concept_name]", 'ADMISSION TIME', {:id => 'admission_time_concept_name'}) %>
-  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_time_value_datetime"}) %>
-  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_time_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "admission_time_value_datetime"}) %>
+  <%#= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "admission_time_value_modifier"}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "admission_reason",
+      :helptext => "Admission Reason",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "ADMISSION DIAGNOSIS", {:id => 'admission_reason_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% options = default.merge({
       :id => "referred",

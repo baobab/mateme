@@ -460,5 +460,20 @@ class Patient < ActiveRecord::Base
 
     encs
   end
-  
+
+  def next_of_kin
+    PersonAttribute.find(:last, :conditions => ["person_id = ? AND person_attribute_type_id = ?",
+        self.id, PersonAttributeType.find_by_name("NEXT OF KIN")]).value rescue ""
+  end
+
+  def create_barcode
+    barcode = Barby::Code128B.new(self.national_id)
+
+    File.open(RAILS_ROOT + '/public/images/patient_id.png', 'w') do |f|
+      f.write barcode.to_png(:height => 100, :xdim => 2)
+    end
+
+  end
+
+
 end

@@ -11,3 +11,5 @@ schema.rb
 *~
 mockups
 nbproject
+vendor/plugins/barcode-generator/
+

@@ -4,6 +4,20 @@ class CohortController < ApplicationController
   end
 
   def cohort
+    @selSelect = params[:selSelect] rescue nil
+    @day =  params[:day] rescue nil
+    @selYear = params[:selYear] rescue nil
+    @selWeek = params[:selWeek] rescue nil
+    @selMonth = params[:selMonth] rescue nil
+    @selQtr = params[:selQtr] rescue nil
+    @start_date = params[:start_date] rescue nil
+    @end_date = params[:end_date] rescue nil
+
+    render :layout => "menu"
+  end
+
+  def cohort_print
+    # raise params.to_yaml
     
     @start_date = nil
     @end_date = nil
@@ -96,7 +110,71 @@ class CohortController < ApplicationController
 
     @twins1630_0730 = report.twins1630_0730
 
-    render :layout => "menu"
+    render :layout => false
   end
-  
+
+  def print_cohort
+    # raise request.env["HTTP_HOST"].to_yaml
+    
+    @selSelect = params[:selSelect] rescue ""
+    @day =  params[:day] rescue ""
+    @selYear = params[:selYear] rescue ""
+    @selWeek = params[:selWeek] rescue ""
+    @selMonth = params[:selMonth] rescue ""
+    @selQtr = params[:selQtr] rescue ""
+    @start_date = params[:start_date] rescue ""
+    @end_date = params[:end_date] rescue ""
+
+    if params
+      link = ""
+      case @selSelect
+      when "week" 
+
+        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selYear=#{@selYear}&selWeek=#{@selWeek}"
+
+      when "month"
+
+        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selYear=#{@selYear}&selMonth=#{@selMonth}"
+
+      when "year"
+
+        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selYear=#{@selYear}"
+
+      when "quarter"
+
+        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selQtr=#{@selQtr}"
+
+      when "range"
+
+        link = "/cohort/cohort_print?selSelect=#{@selSelect}&start_date=#{@start_date}&end_date=#{@end_date}"
+
+      when "day"
+
+        link = "/cohort/cohort_print?selSelect=#{@selSelect}&day=#{@day}"
+
+      end
+                
+      t1 = Thread.new{
+        Kernel.system "htmldoc --webpage -f /tmp/output-" + session[:user_id].to_s + ".pdf \"http://" +
+          request.env["HTTP_HOST"] + link + "\"\n"
+      }
+
+      t2 = Thread.new{
+        sleep(5)
+        Kernel.system "lpr /tmp/output-" + session[:user_id].to_s + ".pdf\n"
+      }
+
+      t3 = Thread.new{
+        sleep(10)
+        Kernel.system "rm /tmp/output-" + session[:user_id].to_s + ".pdf\n"
+      }
+
+    end
+
+    redirect_to "/cohort/cohort?selSelect=#{ @selSelect }&day=#{ @day }" +
+      "&selYear=#{ @selYear }&selWeek=#{ @selWeek }&selMonth=#{ @selMonth }&selQtr=#{ @selQtr }" +
+      "&start_date=#{ @start_date }&end_date=#{ @end_date }" and return
+  end
+
+
 end

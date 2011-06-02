@@ -178,11 +178,10 @@
       :field_type => "date"
     }) %>
 
-  <%= text_field_tag("rupture_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
-
   <%= hidden_field_tag("observations[][concept_name]", 'RUPTURE DATE', {:id => 'rupture_date_concept_name'}) %>
-  <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_date_value_datetime"}) %>
-  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_date_value_modifier"}) %>
+  <%= text_field_tag("observations[][value_datetime]",DateTime.now().strftime("%Y-%m-%d"),options) %>
+  <%#= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_date_value_datetime"}) %>
+  <%#= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_date_value_modifier"}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
@@ -190,14 +189,16 @@
       :id => "rupture_time",
       :condition => "$('membranes').value.toLowerCase() == 'ruptured'",
       :helptext => "Membranes Rupture Time",
-      :field_type => "time"
+      :field_type => "time",
+      :tt_onUnLoad => "$('rupture_time_value_datetime').value = " +
+        "$('rupture_date').value.trim() + ' ' + $('rupture_time').value.trim();"
     }) %>
 
-  <%= text_field_tag("rupture_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
+  <%= text_field_tag("rupture_time",DateTime.now().strftime("%Y-%m-%d"),options) %>
 
   <%= hidden_field_tag("observations[][concept_name]", 'RUPTURE TIME', {:id => 'rupture_time_concept_name'}) %>
   <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_time_value_datetime"}) %>
-  <%= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_time_value_modifier"}) %>
+  <%#= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_time_value_modifier"}) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 

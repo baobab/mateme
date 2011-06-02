@@ -77,7 +77,7 @@ class Observation < ActiveRecord::Base
   end
 
   def answer_string
-    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}" # #{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
   end
 
   def child_observation
