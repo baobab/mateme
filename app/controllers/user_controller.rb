@@ -82,11 +82,10 @@ class UserController < ApplicationController
   end
 
   def show
-    unless session[:user_edit].nil?
-      @user = User.find(session[:user_edit])
+    unless params[:id].blank?
+     @user = User.find(params[:id])
     else
-      @user = User.find(session[:user_id])
-      session[:user_edit]=@user.user_id
+     @user = User.find(:first, :order => 'date_created DESC')
     end
     render :layout => 'menu'
   end
@@ -103,7 +102,7 @@ class UserController < ApplicationController
       flash[:notice] = "#{@user.username} already in use"
       redirect_to :action => 'new'
       return
-    end  
+    end
 
     if (params[:user][:password] != params[:user_confirm][:password])
       flash[:notice] = 'Password Mismatch'
@@ -117,7 +116,7 @@ class UserController < ApplicationController
       redirect_to :action => 'new'
       return
     end
-      
+
     person = Person.create()
     person.names.create(params[:person_name])
     params[:user][:user_id] = person.id
@@ -142,7 +141,7 @@ class UserController < ApplicationController
       user_role.save
       # end
       flash[:notice] = "#{@user.username} was successfully created."
-      redirect_to :action => 'user_menu'
+      redirect_to :action => 'show', :id => @user.user_id
     else
       flash[:notice] = 'OOps! User was not created!.'
       render :action => 'new'
@@ -150,18 +149,35 @@ class UserController < ApplicationController
   end
 
   def edit
-    @user = User.find(session[:user_edit])
+    @user = User.find(params[:id])
   end
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(params[:user])
-      flash[:notice] = "#{@user.username} was successfully updated."
-      redirect_to :action => 'show', :id => @user
-    else
-      flash[:notice] = "OOps! User was not updated!."
-      render :action => 'edit'
+    if params[:user]['username']
+      @user.update_attributes(:username => params[:user]['username'])
     end
+
+    PersonName.find(:all,:conditions =>["voided = 0 AND person_id = ?",@user.id]).each do | person_name |
+      person_name.voided = 1
+      person_name.voided_by = User.current_user.id
+      person_name.date_voided = Time.now()
+      person_name.void_reason = 'Edited name'
+      person_name.save
+    end rescue nil
+
+    person_name = PersonName.new()
+    person_name.family_name = params[:person_name]["family_name"]
+    person_name.given_name = params[:person_name]["given_name"]
+    person_name.person_id = @user.id
+    person_name
+    if person_name.save
+      flash[:notice] = 'User was successfully updated.'
+      redirect_to :action => 'show', :id => @user.id and return
+    end rescue nil
+
+    flash[:notice] = "OOps! User was not updated!."
+    render :action => 'show', :id => @user.id
   end
 
   def destroy
@@ -214,11 +230,10 @@ class UserController < ApplicationController
   end
  
   def search_user
-    session[:user_edit] = nil
     unless request.get?
-      session[:user_edit] = User.find_by_username(params[:user][:username]).user_id
-      redirect_to :action =>"show"
-    end
+     @user = User.find_by_username(params[:user][:username])
+     redirect_to :action =>"show", :id => @user.id
+   end
   end
   
   def change_password
@@ -254,7 +269,7 @@ class UserController < ApplicationController
   end
 
   def barcode_label
-    print_string = User.find(params[:user_id]). login_barcode rescue (raise "Unable to find User (#{params[:user_id]}) or generate a barcode label for that user")
+    print_string = User.find(params[:id]). login_barcode rescue (raise "Unable to find User (#{params[:user_id]}) or generate a barcode label for that user")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:user_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
 
