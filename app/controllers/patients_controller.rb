@@ -315,7 +315,7 @@ class PatientsController < ApplicationController
   def past_diagnoses
     @patient_ID = params[:patient_id]  #--removedas I am only passing the patient_id  || params[:id] || session[:patient_id]
     @patient = Patient.find(@patient_ID) rescue nil 
-    @remote_visit_diagnoses = @patient.remote_visit_diagnoses
+    @remote_visit_diagnoses = @patient.remote_visit_diagnoses rescue nil
     @remote_visit_treatments = @patient.remote_visit_treatments
     @local_diagnoses = @patient.visit_diagnoses
     @local_treatments = @patient.visit_treatments

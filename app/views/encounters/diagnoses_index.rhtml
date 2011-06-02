@@ -73,7 +73,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 </form>
-
+<!--
 <div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
   <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
     <span>
@@ -87,3 +87,4 @@
   document.getElementById('unknown_diagnosis').submit();
   }
 </script>
+-->
