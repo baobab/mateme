@@ -2,10 +2,10 @@
   tt_cancel_destination = "/people?active_tab=tab2"; 
 </script>
 
-<% form_tag :action => 'update', :id => @user do %>
+<% form_tag :action => 'update', :id => @user.id do %>
   <%= render :partial => 'form' %>
   <%= submit_tag 'Edit' %>
 <% end %>
 
-<%= link_to 'Show', :action => 'show', :id => @user %> |
+<%= link_to 'Show', :action => 'show', :id => @user.id %> |
 <%= link_to 'Back', :action => 'list' %>
