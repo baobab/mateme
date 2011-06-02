@@ -16,7 +16,7 @@
     <%= render :partial => "details" %>
   </div>
   <div id="menu">
-    <button class="button green" style="width:100%"
+    <button class="button blue" style="width:100%"
             onclick="window.location = '/user/barcode_label?id=<%= @user.id -%>'"
       <span>Print Barcode</span>
     </button><br />
@@ -30,11 +30,11 @@
       <span>Delete Role</span>
     </button><br />
 -->
-    <button class="button green" style="width:100%"
+    <button class="button blue" style="width:100%"
       onclick="window.location ='/user/edit?id=<%= @user.id -%>'">
       <span>Edit Names</span>
     </button><br />
-    <button class="button green" style="width:100%"
+    <button class="button blue" style="width:100%"
             onclick="window.location ='/user/change_password?user_id=<%= @user.id -%>'">
       <span>Change Password</span>
     </button>
