@@ -32,8 +32,10 @@ font-size:9pt;
     </th>
    <%
         counter = 0
-        @ipd_influenza_data.each do |ipd_influenza_data|
-        counter +=1
+        if !@ipd_influenza_data.nil?
+          @ipd_influenza_data.each do |ipd_influenza_data|
+          counter +=1
+        end
     %>
     <tr class ="data" style="background-color: <%=counter % 2 == 0 ? 'white' : 'lightgrey'%>">
       <td class="mytableborder">

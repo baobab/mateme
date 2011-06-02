@@ -129,3 +129,14 @@ diastolic_blood_pressure:
   locale: en
   concept_id: 5086
   date_created: 2004-08-12 00:00:00 -07:00
+lab_test_result: 
+  name: LAB TEST RESULT
+  voided: false
+  creator: 2
+  voided_by: 
+  void_reason: 
+  date_voided: 
+  concept_name_id: 10162
+  locale: en
+  concept_id: 7363
+  date_created: 2004-08-12 00:00:00 -07:00
