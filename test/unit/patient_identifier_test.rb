@@ -5,7 +5,7 @@ class PatientIdentifierTest < ActiveSupport::TestCase
 
   context "Patient identifiers" do
     should "be valid" do
-      patient_identifier = PatientIdentifier.make(:patient_id => 'Bob')
+      patient_identifier = PatientIdentifier.new(:patient_id => 'Bob')
       assert patient_identifier.valid?
     end
   end  

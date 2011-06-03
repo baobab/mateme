@@ -5,7 +5,7 @@ class ConceptTest < ActiveSupport::TestCase
   
   context "Concepts" do
     should "be valid" do
-      concept = Concept.make
+      concept = Concept.new
       assert concept.valid?
     end
 

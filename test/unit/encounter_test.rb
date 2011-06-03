@@ -21,15 +21,15 @@ class EncounterTest < ActiveSupport::TestCase
       encounter.encounter_type_name = "VITALS"
       assert_equal encounter.type.name, "VITALS"
     end
-    
+
     should "return the encounter type name and the encounter name" do
       encounter = Encounter.make(:encounter_type => encounter_type(:vitals).id)
       assert_equal encounter.name, "VITALS"
     end
-    
+
     should "be printable as a string with all of the observations" do
       # This used to be VITALS: HEIGHT (CM): 191.0
-      assert_equal encounter(:evan_vitals).to_s, "UNKNOWN TEMP, UNKNOWN WEIGHT, 191.0CM"
+      assert_equal encounter(:evan_vitals).to_s, "UNKNOWN WEIGHT, 191.0CM"
     end
 
     should "be able to report the numbers of unique encounters for a given date" do
@@ -39,6 +39,6 @@ class EncounterTest < ActiveSupport::TestCase
       Encounter.make(:encounter_type => encounter_type(:pedsreturn).id)
       assert_equal Encounter.count_by_type_for_date(Date.today), {"VITALS" => 2, "ADULTINITIAL" => 1, "PEDSRETURN" => 1}
     end  
-    
+
   end
 end

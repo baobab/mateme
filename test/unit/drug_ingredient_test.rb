@@ -5,7 +5,7 @@ class DrugIngredientTest < ActiveSupport::TestCase
 
   context "Drug ingredients" do
     should "be valid" do
-      drug_ingredient = DrugIngredient.make
+      drug_ingredient = DrugIngredient.new
       assert drug_ingredient.valid?
     end
   end

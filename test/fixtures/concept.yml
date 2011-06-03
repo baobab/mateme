@@ -309,3 +309,21 @@ lab_results:
   datatype_id: 1
   concept_id: 7363
   date_created: 2004-08-12 00:00:00 -07:00
+qech_outpatient_diagnosis_list:
+  retire_reason:
+  retired_by:
+  is_set: false
+  changed_by: 1
+  creator: 2
+  date_retired:
+  class_id: 1
+  version: ""
+  short_name: QECH OUTPATIENT DIAGNOSIS LIST
+  default_charge:
+  date_changed: 2006-06-07 21:13:50 -07:00
+  form_text:
+  description: "QECH outpatient diagnosis list"
+  retired: false
+  datatype_id: 1
+  concept_id: 7406
+  date_created: 2004-08-12 00:00:00 -07:00

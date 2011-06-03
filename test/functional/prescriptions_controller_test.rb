@@ -14,7 +14,7 @@ class PrescriptionsControllerTest < ActionController::TestCase
     should "provide the current list of orders for the patient" do
       logged_in_as :mikmck, :registration do
         p = patient(:evan)
-        o = prescribe(p, nil, drug(:laughing_gas_600))
+        o = prescribe(p, drug(:laughing_gas_600))
         get :index, {:patient_id => patient(:evan).patient_id} 
         assert_response :success
       end  
@@ -24,7 +24,7 @@ class PrescriptionsControllerTest < ActionController::TestCase
       logged_in_as :mikmck, :registration do
         Order.all.map(&:destroy)
         get :index, {:patient_id => patient(:evan).patient_id} 
-        assert_response :redirect
+        assert_response :success
       end  
     end
     
@@ -61,7 +61,7 @@ class PrescriptionsControllerTest < ActionController::TestCase
 
     should "lookup the set of formulations that match a specific generic drug name" do
       logged_in_as :mikmck, :registration do
-        get :formulations, {:patient_id => patient(:evan).patient_id, :search_string => '', :generic => 'NITROUS OXIDE'}
+        get :generics, {:patient_id => patient(:evan).patient_id, :search_string => '', :generic => 'NITROUS OXIDE'}
         assert_response :success
         assert_contains assigns(:drugs).map(&:name), drug(:laughing_gas_600).name
         assert_contains assigns(:drugs).map(&:name), drug(:laughing_gas_1000).name

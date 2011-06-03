@@ -140,3 +140,14 @@ lab_test_result:
   locale: en
   concept_id: 7363
   date_created: 2004-08-12 00:00:00 -07:00
+qech_outpatient_diagnosis_list:
+  name: QECH OUTPATIENT DIAGNOSIS LIST
+  voided: false
+  creator: 2
+  voided_by:
+  void_reason:
+  date_voided:
+  concept_name_id: 10216
+  locale: en
+  concept_id: 7409
+  date_created: 2004-08-12 00:00:00 -07:00
