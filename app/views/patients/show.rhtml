@@ -64,11 +64,12 @@ tt_cancel_show = '';
         <option value='/patients/chronic_conditions?patient_id=<%= @patient.id -%>'>Chronic Conditions</option> 
       <!-- < # end > -->
       <% if @spine_clinician || @hmis_lab_order %>
-        <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>-->
-        <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>
+        <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>
+        <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>-->
       <% end %>
       <% if @spine_clinician || @hmis_lab_order || @super_user || @lab %>
         <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>-->
+        <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>
         <option value='/patients/print_lab_results?patient_id=<%= @patient.id -%>'>Print Lab Results</option>
         <option value='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</option>
       <% end %>
