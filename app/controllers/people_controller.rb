@@ -62,6 +62,8 @@ class PeopleController < ApplicationController
           redirect_to :action => "index" and return
         else
 
+          # raise found_person_data.to_yaml
+          
           found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
         end
       end

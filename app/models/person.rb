@@ -232,7 +232,9 @@ class Person < ActiveRecord::Base
     params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|attributes/) }
     birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
     person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate/) }
-       
+
+    # raise person_params.to_yaml
+
     if params.has_key?('person')
       person = Person.create(person_params[:person])
     else
@@ -250,16 +252,13 @@ class Person < ActiveRecord::Base
     person.names.create(names_params)
     person.addresses.create(address_params)
 
-    # raise person_attribute_params.to_yaml
-
     # add person attributes
     person_attribute_params.each do |attribute_type_name, attribute|
       attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || 
         PersonAttributeType.find_by_name("Unknown id")
 
-      # raise attribute_type.to_yaml
-
-      person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
+      person.person_attributes.create("value" => attribute, "person_attribute_type_id" => 
+          attribute_type.person_attribute_type_id) unless attribute.blank? rescue nil
 
     end if person_attribute_params
 

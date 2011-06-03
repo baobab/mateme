@@ -39,22 +39,18 @@
 
   <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number',
     :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersWithUnkown",
-    :tt_onLoad => 'seen(tstCurrentPage);', 
-    :condition => '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' }  %>
+    :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
   <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth',
-    :condition => '$("person_birth_year").value.toLowerCase() != "unknown" && ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"'}%>
+    :condition => '$("person_birth_year").value.toLowerCase() != "unknown" '}%>
 
   <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day',
     :absoluteMin => 1, :absoluteMax => 31,
-    :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown") && ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
+    :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown") ',
     :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value,$('person_birth_month').value)"%>
 
   <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Please enter age of client', :absoluteMin => 1,
-    :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown" && ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
+    :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"',
     :tt_pageStyleClass => "Numeric NumbersOnly"} %>
 
   <%= text_field_tag "person[attributes][place_of_birth]",  params[:address2], {:field_type => 'alpha', :helpText => 'Place of birth',
