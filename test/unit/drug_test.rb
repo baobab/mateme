@@ -5,7 +5,7 @@ class DrugTest < ActiveSupport::TestCase
 
   context "Drugs" do
     should "be valid" do
-      drug = Drug.make
+      drug = Drug.new
       assert drug.valid?
     end
   end  

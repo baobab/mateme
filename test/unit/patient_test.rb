@@ -7,7 +7,7 @@ class PatientTest < ActiveSupport::TestCase
 
   context "Patients" do
     should "be valid" do
-      patient = Patient.make
+      patient = Patient.new
       assert patient.valid?
     end
 
@@ -98,15 +98,15 @@ EOF
     context "current diagnoses" do
       setup do
         @evan = patient(:evan)
-        @encounter = Encounter.make(
+        @encounter = Encounter.new(
           :encounter_type => encounter_type(:outpatient_diagnosis).encounter_type_id)
-        @diagnosis = Observation.make(
+        @diagnosis = Observation.new(
           :encounter_id => @encounter.id, 
           :concept_id => concept(:outpatient_diagnosis).concept_id,
           :value_coded => concept(:extrapulmonary_tuberculosis_without_lymphadenopathy).concept_id,
           :value_coded_name_id => concept_name(:extrapulmonary_tuberculosis_without_lymphadenopathy).concept_name_id,
           :value_text => nil)
-        @diagnosis_non_coded = Observation.make(
+        @diagnosis_non_coded = Observation.new(
           :encounter_id => @encounter.id, 
           :concept_id => concept(:outpatient_diagnosis_non_coded).concept_id,
           :value_text => "HE IS TOO SUAVE")
@@ -117,7 +117,7 @@ EOF
       end
       
       should "not include non-diagnosis observations" do
-        Observation.make(
+        Observation.new(
           :encounter_id => @encounter.id, 
           :concept_id => concept(:height).concept_id,
           :value_numeric => 100)

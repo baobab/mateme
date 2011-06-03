@@ -18,7 +18,7 @@ class OpenmrsTest < ActiveSupport::TestCase
     end
     
     should "set the creator, date created and the location before creating" do 
-      p = PatientIdentifier.create(:identifier => 'foo', :identifier_type => patient_identifier_type(:unknown_id))
+      p = PatientIdentifier.new(:identifier => 'foo', :identifier_type => patient_identifier_type(:unknown_id))
       assert_equal p.location_id, Location.current_location.id
       assert_equal p.creator, User.current_user.id
       assert_equal p.date_created, Time.now
@@ -48,4 +48,4 @@ class OpenmrsTest < ActiveSupport::TestCase
       assert p.voided?
     end
   end
-end  
+end

@@ -6,7 +6,7 @@ class DrugOrderTest < ActiveSupport::TestCase
 
   context "Drug orders" do
     should "be valid" do
-      drug_order = DrugOrder.make
+      drug_order = DrugOrder.new
       assert drug_order.valid?
     end
     

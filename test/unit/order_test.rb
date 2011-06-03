@@ -5,7 +5,7 @@ class OrderTest < ActiveSupport::TestCase
   
   context "Orders" do
     should "be valid" do
-      orders = Order.make
+      orders = Order.new
       assert orders.valid?
     end  
   end  
