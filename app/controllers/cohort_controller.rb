@@ -2,6 +2,10 @@ class CohortController < ApplicationController
 
   def index
   end
+  
+  def report
+      render :layout => 'clinic'
+  end
 
   def cohort
     # raise params.to_yaml

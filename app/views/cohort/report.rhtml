@@ -1,0 +1,33 @@
+<script>
+  tt_cancel_destination = '/people';
+</script>
+
+<style>
+  #stats {
+    width:98%;
+    border:1px solid black;
+    margin:10px;
+    background:white;
+  }
+  #stats td{
+    text-align:center;
+  }
+
+  #stats a {
+    width:175px;
+    float:right;
+  }
+</style>
+<%= stylesheet_link_tag 'extra_buttons' %>
+
+<div id="tab" style="height: 100%; width: 100%; overflow: auto;">
+    <h2 style="margin-left: 8px;">Select a Report</h2>
+      <table id="stats" style="height: 303px;" cellpadding="10">
+          <tr>
+            <td>
+                <button id="users_button" class="button blue" style="min-width:400px;" onclick="parent.location = '/cohort'"><span>Reports</span></button>
+                <br/>
+            </td>
+          </tr>
+      </table>
+</div>

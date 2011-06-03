@@ -21,22 +21,38 @@
        <option value = '/people/overview'>Overview</option>
         <% if @super_user%>
           <option value = '/admin'>Administration</option>
+          <option value = '/cohort/report'>Reports</option>
         <%end%>
     </select>
 
 <select id="links">
+
     <option value="logout">Logout</option>
-    <option value="/people/search?category=adults" ttSize="180px">Find Adult</option>
-    <option value="/people/search?category=paeds" ttSize="210px">Find Paediatric</option>
-    <%if !@show_set_date%>
-      <option value = '/people/set_datetime' ttSize="180px">Set Date</option>
-    <%else%>
-      <option value = '/people/reset_datetime' ttSize="180px">Reset Date</option>
+   <% if @roles.include?("superuser") %>
+        <option value="/people/search?category=adults" ttSize="180px">Find Adult</option>
+        <option value="/people/search?category=paeds" ttSize="210px">Find Paediatric</option>
+        <%if !@show_set_date%>
+          <option value = '/people/set_datetime' ttSize="180px">Set Date</option>
+        <%else%>
+          <option value = '/people/reset_datetime' ttSize="180px">Reset Date</option>
+        <%end%>
+        
+        <% if @super_user || @spine_clinician%>
+          <option value = '/encounters/search_lab_test' ttSize="210px">Find Lab Test</option>
+        <%end%>
+    <%elsif @roles.include?("paediatrics") || @roles.include?("hmis lab order") %>
+      <option value="/people/search?category=paeds" ttSize="210px">Find Paediatric</option>
+      <%if !@show_set_date%>
+        <option value = '/people/set_datetime' ttSize="180px">Set Date</option>
+      <%else%>
+        <option value = '/people/reset_datetime' ttSize="180px">Reset Date</option>
+      <%end%>
+    <% elsif @roles.include?("lab")%>
+      <% if @super_user || @spine_clinician%>
+        <option value = '/encounters/search_lab_test' ttSize="210px">Find Lab Test</option>
+      <%end%>
     <%end%>
-    
-    <% if @super_user || @spine_clinician%>
-      <option value = '/encounters/search_lab_test' ttSize="210px">Find Lab Test</option>
-    <%end%>
+
 </select>
 
 </div>
