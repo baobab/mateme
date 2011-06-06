@@ -31,15 +31,17 @@ font-size:9pt;
       IPD Influenza info
     </th>
    <%
-        counter = 0
-        @ipd_influenza_data.each do |ipd_influenza_data|
-        counter +=1
+        if !@ipd_influenza_data.nil?
+          counter = 0
+          @ipd_influenza_data.each do |ipd_influenza_data|
+          counter +=1
     %>
     <tr class ="data" style="background-color: <%=counter % 2 == 0 ? 'white' : 'lightgrey'%>">
       <td class="mytableborder">
         <%=ipd_influenza_data%>
       </td>
     </tr>
+    <% end %>
     <%end%>
   </table>
 </div>
