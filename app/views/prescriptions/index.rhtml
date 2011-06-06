@@ -41,31 +41,31 @@
   </div>
 <%if !@orders.empty?%>
 
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <div style="float:right;padding-right:20px;margin-top:0px;">
     <button class="button green" onclick="window.location = '/prescriptions/treatment?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
+    <div style="float:left;padding-right:20px;margin-top:0px;">
       <button class="button gray" onclick=""><span>Treatment not done</span></button>
     </div>
 
   <%elsif @patient.treatment_not_done%>
 
-<div style="float:right;padding-right:20px;margin-top:-15px;">
+<div style="float:right;padding-right:20px;margin-top:0px;">
     <button class="button gray" ><span>Prescribe</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
+    <div style="float:left;padding-right:20px;margin-top:0px;">
       <button class="button gray" onclick=""><span>Treatment not done</span></button>
     </div>
 
 <%else%>
 
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <div style="float:right;padding-right:20px;margin-top:0px;">
     <button class="button green" onclick="window.location = '/prescriptions/treatment?patient_id=<%= @patient.id -%>'"><span>Prescribe</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
+    <div style="float:left;padding-right:20px;margin-top:0px;">
       <button class="button green" onclick="submitForm();"><span>Treatment not done</span></button>
     </div>
 

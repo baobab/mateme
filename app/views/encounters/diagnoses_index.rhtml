@@ -31,30 +31,30 @@
   <%recorded_diagnosis =  @primary_diagnosis.last.answer_concept_name.name rescue  "TTTTTTTT" if  @primary_diagnosis.last
     if @primary_diagnosis.last && recorded_diagnosis == 'UNKNOWN'%>
 
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <div style="float:right;padding-right:20px;margin-top:0px;">
       <button class="button gray" ><span>New Diagnosis</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
+    <div style="float:left;padding-right:20px;margin-top:0px;">
       <button class="button gray"><span>Uknown Diagnosis</span></button>
     </div>
 
 <%elsif @primary_diagnosis.last or @syndromic_diagnosis.last %>
 
-<div style="float:right;padding-right:20px;margin-top:-15px;">
+<div style="float:right;padding-right:20px;margin-top:0px;">
       <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
+    <div style="float:left;padding-right:20px;margin-top:0px;">
       <button class="button gray"><span>Uknown Diagnosis</span></button>
     </div>
 
   <%else%>
-    <div style="float:right;padding-right:20px;margin-top:-15px;">
+    <div style="float:right;padding-right:20px;margin-top:0px;">
       <button class="button green" onclick="window.location = '/encounters/new/outpatient_diagnosis?diagnosis_type=<%=@diagnosis_type%>&patient_id=<%= @patient.id %>'"><span>New Diagnosis</span></button><br/>
     </div>
 
-    <div style="float:left;padding-right:20px;margin-top:-15px;">
+    <div style="float:left;padding-right:20px;margin-top:0px;">
       <button class="button green" onclick="submitForm();"><span>Unknown Diagnosis</span></button>
     </div>
   <%end%>
@@ -73,18 +73,10 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
 </form>
-<!--
-<div style="z-index:11;bottom:15px; height: 64px; width: 435px; left: -4px; right: -66px; position: absolute;">
-  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
-    <span>
-      Cancel
-    </span>
-  </button>
-</div>
 
 <script>
   function submitForm(){
   document.getElementById('unknown_diagnosis').submit();
   }
 </script>
--->
+
