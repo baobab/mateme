@@ -25,7 +25,6 @@ class EncountersController < ApplicationController
     redirect_to next_task(@patient) and return
   end
 
-
   def new
     @facility_outcomes =  JSON.parse(GlobalProperty.find_by_property("facility.outcomes").property_value) rescue {}
     @new_hiv_status = params[:new_hiv_status]
@@ -267,13 +266,13 @@ class EncountersController < ApplicationController
     
     # redirect to a custom destination page 'next_url'
     if encounter.type.name == "LAB ORDERS"
-      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient))
+      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient))  if encounter.type.name == "LAB ORDERS"
+      return
     elsif(params[:next_url])
       redirect_to params[:next_url] and return
     else
       redirect_to next_task(@patient)
     end
-    
   end
 
   # Save Adults, Paediatric, Chronic Conditions Influenza Data and Lab Tests based on the
@@ -333,19 +332,26 @@ class EncountersController < ApplicationController
 
   def label
     encounter = Encounter.find(params[:encounter_id])
-    label_type = 'lbl'
-    label_type = 'lbs'  if encounter.type.name == 'LAB ORDERS' # specimen label
+    if encounter.type.name == 'LAB ORDERS'
+      label_type = 'lbs' # specimen label
+    else
+      label_type = 'lbl'
+    end
+
     send_label(encounter.label.to_s, label_type)
   end
 
-  # Capture Lab Test Results
+ # Capture Lab Test Results
   def lab_results_entry
+    @show_set_date = false
+		session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
+    @show_set_date = true unless session[:datetime].blank?
     render :layout => 'menu'
   end
 
   def search_lab_test
   end
-  
+
   # Capture Lab Test Results
   def show_lab_tests
     @obs = Observation.search_lab_test(params[:identifier])
@@ -382,9 +388,8 @@ class EncountersController < ApplicationController
     @appearance_options = ConceptName.appearance_options
 
     @virus_species = ConceptName.virus_species
-    
   end
-  
+
   def create_encounter
 
     encounter = Encounter.new(params[:encounter])

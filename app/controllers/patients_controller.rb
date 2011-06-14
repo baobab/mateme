@@ -47,25 +47,30 @@ class PatientsController < ApplicationController
       @encounter.observations.each{|obs| obs.void! }    
       @encounter.orders.each{|order| order.void! }    
       @encounter.void!
-    end  
-    show and return
+    end
+
+    unless params[:identifier].nil?
+      redirect_to :controller => 'encounters', :action => 'show_lab_tests', :identifier => params[:identifier] and return
+    else
+      show and return
+    end
   end
-  
+
   def print_registration
     @patient = Patient.find(params[:id] || params[:patient_id] || session[:patient_id]) rescue nil
     print_and_redirect("/patients/national_id_label/?patient_id=#{@patient.id}", next_task(@patient))  
   end
-  
+
   def print_visit
     @patient = Patient.find(params[:id] || params[:patient_id] || session[:patient_id]) rescue nil
     print_and_redirect("/patients/visit_label/?patient_id=#{@patient.id}", next_task(@patient))  
   end
-  
+
   def national_id_label
     print_string = Patient.find(params[:patient_id]).national_id_label rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a national id label for that patient")
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
-  
+
   def visit_label
     #print_string = Patient.find(params[:patient_id]).visit_label(session[:datetime]) rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
     print_string = Patient.find(params[:patient_id]).visit_label(session[:datetime]) 
