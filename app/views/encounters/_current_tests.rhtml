@@ -43,7 +43,7 @@
           @i += 1
         %>
           <div style="width:100%;">
-            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue testButtons"
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue" style="min-width:250px;"
                     onclick="window.location = '/encounters/edit_test/?test=<%= encounter_name.gsub(/\s/, "+") %>&patient_id=<%= @patient.patient_id rescue nil %>&identifier=<%= params[:identifier].upcase if !params[:identifier].nil? %>'">
               <span>
                 <%=  encounter_name %>
@@ -56,7 +56,8 @@
         %>
 
           <div style="width:100%;">
-            <button id="edit_test_button<%= "_#{@i}" %>" class="button gray testButtons"
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button gray"
+              style="min-width:250px;"
               <span>
                 <%=  encounter_name %>
               </span>
@@ -68,12 +69,13 @@
       }
     end
   %>
-  <% if !@patient.nil? %>
+
+  <%# if !@patient.nil? %>
   <!--a class="button green" href='/patients/print_lab_results?patient_id=<%= @patient.id -%>'
      style="-moz-border-radius:10px; min-width: 237px; font-size: 1.7em; font-weight: normal; min-height: 57px;">Print Lab Results</a-->
-    <button class="button blue testButtons" onclick="window.location = '/patients/print_lab_results?patient_id=<%= @patient.id -%>';">
+    <!--<button class="button blue testButtons" onclick="window.location = '/patients/print_lab_results?patient_id=<%= @patient.id -%>';">
       <span>Print Lab Results</span>
-    </button>
-  <% end %>
+    </button>-->
+  <%# end %>
   </div>
 </center>
