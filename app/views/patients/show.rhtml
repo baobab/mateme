@@ -57,7 +57,7 @@
     </select>
     
     <select id="tabs">
-        <option value="/patients/simple_graph?id=<%= @patient.id -%>">Graph</option>
+        <!-- <option value="/patients/simple_graph?id=<%#= @patient.id -%>">Graph</option> -->
         <option value="/patients/current_encounters?id=<%= @patient.id -%>">Visit Summary</option>
         <option value="/patients/diabetes_treatments?id=<%= @patient.id -%>">Current Medication</option>
         <option value="/patients/recent_screen_complications?id=<%= @patient.id -%>">Recent Complications</option>
