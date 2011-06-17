@@ -1,3 +1,17 @@
+/*******************************************************************************
+ *
+ * Baobab Touchscreen Toolkit
+ *
+ * A library for transforming HTML pages into touch-friendly user interfaces.
+ *
+ * (c) 2011 Baobab Health Trust (http://www.baobabhealth.org)
+ *
+ * For license details, see the README.md file
+ *
+ * This file is part the Baobab Touchscreen Toolkit API
+ * 
+ ******************************************************************************/
+
 var patnum = ""
 var setFocusTimeout = 5000;
 var checkForBarcodeTimeout = 1500;
@@ -5,12 +19,14 @@ var barcodeFocusTimeoutId = null;
 var barcodeFocusOnce = false;
 var barcodeId = null;
 var focusOnce = false;
+var tabSelected = false;
+var ttActiveTab = null;
+var tstSuppressBarcode = false
 
 var title = "";
-var tt_cancel_show = null;
-var tt_cancel_destination = null;
-var tt_active_tab = null;
-var tt_register_destination = null;
+var tt_cancel_show = (typeof(tt_cancel_show) == "undefined" ? null : tt_cancel_show);
+var tt_cancel_destination = (typeof(tt_cancel_destination) == "undefined" ? null : tt_cancel_destination);
+var tt_register_destination = (typeof(tt_register_destination) == "undefined" ? null : tt_register_destination);
 var heading = [];
 var controls = [];
 
@@ -38,7 +54,7 @@ function generateHomepage(){
     if(!__$('home')) return;
 
     __$('home').style.display = "none";
-    
+
     // Get the application name
     title = fetchTitle();
 
@@ -64,13 +80,62 @@ function generateHomepage(){
 
     var sitecol1 = document.createElement("div");
     sitecol1.id = "sitecol1";
-    sitecol1.innerHTML = (__$("facility") ? __$("facility").innerHTML : "&nbsp;");
+
+    var site = "";
+    var loc = "";
+
+    if(__$("facility")) {
+        if(__$("facility").innerHTML.trim().length > 0){
+            if(__$("facility").innerHTML.trim().length > 20) {
+                var s = __$("facility").innerHTML.trim().split(" ");
+
+                if(s.length > 0){
+                    for(var i = 0; i < s.length; i++){
+                        if(s[0].trim().length < 15 && i == 0){
+                            site += s[i].trim() + " ";
+                        } else {
+                            site += s[i].substr(0,1).toUpperCase() + ".";
+                        }
+                    }
+                } else {
+                    site = __$("facility").innerHTML.trim().substr(0, 18) + " ...";
+                }
+            } else {
+                site = __$("facility").innerHTML.trim();
+            }
+        }
+    }
+
+    sitecol1.innerHTML = "<b>Facility:</b> " + (__$("facility") ? site : "&nbsp;");
 
     siterow.appendChild(sitecol1);
 
     var sitecol2 = document.createElement("div");
     sitecol2.id = "sitecol2";
-    sitecol2.innerHTML = (__$("location") ? __$("location").innerHTML : "&nbsp;");
+
+    if(__$("location")) {
+        if(__$("location").innerHTML.trim().length > 0){
+            if(__$("location").innerHTML.trim().length > 20) {
+                var s = __$("location").innerHTML.trim().split(" ");
+
+                if(s.length > 0){
+                    for(var i = 0; i < s.length; i++){
+                        if(s[0].trim().length < 15 && i == 0){
+                            loc += s[i].trim() + " ";
+                        } else {
+                            loc += s[i].substr(0,1).toUpperCase() + ".";
+                        }
+                    }
+                } else {
+                    loc = __$("location").innerHTML.trim().substr(0, 18) + " ...";
+                }
+            } else {
+                loc = __$("location").innerHTML.trim();
+            }
+        }
+    }
+
+    sitecol2.innerHTML = "<b>Location:</b> " + (__$("location") ? loc : "&nbsp;");
 
     siterow.appendChild(sitecol2);
 
@@ -80,13 +145,52 @@ function generateHomepage(){
     content.appendChild(logininfo);
 
     var datenow = new Date();
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + datenow.getDate();
+    // datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + datenow.getDate();
+
+    datenow = datenow.getDate() + "-" + months[(datenow.getMonth())] + "-" + datenow.getFullYear();
 
     var login = document.createElement("div");
     login.id = "login";
-    login.innerHTML = (__$("date") ? __$("date").innerHTML : datenow) + "<br /><div id='user'>" +
-        (__$("user") ? __$("user").innerHTML : "&nbsp;") + "</div>";
+
+    var current_date = "";
+
+    if(__$("date")){
+        var date = __$("date").innerHTML.trim().match(/^(\d{4})(\/|-)(\d{2})(\/|-)(\d{2})/);
+
+        if(date){
+            current_date = eval(date[5]) + "-" + months[eval(date[3]) - 1] + "-" + date[1];
+        }
+    }
+
+    var user = "";
+
+    if(__$("user")){
+        if(__$("user").innerHTML.trim().length > 0) {
+            if(__$("user").innerHTML.trim().length > 10){
+                var parts = __$("user").innerHTML.trim().split(" ");
+
+                for(var i = 0; i < parts.length; i++){
+                    if(i == parts.length - 1){
+                        user += " " + parts[i].trim();
+                    } else {
+                        user += parts[i].trim().substr(0, 1) + ".";
+                    }
+                }
+
+                if(user.trim().length > 10) {
+                    user = user.trim().substr(0, 9) + "..."
+                }
+            } else {
+                user = __$("user").innerHTML.trim();
+            }
+        }
+    }
+    
+    login.innerHTML = "<b>Date:</b> <span  style='" + (current_date.trim() != datenow.trim() ? "color: #f00;" : "") +
+    "'>" + (__$("date") ? current_date : datenow) + "</span><br /><div id='user'>" +
+    "<b>User:</b> " + (__$("user") ? user : "&nbsp;") + "</div>";
 
     logininfo.appendChild(login);
 
@@ -114,6 +218,13 @@ function generateHomepage(){
     var barcodeinput = document.createElement("input");
     barcodeinput.type = "text";
     barcodeinput.id = "barcode";
+
+    if (tstSuppressBarcode == true) {
+        scanlabel.style.color = "white";
+        barcodeinput.style.color = "white";
+        scaninput.style.color = "white";
+    }
+
     barcodeinput.className = "touchscreenTextInput";
     barcodeinput.onkeydown = function(event){
         return;
@@ -157,7 +268,7 @@ function generateHomepage(){
 
     nav.appendChild(buttons);
 
-   /* var finish = document.createElement("button");
+    /* var finish = document.createElement("button");
     finish.id = "btnNext";
     finish.innerHTML = "<span>Find or Register Patient</span>";
     finish.className = "green";
@@ -188,7 +299,7 @@ function generateHomepage(){
 
     if(__$("links")){
         var childlinks = __$("links").options;
-		var i = 0;
+        var i = 0;
 
         for(var j = 0; j < childlinks.length; j++){
             var button = document.createElement("button");
@@ -196,47 +307,49 @@ function generateHomepage(){
             button.style.marginTop = "5px";
             button.innerHTML = "<span>" + childlinks[j].innerHTML.trim() + "</span>";
             button.setAttribute("link", childlinks[j].value);
-			if (j == 0) {
-	            button.className = "red left";
-		        button.onclick = function() {
-					if (this.getAttribute("link") == "") {
-		            	window.location = tt_cancel_destination;
-					} else {
-						window.location = this.getAttribute("link");
-					}
-		        }
-			} else if (j == 1) {
-	            button.className = "green";
-		        button.onclick = function(){
-					if (this.getAttribute("link") == "") {
-		            	window.location = tt_cancel_show;
-					} else {
-						window.location = this.getAttribute("link");
-					}
-		        }
-			} else {
-	            button.className = "blue";
-		        button.onclick = function(){
-		            window.location = this.getAttribute("link");
-		        }
-			}
+            if (j == 0) {
+                button.className = "red left";
+                button.id = "btnCancel";
+                button.onclick = function(){
+                    if(__$("btnCancel").getAttribute("link") != ""){
+                        window.location = __$("btnCancel").getAttribute("link");
+                    } else {
+                        window.location = tt_cancel_destination;
+                    }                    
+                }
+            } else if (j == 1) {
+                button.className = "green";
+                button.id = "btnNext";
+                button.onclick = function(){
+                    if(__$("btnNext").getAttribute("link") != ""){
+                        window.location = __$("btnNext").getAttribute("link");
+                    } else {
+                        window.location = tt_cancel_show;
+                    }
+                }
+            } else {
+                button.className = "blue";
+                button.onclick = function(){
+                    window.location = this.getAttribute("link");
+                }
+            }
 
-			if (childlinks[j].getAttribute("ttSize")) {
-	            button.style.minWidth = childlinks[j].getAttribute("ttSize");
-			}
+            if (childlinks[j].getAttribute("ttSize")) {
+                button.style.minWidth = childlinks[j].getAttribute("ttSize");
+            }
             buttons.appendChild(button);
-			i++;
+            i++;
         }
 
     }
 
     if(__$("tabs")){
         var children = __$("tabs").options;
-        
+
         for(var i = 0; i < children.length; i++){
             var page = (children[i].value.trim() != children[i].innerHTML.trim() ? children[i].value :
                 "tabpages/" + children[i].innerHTML.trim().toLowerCase().replace(/\s/gi, "_") + ".html")
-            
+
             heading.push([children[i].innerHTML.trim(), page]);
         }
 
@@ -247,7 +360,7 @@ function generateHomepage(){
 }
 
 function generateDashboard(){
-    // Requires a container DIV with id "home"
+    // Requires a container DIV with id "dashboard"
     if(!__$('dashboard')) return;
 
     __$('dashboard').style.display = "none";
@@ -262,7 +375,7 @@ function generateDashboard(){
 
     var details = document.createElement("div");
     details.id = "details";
-    
+
     content.appendChild(details);
 
     var detailsRow1 = document.createElement("div");
@@ -329,7 +442,7 @@ function generateDashboard(){
 
         nameRow.appendChild(patientidvalue);
     }
-    
+
     if(__$('patient_residence')){
         var residenceRow = document.createElement("div");
         residenceRow.id = "residenceRow";
@@ -348,7 +461,7 @@ function generateDashboard(){
 
         residenceRow.appendChild(residencevalue);
     }
-    
+
     if(__$('patient_age')){
         var ageRow = document.createElement("div");
         ageRow.id = "ageRow";
@@ -361,7 +474,7 @@ function generateDashboard(){
         age.innerHTML = "Age";
         age.className = "patientLabel";
 
-        ageRow.appendChild(age);    
+        ageRow.appendChild(age);
 
         var agevalue = document.createElement("div");
         agevalue.id = "agevalue";
@@ -383,12 +496,12 @@ function generateDashboard(){
 
         application.appendChild(applicationname);
     }
-    
+
     if(__$('patient_card')){
         var opts = __$('patient_card').getElementsByTagName("span");
 
         if(opts.length > 0){
-            
+
         } else {
             opts = __$('patient_card').getElementsByTagName("div");
         }
@@ -396,7 +509,7 @@ function generateDashboard(){
         var extrarow = {};
         var extralabel = {};
         var extravalue = {};
-        
+
         for(var o = 0; o < opts.length; o++){
             extrarow[o] = document.createElement("div");
             extrarow[o].id = "extrarow_" + o;
@@ -419,9 +532,9 @@ function generateDashboard(){
             extrarow[o].appendChild(extravalue[o]);
         }
     }
-    
+
     var links = document.createElement("div");
-    links.id = "links";
+    links.id = "buttonlinks";
 
     content.appendChild(links);
 
@@ -435,33 +548,37 @@ function generateDashboard(){
 
     content.appendChild(nav);
 
-    var finish = document.createElement("button");
-    finish.id = "btnNext";
-    finish.innerHTML = "<span>Finish</span>";
-    finish.className = "green";
-    finish.style.cssFloat = "right";
-    finish.style.margin = "10px";
-    finish.onclick = function(){
-        if(tt_cancel_destination){
-            window.location = tt_cancel_destination;
+    if(tt_cancel_show){
+        var finish = document.createElement("button");
+        finish.id = "btnNext";
+        finish.innerHTML = "<span>Finish</span>";
+        finish.className = "green";
+        finish.style.cssFloat = "right";
+        finish.style.margin = "10px";
+        finish.onclick = function(){
+            if(tt_cancel_show){
+                window.location = tt_cancel_show;
+            }
         }
+
+        nav.appendChild(finish);
     }
-
-    nav.appendChild(finish);
-
-    var logout = document.createElement("button");
-    logout.id = "btnCancel";
-    logout.innerHTML = "<span>Cancel</span>";
-    logout.className = "red";
-    logout.style.cssFloat = "left";
-    logout.style.margin = "10px";
-    logout.onclick = function(){
-        if(tt_cancel_show){
-            window.location = tt_cancel_show;
+    
+    if(tt_cancel_destination){
+        var logout = document.createElement("button");
+        logout.id = "btnCancel";
+        logout.innerHTML = "<span>Cancel</span>";
+        logout.className = "red";
+        logout.style.cssFloat = "left";
+        logout.style.margin = "10px";
+        logout.onclick = function(){
+            if(tt_cancel_destination){
+                window.location = tt_cancel_destination;
+            }
         }
-    }
 
-    nav.appendChild(logout);
+        nav.appendChild(logout);
+    }
 
     if(__$("tabs")){
         var children = __$("tabs").options;
@@ -479,6 +596,14 @@ function generateDashboard(){
     if(__$("links")){
         var childlinks = __$("links").options;
 
+        if(childlinks.length <= 4){
+            __$("buttonlinks").style.height = "30%";
+            __$("patient-dashboard-main").style.width = "100%";
+        } else {
+            __$("patient-dashboard-main").style.width = "73%";
+            __$("buttonlinks").style.height = "90%";
+        }
+
         for(var j = 0; j < childlinks.length; j++){
             var button = document.createElement("button");
             button.className = "blue";
@@ -495,6 +620,64 @@ function generateDashboard(){
         }
 
     }
+
+    if(__$("navigation_links")){
+        var childlinks = __$("navigation_links").options;
+        var i = 0;
+
+        for(var j = 0; j < childlinks.length; j++){
+            var button = document.createElement("button");
+            button.style.margin = "0px";
+            button.style.marginTop = "8px";
+            button.style.marginRight = "8px";
+            button.style.marginLeft = "0px";
+            button.innerHTML = "<span>" + childlinks[j].innerHTML.trim() + "</span>";
+            button.setAttribute("link", childlinks[j].getAttribute("link"));
+
+            if (!tt_cancel_destination && childlinks[j].innerHTML.trim().toLowerCase() == "cancel") {
+                button.className = "red";
+                button.id = "btnCancel";
+                button.onclick = function() {
+                    if (this.getAttribute("link") == "") {
+                        window.location = tt_cancel_destination;
+                    } else {
+                        window.location = this.getAttribute("link");
+                    }
+                }
+            } else if ((j == 0 && tt_cancel_destination) || (!tt_cancel_show && !tt_cancel_destination && j == 1)) {
+                button.className = "green";
+                button.id = "btnNext";
+                button.style.cssFloat = "right";
+                button.onclick = function(){
+                    if (this.getAttribute("link") == "") {
+                        window.location = tt_cancel_show;
+                    } else {
+                        window.location = this.getAttribute("link");
+                    }
+                }
+            } else {
+
+                button.className = "blue";
+                button.style.cssFloat = "right";
+                button.onclick = function(){
+                    window.location = this.getAttribute("link");
+                }
+                
+            }
+
+            if (childlinks[j].getAttribute("ttSize")) {
+                button.style.minWidth = childlinks[j].getAttribute("ttSize");
+            }
+            if (childlinks[j].getAttribute("ttSize")) {
+                button.style.minWidth = childlinks[j].getAttribute("ttSize");
+            }
+            
+            nav.appendChild(button);
+            i++;
+        }
+
+    }
+
 }
 
 function generateGeneralDashboard(){
@@ -549,10 +732,14 @@ function generateGeneralDashboard(){
     nav.appendChild(logout);
 
     main.innerHTML = page;
-    
+
 }
 
 function createPage(){
+    if(document.getElementById("loadingProgressMessage")){
+        document.body.removeChild(document.getElementById("loadingProgressMessage"));
+    }
+    
     if(__$('home')){
         generateHomepage();
     } else if(__$('dashboard')){
@@ -572,11 +759,15 @@ function fetchTitle(){
 }
 
 function activate(id){
+    tabSelected = true;
+
+    setCookie(window.location, id, 1);
+
     for(var i = 0; i < controls.length; i++){
         if(controls[i] == id){
             var page = __$(id).getAttribute("link");
             var page_id = __$(id).innerHTML.trim().toLowerCase().replace(/\s/gi, "_");
-            
+
             __$(page_id).src = page;
 
             __$(controls[i]).className = "active-tab";
@@ -588,37 +779,6 @@ function activate(id){
     }
 }
 
-function repositionLayer(layer){
-    var pos = [];
-
-    if(__$("mainContainer")){
-        pos = checkCtrl(__$("mainContainer"));
-    } else {
-        return;
-    }
-
-    if(__$("tabContainer") != null){
-        if(__$("tabContainer").id == layer){
-            __$("tabContainer").style.top = (pos[2] + __$("tabContainer").offsetHeight) + "px";
-        } else {
-            if(__$("tabContainer2").innerHTML.trim().length > 0){
-                __$("tabContainer").style.top = (pos[2]) + "px";
-            }
-        }
-    }
-
-    if(__$("tabContainer2") != null){
-        if(__$("tabContainer2").id == layer){
-            if(__$("tabContainer2").innerHTML.trim().length > 0){
-                __$("tabContainer2").style.top = (pos[2] + __$("tabContainer").offsetHeight) + "px";
-            }
-        } else {
-            __$("tabContainer2").style.top = (pos[2]) + "px";
-        }
-    }
-
-}
-                
 /* Before calling the function to generate tabs, the following variables should ve
  * supplied with values as follows:
  *      generateTab(
@@ -652,7 +812,7 @@ function generateTab(headings, target, content){
     var tabContainer = document.createElement("div");
     tabContainer.id = "tabContainer";
     tabContainer.onclick = function(){
-        repositionLayer(this.id);
+        shiftLayer(this, __$("mainContainer"));
     }
 
     mainContainer.appendChild(tabContainer);
@@ -660,7 +820,7 @@ function generateTab(headings, target, content){
     var tabContainer2 = document.createElement("div");
     tabContainer2.id = "tabContainer2";
     tabContainer2.onclick = function(){
-        repositionLayer(this.id);
+        shiftLayer(this, __$("mainContainer"));
     }
 
     mainContainer.appendChild(tabContainer2);
@@ -693,7 +853,7 @@ function generateTab(headings, target, content){
             tabContainer2.appendChild(tab);
         } else {
             tabContainer.appendChild(tab);
-        }        
+        }
 
         cumulative_width += tab.offsetWidth;
 
@@ -724,17 +884,20 @@ function generateTab(headings, target, content){
 
     __$(headings[0][0].toLowerCase().replace(/\s/gi, "_")).src = headings[0][1];
 
-    __$("tabContainer").style.position = "absolute";
-    __$("tabContainer2").style.position = "absolute";
+    tabSelected = true;
+    shiftLayer(__$("tabContainer"), __$("mainContainer"));
 
-    __$("tabContainer").style.width = __$("mainContainer").offsetWidth;
-    __$("tabContainer2").style.width = __$("mainContainer").offsetWidth;
-    
-    repositionLayer("tabContainer");
+    var prevTab = getCookie(window.location);
 
-	if(__$(tt_active_tab)){
-		activate(tt_active_tab);
-	}
+    if(prevTab != null && prevTab != "" && __$(prevTab)) {
+        activate(prevTab);
+    } else if(ttActiveTab){
+        if(__$(ttActiveTab)){
+            activate(ttActiveTab);
+        }
+    } else {
+        activate("tab1");
+    }
 }
 
 function loadBarcodePage() {
@@ -746,7 +909,13 @@ function focusForBarcodeInput(){
     if (!barcodeId) {
         barcodeId = "barcode";
     }
+
     var barcode = document.getElementById("barcode");
+
+    if (tstSuppressBarcode == true) {
+        barcode.style.border="0px solid white";
+    }
+
     if (barcode) {
         barcode.focus();
         if (!focusOnce) barcodeFocusTimeoutId = window.setTimeout("focusForBarcodeInput()", setFocusTimeout);
@@ -757,12 +926,12 @@ function checkForBarcode(validAction){
     if (!barcodeId) {
         barcodeId = "barcode";
     }
-    
+
     barcode_element = document.getElementById(barcodeId)
 
     if (!barcode_element)
         return
-    
+
     // Look for anything with a dollar sign at the end
     if (barcode_element.value.match(/.+\$$/i) != null || barcode_element.value.match(/.+\$$/i) != null){
         barcode_element.value = barcode_element.value.substring(0,barcode_element.value.length-1)
@@ -778,6 +947,67 @@ function checkForBarcode(validAction){
     //document.getElementById('barcodeForm').submit();
     }
     window.setTimeout("checkForBarcode('" + validAction + "')", checkForBarcodeTimeout);
+}
+
+function shiftLayer(layer, parent) {
+    var row = layer;
+
+    if(tabSelected == true){
+        parent.removeChild(layer);
+
+        parent.appendChild(row);
+        tabSelected = false;
+    }
+}
+
+function setCookie(c_name,value,exdays) {
+    var exdate=new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+    document.cookie=c_name + "=" + c_value;
+}
+
+function getCookie(c_name) {
+    var i,x,y,ARRcookies=document.cookie.split(";");
+    for (i=0;i<ARRcookies.length;i++)
+    {
+        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==c_name)
+        {
+            return unescape(y);
+        }
+    }
+    return "";
+}
+
+function confirmOperation(message, responseAction, okOnly) {
+    if(!__$("tstMessageBar")){
+        var tstMessageBar = document.createElement("div");
+        tstMessageBar.id = "tstMessageBar";
+        tstMessageBar.className = "messageBar";
+
+        __$("content").appendChild(tstMessageBar);
+    
+    }
+    
+    __$("tstMessageBar").innerHTML = (message ? message : "Some important tasks are yet to be done. " +
+        "Are you sure you still want to continue?") + "<br/>" +
+    (okOnly ? "" : "<button onmousedown='hideMessage(); cancelOperation(\"" + responseAction + "\");'><span>Yes</span></button>") +
+    "<button onmousedown='hideMessage();'><span>" + (okOnly ? "OK" : "No") + "</span></button>";
+    __$("tstMessageBar").style.display = "block";
+    
+}
+
+function cancelOperation(action){
+    window.location = action;
+}
+
+function hideMessage(){
+    if(__$("tstMessageBar")){
+        __$("tstMessageBar").style.display = "none";
+    }
 }
 
 window.addEventListener("load", createPage, false);

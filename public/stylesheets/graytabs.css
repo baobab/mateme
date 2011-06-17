@@ -2,9 +2,9 @@
     border-left: 2px inset #666;
     border-right: 2px inset #666;
     border-top: 2px inset #666;
-    -moz-border-radius: 8px;
+    -moz-border-radius: 2px;
     padding: 8px;
-    padding-top: 0px;
+    padding-top: 3px;
     background-color: #fff;
     float: left;
     cursor: pointer;
@@ -15,9 +15,9 @@
 }
 .inactive-tab {
     border-left: 3px outset #666;
-    -moz-border-radius: 8px;
+    -moz-border-radius: 2px;
     padding: 8px;
-    padding-top: 0px;
+    padding-top: 3px;
     background-color: #666;
     border-right: 3px outset #666;
     border-top: 3px outset #666;
@@ -44,10 +44,8 @@
 #tabMainContainer {
     width: 99%;
     height: 98%;
-    border: 1px solid #fff;
     -moz-border-radius: 10px;
     padding: 0.2%;
-    background-color: #fff;
 }
 
 #tabContainer2 {
@@ -61,7 +59,7 @@
 
 #mainContainer {
     height: 50px;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 #tabPageContainer {

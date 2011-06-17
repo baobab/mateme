@@ -712,4 +712,8 @@ display:block;
 .NoKeyboard .options { height: 395px !important } 
 .NoInput .options { height: 435px !important } 
 
+#footer button, div.buttonsDiv button {
+  margin-top: 10px;
+  min-width: 140px;
+}
 
