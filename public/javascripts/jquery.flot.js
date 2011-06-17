@@ -990,7 +990,7 @@
         function insertLabels() {
             target.find(".tickLabels").remove();
             
-            var html = '<div class="tickLabels" style="font-size:smaller;color:' + options.grid.color + '">';
+            var html = '<div class="tickLabels" style="font-size:x-small;color:' + options.grid.color + '">';
 
             function addLabels(axis, labelGenerator) {
                 for (var i = 0; i < axis.ticks.length; ++i) {
