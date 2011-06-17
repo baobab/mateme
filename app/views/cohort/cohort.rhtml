@@ -15,8 +15,8 @@
     </div>
 
     <form id="frmMain" action="/cohort/cohort" method="post">
-      <input type="hidden" id="start_date" name="start_date" value="<%= @specified_period[0].to_date.strftime('%d-%m-%Y') %>" />
-      <input type="hidden" id="end_date" name="end_date" value="<%= @specified_period[1].to_date.strftime('%d-%m-%Y') %>" />
+      <input type="hidden" id="start_date" name="start_date" value="<%=@start_date %>" />
+      <input type="hidden" id="end_date" name="end_date" value="<%= @end_date %>" />
     </form>
 
     <div>

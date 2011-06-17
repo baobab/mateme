@@ -421,7 +421,7 @@ class Reports::Cohort
     @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
                                   WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INJACTIA' OR name = 'ANGINA' \
+                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
                                       OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE') AND \
                                         DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                         AND patient.voided = 0").length
@@ -431,7 +431,7 @@ class Reports::Cohort
     @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
                                    WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INJACTIA' OR name = 'ANGINA' \
+                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
                                       OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE') \
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
         "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
@@ -444,7 +444,7 @@ class Reports::Cohort
     @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
                                  (SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INJACTIA' OR name = 'ANGINA' \
+                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
                                       OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE')) AND NOT \
                                     patient_id IN (SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
@@ -478,7 +478,7 @@ class Reports::Cohort
 
     pvd = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INJACTIA' OR name = 'ANGINA' \
+                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
                                       OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE')").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
 
     maculopathy = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
@@ -530,7 +530,7 @@ class Reports::Cohort
     @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
                                  (SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INJACTIA' OR name = 'ANGINA' \
+                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
                                       OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE')) AND NOT \
                                     patient_id IN (SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
@@ -584,7 +584,7 @@ class Reports::Cohort
     pvd = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
                                   WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INJACTIA' OR name = 'ANGINA' \
+                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
                                       OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE')
                                     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
         "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
