@@ -58,7 +58,9 @@ module ApplicationHelper
   end
 
   def encounter_button(encounter_name, encounter_url, button_class)
-    "<option value=\"#{encounter_url}\">#{encounter_name}</option>"
+      if button_class != "gray"
+        "<option value=\"#{encounter_url}\">#{encounter_name}</option>"
+      end
   end
 
   def qwerty_or_abc_keyboard
