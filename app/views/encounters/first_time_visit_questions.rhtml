@@ -51,9 +51,9 @@
 
   <select id="links">
     <% short_names = {"INITIAL COMPLICATIONS" => "Complications",
-                      "COMPLICATIONS" => "Complications",
+                      #"COMPLICATIONS" => "Complications",
                       "HYPERTENSION MANAGEMENT" => "HyperTension Mgt",
-                      "DIABETES ADMISSIONS" => "Hospital Admissions",
+                      #"DIABETES ADMISSIONS" => "Hospital Admissions",
                       "PAST DIABETES MEDICAL HISTORY" => "Past Medical History"
                       }
       @medical_history_encounters.each do |name| %>
