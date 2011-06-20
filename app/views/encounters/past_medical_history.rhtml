@@ -107,7 +107,7 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
       :optional => true
     }) %>
 
-  <% @past_medical_history_list = ["STROKES", "SERIOUS CARDIAC PROBLEMS", "HYPERTENSION", "TUBERCULOSIS", "OTHER MEDICAL CONDITIONS"] %>
+  <% @past_medical_history_list = ["STROKES", "SERIOUS CARDIAC PROBLEMS", "HYPERTENSION", "OTHER MEDICAL CONDITIONS"] %> <!-- Removed TUBERCULOSIS from list-->
   <%= select_tag("past_medical_history_values",             options_for_select(@past_medical_history_list),options) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "", {:id=> "strokes"}) %>
