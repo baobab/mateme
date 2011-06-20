@@ -179,9 +179,9 @@ class EncountersController < ApplicationController
         @encounter_url = Hash.new
         @medical_history_encounters = ['Diabetes History',
          # 'Diabetes Treatments',
-          'Hospital Admissions',
+          #'Hospital Admissions',
           'Past Diabetes Medical History',
-          'Complications',
+          #'Complications',
           #'Hypertension Management',
           'General Health'
         ]
