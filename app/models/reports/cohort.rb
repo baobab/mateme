@@ -1263,7 +1263,7 @@ class Reports::Cohort
   def defaulters_ever
     @orders = Order.find_by_sql("SELECT orders.patient_id FROM orders \
                                   LEFT OUTER JOIN patient ON patient.patient_id = orders.patient_id \
-                                  WHERE DATEDIFF(#{@end_date}, auto_expire_date)/30 > 6 \
+                                  WHERE DATEDIFF('#{@end_date}', auto_expire_date)/30 > 6 \
                                     AND patient.voided = 0 AND \
                                         DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'  \
                                     GROUP BY patient_id").length
@@ -1271,10 +1271,10 @@ class Reports::Cohort
 
   def defaulters
     @orders = Order.find_by_sql("SELECT orders.patient_id FROM orders LEFT OUTER JOIN patient ON \
-                                        patient.patient_id = orders.patient_id WHERE DATEDIFF(#{@end_date}, auto_expire_date)/30 > 6 \
+                                        patient.patient_id = orders.patient_id WHERE DATEDIFF('#{@end_date}', auto_expire_date)/30 > 6 \
                                         AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
-        @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + " \
-                                    AND patient.voided = 0' \
+        @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
+                                    AND patient.voided = 0 \
                                           GROUP BY patient_id").length
   end
 
