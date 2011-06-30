@@ -26,7 +26,8 @@
       %>
         <li class="data <%= cycle('even', 'odd') %>">
           <!--div style="float:right;padding:7px;">
-          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png", {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => 77} -%>
+          <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small.png",
+            {:confirm => "Are you sure you want to void this diagnoisis?"}, {:encounter_id => 77} -%>
           </div-->
 
           <% if pos == 1 %>

@@ -126,7 +126,9 @@
       :field_type => "number",
       :tt_pageStyleClass => "NumbersOnly",
       :tt_onLoad => "timedEvent = setTimeout('calculateBP(1)', 100);",
-      :tt_onUnLoad => "clearTimeout(timedEvent);"
+      :tt_onUnLoad => "clearTimeout(timedEvent);",
+      :absoluteMin => 0,
+      :max => 250
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "SYSTOLIC BLOOD PRESSURE", {:id => 'systolic_blood_pressure_concept_name'}) %>
@@ -140,7 +142,9 @@
       :field_type => "number",
       :tt_pageStyleClass => "NumbersOnly",
       :tt_onLoad => "timedEvent = setTimeout('calculateBP(2)', 100);",
-      :tt_onUnLoad => "clearTimeout(timedEvent);"
+      :tt_onUnLoad => "clearTimeout(timedEvent);",
+      :absoluteMin => 0,
+      :max => 180
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "DIASTOLIC BLOOD PRESSURE", {:id => 'diastolic_blood_pressure_concept_name'}) %>
@@ -152,7 +156,9 @@
       :id => "pulse",
       :helptext => "Pulse",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly"
+      :tt_pageStyleClass => "NumbersOnly",
+      :absoluteMin => 0,
+      :max => 150
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "PULSE", {:id => 'pulse_concept_name'}) %>
@@ -164,7 +170,9 @@
       :id => "respiration",
       :helptext => "Respiration Rate",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly"
+      :tt_pageStyleClass => "NumbersOnly",
+      :absoluteMin => 0,
+      :max => 50
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "RESPIRATION RATE", {:id => 'respiration_concept_name'}) %>
@@ -180,6 +188,20 @@
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "TEMPERATURE", {:id => 'temperature_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "fhr",
+      :helptext => "Fetal Heart Rate",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly",
+      :absoluteMin => 0,
+      :max => 200
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "FETAL HEART RATE", {:id => 'fhr_concept_name'}) %>
   <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>

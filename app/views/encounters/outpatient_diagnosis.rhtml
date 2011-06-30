@@ -1,5 +1,6 @@
 <script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  // var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/encounters/new/observations/?patient_id=<%=  @patient.id %>"
 
   // Every 500 milliseconds update the Next/Finish button
   function updateNextFinish(){

@@ -57,12 +57,12 @@
     :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true, :condition => ' ' +
       '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' }%>
 
-  <%= text_field_tag "person[attributes][next_of_kin]", params[:next_of_kin],
+  <%#= text_field_tag "person[attributes][next_of_kin]", params[:next_of_kin],
     {:id => "next_of_kin", :field_type => 'alpha', :condition => ' ' +
       '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
     :helptext => "Next Of Kin" } %>
 
-  <%= text_field_tag "person[attributes][:next_of_kin_contact_number]", params[:next_of_kin_contact_number],
+  <%#= text_field_tag "person[attributes][:next_of_kin_contact_number]", params[:next_of_kin_contact_number],
     {:id => ":next_of_kin_contact_number", :field_type => 'alpha', :condition => ' ' +
       '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
     :helptext => "Next Of Kin Contact Number" } %>

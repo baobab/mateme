@@ -14,6 +14,10 @@
   }
 
   function checkHIVTestDate(){
+    if($("hiv_status_value").value == "Reactive"){
+      return "false";
+    }
+    
     var hiv_test_date_str = $("hiv_test_date").value.replace(/-/g, '/');
     var hiv_test_date     = new Date(hiv_test_date_str);
     var today             = new Date(Date.now());
@@ -165,7 +169,7 @@
   <% options = default.merge({
       :id => "period_on_arvs",
       :helptext => "Period On ARVs",
-      :field_type => "text",
+      :field_type => "number",
       :condition => "$('on_arvs').value.trim().toUpperCase() == 'YES';"
     }) %>
 
@@ -179,7 +183,7 @@
       :helptext => "Feeding Option",
       :field_type => "text"
     }) %>
-  <% @feeding_options = ["", "Exclusive Feeding", "Exclusive Breast Feeding", "Exclusive Formula Feeding", "Mixed Feeding"] %>
+  <% @feeding_options = ["", "Exclusive Feeding", "No Breast Feeding", "Exclusive Formula Feeding"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "FEEDING OPTION", {:id => 'feeding_option_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@feeding_options),options) %>

@@ -153,43 +153,44 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "admission_reason",
       :helptext => "Admission Reason",
       :field_type => "text"
     }) %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "ADMISSION DIAGNOSIS", {:id => 'admission_reason_concept_name'}) %>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "ADMISSION DIAGNOSIS", {:id => 'admission_reason_concept_name'}) %>
+  <%#= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options = default.merge({
+
+  <%# options = default.merge({
       :id => "referred",
       :helptext => "Reffered?",
       :field_type => "text"
     }) %>
-  <% @referred = ["", "Yes", "No"] %>
+  <%# @referred = ["", "Yes", "No"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "REFERRED", {:id => 'referred_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@referred),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "REFERRED", {:id => 'referred_concept_name'}) %>
+  <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@referred),options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "referred_from",
       :helptext => "Reffered From?",
       :field_type => "text",
       :condition => "$('referred').value.toLowerCase() == 'yes';"
     }) %>
-  <% @referrals = ["", "Facility List"] %>
+  <%# @referrals = ["", "Facility List"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "REFERRED FROM", {:id => 'referred_from_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@referrals),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "REFERRED FROM", {:id => 'referred_from_concept_name'}) %>
+  <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@referrals),options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "referral_reason",
       :helptext => "Referral Reason",
       :field_type => "text",
@@ -197,10 +198,11 @@
       :condition => "$('referred').value.toLowerCase() == 'yes';"
     }) %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL REASON", {:id => 'referral_reason_concept_name'}) %>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "REFERRAL REASON", {:id => 'referral_reason_concept_name'}) %>
+  <%#= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
 
   <% options = default.merge({
       :id => "observation",
@@ -241,9 +243,10 @@
   <% options = default.merge({
       :id => "oedema",
       :helptext => "Oedema",
-      :field_type => "text"
+      :field_type => "text",
+      :optional => true
     }) %>
-  <% @oedema = ["", "Negative", "Positive", "++", "+++", "+++"] %>
+  <% @oedema = ["", "1+", "2+", "3+"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "OEDEMA", {:id => 'oedema_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@oedema),options) %>
@@ -259,42 +262,42 @@
       :tt_onUnLoad => "clearTimeout(timedEvent);"
     }) %>
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "ward",
       :helptext => "Ward",
       :field_type => "number",
       :optional => true
     }) %>
-  <% @wards = ["", "Ward 1A", "Ward 1B"] %>
+  <%# @wards = ["", "Ward 1A", "Ward 1B"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "WARD", {:id => 'ward_concept_name'}) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "WARD", {:id => 'ward_concept_name'}) %>
 <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@wards),options) %>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "room_no",
       :helptext => "Room Number",
       :field_type => "number",
       :condition => "$('ward').value.trim().length > 0;"
     }) %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "ROOM NUMBER", {:id => 'room_no_concept_name'}) %>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "ROOM NUMBER", {:id => 'room_no_concept_name'}) %>
+  <%#= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "bed_no",
       :helptext => "Bed Number",
       :field_type => "number",
       :condition => "$('room_no').value.trim().length > 0;"
     }) %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "BED NUMBER", {:id => 'bed_no_concept_name'}) %>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "BED NUMBER", {:id => 'bed_no_concept_name'}) %>
+  <%#= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 </form>

@@ -80,8 +80,8 @@
       </div>
       <div style="display: table-row">
         <div style="display: table-cell">
-          <button class="<%= (@encounters.include?("REFERRED") ? "gray" : "blue") %>"
-                  onclick="<%= (@encounters.include?("REFERRED") ? "" :
+          <button class="<%= (@encounters.include?("ADMISSION DATE") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("ADMISSION DATE") ? "" :
                       "window.location = '/encounters/new/observations_admission?patient_id=#{@patient.id}'") %> ">
             <span>Admission Details</span>
           </button>

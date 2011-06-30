@@ -32,12 +32,14 @@ class EncountersController < ApplicationController
       Observation.create(observation)
     end
 
-    if encounter.type.name.eql?("REFER PATIENT OUT?")
-      encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+    # if encounter.type.name.eql?("REFER PATIENT OUT?")
+    #  encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
 
       # raise encounter.to_yaml
     
-    elsif encounter.patient.current_visit.encounters.active.collect{|e|
+    # elsif encounter.patient.current_visit.encounters.active.collect{|e|
+    
+    if encounter.patient.current_visit.encounters.active.collect{|e|
         e.observations.collect{|o|
           o.answer_string if o.answer_string.include?("PATIENT DIED")
         }.compact if e.type.name.eql?("UPDATE OUTCOME")
@@ -81,6 +83,8 @@ class EncountersController < ApplicationController
         EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).collect{|e| 
       e.observations.collect{|o| o.concept.name.name}
     }.join(", ") rescue ""
+
+    # raise @encounters.to_yaml
 
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
