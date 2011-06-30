@@ -132,11 +132,10 @@ class PeopleController < ApplicationController
   # TODO refactor so this is restful and in the right controller.
   def set_datetime
     if request.post?
-      unless params["retrospective_patient_day"]== "" or params["retrospective_patient_month"]== "" or params["retrospective_patient_year"]== ""
+      unless params[:retrospective_date] == ""
         # set for 1 second after midnight to designate it as a retrospective date
-        date_of_encounter = Time.mktime(params["retrospective_patient_year"].to_i,
-          params["retrospective_patient_month"].to_i,
-          params["retrospective_patient_day"].to_i,0,0,1)
+        date_of_encounter = (params[:retrospective_date] + " 0:00:01").to_time
+
         session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today
       end
       redirect_to :action => "index"

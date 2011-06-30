@@ -35,10 +35,11 @@
       <span>Reports</span>
     </button>
 
-    <!--button id="set_date_button" class="button green"
-            onclick="window.location = '/people/set_datetime'" style="min-width:480px;">
-      <span>Set Date</span>
-    </button-->
+    <button id="set_date_button" class="button green"
+            onclick="window.location = '<%= ((session[:datetime].to_date.strftime("%Y-%m-%d") rescue "#{Date.today.strftime("%Y-%m-%d")}") != "#{Date.today.strftime("%Y-%m-%d")}" ?
+                          "/people/reset_datetime" : "/people/set_datetime") %>'" style="min-width:480px;">
+      <span><%= ((session[:datetime].to_date.strftime("%Y-%m-%d") rescue "#{Date.today.strftime("%Y-%m-%d")}") != "#{Date.today.strftime("%Y-%m-%d")}" ? "Reset Date" : "Set Date") %></span>
+    </button>
 
     <% if @super_user%>
       <button id="admin_button" class="button green"  style="min-width:480px;"
