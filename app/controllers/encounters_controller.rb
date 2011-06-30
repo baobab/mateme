@@ -536,4 +536,17 @@ class EncountersController < ApplicationController
     redirect_to "/encounters/new/observations_print?patient_id=#{@patient.id}" and return
   end
 
+  def static_locations
+    search_string = (params[:search_string] || "").upcase
+    
+    locations = []
+
+    File.open(RAILS_ROOT + "/public/data/locations.txt", "r").each{ |loc|
+      locations << loc if loc.upcase.strip.match(search_string)
+    }
+
+    render :text => "<li>" + locations.map{|location| location }.join("</li><li>") + "</li>"
+  end
+
+
 end

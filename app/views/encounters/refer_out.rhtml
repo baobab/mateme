@@ -33,7 +33,7 @@
     :helptext =>"Facility Referred To?",
     :condition => "($('select').value == 'YES')",
     :allowFreeText => 'true',
-    :ajaxURL => "/encounters/locations?search_string="
+    :ajaxURL => "/encounters/static_locations?search_string="
   } %>
   <%= text_field_tag "observations[][value_coded_or_text]", nil, options %>
   <%= hidden_field_tag("observations[][concept_name]", "REFERRAL CLINIC IF REFERRED", options) %>
