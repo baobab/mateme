@@ -1,5 +1,11 @@
 <script>
 var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=false"
+
+function checkEDD(){
+  var edd = "<%= (@lmp.to_date + 7.days + 9.months).strftime("%Y-%m-%d") rescue "" %>";
+  
+}
+
 </script>
 <style>
   #space { display:inline; font-size:1.2em; }
@@ -39,7 +45,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
           'update_hiv_status?patient_id=#{@patient.id}';} \
           else {$('next_url').disabled = true; }"
 
-  elsif @patient.current_hiv_status[0].upcase.eql?("NOT TESTED")
+  elsif (@patient.current_hiv_status[0].upcase rescue "").eql?("NOT TESTED")
 
     condition = "if($('discharge_outcome').value == 'DISCHARGED') {document.forms[0].method='post'; document.forms[0].action = \
           'update_hiv_status?patient_id=#{@patient.id}';} \
@@ -131,7 +137,8 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
   :id => "date_of_delivery",
   :field_type => 'date',
   :helptext =>"Baby: Date of Delivery",
-  :condition => "($('discharge_outcome').value == 'DELIVERED')"
+  :condition => "($('discharge_outcome').value == 'DELIVERED')",
+  :tt_onUnload => "checkEDD()"
 }%>
 <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
 <%= text_field_tag("observations[][value_datetime]",   nil, options)%>

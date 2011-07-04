@@ -137,10 +137,25 @@
       :absoluteMin => "1",
       :max => "15",
       :flag => '{"message":"Patient at risk of PPH.<br/> Ensure family planing is discussed.","condition":"^([5-9]|[1][0-9])"}',
-      :tt_pageStyleClass => "NumbersOnly"
+      :tt_pageStyleClass => "NumbersOnly",
+      :tt_onUnload => "$('parity_value').setAttribute('absoluteMax', $('gravida_value').value)"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "GRAVIDA", {:id => 'gravida_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "parity_value",
+      :helptext => "Enter Parity",
+      :field_type => "number",
+      :absoluteMin => "0",
+      :max => "15",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "PARITY", {:id => 'parity_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
@@ -156,20 +171,6 @@
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "TT STATUS", {:id => 'tt_status_concept_name'}) %>
-  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "parity_value",
-      :helptext => "Enter Parity",
-      :field_type => "number",
-      :absoluteMin => "0",
-      :max => "15",
-      :tt_pageStyleClass => "NumbersOnly"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "PARITY", {:id => 'parity_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>

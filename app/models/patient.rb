@@ -430,7 +430,7 @@ class Patient < ActiveRecord::Base
       output
 
     else
-      nil
+      []
     end
     
   end

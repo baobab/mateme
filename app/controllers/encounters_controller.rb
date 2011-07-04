@@ -84,6 +84,10 @@ class EncountersController < ApplicationController
       e.observations.collect{|o| o.concept.name.name}
     }.join(", ") rescue ""
 
+    @lmp = Observation.find(:all, :conditions => ["concept_id IN (?) AND person_id = 34 AND encounter_id IN (?)", 
+        ConceptName.find_by_name("LAST MENSTRUAL PERIOD").concept_id, @patient.encounters.collect{|e| e.id}],
+      :order => :obs_datetime).last.value_datetime rescue nil
+
     # raise @encounters.to_yaml
 
     redirect_to "/" and return unless @patient
