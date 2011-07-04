@@ -90,7 +90,7 @@ class Encounter < ActiveRecord::Base
       observations.collect{|observation| observation.to_s}.delete_if{|x| x.blank? }.compact.join(", ")
 
     else  
-      observations.collect{|observation| observation.answer_string}.delete_if{|x| x.blank? }.join(", ")
+      observations.collect{|observation| observation.to_s}.delete_if{|x| x.blank? }.join(", ")
     end  
   end
 

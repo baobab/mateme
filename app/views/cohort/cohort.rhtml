@@ -17,7 +17,9 @@
     </style>
   </head>
   <body>
-    <iframe id="main" src="/cohort/cohort_print?selSelect=<%= @selSelect %>&day=<%= @day %>&selYear=<%= @selYear %>&selWeek=<%= @selWeek %>&selMonth=<%= @selMonth %>&selQtr=<%= @selQtr %>&start_date=<%= @start_date %>&end_date=<%= @end_date %> "></iframe>
+    <iframe id="main" src="/cohort/cohort_print?selSelect=<%= @selSelect %>&day=<%= @day %>&selYear=<%= 
+      @selYear %>&selWeek=<%= @selWeek %>&selMonth=<%= @selMonth %>&selQtr=<%= @selQtr %>&start_date=<%=
+      @start_date %>&end_date=<%= @end_date %>&reportType=<%= @reportType %>"></iframe>
 
     <div style="z-index:11;bottom:15px; height: 64px; width: 890px; left: -4px; right: -66px; position: absolute;">
       <button onclick="window.location = '/cohort';" class="button navButton red"

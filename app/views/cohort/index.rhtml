@@ -154,6 +154,21 @@
       <input type="text" field_type="date" id="end_date" name="end_date" value="" helpText="Select End Date:"
              condition="$('selSelect').value == 'range';" />
 
+      <select id="reportType" name="reportType" >
+        <option></option>
+        <option value="1">Aggregate Maternity Statistics</option>
+        <option value="2">End of Shift Report - Labour Ward</option>
+        <option value="3">End of Shift Report - AnteNatal Ward</option>
+        <option value="4">End of Shift Report - Post Natal Ward (High Risk)</option>
+        <option value="5">End of Shift Report - Post Natal (Low Risk)</option>
+
+        <% if @location.upcase.eql?("KAMUZU CENTRAL HOSPITAL") %>
+
+          <option value="6">End of Shift Report - Gynae</option>
+
+        <% end %>
+      </select>
+
     </form>
   </body>
 </html>

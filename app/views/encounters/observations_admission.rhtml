@@ -113,7 +113,7 @@
     :allowFreeText => 'true',
   } %>
 
-  <%= hidden_field_tag "next_url", "/encounters/new/observations/?patient_id=#{@patient.id}" %>
+  <%= hidden_field_tag "next_url", "/encounters/diagnoses_index?patient_id=#{@patient.id}" %>
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>

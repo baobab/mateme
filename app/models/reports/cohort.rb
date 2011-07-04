@@ -56,6 +56,21 @@ class Reports::Cohort
         @start_date, @end_date]).length
   end
 
+  def referrals_out0730_1630
+    result = Observation.find(:all, :conditions => ["concept_id = ? AND value_coded = ? AND TIME(obs_datetime) >= TIME('07:30') \
+            AND TIME(obs_datetime) < TIME('16:30') AND voided = 0 AND obs_datetime >= ? AND obs_datetime <= ?",
+        ConceptName.find_by_name("REFER PATIENT OUT?").concept_id, ConceptName.find_by_name("YES").concept_id,
+        @start_date, @end_date]).length
+  end
+
+  def referrals_out1630_0730
+    result = Observation.find(:all, :conditions => ["concept_id = ? AND value_coded = ? AND ((TIME(obs_datetime) >= TIME('16:30') \
+            AND TIME(obs_datetime) < TIME('23:59')) OR (TIME(obs_datetime) >= TIME('00:00') \
+            AND TIME(obs_datetime) < TIME('07:30'))) AND voided = 0 AND voided = 0 AND obs_datetime >= ? AND obs_datetime <= ?",
+        ConceptName.find_by_name("REFER PATIENT OUT?").concept_id, ConceptName.find_by_name("YES").concept_id,
+        @start_date, @end_date]).length
+  end
+
   def deaths0730_1630
     result = Observation.find(:all, :conditions => ["value_coded = ? AND TIME(obs_datetime) >= TIME('07:30') \
             AND TIME(obs_datetime) < TIME('16:30') AND voided = 0 AND obs_datetime >= ? AND obs_datetime <= ?",

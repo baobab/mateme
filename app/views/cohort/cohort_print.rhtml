@@ -11,7 +11,20 @@
   <table width="100%" cellpadding="10">
     <tr>
       <th style="color:white; background-color:green; font-size: 30px; padding: 20px;">
-        Bwaila Maternity Unit - Maternity Statistics
+        <% case @reportType.to_i
+        when 1: %>
+          <%= "Bwaila Maternity Unit - Maternity Statistics" %>
+        <% when 2: %>
+        <%=  "End of Shift Report - Labour Ward" %>
+        <% when 3: %>
+          <%= "End of Shift Report - AnteNatal Ward" %>
+        <% when 4: %>
+          <%= "End of Shift Report - Post Natal Ward (High Risk)" %>
+        <% when 5: %>
+          <%= "End of Shift Report - Post Natal (Low Risk)" %>
+        <% when 6: %>
+          <%= "End of Shift Report - Gynae" %>
+        <% end %>
       </th>
     </tr>
     <tr>
@@ -216,18 +229,18 @@
     </tr>
     <!--tr>
       <td class="cellleft celltop cellbottom main-table-cell topic" style="width:220px;">
-        <!--b><i>TOTALS</i></b-->
-      <!--/td>
-      <th class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
-        &nbsp;
-      </th>
-      <th class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
-        &nbsp;
-      </th>
-      <th class="cellleft celltop cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-        &nbsp;
-      </th>
-    </tr-->
+    <!--b><i>TOTALS</i></b-->
+    <!--/td>
+    <th class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
+      &nbsp;
+    </th>
+    <th class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
+      &nbsp;
+    </th>
+    <th class="cellleft celltop cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+      &nbsp;
+    </th>
+  </tr-->
   </table>
 
 </div>

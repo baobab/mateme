@@ -108,17 +108,17 @@
     </div>
   </center>
   <div id="nav">
-    <button class="red" onclick="window.location = '/patients/show/<%= @patient.id %>'"
-            style="float: left; margin: 10px;">
-      <span>
-        Cancel
-      </span>
-    </button>
-    <button class="green" onclick="window.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
+    <button class="green" onclick="window.location = '/patients/show/<%= @patient.id %>'"
             style="float: right; margin: 10px;">
       <span>
         Finish
       </span>
     </button>
+    <!--button class="green" onclick="window.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
+            style="float: right; margin: 10px;">
+      <span>
+        Finish
+      </span>
+    </button-->
   </div>
 </div>

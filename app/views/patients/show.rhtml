@@ -1,24 +1,27 @@
 <html>
   <head>
     <title>Patient Dashboard</title>
-    <link href="stylesheets/dashboard.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
+    <!--link href="stylesheets/dashboard.css?1266397276" media="screen" rel="stylesheet" type="text/css" /-->
 
-    <script type="text/javascript" language="javascript" src="javascripts/dashboard.js" defer ></script>
+    <!--script type="text/javascript" language="javascript" src="/touchscreen/lib/javascripts/touchScreenToolkit.js" defer ></script-->
     <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
     <script language='javascript' type='text/javascript' src='javascripts/jquery.js'></script>
     <script language="javascript" type="text/javascript" src="javascripts/jquery.flot.js"></script>
     <script language="javascript">
       tstUsername = "";
       tstCurrentDate = "2010/03/12";
-      tt_cancel_destination = '/patients/end_visit?patient_id=<%= @patient.patient_id%>';
-      tt_cancel_show = '/people/index';
+      tt_cancel_show = "<%= ((@encounter_names.include?("Refer patient out?".upcase) ||
+          @encounter_names.include?("DISCHARGED")) ? "/patients/end_visit?patient_id=#{ @patient.patient_id }" :
+          '/people/index') %>";
+          
+      tt_cancel_destination = '/people/index';
     </script>
-    <link type="text/css" href="stylesheets/graytabs.css" rel="stylesheet" />
+    <!--link type="text/css" href="stylesheets/graytabs.css" rel="stylesheet" />
     <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
-    <script src="javascripts/preload.js?1266397276" type="text/javascript"></script>
+    <script src="javascripts/preload.js?1266397276" type="text/javascript"></script-->
     <!-- Uncomment/Comment the line below to enable/disable the Touchscreen Toolkit-->
     <script src="javascripts/dateselector.js?1266397276" type="text/javascript"></script>
-    <script src="javascripts/utils.js?1266397276" type="text/javascript"></script>
+    <!--script src="javascripts/utils.js?1266397276" type="text/javascript"></script-->
   </head>
   <body><div id='content'>
       <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>

@@ -65,7 +65,7 @@ class Observation < ActiveRecord::Base
   end
 
   def to_s
-    "#{self.concept.name.name rescue 'Unknown concept name'}: #{self.answer_string}"
+    "#{self.concept.name.name.titleize rescue 'Unknown concept name'}: #{self.answer_string}"
   end
 
   def to_a
@@ -77,7 +77,7 @@ class Observation < ActiveRecord::Base
   end
 
   def answer_string
-    "#{self.answer_concept_name.name rescue nil}#{self.value_text}#{self.value_numeric}#{self.value_datetime.strftime("%d/%b/%Y") rescue nil}"
+    "#{self.answer_concept_name.name.titleize rescue nil}#{self.value_text}#{self.value_numeric}#{(self.concept.name.name.upcase.include?("TIME") ? self.value_datetime.strftime("%H:%M") : self.value_datetime.strftime("%d/%b/%Y")) rescue nil}"
   end
 
   def child_observation

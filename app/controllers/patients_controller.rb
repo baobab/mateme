@@ -21,13 +21,15 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     outcome = @patient.current_outcome
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
-    @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+    @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name.upcase}.uniq rescue []
     
     @past_diagnoses = @patient.previous_visits_diagnoses.collect{|o|
       o.diagnosis_string
     }.delete_if{|x|
       x == ""
     }
+
+    # raise @encounter_names.include?("Refer patient out?".upcase).to_yaml
 
     @past_treatments = @patient.visit_treatments
     session[:auto_load_forms] = false if params[:auto_load_forms] == 'false'

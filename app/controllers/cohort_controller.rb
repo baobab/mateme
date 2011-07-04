@@ -1,9 +1,11 @@
 class CohortController < ApplicationController
 
   def index
+    @location = GlobalProperty.find_by_property("facility.name").property_value rescue ""
   end
 
   def cohort
+
     @selSelect = params[:selSelect] rescue nil
     @day =  params[:day] rescue nil
     @selYear = params[:selYear] rescue nil
@@ -13,12 +15,16 @@ class CohortController < ApplicationController
     @start_date = params[:start_date] rescue nil
     @end_date = params[:end_date] rescue nil
 
+    @reportType = params[:reportType] rescue ""    
+
     render :layout => "menu"
   end
 
   def cohort_print
     # raise params.to_yaml
     
+    @reportType = params[:reportType] rescue ""    
+
     @start_date = nil
     @end_date = nil
     

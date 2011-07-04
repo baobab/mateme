@@ -1,0 +1,719 @@
+/**************************************************************************
+  * touch-basic.css
+  *   displays a basic (non-fancy) look and feel
+  *   it is used together with form.css or dashboard.css
+  *
+  *   CSS for the Touchscreen Toolkit library
+  *
+  * (c) 2011 Baobab Health Trust (http://www.baobabhealth.org)
+  *
+  * For lincense details, see the README.md file
+  *
+  * Browser:    Firefox
+  * Interface:  Touchscreen 
+  * Resolution: 800X600
+  *
+  **************************************************************************/
+
+body{
+  font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+  overflow: hidden;
+}
+
+form{
+  z-index:0;
+}
+
+#load_indicator{
+  height:600px;
+  width:800px;
+  z-index:1;
+  background-color:white;
+  font-size:3em;
+  position: absolute;
+}
+
+.options, .optionsSearchPage, .touchscreenTextInput, .searchResults {
+  font-size:1.5em;
+  -moz-user-select:none
+}
+
+.touchscreenTextInput{
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-bottom: 1px solid silver;
+  width:745px;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:2.2em;
+  background:none;
+  padding-left:5px;
+}
+
+.options{
+	overflow: auto;
+  height:10em;
+}
+
+.options ul{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-left: 0px;
+}
+.options li{
+  color: black;
+  list-style: none;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+  font-size:1.5em;
+}
+.optionsList{
+  display:none;
+}
+.selectionText{
+  position:absolute;
+  background-color: white;
+  width: 400px;
+  height: 300px;;
+  border: 3px inset gray;
+  overflow:hidden;
+}
+.selectionOption{
+  font-size: 50px;
+  height:50px;
+  width: 2000px;
+}
+
+/*.button {
+  display:block;
+  font-size: 1.5em;
+  color: black;
+  background-color: lightgray;
+  margin: 15px;
+  border: 3px outset gray;
+  -moz-user-select:none;
+  width: 90px;
+  height: 50px;
+  text-align: center;
+  float:right;
+}*/
+
+.keyboardButton, #launchButton{
+  display: inline; /*-moz-inline-box;*/
+  margin: 5px;
+  text-align: center;
+  height: 57px;
+  background:silver;
+  border:2px solid black;
+  -moz-user-select:none;
+}
+
+.keyboardButton span, #launchButton span {
+  color:black;
+}
+
+.toggleButtonTrue{
+  display:block;
+  font-size: 1.5em;
+  margin: 20px;
+  -moz-user-select:none;
+  width: 150px;
+  text-align: center;
+}
+
+.toggleButtonFalse{
+  display:block;
+  font-size: 1.5em;
+  margin: 20px;
+  -moz-user-select:none;
+  width: 150px;
+  text-align: center;
+}
+
+/*.inputContainer{
+  position:absolute;
+  top: 275px;
+  left: 450px;
+  background-color: white;
+  width: 300px;
+  height: 1em;
+  border: 3px inset gray;
+  font-size: 2em;
+  overflow:hidden;
+}*/
+
+.keyboard{
+  position:absolute;
+  display: block;
+  z-index: 10;
+  bottom: 85px;
+  left: 20px;
+}
+
+.buttonLine{
+  display: block;
+/*  height: 3.2em;*/
+  height: 60px;
+/*	margin-top: 10px; */
+}
+
+#launchButton{
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  width: 200px;
+  font-size: 1em;
+  -moz-opacity: 0.2;
+}
+
+.inputPage{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  height: 520px;
+  width: 795px;
+  overflow: hidden;
+}
+
+.helpText {
+  height: 2em;
+  width: 500px;
+  position: absolute;
+  top: 5px;
+  left: 25px; 
+  font-size: 2em;
+	overflow: hidden;
+}
+
+.helpTextClass {
+  font-size: 2em;
+  padding-top: 5px;
+  padding-left: 25px;
+  width: 620px;
+  display:block;
+  -moz-user-select: none;
+}
+
+.inputFrameClass {
+  border: 2px solid black;
+  margin-left:25px;
+  background: #F0F0F0;
+  width:750px;  
+}
+
+.progressAreaSearchPage {
+/*  height: 220px;*/
+  width: 250px;
+  position: absolute;
+  top: 5px;
+  right: 30px;
+  font-size: 1em;
+  background: white;
+	z-index: 2;
+	overflow: hidden;
+	border: thin solid;
+	display: none;
+}
+
+.progressArea {
+/*  height: 220px;*/
+  width: 250px;
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  font-size: 1em;
+  background: white;
+	z-index: 2;
+	overflow: hidden;
+	border: thin solid;
+	display: none;
+}
+
+.progressAreaBody {
+  height: 200px;
+  font-size: 1em;
+  background: white;
+	z-index: 2;
+/*	overflow: scroll;*/
+	overflow: hidden;
+	border: thin solid;
+}
+
+
+.progressAreaHeader {
+  font-weight: bold;
+  text-align: center;
+	z-index: 2;
+}
+
+.currentIndex {
+  background-color: gray;
+  width: 245px;
+}
+
+.progressInputValue {
+	font-size: 0.8em;
+	display: inline;
+}
+.messageBar {
+/*  height: 1em;*/
+  left: 175px;
+  width: 450px;
+  position: absolute;
+  top: 10px;
+  font-size: 2em;
+	text-align: center;
+  background-color: tomato;
+  z-index: 999;
+	/*border: 3px solid red;*/
+}
+
+.confirmationBar {
+  height: 1em;
+  width: 400px;
+  position: absolute;
+  top: 30px;
+  right: 10px; 
+  font-size: 1.2em;
+	float: right;
+	text-align: left;
+	/*border: 3px solid red;*/
+}
+
+.touchscreenPopup {
+  height: 100px;
+  width: 450px;
+  position: absolute;
+  top: 150px;
+  left: 150px; 
+  font-size: 1.2em;
+	float: right;
+	text-align: left;
+	z-index: 842;
+	border: thin solid black;
+	background: white;
+	display: none;
+	padding: 10px;
+}
+
+.touchscreenPopup #confirmUsername {
+	font-size: 1.3em;
+	width: 250px;
+}
+
+#SHIFT, #space, #qwerty, #showDataButton, #lessthan, #greaterthan, #equals, #unknown {
+	display: none;
+}
+
+.buttonsDiv {
+  background-color:#333333;
+  color:#CADCEA;
+  display:block;
+  height:80px;
+  overflow:hidden;
+  position:absolute;
+  width:100%;
+  bottom:0px;
+  z-index:10;
+}
+
+.buttonsDiv button {
+  margin:5px;
+}
+
+button.navButton {
+ float:right;
+ margin-top:20px;
+}
+
+button { 
+  background:#000; 
+  font-size:1.3em; 
+  height:57px; 
+  line-height:57px;
+  min-width:48px;
+  display:block;
+  border:0; 
+  cursor:pointer; 
+  font-weight:bold; 
+  padding:0; 
+  text-align:center; 
+  border:1px solid black;
+  -moz-user-select:none;
+  -moz-user-focus:disabled;
+}
+
+button span { 
+  background:none; 
+  top:-1px;
+  position:relative; 
+  display:block; 
+  white-space:nowrap; 
+  padding:0 8px; 
+  height:55px; 
+  line-height:55px;
+  color:white; 
+  -moz-user-select:none;
+  -moz-user-focus:disabled;
+}
+
+
+button.blue { 
+  background:#E6E6FF; 
+}
+  
+button.blue span { 
+  background:#E6E6FF; 
+  color:#000; 
+}
+
+button.red { 
+  background:#f00; 
+}
+
+button.red span { 
+  background:#f00; 
+  color:#000; 
+}
+
+button.green { 
+  background:#0f0; 
+}
+
+button.green span { 
+  background:#0f0; 
+  color:#000; 
+}
+
+button.gray { 
+  background:#aaa; 
+}
+button.gray span { 
+  background:#aaa; 
+  color:#000; 
+}
+
+button.dark { 
+  background:#777; 
+}
+
+button.dark span { 
+  background:#777; 
+  color:#000; 
+}
+
+button.silver { 
+  background:silver; 
+}
+
+button.silver span { 
+  background:silver; 
+  color:#000; 
+}
+
+button.yellow { 
+  background:#ff9; 
+}
+
+button.yellow span { 
+  background:#ff9; 
+  color:#000; 
+}
+
+
+
+#cancelButton {
+  float:left;
+}
+
+#nextButton {
+}
+
+#backspace, #num, #space, #date, #abc{
+  padding-left: 0px;
+  text-align:center;
+}
+
+#scrollUp, #scrollDown{
+  position: absolute;
+  right: 0px;
+  height: 50px;
+  width: 50px;
+  background-color: lightgray;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+#scrollUp{
+  top: 0px;
+  background-image: url(/images/arrow-up.png);
+}
+#scrollDown{
+  background-image: url(/images/arrow-down.png);
+  bottom: 0px;
+}
+
+.dateselector input, button{
+	text-align: center;
+}
+
+.dateselector input {
+  font-size:1.7em;
+	width: 100px;
+}
+.dateselector button {
+	display:block;
+	color: black;
+	margin: 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color:silver;
+  color:black;
+  border:2px solid black;
+	text-align: center;
+  width:90%;
+}
+.dateselector button span {
+  color:black;
+}
+
+
+.ShortSelectList #scrollUp, 
+.ShortSelectList #scrollDown, 
+.ShortSelectList #clearButton,
+.ShortSelectList .touchscreenTextInput {
+  display: none;
+}
+
+.ShortSelectList .keyboard{
+  display: none;
+}
+
+.ShortSelectList #options,
+.ShortSelectList #viewport {
+  height: auto;
+ -moz-user-select:none
+}
+
+.ShortSelectList li {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.Numeric #options, 
+.Numeric #viewport{
+  display: none;
+}
+
+.Numeric .helpTextClass{
+  position: relative;
+}
+
+
+.Numeric .touchscreenTextInput{
+  top: auto;
+  position: relative;
+  display: block;
+
+  font-size: 3em;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.NumbersOnlyWithDecimal #star,
+.NumbersOnlyWithDecimal #abc,
+.NumbersOnlyWithDecimal #date,
+.NumbersOnlyWithDecimal #minus,
+.NumbersOnlyWithDecimal #plus,
+.NumbersOnlyWithDecimal #slash,
+.NumbersOnlyWithDecimal #comma,
+.NumbersOnlyWithDecimal #percent{
+  display: none
+}
+
+.NumbersOnly #star,
+.NumbersOnly #abc,
+.NumbersOnly #date,
+.NumbersOnly #minus,
+.NumbersOnly #plus,
+.NumbersOnly #decimal,
+.NumbersOnly #slash,
+.NumbersOnly #comma,
+.NumbersOnly #percent{
+  display: none
+}
+
+.NumbersOnlyWithDecimal .keyboardButton,
+.NumbersOnlyWithDecimal .buttonLine,
+.NumbersOnly .keyboardButton,
+.NumbersOnly .buttonLine{
+}
+
+.NumbersOnlyWithDecimal .keyboardButton,
+.NumbersOnly .keyboardButton{
+  font-size: 2em;
+}
+
+.NoInput .touchscreenTextInput {
+  display:none
+}
+
+.NoControls #viewport,
+.NoControls #keyboard,
+.NoControls .touchscreenTextInput{
+  display: none;
+}
+
+.date_year #viewport{
+  display: none;
+}
+
+.date_year .touchscreenTextInput{
+ position:absolute;
+ top:100px				
+}
+
+.date_year #num,
+.date_year #star,
+.date_year #abc,
+.date_year #date,
+.date_year #minus,
+.date_year #plus,
+.date_year #slash,
+.date_year #comma,
+.date_year #percent,
+.date_year #decimal,
+.date_year #backspace,
+.date_year #lessthan,
+.date_year #greaterthan,
+.date_year #equals{
+  display: none;
+}
+
+
+.date_day #viewport{
+ display: none;
+}
+
+.date_day .keyboard{
+height:370px;
+left:27px;
+top:120px;
+width:620px;
+display:block;
+}
+
+.date_day .touchscreenTextInput{
+ position:absolute;
+ top:65px				
+}
+
+.date_day #Unknown{
+ display:inline;			
+ width:140px; 
+}
+
+.date_year #minus{
+ display:none;				
+}
+
+.date_year #Unknown{
+ display:inline;				
+}
+
+.date_year .numericKeyboard .buttonLine{
+  height:95px;
+}
+
+.date_year .numericKeyboard{
+  font-size:1.2em;
+}
+
+.date_year .numericKeyboard .keyboardButton {
+}
+
+.date_year .keyboard{
+   bottom:50px;
+   display:block;
+   left:30px;
+   position:absolute;
+   z-index:10;
+}
+
+
+.date_year .keyboardButton{
+  color:black;
+  display:inline;
+  font-size:1.5em;
+  margin:5px;
+  text-align:center;
+}
+
+
+.date_month #viewport{
+  height:475px;
+  top:90px;
+  width:450px;
+}
+
+
+.date_month .options li{
+  color:black;
+  font-size:1em;
+  list-style-image:none;
+  list-style-position:outside;
+  list-style-type:none;
+  margin-bottom:5px;
+  margin-top:5px;
+  padding-left:5px;
+  padding-right:5px;
+  padding-bottom:1px;
+  padding-top:1px;
+}
+
+.message{
+  display: block;
+  font-size:.5em;
+}
+
+.centered {
+  width:400px;
+  height:400px;
+  position:absolute;
+  margin-left:-200px;
+  left:50%;
+}
+.centered button {
+  margin:0 auto;
+}
+
+.infoBarClass {
+  -moz-user-select:none;
+  color:gray;
+  font-size:1.3em;
+  margin-left:25px;
+  padding-top:5px;
+  width:750px;  
+  border-bottom:2px dotted;
+}  
+
+.ShortSelectList, 
+.NumbersOnlyWithDecimal,
+.NumbersOnly,
+.DatesOnly { height: 340px !important }
+.NoKeyboard { height: 520px !important } 
+.NoKeyboard .inputFrameClass { height: 440px !important } 
+.NoKeyboard .options { height: 395px !important } 
+.NoInput .options { height: 435px !important } 
+
+#footer button, div.buttonsDiv button {
+  margin-top: 10px;
+  min-width: 140px;
+}
+
