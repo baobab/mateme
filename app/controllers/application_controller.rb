@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   before_filter :login_required, :except => ['login', 'logout','demographics']
   before_filter :location_required, :except => ['login', 'logout', 'location','demographics']
 
-  
   def rescue_action_in_public(exception)
     @message = exception.message
     @backtrace = exception.backtrace.join("\n") unless exception.nil?
@@ -25,7 +24,12 @@ class ApplicationController < ActionController::Base
     all_encounters = patient.encounters.active.find(:all, :include => [:type]).map{|e| e.type.name}
 
     # Initial Questions have to be answered for every patient if not done yet
-    return "/encounters/new/supplementary_questions?patient_id=#{patient.id}" if !all_encounters.include?("DIABETES INITIAL QUESTIONS")
+
+    ask_TB_questions_only = todays_encounters.include?("DIABETES INITIAL QUESTIONS")
+    ask_ALL_initial_questions = all_encounters.include?("DIABETES INITIAL QUESTIONS")
+
+    return "/encounters/new/supplementary_questions?patient_id=#{patient.id}&ask_TB_questions=#{ask_TB_questions_only}&ask_ALL_initial_questions=#{ask_ALL_initial_questions}" if !ask_TB_questions_only
+
     # Registration clerk needs to do registration if it hasn't happened yet
     return "/encounters/new/registration?patient_id=#{patient.id}" if current_location_name.match(/Registration/) && !todays_encounters.include?("REGISTRATION")
     # Everyone needs to do registration if it hasn't happened yet (this may be temporary)
