@@ -18,88 +18,122 @@
   <% default={
     :allowFreeText => 'true'
   } %>
-
-  <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
-
-  <%= hidden_field_tag "encounter[encounter_type_name]", "DIABETES INITIAL QUESTIONS" %>
-  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now %>
-  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
-
-  <% options=default.merge({
-      :field_type => 'text',
-      :helpText => "Is the patient a:",
-      :id => "patient_type",
-    }) %>
-
-  <% @type_list = ["NEW PATIENT", "TRANSFER IN", "REFERRED"] %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@type_list),options)%>
-  <%= hidden_field_tag("observations[][concept_name]",        "TYPE OF PATIENT")%>
-  <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
-
-  <% options=default.merge(
-    {:helpText => 'Year of Diabetes Diagnosis',
-      :field_type => 'text',  :id => "year_of_initial_diagnosis",
-      # :optional => true,
-      :multiple => false,
-      :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
-      :tt_onUnLoad => "onYearUpdateDateTime('initial_diagnosis_date', 'year_of_initial_diagnosis', 'diagnosis_date_value_modifier');",
-      :tt_pageStyleClass => "LongSelectList"
-    }) %>
-
+  
   <%
-  @select_init_diagnosis_year = ["", "Unknown"]
-  this_year = Date.today.year
-  begin @select_init_diagnosis_year << Array.new(1){this_year.to_s}; this_year = this_year - 1; end while (this_year != 1949)
-%>
-
-  <%= select_tag "year_of_initial_diagnosis", options_for_select(@select_init_diagnosis_year, ""),options %>
-
-  <%= select_tag "month_of_initial_diagnosis", month_name_options(""),
-    {:helpText => 'Month of Diagnosis',
-    :tt_pageStyleClass => 'LongSelectList',
-    :id => "month_of_initial_diagnosis",
-    :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown" && (year - $("year_of_initial_diagnosis").value <= 2)',
-    :tt_onUnLoad => "onMonthUpdateDateTime('initial_diagnosis_date', 'month_of_initial_diagnosis', 'diagnosis_date_value_modifier');"}%>
-
-  <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'diagnosis_date_value_modifier'} ) %>
-  <%= hidden_field_tag("observations[][value_datetime]", "", {:id => 'initial_diagnosis_date'}) %>
-  <%#= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "DIABETES DIAGNOSIS DATE") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-
-  <% options=default.merge({
-      :field_type => 'text',
-      :id => "tb_ever",
-      :helpText =>"Have you ever had TB?"
-    }) %>
-  <%
-    @select_tb_state = ["", "YES", "NO"]
+    @select_init_diagnosis_year = ["", "Unknown"]
+    this_year = Date.today.year
+    begin @select_init_diagnosis_year << Array.new(1){this_year.to_s}; this_year = this_year - 1; end while (this_year != 1949)
   %>
+      <%= hidden_field_tag "encounter_id", "#{((params[:encounter_id])?params[:encounter_id]:"")}" %>
 
-  <%= select_tag( "observations[][value_coded_or_text]", options_for_select(@select_tb_state, ""), options) %>
-  <%= hidden_field_tag("observations[][concept_name]", "HAVE YOU EVER HAD TB?") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+      <%= hidden_field_tag "encounter[encounter_type_name]", "DIABETES INITIAL QUESTIONS" %>
+      <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+      <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now %>
+      <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <% options=default.merge(
-    {:helpText => 'Year(s) of TB Diagnosis',
-      :field_type => 'text',  :id => "year_of_tb_diagnosis",
-      :multiple => true,
-      :condition => "$('tb_ever').value.match(/^yes$/i);",
-      :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
-      # :tt_onUnLoad => "$('tb_dates_value_coded_or_text').value = $('touchscreenInput' + tstCurrentPage).value; ",
-      :tt_pageStyleClass => "LongSelectList"
-    }) %>
+  <%if params[:ask_ALL_initial_questions].to_s == false.to_s %>
 
-  <%= select_tag("observations[][value_numeric]", options_for_select(@select_init_diagnosis_year, ""),options) %>
 
-  <%#= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "tb_dates_value_coded_or_text"})%>
-  <%= hidden_field_tag("observations[][concept_name]", "TB DIAGNOSIS DATE") %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+      <% options=default.merge({
+          :field_type => 'text',
+          :helpText => "Is the patient a:",
+          :id => "patient_type",
+        }) %>
 
+      <% @type_list = ["NEW PATIENT", "TRANSFER IN", "REFERRED"] %>
+      <%= select_tag("observations[][value_coded_or_text]", options_for_select(@type_list),options)%>
+      <%= hidden_field_tag("observations[][concept_name]",        "TYPE OF PATIENT")%>
+      <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]",        DateTime.now()) %>
+
+      <% options=default.merge(
+        {:helpText => 'Year of Diabetes Diagnosis',
+          :field_type => 'text',  :id => "year_of_initial_diagnosis",
+          # :optional => true,
+          :multiple => false,
+          :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+          :tt_onUnLoad => "onYearUpdateDateTime('initial_diagnosis_date', 'year_of_initial_diagnosis', 'diagnosis_date_value_modifier');",
+          :tt_pageStyleClass => "LongSelectList"
+        }) %>
+
+      <%= select_tag "year_of_initial_diagnosis", options_for_select(@select_init_diagnosis_year, ""),options %>
+
+      <%= select_tag "month_of_initial_diagnosis", month_name_options(""),
+        {:helpText => 'Month of Diagnosis',
+        :tt_pageStyleClass => 'LongSelectList',
+        :id => "month_of_initial_diagnosis",
+        :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown" && (year - $("year_of_initial_diagnosis").value <= 2)',
+        :tt_onUnLoad => "onMonthUpdateDateTime('initial_diagnosis_date', 'month_of_initial_diagnosis', 'diagnosis_date_value_modifier');"}%>
+
+      <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'diagnosis_date_value_modifier'} ) %>
+      <%= hidden_field_tag("observations[][value_datetime]", "", {:id => 'initial_diagnosis_date'}) %>
+      <%#= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
+      <%= hidden_field_tag("observations[][concept_name]", "DIABETES DIAGNOSIS DATE") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+      <% options=default.merge({
+          :field_type => 'text',
+          :id => "tb_ever",
+          :helpText =>"Did you EVER have TB?"
+        }) %>
+      <%
+        @select_tb_state = ["", "YES", "NO"]
+      %>
+
+      <%= select_tag( "observations[][value_coded_or_text]", options_for_select(@select_tb_state, ""), options) %>
+      <%= hidden_field_tag("observations[][concept_name]", "HAVE YOU EVER HAD TB?") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+      <% options=default.merge(
+        {:helpText => 'Year(s) of TB Diagnosis',
+          :field_type => 'text',  :id => "year_of_tb_diagnosis",
+          :multiple => true,
+          :condition => "$('tb_ever').value.match(/^yes$/i);",
+          :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+          # :tt_onUnLoad => "$('tb_dates_value_coded_or_text').value = $('touchscreenInput' + tstCurrentPage).value; ",
+          :tt_pageStyleClass => "LongSelectList"
+        }) %>
+
+      <%= select_tag("observations[][value_numeric]", options_for_select(@select_init_diagnosis_year, ""),options) %>
+
+      <%#= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "tb_dates_value_coded_or_text"})%>
+      <%= hidden_field_tag("observations[][concept_name]", "TB DIAGNOSIS DATE") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <%else%>
+        <% options=default.merge({
+          :field_type => 'text',
+          :id => "tb_ever",
+          :helpText =>"Have you been diagnosed with TB since your LAST clinic visit?"
+        }) %>
+      <%
+        @select_tb_state = ["", "YES", "NO"]
+      %>
+
+      <%= select_tag( "observations[][value_coded_or_text]", options_for_select(@select_tb_state, ""), options) %>
+      <%= hidden_field_tag("observations[][concept_name]", "HAVE YOU EVER HAD TB?") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+      <% options=default.merge(
+        {:helpText => 'Year(s) of TB Diagnosis',
+          :field_type => 'text',  :id => "year_of_tb_diagnosis",
+          :multiple => true,
+          :condition => "$('tb_ever').value.match(/^yes$/i);",
+          :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
+          # :tt_onUnLoad => "$('tb_dates_value_coded_or_text').value = $('touchscreenInput' + tstCurrentPage).value; ",
+          :tt_pageStyleClass => "LongSelectList"
+        }) %>
+
+      <%= select_tag("observations[][value_numeric]", options_for_select(@select_init_diagnosis_year, ""),options) %>
+
+      <%#= hidden_field_tag("observations[][value_coded_or_text]", "", {:id => "tb_dates_value_coded_or_text"})%>
+      <%= hidden_field_tag("observations[][concept_name]", "TB DIAGNOSIS DATE") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%end%>
   <%= submit_tag "Finish" %>
 </form>
