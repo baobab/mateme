@@ -1,6 +1,5 @@
 
 <link href="/stylesheets/cohort.css" media="screen" rel="stylesheet" type="text/css" />
-<!--link href="/stylesheets/cohortprint.css" media="print" rel="stylesheet" type="text/css" /-->
 
 <form id="frmMain" action="/cohort/cohort" method="post">
   <input type="hidden" id="start_date" name="start_date" value="<%#= @specified_period[0].to_date.strftime('%d-%m-%Y') %>" />
@@ -10,20 +9,24 @@
 <div>
   <table width="100%" cellpadding="10">
     <tr>
-      <th style="color:white; background-color:green; font-size: 30px; padding: 20px;">
+      <th style="color:white; background-color:#6281a7; font-size: 30px; padding: 20px;">
         <% case @reportType.to_i
         when 1: %>
-          <%= "Bwaila Maternity Unit - Maternity Statistics" %>
+          <%= "#{@location_name.titleize} - Maternity Statistics" %>
         <% when 2: %>
-        <%=  "End of Shift Report - Labour Ward" %>
+          <%=  "End of Shift Report - Labour Ward" %>
         <% when 3: %>
           <%= "End of Shift Report - AnteNatal Ward" %>
         <% when 4: %>
-          <%= "End of Shift Report - Post Natal Ward (High Risk)" %>
+          <%= "End of Shift Report - Post Natal Ward" %>
         <% when 5: %>
-          <%= "End of Shift Report - Post Natal (Low Risk)" %>
-        <% when 6: %>
           <%= "End of Shift Report - Gynae" %>
+        <% when 6: %>
+          <%= "End of Shift Report - Post Natal Ward (High Risk)" %>
+        <% when 7: %>
+          <%= "End of Shift Report - Post Natal Ward (Low Risk)" %>
+        <% else %>
+          <%= "#{@location_name.titleize} - Maternity Statistics" %>
         <% end %>
       </th>
     </tr>
@@ -42,7 +45,7 @@
               </label>
             </td>
           </tr>
-          <tr style="color:white; background-color:green;">
+          <tr style="color:white; background-color:#6281a7;">
             <th width="25%" class="cellleft celltop cellbottom main-table-cell" style="width:220px;">
               <i>&nbsp;</i>
             </th>
@@ -56,174 +59,194 @@
               <i>Total</i>
             </th>
           </tr>
-          <tr>
+
+          <% @fields.each do|field| %>
+
+            <tr>
+              <td class="cellleft cellbottom main-table-cell topic">
+                <i><%= field[0] %></i>&nbsp;
+              </td>
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  field[1].to_i %>&nbsp;
+              </td>
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  field[2].to_i %>&nbsp;
+              </td>
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  field[1].to_i + field[2].to_i %>
+              </td>
+            </tr>
+
+          <% end %>
+
+          <!--tr>
             <td class="cellleft cellbottom main-table-cell topic" style="width:220px;">
               <i>ADMISSION</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="width:200px; font-size:1.5em;">
-              <%=  @admissions0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="width:200px; font-size:1.5em;">
-              <%=  @admissions1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @admissions0730_1630 + @admissions1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="width:200px; font-size:1.5em;">
+          <%=  @admissions0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="width:200px; font-size:1.5em;">
+          <%=  @admissions1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @admissions0730_1630 + @admissions1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>DISCHARGES</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @discharged0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @discharged1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @discharged0730_1630 + @discharged1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @discharged0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @discharged1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @discharged0730_1630 + @discharged1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
-              <i>REFERRALS</i>
+              <i>REFERRALS (IN)</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @referrals0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @referrals1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @referrals0730_1630 + @referrals1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @referrals0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @referrals1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @referrals0730_1630 + @referrals1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>MATERNAL DEATHS</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @deaths0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @deaths1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @deaths0730_1630 + @deaths1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @deaths0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @deaths1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @deaths0730_1630 + @deaths1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>CESARIAN SECTIONS</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @cesarean0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @cesarean1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @cesarean0730_1630 + @cesarean1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @cesarean0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @cesarean1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @cesarean0730_1630 + @cesarean1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>SVDS</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @svds0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @svds1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @svds0730_1630 + @svds1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @svds0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @svds1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @svds0730_1630 + @svds1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>VACUUM EXTRACTION</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @vacuum0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @vacuum1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @vacuum0730_1630 + @vacuum1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @vacuum0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @vacuum1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @vacuum0730_1630 + @vacuum1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>BREECH</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @breech0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @breech1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @breech0730_1630 + @breech1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @breech0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @breech1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @breech0730_1630 + @breech1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>RUPTURED UTERUS</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @ruptured0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @ruptured1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @ruptured0730_1630 + @ruptured1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @ruptured0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @ruptured1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @ruptured0730_1630 + @ruptured1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>TRIPLETS</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @triplets0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @triplets1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @triplets0730_1630 + @triplets1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @triplets0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @triplets1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @triplets0730_1630 + @triplets1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>TWINS</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @twins0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @twins1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @twins0730_1630 + @twins1630_0730 %>
-            </th>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @twins0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @twins1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @twins0730_1630 + @twins1630_0730 %>
+            </td>
           </tr>
           <tr>
             <td class="cellleft cellbottom main-table-cell topic">
               <i>BBA</i>
             </td>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @bba0730_1630 %>
-            </th>
-            <th class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @bba1630_0730 %>
-            </th>
-            <th class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
-              <%=  @bba0730_1630 + @bba1630_0730 %>
-            </th>
-          </tr>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @bba0730_1630 %>
+            </td>
+            <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @bba1630_0730 %>
+            </td>
+            <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+          <%=  @bba0730_1630 + @bba1630_0730 %>
+            </td>
+          </tr-->
         </table>
       </td>
     </tr>
@@ -231,15 +254,15 @@
       <td class="cellleft celltop cellbottom main-table-cell topic" style="width:220px;">
     <!--b><i>TOTALS</i></b-->
     <!--/td>
-    <th class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
+    <td class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
       &nbsp;
-    </th>
-    <th class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
+    </td>
+    <td class="cellleft celltop cellbottom main-table-cell" style="width:200px;" align="center" style="font-size:1.5em;">
       &nbsp;
-    </th>
-    <th class="cellleft celltop cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+    </td>
+    <td class="cellleft celltop cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
       &nbsp;
-    </th>
+    </td>
   </tr-->
   </table>
 

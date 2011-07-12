@@ -1,28 +1,67 @@
-<%= javascript_include_tag "barcode" %>
-<script type="text/javascript">
+<%#= javascript_include_tag "barcode" %>
+<!--script type="text/javascript">
   tt_cancel_destination = '/logout';  
-</script>
+</script-->
 
 <div style="text-align:center;margin:10px;">
-  <form id='barcodeForm' action="/people/search">
-      <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
-      <%= submit_tag "Submit", :style => "display:none" %>
+  <!--form id='barcodeForm' action="/people/search">
+  <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
+  <%= submit_tag "Submit", :style => "display:none" %>
       <div style="color:gray">scan a barcode</div>
-    </form>
+    </form-->
 
-  <div class="centered">
-    
-    <% date = session[:datetime] ||= Date.today
-    #if @super_user or @regstration_clerk %>
-    <%if !@show_set_date%>
+  <form id = 'home' action=''>
+    <table cellpadding=10>
+      <tr>
+        <th colspan=2>Home Page</th>
+      </tr>
+      <h1 id='project_name'>
+        <div style="font-size: 0.6em; margin-top: 12px;">maternity</div>
+      </h1>
+
+      <div id="facility"><%= @facility %></div>
+      <div id="location"><%= @location %></div>
+      <div id="date"><%= @date %></div>
+      <div id="user"><%= @user %></div>
+
+      <select id="tabs">
+        <option value='/people/overview'>Overview</option>
+        <option value='/people/reports'>Reports</option>
+
+        <% if session[:user].admin? %>
+          <option value='/people/admin'>Administration</option>
+        <% end %>
+          
+      </select>
+      <select id="links">
+        <option value='/logout'>Logout</option>
+        <option value='/people/search' ttSize="320px">Find or Register Client</option>
+        <option value='<%= ((session[:datetime].to_date rescue '') != '' ?
+                    "/people/reset_datetime" : "/people/set_datetime") %>'  ttSize="160px">
+          <%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>
+        <option value='/location?from=people'>New Desk</option>
+      </select>
+      <tr>
+        <td align='center'>
+          <input type='submit' value='Finish' />
+        </td>
+      </tr>
+    </table>
+  </form>
+
+  <!--div class="centered">
+
+<%# date = session[:datetime] ||= Date.today
+#if @super_user or @regstration_clerk %>
+<%# if !@show_set_date%>
       <span style="font-size: 16pt">
-        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+<%#="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
       </span>
-    <%else%>
+<%# else%>
       <span style="font-size: 16pt; background-color: red">
-        <%="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
+<%#="Summary for: #{date.strftime("%d %b %Y") unless session[:datetime].blank?}"%>
       </span>
-    <%end%>
+<%# end%>
 
 
     <button id="find_or_register_button" class="button green"
@@ -37,30 +76,30 @@
 
     <button id="set_date_button" class="button green"
             onclick="window.location = '<%= ((session[:datetime].to_date.strftime("%Y-%m-%d") rescue "#{Date.today.strftime("%Y-%m-%d")}") != "#{Date.today.strftime("%Y-%m-%d")}" ?
-                          "/people/reset_datetime" : "/people/set_datetime") %>'" style="min-width:480px;">
+      "/people/reset_datetime" : "/people/set_datetime") %>'" style="min-width:480px;">
       <span><%= ((session[:datetime].to_date.strftime("%Y-%m-%d") rescue "#{Date.today.strftime("%Y-%m-%d")}") != "#{Date.today.strftime("%Y-%m-%d")}" ? "Reset Date" : "Set Date") %></span>
     </button>
 
-    <% if @super_user%>
-      <button id="admin_button" class="button green"  style="min-width:480px;"
-              onclick="window.location = '/admin'"><span>Administration</span>
-      </button>
-    <%end%>
-    <!-- <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
-    <!-- TODO: need to show current date
-         TODO: need set date/reset date button
-         TODO: need reports button
-         TODO: need summary to be adjusted based on visit? -->
-    <table style="margin-left:50px;margin-top:20px;background:#ddddff;width:380px;">
-      <% Encounter.count_by_type_for_date(Date.today).each do |type,total|
-        type = "Reception - patients seen" if type == "REGISTRATION"
-        type = "patients referred to other clinics" if type == "REFERRED" %>
-        <tr>
-          <td><%= type.upcase %>:</td>
-          <td><strong><%= total %></strong></td>
-        </tr>
-      <% end %>
-    </table>
-  </div>  
-</div> 
+  <% if @super_user%>
+          <button id="admin_button" class="button green"  style="min-width:480px;"
+                  onclick="window.location = '/admin'"><span>Administration</span>
+          </button>
+  <%end%>
+  <!-- <button id="find_or_register_by_identifier_button" class="button green" onclick="window.location = '/people/identifiers'"><span>Find patient by identifier</span></button> -->
+  <!-- TODO: need to show current date
+       TODO: need set date/reset date button
+       TODO: need reports button
+       TODO: need summary to be adjusted based on visit? -->
+  <!--table style="margin-left:50px;margin-top:20px;background:#ddddff;width:380px;">
+  <% Encounter.count_by_type_for_date(Date.today).each do |type,total|
+    type = "Reception - patients seen" if type == "REGISTRATION"
+    type = "patients referred to other clinics" if type == "REFERRED" %>
+          <tr>
+            <td><%= type.upcase %>:</td>
+            <td><strong><%= total %></strong></td>
+          </tr>
+  <% end %>
+  </table>
+</div>  
+</div-->
 

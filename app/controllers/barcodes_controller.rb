@@ -3,7 +3,7 @@ class BarcodesController < ApplicationController
   end
 
   def create
-    print_and_redirect("/barcodes/label?barcode=#{params[:barcode]}&label=#{params[:label]}", '/admin')  
+    print_and_redirect("/barcodes/label?barcode=#{params[:barcode]}&label=#{params[:label]}", '/people')
   end
 
   def label

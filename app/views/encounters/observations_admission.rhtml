@@ -145,7 +145,7 @@
         "$('admission_date_value_datetime').value.trim() + ' ' + $('admission_time').value.trim();"
     }) %>
 
-  <%= text_field_tag("admission_time",DateTime.now().strftime("%Y-%m-%d"),options) %>
+  <%= text_field_tag("admission_time",Time.now().strftime("%H:%M"),options) %>
 
   <%= hidden_field_tag("observations[][concept_name]", 'ADMISSION TIME', {:id => 'admission_time_concept_name'}) %>
   <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "admission_time_value_datetime"}) %>

@@ -32,10 +32,13 @@ class User < ActiveRecord::Base
     #raise "#{self.salt}"
     encrypt(plain, salt) == password || Digest::SHA1.hexdigest("#{plain}#{salt}") == password
   end
-  
+
   def admin?
-    user_roles.map{|user_role| user_role.role }.include? 'Informatics Manager'
-  end  
+    admin = user_roles.map{|user_role| user_role.role }.include? 'Informatics Manager'
+    admin = user_roles.map{|user_role| user_role.role }.include? 'System Developer' unless admin
+    admin = user_roles.map{|user_role| user_role.role }.include? 'Superuser' unless admin
+    admin
+  end
       
   # Encrypts plain data with the salt.
   # Digest::SHA1.hexdigest("#{plain}#{salt}") would be equivalent to

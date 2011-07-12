@@ -16,13 +16,22 @@ class PeopleController < ApplicationController
 
     @password_expired = true if @days_left < 0
 
-
     @super_user = true  if user.user_roles.collect{|x|x.role.downcase}.include?("superuser") rescue nil
     @regstration_clerk = true  if user.user_roles.collect{|x|x.role.downcase}.include?("regstration_clerk") rescue nil
     
     @show_set_date = false
     session[:datetime] = nil if session[:datetime].to_date == Date.today rescue nil
     @show_set_date = true unless session[:datetime].blank? 
+
+    @facility = Location.find(session[:facility]).name rescue ""
+
+    @location = Location.find(session[:location_id]).name rescue ""
+
+    @date = (session[:datetime].to_date rescue Date.today).strftime("%Y-%m-%d")
+
+    @user = User.find(session[:user_id]).name rescue ""
+
+    @roles = User.find(session[:user_id]).user_roles.collect{|r| r.role} rescue []
 
     render :layout => "menu"
   end
@@ -196,6 +205,35 @@ class PeopleController < ApplicationController
       end
     end
 
+  end
+
+  def overview
+    @types = GlobalProperty.find_by_property("statistics.show_encounter_types").property_value rescue EncounterType.all.map(&:name).join(",")
+    @types = @types.split(/,/)
+
+    @me = Encounter.statistics(@types, :conditions => 
+        ['DATE(encounter_datetime) = DATE(NOW()) AND encounter.creator = ? AND encounter.location_id = ?',
+        User.current_user.user_id, session[:location_id]])
+    
+    @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW()) AND encounter.location_id = ?',
+        session[:location_id]])
+    
+    @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW()) AND encounter.location_id = ?',
+        session[:location_id]])
+
+    @ever = Encounter.statistics(@types, :conditions => ['encounter.location_id = ?', session[:location_id]])
+
+    render :layout => false
+  end
+
+  def reports
+    @location = Location.find(session[:facility]).name rescue ""
+
+    render :layout => false
+  end
+
+  def admin
+    render :layout => false
   end
 
 end

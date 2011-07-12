@@ -141,7 +141,7 @@
 
 
       <select id="selWeek" name="selWeek" helpText="Select Week:" field_type="number"
-              condition="$('selSelect').value == 'week'" tt_pageStyleClass="NumbersOnly">
+              condition="$('selSelect').value == 'week'">
         <option></option>
         <% (1..52).each do |w| %>
           <option value="<%= w %>">Week <%= w %></option>
@@ -154,20 +154,32 @@
       <input type="text" field_type="date" id="end_date" name="end_date" value="" helpText="Select End Date:"
              condition="$('selSelect').value == 'range';" />
 
-      <select id="reportType" name="reportType" >
-        <option></option>
-        <option value="1">Aggregate Maternity Statistics</option>
-        <option value="2">End of Shift Report - Labour Ward</option>
-        <option value="3">End of Shift Report - AnteNatal Ward</option>
-        <option value="4">End of Shift Report - Post Natal Ward (High Risk)</option>
-        <option value="5">End of Shift Report - Post Natal (Low Risk)</option>
+      <% if @reportType.nil? %>
 
-        <% if @location.upcase.eql?("KAMUZU CENTRAL HOSPITAL") %>
+        <select id="reportType" name="reportType" helpText="Select Report Type:" >
+          <option></option>
+          <option value="1">Aggregate Maternity Statistics</option>
+          <option value="2">End of Shift Report - Labour Ward</option>
+          <option value="3">End of Shift Report - AnteNatal Ward</option>
 
-          <option value="6">End of Shift Report - Gynae</option>
+          <% if @location.upcase.eql?("KAMUZU CENTRAL HOSPITAL") %>
 
-        <% end %>
-      </select>
+            <option value="4">End of Shift Report - Post Natal Ward</option>
+            <option value="5">End of Shift Report - Gynae</option>
+
+          <% else %>
+
+            <option value="6">End of Shift Report - Post Natal Ward (High Risk)</option>
+            <option value="7">End of Shift Report - Post Natal Ward (Low Risk)</option>
+
+          <% end %>
+        </select>
+
+      <% else %>
+
+        <input type="hidden" id="reportType" name="reportType" value="<%= @reportType %>" />
+
+      <% end %>
 
     </form>
   </body>

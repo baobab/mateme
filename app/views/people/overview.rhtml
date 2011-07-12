@@ -1,0 +1,52 @@
+<style type="text/css">
+  body {
+    -moz-user-select:none;
+  }
+
+  #stats {
+    width:98%;
+    border:1px solid #eee;
+    margin:10px;
+    background:white;
+  }
+  #stats td, #stats th {
+    text-align:center;
+  }
+  .odd {
+    background-color: #eeeef7;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 320px;
+    background-color: white;
+    border: solid 1px #eee;
+    border-width: 1px;
+    overflow: hidden;
+  }
+
+</style>
+<div id="tab" style="">
+  <h2 style="text-align: center; color: #6281a7;">Current Patient Statistics</h2>
+    <div id="table_div">
+
+    <table id="stats" cellpadding="14">
+      <tr style="color: #fff; background-color: #6281a7;">
+        <th style="text-align:left;">Encounter Type</th>
+        <th>Me</th>
+        <th>Today</th>
+        <th>This Year</th>
+        <th>Total to Date</th>
+      </tr>
+      <% @types.each do |type| %>
+        <tr class="<%= cycle('even', 'odd') %>">
+          <td style="text-align:left;"><%= type %></td>
+          <td><%= @me[type].to_i %></td>
+          <td><%= @today[type].to_i %></td>
+          <td><%= @year[type].to_i %></td>
+          <td><%= @ever[type].to_i %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

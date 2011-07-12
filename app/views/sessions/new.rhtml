@@ -1,19 +1,24 @@
 <%= javascript_include_tag "barcode" %>
 <script defer>
-    var tt_cancel_destination = "/logout"
+  var tt_cancel_destination = "/logout"
+
+  function initVars(){
     barcodeFocusOnce = true;
     barcodeScanAction = gotoNextPage;
+  }
 
-    function inform() {
-      $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";
+  function inform() {
+    $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";
+  }
+
+  function hideMessage(){
+    if(document.getElementById('loggedOutMessage')){
+      document.getElementById('loggedOutMessage').style.display = 'none';
     }
+  }
 
-    function hideMessage(){
-      if(document.getElementById('loggedOutMessage')){
-        document.getElementById('loggedOutMessage').style.display = 'none';
-      }
-    }
-
+  setTimeout("initVars()", 300);
+  
 </script>
 
 <%= error_messages_for 'user' %>
@@ -44,11 +49,11 @@
 
 <% if @auto_logged_out %>
 
-<div id='loggedOutMessage' class='messageBar' style='display:block'>
-  You have been logged out <br /> 
-  after 3.5 minutes of inactivity <br />
-  <button onmousedown='hideMessage();'><span>OK</span></button>
-</div> 
+  <div id='loggedOutMessage' class='messageBar' style='display:block'>
+    You have been logged out <br />
+    after 3.5 minutes of inactivity <br />
+    <button onmousedown='hideMessage();'><span>OK</span></button>
+  </div>
 
 <%end%>
 

@@ -14,7 +14,9 @@ class SessionsController < ApplicationController
     else
       user = User.authenticate(params[:login], params[:password])
     end
-    
+
+    session[:user] = user
+
     if user
       self.current_user = user
       url = self.current_user.admin? ? '/admin' : '/'
@@ -28,29 +30,58 @@ class SessionsController < ApplicationController
 
   # Form for entering the location information
   def location
-    @login_wards = [' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
+    @location_name = GlobalProperty.find_by_property('facility.name').property_value rescue ""
+
+    @wards = GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
+
+    @login_wards = [' ']
+
+    @wards.each{|ward|
+      if @location_name.upcase.eql?("KAMUZU CENTRAL HOSPITAL")
+
+        if !ward.upcase.eql?("POST-NATAL WARD (LOW RISK)") && !ward.upcase.eql?("POST-NATAL WARD (HIGH RISK)")
+          @login_wards << ward
+        end
+
+      elsif @location_name.upcase.eql?("BWAILA MATERNITY UNIT")
+
+        if !ward.upcase.eql?("POST-NATAL WARD") && !ward.upcase.eql?("Gynaecology Ward".upcase)
+          @login_wards << ward
+        end
+
+      end
+    }
+
+    if !@location_name.blank?
+      location = Location.find_by_name(@location_name).location_id rescue nil
+
+      if !location.nil?
+        @location = location
+      else
+        @location = ""
+      end
+    else
+      @location = ""
+    end
+
   end
 
   # Update the session with the location information
   def update
-=begin
-    unless ['WARD 3A', 'WARD 3B', 'WARD 4A', 'WARD 4B'].include?(params[:ward])
-      flash[:error] = "Invalid Ward"
-      render :action => 'location'
-      return 
-    end 
-    session[:ward] = params[:ward]
-=end
-    
     location = Location.find(params[:location]) rescue nil
-    unless location
+    ward = Location.find_by_name(params[:ward]) rescue nil
+
+    if ward.nil?
       flash[:error] = "Invalid workstation location"
-      render :action => 'location'
-      return    
+      redirect_to 'location' and return
     end
-    self.current_location = location
-    url = self.current_user.admin? ? '/admin' : '/'
-    redirect_to url
+    
+    self.current_location = location.location_id
+
+    session[:location_id] = ward.location_id
+    session[:facility] = location.location_id
+
+    redirect_to '/'
   end
 
   def destroy

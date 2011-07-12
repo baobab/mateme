@@ -1,0 +1,116 @@
+<style type="text/css">
+  body {
+    -moz-user-select:none;
+  }
+
+  #stats {
+    width:98%;
+    border:1px solid #fff;
+    margin:10px;
+    background:white;
+  }
+  #stats td, #stats th {
+    text-align:center;
+  }
+  .odd {
+    background-color: #eee;
+  }
+
+  #table_div {
+    overflow:auto;
+    height: 320px;
+    background-color: white;
+    border: solid 1px #eee;
+    border-width: 1px;
+    overflow: hidden;
+  }
+
+  button {
+    min-height: 50px;
+    min-width: 350px;
+    margin: 5px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    background-color: #6281a7;
+    color: #FFF;
+    font-weight: normal;
+    -moz-border-radius: 30px;
+    border: 5px outset #000;
+    padding: 10px;
+  }
+
+</style>
+
+<div id="tab" style="">
+  <h2 style="text-align: center; color: #6281a7;">Select End of Shift Report</h2>
+  <div id="table_div">
+
+    <table id="stats" cellpadding="0">
+      <tr>
+        <th>
+          <button onclick="window.parent.location='/cohort/?reportType=3'">
+            <span>
+              AnteNatal Ward
+            </span>
+          </button>
+        </th>
+        <th>
+          <button onclick="window.parent.location='/cohort/?reportType=2'">
+            <span>
+              Labour Ward
+            </span>
+          </button>
+        </th>
+      </tr>
+      <% if @location.upcase.eql?("KAMUZU CENTRAL HOSPITAL") %>
+
+        <tr>
+          <th>
+            <button onclick="window.parent.location='/cohort/?reportType=4'">
+              <span>
+                Post Natal Ward
+              </span>
+            </button>
+          </th>
+          <th>
+            <button onclick="window.parent.location='/cohort/?reportType=5'">
+              <span>
+                Gynaecology
+              </span>
+            </button>
+          </th>
+        </tr>
+
+      <% else %>
+
+        <tr>
+          <th>
+            <button onclick="window.parent.location='/cohort/?reportType=7'">
+              <span>
+                Post Natal Ward (Low Risk)
+              </span>
+            </button>
+          </th>
+          <th>
+            <button onclick="window.parent.location='/cohort/?reportType=6'">
+              <span>
+                Post Natal Ward (High Risk)
+              </span>
+            </button>
+          </th>
+        </tr>
+
+      <% end %>
+
+      <tr>
+        <th colspan=2>
+          <button onclick="window.parent.location='/cohort/?reportType=1'">
+            <span>
+              Aggregate Maternity Statistics
+            </span>
+          </button>
+        </th>
+      </tr>
+    </table>
+  </div>
+</div>

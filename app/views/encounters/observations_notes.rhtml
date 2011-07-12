@@ -123,22 +123,24 @@
   <% options = default.merge({
       :id => "impression",
       :helptext => "Impression",
-      :field_type => "text"
+      :field_type => "text",
+      :optional => true
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "IMPRESSION", {:id => 'impression_concept_name'}) %>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= text_area_tag("observations[][value_coded_or_text]", nil,options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% options = default.merge({
       :id => "plan",
       :helptext => "Plan",
-      :field_type => "text"
+      :field_type => "text",
+      :optional => true
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "PLAN", {:id => 'plan_concept_name'}) %>
-  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
+  <%= text_area_tag("observations[][value_coded_or_text]", nil,options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 

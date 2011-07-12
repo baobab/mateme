@@ -85,9 +85,11 @@ function generateHomepage(){
     var loc = "";
 
     if(__$("facility")) {
-        if(__$("facility").innerHTML.trim().length > 0){
-            if(__$("facility").innerHTML.trim().length > 20) {
-                var s = __$("facility").innerHTML.trim().split(" ");
+        var facility = __$("facility").innerHTML.trim().replace(/\(/g, "").replace(/\)/g, "");
+        
+        if(facility.trim().length > 0){
+            if(facility.trim().length > 20) {
+                var s = facility.trim().split(" ");
 
                 if(s.length > 0){
                     for(var i = 0; i < s.length; i++){
@@ -98,10 +100,10 @@ function generateHomepage(){
                         }
                     }
                 } else {
-                    site = __$("facility").innerHTML.trim().substr(0, 18) + " ...";
+                    site = facility.trim().substr(0, 18) + " ...";
                 }
             } else {
-                site = __$("facility").innerHTML.trim();
+                site = facility.trim();
             }
         }
     }
@@ -114,9 +116,11 @@ function generateHomepage(){
     sitecol2.id = "sitecol2";
 
     if(__$("location")) {
-        if(__$("location").innerHTML.trim().length > 0){
-            if(__$("location").innerHTML.trim().length > 20) {
-                var s = __$("location").innerHTML.trim().split(" ");
+        var location = __$("location").innerHTML.trim().replace(/\(/g, "").replace(/\)/g, "");
+
+        if(location.trim().length > 0){
+            if(location.trim().length > 20) {
+                var s = location.trim().split(" ");
 
                 if(s.length > 0){
                     for(var i = 0; i < s.length; i++){
@@ -127,10 +131,10 @@ function generateHomepage(){
                         }
                     }
                 } else {
-                    loc = __$("location").innerHTML.trim().substr(0, 18) + " ...";
+                    loc = location.trim().substr(0, 18) + " ...";
                 }
             } else {
-                loc = __$("location").innerHTML.trim();
+                loc = location.trim();
             }
         }
     }

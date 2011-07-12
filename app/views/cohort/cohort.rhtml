@@ -1,8 +1,6 @@
 <html>
   <head>
     <title>Maternity Cohort Report</title>
-    <%= stylesheet_link_tag "mateme" %>
-    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
 
     <script type="text/javascript">
       tt_cancel_destination = '/people';
@@ -14,22 +12,30 @@
         height: 88.5%;
         overflow: auto;
       }
+
+      button{
+        margin: 5px;
+      }
     </style>
   </head>
   <body>
     <iframe id="main" src="/cohort/cohort_print?selSelect=<%= @selSelect %>&day=<%= @day %>&selYear=<%= 
-      @selYear %>&selWeek=<%= @selWeek %>&selMonth=<%= @selMonth %>&selQtr=<%= @selQtr %>&start_date=<%=
-      @start_date %>&end_date=<%= @end_date %>&reportType=<%= @reportType %>"></iframe>
+            @selYear %>&selWeek=<%= @selWeek %>&selMonth=<%= @selMonth %>&selQtr=<%= @selQtr %>&start_date=<%=
+            @start_date %>&end_date=<%= @end_date %>&reportType=<%= @reportType %>"></iframe>
 
-    <div style="z-index:11;bottom:15px; height: 64px; width: 890px; left: -4px; right: -66px; position: absolute;">
+    <div style="z-index:11;bottom:0px; height: 82px; width: 100%; left: 0px;
+         right: -66px; position: absolute; background-color: #333333; padding: 0px;">
       <button onclick="window.location = '/cohort';" class="button navButton red"
-              id="cancelButton" style="position: absolute; z-index: 100; "><span>Cancel</span>
+              id="cancelButton" style="position: absolute; z-index: 100; margin-top: 10px;"><span>Cancel</span>
       </button>
 
-      <button onclick="window.location = '/cohort';" class="button navButton gray"
-              id="backButton" ><span>Back</span>
+      <button onclick="window.location = '/people';" class="button navButton green"
+              id="nextButton" style="margin-top: 10px; margin-right: 20px;" ><span>Finish</span>
       </button>
-      <button class="button navButton blue"
+      <button onclick="window.location = '/cohort';" class="button navButton blue"
+              id="backButton" style="margin-top: 10px;" ><span>Back</span>
+      </button>
+      <button class="button navButton blue" style="margin-top: 10px;"
       <% case @selSelect
       when "week" %>
 

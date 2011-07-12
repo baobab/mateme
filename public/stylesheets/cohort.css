@@ -11,7 +11,8 @@ body{
     padding: 5px;
     border:1px #CCCCCC dotted;
     -moz-border-radius:10px;
-    color:white; background-color:green;    
+    color:white;
+    background-color:#6281a7;
 }
 
 .main_fieldset {

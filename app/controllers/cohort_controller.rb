@@ -2,6 +2,13 @@ class CohortController < ApplicationController
 
   def index
     @location = GlobalProperty.find_by_property("facility.name").property_value rescue ""
+
+    if params[:reportType]
+      @reportType = params[:reportType] rescue nil
+    else
+      @reportType = nil
+    end
+
   end
 
   def cohort
@@ -22,6 +29,7 @@ class CohortController < ApplicationController
 
   def cohort_print
     # raise params.to_yaml
+    @location_name = GlobalProperty.find_by_property('facility.name').property_value rescue ""
     
     @reportType = params[:reportType] rescue ""    
 
@@ -63,6 +71,59 @@ class CohortController < ApplicationController
     end
     
     report = Reports::Cohort.new(@start_date, @end_date)
+
+    # @fields = [
+    #   [
+    #     "Field Label",
+    #     "0730_1630 Value",
+    #     "1630_0730 Value"
+    #   ]
+    # ]
+    @fields = [
+      ["Admissions", "", ""],
+      ["Discharges", "", ""],
+      ["Referrals (Out)", "", ""],
+      ["Referrals (In)", "", ""],
+      ["Maternal Deaths", "", ""],
+      ["C/Section", "", ""],
+      ["SVDs", "", ""],
+      ["Vacuum Extraction", "", ""],
+      ["Breech Delivery", "", ""],
+      ["Ruptured Uterus", "", ""],
+      ["Triplets", "", ""],
+      ["Twins", "", ""],
+      ["BBA", "", ""],
+      ["Antenatal Mothers", "", ""],
+      ["Postnatal Mothers", "", ""],
+      ["Macerated Still Births", "", ""],
+      ["Fresh Still Births", "", ""],
+      ["Waiting Mothers", "", ""],
+      ["Transfers to Labour Ward", "", ""],
+      ["Continued Care", "", ""],
+      ["Total Clients", "", ""],
+      ["Total Mothers", "", ""],
+      ["Total Babies", "", ""],
+      ["Internal Transfer In", "", ""],
+      ["Internal Transfer Out", "", ""],
+      ["Fistula", "", ""],
+      ["Post Partum Haemorrhage", "", ""],
+      ["Ante Partum Haemorrhage", "", ""],
+      ["Eclampsia", "", ""],
+      ["Pre-Eclampsia", "", ""],
+      ["Anaemia", "", ""],
+      ["Malaria", "", ""],
+      ["Pre-Mature Labour", "", ""],
+      ["Pre-Mature Membrane Rapture", "", ""],
+      ["Abscondees", "", ""],
+      ["Arbotions", "", ""],
+      ["Cancer of Cervix", "", ""],
+      ["Fibroids", "", ""],
+      ["Molar Pregnancy", "", ""],
+      ["Pelvic Inflamatory Disease", "", ""],
+      ["Malaria in Pregnancy", "", ""],
+      ["Anaemia in Pregnancy", "", ""],
+      ["Ectopic Pregnancy", "", ""]
+    ]
 
     @specified_period = report.specified_period
 

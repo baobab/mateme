@@ -1500,6 +1500,9 @@ function showBestKeyboard(aPageNum) {
         case "date":
             getDatePicker();
             break;
+        case "time":
+            getTimePicker();
+            break;
         case "boolean":
             __$("keyboard").innerHTML = "";
             break;
@@ -1703,6 +1706,45 @@ function getNumericKeyboard(){
     getButtonString('SHIFT','aA') +
     "</span>"
     return keyboard;
+}
+
+function getTimePicker() {
+    if (typeof(TimeSelector) == "undefined")
+        return;
+
+    var inputElement = tstFormElements[tstPages[tstCurrentPage]];
+    var keyboardDiv = __$('keyboard');
+    keyboardDiv.innerHTML = "";
+
+    var railsDate = new RailsDate(inputElement);
+    if (railsDate.isDayOfMonthElement()) {
+        getDayOfMonthPicker(railsDate.getYearElement().value, railsDate.getMonthElement().value);
+        return;
+    }
+
+    var defaultDate = joinDateValues(inputElement);
+    //defaultDate = defaultDate.replace("-", "/", "g");
+    var arrDate = defaultDate.split(':');
+    __$("touchscreenInput"+tstCurrentPage).value = defaultDate;
+
+    if (arrDate.length == 3) {
+        ds = new TimeSelector({
+            element: keyboardDiv,
+            target: tstInputTarget,
+            hour: arrDate[0],
+            minute: arrDate[1],
+            second: arrDate[2],
+            format: "H:M:S"
+        });
+    } else {
+        ds = new TimeSelector({
+            element: keyboardDiv,
+            target: tstInputTarget,
+            format: "H:M:S"
+        });
+    }
+
+    // __$("options" + tstCurrentPage).innerHTML = "";
 }
 
 function getDatePicker() {

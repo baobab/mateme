@@ -82,7 +82,7 @@ class EncountersController < ApplicationController
 
     @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
         EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).collect{|e| 
-      e.observations.collect{|o| o.concept.name.name}
+      e.observations.collect{|o| o.concept.name.name.upcase}
     }.join(", ") rescue ""
 
     @lmp = Observation.find(:all, :conditions => ["concept_id IN (?) AND person_id = 34 AND encounter_id IN (?)", 

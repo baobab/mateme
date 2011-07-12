@@ -1,42 +1,45 @@
-  <%= javascript_include_tag "barcode" %>
-  <script>
-    var tt_cancel_destination = "/logout"
+<%= javascript_include_tag "barcode" %>
+<script>
+  var tt_cancel_destination = "<%= (params[:from] == "people" ? "/people" : "/logout") %>"
+
+  function initVars(){
     barcodeId = 'touchscreenInput0';
     barcodeFocusOnce = true;
     barcodeScanAction = gotoNextPage;
+  }
 
-    function inform() {
-      $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";  
-    }  
+  function inform() {
+    $('infoBar'+tstCurrentPage).innerHTML = "<%= welcome_message %>";
+  }
 
-    function updateUserProperty(){
-      var aUrl = "/user/add_update_property?username="+ tstUsername + "&property=last_login_location&property_value=" + $('ward').value;
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', aUrl, true);
-      xmlhttp.send(null);    
-      //aalert('TT')
-    }    
+  function updateUserProperty(){
+    var aUrl = "/user/add_update_property?username="+ tstUsername + "&property=last_login_location&property_value=" + $('ward').value;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open('GET', aUrl, true);
+    xmlhttp.send(null);
+    //aalert('TT')
+  }
 
-    function updateNextButton() {
-      $('nextButton').setAttribute("onmousedown", "updateUserProperty(); gotoNextPage();");
-    }
-    
-  </script>
+  function updateNextButton() {
+    $('nextButton').setAttribute("onmousedown", "updateUserProperty(); gotoNextPage();");
+  }
 
-  <% form_tag session_path, :method => :put do -%>
+  setTimeout("initVars()", 300);
+  
+</script>
 
-    <label for="location">Location</label>
-    <%= hidden_field_tag(:location, 4, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
+<% form_tag session_path, :method => :put do -%>
 
-    
-    <!--label for="ward">Ward</label-->
-    <%#= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_requireNextClick => 'false', :tt_onload => 'updateNextButton();'})%> <br>
+  <label for="location">Location</label>
+  <%= hidden_field_tag(:location, @location, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
 
+  <label for="ward">Ward</label>
+  <%= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_requireNextClick => 'true', :tt_onload => 'updateNextButton();'})%> <br>
 
-    <%= submit_tag value="Submit"%>
-  <% end %>
+  <%= submit_tag value="Submit"%>
+<% end %>
 
-  <div id="popupBox"  align="center">
-    <p id="p1">Verifying location</p>
-    <p id="p2">Please wait...</p>
-  </div>
+<div id="popupBox"  align="center">
+  <p id="p1">Verifying location</p>
+  <p id="p2">Please wait...</p>
+</div>
