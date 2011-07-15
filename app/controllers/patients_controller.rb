@@ -22,7 +22,17 @@ class PatientsController < ApplicationController
     outcome = @patient.current_outcome
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name.upcase}.uniq rescue []
+
+    @refer_out = @encounter_names.include?("REFER PATIENT OUT?")
     
+    @patient_dead = false
+
+    for encounter in @encounters do
+      if encounter.to_s.upcase.include?("PATIENT DIED")
+        @patient_dead = true
+      end
+    end
+
     @past_diagnoses = @patient.previous_visits_diagnoses.collect{|o|
       o.diagnosis_string
     }.delete_if{|x|
@@ -122,18 +132,22 @@ class PatientsController < ApplicationController
     treatment = @patient.current_treatment_encounter.orders.active rescue []
     session[:admitted] = false
 
-    if (@patient.current_outcome && primary_diagnosis) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
-      current_visit.ended_by = session[:user_id]
-      current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
-      current_visit.save
-      print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
+    # if (@patient.current_outcome && primary_diagnosis) or ['DEAD','REFERRED'].include?(@patient.current_outcome)
+    
+    current_visit.ended_by = session[:user_id]
+    current_visit.end_date = @patient.current_treatment_encounter.encounter_datetime rescue Time.now()
+    current_visit.save
 
+    # print_and_redirect("/patients/print_visit?patient_id=#{@patient.id}", close_visit) and return
+
+=begin
     elsif @patient.admitted_to_ward && session[:ward] == 'WARD 4B'
 
       print_and_redirect("/patients/print_registration?patient_id=#{@patient.id}", close_visit) and return
 
     end
-
+=end
+    
     redirect_to close_visit and return
     
   end
@@ -324,7 +338,7 @@ class PatientsController < ApplicationController
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
     @past_diagnoses = @patient.past_history  # @patient.previous_visits_diagnoses.collect{|o|
-     # o.diagnosis_string
+    # o.diagnosis_string
     # }.delete_if{|x|
     #  x == ""
     # }

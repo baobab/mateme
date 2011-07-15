@@ -10,8 +10,8 @@
     <script language="javascript">
       tstUsername = "";
       tstCurrentDate = "2010/03/12";
-      tt_cancel_show = "<%= ((@encounter_names.include?("Refer patient out?".upcase) ||
-          @encounter_names.include?("DISCHARGED")) ? "/patients/end_visit?patient_id=#{ @patient.patient_id }" :
+      tt_cancel_show = "<%= ((@refer_out == true ||
+          @encounter_names.include?("DISCHARGED") == true || @patient_dead == true) ? "/patients/end_visit?patient_id=#{ @patient.patient_id }" :
           '/people/index') %>";
           
       tt_cancel_destination = '/people/index';

@@ -22,7 +22,7 @@
 	:id => "referred",
 	:field_type => 'text'
 	} %>
-  <%= hidden_field_tag("observations[][concept_name]", "REFER TO OTHER HOSPITAL", options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "Patient referred to other site", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 

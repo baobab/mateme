@@ -3,6 +3,7 @@ class Observation < ActiveRecord::Base
   set_primary_key :obs_id
   include Openmrs
 
+  belongs_to :encounter, :conditions => {:voided => 0}
   belongs_to :concept
   belongs_to :answer_concept, :class_name => "Concept", :foreign_key => "value_coded"
   belongs_to :answer_concept_name, :class_name => "ConceptName", :foreign_key => "value_coded_name_id"

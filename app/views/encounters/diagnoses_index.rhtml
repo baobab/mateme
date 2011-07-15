@@ -49,13 +49,19 @@
   </div>
 </div>
 
-<div style="z-index:11;bottom:15px; height: 64px; width: 890px; left: -4px; right: -66px; position: absolute;">
-  <button id="backButton" class="button navButton gray" onclick="window.location = '/encounters/new/outcome?patient_id=<%= @patient.id %>';">
+<div style="z-index:11;bottom:0px; height: 82px; width: 100%; left: 0px;
+     right: -66px; position: absolute; background-color: #333333; padding: 0px;">
+
+  <button onclick="window.location = tt_cancel_destination;" class="button navButton green"
+          id="nextButton" style="margin-top: 10px; margin-right: 20px;" ><span>Finish</span>
+  </button>
+  <!--button id="backButton" class="button navButton gray" onclick="window.location = '/encounters/new/outcome?patient_id=<%= @patient.id %>';">
     <span>
       Back
     </span>
-  </button>
-  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;">
+  </button-->
+  <button id="cancelButton" class="button navButton red" onclick="if (tt_cancel_show) window.location = tt_cancel_show;"
+           style="margin-top: 10px;">
     <span>
       Cancel
     </span>

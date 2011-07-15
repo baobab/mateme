@@ -40,7 +40,7 @@
       </tr>
       <% @types.each do |type| %>
         <tr class="<%= cycle('even', 'odd') %>">
-          <td style="text-align:left;"><%= type %></td>
+          <td style="text-align:left;"><%= (type.titleize == "Refer Patient Out?" ? "Referrals - Out" : type.titleize) %></td>
           <td><%= @me[type].to_i %></td>
           <td><%= @today[type].to_i %></td>
           <td><%= @year[type].to_i %></td>

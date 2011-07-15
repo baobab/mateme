@@ -19,7 +19,7 @@
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
 
   <% if params[:next] %>
-    <%= hidden_field_tag "next_url", "/encounters/procedure_index/?patient_id=#{@patient.id}" %>
+    <%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}" %>
   <% end %>
 
 

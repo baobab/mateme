@@ -32,34 +32,34 @@
       <button onclick="window.location = '/people';" class="button navButton green"
               id="nextButton" style="margin-top: 10px; margin-right: 20px;" ><span>Finish</span>
       </button>
-      <button onclick="window.location = '/cohort';" class="button navButton blue"
+      <button onclick="window.location = '/cohort?reportType=<%= @reportType %>';" class="button navButton blue"
               id="backButton" style="margin-top: 10px;" ><span>Back</span>
       </button>
       <button class="button navButton blue" style="margin-top: 10px;"
       <% case @selSelect
       when "week" %>
 
-                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&selWeek=<%= @selWeek %>'"
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&selWeek=<%= @selWeek %>&reportType=<%= @reportType %>'"
 
               <% when "month" %>
 
-                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&selMonth=<%= @selMonth %>'"
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&selMonth=<%= @selMonth %>&reportType=<%= @reportType %>'"
 
               <% when "year" %>
 
-                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>'"
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&reportType=<%= @reportType %>'"
 
               <% when "quarter" %>
 
-                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selQtr=<%= @selQtr %>'"
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selQtr=<%= @selQtr %>&reportType=<%= @reportType %>'"
 
               <% when "range" %>
 
-                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&start_date=<%= @start_date %>&end_date=<%= @end_date %>'"
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&start_date=<%= @start_date %>&end_date=<%= @end_date %>&reportType=<%= @reportType %>'"
 
               <% when "day" %>
 
-                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&day=<%= @day %>'"
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&day=<%= @day %>&reportType=<%= @reportType %>'"
 
               <% end %>
 
