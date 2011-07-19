@@ -52,22 +52,22 @@ class Encounter < ActiveRecord::Base
       observations.collect{|observation| "#{(observation.obs_concept_name == "IS PATIENT REFERRED?" ? "Referred" :
         (observation.obs_concept_name == "REFERRAL CLINIC IF REFERRED" ? "From" :
         observation.obs_concept_name.humanize))}: #{observation.answer_string}" if !observation.answer_string.blank?}.join(", ")
-    elsif name == 'DIAGNOSES'
+    elsif name == 'DIAGNOSIS'
       diagnosis_array = []
       observations.each{|observation|
         next if observation.obs_group_id != nil
         observation_string =  observation.answer_string
         child_ob = observation.child_observation
         while child_ob != nil
-          observation_string += " #{child_ob.answer_string}" if !child_ob.answer_string.blank?
-          child_ob = child_ob.child_observation if !child_ob.answer_string.blank?
+          observation_string += " #{child_ob.answer_string}" if !child_ob.answer_string.blank? && (!Date.parse(child_ob.answer_string) rescue true)
+          child_ob = child_ob.child_observation if !child_ob.answer_string.blank? && (!Date.parse(child_ob.answer_string) rescue true)
         end
         if !observation_string.nil?
-          diagnosis_array << observation_string if !observation_string.blank?
-          diagnosis_array << " : " if !observation_string.blank?
+          diagnosis_array << observation_string if !observation_string.blank? && (!Date.parse(observation_string) rescue true)
+          diagnosis_array << " : " if !observation_string.blank? && (!Date.parse(observation_string) rescue true)
         end
       }
-      diagnosis_array.compact.to_s.gsub(/ : $/, "")
+      diagnosis_array.uniq.compact.to_s.gsub(/ : $/, "")
     elsif name == 'LAB ORDERS'
 
       observations.collect{|observation|
