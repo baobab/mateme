@@ -17,7 +17,7 @@
     width: 50%;
     font-size: 22px;
   }
-  
+
   .data {
     font-size: 25px;
     border-color: #000000;
@@ -37,60 +37,66 @@
 
 <div style="margin:10px;">
   <div id="details" style="float:none">
-    <form>
-      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  </form>
+    <!--form>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    </form-->
 
-<div>
-<h2><%= "Demographics for #{@patient.person.name}"%></h2>
-<h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
-<table>
-  <tr>
-    <td class='title' style='border-width:1px 1px 1px'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=first_name">First Name</a></td>
-    <td class='data' style='border-width:1px 1px 1px'><%= @first_name %></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=last_name">Last Name</a></td>
-    <td class='data'><%=@last_name%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=birthdate">Birthdate </a></td>
-    <td class='data'><%=@birthdate%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=gender">Gender</a></td>
-    <td class='data'><%=@gender%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_village"> Current Residence</a></td>
-    <td class='data'> <%=@current_village%></td>
-  </tr>
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_ta">Current Traditional Authority</a></td>
-    <td class='data'><%=@current_ta%></td>
-  </tr>
-<!--
-  <tr> 
-  <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_district"> Current District</a> </td> 
-  <td class='data'> <%=@current_district%></td>
-  </tr>
+    <div>
+      <h2><%= "Demographics for #{@patient.person.name}"%></h2>
+      <h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
+      <table>
+        <tr>
+          <td class='title' style='border-width:1px 1px 1px'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=first_name">First Name</a></td>
+          <td class='data' style='border-width:1px 1px 1px'><%= @first_name %></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=last_name">Last Name</a></td>
+          <td class='data'><%=@last_name%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=birthdate">Birthdate </a></td>
+          <td class='data'><%=@birthdate%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=gender">Gender</a></td>
+          <td class='data'><%=@gender%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_village"> Current Residence</a></td>
+          <td class='data'> <%=@current_village%></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_ta">Current Traditional Authority</a></td>
+          <td class='data'><%=@current_ta%></td>
+        </tr>
+        <!--
+          <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_district"> Current District</a> </td>
+          <td class='data'> <%=@current_district%></td>
+          </tr>
 	 <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=home_district"> Home District</a></td> 
-    <td class='data'><%=@home_district%></td>
-  </tr>
--->
-	<tr>
-    <td class='title'> <a href="edit_demographics?patient_id=<%=@patient.id%>&field=primary_phone">Primary Phone</a></td> 
-    <td class='data'><%=@primary_phone%></td>
-  </tr>
-<!--
-  <tr> <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=secondary_phone">Secondary Phone</a></td> <td class='data'><%=@secondary_phone%></td></tr>
--->
-  <tr>
-    <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=occupation">Occupation</a></td>
-    <td class='data'><%=@occupation%><br/> </td>
-  </tr>
-</table>
+            <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=home_district"> Home District</a></td>
+            <td class='data'><%=@home_district%></td>
+          </tr>
+        -->
+        <tr>
+          <td class='title'> <a href="edit_demographics?patient_id=<%=@patient.id%>&field=primary_phone">Primary Phone</a></td>
+          <td class='data'><%=@primary_phone%></td>
+        </tr>
+        <!--
+          <tr> <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=secondary_phone">Secondary Phone</a></td> <td class='data'><%=@secondary_phone%></td></tr>
+        -->
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=occupation">Occupation</a></td>
+          <td class='data'><%=@occupation%><br/> </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>
+<div id="footer" style="position: absolute; bottom: 80px; width: 1000px;">
+  <div id="buttons" class="buttonsDiv" style="top:0px">
+    <button id="finishButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Finish</span></button></div>
+  <div id="tt_extraButtons"/>
 </div>
-</div>
+

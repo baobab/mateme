@@ -31,6 +31,14 @@
     return "false";
   }
 
+  function checkHIVTestUnkown(){
+    if($("hiv_status_value").value.toLowerCase() == "unknown"){
+
+      showMessage("Patient needs to be tested now!");
+      
+    }
+  }
+
   // Every 500 milliseconds update the Next/Finish button
   function updateNextFinish(){
     if (tstInputTarget.value == '')
@@ -128,9 +136,10 @@
       :id => "hiv_status_value",
       :helptext => "PMTCT Status",
       :field_type => "text",
-      :tt_pageStyleClass => "LongSelectList"
+      :tt_pageStyleClass => "LongSelectList",
+      :tt_onUnLoad => "checkHIVTestUnkown()"
     }) %>
-  <% @hiv_status = ["", "Non-Reactive", "Reactive"]%>
+  <% @hiv_status = ["", "Non-Reactive", "Reactive", "Unknown"]%>
 
   <%= hidden_field_tag("observations[][concept_name]",  "HIV STATUS", {:id => 'hiv_status_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@hiv_status),options) %>
@@ -139,7 +148,7 @@
 
   <% options = default.merge({
       :id => "hiv_test_date",
-      :condition => "$('hiv_status_value').value.toLowerCase() != 'not tested'",
+      :condition => "$('hiv_status_value').value.toLowerCase() != 'unknown'",
       :tt_onUnLoad => "$('hiv_test_date_value_datetime').value = $('hiv_test_date').value ; checkHIVTestDate();",
       :helptext => "PMTCT test date",
       :field_type => "date"

@@ -1405,7 +1405,8 @@ function clearInput(){
 
 function showMessage(aMessage) {
     var messageBar = tstMessageBar;
-    messageBar.innerHTML = aMessage;
+    messageBar.innerHTML = aMessage +
+        "<br /><button onmousedown='tstMessageBar.style.display = \"none\"'><span>OK</span></button>";
     if (aMessage.length > 0) {
         messageBar.style.display = 'block'
         window.setTimeout("hideMessage()",3000)

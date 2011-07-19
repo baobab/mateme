@@ -39,7 +39,7 @@
         <option value='<%= ((session[:datetime].to_date rescue '') != '' ?
                     "/people/reset_datetime" : "/people/set_datetime") %>'  ttSize="160px">
           <%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>
-        <option value='/location?from=people'>New Desk</option>
+        <option value='/location?from=people' ttSize="200px">New Location</option>
       </select>
       <tr>
         <td align='center'>

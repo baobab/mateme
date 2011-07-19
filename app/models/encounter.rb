@@ -52,7 +52,7 @@ class Encounter < ActiveRecord::Base
       observations.collect{|observation| "#{(observation.obs_concept_name == "IS PATIENT REFERRED?" ? "Referred" :
         (observation.obs_concept_name == "REFERRAL CLINIC IF REFERRED" ? "From" :
         observation.obs_concept_name.humanize))}: #{observation.answer_string}" if !observation.answer_string.blank?}.join(", ")
-    elsif name == 'DIAGNOSIS'
+    elsif name == 'DIAGNOSES'
       diagnosis_array = []
       observations.each{|observation|
         next if observation.obs_group_id != nil
@@ -87,10 +87,10 @@ class Encounter < ActiveRecord::Base
       }.compact.join(", ")
 
     elsif @encounter_types.include? name
-      observations.collect{|observation| observation.to_s}.delete_if{|x| x.blank? }.compact.join(", ")
+      observations.collect{|observation| observation.to_s}.uniq.delete_if{|x| x.blank? }.compact.join(", ")
 
     else  
-      observations.collect{|observation| observation.to_s}.delete_if{|x| x.blank? }.join(", ")
+      observations.collect{|observation| observation.to_s}.uniq.delete_if{|x| x.blank? }.join(", ")
     end  
   end
 

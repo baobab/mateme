@@ -149,13 +149,24 @@
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% options = default.merge({
-      :id => "caput_or_moulding",
-      :helptext => "Caput / Moulding",
+      :id => "caput",
+      :helptext => "Caput",
       :field_type => "text"
     }) %>
   <% @caput = ["", "0+", "1+", "2+", "3+"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "CAPUT OR MOULDING", {:id => 'caput_or_moulding_concept_name'}) %>
+  <%= hidden_field_tag("observations[][concept_name]",  "CAPUT", {:id => 'caput_concept_name'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@caput),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "moulding",
+      :helptext => "Moulding",
+      :field_type => "text"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "MOULDING", {:id => 'moulding_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@caput),options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
@@ -171,20 +182,6 @@
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@membranes),options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
-  <% options = default.merge({
-      :id => "rupture_date",
-      :condition => "$('membranes').value.toLowerCase() == 'ruptured'",
-      :helptext => "Membranes Rupture Date",
-      :field_type => "date"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]", 'RUPTURE DATE', {:id => 'rupture_date_concept_name'}) %>
-  <%= text_field_tag("observations[][value_datetime]",DateTime.now().strftime("%Y-%m-%d"),options) %>
-<%#= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_date_value_datetime"}) %>
-<%#= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_date_value_modifier"}) %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   <% options = default.merge({
       :id => "rupture_time",
@@ -204,12 +201,26 @@
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   <% options = default.merge({
+      :id => "rupture_date",
+      :condition => "$('membranes').value.toLowerCase() == 'ruptured'",
+      :helptext => "Membranes Rupture Date",
+      :field_type => "date"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]", 'RUPTURE DATE', {:id => 'rupture_date_concept_name'}) %>
+  <%= text_field_tag("observations[][value_datetime]",DateTime.now().strftime("%Y-%m-%d"),options) %>
+<%#= hidden_field_tag("observations[][value_datetime]", nil, {:id => "rupture_date_value_datetime"}) %>
+<%#= hidden_field_tag("observations[][value_modifier]", nil,{:id =>  "rupture_date_value_modifier"}) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+
+  <% options = default.merge({
       :id => "colour_of_liqour",
       :helptext => "Colour of Liqour",
       :field_type => "text",
       :condition => "$('membranes').value.toLowerCase() == 'ruptured'"
     }) %>
-  <% @colour_of_liqour = ["", "Clear", "Meconium Grade 1", "Meconium Grade 2", "Meconium Grade 3","Blood", "Absent"] %>
+  <% @colour_of_liqour = ["", "Clear", "Meconium Grade 1", "Meconium Grade 2", "Meconium Grade 3","Blood", "Absent", "Puss"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "COLOUR OF LIQOUR", {:id => 'colour_of_liqour_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@colour_of_liqour),options) %>
@@ -233,7 +244,7 @@
       :helptext => "Genetalia Inspection",
       :field_type => "text"
     }) %>
-  <% @genetalia_inspection = ["", "Scar", "Sores", "Warts", "Bleeding", "Liqour", "Varicose Veins", "Nothing Abnormal Detected"] %>
+  <% @genetalia_inspection = ["", "Scar", "Sores", "Warts", "Bleeding", "Liqour", "Varicose Veins", "Nothing Abnormal Detected", "Show"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "GENETALIA INSPECTION", {:id => 'genetalia_inspection_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@genetalia_inspection),options) %>

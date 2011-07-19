@@ -31,7 +31,7 @@
   end %>
 
   <%@delivery_mode = [""] + Concept.find_by_name("DELIVERY MODE").concept_answers.collect{|c| c.name} %>
-  <%@procedure_done = [""] + Concept.find_by_name("PROCEDURE DONE").concept_answers.collect{|c| c.name} %>
+  <%@procedure_done = [""] + Concept.find_by_name("PROCEDURE DONE").concept_answers.collect{|c| c.name}.sort %>
   <%@postpartum_type = ["", "TOTAL POSTPARTUM HYSTERECTOMY", "SUB-TOTAL POSTPARTUM HYSTERECTOMY"]%>
   <%@discharged_to_where = ["", "HOME", "ANOTHER HEALTH FACILITY"]%>
   <%@health_facility = ["", "KCH"]%>

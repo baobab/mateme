@@ -49,7 +49,9 @@
       $("inputFrame" + tstCurrentPage).appendChild(div);
     }
 
-    if($("touchscreenInput" + tstCurrentPage).value.trim().length > 0){
+    if($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 && 
+      $("touchscreenInput" + tstCurrentPage).value.trim() != "Unknown"){
+
       var theDate = new Date($("touchscreenInput" + tstCurrentPage).value.trim());
 
       theDate.setDate(theDate.getDate() + 7);
@@ -63,6 +65,7 @@
       theDate.setMonth(theDate.getMonth() + 9);
 
       edod = (theDate.getDate() + "-" + month[theDate.getMonth()] + "-" + theDate.getFullYear());
+      
     }
 
     $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" + 
@@ -116,7 +119,6 @@
 </style>
 <style>
   #num {display: none;}
-  #Unknown {display: none;}
 </style>
 <form id='observations_patient_history' action="/encounters/create" method='post'>
   <% default={
@@ -160,21 +162,6 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options = default.merge({
-      :id => "tt_status_value",
-      :helptext => "Enter TT status",
-      :field_type => "number",
-      :absoluteMin => "0",
-      :max => "5",
-      :flag => '{"condition":"^1$|^0$","message":"TT is inadequate"}',
-      :tt_pageStyleClass => "NumbersOnly"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "TT STATUS", {:id => 'tt_status_concept_name'}) %>
-  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
-
   <% (1..8).each{|e| %>
 
     <%
@@ -206,6 +193,35 @@
     <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% } %>
+
+  <% options = default.merge({
+      :id => "no_of_abortions",
+      :helptext => "Number of abortions",
+      :field_type => "number",
+      :absoluteMin => "0",
+      :max => "5",
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "Number of Abortions", {:id => 'no_of_abortions_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "tt_status_value",
+      :helptext => "Enter TT status",
+      :field_type => "number",
+      :absoluteMin => "0",
+      :max => "5",
+      :flag => '{"condition":"^1$|^0$","message":"TT is inadequate"}',
+      :tt_pageStyleClass => "NumbersOnly"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "TT STATUS", {:id => 'tt_status_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% options = default.merge({
       :id => "last_menstrual_period_date",

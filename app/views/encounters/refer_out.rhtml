@@ -12,7 +12,7 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= hidden_field_tag "next_url", "/patients/show/#{ @patient.patient_id }" %>
+  <%= hidden_field_tag "next_url", "/encounters/diagnoses_index?patient_id=#{@patient.id}" %>
 
   <select id="select" name="observations[][value_coded_or_text]" helptext="Refer Case To Another Hospital?">
     <option value="YES">Yes</option>

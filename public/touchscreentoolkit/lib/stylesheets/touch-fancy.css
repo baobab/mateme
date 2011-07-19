@@ -520,7 +520,8 @@ button:hover.dark span {
 .NumbersOnlyWithDecimal #plus,
 .NumbersOnlyWithDecimal #slash,
 .NumbersOnlyWithDecimal #comma,
-.NumbersOnlyWithDecimal #percent{
+.NumbersOnlyWithDecimal #percent,
+.NumbersOnlyWithDecimal #char{
   display: none
 }
 
@@ -532,7 +533,9 @@ button:hover.dark span {
 .NumbersOnly #decimal,
 .NumbersOnly #slash,
 .NumbersOnly #comma,
-.NumbersOnly #percent{
+.NumbersOnly #percent,
+.NumbersOnly #char,
+.NumbersOnly #Unknown{
   display: none
 }
 
@@ -644,7 +647,6 @@ display:block;
   top:90px;
   width:450px;
 }
-
 
 .date_month .options li{
   color:black;

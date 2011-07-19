@@ -53,6 +53,16 @@
     :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"',
     :tt_pageStyleClass => "Numeric NumbersOnly"} %>
 
+  <%#= text_field_tag "person[attributes][education_level]", params[:education_level],
+    {:id => "education_level", :field_type => 'text', :condition => ' ' +
+      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
+    :helptext => "Education Level" } %>
+
+  <%#= text_field_tag "person[attributes][religion]", params[:religion],
+    {:id => ":religion", :field_type => 'alpha', :condition => ' ' +
+      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
+    :helptext => "Religion" } %>
+
   <%= text_field_tag "person[attributes][place_of_birth]",  params[:address2], {:field_type => 'alpha', :helpText => 'Place of birth',
     :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true, :condition => ' ' +
       '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' }%>

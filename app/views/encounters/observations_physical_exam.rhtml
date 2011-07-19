@@ -89,6 +89,70 @@
     timedEvent = setTimeout('calculateBP(' + pos + ')', 500);
   }
 
+  function changeIds(){
+    $("6").id = "six";
+    $("7").id = "seven";
+    $("8").id = "eight";
+    $("9").id = "nine";
+
+    $("clearButton").onclick = function(){
+      enableButtons();
+    }
+    $("1").onclick = function(){
+      disableButtons();
+    }
+    $("2").onclick = function(){
+      disableButtons();
+    }
+    $("3").onclick = function(){
+      disableButtons();
+    }
+    $("4").onclick = function(){
+      disableButtons();
+    }
+    $("5").onclick = function(){
+      disableButtons();
+    }
+  }
+
+  function disableButtons(){
+    $("1").className = "keyboardButton gray";
+    $("2").className = "keyboardButton gray";
+    $("3").className = "keyboardButton gray";
+    $("4").className = "keyboardButton gray";
+    $("5").className = "keyboardButton gray";
+
+    $("1").onmousedown = function(){};
+    $("2").onmousedown = function(){};
+    $("3").onmousedown = function(){};
+    $("4").onmousedown = function(){};
+    $("5").onmousedown = function(){};
+  }
+
+  function enableButtons(){
+    $("1").className = "keyboardButton blue";
+    $("2").className = "keyboardButton blue";
+    $("3").className = "keyboardButton blue";
+    $("4").className = "keyboardButton blue";
+    $("5").className = "keyboardButton blue";
+
+    $("1").onmousedown = function() {
+      press('1');
+    }
+    $("2").onmousedown = function() {
+      press('2');
+    }
+    $("3").onmousedown = function() {
+      press('3');
+    }
+    $("4").onmousedown = function() {
+      press('4');
+    }
+    $("5").onmousedown = function() {
+      press('5');
+    }
+  }
+
 </script>
 <style>
   .statusLabel {
@@ -102,6 +166,15 @@
     margin-left: 50%;
     left: -470px;
     -moz-border-radius: 20px;
+  }
+
+  .level #zero,
+  .level #backspace,
+  .level #six,
+  .level #seven,
+  .level #eight,
+  .level #nine {
+    display: none;
   }
 </style>
 <style>
@@ -122,7 +195,7 @@
 
   <% options = default.merge({
       :id => "fundus",
-      :helptext => "Fundus (cm)",
+      :helptext => "Fundus (weeks)",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersOnly"
     }) %>
@@ -149,7 +222,7 @@
       :helptext => "Presentation",
       :field_type => "text"
     }) %>
-  <% @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling"] %>
+  <% @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION", {:id => 'presentation_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation),options) %>
@@ -171,9 +244,9 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <%#--------------------------------------------------------%>
+<%#--------------------------------------------------------%>
 
-  
+
   <% options = default.merge({
       :id => "vertex",
       :helptext => "Vertex Position Type",
@@ -192,7 +265,7 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  
+
   <% options = default.merge({
       :id => "breech",
       :helptext => "Breech Position Type",
@@ -247,7 +320,7 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <%#--------------------------------------------------------%>
+<%#--------------------------------------------------------%>
 
 
   <% options = default.merge({
@@ -273,6 +346,22 @@
 
   <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS INTENSITY", {:id => 'contractions_intensity_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@contractions_intensity),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = default.merge({
+      :id => "contractions_level",
+      :helptext => "Contractions Level",
+      :field_type => "number",
+      :tt_pageStyleClass => "NumbersOnly level",
+      :absoluteMax => 5,
+      :absoluteMin => 1,
+      :tt_onLoad => "setTimeout('changeIds()', 100);",
+      :condition => "$('contractions').value.trim().toUpperCase() == 'YES';"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS LEVEL", {:id => 'contractions_level_concept_name'}) %>
+  <%= text_field_tag("observations[][value_coded_or_text]", nil,options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 

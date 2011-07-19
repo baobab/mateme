@@ -52,17 +52,17 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params[:encounter][:patient_id])
 
     if params[:next_url]
-      if encounter.type.name == "REFER PATIENT OUT?" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+      if encounter.type.name == "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
         print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", params[:next_url]) if encounter.type.name == \
-          "REFER PATIENT OUT?" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+          "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
         return
       else
         redirect_to params[:next_url] and return
       end
     else
-      if encounter.type.name == "REFER PATIENT OUT?" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+      if encounter.type.name == "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
         print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient)) if encounter.type.name == \
-          "REFER PATIENT OUT?" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+          "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
         return
       else
         redirect_to next_task(@patient)

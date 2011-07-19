@@ -156,7 +156,7 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
     @national_id = @patient.national_id_with_dashes rescue nil 
     
-    @first_name = @patient.person.names.first.given_name
+    @first_name = @patient.person.names.first.given_name rescue nil
     @last_name = @patient.person.names.first.family_name rescue nil
     @birthdate = @patient.person.birthdate_formatted rescue nil
     @gender = @patient.person.formatted_gender rescue ''
@@ -166,10 +166,10 @@ class PatientsController < ApplicationController
     @current_district = @patient.person.addresses.first.state_province rescue ''
     @home_district = @patient.person.addresses.first.address2 rescue ''
 
-    @primary_phone = @patient.person.phone_numbers["Cell Phone Number"]
-    @secondary_phone = @patient.person.phone_numbers["Home Phone Number"]
+    @primary_phone = @patient.person.phone_numbers["Cell Phone Number"] rescue ''
+    @secondary_phone = @patient.person.phone_numbers["Home Phone Number"] rescue ''
     
-    @occupation = @patient.person.occupation
+    @occupation = @patient.person.occupation rescue ''
     render :template => 'patients/demographics', :layout => 'menu'
 
   end

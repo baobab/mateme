@@ -4,6 +4,8 @@ class Person < ActiveRecord::Base
 
   include Openmrs
 
+  attr_accessor :education_level, :religion
+
   has_one :patient, :foreign_key => :patient_id, :dependent => :destroy
   has_many :names, :class_name => 'PersonName', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_name.voided = 0', :order => 'person_name.preferred DESC'
   has_many :addresses, :class_name => 'PersonAddress', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_address.voided = 0', :order => 'person_address.preferred DESC'
@@ -339,6 +341,8 @@ class Person < ActiveRecord::Base
 
     known_demographics = {
       "occupation"=>"#{new_params[:attributes][:occupation]}",
+      "education_level"=>"#{new_params[:attributes][:education_level]}",
+      "religion"=>"#{new_params[:attributes][:religion]}",
       "patient_year"=>"#{new_params[:birth_year]}",
       "patient"=>{
         "gender"=>"#{new_params[:gender]}",
