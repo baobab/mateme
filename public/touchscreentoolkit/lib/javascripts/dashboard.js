@@ -223,10 +223,10 @@ function generateHomepage(){
     barcodeinput.type = "text";
     barcodeinput.id = "barcode";
 
-    if (tstSuppressBarcode == true) {
-        scanlabel.style.color = "white";
-        barcodeinput.style.color = "white";
-        scaninput.style.color = "white";
+    if (tstSuppressBarcode == false) {
+        scanlabel.style.color = "black";
+        barcodeinput.style.color = "black";
+        scaninput.style.color = "black";
     }
 
     barcodeinput.className = "touchscreenTextInput";

@@ -187,9 +187,9 @@ if((document.forms[0] != undefined ? (document.forms[0].getAttribute("extended")
     setTimeout("createPage()", timerout);
 
 } else {
-
-    include("standard");
-    calledMethod = "loadTouchscreenToolkit()";
-    setTimeout("loadTouchscreenToolkit()", timerout);
-
+    try {
+      include("standard");
+      calledMethod = "loadTouchscreenToolkit()";
+      setTimeout("loadTouchscreenToolkit()", timerout);
+    }catch(e){}
 }
