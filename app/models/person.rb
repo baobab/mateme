@@ -333,6 +333,7 @@ class Person < ActiveRecord::Base
     login = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.username"}).property_value.split(/,/) rescue "admin"
     password = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.password"}).property_value.split(/,/) rescue "test"
     location = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.location"}).property_value.split(/,/) rescue 31
+    machine = GlobalProperty.find(:first, :conditions => {:property => "remote_machine.account_name"}).property_value.split(/,/) rescue 'meduser'
 
     post_data = known_demographics
     post_data["_method"]="put"
@@ -345,7 +346,7 @@ class Person < ActiveRecord::Base
 
     results = []
     servers.each{|server|
-      command = "ssh software@#{server_address} '#{local_demographic_lookup_steps.join(";\n")}'"
+      command = "ssh #{machine}@#{server_address} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
       results.push output if output and output.match(/person/)
     }
