@@ -23,6 +23,13 @@ class PatientsController < ApplicationController
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name.upcase}.uniq rescue []
 
+    @discharged = @patient.current_visit.encounters.active.find(:all, :conditions =>
+        ["encounter_type = ?", EncounterType.find_by_name("UPDATE OUTCOME").id]).collect{|e|
+      e.observations.collect{|o|
+        o.answer_string if o.answer_string.upcase.include?("DISCHARGED")
+      }
+    }.uniq.compact.join(", ") rescue []
+
     @result = []
     
     @ref = @patient.current_visit.encounters.active.find(:all, :conditions =>
@@ -30,7 +37,7 @@ class PatientsController < ApplicationController
       e.observations.collect{|o|
         @result << [o.encounter_id, o.answer_string]
       }
-    } 
+    } rescue []
 
     @refer_out = @result.join(", ").include?("Yes")
 

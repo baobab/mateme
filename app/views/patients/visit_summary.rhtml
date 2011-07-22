@@ -42,7 +42,9 @@
 
             <%if header == 'true' %>
               <div style="float:left; font-size: 1.1em; font-style: normal; padding-bottom: 5px; ">
-                <%=h encounter.name.humanize %></div><%end; header = 'false'%>
+                <%=h (encounter.name.humanize == "Observations" ? "Admission Examinations" : encounter.name.humanize) %>
+              </div>
+            <%end; header = 'false'%>
             <div style="clear:left; font-size:10pt" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span>
               <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
             </div>

@@ -39,7 +39,6 @@
   <%= hidden_field_tag("observations[][concept_name]", "REFERRAL CLINIC IF REFERRED", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
-  <%= hidden_field_tag("next_url", "/patients/show/#{ @patient.patient_id }") %>
 
   <% options = {
     :id => "time_of_delivery",
@@ -62,5 +61,7 @@
   <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL ARRIVAL DATE")%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <%= hidden_field_tag "next_url", "/people" %>
 
 </form>

@@ -14,10 +14,10 @@ class EncountersController < ApplicationController
       # Check to see if any values are part of this observation
       # This keeps us from saving empty observations
 
-      if observation[:value_time]
+      if !observation[:value_time].blank?
         observation["value_datetime"] = Time.now.strftime("%Y-%m-%d ") + observation["value_time"]
         observation.delete(:value_time)
-        # raise observation.to_yaml
+        raise observation.to_yaml
       end
       
       values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
@@ -41,29 +41,30 @@ class EncountersController < ApplicationController
     
     if encounter.patient.current_visit.encounters.active.collect{|e|
         e.observations.collect{|o|
-          o.answer_string if o.answer_string.include?("PATIENT DIED")
-        }.compact if e.type.name.eql?("UPDATE OUTCOME")
-      }.compact.collect{|p| true if p.include?("PATIENT DIED")}.compact.include?(true) == true
+          o.answer_string if o.answer_string.to_s.upcase.include?("PATIENT DIED")
+        }.compact if e.type.name.upcase.eql?("UPDATE OUTCOME")
+      }.compact.collect{|p| true if p.to_s.upcase.include?("PATIENT DIED")}.compact.include?(true) == true
 
       encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
 
+      redirect_to "/people" and return
     end
 
     @patient = Patient.find(params[:encounter][:patient_id])
 
     if params[:next_url]
 
-      if (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
-        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", params[:next_url]) if (encounter.type.name == \
-            "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+      if (encounter.type.name.upcase == "UPDATE OUTCOME" && encounter.to_s.upcase.include?("ADMITTED"))
+        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", params[:next_url]) and return if (encounter.type.name.upcase == \
+            "UPDATE OUTCOME" && encounter.to_s.upcase.include?("ADMITTED"))
         return
       else
         redirect_to params[:next_url] and return
       end
     else
-      if (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
-        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient)) if (encounter.type.name == \
-            "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+      if (encounter.type.name.upcase == "UPDATE OUTCOME" && encounter.to_s.upcase.include?("ADMITTED"))
+        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient)) and return if (encounter.type.name.upcase == \
+            "UPDATE OUTCOME" && encounter.to_s.upcase.include?("ADMITTED"))
         return
       else
         redirect_to next_task(@patient)

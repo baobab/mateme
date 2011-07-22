@@ -193,7 +193,7 @@
       :helptext => "Feeding Option",
       :field_type => "text"
     }) %>
-  <% @feeding_options = ["", "Exclusive Feeding", "No Breast Feeding", "Exclusive Formula Feeding"] %>
+  <% @feeding_options = ["", "Exclusive Breast Feeding", "No Breast Feeding", "Exclusive Formula Feeding"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "FEEDING OPTION", {:id => 'feeding_option_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@feeding_options),options) %>

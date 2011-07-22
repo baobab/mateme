@@ -41,13 +41,17 @@ pos = 1
 
   <% unless person.patient.blank? %>
 
-      people[<%= pos %>]["arv_number"] = "<%=h person.patient.arv_number rescue "" -%>";
-
       people[<%= pos %>]["patient_id"] = "<%=h person.patient.national_id rescue "" -%>";
 
-      people[<%= pos %>]["eid_number"] = "<%=h person.patient.eid_number rescue "" -%>";
+    <% if session[:user].admin? %>
+        
+        people[<%= pos %>]["arv_number"] = "<%=h person.patient.arv_number rescue "" -%>";
 
-      people[<%= pos %>]["pre_art_number"] = "<%=h person.patient.pre_art_number rescue "" -%>";
+        people[<%= pos %>]["eid_number"] = "<%=h person.patient.eid_number rescue "" -%>";
+
+        people[<%= pos %>]["pre_art_number"] = "<%=h person.patient.pre_art_number rescue "" -%>";
+
+    <% end %>
 
   <% end %>
 
@@ -75,18 +79,18 @@ end -%>
     $('clearButton').setAttribute("onmousedown","newSearch();");  
   }
 </script>
- 
+
 <% if (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
- 
+
   <% form_tag "search", :method => :get do %>
-    <%= text_field_tag :given_name, params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%> 
-    <%= text_field_tag :family_name, params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%> 
+    <%= text_field_tag :given_name, params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
+    <%= text_field_tag :family_name, params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
     <%= hidden_field_tag :gender, "F" %>
     <%= hidden_field_tag :create_patient, params[:create_patient] %>
     <%= submit_tag "Find person" %>
   <% end -%>
 <% end -%>
- 
+
 <% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
   <% form_tag "select", :method => :get do %>
     <% if @people.blank? %>
@@ -95,20 +99,20 @@ end -%>
       <label for="person">Select the patient from the following</label>
     <% end -%>
     <select name="person" id="person" dualView="true" dualViewOptions="people">
-        <% if params[:identifier] %>
-          <option value="0" onmousedown="changeNextButtonText('New Patient')">Create a new person with the identifier <%=h params[:identifier] -%></option>
-        <% else %>
-          <option value="0" onmousedown="changeNextButtonText('New Patient')">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>
-        <% end %>
-        <% @people.each do |person|
-          patient = person.patient rescue []
-          next if patient.blank? -%>
-          <option value="<%= person.id %>" onmousedown="changeNextButtonText('Select Patient')">
-            <%=h person.name -%>,
-            <% unless person.birthdate.blank? %> Age: <%=h person.age -%>,<% end %> Gender: <%= person.sex rescue "" %>
-          </option>
-        <% end -%>
-      </select>
+      <% if params[:identifier] %>
+        <option value="0" onmousedown="changeNextButtonText('New Patient')">Create a new person with the identifier <%=h params[:identifier] -%></option>
+      <% else %>
+        <option value="0" onmousedown="changeNextButtonText('New Patient')">Create a new person with the name <%=h params[:given_name] -%> <%=h params[:family_name] -%></option>
+      <% end %>
+      <% @people.each do |person|
+        patient = person.patient rescue []
+        next if patient.blank? -%>
+        <option value="<%= person.id %>" onmousedown="changeNextButtonText('Select Patient')">
+          <%=h person.name -%>,
+          <% unless person.birthdate.blank? %> Age: <%=h person.age -%>,<% end %> Gender: <%= person.sex rescue "" %>
+        </option>
+      <% end -%>
+    </select>
     <input type="hidden" name="identifier" value="<%=h params[:identifier] -%>" />
     <input type="hidden" name="gender" value="<%=h params[:gender] -%>" />
     <input type="hidden" name="given_name" value="<%=h params[:given_name] -%>" />

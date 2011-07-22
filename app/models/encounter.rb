@@ -161,7 +161,7 @@ class Encounter < ActiveRecord::Base
       label.draw_multi_text("DISCHARGED BY: #{User.current_user.name.titleize rescue ''}")
       label.print
     when "UPDATE OUTCOME"
-      if self.to_s.include?("ADMITTED")
+      if self.to_s.upcase.include?("ADMITTED")
         label = ZebraPrinter::Label.new()
         label.font_size = 3
         label.font_horizontal_multiplier = 1
