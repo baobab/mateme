@@ -318,34 +318,48 @@ class Person < ActiveRecord::Base
                     "identifier"=>"#{new_params[:addresses][:county_district]}"}
                   }
 
+
     servers = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value.split(/,/) rescue nil
+
+    server_address_and_port = servers.to_s.split(':')
+
+    server_address = server_address_and_port.first
+    server_port = server_address_and_port.second
+
     return nil if servers.blank?
 
     wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt"
 
-    login = "mikmck"
-    password = "mike"
-    location = 8
+    login = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.username"}).property_value.split(/,/) rescue "admin"
+    password = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.password"}).property_value.split(/,/) rescue "test"
+    location = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.location"}).property_value.split(/,/) rescue 31
 
     post_data = known_demographics
     post_data["_method"]="put"
 
     local_demographic_lookup_steps = [ 
-      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost/patient/create_remote\""
+      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost:#{server_port}/session\"",
+      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost:#{server_port}/session\"",
+      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost:#{server_port}/patient/create_remote\""
     ]
+
     results = []
     servers.each{|server|
-      command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
+      command = "ssh software@#{server_address} '#{local_demographic_lookup_steps.join(";\n")}'"
       output = `#{command}`
       results.push output if output and output.match(/person/)
     }
     result = results.sort{|a,b|b.length <=> a.length}.first
 
+    result ? person = JSON.parse(result) : nil
+    known_demographics["occupation"]
 
-    result ? JSON.parse(result) : nil
-
+    begin
+      person["person"]["attributes"]["occupation"] = known_demographics["occupation"]
+      person["person"]["attributes"]["cell_phone_number"] = known_demographics["cell_phone"]["identifier"]
+    rescue
+    end
+    person
   end
 
   def phone_numbers
