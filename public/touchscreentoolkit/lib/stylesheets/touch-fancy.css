@@ -735,3 +735,15 @@ button {
 .NumbersWithUnkown #percent{
     display: none
 }
+
+.confirmation {
+  left:50%;
+  margin-left: -225px;
+  width: 450px;
+  position: absolute;
+  top: 30%;
+  font-size: 2em;
+	text-align: center;
+  background-color: tomato;
+  z-index: 999;
+}
