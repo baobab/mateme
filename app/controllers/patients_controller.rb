@@ -74,7 +74,7 @@ class PatientsController < ApplicationController
     
   end
 
-  def void
+  def void    
     @encounter = Encounter.find(params[:encounter_id])
     ActiveRecord::Base.transaction do
       @encounter.observations.each{|obs| obs.void! }    
