@@ -34,9 +34,10 @@
   function checkHIVTestUnkown(){
     if($("hiv_status_value").value.toLowerCase() == "unknown"){
 
-      showMessage("Patient needs to be tested now!");
-      
+      showMessage("Patient needs to be tested now!", true);
+      return true;
     }
+    return false;
   }
 
   // Every 500 milliseconds update the Next/Finish button
@@ -137,7 +138,7 @@
       :helptext => "PMTCT Status",
       :field_type => "text",
       :tt_pageStyleClass => "LongSelectList",
-      :tt_onUnLoad => "checkHIVTestUnkown()"
+      :tt_BeforeUnload => "checkHIVTestUnkown()"
     }) %>
   <% @hiv_status = ["", "Non-Reactive", "Reactive", "Unknown"]%>
 

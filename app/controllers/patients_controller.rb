@@ -23,8 +23,17 @@ class PatientsController < ApplicationController
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name.upcase}.uniq rescue []
 
-    @refer_out = @encounter_names.include?("REFER PATIENT OUT?")
+    @result = []
     
+    @ref = @patient.current_visit.encounters.active.find(:all, :conditions =>
+        ["encounter_type = ?", EncounterType.find_by_name("REFER PATIENT OUT?").id]).collect{|e|
+      e.observations.collect{|o|
+        @result << [o.encounter_id, o.answer_string]
+      }
+    } 
+
+    @refer_out = @result.join(", ").include?("Yes")
+
     @patient_dead = false
 
     for encounter in @encounters do

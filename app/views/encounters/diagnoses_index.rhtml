@@ -7,10 +7,16 @@
 <script type="text/javascript">
   tt_cancel_show = '/patients/show/<%= @patient.id %>';
 
-<%  if @diagnosis.length <= 0 %>
-    tt_cancel_destination = '/encounters/new/outpatient_diagnosis/?patient_id=<%=  "#{@patient.id}&next=true" %>';
-<%  else %>
-    tt_cancel_destination = '/encounters/new/refer_out/?patient_id=<%=  "#{@patient.id}" %>';
+<% if @diagnosis.length <= 0 %>
+
+    tt_cancel_destination = '/encounters/new/outpatient_diagnosis/?patient_id=' +
+          '<%=  "#{@patient.id}#{ (@diagnosis.length <= 0 ? "&next=true" : "") }" %>';
+    
+<% else %>
+
+    tt_cancel_destination = '/patients/show/<%=  "#{@patient.id}" %>';
+
+    // tt_cancel_destination = '/encounters/new/refer_out/?patient_id=<%=  "#{@patient.id}" %>';
 <%  end %>
   
 </script>

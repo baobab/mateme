@@ -63,6 +63,9 @@ var tstMessageBoxType = {
     YesNoCancel:{}
 }
 
+var tstTimerHandle = null;
+var tstTimerFunctionCall = "";
+
 //--------------------------------------
 // Default method in module to access element id changed to __$ to avoid
 // conflicts with other libraries like jQuery. The same is recommended for use
@@ -506,7 +509,7 @@ function setTouchscreenAttributes(aInputNode, aFormElement, aPageNum) {
     if(aFormElement.tagName == "TEXTAREA" ){
         aInputNode.setAttribute('class','touchscreenTextAreaInput');
         aInputNode.setAttribute('cols','56');
-        aInputNode.setAttribute('rows','10');
+        aInputNode.setAttribute('rows','8');
     } else {
         aInputNode.setAttribute('class','touchscreenTextInput');
     }
@@ -1188,8 +1191,44 @@ function joinDateValues(aDateElement) {
     else return strDate;
 }
 
-//args: page number to load, validate: true/false
+// This detour has been added to capture alert messages that need to be displayed
+// before the next page is viewed
 function gotoPage(destPage, validate){
+    var currentPage = tstCurrentPage;
+    var currentInput = __$("touchscreenInput"+currentPage);
+
+    //	tt_BeforeUnload
+    var unloadElementId = 'touchscreenInput';
+    if (currentPage < destPage) {
+        unloadElementId = 'touchscreenInput'+(destPage-1);
+    } else if (currentPage > destPage) {
+        unloadElementId = 'touchscreenInput'+(destPage+1);
+    }
+
+    var unloadElement = __$(unloadElementId);
+    if (unloadElement) {
+        var onUnloadCode = unloadElement.getAttribute('tt_BeforeUnload');
+        if (onUnloadCode) {
+            var result = eval(onUnloadCode);
+
+            if(result == true){
+                // Set a global handle for the timer function and the
+                // corresponding function for earlier cancelling when required
+                tstTimerHandle = setTimeout("navigateToPage(" + destPage + ", " + validate + ");", 3000);
+                tstTimerFunctionCall = "navigateToPage(" + destPage + ", " + validate + ");";
+            } else {
+                navigateToPage(destPage, validate);
+            }
+        } else {
+            navigateToPage(destPage, validate);
+        }
+    } else {
+        navigateToPage(destPage, validate);
+    }
+}
+
+//args: page number to load, validate: true/false
+function navigateToPage(destPage, validate){
     var currentPage = tstCurrentPage;
     var currentInput = __$("touchscreenInput"+currentPage);
 
@@ -1409,10 +1448,14 @@ function clearInput(){
     }
 }
 
-function showMessage(aMessage) {
+function showMessage(aMessage, withCancel) {
     var messageBar = tstMessageBar;
     messageBar.innerHTML = aMessage +
-        "<br /><button onmousedown='tstMessageBar.style.display = \"none\"'><span>OK</span></button>";
+        "<br />" + (typeof(withCancel) != "undefined" ? (withCancel == true ?
+        "<button onmousedown='tstMessageBar.style.display = \"none\"; " +
+        "clearTimeout(tstTimerHandle);'><span>Cancel</span></button>" : "") : "") +
+        "<button style='width: 200px;' onmousedown='tstMessageBar.style.display = \"none\"; " +
+        "clearTimeout(tstTimerHandle); eval(tstTimerFunctionCall);'><span>Ok</span></button>";
     if (aMessage.length > 0) {
         messageBar.style.display = 'block'
         window.setTimeout("hideMessage()",3000)

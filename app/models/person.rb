@@ -474,4 +474,14 @@ class Person < ActiveRecord::Base
     self.addresses.last.city_village rescue 'Unknown'
   end
 
+  def sex
+    if self.gender == "M"
+      return "Male"
+    elsif self.gender == "F"
+      return "Female"
+    else
+      return nil
+    end
+  end
+
 end

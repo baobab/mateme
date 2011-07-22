@@ -38,7 +38,7 @@
     :condition => '$("family_name").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } %>
 
   <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number',
-    :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersWithUnkown",
+    :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "NumbersWithUnkown",
     :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
   <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth',
@@ -51,7 +51,7 @@
 
   <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Please enter age of client', :absoluteMin => 1,
     :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"',
-    :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+    :tt_pageStyleClass => "NumbersWithUnkown"} %>
 
   <%#= text_field_tag "person[attributes][education_level]", params[:education_level],
     {:id => "education_level", :field_type => 'text', :condition => ' ' +
@@ -92,7 +92,7 @@
   <%if @ask_cell_phone == 'true'%>
     <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Primary Phone Number',
       :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number",
-      :tt_pageStyleClass => "Numeric NumbersWithUnkown", :condition => ' ' +
+      :tt_pageStyleClass => "NumbersWithUnkown", :condition => ' ' +
       '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' %>
   <%end%>
 

@@ -702,7 +702,7 @@ textarea {
 }
 
 #backspace {
-    margin-left: 62px;
+    margin-left: 40px;
 }
 
 #apostrophe {
@@ -715,10 +715,23 @@ textarea {
 }
 
 #zero {
-    margin-left: 90px;
+    margin-left: 85px;
 }
 
 button {
     min-width:75px;
     margin: 3px;
+}
+
+.NumbersWithUnkown #star,
+.NumbersWithUnkown #abc,
+.NumbersWithUnkown #char,
+.NumbersWithUnkown #date,
+.NumbersWithUnkown #minus,
+.NumbersWithUnkown #plus,
+.NumbersWithUnkown #decimal,
+.NumbersWithUnkown #slash,
+.NumbersWithUnkown #comma,
+.NumbersWithUnkown #percent{
+    display: none
 }

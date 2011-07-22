@@ -337,7 +337,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true;}"
 <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 <%#= hidden_field_tag "next_url", "/encounters/new/admission_diagnosis/?patient_id=#{@patient.id}", {:disabled => true} %>
-  <%= hidden_field_tag "next_url", "/encounters/diagnoses_index/?patient_id=#{@patient.id}", {:disabled => true} %>
+  <%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}", {:disabled => true} %>
 
   <%= submit_tag "Finish" %>
 

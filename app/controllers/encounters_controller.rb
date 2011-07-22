@@ -35,7 +35,7 @@ class EncountersController < ApplicationController
     # if encounter.type.name.eql?("REFER PATIENT OUT?")
     #  encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
 
-      # raise encounter.to_yaml
+    # raise encounter.to_yaml
     
     # elsif encounter.patient.current_visit.encounters.active.collect{|e|
     
@@ -52,17 +52,18 @@ class EncountersController < ApplicationController
     @patient = Patient.find(params[:encounter][:patient_id])
 
     if params[:next_url]
-      if encounter.type.name == "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
-        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", params[:next_url]) if encounter.type.name == \
-          "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+
+      if (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", params[:next_url]) if (encounter.type.name == \
+            "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
         return
       else
         redirect_to params[:next_url] and return
       end
     else
-      if encounter.type.name == "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
-        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient)) if encounter.type.name == \
-          "DIAGNOSIS" || (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+      if (encounter.type.name == "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
+        print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}", next_task(@patient)) if (encounter.type.name == \
+            "UPDATE OUTCOME" && encounter.to_s.include?("ADMITTED"))
         return
       else
         redirect_to next_task(@patient)
@@ -528,7 +529,7 @@ class EncountersController < ApplicationController
 
       t2 = Thread.new{
         sleep(5)
-        Kernel.system "lpr /tmp/output-" + session[:user_id].to_s + ".pdf\n"        
+        Kernel.system "lp /tmp/output-" + session[:user_id].to_s + ".pdf\n"        
       }
 
       t3 = Thread.new{
@@ -553,5 +554,13 @@ class EncountersController < ApplicationController
     render :text => "<li>" + locations.map{|location| location }.join("</li><li>") + "</li>"
   end
 
+  def print_discharge_note
+    if params[:encounter_id]
+      print_and_redirect("/encounters/label/?encounter_id=#{params[:encounter_id]}", 
+        "/patients/end_visit?patient_id=#{ params[:patient_id] }")
+    else
+      redirect_to "/people/index"
+    end
+  end
 
 end
