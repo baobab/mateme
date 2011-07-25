@@ -778,6 +778,8 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
 }
 
 function addSummary(position){
+    tstTimerHandle = setTimeout("hideKeyBoard()", 200);
+    
     if(__$("viewport")) {
         __$("viewport").style.height = "250px";
     }
@@ -1229,6 +1231,8 @@ function gotoPage(destPage, validate){
 
 //args: page number to load, validate: true/false
 function navigateToPage(destPage, validate){
+    clearTimeout(tstTimerHandle);
+
     var currentPage = tstCurrentPage;
     var currentInput = __$("touchscreenInput"+currentPage);
 
@@ -1451,11 +1455,11 @@ function clearInput(){
 function showMessage(aMessage, withCancel) {
     var messageBar = tstMessageBar;
     messageBar.innerHTML = aMessage +
-        "<br />" + (typeof(withCancel) != "undefined" ? (withCancel == true ?
+    "<br />" + (typeof(withCancel) != "undefined" ? (withCancel == true ?
         "<button onmousedown='tstMessageBar.style.display = \"none\"; " +
         "clearTimeout(tstTimerHandle);'><span>Cancel</span></button>" : "") : "") +
-        "<button style='width: 200px;' onmousedown='tstMessageBar.style.display = \"none\"; " +
-        "clearTimeout(tstTimerHandle); eval(tstTimerFunctionCall);'><span>Ok</span></button>";
+    "<button style='width: 200px;' onmousedown='tstMessageBar.style.display = \"none\"; " +
+    "clearTimeout(tstTimerHandle); eval(tstTimerFunctionCall);'><span>Ok</span></button>";
     if (aMessage.length > 0) {
         messageBar.style.display = 'block'
         window.setTimeout("hideMessage()",3000)
@@ -1800,7 +1804,7 @@ function getTimePicker() {
         });
     }
 
-    // __$("options" + tstCurrentPage).innerHTML = "";
+// __$("options" + tstCurrentPage).innerHTML = "";
 }
 
 function getDatePicker() {
@@ -2849,4 +2853,10 @@ String.prototype.toProperCase = function()
         function($1) {
             return $1.toUpperCase();
         });
+}
+
+function hideKeyBoard(){
+    __$("keyboard").style.display = "none";
+    
+    tstTimerHandle = setTimeout("hideKeyBoard()", 200);
 }
