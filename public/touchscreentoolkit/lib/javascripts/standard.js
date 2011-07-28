@@ -874,6 +874,7 @@ function unhighlight(element){
 
 //TODO make these into 1 function
 function updateTouchscreenInputForSelect(element){
+    
     var inputTarget = tstInputTarget;
     var multiple = inputTarget.getAttribute("multiple") == "multiple";
 
@@ -948,12 +949,13 @@ function optionIncludedInValue(opt, val_arr) {
     // If lots of things are selected this could be bad... but indexOf is js
     // 1.6+
     for (var i = 0; i < val_arr.length; i++) {
-        if (opt == val_arr[i]) return true;
+        if (opt.trim().replace("\n", "") == val_arr[i].trim().replace("\n", "")) return true;
     }
     return false;
 }
 
 function highlightSelection(options, inputElement){
+
     var val_arr = new Array();
     var multiple = inputElement.getAttribute("multiple") == "multiple";
     if (multiple)

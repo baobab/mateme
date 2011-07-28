@@ -30,6 +30,9 @@ var tt_register_destination = (typeof(tt_register_destination) == "undefined" ? 
 var heading = [];
 var controls = [];
 
+var confirmation = null;
+var confirmationTimeout = null;
+
 function __$(id){
     return document.getElementById(id);
 }
@@ -1037,6 +1040,34 @@ function hideMessage(){
     if(__$("tstMessageBar")){
         __$("tstMessageBar").style.display = "none";
     }
+}
+
+function confirmYesNo(message, yes, no) {
+    
+    hideConfirmation();
+    if (confirmation == null) {
+        confirmation = document.createElement("div");
+        confirmation.setAttribute('id', 'confirmation');
+        
+        document.body.appendChild(confirmation);
+    }
+    confirmation.innerHTML = ''+
+    '<div class="confirmation" >'+ message+ '<div>'+
+    '<button id="yes"><span>Yes</span></button>'+
+    '<button id="no"><span>No</span></button></div>'+
+    '</div>';
+
+    __$("yes").onmousedown = yes;   
+    
+    __$("no").onmousedown = no;
+    
+    confirmation.setAttribute('style', 'display:block');
+    confirmationTimeout = window.setTimeout("hideConfirmation()", 5000);
+}
+
+function hideConfirmation(){
+    if (confirmation != null) confirmation.setAttribute('style', 'display:none');
+    if (confirmationTimeout != null) window.clearTimeout(confirmationTimeout);
 }
 
 //window.addEventListener("load", createPage, false);

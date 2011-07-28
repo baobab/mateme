@@ -2,9 +2,17 @@
 This stylesheet is part of the java script calendar and date picker and TouchScreenToolkit
 multiple Question interface
  **/
+
+body{
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+    margin: 0;
+    -moz-user-select:none;
+    background-color:#000000;
+}
+
 #calender {
     width: 200px;
-    font-family: ms sans serif, sans serif;
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
     padding:10px;
 }
 

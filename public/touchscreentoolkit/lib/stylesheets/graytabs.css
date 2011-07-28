@@ -1,3 +1,11 @@
+
+body{
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+    margin: 0;
+    -moz-user-select:none;
+    background-color:#000000;
+}
+
 .active-tab {
     border-left: 2px inset #666;
     border-right: 2px inset #666;

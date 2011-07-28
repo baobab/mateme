@@ -19,8 +19,7 @@
 .light { background-color:#ddd }
 
 body{
-    /*font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;*/
-    font-family: "Nimbus Sans L";
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
     margin: 0;
     -moz-user-select:none;
     background-color:#000000;

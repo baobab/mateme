@@ -737,13 +737,44 @@ button {
 }
 
 .confirmation {
-  left:50%;
-  margin-left: -225px;
-  width: 450px;
-  position: absolute;
-  top: 30%;
-  font-size: 2em;
-	text-align: center;
-  background-color: tomato;
-  z-index: 999;
+    left:50%;
+    margin-left: -225px;
+    width: 400px;
+    position: absolute;
+    top: 30%;
+    font-size: 2em;
+    text-align: center;
+    background-color: tomato;
+    padding: 10px;
+    z-index: 999;
+    border: 5px outset tomato;
+}
+
+.NumbersWithUnknownAndDecimal #star,
+.NumbersWithUnknownAndDecimal #abc,
+.NumbersWithUnknownAndDecimal #char,
+.NumbersWithUnknownAndDecimal #date,
+.NumbersWithUnknownAndDecimal #minus,
+.NumbersWithUnknownAndDecimal #plus,
+.NumbersWithUnknownAndDecimal #slash,
+.NumbersWithUnknownAndDecimal #comma,
+.NumbersWithUnknownAndDecimal #percent{
+    display: none
+}
+
+.statusLabel {
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #efe;
+    font-size: 2em;
+    padding: 15px;
+    width: 920px;
+    top: 120px;
+    margin-left: 50%;
+    left: -470px;
+    -moz-border-radius: 20px;
+  }
+
+  .NoKeyboard #keyboard {
+      display: none;
 }
