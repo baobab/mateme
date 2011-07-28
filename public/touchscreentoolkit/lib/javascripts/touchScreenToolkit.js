@@ -180,7 +180,7 @@ if((document.forms[0] != undefined ? (document.forms[0].getAttribute("extended")
     calledMethod = "initMultipleQuestions()";
     setTimeout("initMultipleQuestions()", timerout);
 
-} else if(__$('home') != null || __$('dashboard') != null){
+} else if(__$('home') != null || __$('dashboard') != null || __$('general_dashboard') != null){
 
     include("dashboard");
     calledMethod = "createPage()";

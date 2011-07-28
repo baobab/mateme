@@ -723,16 +723,16 @@ button {
     margin: 3px;
 }
 
-.NumbersWithUnkown #star,
-.NumbersWithUnkown #abc,
-.NumbersWithUnkown #char,
-.NumbersWithUnkown #date,
-.NumbersWithUnkown #minus,
-.NumbersWithUnkown #plus,
-.NumbersWithUnkown #decimal,
-.NumbersWithUnkown #slash,
-.NumbersWithUnkown #comma,
-.NumbersWithUnkown #percent{
+.NumbersWithUnknown #star,
+.NumbersWithUnknown #abc,
+.NumbersWithUnknown #char,
+.NumbersWithUnknown #date,
+.NumbersWithUnknown #minus,
+.NumbersWithUnknown #plus,
+.NumbersWithUnknown #decimal,
+.NumbersWithUnknown #slash,
+.NumbersWithUnknown #comma,
+.NumbersWithUnknown #percent{
     display: none
 }
 

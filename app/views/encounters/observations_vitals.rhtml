@@ -124,7 +124,7 @@
       :id => "systolic_blood_pressure",
       :helptext => "Systolic Blood Pressure",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly",
+      :tt_pageStyleClass => "NumbersWithUnknown",
       :tt_onLoad => "timedEvent = setTimeout('calculateBP(1)', 100);",
       :tt_onUnLoad => "clearTimeout(timedEvent);",
       :absoluteMin => 0,
@@ -140,7 +140,7 @@
       :id => "diastolic_blood_pressure",
       :helptext => "Diastolic Blood Pressure",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly",
+      :tt_pageStyleClass => "NumbersWithUnknown",
       :tt_onLoad => "timedEvent = setTimeout('calculateBP(2)', 100);",
       :tt_onUnLoad => "clearTimeout(timedEvent);",
       :absoluteMin => 0,
@@ -156,7 +156,7 @@
       :id => "pulse",
       :helptext => "Pulse",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly",
+      :tt_pageStyleClass => "NumbersWithUnknown",
       :absoluteMin => 0,
       :max => 150
     }) %>
@@ -170,7 +170,7 @@
       :id => "respiration",
       :helptext => "Respiration Rate",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly",
+      :tt_pageStyleClass => "NumbersWithUnknown",
       :absoluteMin => 0,
       :max => 50
     }) %>

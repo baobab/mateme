@@ -191,10 +191,20 @@ function generateHomepage(){
             }
         }
     }
+
+    if(__$('date').getAttribute('retrospective') != null){
+
+        login.innerHTML = "<b>Date:</b> <span  style='" + (__$('date').getAttribute('retrospective') == 'true' ? "color: #f00;" : "") +
+        "'>" + (__$("date") ? current_date : datenow) + "</span><br /><div id='user'>" +
+        "<b>User:</b> " + (__$("user") ? user : "&nbsp;") + "</div>";
     
-    login.innerHTML = "<b>Date:</b> <span  style='" + (current_date.trim() != datenow.trim() ? "color: #f00;" : "") +
-    "'>" + (__$("date") ? current_date : datenow) + "</span><br /><div id='user'>" +
-    "<b>User:</b> " + (__$("user") ? user : "&nbsp;") + "</div>";
+    } else {
+
+        login.innerHTML = "<b>Date:</b> <span  style='" + (current_date.trim() != datenow.trim() ? "color: #f00;" : "") +
+        "'>" + (__$("date") ? current_date : datenow) + "</span><br /><div id='user'>" +
+        "<b>User:</b> " + (__$("user") ? user : "&nbsp;") + "</div>";
+    
+    }
 
     logininfo.appendChild(login);
 
@@ -735,7 +745,22 @@ function generateGeneralDashboard(){
 
     nav.appendChild(logout);
 
-    main.innerHTML = page;
+    main.innerHTML += page;
+
+    if(__$("tabs")){
+        var children = __$("tabs").options;
+
+        for(var i = 0; i < children.length; i++){
+            var page = (children[i].value.trim() != children[i].innerHTML.trim() ? children[i].value :
+                "tabpages/" + children[i].innerHTML.trim().toLowerCase().replace(/\s/gi, "_") + ".html")
+
+            heading.push([children[i].innerHTML.trim(), page]);
+        }
+
+        __$("tabs").style.display = "none";
+
+        generateTab(heading, __$("tabBucket"))
+    }
 
 }
 

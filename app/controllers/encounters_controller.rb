@@ -552,7 +552,8 @@ class EncountersController < ApplicationController
       locations << loc if loc.upcase.strip.match(search_string)
     }
 
-    render :text => "<li>" + locations.map{|location| location }.join("</li><li>") + "</li>"
+    render :text => "<li " + locations.map{|location| "value=\"#{location}\">#{location}" }.join("</li><li ") + "</li>"
+
   end
 
   def print_discharge_note
