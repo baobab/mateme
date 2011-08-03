@@ -105,7 +105,7 @@ function includeCss(file){
 
         document.getElementsByTagName("head")[0].appendChild(link2);
 
-        /*
+    /*
         var link3 = document.createElement("link");
         link3.setAttribute("rel", "stylesheet");
         link3.setAttribute("href", "../" + ext + "lib/stylesheets/" + file + (!file.match(/\.css$/) ? ".css" : ""));
@@ -188,8 +188,8 @@ if((document.forms[0] != undefined ? (document.forms[0].getAttribute("extended")
 
 } else {
     try {
-      include("standard");
-      calledMethod = "loadTouchscreenToolkit()";
-      setTimeout("loadTouchscreenToolkit()", timerout);
+        include("standard");
+        calledMethod = "loadTouchscreenToolkit()";
+        setTimeout("loadTouchscreenToolkit()", timerout);
     }catch(e){}
 }

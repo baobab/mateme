@@ -764,6 +764,8 @@ function handleDFResult(aXMLHttpRequest) {
     if (aXMLHttpRequest.readyState == 4 && aXMLHttpRequest.status == 200) {
         var dosesFreqs = JSON.parse(aXMLHttpRequest.responseText);
 
+        var existingDoses = {};
+
         for(var i = 0; i < dosesFreqs.length; i++){
             var li = document.createElement("li");
             li.id = "option" + dosesFreqs[i][0];
@@ -780,8 +782,8 @@ function handleDFResult(aXMLHttpRequest) {
             if(selectedGenerics[current_diagnosis]){
                 if(selectedGenerics[current_diagnosis][current_generic]){
                     if(selectedGenerics[current_diagnosis][current_generic]["dosage"] == [dosesFreqs[i][0].toUpperCase(),
-                                                                                         dosesFreqs[i][1].toUpperCase(),
-                                                                                         dosesFreqs[i][2].toUpperCase()]){
+                        dosesFreqs[i][1].toUpperCase(),
+                        dosesFreqs[i][2].toUpperCase()]){
                         li.style.backgroundColor = "yellowgreen";
                         li.style.color = "#fff";
                     }
@@ -799,12 +801,12 @@ function handleDFResult(aXMLHttpRequest) {
                 if(selectedGenerics[current_diagnosis]){
                     if(selectedGenerics[current_diagnosis][current_generic]) {
                         selectedGenerics[current_diagnosis][current_generic]["dosage"] = [this.innerHTML.toUpperCase(),
-                                                                    this.getAttribute("strength"),
-                                                                    this.getAttribute("units")];
+                        this.getAttribute("strength"),
+                        this.getAttribute("units")];
                     } else {
                         selectedGenerics[current_diagnosis][current_generic] = {
                             "dosage":[this.innerHTML.toUpperCase(), this.getAttribute("strength"),
-                                                                    this.getAttribute("units")],
+                            this.getAttribute("units")],
                             "frequency":null,
                             "duration":null
                         };
@@ -813,7 +815,7 @@ function handleDFResult(aXMLHttpRequest) {
                     selectedGenerics[current_diagnosis] = {};
                     selectedGenerics[current_diagnosis][current_generic] = {
                         "dosage":[this.innerHTML.toUpperCase(), this.getAttribute("strength"),
-                                                                    this.getAttribute("units")],
+                        this.getAttribute("units")],
                         "frequency":null,
                         "duration":null
                     };
@@ -821,7 +823,10 @@ function handleDFResult(aXMLHttpRequest) {
                 this.style.backgroundColor = "lightblue";
             }
 
-            $('ulDoses').appendChild(li);
+            if(!existingDoses[dosesFreqs[i][0].toUpperCase()]){
+                $('ulDoses').appendChild(li);
+                existingDoses[dosesFreqs[i][0].toUpperCase()] = true;
+            }
         }
     }
 }
@@ -919,7 +924,7 @@ function showFixedKeyboard(ctrl, global_control){
     div.style.backgroundColor = "#EEEEEE";
     div.style.top = "0px";
     div.style.left = "0px";
-    div.style.margin = "10px";
+    div.style.margin = "5px";
 
     var row1 = ["Q","W","E","R","T","Y","U","I","O","P"];
     var row2 = ["", "A","S","D","F","G","H","J","K","L"];
@@ -927,8 +932,8 @@ function showFixedKeyboard(ctrl, global_control){
     var row5 = ["1","2","3","4","5","6","7","8","9","0"];
 
     var tbl = document.createElement("table");
-    tbl.bgColor = "#999999";
-    tbl.cellSpacing = 5;
+    tbl.bgColor = "#fff";
+    tbl.cellSpacing = 2;
     tbl.cellPadding = 10;
     tbl.id = "tblKeyboard";
     tbl.width = "100%";
@@ -944,6 +949,7 @@ function showFixedKeyboard(ctrl, global_control){
         td5.style.fontSize = "1.5em";
         td5.bgColor = "#EEEEEE"
         td5.width = "30px";
+        td5.className = "btn";
 
         td5.onclick = function(){
             if(!this.innerHTML.match(/^$/)){
@@ -971,6 +977,7 @@ function showFixedKeyboard(ctrl, global_control){
         td1.style.fontSize = "1.5em";
         td1.bgColor = "#EEEEEE"
         td1.width = "30px";
+        td1.className = "btn";
 
         td1.onclick = function(){
             if(!this.innerHTML.match(/^$/)){
@@ -997,6 +1004,10 @@ function showFixedKeyboard(ctrl, global_control){
         td2.bgColor = "#EEEEEE"
         td2.width = "30px";
 
+        if(!row2[i].trim().match(/^$/)){
+            td2.className = "btn";
+        }
+
         td2.onclick = function(){
             if(!this.innerHTML.match(/^$/)){
                 $(global_control).value += this.innerHTML.toProperCase();
@@ -1021,6 +1032,11 @@ function showFixedKeyboard(ctrl, global_control){
         td3.style.fontSize = "1.5em";
         td3.bgColor = "#EEEEEE"
         td3.width = "30px";
+
+        if(!row3[i].trim().match(/^$/)){
+            td3.className = "btn";
+        }
+
         if(row3[i] == "clear"){
             td3.colSpan = 2;
 

@@ -43,7 +43,7 @@ form{
     border-left:none;
     border-right:none;
     border-bottom: 1px solid silver;
-    width:965px;
+    width:928px;
     font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
     font-size:2.2em;
     background:none;
@@ -52,7 +52,7 @@ form{
 
 .options{
     overflow: auto;
-    height:14em;
+    height:13em;
 }
 
 .options ul{
@@ -157,6 +157,7 @@ form{
     -moz-border-radius: 15px;
     padding: 5px;
     background-color: #fff;
+    width: 935px;
 }
 
 .buttonLine{
@@ -164,6 +165,7 @@ form{
     /*  height: 3.2em;*/
     height: 70px;
     /*	margin-top: 10px; */
+    width: 100%;
 }
 
 #launchButton{
@@ -182,7 +184,7 @@ form{
     left: 0px;
     z-index: 1;
     height: 670px;
-    width: 965px;
+    width: 998px;
     overflow: hidden;
 }
 
@@ -205,10 +207,12 @@ form{
 }
 
 .inputFrameClass {
-    border: 2px solid black;
+    border: 1px solid black;
     margin-left:25px;
     background: #F0F0F0;
     width:935px;
+    -moz-border-radius: 10px;
+    padding: 5px;
 }
 
 .progressAreaSearchPage {
@@ -279,6 +283,7 @@ form{
     z-index: 999;
     border: 5px outset tomato;
     display: none;
+    -moz-border-radius: 15px;
 }
 
 .confirmationBar {
@@ -314,7 +319,7 @@ form{
     width: 250px;
 }
 
-#SHIFT, #space, #qwerty, #showDataButton, #lessthan, #greaterthan, #equals, #unknown {
+#SHIFT, #qwerty, #na, #showDataButton, #lessthan, #greaterthan, #equals, #unknown {
     display: none;
 }
 
@@ -676,7 +681,7 @@ button:hover.dark span {
     font-size:1.3em;
     margin-left:25px;
     padding-top:5px;
-    width:750px;
+    width:942px;
     border-bottom:2px dotted;
 }  
 
@@ -701,17 +706,29 @@ textarea {
     font-size: 2.2em;
 }
 
-#backspace {
-    margin-left: 40px;
-}
-
 #apostrophe {
     margin-left: 25px;
 }
 
-.NumbersOnly #backspace {
-    margin-left: 265px;
-    margin-right: 0px;
+#backspace {
+    margin-left: 40px;
+}
+
+.qwertyKeyboard #backspace, #apostrophe {
+    margin-left: 20px;
+}
+
+.qwertyKeyboard #apostrophe {
+    margin-left: 5px;
+}
+
+.abcKeyboard #backspace {
+    margin-left: 5px;
+}
+
+.abcKeyboard #qwerty, #backspace, #num, #apostrophe {
+    margin-left: 5px;
+    min-width: 80px;
 }
 
 #zero {
@@ -768,13 +785,92 @@ button {
     background-color: #efe;
     font-size: 2em;
     padding: 15px;
-    width: 920px;
+    width: 915px;
     top: 120px;
     margin-left: 50%;
-    left: -470px;
+    left: -475px;
     -moz-border-radius: 20px;
-  }
+}
 
-  .NoKeyboard #keyboard {
-      display: none;
+.NoKeyboard #keyboard {
+    display: none;
+}
+
+button:active.blue span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.blue {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.green span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.green {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.red span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.red {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.btn {
+    min-height: 50px;
+    margin: 0px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #6281a7;
+    color: #FFF;
+    font-weight: normal;
+    border: 5px outset #000;
+    padding: 10px;
+    cursor: pointer;
+    background:url(../images/btn_blue.png) right repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.btn:hover {
+    background:url(../images/btn_blue_hover.png) right repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.btn:active {
+    background:url(../images/btn_yellow.png) right repeat;
+    border: 3px inset #000;
+}
+
+#na, #Unknown, #backspace, #char, #whitespace, #num {
+    float: right;
 }
