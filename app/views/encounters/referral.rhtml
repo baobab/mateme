@@ -62,6 +62,6 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <%= hidden_field_tag "next_url", "/people" %>
+  <%= hidden_field_tag "next_url", (@roles.include?("Registration Clerk") ? "/people" : "/patients/show/#{@patient.id}") %>
 
 </form>

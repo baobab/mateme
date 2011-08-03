@@ -524,23 +524,27 @@ button:hover.dark span {
 
 .NumbersOnlyWithDecimal #star,
 .NumbersOnlyWithDecimal #abc,
+.NumbersOnlyWithDecimal #char,
 .NumbersOnlyWithDecimal #date,
 .NumbersOnlyWithDecimal #minus,
 .NumbersOnlyWithDecimal #plus,
 .NumbersOnlyWithDecimal #slash,
 .NumbersOnlyWithDecimal #comma,
+.NumbersOnlyWithDecimal #Unknown,
 .NumbersOnlyWithDecimal #percent{
     display: none
 }
 
 .NumbersOnly #star,
 .NumbersOnly #abc,
+.NumbersOnly #char,
 .NumbersOnly #date,
 .NumbersOnly #minus,
 .NumbersOnly #plus,
 .NumbersOnly #decimal,
 .NumbersOnly #slash,
 .NumbersOnly #comma,
+.NumbersOnly #Unknown,
 .NumbersOnly #percent{
     display: none
 }
@@ -751,6 +755,10 @@ button {
 .NumbersWithUnknown #comma,
 .NumbersWithUnknown #percent{
     display: none
+}
+
+.NumbersWithUnknown #Unknown{
+    display: block
 }
 
 .confirmation {

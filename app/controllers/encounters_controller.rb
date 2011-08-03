@@ -81,8 +81,9 @@ class EncountersController < ApplicationController
     @diagnosis_type = params[:diagnosis_type]
     @facility = GlobalProperty.find_by_property("facility.name").property_value rescue ""
 
-    @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
-        EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).collect{|e| 
+    @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ? OR encounter_type = ?",
+        EncounterType.find_by_name("OBSERVATIONS").encounter_type_id,
+        EncounterType.find_by_name("DIAGNOSIS").encounter_type_id]).collect{|e|        
       e.observations.collect{|o| o.concept.name.name.upcase}
     }.join(", ") rescue ""
 
@@ -473,6 +474,8 @@ class EncountersController < ApplicationController
 
   def referral
     @patient = Patient.find(params[:patient_id])
+
+    @roles = User.find(session[:user_id]).user_roles.collect{|r| r.role} # rescue []
   end
 
   def update_hiv_status

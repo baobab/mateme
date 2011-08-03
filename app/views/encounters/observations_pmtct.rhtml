@@ -191,6 +191,7 @@
   <% options = default.merge({
       :id => "feeding_option",
       :helptext => "Feeding Option",
+      :condition => "$('hiv_status_value').value.trim().toUpperCase() == 'REACTIVE';",
       :field_type => "text"
     }) %>
   <% @feeding_options = ["", "Exclusive Breast Feeding", "No Breast Feeding", "Exclusive Formula Feeding"] %>

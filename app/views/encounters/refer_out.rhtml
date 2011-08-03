@@ -1,6 +1,6 @@
 <script>
-  // var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
-  var tt_cancel_destination = "/encounters/new/observations/?patient_id=<%=  @patient.id %>"
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  // var tt_cancel_destination = "/encounters/new/observations/?patient_id=<%=  @patient.id %>"
 </script>
 <style>
   #space { display:inline; font-size:1.2em; }
@@ -12,7 +12,7 @@
   <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= hidden_field_tag "next_url", "/encounters/diagnoses_index?patient_id=#{@patient.id}" %>
+  <%= hidden_field_tag "next_url", "/patients/show/?patient_id=#{@patient.id }" %>
 
   <select id="select" name="observations[][value_coded_or_text]" helptext="Refer Case To Another Hospital?">
     <option value="YES">Yes</option>

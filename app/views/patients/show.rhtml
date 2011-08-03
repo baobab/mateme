@@ -11,10 +11,10 @@
       tstUsername = "";
       tstCurrentDate = "2010/03/12";
       tt_cancel_show = "<%= ((@refer_out == true && @result.length) || @discharged.to_s.upcase.include?("DISCHARGED") == true ?
-          ("/encounters/print_discharge_note/?patient_id=#{@patient.id}&encounter_id=#{@result[0][0]}") :
-          '/people/index') %>";
+    ("/encounters/print_discharge_note/?patient_id=#{@patient.id}&encounter_id=#{@result[0][0]}") :
+    '/people/index') %>";
           
-      tt_cancel_destination = '/people/index';
+  tt_cancel_destination = '/people/index';
     </script>
     <!--link type="text/css" href="stylesheets/graytabs.css" rel="stylesheet" />
     <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />
@@ -31,12 +31,16 @@
               <th colspan=2>Patient Dashboard</th>
             </tr>
             <h1 id='project_name'>
-              <div style='font-size: 0.8em; margin-top: 12px;'>maternity</div></h1>
+              <div style='font-size: 0.8em; margin-top: 12px;'>maternity</div>
+            </h1>
+            
             <span id='patient_name'><%= @patient.person.name %></span>
-            <span id='patient_id'><%= @patient.national_id %>
-            </span><span id='patient_residence'><%= @patient.person.current_residence %></span>
+            <span id='patient_id'><%= @patient.national_id %></span>
+            <span id='patient_residence'><%= @patient.person.current_residence %></span>
             <span id='patient_age'><%= @patient.person.age %></span>
-            <span id='patient_gender'>Female</span><select id="tabs">
+            <span id='patient_gender'>Female</span>
+
+            <select id="tabs">
               <option value='/patients/visit_summary?patient_id=<%= @patient.id %>'>Visit Summary</option>
               <option value='/patients/visit_history?patient_id=<%= @patient.id %>'>Visit History</option>
             </select>

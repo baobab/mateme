@@ -853,7 +853,10 @@ function changeSummary(position){
             var cell1 = document.createElement("div");
             cell1.style.display = "table-cell";
             cell1.style.padding = "10px";
-            cell1.innerHTML = "<b style='color: #333;'>" + item.replace(/_/g, " ").toProperCase() + "</b>";
+            // cell1.innerHTML = "<b style='color: #333;'>" + (item == "ta" ? "T/A" :
+            //    item.replace(/_/g, " ").toProperCase()) + "</b>";
+
+            cell1.innerHTML = "<b style='color: #333;'>" + item + "</b>";
 
             row.appendChild(cell1);
 

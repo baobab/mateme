@@ -14,7 +14,7 @@
     
 <% else %>
 
-    tt_cancel_destination = '/patients/show/<%=  "#{@patient.id}" %>';
+    tt_cancel_destination = "/encounters/new/observations/?patient_id=<%=  @patient.id %>";
 
     // tt_cancel_destination = '/encounters/new/refer_out/?patient_id=<%=  "#{@patient.id}" %>';
 <%  end %>

@@ -9,53 +9,53 @@ pos = 1
 
     people.push({});
 
-    people[<%= pos %>]["name"] = "<%= person.name %>";
+    people[<%= pos %>]["Name"] = "<%= person.name %>";
 
-    people[<%= pos %>]["gender"] = "<%= person.sex rescue "" %>";
+    people[<%= pos %>]["Gender"] = "<%= person.sex rescue "" %>";
 
   <% unless person.birthdate.blank? %>
 
-      people[<%= pos %>]["birthdate"] = "<%= person.birthdate_formatted rescue "" %>";
+      people[<%= pos %>]["Birthdate"] = "<%= person.birthdate_formatted rescue "" %>";
 
-      people[<%= pos %>]["age"] = "<%= person.age rescue "" %>";
+      people[<%= pos %>]["Age"] = "<%= person.age rescue "" %>";
 
   <% end %>
 
   <% if person.addresses.first && person.addresses.first.address2.present? %>
 
-      people[<%= pos %>]["home_village"] = "<%=h person.addresses.first.address2 -%>";
+      people[<%= pos %>]["Home Village"] = "<%=h person.addresses.first.address2 -%>";
 
   <% end %>
 
   <% if person.addresses.first && person.addresses.first.city_village.present? %>
 
-      people[<%= pos %>]["current_village"] = "<%=h person.addresses.first.city_village -%>";
+      people[<%= pos %>]["Current Village"] = "<%=h person.addresses.first.city_village -%>";
 
   <% end %>
 
   <% if person.names.first && person.names.first.family_name2.present? %>
 
-      people[<%= pos %>]["mother_surname"] = "<%=h person.names.first.family_name2 -%>";
+      people[<%= pos %>]["T/A"] = "<%=h person.addresses.last.county_district rescue "" -%>";
 
   <% end %>
 
   <% unless person.patient.blank? %>
 
-      people[<%= pos %>]["patient_id"] = "<%=h person.patient.national_id rescue "" -%>";
+      people[<%= pos %>]["Patient ID"] = "<%=h person.patient.national_id rescue "" -%>";
 
     <% if session[:user].admin? %>
         
-        people[<%= pos %>]["arv_number"] = "<%=h person.patient.arv_number rescue "" -%>";
+        people[<%= pos %>]["ARV Number"] = "<%=h person.patient.arv_number rescue "" -%>";
 
-        people[<%= pos %>]["eid_number"] = "<%=h person.patient.eid_number rescue "" -%>";
+        people[<%= pos %>]["EID Number"] = "<%=h person.patient.eid_number rescue "" -%>";
 
-        people[<%= pos %>]["pre_art_number"] = "<%=h person.patient.pre_art_number rescue "" -%>";
+        people[<%= pos %>]["Pre ART Number"] = "<%=h person.patient.pre_art_number rescue "" -%>";
 
     <% end %>
 
   <% end %>
 
-    people[<%= pos %>]["status"] = "<%=h 'Died' if person.dead == 1 rescue '' -%>";
+    people[<%= pos %>]["Status"] = "<%=h 'Died' if person.dead == 1 rescue '' -%>";
 
   <%
   pos = pos + 1
@@ -108,8 +108,8 @@ end -%>
         patient = person.patient rescue []
         next if patient.blank? -%>
         <option value="<%= person.id %>" onmousedown="changeNextButtonText('Select Patient')">
-          <%=h person.name -%>,
-          <% unless person.birthdate.blank? %> Age: <%=h person.age -%>,<% end %> Gender: <%= person.sex rescue "" %>
+          <%=h person.name -%>, T/A: <%= person.addresses.last.county_district rescue "" %>, 
+          <% unless person.birthdate.blank? %> Age: <%=h person.age -%>,<% end %> Sex: <%= person.sex rescue "" %>
         </option>
       <% end -%>
     </select>

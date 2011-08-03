@@ -15,7 +15,7 @@
     color:#CADCEA;
     height:80px;
     width:100%;
-    bottom:0px;
+    bottom:-5px;
     position:absolute;
     overflow:hidden;
     z-index: 1000;
@@ -96,7 +96,11 @@
       </div>
       <div style="display: table-row">
         <div style="display: table-cell">
-          &nbsp;
+          <button class="<%= (@encounters.include?("DIAGNOSIS") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("DIAGNOSIS") ? "" :
+                      "window.location = '/encounters/diagnoses_index?patient_id=#{@patient.id}';") %> ">
+            <span>Admission Diagnosis</span>
+          </button>
         </div>
         <div style="display: table-cell">
           <button class="blue"
