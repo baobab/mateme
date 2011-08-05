@@ -520,10 +520,20 @@ class EncountersController < ApplicationController
   end
 
   def print_note
+    # raise request.remote_ip.to_yaml
+
+    location = request.remote_ip rescue ""
     @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @user = params[:user_id]
-
     if @patient
+      current_printer = ""
+
+      wards = GlobalProperty.find_by_property("facility.ward.printers").property_value.split(",") rescue []
+
+      printers = wards.each{|ward|
+        current_printer = ward.split(":")[1] if ward.split(":")[0].upcase == location
+      } rescue []
+
       t1 = Thread.new{
         Kernel.system "htmldoc --webpage -f /tmp/output-" + session[:user_id].to_s + ".pdf http://" +
           request.env["HTTP_HOST"] + "\"/encounters/observations_printable?patient_id=" +
@@ -532,7 +542,8 @@ class EncountersController < ApplicationController
 
       t2 = Thread.new{
         sleep(5)
-        Kernel.system "lp /tmp/output-" + session[:user_id].to_s + ".pdf\n"        
+        Kernel.system "lp #{(!current_printer.blank? ? '-d ' + current_printer.to_s : "")} /tmp/output-" +
+          session[:user_id].to_s + ".pdf\n"
       }
 
       t3 = Thread.new{
