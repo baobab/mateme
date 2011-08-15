@@ -1,0 +1,94 @@
+.active-tab {
+    border-left: 2px inset #578bb3;
+    border-right: 2px inset #578bb3;
+    border-top: 2px inset #578bb3;
+    -moz-border-radius: 8px;
+    padding: 8px;
+    padding-top: 0px;
+    background-color: #fff;
+    float: left;
+    cursor: pointer;
+    -moz-user-select:none;
+    color: #578bb3;
+    font-weight: normal;
+    font-size: 18px;
+}
+.inactive-tab {
+    border-left: 3px outset #578bb3;
+    -moz-border-radius: 8px;
+    padding: 8px;
+    padding-top: 0px;
+    background-color: #578bb3;
+    border-right: 3px outset #578bb3;
+    border-top: 3px outset #578bb3;
+    float: left;
+    cursor: pointer;
+    -moz-user-select:none;
+    color: #fff;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+#tab1 {
+    margin-left: 7px;
+}
+
+#tabContainer {
+    width: 98%;
+    height: 32px;
+    border: 1px solid #fff;
+    -moz-border-radius: 10px;
+    overflow: hidden;
+}
+
+#tabMainContainer {
+    width: 99%;
+    height: 98%;
+    border: 1px solid #fff;
+    -moz-border-radius: 10px;
+    padding: 0.2%;
+    background-color: #fff;
+}
+
+#tabContainer2 {
+    width: 98%;
+    height: 32px;
+    border: 1px solid #fff;
+    -moz-border-radius: 10px;
+    overflow: hidden;
+    padding-left: 5px;
+}
+
+#mainContainer {
+    height: 50px;
+    margin-bottom: 22px;
+}
+
+#tabPageContainer {
+    width: 98.5%;
+    height: 82%;
+    border-left: 4px outset #578bb3;
+    border-right: 4px outset #578bb3;
+    border-bottom: 4px outset #578bb3;
+    border-top: 1px outset #578bb3;
+    -moz-border-radius: 10px;
+    padding: 5px; margin: 0px;
+    background-color: #fff;
+}
+
+.view {
+    width: 98%;
+    height: 97%;
+    border: 1px solid #fff;
+    border-top: 1px solid #fff;
+    -moz-border-radius: 10px;
+    padding: 5px;
+    overflow: auto;
+    background-color: #fff;
+}
+
+iframe {
+    height: 100%;
+    width: 100%;
+    border: 0px solid #fff;
+}
