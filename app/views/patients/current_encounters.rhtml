@@ -1,4 +1,8 @@
 <%= stylesheet_link_tag "miscellaneous" %>
+<%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+
+<%= javascript_include_tag "utils" %>
+
 <style>
   .even {
      -moz-border-radius: 15px;
@@ -15,6 +19,7 @@
     <div style="display: table-cell; width: 50%; padding: 5px; vertical-align: top;
          border: 1px solid #eee;">
       <div >
+        <div id = "content"></div>
         <base target="_parent">
           <%@lab_results_header = false%>
           <% @outcome_updated = false %>
@@ -87,4 +92,5 @@
       <%= render "simple_graph" %>
     </div>
    </div>
+
 </div>
