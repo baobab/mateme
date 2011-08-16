@@ -7,4 +7,5 @@
       <div id="birth_date" value="<%= @patient.person.addresses.first.city_village rescue 'Unknown' %>"> Current Village</div>
       <div id="birth_date" value="<%= @patient.person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %>"> Phone Number</div>
       <div id="birth_date" value="<%= @patient.diabetes_number rescue 'Unknown' %>">DC Number</div>
+      <div id="outcome" value="<%= @current_updated_outcome %>">Outcome</div>
 </div>
