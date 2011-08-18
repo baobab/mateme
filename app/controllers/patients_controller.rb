@@ -75,7 +75,7 @@ class PatientsController < ApplicationController
     # set the patient's medication period
     @patient_medication_period = Patient.patient_diabetes_medication_duration(@patient.patient_id)
 
-    @current_updated_outcome = Concept.find(@patient.updated_outcome.observations.last.value_coded).name.name rescue 'None'
+    @current_updated_outcome = Concept.find(@patient.last_updated_outcome.observations.last.value_coded).name.name rescue 'None'
 
     render :template => 'patients/show', :layout => 'menu'
   end
