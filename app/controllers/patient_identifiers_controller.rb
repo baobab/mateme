@@ -2,10 +2,10 @@ class PatientIdentifiersController < ApplicationController
 
   def edit
     if request.post? && params[:type] && params[:identifier]
-      if patient_identifier_exists(params[:identifier],params[:type]) && params[:type].to_i == 16
+      if patient_identifier_exists(params[:identifier],params[:type])
         #case params[:type].to_i
         #when 16
-          flash[:notice] = "DS Number already Exists."
+          flash[:notice] = "That Number already Exist."
         #else
         #  flash[:notice] = "Identifier already Exists."
         #end
