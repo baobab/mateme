@@ -428,6 +428,9 @@ class Patient < ActiveRecord::Base
   def updated_outcome
     self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
   end
+  def last_updated_outcome #return the last updated outcome
+    self.encounters.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
+  end
 
   def hiv_status_observation
     self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("UPDATE HIV STATUS").id]).map{|encounter|
