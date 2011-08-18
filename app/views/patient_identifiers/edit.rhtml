@@ -4,7 +4,13 @@
 </script>
 <form id="search" action="/patient_identifiers/edit/<%= @patient.id %>" method="post">
   <p>
-    <label for="identifier"><%= @identifier_type.name %></label>
+    <label for="identifier">
+      <% if  @identifier_type.name == 'Diabetes Number'%>
+        DC Number
+      <%else%>
+        <%= @identifier_type.name %>
+      <%end%>
+    </label>
     <%= text_field_tag :identifier, (@identifier.identifier rescue nil),
                        :field_type => 'number',
                        :allowFreeText => "true" %>
