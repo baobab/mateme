@@ -26,4 +26,8 @@ class PatientIdentifier < ActiveRecord::Base
     checkdigit = checkdigit +1 while ((sum+(checkdigit))%10)!=0
     return checkdigit
   end
+  def self.dc_number_prefix
+    dc_number_prefix = GlobalProperty.find_by_property("dc.number.prefix").property_value rescue nil
+    return dc_number_prefix
+  end
 end
