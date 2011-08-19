@@ -2,19 +2,41 @@
 <script type="text/javascript">
   tt_cancel_destination = '/patients/demographics?patient_id=<%= @patient.id %>'
 </script>
+<script>
+
+ function dc_number(){
+   inputElement = $('tt_page_dc_number').getElementsByTagName("input")[0]
+    prefix = document.createElement("span")
+    style = document.createAttribute("style")
+    style.value = "position: absolute; z-index: 100; left: 47px; font-size: 44px;"
+    prefix.setAttributeNode(style)
+    inputElement.setAttribute("style","text-align:right;width:924px;")
+    prefix.innerHTML = "<%=PatientIdentifier.dc_number_prefix rescue nil %>"
+    inputElement.parentNode.insertBefore(prefix, inputElement)
+    style.value+= 'left:35px;'
+    prefix.setAttributeNode(style)
+
+  }
+
+</script>
+
 <form id="search" action="/patient_identifiers/edit/<%= @patient.id %>" method="post">
   <p>
-    <label for="identifier">
-      <% if  @identifier_type.name == 'Diabetes Number'%>
-        DC Number
-      <%else%>
-        <%= @identifier_type.name %>
-      <%end%>
-    </label>
-    <%= text_field_tag :identifier, (@identifier.identifier rescue nil),
-                       :field_type => 'number',
-                       :allowFreeText => "true" %>
+    <% if @identifier_type.name == 'Diabetes Number' %>
+      <%= touch_identifier_dc_number_tag @patient, "Diabetes Number", @identifier_value,
+        {:id => "identifier",
+         :optional => false,
+         :tt_onLoad => "press('num');dc_number();",
+         :tt_pageStyleClass => "Numeric NumbersOnly",
+         :helpText => "DC Number" } %>
+
+    <%else%>
+      <label for="identifier"> <%= @identifier_type.name %> </label>
+      <%= text_field_tag :identifier, (@identifier.identifier rescue nil),
+                         :field_type => 'number',
+                         :allowFreeText => "true" %>
+    <%end%>
   </p>
-  <%= hidden_field_tag :type, @identifier_type.id %>
   
+  <%= hidden_field_tag :type, @identifier_type.id %>
 </form>
