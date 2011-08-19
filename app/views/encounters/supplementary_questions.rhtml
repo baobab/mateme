@@ -65,10 +65,10 @@
         :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown" && (year - $("year_of_initial_diagnosis").value <= 2)',
         :tt_onUnLoad => "onMonthUpdateDateTime('initial_diagnosis_date', 'month_of_initial_diagnosis', 'diagnosis_date_value_modifier');"}%>
 
+      <%= hidden_field_tag("observations[][concept_name]", "DIABETES DIAGNOSIS DATE") %>
       <%= hidden_field_tag("observations[][value_modifier]",      "", {:id => 'diagnosis_date_value_modifier'} ) %>
       <%= hidden_field_tag("observations[][value_datetime]", "", {:id => 'initial_diagnosis_date'}) %>
-      <%#= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
-      <%= hidden_field_tag("observations[][concept_name]", "DIABETES DIAGNOSIS DATE") %>
+      <%= hidden_field_tag("observations[][value_coded_or_text]", nil) %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
