@@ -1170,8 +1170,8 @@ class Reports::Cohort
                                       WHERE value_coded IN \
                                         (SELECT concept_id FROM concept_name WHERE name = 'DEAD') AND \
                                       concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
-                                        AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
-        @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
+                                        AND DATE_FORMAT(obs.date_created, '%Y-%m-%d') >= '" +
+        @start_date + "' AND DATE_FORMAT(obs.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                     AND patient.voided = 0").length
   end
 
