@@ -82,12 +82,18 @@ class UserController < ApplicationController
   end
 
   def show
+=begin
     unless session[:user_edit].nil?
       @user = User.find(session[:user_edit])
     else
       @user = User.find(session[:user_id])
       session[:user_edit]=@user.user_id
-    end  
+    end
+=end
+
+    if params[:user_id]
+      @user = User.find(params[:user_id])
+    end
   end
 
   def new
@@ -141,7 +147,7 @@ class UserController < ApplicationController
       user_role.save
       # end
       flash[:notice] = 'User was successfully created.'
-      redirect_to :action => 'show'
+      redirect_to "/user/show/?user_id=#{@user.id}"
     else
       flash[:notice] = 'OOps! User was not created!.'
       render :action => 'new'
