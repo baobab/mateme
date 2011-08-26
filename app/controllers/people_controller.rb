@@ -5,6 +5,7 @@ class PeopleController < ApplicationController
     @tt_active_tab = params[:active_tab]
     @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("superuser") rescue nil
     @doctor = true if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("doctor") rescue nil
+    @date = (session[:datetime].to_date rescue Date.today).strftime("%Y-%m-%d")
 
     render :layout => "menu"
   end
@@ -117,22 +118,30 @@ class PeopleController < ApplicationController
   # TODO refactor so this is restful and in the right controller.
   def set_datetime
     if request.post?
-      unless params["retrospective_patient_day"]== "" or params["retrospective_patient_month"]== "" or params["retrospective_patient_year"]== ""
+      unless params[:set_day]== "" or params[:set_month]== "" or params[:set_year]== ""
         # set for 1 second after midnight to designate it as a retrospective date
-        date_of_encounter = Time.mktime(params["retrospective_patient_year"].to_i,
-                                        params["retrospective_patient_month"].to_i,
-                                        params["retrospective_patient_day"].to_i,0,0,1)
-        session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today
+        date_of_encounter = Time.mktime(params[:set_year].to_i,
+                                        params[:set_month].to_i,
+                                        params[:set_day].to_i,0,0,1)
+        session[:datetime] = date_of_encounter #if date_of_encounter.to_date != Date.today
       end
-      redirect_to :action => "index"
+      unless params[:id].blank?
+        redirect_to next_task(Patient.find(params[:id]))
+      else
+        redirect_to :action => "index"
+      end
     end
+    @patient_id = params[:id]
   end
- 
+
   def reset_datetime
     session[:datetime] = nil
-    redirect_to :action => "index" and return
+    if params[:id].blank?
+      redirect_to :action => "index" and return
+    else
+      redirect_to "/patients/show/#{params[:id]}" and return
+    end
   end
-  
   def overview
     @types = ["DIABETES INITIAL QUESTIONS", "REGISTRATION","VITALS", "TREATMENT", "DIABETES TREATMENTS"]
     @me = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW()) AND encounter.creator = ?', User.current_user.user_id])
