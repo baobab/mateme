@@ -3,6 +3,7 @@
 </style>
 <script type="text/javascript">
   tt_cancel_destination ='/logout';
+  tstCurrentDate = "<%= @date %>";
   tt_cancel_show = '/people/search';
   tt_active_tab = <%="'#{@tt_active_tab}'"%>
  
@@ -12,6 +13,10 @@
     <div id="facility">QECH</div>
     <div id="location">Reception</div>
     <div id="user"><%=current_user.name%></div>
+    <% retrospective = 'false'
+       retrospective = 'true' if session[:datetime]
+    %>
+    <div id="date" retrospective="<%= retrospective %>"><%= @date %></div>
     <div id="date"><%=Date.today%></div>
     
     <base target="_parent" />
@@ -31,6 +36,9 @@
         <option value="">Logout</option>
         <option value="/people/search" ttSize="250px">Find by Name</option>
         <option value="/people/identifiers" ttSize="250px">Find by DC Number</option>
+        <option value='<%= ((session[:datetime].to_date rescue '') != '' ?
+                          "/people/reset_datetime" : "/people/set_datetime") %>'  ttSize="100px">
+                <%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>
     </select>
     
 </div>
