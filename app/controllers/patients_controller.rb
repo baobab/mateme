@@ -548,20 +548,23 @@ class PatientsController < ApplicationController
       @counts = {}
 
       @enc.each{|e|
-        yr = e.encounter_datetime.to_date.strftime("%Y")
-        mt = e.encounter_datetime.to_date.strftime("%m").to_i-1
-        dy = e.encounter_datetime.to_date.strftime("%d").to_i
+        obs = e.observations
+        if !obs.blank?
+          obs_date = obs.first.value_datetime
+          yr = obs_date.to_date.strftime("%Y")
+          mt = obs_date.to_date.strftime("%m").to_i-1
+          dy = obs_date.to_date.strftime("%d").to_i
 
-        if(!@counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)])
-          @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)] = {}
-          @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)]["count"] = 0
+          if(!@counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)])
+            @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)] = {}
+            @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)]["count"] = 0
+          end
+
+          @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)][e.patient_id] = true
+          @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)]["count"] += 1
         end
-
-        @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)][e.patient_id] = true
-        @counts[(yr.to_s + "-" + mt.to_s + "-" + dy.to_s)]["count"] += 1
-
       }
-
+      #raise @counts['2011-08-06'].to_yaml
     end
   end
 
@@ -603,32 +606,55 @@ class PatientsController < ApplicationController
   def remove_booking
     if(params[:patient_id])
       @type = EncounterType.find_by_name("APPOINTMENT").id rescue nil
+      @patient = Patient.find(params[:patient_id])
+      
       if(@type)
-        @enc = Encounter.find(:last, :conditions =>
+        @enc = @patient.encounters.find(:all, :joins => :observations,
+              :conditions => ['encounter_type = ?', @type])
+
+=begin
+          Encounter.find(:last, :conditions =>
             ["voided = 0 AND patient_id = ? AND encounter_type = ? AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') = ?",
             params[:patient_id], @type, params[:appointment_date]])
-
+=end
+        
         if(@enc)
           reason = ""
 
-          if(params[:appointment_date])
-            if(params[:appointment_date].to_date < Time.now.to_date)
+          if(params[:appointmentDate])
+            if(params[:appointmentDate].to_date < Time.now.to_date)
               reason = "Defaulted"
-            elsif(params[:appointment_date].to_date == Time.now.to_date)
+            elsif(params[:appointmentDate].to_date == Time.now.to_date)
               reason = "Attended"
-            elsif(params[:appointment_date].to_date > Time.now.to_date)
+            elsif(params[:appointmentDate].to_date > Time.now.to_date)
               reason = "Pre-cancellation"
             else
               reason = "General reason"
             end
           end
 
-          @enc.update_attributes(:voided => 1, :date_voided => params[:appointment_date],
-            :voided_by => session[:user_id], :void_reason => reason)
+          @enc.each{|encounter|
+            
+            @voided = false
+            encounter.observations.each{|o|
 
+              if o.value_datetime.to_date == params[:appointmentDate].to_date
+                o.update_attributes(:voided => 1, :date_voided => Time.now.to_date,
+                :voided_by => session[:user_id], :void_reason => reason)
+
+                @voided = true
+              end
+            }
+            if @voided == true
+              encounter.update_attributes(:voided => 1, :date_voided => Time.now.to_date,
+                :voided_by => session[:user_id], :void_reason => reason)
+            end
+          }
+          
         end
       end
     end
+    render :text => ""
   end
 
   def search_appointments
