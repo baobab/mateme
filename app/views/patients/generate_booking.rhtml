@@ -6,6 +6,21 @@
   var patient_id = <%= @patient.id %>;
 
   counts = <%= @counts.to_json() %>;
+
+  function summary() {
+    //updateWhoStage();
+    //updateReasonForArtEligibility();
+    //var conditions = selectedConditions();
+    var display = "<div><span class='title'>WHO Stage: Test</span></div>";
+
+    //$('inputFrame'+tstCurrentPage).innerHTML = '<div id="summary">' + display + '</div>' ;
+    $("clearButton").style.display = 'none';
+    $("cancelButton").style.display = 'none';
+
+    generateBalancer();
+    $("observations__value_datetime").value = "";
+  }
+
   //-->
 </script>
 
@@ -21,6 +36,7 @@
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <%= hidden_field_tag("next_url", "/patients/generate_booking?patient_id=#{@patient.id}") %>
+  <%#= hidden_field_tag("next_url", "/patients/generate_booking?patient_id=#{@patient.id}") %>
+  <%= text_field_tag :summary, nil, { :tt_onLoad => "summary();", :optional => "true", :tt_pageStyleClass => "NoControls" } %>
 
 </form>
