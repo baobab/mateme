@@ -1,28 +1,54 @@
-<%= stylesheet_link_tag "patient_set_datetime_for_retrospective_data_entry" %>
-<% form_tag :action => "set_datetime" do %>
-  <% finish_year = Date.today %>
-  <p><label for ="retrospective_encounter_date_time">Date when visit occured</label> </p>
-  <% 
-    minimum_date = "2001-01-01".to_date
-  %>
+<%= stylesheet_link_tag "set_date" %>
+<script>
+  function validateDate() {
+    year = parseFloat(document.getElementsByName('set_year')[0].value)
+    month = parseFloat(document.getElementsByName('set_month')[0].value)
+    day = parseFloat(document.getElementsByName('set_day')[0].value)
+    return dateDiff(year,month,day);
+  }
 
-<p><label for ="retrospective_patient_year">Year when visit occured</label> </p>
-  <%= text_field_tag(:retrospective_patient_year,nil,{:field_type => 'number', :absoluteMin => "1940", :absoluteMax => Time.now.year}) %>
-<p><label for ="retrospective_patient_month">Month when visit occured</label> </p>
+  function dateDiff(year,month,day){
+    today = new Date();
+    dateStr = today.getDate();
+    monthStr = today.getMonth() + 1;
+    yearStr = today.getFullYear();
+    today = new Date(parseFloat(yearStr),parseFloat(monthStr),parseFloat(dateStr));
+    set_date = new Date(parseFloat(year),parseFloat(month),parseFloat(day));
+    return (today > set_date)
+  }
+
+  <% if @patient_id %>
+    var tt_cancel_destination = "/patients/show/<%=@patient_id%>"
+  <% else %>
+    var tt_cancel_destination = "/people"
+  <% end %>
+</script>
+
+<style>
+  .tt_controls_year #char { display:none; }
+</style>
+
+<form action = "/people/set_datetime/<%=@patient_id%>" method = "post">
+
+  <%= text_field_tag(:set_year,nil,{:field_type => 'number', :absoluteMin => "1940", :absoluteMax => Time.now.year, :helpText => 'Year'}) %>
+
   <% optionsString = "<option>" "" "</option>"
-  1.upto(12){ |number| 
+  1.upto(12){ |number|
        optionsString += "<option value = '" + number.to_s + "'>" + Date::MONTHNAMES[number] + "</option>"
       }
       optionsString << "<option>" "Unknown" "</option>"
   %>
-  <%=select_tag(:retrospective_patient_month, optionsString,  {:field_type => 'alpha', :tt_requireNextClick => false, :tt_pageStyleClass => "ShortSelectList", :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown"'})%>
+  <%= select_tag :set_month, optionsString, {:helpText => 'Month'}%>
 
-<p><label for ="retrospective_patient_day">Day when visit occured</label> </p>
-  <%day=Array.new(31){|d|d + 1 } 
+  <%day=Array.new(31){|d|d + 1 }
     unknown=Array.new
-    unknown[0]= "Unknown" 
-    days_with_unknown = day<< "Unknown"
+    unknown[0]= "Unknown"
+    days_with_unknown = day
     days = [""].concat day%>
-    <%= select_tag(:retrospective_patient_day, options_for_select(days), :field_type => 'number', :tt_requireNextClick => false,  :condition => '$("retrospective_patient_year").value.toLowerCase() != "unknown" && $("retrospective_patient_month").value.toLowerCase() != "unknown"', :absoluteMax => Date.today.to_s)  %>
+    <%= select_tag(:set_day, options_for_select(days),
+        :field_type => 'number' , :absoluteMax => Date.today.to_s ,:helpText => 'Day' ,
+        :validationJS =>'validateDate()',
+        :validationMessage => "You must enter an earlier date than #{Date.today.strftime('%Y-%b-%d')}")  %>
+
   <%= submit_tag "Set visit date" %>
-<% end %>
+</form>
