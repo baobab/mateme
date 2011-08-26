@@ -64,6 +64,12 @@
         <option value="/patients/important_medical_history?id=<%= @patient.id -%>">Medical History</option>
         <option value="/patients/hiv?id=<%= @patient.id -%>">HIV Status</option>
     </select>
+
+    <select id="navigation_links">
+        <option link='<%= ((session[:datetime].to_date rescue '') != '' ?
+                    "/people/reset_datetime/#{@patient.id}" : "/people/set_datetime/#{@patient.id}") %>'  ttSize="160px">
+          <%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>
+    </select>
 </div>
 <!--
     <div style="margin:10px;">
