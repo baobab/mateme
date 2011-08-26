@@ -4,11 +4,11 @@ var counts = {};
 var patients = {};
 
 var section_size = 122;
-
+/*
 function $(id){
     return document.getElementById(id);
 }
-
+*/
 function setValues(){
     var arr = [0, 0, 0, 0, 0];
 
@@ -194,6 +194,7 @@ function setMonth(){
 }
 
 function setData(pos, subtract){
+
     /*if(pos.length > 0){
         showPatients(pos, subtract);
     }*/
@@ -203,6 +204,7 @@ function setData(pos, subtract){
 }
 
 function makeBooking(pos, subtract){
+
     var sel = patient_id;
     var app_date = "";
 
@@ -221,12 +223,13 @@ function makeBooking(pos, subtract){
     app_date = date[0] + "-" + date[1] + "-" + date[2];
 
     if(counts[pos]){
+
         if(subtract){
             if(counts[pos][sel]){
                 var response = confirm("Are you sure you want to void this booking?");
 
                 if(response){
-                    ajaxRequest($(pos), "/patients/remove_booking?patient_id="+patient_id+"&appointment_date="+app_date)
+                    ajaxRequest($(pos), "/patients/remove_booking?patient_id="+patient_id+"&appointmentDate="+app_date)
                     counts[pos]["count"] = (parseInt(counts[pos]["count"]) - 1);
                     delete counts[pos][sel];
                 }
@@ -237,10 +240,8 @@ function makeBooking(pos, subtract){
                 return;
             } else {
                 $("observations__value_datetime").value = app_date;
-
                 counts[pos][sel] = true;
                 counts[pos]["count"] = (parseInt(counts[pos]["count"]) + 1);
-
                 document.forms[0].submit();
             }
         }
@@ -248,13 +249,13 @@ function makeBooking(pos, subtract){
     } else {
         if(!subtract){
             $("observations__value_datetime").value = app_date;
-            
             counts[pos] = {};
             counts[pos][sel] = true;
             counts[pos]["count"] = 1;
-
             document.forms[0].submit();
         }
+
+
     }
 
     setMonth();
@@ -439,14 +440,17 @@ function showPatients(pos, subtract){
 }
 
 function generateBalancer(){
+  //alert("Am in generateBalancer");
     var divParent = document.createElement("div");
     divParent.style.width = "99.7%";
     divParent.style.backgroundColor = "white";
-    divParent.style.height = "89%";
+    divParent.style.height = "100%";
     divParent.style.border = "1px dotted #666666";
     divParent.id = "divParent";
 
-    $("content").appendChild(divParent);
+    $('inputFrame'+tstCurrentPage).appendChild(divParent);
+    $('inputFrame'+tstCurrentPage).style.height = "85%";
+    //$("content").appendChild(divParent);
 
     var divIn = document.createElement("div");
     divIn.style.cssFloat = "left";
@@ -477,7 +481,7 @@ function generateBalancer(){
 
     divIn2.appendChild(divIn3);
 
-    var hr = document.createElement("h1");
+    var hr = document.createElement("h2");
     hr.innerHTML = "Patient Bookings";
 
     divIn3.appendChild(hr);
@@ -889,9 +893,9 @@ function handleResult(optionsList, aXMLHttpRequest) {
     }
 }
 
-function removeBalancer(){
+/*function removeBalancer(){
     $("content").removeChild($("divParent"));
-}
+}*/
 
-window.addEventListener("load", generateBalancer, false);
+//window.addEventListener("load", generateBalancer, false);
 
