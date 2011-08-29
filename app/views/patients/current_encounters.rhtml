@@ -55,7 +55,7 @@
                       <td>
                         <%if header_title == "Update Outcome".titleize
                           if !@outcome_updated %>
-                            <%= @patient.updated_outcome.to_s.lstrip.gsub(/\n/, '<br/>')%>
+                            <%= @patient.retro_updated_outcome(current_session_date).to_s.lstrip.gsub(/\n/, '<br/>')%>
                           <% end %>
                         <% else %>
                           <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') %>
@@ -69,7 +69,7 @@
                            <%if !@outcome_updated%>
                                 <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
                                   {:confirm => "Are you sure you want to void this entry?", :form_id => "frm_current_encounter_"+i.to_s},
-                                  {:encounter_id => @patient.updated_outcome.encounter_id, :void => "true"}) -%>
+                                  {:encounter_id => @patient.retro_updated_outcome(current_session_date).encounter_id, :void => "true"}) -%>
                               <%  @outcome_updated = true %>
                             <% end %>
                         <%else%>
