@@ -1,6 +1,7 @@
 class PatientsController < ApplicationController
  
   def show
+    session_date = session[:datetime].to_date rescue Date.today
     #find the user priviledges
     @super_user = false
     @nurse = false
@@ -25,7 +26,8 @@ class PatientsController < ApplicationController
     
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     void_encounter if (params[:void] && params[:void] == 'true')
-    @encounters   = @patient.encounters.current.active.find(:all)
+    #@encounters   = @patient.encounters.current.active.find(:all)
+    @encounters   = @patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date])
     excluded_encounters = ["Registration", "Diabetes history","Complications", #"Diabetes test",
       "General health", "Diabetes treatments", "Diabetes admissions","Hospital admissions",
       "Hypertension management", "Past diabetes medical history"]
@@ -81,6 +83,7 @@ class PatientsController < ApplicationController
   end
 
   def current_encounters
+    session_date = session[:datetime].to_date rescue Date.today
     #find the user priviledges
     @super_user = false
     @nurse = false
@@ -105,7 +108,8 @@ class PatientsController < ApplicationController
     
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     void_encounter if (params[:void] && params[:void] == 'true')
-    @encounters   = @patient.encounters.current.active.find(:all)
+    #@encounters   = @patient.encounters.current.active.find(:all)
+    @encounters   = @patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date])
     excluded_encounters = ["Registration", "Diabetes history","Complications", #"Diabetes test",
       "General health", "Diabetes treatments", "Diabetes admissions","Hospital admissions",
       "Hypertension management", "Past diabetes medical history"]
@@ -158,6 +162,7 @@ class PatientsController < ApplicationController
   end
   
   def diabetes_treatments
+    session_date = session[:datetime].to_date rescue Date.today
     #find the user priviledges
     @super_user = false
     @nurse = false
@@ -182,7 +187,8 @@ class PatientsController < ApplicationController
     
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     void_encounter if (params[:void] && params[:void] == 'true')
-    @encounters   = @patient.encounters.current.active.find(:all)
+    #@encounters   = @patient.encounters.current.active.find(:all)
+    @encounters   = @patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date])
     excluded_encounters = ["Registration", "Diabetes history","Complications", #"Diabetes test",
       "General health", "Diabetes treatments", "Diabetes admissions","Hospital admissions",
       "Hypertension management", "Past diabetes medical history"]
@@ -247,6 +253,7 @@ class PatientsController < ApplicationController
       recent_screen_complications
   end
   def recent_screen_complications
+    session_date = session[:datetime].to_date rescue Date.today
     #find the user priviledges
     @super_user = false
     @nurse = false
@@ -271,7 +278,8 @@ class PatientsController < ApplicationController
     
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
     void_encounter if (params[:void] && params[:void] == 'true')
-    @encounters   = @patient.encounters.current.active.find(:all)
+    #@encounters   = @patient.encounters.current.active.find(:all)
+    @encounters   = @patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date])
     excluded_encounters = ["Registration", "Diabetes history","Complications", #"Diabetes test",
       "General health", "Diabetes treatments", "Diabetes admissions","Hospital admissions",
       "Hypertension management", "Past diabetes medical history"]
@@ -378,6 +386,7 @@ class PatientsController < ApplicationController
 
   def dashboard
     #find the user priviledges
+    session_date = session[:datetime].to_date rescue Date.today
     @super_user = false
     @clinician  = false
     @doctor     = false
@@ -398,9 +407,11 @@ class PatientsController < ApplicationController
     
        
     @patient = Patient.find(params[:id] || session[:patient_id]) rescue nil 
-    @encounters = @patient.encounters.current.active.find(:all)
+    #@encounters = @patient.encounters.current.active.find(:all)
+    @encounters   = @patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date])
     @patient      = Patient.find(params[:id] || session[:patient_id]) rescue nil
-    @encounters   = @patient.encounters.current.active.find(:all)
+    #@encounters   = @patient.encounters.current.active.find(:all)
+    @encounters   = @patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date])
     @observations = Observation.find(:all, :order => 'obs_datetime DESC',
       :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? ",
         @patient.patient_id, Time.now.to_date])
