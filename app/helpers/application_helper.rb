@@ -94,4 +94,10 @@ module ApplicationHelper
     end
   end
 end
+
+  def current_session_date
+    session_date = session[:datetime].to_date rescue Date.today
+
+    return session_date
+  end
 end
