@@ -19,8 +19,10 @@ class ApplicationController < ActionController::Base
   end if RAILS_ENV == 'production'
 
   def next_task(patient)
+    session_date = session[:datetime].to_date rescue Date.today
     current_location_name = Location.current_location.name
-    todays_encounters = patient.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name}
+    #todays_encounters = patient.encounters.current.active.find(:all, :include => [:type]).map{|e| e.type.name}
+    todays_encounters = patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date], :include => [:type]).map{|e| e.type.name}
     all_encounters = patient.encounters.active.find(:all, :include => [:type]).map{|e| e.type.name}
 
     # Initial Questions have to be answered for every patient if not done yet
