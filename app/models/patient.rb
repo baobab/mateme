@@ -426,7 +426,12 @@ class Patient < ActiveRecord::Base
   end
 
   def updated_outcome
-    self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
+    session_date = session[:datetime].to_date rescue Date.today
+    raise session_date.to_s
+    self.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?', session_date.to_date]).map{
+      |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)
+    }.compact.last
+    #self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
   end
 
   def last_updated_outcome #return the last updated outcome
@@ -459,6 +464,14 @@ class Patient < ActiveRecord::Base
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("DIABETES DIAGNOSIS DATE").concept_id])
     }.flatten.compact.last
+  end
+
+  def retro_updated_outcome(search_date)
+    session_date = search_date
+    self.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?', session_date.to_date]).map{
+      |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)
+    }.compact.last
+    #self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
   end
 
 end
