@@ -501,20 +501,18 @@ class EncountersController < ApplicationController
         EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).each{|e|
       e.observations.each{|o|
         if o.concept.name.name == "DELIVERY MODE"
-          if !@encounters[o.concept.name.name]
-            @encounters[o.concept.name.name] = []
+          if !@encounters[o.concept.name.name.upcase]
+            @encounters[o.concept.name.name.upcase] = []
           end
           
-          @encounters[o.concept.name.name] << o.answer_string
+          @encounters[o.concept.name.name.upcase] << o.answer_string
         elsif o.concept.name.name.include?("TIME")
-          @encounters[o.concept.name.name] = o.value_datetime.strftime("%H:%M")
+          @encounters[o.concept.name.name.upcase] = o.value_datetime.strftime("%H:%M")
         else
-          @encounters[o.concept.name.name] = o.answer_string
+          @encounters[o.concept.name.name.upcase] = o.answer_string
         end
       }
     } rescue {}
-
-    # raise @encounters.to_yaml
 
     render :layout => false
   end
