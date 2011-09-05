@@ -44,18 +44,18 @@
   <%
   # A condition for redirection to the HIV Status Update page if the patient has not been tested
 
-  condition = "if($('discharge_outcome').value == 'Discharged') {\
+  condition = "if($('discharge_outcome').value.toUpperCase() == 'DISCHARGED') {\
 $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
 
   if @patient.current_hiv_status.nil?
 
-    condition = "if($('discharge_outcome').value == 'Discharged') {document.forms[0].method='post'; document.forms[0].action = \
+    condition = "if($('discharge_outcome').value.toUpperCase() == 'DISCHARGED') {document.forms[0].method='post'; document.forms[0].action = \
   'update_hiv_status?patient_id=#{@patient.id}';} \
   else {$('next_url').disabled = true; }"
 
   elsif (@patient.current_hiv_status[0].upcase rescue "").eql?("NOT TESTED")
 
-    condition = "if($('discharge_outcome').value == 'Discharged') {document.forms[0].method='post'; document.forms[0].action = \
+    condition = "if($('discharge_outcome').value.toUpperCase() == 'DISCHARGED') {document.forms[0].method='post'; document.forms[0].action = \
   'update_hiv_status?patient_id=#{@patient.id}';} \
   else {$('next_url').disabled = true; }"
 
@@ -99,7 +99,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "number_of_babies",
     :field_type => 'number',
     :helptext =>"Number of babies",
-    :condition => "($('discharge_outcome').value == 'Delivered')",
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')",
     :tt_pageStyleClass => "Numeric NumbersOnly"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "NUMBER OF BABIES")%>
@@ -112,7 +112,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "presentation",
     :field_type => 'text',
     :helptext =>"Baby: Presentation",
-    :condition => "($('discharge_outcome').value == 'Delivered')"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
@@ -123,7 +123,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "baby_outcome",
     :field_type => 'text',
     :helptext =>"Baby: Outcome",
-    :condition => "($('discharge_outcome').value == 'Delivered' || $('discharge_outcome').value == 'Discharged')"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' || $('discharge_outcome').value.toUpperCase() == 'DISCHARGED')"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
@@ -134,7 +134,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "time_of_delivery",
     :field_type => 'time',
     :helptext =>"Baby: Time of Delivery",
-    :condition => "($('discharge_outcome').value == 'Delivered')"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
@@ -145,7 +145,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "date_of_delivery",
     :field_type => 'date',
     :helptext =>"Baby: Date of Delivery",
-    :condition => "($('discharge_outcome').value == 'Delivered')",
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')",
     :tt_onUnload => "checkEDD()"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
@@ -157,7 +157,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "delivery_mode",
     :field_type => 'text',
     :helptext =>"Baby: Delivery Mode",
-    :condition => "($('discharge_outcome').value == 'Delivered')",
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')",
     :tt_pageStyleClass => "qwertyKeyboardOnly"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
@@ -172,7 +172,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "presentation2",
     :field_type => 'text',
     :helptext =>"2<sup>nd</sup> Baby: Presentation",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 1)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
@@ -183,7 +183,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "baby_outcome2",
     :field_type => 'text',
     :helptext =>"1<sup>st</sup> Baby: Outcome",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 1) || ($('discharge_outcome').value == 'Discharged' && parseInt($('number_of_babies').value) > 1)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1) || ($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
@@ -194,7 +194,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "time_of_delivery2",
     :field_type => 'time',
     :helptext =>"2<sup>nd</sup> Baby: Time of Delivery",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 1)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
@@ -205,7 +205,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "date_of_delivery2",
     :field_type => 'date',
     :helptext =>"2<sup>nd</sup> Baby: Date of Delivery",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 1)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
@@ -216,7 +216,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "delivery_mode2",
     :field_type => 'text',
     :helptext =>"2<sup>nd</sup> Baby: Delivery Mode",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 1)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
@@ -230,7 +230,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "presentation3",
     :field_type => 'text',
     :helptext =>"3<sup>rd</sup> Baby: Presentation",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 2)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
@@ -241,7 +241,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "baby_outcome3",
     :field_type => 'text',
     :helptext =>"1<sup>st</sup> Baby: Outcome",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 2) || ($('discharge_outcome').value == 'Discharged' && parseInt($('number_of_babies').value) > 2)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2) || ($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
@@ -252,7 +252,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "time_of_delivery3",
     :field_type => 'time',
     :helptext =>"3<sup>rd</sup> Baby: Time of Delivery",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 2)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
@@ -263,7 +263,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "date_of_delivery3",
     :field_type => 'date',
     :helptext =>"3<sup>rd</sup> Baby: Date of Delivery",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 2)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
@@ -274,7 +274,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "delivery_mode3",
     :field_type => 'text',
     :helptext =>"3<sup>rd</sup> Baby: Delivery Mode",
-    :condition => "($('discharge_outcome').value == 'Delivered' && parseInt($('number_of_babies').value) > 2)"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2)"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
@@ -287,7 +287,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "procedure_done",
     :field_type => 'text',
     :helptext =>"Procedure Done",
-    :condition => "($('discharge_outcome').value == 'Delivered')",
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')",
     :tt_pageStyleClass => "qwertyKeyboardOnly"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
