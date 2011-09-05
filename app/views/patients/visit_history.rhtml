@@ -83,19 +83,19 @@
       %>
         <tr class="data <%= cycle('even', 'odd') %>" style="padding: 8px;">
           <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["DIAGNOSIS"]["DIAGNOSIS"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
+            <%= entry[1]["DIAGNOSIS"]["Diagnosis"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
           </td>
           <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["PROCEDURE DONE"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
+            <%= entry[1]["UPDATE OUTCOME"]["Procedure done"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
           </td>
           <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " align="center" valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["NUMBER OF BABIES"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "0" %>
+            <%= entry[1]["UPDATE OUTCOME"]["Number of babies"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "0" %>
           </td>
           <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["DELIVERY MODE"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
+            <%= entry[1]["UPDATE OUTCOME"]["Delivery mode"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
           </td>
           <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["BABY OUTCOME"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
+            <%= entry[1]["UPDATE OUTCOME"]["Baby outcome"].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
           </td>
           <td style="width:20%;" align="center" valign="top">
             <%= entry[0] %>
