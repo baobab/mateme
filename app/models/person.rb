@@ -454,4 +454,14 @@ class Person < ActiveRecord::Base
     "#{self.names.first.given_name.first}. #{self.names.first.family_name}" rescue nil
   end
 
+  def sex
+    if self.gender == "M"
+      return "Male"
+    elsif self.gender == "F"
+      return "Female"
+    else
+      return nil
+    end
+  end
+
 end

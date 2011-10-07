@@ -37,6 +37,8 @@ tt_cancel_show = '';
     <tr>
       <th colspan=2>Patient Dashboard</th>
     </tr>
+     <tr>
+    <td align='center'>
     <h1 id='project_name'>OPD</h1>
       <span id='patient_name'><%= @patient.person.name %></span>
       <span id='patient_id'><%= @patient.national_id_with_dashes rescue '' %></span>
@@ -56,7 +58,8 @@ tt_cancel_show = '';
       <option value="/patients/hiv_status_info?patient_id=<%=@patient.patient_id%>"> HIV Status</option>
     </select>
     <select id="links">
-     <option value='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>OPD Diagnosis</option>
+     <option value='/patients/diagnosis?patient_id=<%= @patient.id -%>&diagnosis=true'>
+            <%= (@category.downcase == "adults" ? "Emergency" : "OPD") %> Diagnosis</option>
         <option value='/patients/treatment?patient_id=<%= @patient.id -%>'>Treatment</option>
         <option value='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Admitted</option>
      <!-- < #if @spine_clinician  > -->
@@ -78,8 +81,7 @@ tt_cancel_show = '';
       <%# end %>
         <option value='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</option>       <!--<option value='/patients/print_visit?patient_id=<%= @patient.id -%>'> Print Visit</option>-->
      </select>
-    <tr>
-    <td align='center'>
+   
     <!--<input type='submit' value='Finish' /> -->
     </td>
     </tr>

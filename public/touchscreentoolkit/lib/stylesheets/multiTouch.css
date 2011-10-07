@@ -1,0 +1,323 @@
+/**
+This stylesheet is part of the java script calendar and date picker and TouchScreenToolkit
+multiple Question interface
+ **/
+
+body{
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+    margin: 0;
+    -moz-user-select:none;
+    background-color:#000000;
+}
+
+#calender {
+    width: 200px;
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+    padding:10px;
+}
+
+#calenderTable {
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    background-color: #EEE;
+    display: none;
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    font-size: 1.5em;
+}
+
+#calenderTableHead TR {
+    background-color: #99f;
+}
+
+#calenderTableDays TR {
+    background-color: #B40404;
+    color: #E6E6E6;
+}
+
+.normalDay {
+    border: 1px dotted black;
+    cursor: pointer;
+}
+
+.hlDay {
+    border: 1px black;
+    background-color: #585858;
+    color: #E6E6E6;
+    cursor: pointer;
+}
+
+.toDay {
+    border: 1px solid #E70;
+    background-color: #FD8;
+    color: #E70;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.choosenDay {
+    border: 1px #000000;
+    background-color: #585858;
+    color: #E6E6E6;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header-cell {
+    width:60px;
+}
+
+#divcontent {
+    width:98%;
+    height:80%;
+    background-color: #fff;
+    border:1px solid #ccf;
+    -moz-border-radius:10px;
+    overflow: hidden;
+    margin: 10px;
+}
+
+#divheader {
+    font-size:1.9em;
+    font-weight:bold;
+    margin: 10px;
+    margin-bottom: 0px;
+    width: 900px;
+    text-align: left;
+}
+
+#divScroller {
+    width: 98%;
+    height: 97%;
+    margin: 10px;
+    overflow: auto;
+}
+
+.labelText {
+    font-size: 1.8em;
+    vertical-align: top;
+}
+
+.textInput {
+    border: 1px #ccc solid;
+    -moz-border-radius: 10px;
+    padding: 5px;
+}
+
+.selectedLink {
+    border-left:2px solid #ccc;
+    border-top:2px solid #ccc;
+    border-right:2px solid #ccc;
+    padding: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.9em;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.unSelectedLink {
+    border-left:1px solid #ccc;
+    border-top:1px solid #ccc;
+    border-right:1px solid #ccc;
+    padding: 5px;
+    background-color: #eee;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.9em;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+.emptyLink {
+    background-color: #fff;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+.page {
+    width: 98%;
+    height: 96%;
+    overflow: auto;
+    margin: 1%;
+    background-color: #fff;
+}
+.pageContainer {
+    border:2px solid #ccc;
+    background-color: #fff;
+    height:540px;
+    overflow: hidden;
+    width: 870px;
+    -moz-border-radius: 15px;
+}
+.text {
+    font-size: 0.8em;
+    text-align: left;
+}
+.tickLabel2 {
+    color: red;
+}
+#cd4 .tickLabel1 {
+    color: blue;
+}
+#cd4b .tickLabel1 {
+    color: blue;
+}
+
+
+.button, button {
+    color: white;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+    border:0;
+    cursor:pointer;
+    font-weight:bold;
+    padding:0 8px 0 0;
+    text-align:center;
+}
+
+button.navButton {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+button span {
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+    position:relative;
+    display:block;
+    white-space:nowrap;
+    padding:0 10px 0 18px;
+    min-width:15px;
+}
+
+
+
+button, button.blue {
+    background:url(../images/buttons/btn_right_blue.png) right no-repeat;
+    font-size:1.3em;
+    line-height:57px;
+    min-width:48px;
+}
+button span, button.blue span {
+    background:url(../images/buttons/btn_left_blue.png) left no-repeat;
+    height:57px;
+    line-height:57px;
+    color:#fff;
+}
+button:hover, button:hover.blue {
+    background:url(../images/buttons/btn_right_hover_blue.png) right no-repeat;
+}
+button:hover span, button:hover.blue span {
+    background:url(../images/buttons/btn_left_hover_blue.png) left no-repeat;
+}
+
+button.red {
+    background:url(../images/buttons/btn_right_red.png) right no-repeat;
+}
+button.red span {
+    background:url(../images/buttons/btn_left_red.png) left no-repeat;
+}
+button:hover.red {
+    background:url(../images/buttons/btn_right_hover_red.png) right no-repeat;
+}
+button:hover.red span {
+    background:url(../images/buttons/btn_left_hover_red.png) left no-repeat;
+}
+
+button.green {
+    background:url(../images/buttons/btn_right_green.png) right no-repeat;
+}
+button.green span {
+    background:url(../images/buttons/btn_left_green.png) left no-repeat;
+}
+button:hover.green  {
+    background:url(../images/buttons/btn_right_hover_green.png) right no-repeat;
+}
+button:hover.green span {
+    background:url(../images/buttons/btn_left_hover_green.png) left no-repeat;
+}
+
+button.gray {
+    background:url(../images/buttons/btn_right_gray.png) right no-repeat;
+}
+button.gray span {
+    background:url(../images/buttons/btn_left_gray.png) left no-repeat;
+}
+button:hover.gray {
+    background:url(../images/buttons/btn_right_hover_gray.png) right no-repeat;
+}
+button:hover.gray span {
+    background:url(../images/buttons/btn_left_hover_gray.png) left no-repeat;
+}
+
+button.dark {
+    background:url(../images/buttons/btn_right_dark.png) right no-repeat;
+}
+button.dark span {
+    background:url(../images/buttons/btn_left_dark.png) left no-repeat;
+}
+button:hover.dark {
+    background:url(../images/buttons/btn_right_hover_dark.png) right no-repeat;
+}
+button:hover.dark span {
+    background:url(../images/buttons/btn_left_hover_dark.png) left no-repeat;
+}
+
+.keyBoardTable {
+    border: 2px solid #99f;
+    background-color: #ffffff;
+    padding: 5px;
+    -moz-border-radius:15px;
+}
+
+.missingValue {
+    background-color: #f00;
+    color: #fff;
+    font-weight: normal;
+}
+
+.availableValue {
+    background-color: #fff;
+    color: #000;
+    font-weight: normal;
+}
+
+a:link {
+	color: #000000;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #000000;
+}
+a:hover {
+	text-decoration: none;
+	color: #000000;
+}
+a:active {
+	text-decoration: none;
+	color: #000000;
+}
+
+.question {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: #eee;
+    padding: 10px;
+    padding-bottom: 40px;
+}
+
+.summary {
+    margin-left:70px;
+    width: 89.35%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -moz-border-radius: 10px;
+    padding: 10px;
+    margin-top: -32px;
+    color: #000;
+}

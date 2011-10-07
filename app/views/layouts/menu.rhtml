@@ -3,13 +3,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
-    <%= stylesheet_link_tag "dashboard" %>
-    <%= stylesheet_link_tag "graytabs" %>
-    <%= stylesheet_link_tag "styles" %>
-    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
-    <%= javascript_include_tag "preload" %>
-    <%= javascript_include_tag "dashboard" %>
+
+    <script language="javascript" type="text/javascript" src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer></script>
+
+    <title>
+      <%= "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
+    </title>
+    <%#= stylesheet_link_tag "dashboard" %>
+    <%#= stylesheet_link_tag "graytabs" %>
+    <%#= stylesheet_link_tag "styles" %>
+    <%#= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <%#= javascript_include_tag "preload" %>
+    <%#= javascript_include_tag "dashboard" %>
     <%= javascript_include_tag "logout_timer"%>
 
     <script language="javascript">
@@ -18,7 +23,7 @@
       auto_logout_screen = true;
     </script>
   </head>
-  <body id="container">
+  <body>
       <!--div id="dashboard" -->
         <!--div id="description" style="color:#777;position:absolute;margin-top:-70px;">
           <% if show_intro_text %>

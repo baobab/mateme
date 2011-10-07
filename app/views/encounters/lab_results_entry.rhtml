@@ -3,7 +3,7 @@
   tt_cancel_destination = '/logout';
 </script>
 
-<div style="text-align:center;margin:10px;">
+<div id="general_dashboard" style="text-align:center;margin:10px;">
   <form id='barcodeForm' action="/encounters/show_lab_tests">
     <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
     <%= submit_tag "Submit", :style => "display:none" %>

@@ -24,14 +24,18 @@
     <% options=default.merge({
       :field_type => 'text',
       :multiple => true,
-      :id => "tests"
+      :id => "tests",
+      :tt_pageStyleclass => "LongListSelect"
     })
 
     tests_to_request = Array.new()
     if(session["category"] == "paeds") 
       tests_to_request = [ "","MP Test","PCV"]
     else 
-      tests_to_request = [ "","Blood Culture","CSF","Other","Molecular","MP Test","PCV"]
+      tests_to_request = [ "","Blood Culture","CSF","Other","Molecular","MP Test",
+        "PCV", "Mps", "Malaria RDT", "Random Blood Glucose", "Haemoglobin", "MCV", 
+        "WBC", "Platelets", "HIV Test", "Urea and Electrolytes", "Creatinine", 
+        "Liver Function Tests", "Urine Microscopy", "Stool Microscopy"]
     end  
   %>
     <%= select_tag( "observations[][value_coded_or_text]", options_for_select(tests_to_request), options ) %>

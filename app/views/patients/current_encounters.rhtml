@@ -1,36 +1,80 @@
-<%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+<%#= stylesheet_link_tag fancy_or_high_contrast_touch %>
 <%= stylesheet_link_tag "miscellaneous" %>
-<%= javascript_include_tag "touchscreen" %>
+<%#= javascript_include_tag "touchscreen" %>
+
+<script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+<!--script src="/javascripts/touchscreenYesNo.js" type="text/javascript"></script-->
+
+<script type="text/javascript">
+
+  function voiding(node) {
+    parent.confirmYesNo("Void this item?", function() {
+      parent.hideConfirmation();
+      node = node.parent();
+      $.post('/patients/void/?patient_id=<%= @patient.patient_id %>&encounter_id=' + node.attr('encounter_id'), {}, function(data, status) {
+        if (status == 'success') node.remove();
+      })
+    }, function() { parent.hideConfirmation(); });
+  }
+
+  jQuery(document).ready(function($) {
+    $('#visit_summary td.data div.void').click(function() { voiding($(this)); return false; });
+  })
+</script>
 
 <base target="_parent">
 <div id = "current_encounters" style="margin-top:60px;  font-size: 0.9em;">
   <!-- <b  style="font-size: 22pt; padding-left:8px;">Visit Summary</b> -->
-  <table class="list" style="bottom:54px; height:300px; width: 100%; left: 1px; right: -66px; position: relative;">
-    <tbody style="height:350px; overflow: auto;"
+  <table id="visit_summary" style="bottom:54px; width: 100%; left: 1px; 
+         right: -66px; position: relative;" cellpadding="8">
+    <tbody style="overflow: auto;"
     <%@encounter_names.each{|encounter_name|
-    header = 'true'
-    for encounter in @encounters do %>
+      header = 'true'
+      for encounter in @encounters do %>
 
-      <%if encounter.name == encounter_name%>
-       <%if header == 'true' %><div style="float:left;"><tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h encounter.name.humanize %></th> </tr> </div><%end; header = 'false'%>
-        <tr>
-          <td class="data <%= cycle('even', 'odd') %>" style="min-height: 40px;">
-          <div style="float:right;padding:7px;padding-right:40px;">
-              <%= img_button_submit_to "/patients/void/#{@patient.patient_id}", "/images/cancel_flat_small_red.png", {:confirm => "Are you sure you want to void this prescription?", :container_id => "current_encounters"}, {:encounter_id => encounter.encounter_id} -%>
+               <%if encounter.name == encounter_name%>
+                 <%if header == 'true' %><div style="float:left;">
+            <tr> 
+              <th class="tableHeader" colspan="2" style="height:2px;">
+                <%=h encounter.name.humanize %>
+              </th> 
+            </tr> 
           </div>
-          <% if(encounter_name == "LAB ORDERS") %>
-            <div style="float:right;padding-right:15px; margin-top: -3px;">
-              <%= img_button_submit_to "/encounters/print_order/?patient_id=#{@patient.patient_id}&encounter_id=#{encounter.id}", "/images/print.png", {:confirm => "Are you sure you want to void this prescription?"}, {:encounter_id => encounter.encounter_id} -%>
-            </div>
-          <% end %>
+        <%end; header = 'false'%>
+        <tr>
+          <td class="data <%= cycle('even', 'odd') %>" encounter_id="<%= encounter.id %>"
+              style="padding-bottom: -5px; vertical-align: middle; min-height: 30px;">
+            <!--div style="float:right;padding:5px;">
+      <%#= img_button_submit_to "/patients/void/#{@patient.patient_id}", 
+      "/images/cancel_flat_small_red.png", {
+      :confirm => "Are you sure you want to void this prescription?", 
+      :container_id => "current_encounters"}, 
+      {:encounter_id => encounter.encounter_id} -%>
+            </div-->
 
-          <div style="clear:left" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M") %></span></div>
-          <br />
-        </td></tr>
+            <div class="void" style="float:right;padding:7px;">
+              <img src="/images/cancel_flat_small_red.png"/>
+            </div>
+
+            <% if(encounter_name == "LAB ORDERS") %>
+              <div style="float:right;padding-right:5px; margin-top: -3px;">
+                <%= img_button_submit_to "/encounters/print_order/?patient_id=#{
+                @patient.patient_id}&encounter_id=#{encounter.id}", 
+                "/images/print.png", {:confirm => "Are you sure you want to void this prescription?"}, 
+                {:encounter_id => encounter.encounter_id} -%>
+              </div>
+            <% end %>
+
+            <div style="clear:left" class="summary"><span>
+                <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span> 
+              <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %I:%M") %>
+              </span></div>
+            <br />
+          </td></tr>
       <%end
     end
-    }%>
-   </tbody>
-  </table>
+  }%>
+  </tbody>
+</table>
 </div>
 </base>

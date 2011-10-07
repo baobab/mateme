@@ -1,0 +1,587 @@
+/**************************************************************************
+  * dashboard.css
+  *   manages layout of ouchscreen dashboards
+  *   CSS for the Touchscreen Toolkit library
+  *
+  * (c) 2011 Baobab Health Trust (http://www.baobabhealth.org)
+  *
+  * For lincense details, see the README.md file
+  *
+  * Browser:    Firefox
+  * Interface:  Touchscreen 
+  * Resolution: 800X600
+  *
+  **************************************************************************/
+
+.blue { background-color:rgb(153,153,255); }
+.even { background-color:rgb(230,230,255); }
+.inactive { background-color:rgb(153,153,153); }
+.light { background-color:#ddd }
+
+body{
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+    margin: 0;
+    -moz-user-select:none;
+    background-color:#000000;
+}
+
+
+#content {
+    background:#FFFFFF;
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:1000px;
+    height:750px;
+    margin-left:-500px;
+    margin-top:-380px;
+
+}
+
+#footer {
+    background-color:rgb(51,51,51);
+    color:#CADCEA;
+    height:80px;
+    width: 98%;
+    padding-right: 20px;
+    bottom:0px;
+    position:absolute;
+    overflow:hidden;
+}
+
+.centered {
+    width:400px;
+    height:300px;
+    position:absolute;
+    margin-top:-150px;
+    margin-left:-200px;
+    left:50%;
+    top:50%;
+    text-align:center;
+}
+
+button {
+    font-weight:bold;
+    font-size:1.2em;
+    margin: 0 4px;
+}
+
+#footer {
+
+}
+
+#footer button {
+    width:140px;
+    margin-top:10px;
+    float:right
+}
+
+#footer button.left {
+    float:left;
+}
+
+#header {
+    height:60px;
+}
+
+#header h1 {
+    margin-top:10px;
+    position:absolute;
+}
+
+#header div {
+    float:right;
+    font-size:1.3em;
+    font-weight:bold;
+    margin-top:18px;
+    margin-right:10px;
+}
+.nav {
+    height:42px;
+    z-index:2;
+}
+
+.nav ul {
+    margin:0px;
+    padding:0px;
+    background-color: transparent;
+}
+
+.nav li { 
+    background-color:rgb(153,153,153);
+    display: block;
+    float: left;
+    margin-left:5px;
+    line-height: 42px;
+    font-size:1.2em;
+    font-weight:bold;
+}
+
+.nav li a { 
+    border: 1px solid black;
+    background-color: transparent;
+    padding: 0 16px;
+    display: block;
+    float: left;
+    color:white;
+    text-decoration:none;
+}
+
+.nav li a.active {
+    color:black;
+    background-color:#ddd;
+    border-bottom:1px solid #ddd;
+}
+
+#tab {
+    margin-top:1px;
+    background-color:#ddd;
+    height:565px;
+    border-top:1px solid black;
+    border-bottom:1px solid black;
+}
+
+ul, ul li, ul li div {
+    -moz-user-select:none;
+}
+ul.list li {
+    clear:both;
+}
+ul.list li.active {
+    background-color:#5AF;
+}
+ul.list {
+    font-size:1.3em;
+    border:2px solid black;
+    padding:0;
+    margin:0;
+    margin-top:0;
+    background-color:white;
+    overflow:auto;
+    height:112px;
+}  
+ul.small {
+    font-size:1.1em;
+}
+ul.list li.data {
+    vertical-align:top;
+    display:block;
+    list-style: none;
+    padding:6px;
+    cursor:pointer;
+}
+ul.list li div.void {
+    float:left;
+    padding-right:7px;
+}
+ul.list li div.encounter {
+} 
+
+div.panel {
+    width:480px;
+    float:left;
+    margin:6px;
+    margin-top:2px;
+    padding:2px;
+}
+
+div.panel h2 {
+    padding:0;
+    margin:0;
+    font-size:1.3em;
+    font-weight:bold;
+    margin-top:0px;
+    margin-right:10px;
+}
+
+#flash {
+    font-size: 2em;
+    font-weight:bold;
+    text-align: center;
+    background-color:rgb(255,51,51);
+    z-index: 999;
+    padding:10px;
+    height:150px;
+}
+
+.confirmation {
+    left:50%;
+    margin-left: -225px;
+    width: 450px;
+    position: absolute;
+    top: 30%;
+    font-size: 2em;
+    text-align: center;
+    background-color: tomato;
+    z-index: 999;
+}
+
+#tab_content{
+    float:left;
+    padding-left:5px;
+    position:absolute;
+    top:235px;
+}
+.report_button{
+    /*
+    text-align:center;
+    text-decoration:none;
+    width:100%;
+    height:60px;
+    border-top-style:outset;
+    border-top-color:gray;
+    border-bottom-style:outset;
+    -moz-user-select:none;*/
+    background-color:grey;
+    border-bottom-color:black;
+    border-bottom-width:1px;
+    border-left-color-ltr-source:physical;
+    border-left-color-rtl-source:physical;
+    border-left-color-value:black;
+    border-left-style-ltr-source:physical;
+    border-left-style-rtl-source:physical;
+    border-left-style-value:solid;
+    border-left-width-ltr-source:physical;
+    border-left-width-rtl-source:physical;
+    border-left-width-value:1px;
+    border-right-color-ltr-source:physical;
+    border-right-color-rtl-source:physical;
+    border-right-color-value:black;
+    border-right-style-ltr-source:physical;
+    border-right-style-rtl-source:physical;
+    border-right-style-value:solid;
+    border-right-width-ltr-source:physical;
+    border-right-width-rtl-source:physical;
+    border-right-width-value:1px;
+    border-top-color:black;
+    /*border-top-style:solid;
+    border-bottom-style:solid;*/
+    border-style:outset;
+    border-top-width:1px;
+    color:white;
+    display:block;
+    padding-bottom:10px;
+    padding-left:10px;
+    padding-right:16px;
+    padding-top:10px;
+    padding-top:10px;
+    text-decoration:none;
+    text-align:center;
+}
+
+#banner{
+    display: table;
+    background-color: #fff;
+    height: 140px;
+    padding: 10px;
+    border-bottom: 1px dotted #fff;
+    width: 98%;
+}
+
+#bannerrow{
+    display: table-row;
+}
+
+#scanlabel {
+    display: table-cell;
+    font-size: 28px;
+    padding-left: 15px;
+    color: silver;
+    height: 65%;
+    background-color: #fff;
+}
+
+#scaninput {
+    display: table-cell;
+    height: 45%;
+    width: 46%;
+    padding: 10px;
+    background-color: #fff;
+}
+
+#barcode{
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom: 1px solid #eee;
+    width:100%;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:2.2em;
+    background:none;
+    padding-left:5px;
+}
+
+#application {
+    display: table-cell;
+    height: 92%;
+    background-color: #fff;
+}
+
+#applicationname {
+    font-size: 80px;
+    color: #ddd;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 22px;
+    -moz-border-radius: 75px;
+    border: 1px solid #eee;
+    max-height: 122px;
+    width: 190px;
+    overflow: hidden;
+}
+
+#main {
+    background-color: #fff;
+    height: 68%;
+}
+
+#nav {
+    background-color: #333333;
+    border-top:3px solid :#99AAB7;
+    color:#CADCEA;
+    height:80px;
+    width:100%;
+    bottom:0px;
+    position:absolute;
+    overflow:hidden;
+}
+
+#patient-dashboard-application {
+    float: left;
+    height: 160px;
+    margin-left: 5px;
+    padding-top: 40px;
+    margin-bottom: 0px;
+    width: 30%;
+}
+
+#patient-dashboard-applicationname {
+    font-size: 5em;
+    color: #ddd;
+    text-align: center;
+    padding: 3px;
+    -moz-border-radius: 75px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    padding-bottom: 27px;
+    height: 98px;
+    overflow: hidden;
+}
+
+#buttonlinks {
+    height: 90%;
+    float: right;
+    width: 26%;
+    background-color: #fff;
+    z-index: 100;
+}
+
+#patient-dashboard-main {
+    float: left;
+    width: 73%;
+    height: 57%;
+    margin-left: 3px;
+}
+
+#detailscontainer {
+    width: 100%;
+    height: 145px;
+    overflow: auto;
+}
+
+#details {
+    display: table;
+    border: 1px solid #999;
+    -moz-border-radius: 20px;
+    float: left;
+    overflow: hidden;
+    margin: 5px;
+    width: 40%;
+    background-color: #fff;
+    padding: 10px;
+}
+
+#detailsRow1{
+    display: table-row;
+}
+
+#detailsRow1Cell{
+    display: table-row;
+}
+
+#detailsRow2{
+    display: table-row;
+}
+
+#detailsRow2Cell{
+    display: table-row;
+}
+
+#mainTopicContent{
+    display: table;
+    width: 100%;
+}
+
+#topicRow{
+    display: table-row;
+}
+
+#mainDetailsContent{
+    display: table;
+    width: 100%;
+}
+
+#detailsTopic {
+    display: table-cell;
+    font-weight: bold;
+    font-size: 25px;
+    padding: 10px;
+    padding-top: 0px;
+    border-bottom: 1px solid #999;
+}
+
+#gendercell{
+    display: table-cell;
+    width: 30px;
+    padding: 10px;
+    border-bottom: 1px solid #999;
+}
+
+#gender {
+    width: 30px;
+    height: 30px;
+    -moz-border-radius: 20px;
+    border: 1px #000 solid;
+    background-color: #eef;
+}
+
+#nameRow{
+    display: table-row;
+}
+
+#id {
+    display: table-cell;
+    margin: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 2px;
+    width: 45%;
+}
+
+#idvalue {
+    display: table-cell;
+    margin: 5px;
+    padding: 2px;
+}
+
+#residenceRow{
+    display: table-row;
+}
+
+#residence {
+    display: table-cell;
+    margin: 5px;
+    margin-top: 0px;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 2px;
+    width: 45%;
+}
+
+#residencevalue {
+    display: table-cell;
+    margin: 5px;
+    margin-top: 0px;
+    padding: 2px;
+}
+
+.patientLabelRow{
+    display: table-row;
+}
+
+.patientLabel {
+    display: table-cell;
+    margin: 5px;
+    margin-top: 0px;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 2px;
+    width: 45%;
+}
+
+.patientLabelValue {
+    display: table-cell;
+    margin: 5px;
+    margin-top: 0px;
+    padding: 2px;
+}
+
+#logininfo{
+    position: absolute;
+    border: 1px #eee solid;
+    left: 765px;
+    top: 140px;
+    height: 30px;
+    width: 225px;
+    background-color: #fff;
+    -moz-border-radius: 40px;
+    font-size: 1.5em;
+    color: #666;
+    text-align: center;
+    padding-top: 8px;
+}
+
+#siteinfo{
+    position: absolute;
+    border: 1px #eee solid;
+    left: 20px;
+    top: 110px;
+    height: 50px;
+    width: 740px;
+    background-color: #fff;
+    -moz-border-radius: 40px;
+    background-color: #eee;
+}
+
+#sitetable {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+#siterow {
+    display: table-row;
+}
+
+#sitecol1 {
+    display: table-cell;
+    border-right: 1px solid #ccc;
+    width: 50%;
+    padding: 8px;
+    font-size: 1.5em;
+    font-style: italic;
+    color: #999;
+    padding-left: 12px;
+}
+
+#sitecol2 {
+    display: table-cell;
+    text-align: right;
+    width: 50%;
+    padding: 8px;
+    font-size: 1.5em;
+    font-style: italic;
+    color: #999;
+    padding-right: 12px;
+}
+
+#user {
+    margin-top: 6px;
+    background-color: #eee;
+    padding: 5px;
+    -moz-border-radius: 30px;
+    overflow: hidden;
+    max-height: 30px;
+    font-style: italic;
+}

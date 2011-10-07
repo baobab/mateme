@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>Home Page</title>
+        <script type="text/javascript" language="javascript" src="../lib/javascripts/touchScreenToolkit.js" defer ></script>
+        <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+        <script language="javascript">
+            tstUsername = "";
+            tstCurrentDate = "2010/03/12";
+            tt_cancel_destination = 'index.html';
+            tt_cancel_show = 'patient/show.html';
+        </script>
+    </head>
+    <body><div id='content'>
+            <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
+                <form id = 'home' action=''>
+                    <table cellpadding=10>
+                        <tr>
+                            <th colspan=2>Home Page</th>
+                        </tr>
+                        <h1 id='project_name'>
+                            bart
+                        </h1>
+
+                        <div id="facility">Zomba Central Hospital</div>
+                        <div id="location">Anaesthesia Department</div>
+                        <!--div id="date">2011/12/23</div-->
+                        <div id="user">Edmond Kachale</div>
+
+                        <span id='patient_name'>Test Patient</span>
+                        <span id='patient_id'>P00002</span>
+                        <span id='patient_residence'>18/1453</span>
+                        <span id='patient_age'>34</span>
+                        <span id='patient_gender'>Female</span>
+                        <select id="tabs">
+                            <option value='overview.html'>Overview</option>
+                            <option value='reports.html'>Reports</option>
+                            <option value='properties.html'>Properties</option>
+                            <option value='administration.html'>Administration</option>
+                            <option value='cohort.html'>Cohort</option>
+                        </select>
+                        <select id="links">
+                            <option link='index.html'>Logout</option>
+                            <option link='patient/registration.html' ttSize="320px">Find or Register Patient</option>
+                            <!--option link='dispense.html'>Dispense</option>
+                            <option link='prescribe.html'>Prescribe</option>
+                            <option link='regimen.html'>Regimen</option-->
+                        </select>
+                        <tr>
+                            <td align='center'>
+                                <input type='submit' value='Finish' />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </center>
+        </div>
+    </body>
+</html>

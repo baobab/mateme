@@ -6,6 +6,8 @@ class PatientsController < ApplicationController
     @doctor     = false
     @regstration_clerk  = false
 
+    @category = session["category"] rescue ""
+    
     @ili = Observation.find(:all, :joins => [:concept => :name], :conditions =>
         ["name = ? AND value_coded IN (?) AND obs.voided = 0", "ILI",
         ConceptName.find(:all, :conditions => ["voided = 0 AND name = ?", "YES"]).collect{|o|

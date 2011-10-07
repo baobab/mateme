@@ -1,0 +1,175 @@
+<html>
+    <head>
+        <title>Initial</title>
+        <script type="text/javascript" language="javascript" src="../lib/javascripts/touchScreenToolkit.js" defer></script>
+        <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
+        <script language="javascript">
+            tstUsername = "";
+            tstCurrentDate = "2010/03/12";
+            tt_cancel_destination = 'tasks.html';
+            tt_cancel_show = 'show.html';
+        </script>
+    </head>
+    <body><div id='content'>
+            <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
+                <form  action='tasks.html' extended="true" method="get" headerLabel="Initial">
+                    <table cellpadding=10>
+                        <tr>
+                            <th colspan=2>Initial</th>
+                        </tr>
+                        <tr>
+                            <td>Ever Received Art?</td>
+                            <td>
+                                <select position='n' style='width: 100%' name='ever_received_art?' id='ever_received_art?' helptext='Ever Received Art?'>
+                                    <option></option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Patient Has Transfer Letter?</td>
+                            <td>
+                                <select position='o' style='width: 100%' name='patient_has_transfer_letter?' id='patient_has_transfer_letter?' helptext='Patient Has Transfer Letter?' condition='$("ever_received_art?").value == "Yes"'>
+                                    <option></option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Location Of Art Initialisation</td>
+                            <td>
+                                <select position='p' style='width: 100%' name='location_of_art_initialisation'
+                                        id='location_of_art_initialisation'
+                                        helptext='Location Of Art Initialisation' ajaxURL="facilities.txt"
+                                        condition='$("ever_received_art?").value == "Yes"'>
+                                    <option></option>
+                                    <option>Facilities List</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Art Number At Previous Location</td>
+                            <td>
+                                <input type='text' position='q' value='Text' field_type='text' name='art_number_at_previous_location' id='art_number_at_previous_location' helptext='Art Number At Previous Location' condition='$("ever_received_art?").value == "Yes"' />
+                            </td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>Date Art Last Taken</td>
+                            <td>
+                                <input type='text' position='r' value='' field_type='date' name='date_art_last_taken' id='date_art_last_taken' helptext='Date Art Last Taken' condition='$("ever_received_art?").value == "Yes"' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Art Drugs Taken In The Last 2 Months?</td>
+                            <td>
+                                <select position='s' style='width: 100%' name='art_drugs_taken_in_the_last_2_months?' id='art_drugs_taken_in_the_last_2_months?' helptext='Art Drugs Taken In The Last 2 Months?' condition='$("ever_received_art?").value == "Yes" && $("date_art_last_taken").value == "Unknown"'>
+                                    <option></option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                    <option>Unknown</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Art Drugs Taken In The Last 2 Weeks?</td>
+                            <td>
+                                <select position='t' style='width: 100%' name='art_drugs_taken_in_the_last_2_weeks?' id='art_drugs_taken_in_the_last_2_weeks?' helptext='Art Drugs Taken In The Last 2 Weeks?' condition='$("ever_received_art?").value == "Yes" && $("art_drugs_taken_in_the_last_2_months?").value == "Unknown"'>
+                                    <option></option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                    <option>Unknown</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Last Art Drugs Taken</td>
+                            <td>
+                                <input type='text' position='u' value='Text' field_type='text' name='last_art_drugs_taken' id='last_art_drugs_taken' helptext='Last Art Drugs Taken' condition='$("ever_received_art?").value == "Yes"' />
+                            </td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>Allergies</td>
+                            <td>
+                                <input type='text' position='v' value='Text' field_type='text' name='allergies' id='allergies' helptext='Allergies' condition='$("ever_received_art?").value == "Yes"' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Medications</td>
+                            <td>
+                                <input type='text' position='w' value='Text' field_type='text' name='medications' id='medications' helptext='Medications' condition='$("ever_received_art?").value == "Yes"' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Agrees To Follow-up?</td>
+                            <td>
+                                <select position='x' style='width: 100%' name='agrees_to_follow-up?' id='agrees_to_follow-up?' helptext='Agrees To Follow-up?' condition='$("ever_received_art?").value == "Yes"'>
+                                    <option></option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>Type Of First Positive Hiv Test</td>
+                            <td>
+                                <select position='y' style='width: 100%' name='type_of_first_positive_hiv_test'
+                                        id='type_of_first_positive_hiv_test' helptext='Type Of First Positive Hiv Test' condition='$("ever_received_art?").value == "Yes"'>
+                                    <option></option>
+                                    <option>HIV Rapid Test, Qualitative</option>
+                                    <option>HIV DNA Polymerase Chain Reaction</option>
+                                    <option>Unknown</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Location Of First Positive Hiv Test</td>
+                            <td>
+                                <select position='z' style='width: 100%' name='location_of_first_positive_hiv_test'
+                                        id='location_of_first_positive_hiv_test' helptext='Location Of First Positive Hiv Test'
+                                        condition='$("ever_received_art?").value == "Yes"' ajaxURL="facilities.txt">
+                                    <option></option>
+                                    <option>QECH</option>
+                                    <option>KCH</option>
+                                    <option>ZCH</option>
+                                    <option>MCH</option>
+                                    <option>Bwaila</option>
+                                    <option>Mchinji</option>
+                                    <option>Ntcheu</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Date Of First Positive Hiv Test</td>
+                            <td>
+                                <input type='text' position='a2' value='' field_type='date' name='date_of_first_positive_hiv_test' id='date_of_first_positive_hiv_test' helptext='Date Of First Positive Hiv Test' condition='$("ever_received_art?").value == "Yes"' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Referred By Pmtct?</td>
+                            <td>
+                                <select position='b2' style='width: 100%' name='referred_by_pmtct?' id='referred_by_pmtct?' helptext='Referred By Pmtct?' condition='$("ever_received_art?").value == "Yes"'>
+                                    <option></option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align='center'>
+                                <input type='submit' value='Finish' />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </center>
+        </div>
+    </body>
+</html>

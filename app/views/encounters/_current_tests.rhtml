@@ -1,5 +1,5 @@
 <center>
-  <div style="margin-top:0px; border:dotted 1px #eee; width:300px; float:right; height: 600px; padding-top:10px;">
+  <div style="margin-top:0px; border:dotted 1px #eee; width:300px; float:right; height: 600px; padding-top:10px; overflow: auto;">
     <b  style="font-size: 22pt; padding-left:8px;">Tests <%= " for #{params[:identifier].upcase}" if !params[:identifier].nil? %> </b>
 
     <%
@@ -43,10 +43,10 @@
           @i += 1
         %>
           <div style="width:100%;">
-            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue" style="min-width:250px;"
+            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue" style="min-width:260px; max-width: 260px;"
                     onclick="window.location = '/encounters/edit_test/?test=<%= encounter_name.gsub(/\s/, "+") %>&patient_id=<%= @patient.patient_id rescue nil %>&identifier=<%= params[:identifier].upcase if !params[:identifier].nil? %>'">
               <span>
-                <%=  encounter_name %>
+                <%=  (encounter_name.length > 20 ? (encounter_name[0,17] + "...") : encounter_name) %>
               </span>
             </button>
           </div>
@@ -57,9 +57,9 @@
 
           <div style="width:100%;">
             <button id="edit_test_button<%= "_#{@i}" %>" class="button gray"
-              style="min-width:250px;"
+              style="min-width:260px; max-width: 260px;">
               <span>
-                <%=  encounter_name %>
+                <%=  (encounter_name.length > 20 ? (encounter_name[0,17] + "...") : encounter_name) %>
               </span>
             </button>
           </div>
