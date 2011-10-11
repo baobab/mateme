@@ -1,0 +1,65 @@
+
+<h1>RANDOM BLOOD GLUCOSE</h1>
+
+<script type="text/javascript" language="javascript">
+  <!--
+  
+  function changeText(){
+    document.getElementById("helpText" + tstCurrentPage).innerHTML = "Random Blood Glucose Test Result (" + 
+      document.getElementById("field").value + ")";
+  }
+  
+  //-->
+</script>
+
+<form id='other' action="/encounters/create_encounter" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+  <%= hidden_field_tag("next_url", "/encounters/show_lab_tests?identifier=#{params[:identifier]}") %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||= DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "BLOOD GLUCOSE") %>
+  <%= hidden_field_tag("observations[][concept_name]", "LAB TEST RESULT") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+  <%= hidden_field_tag("observations[][value_coded_or_text]", "#{params[:identifier]}") %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+  <%= hidden_field_tag("observations[][concept_name]", "LAB TEST SERIAL NUMBER") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+  <label for='field'>Random Blood Glucose Unit of Measure</label>
+  <% options=default.merge({
+      :field_type => 'text',
+      :id => "field",
+    }) %>
+  <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+        "",
+        "mmol",
+        "mg/dL"
+      ]), options) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "BLOOD GLUCOSE") %>
+  <%= hidden_field_tag("observations[][concept_name]", "UNITS") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+  <label for='fieldvalue'>Random Blood Glucose Test Result</label>
+  <%= text_field_tag( "observations[][value_coded_or_text]", "", {
+      :field_type => 'number',
+      :id => "fieldvalue",
+      :helpText => 'Random Blood Glucose Test Result',
+      :tt_onLoad => "changeText()"
+    }) %>
+  <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+  <%= hidden_field_tag("observations[][concept_name]", "BLOOD GLUCOSE") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+</form>

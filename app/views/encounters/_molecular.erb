@@ -1,0 +1,76 @@
+
+  <h1>MOLECULAR</h1>
+
+  <form id='molecular' action="/encounters/create_encounter" method='post'>
+    <% default={
+      :allowFreeText => 'true',
+    } %>
+
+    <%= hidden_field_tag("next_url", "/encounters/show_lab_tests?identifier=#{params[:identifier]}") %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||= DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "MOLECULAR") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "#{params[:identifier]}") %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST SERIAL NUMBER") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <label for='diagnostic_real_time_results'>Diagnostic Real Time Results</label>
+    <% options=default.merge({
+        :field_type => 'text',
+        :id => "diagnostic_real_time_results",
+      }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+          "",
+          "Positive",
+          "Negative"
+        ]), options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSTIC REAL TIME RESULTS") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <label for='organisms'>Organism</label>
+    <% options=default.merge({
+        :field_type => 'text',
+        :id => "organisms",
+        :condition=>"$('diagnostic_real_time_results').value == 'Positive'"
+      }) %>
+    <%= select_tag( "observations[][value_coded_or_text]",
+      options_for_select(@virus_species), options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "VIRUS SPECIES") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <label for='viral_load_h1n1'>Viral Loads: H1N1 (copies/mL)</label>
+    <%= text_field_tag "observations[][value_coded_or_text]", nil,
+      {:id => "viral_load_h1n1",
+      :field_type => 'number',
+      :allowFreeText => 'true'} %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "H1N1") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <label for='viral_load_cmv'>Viral Loads: CMV (copies/mL)</label>
+    <%= text_field_tag "observations[][value_coded_or_text]", nil,
+      {:id => "viral_load_cmv",
+      :field_type => 'number',
+      :allowFreeText => 'true'} %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "CMV") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <%= submit_tag "Finish" %>
+  </form>

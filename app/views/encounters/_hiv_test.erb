@@ -1,0 +1,42 @@
+
+  <h1>HIV TEST</h1>
+
+  <form id='other' action="/encounters/create_encounter" method='post'>
+    <% default={
+      :allowFreeText => 'true',
+    } %>
+
+    <%= hidden_field_tag("next_url", "/encounters/show_lab_tests?identifier=#{params[:identifier]}") %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||= DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "HIV TEST") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "#{params[:identifier]}") %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST SERIAL NUMBER") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <label for='hiv_test'>HIV Test Result</label>
+    <% options=default.merge({
+        :field_type => 'text',
+        :id => "hiv_test",
+      }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+          "",
+          "Positive",
+          "Negative"
+        ]), options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "HIV TEST") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+  </form>

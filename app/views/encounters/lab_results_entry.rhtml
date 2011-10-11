@@ -1,16 +1,22 @@
 <%= javascript_include_tag "barcode" %>
 <script type="text/javascript">
-  tt_cancel_destination = '/logout';
+  tt_cancel_show = '/people';
+  tt_cancel_destination = '/encounters/search_lab_test';
+  
+  function barcodeScanAction(){
+    document.getElementById("barcodeForm").submit();
+  }
+  
 </script>
 
 <div id="general_dashboard" style="text-align:center;margin:10px;">
   <form id='barcodeForm' action="/encounters/show_lab_tests">
     <%= text_field_tag :identifier, '', {:id => 'barcode', :class => 'touchscreenTextInput' } %>
     <%= submit_tag "Submit", :style => "display:none" %>
-    <div style="color:gray">scan a barcode</div>
+    <div style="color:gray">scan a sample barcode</div>
   </form>
   <div class="centered">
-    <button id="find_test_button" class="button green" style="min-width:400px;"
+    <button id="find_test_button" class="button blue" style="min-width:400px;"
             onclick="window.location = '/encounters/search_lab_test'">
       <span>
         Find Patient Lab Test

@@ -41,7 +41,7 @@
   <%end%>
 
   <% if @super_user || @spine_clinician%>
-                  <option value = '/encounters/search_lab_test' ttSize="210px">Find Lab Test</option>
+                  <option value = '/encounters/lab_results_entry' ttSize="210px">Find Lab Test</option>
   <%end%>
 <% elsif @roles.include?("spine clinician") %>
             <option value="/people/search?category=adults" ttSize="180px">Find Adult</option>

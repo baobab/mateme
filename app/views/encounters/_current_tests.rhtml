@@ -1,81 +1,124 @@
 <center>
-  <div style="margin-top:0px; border:dotted 1px #eee; width:300px; float:right; height: 600px; padding-top:10px; overflow: auto;">
+  <div style="margin-top:0px; border:dotted 1px #eee; width:300px; float:right; height: 600px; padding-top:10px; overflow: hidden;">
     <b  style="font-size: 22pt; padding-left:8px;">Tests <%= " for #{params[:identifier].upcase}" if !params[:identifier].nil? %> </b>
 
-    <%
-    unless @encounter_names.nil?
-      @i = 0
+    <div style="overflow: auto; width:300px; height: 540px; padding-top: 10px; padding-bottom: 10px;">
+      <%
+      unless @encounter_names.nil?
+        @i = 0
 
-      @encounter_names.each{|encounter_name|
-        found = nil
+        @encounter_names.each{|encounter_name|
+          found = nil
 
-        if encounter_name == "CSF"
-          encounter_name = "CEREBROSPINAL FLUID"
-        end
+          initial_term = ""
+          
+          if encounter_name.upcase == "CSF"
+            encounter_name = "CEREBROSPINAL FLUID"
+          end
 
-        if encounter_name == "PCV"
-          encounter_name = "HEMATOCRIT"
-        end
+          if encounter_name.upcase == "PCV"
+            encounter_name = "HEMATOCRIT"
+          end
 
-        if encounter_name == "MP TEST"
-          encounter_name = "MALARIAL SMEAR"
-        end
+          if encounter_name.upcase == "MP TEST"
+            initial_term = "MP TEST"
+            encounter_name = "MALARIAL SMEAR"
+          end
 
-        @tests.each {|el|
-          if el.match(encounter_name)
-            found = true
+          if encounter_name.upcase == "MPS"
+            initial_term = "MPS"
+            encounter_name = "MALARIAL SMEAR"
+          end
+
+          if encounter_name.upcase == "MCV"
+            encounter_name = "MEAN CORPUSCULAR VOLUME"
+          end
+
+          if encounter_name.upcase == "MALARIA RDT"
+            encounter_name = "RDT OR BLOOD SMEAR POSITIVE FOR MALARIA"
+          end
+
+          if encounter_name.upcase == "WBC"
+            encounter_name = "WBC</B>"
+          end
+
+          if encounter_name.upcase == "RANDOM BLOOD GLUCOSE"
+            encounter_name = "SERUM GLUCOSE"
+          end
+
+          @tests.each {|el|
+            if el.upcase.match(encounter_name.upcase)
+              found = true
+            end
+          }
+
+          if encounter_name == "CEREBROSPINAL FLUID"
+            encounter_name = "CSF"
+          end
+
+          if encounter_name == "HEMATOCRIT"
+            encounter_name = "PCV"
+          end
+
+          if encounter_name == "MALARIAL SMEAR"
+            encounter_name = initial_term
+          end
+
+          if encounter_name == "MEAN CORPUSCULAR VOLUME"
+            encounter_name = "MCV"
+          end
+
+          if encounter_name.upcase == "RDT OR BLOOD SMEAR POSITIVE FOR MALARIA"
+            encounter_name = "MALARIA RDT"
+          end
+
+          if encounter_name.upcase == "WBC</B>"
+            encounter_name = "WBC"
+          end
+
+          if encounter_name == "SERUM GLUCOSE"
+            encounter_name = "RANDOM BLOOD GLUCOSE"
+          end
+
+          unless !found.nil?
+            @i += 1
+          %>
+            <div style="width:100%;">
+              <button id="edit_test_button<%= "_#{@i}" %>" class="button blue" 
+                      style="min-width:240px; max-width: 240px; font-weight: normal;"
+                      onclick="window.location = '/encounters/edit_test/?test=<%= encounter_name.gsub(/\s/, "+") %>&patient_id=<%= @patient.patient_id rescue nil %>&identifier=<%= params[:identifier].upcase if !params[:identifier].nil? %>'">
+                <span>
+                  <%=  (encounter_name.length > 15 ? (encounter_name[0,15].upcase + " ...") : encounter_name.upcase) %>
+                </span>
+              </button>
+            </div>
+          <%
+          else
+
+          %>
+
+            <div style="width:100%;">
+              <button id="edit_test_button<%= "_#{@i}" %>" class="button gray"
+                      style="min-width:240px; max-width: 240px; font-weight: normal;">
+                <span>
+                  <%=  (encounter_name.length > 15 ? (encounter_name[0,15].upcase + " ...") : encounter_name.upcase) %>
+                </span>
+              </button>
+            </div>
+
+          <%
           end
         }
+      end
+    %>
 
-        if encounter_name == "CEREBROSPINAL FLUID"
-          encounter_name = "CSF"
-        end
-
-        if encounter_name == "HEMATOCRIT"
-          encounter_name = "PCV"
-        end
-
-        if encounter_name == "MALARIAL SMEAR"
-          encounter_name = "MP TEST"
-        end
-
-        unless !found.nil?
-          @i += 1
-        %>
-          <div style="width:100%;">
-            <button id="edit_test_button<%= "_#{@i}" %>" class="button blue" style="min-width:260px; max-width: 260px;"
-                    onclick="window.location = '/encounters/edit_test/?test=<%= encounter_name.gsub(/\s/, "+") %>&patient_id=<%= @patient.patient_id rescue nil %>&identifier=<%= params[:identifier].upcase if !params[:identifier].nil? %>'">
-              <span>
-                <%=  (encounter_name.length > 20 ? (encounter_name[0,17] + "...") : encounter_name) %>
-              </span>
-            </button>
-          </div>
-        <%
-        else
-
-        %>
-
-          <div style="width:100%;">
-            <button id="edit_test_button<%= "_#{@i}" %>" class="button gray"
-              style="min-width:260px; max-width: 260px;">
-              <span>
-                <%=  (encounter_name.length > 20 ? (encounter_name[0,17] + "...") : encounter_name) %>
-              </span>
-            </button>
-          </div>
-
-        <%
-        end
-      }
-    end
-  %>
-
-  <%# if !@patient.nil? %>
+<%# if !@patient.nil? %>
   <!--a class="button green" href='/patients/print_lab_results?patient_id=<%= @patient.id -%>'
      style="-moz-border-radius:10px; min-width: 237px; font-size: 1.7em; font-weight: normal; min-height: 57px;">Print Lab Results</a-->
     <!--<button class="button blue testButtons" onclick="window.location = '/patients/print_lab_results?patient_id=<%= @patient.id -%>';">
       <span>Print Lab Results</span>
     </button>-->
-  <%# end %>
+<%# end %>
+    </div>
   </div>
 </center>

@@ -106,6 +106,7 @@ class Observation < ActiveRecord::Base
         Encounter.find(observation.encounter_id, :joins => [:type],
           :conditions => ["voided = ? AND encounter_type.name = ?", 0, "LAB RESULTS"]) rescue nil
       }.compact rescue []
+            
     else 
       []
     end

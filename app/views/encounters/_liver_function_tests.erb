@@ -1,0 +1,41 @@
+
+  <h1>LIVER FUNCTION TESTS</h1>
+
+  <form id='other' action="/encounters/create_encounter" method='post'>
+    <% default={
+      :allowFreeText => 'true',
+    } %>
+
+    <%= hidden_field_tag("next_url", "/encounters/show_lab_tests?identifier=#{params[:identifier]}") %>
+
+    <%= hidden_field_tag "encounter[encounter_type_name]", "LAB RESULTS" %>
+    <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+    <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||= DateTime.now() %>
+    <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "LIVER FUNCTION TESTS") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <%= hidden_field_tag("observations[][value_coded_or_text]", "#{params[:identifier]}") %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LAB TEST SERIAL NUMBER") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+    <label for='field'>Liver Function Tests Result</label>
+    <% options=default.merge({
+        :field_type => 'text',
+        :id => "field",
+      }) %>
+    <%= select_tag( "observations[][value_coded_or_text]", options_for_select([
+          "",
+          "Ordered"
+        ]), options) %>
+    <%= hidden_field_tag("observations[][parent_concept_name]", "LAB TEST RESULT") %>
+    <%= hidden_field_tag("observations[][concept_name]", "LIVER FUNCTION TESTS") %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||= DateTime.now()) %>
+
+  </form>
