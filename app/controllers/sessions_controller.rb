@@ -28,7 +28,15 @@ class SessionsController < ApplicationController
 
   # Form for entering the location information
   def location
-    @login_wards = [' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
+    @login = [' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
+    
+    @login_wards = []
+    
+    @login.each{|log|
+      loc = Location.find_by_name(log).location_id rescue nil
+      
+      @login_wards << [log, loc] if !loc.nil?
+    }    
   end
 
   # Update the session with the location information
@@ -48,6 +56,10 @@ class SessionsController < ApplicationController
       render :action => 'location'
       return    
     end
+    
+    session[:location_id] = params[:location]
+    session[:location] = location.name
+    
     self.current_location = location
     url = self.current_user.admin? ? '/admin' : '/'
     redirect_to url

@@ -9,6 +9,7 @@ class EncountersController < ApplicationController
       diagnoses.each{|obs_group|
       
         encounter = Encounter.new(params[:encounter])
+        encounter.location_id = session[:location_id]
         encounter.encounter_datetime ||= session[:datetime].to_s + " " + (session[:datetime] ||= Time.now).strftime("%H:%M").to_s
         encounter.save
 
@@ -27,7 +28,14 @@ class EncountersController < ApplicationController
           observation[:value_coded_or_text] = obs
           observation[:encounter_id] = encounter.id
           observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
-          observation[:person_id] ||= encounter.patient_id
+          observation[:person_id] ||= encounter.patient_id          
+          
+          if(observation[:parent_concept_name])
+            concept_id = Concept.find_by_name(observation[:parent_concept_name]).id rescue nil
+            observation[:obs_group_id] = Observation.find(:first, :conditions=> ['concept_id = ? AND encounter_id = ?',concept_id, encounter.id]).id rescue ""
+            observation.delete(:parent_concept_name)
+          end
+          
           if confirmatory_evidence.include?(obs)
             observation[:concept_name] = "RESULT AVAILABLE"
           else
@@ -58,6 +66,13 @@ class EncountersController < ApplicationController
         observation[:obs_datetime] = encounter.encounter_datetime ||= (session[:datetime] ||= Time.now())
         observation[:person_id] ||= encounter.patient_id
         observation[:concept_name] ||= "DIAGNOSIS" if encounter.type.name == "DIAGNOSIS"
+        
+        if(observation[:parent_concept_name])
+          concept_id = Concept.find_by_name(observation[:parent_concept_name]).id rescue nil
+          observation[:obs_group_id] = Observation.find(:first, :conditions=> ['concept_id = ? AND encounter_id = ?',concept_id, encounter.id]).id rescue ""
+          observation.delete(:parent_concept_name)
+        end
+
         Observation.create(observation)
       end
     end
@@ -83,10 +98,10 @@ class EncountersController < ApplicationController
     
   end
 
-
   def new
-    @facility_outcomes =  JSON.parse(GlobalProperty.find_by_property("facility.outcomes").property_value) rescue {}
-    #raise @facility_outcomes.to_yaml
+    @facility_outcomes =  GlobalProperty.find_by_property("facility.outcomes").property_value.split(",") rescue []
+    # raise @facility_outcomes.to_yaml
+    
     @new_hiv_status = params[:new_hiv_status]
 
     if session["category"].include?("adults")
@@ -101,6 +116,43 @@ class EncountersController < ApplicationController
     
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
     @diagnosis_type = params[:diagnosis_type]
+        
+    # SUB-DIAGNOSES
+    @diagnoses = {
+      "ABORTION COMPLICATIONS" =>  "",
+      "CANCER" => "",
+      "CANDIDA" => "",
+      "CHRONIC PSYCHIATRIC DISEASE" => "",
+      "DIARRHOEA DISEASES" => "",
+      "GI BLEED" => "",
+      "MALARIA" => "",
+      "MENINGITIS" => "",
+      "MUSCULOSKELETAL PAIN" => "",
+      "PNEUMONIA" => "",
+      "POISONING" => "",
+      "RENAL FAILURE" => "",
+      "ACCIDENT, MOTOR VEHICLE" => "",
+      "SEXUALLY TRANSMITTED INFECTION" => "",
+      "TRAUMATIC CONDITIONS" => "",
+      "TUBERCULOSIS" => "",
+      "ULCERS" => ""
+    }
+   
+    @diagnoses.each{|diagnosis_set|
+        
+      diagnosis = diagnosis_set[0]
+      
+      @diagnoses[diagnosis] = ConceptName.find(:all, :joins => :concept, 
+        :conditions => ["concept_name.concept_id IN (?) AND voided = 0", 
+          ConceptSet.find(:all, :conditions => ["concept_set IN (?)",
+              ConceptName.find(:all, :joins => :concept, 
+                :conditions => ["voided = 0 AND name = ?", diagnosis]).collect{|nom| nom.concept_id}]).collect{|set| 
+            set.concept_id}]).collect{|term| term.name}.uniq 
+    
+      @diagnoses[diagnosis] = "<option></option><option>" + @diagnoses[diagnosis].join("</option><option>") + "</option>"
+    
+    }
+    
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
     redirect_to :action => :create, 'encounter[encounter_type_name]' => params[:encounter_type].upcase,
@@ -111,13 +163,15 @@ class EncountersController < ApplicationController
   def diagnoses
     search_string = (params[:search_string] || '').upcase
     filter_list = params[:filter_list].split(/, */) rescue []
-    outpatient_diagnosis = ConceptName.find_by_name("QECH OUTPATIENT DIAGNOSIS LIST").concept
+    outpatient_diagnosis = ConceptName.find_by_name("QECH EMERGENCY DIAGNOSIS LIST").concept
 
-    diagnosis_concepts = ConceptName.find_by_name("QECH OUTPATIENT DIAGNOSIS LIST", :joins => [:concept],
+    diagnosis_concepts = ConceptName.find_by_name("QECH EMERGENCY DIAGNOSIS LIST", :joins => [:concept],
       :conditions => ["concept.retired = 0"]).concept.concept_answers.collect {|answer|
       Concept.find(answer.answer_concept) rescue nil
     }.compact rescue []
-
+    
+    # raise diagnosis_concepts.to_yaml    
+    
     # TODO Need to check a global property for which concept set to limit things to
     if (false)
       diagnosis_concept_set = ConceptName.find_by_name('MALAWI NATIONAL DIAGNOSIS').concept
@@ -355,7 +409,7 @@ class EncountersController < ApplicationController
   # Save Adults, Paediatric, Chronic Conditions Influenza Data and Lab Tests based on the
   # Encounter::create method from the Diabetes Module
   def create_influenza_data
-   # raise params.to_yaml
+    # raise params.to_yaml
     
     encounter = Encounter.new(params[:encounter])
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
@@ -472,6 +526,7 @@ class EncountersController < ApplicationController
   def create_encounter
 
     encounter = Encounter.new(params[:encounter])
+    encounter.location_id = session[:location_id]
     encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? or encounter.name == 'DIABETES TEST'
     encounter.save
 
@@ -544,4 +599,45 @@ class EncountersController < ApplicationController
     print_and_redirect("/encounters/label/?encounter_id=#{params["encounter_id"]}", next_task(@patient))
   end
   
+  def static_locations
+    if params[:category]
+      
+      if params[:category].downcase == "general"
+    
+        search_string = (params[:search_string] || "").upcase
+
+        locations = []
+
+        File.open(RAILS_ROOT + "/public/data/specialists.txt", "r").each{ |loc|
+          locations << loc if loc.upcase.strip.match(search_string)
+        }
+    
+      else
+        
+        search_string = (params[:search_string] || "").upcase
+
+        locations = []
+
+        File.open(RAILS_ROOT + "/public/data/locations.txt", "r").each{ |loc|
+          locations << loc if loc.upcase.strip.match(search_string)
+        }
+    
+      end
+      
+    else
+      
+      search_string = (params[:search_string] || "").upcase
+
+      locations = []
+
+      File.open(RAILS_ROOT + "/public/data/locations.txt", "r").each{ |loc|
+        locations << loc if loc.upcase.strip.match(search_string)
+      }
+      
+    end
+    
+    render :text => "<li " + locations.map{|location| "value=\"#{location}\">#{location}" }.join("</li><li ") + "</li>"
+
+  end
+
 end

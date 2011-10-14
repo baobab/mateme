@@ -1,5 +1,10 @@
 class PatientsController < ApplicationController
   def show
+    # raise request.referrer.to_yaml    
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
+    
+    redirect_to "/encounters/referral?patient_id=#{@patient.id}" and return if request.referrer.match(/\/people/)      
+    
     #find the user priviledges
     @super_user = false
     @clinician  = false
@@ -41,7 +46,6 @@ class PatientsController < ApplicationController
       @lab  = true
     end
     
-    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     outcome = @patient.current_outcome
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
@@ -332,6 +336,8 @@ class PatientsController < ApplicationController
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
+    # raise @encounters.to_yaml
+    
     render :layout => false
    
   end

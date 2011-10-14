@@ -1,0 +1,53 @@
+Limbe H/Centre
+Bangwe H/Centre
+Ndirande H/Centre
+Zingwangwa H/Centre
+Chilomoni H/Centre
+Chileka H/ Centre
+South Lunzu H/Centre
+Mpemba H/Centre
+Madziabango H/Centre
+Chavala H/Centre
+Dziwe H/Centre
+Chikowa H/centre
+Lirangwe H/Centre
+Mdeka H/Centre
+Chipini H/Centre
+Lundu H/centre
+Chimembe H/centre
+Mitsidi H/Centre
+Kunthembwe H/Centre
+St. Vincent Clinic
+Nkula Escom Clinic
+Kanjedza Clinic
+Mpatamanga
+Mtengoumodzi Clinic
+Soche Clinic
+Chimula Clinic
+Norowe Clinic
+Dream Clinic
+Manyowe Clinic
+Welmat Private
+Masauli Clinic
+Nkalo Clinic
+Chitawira Private
+Namikoko Clinic
+TBA
+Mlambe Hospital
+Malamulo SDA
+St. Montfort Hospital
+Nguludi Hospital
+Bvumbwe Research
+Mwaiwathu Hospital
+Chiradzulu District Hospital
+Thyolo District Hospital
+Chikhwawa District Hospital
+Nsanje District Hospital
+Mulanje District Hospital
+Mwanza District Hospital
+Machinga District Hospital
+Mangochi District Hospital
+Balaka District Hospital
+Zomba Central Hospital
+St. Lukes Hospital
+

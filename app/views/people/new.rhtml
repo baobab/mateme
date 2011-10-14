@@ -35,7 +35,10 @@
 
   <%= text_field_tag "person[addresses][address2]", params[:address2], {:id => 'address2', :field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :condition => '$("address2").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } if ask_home_village %>
 
-  <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersOnly", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
+  <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', 
+    :field_type => 'number', :absoluteMin => "1890", :min => "1940", 
+    :absoluteMax => Date.today.year, :tt_pageStyleClass => "Numeric NumbersWithUnknown", 
+    :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
   <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth', :condition => '$("person_birth_year").value.toLowerCase() != "unknown"'}%>
 
@@ -52,15 +55,24 @@
   <%= text_field_tag "person[addresses][address2]",  params[:address2], {:field_type => 'alpha', :helpText => 'Home district', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
 
 <%if @ask_cell_phone == 'true'%>
-  <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Primary Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number"%>
+  <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', 
+    :tt_pageStyleClass => "Numeric NumbersWithUnknown", :helpText => 'Primary Phone Number', 
+    :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", 
+    :validationMessage => "Not a valid phone number"%>
 <%end%>
 
 <%if @ask_home_phone == 'true'%>
-  <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', :helpText => 'Secondary Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number"%>
+  <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', 
+    :tt_pageStyleClass => "Numeric NumbersWithUnknown", :helpText => 'Secondary Phone Number', 
+    :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", 
+    :validationMessage => "Not a valid phone number"%>
 <%end%>
 
 <%if @ask_office_phone == 'true'%>
-  <%= text_field_tag "person[attributes][office_phone_number]",  nil, :field_type => 'number', :helpText => 'Office Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number"%>
+  <%= text_field_tag "person[attributes][office_phone_number]",  nil, :field_type => 'number', 
+    :tt_pageStyleClass => "Numeric NumbersWithUnknown", :helpText => 'Office Phone Number', 
+    :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", 
+    :validationMessage => "Not a valid phone number"%>
 <%end%>
 
   <%= select_tag "person[attributes][occupation]", options_for_select([" ", "Housewife", "Farmer", "Police", "Soldier", "Business", "Teacher", "Student", "Healthcare Worker"].sort.concat(["Other"]), params[:occupation]), {:helpText => 'Occupation'}%>

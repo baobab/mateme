@@ -72,5 +72,29 @@
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
   <% end %>
+
+  <% options = {
+    :allowFreeText => 'true',
+    :textCase => "upper" } %>
+
+  <% @diagnoses.each do |diagnosis_set| 
+    diagnosis = diagnosis_set[0]
+  %>
+
+    <% options[:condition] = "tstFormElements[0].value == '#{diagnosis}' || " + 
+              "tstFormElements[1].value == '#{diagnosis}' || " + 
+              "tstFormElements[2].value == '#{diagnosis}' || " + 
+              "tstFormElements[3].value == '#{diagnosis}' || " + 
+              " tstFormElements[4].value == '#{diagnosis}'" %>
+  
+    <% options[:helpText] = "Type of " + diagnosis.titleize %>
+    <%= select_tag("observations[][value_coded_or_text]", @diagnoses[diagnosis], options) %>
+    <%= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", diagnosis, options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
+
+  <% end %>
+
   <%= submit_tag "Finish" %>
 </form>
