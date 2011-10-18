@@ -1,0 +1,28 @@
+<script>
+  var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+</script>
+<style>
+  #space { display:inline; font-size:1.2em; }
+</style>
+<form id='procedure' action="/encounters/create" method='post'>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "PROCEDURES DONE" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% options = {
+    :id => "proc_done",
+    :field_type => 'text',
+    :multiple => true,
+    :tt_pageStyleclass => "LongListSelect",
+    :helpText => 'Procedure Done'
+  } %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedures), options)%>
+
+  <%= hidden_field_tag("observations[][concept_name]", "PROCEDURE DONE") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
+
+  <%= submit_tag "Finish" %> 
+</form>

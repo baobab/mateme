@@ -3,7 +3,10 @@ class Encounter < ActiveRecord::Base
   set_primary_key :encounter_id
   include Openmrs
   # TODO, this needs to account for current visit, which needs to account for possible retrospective entry
-  named_scope :current, :conditions => 'DATE(encounter.encounter_datetime) = CURRENT_DATE() AND encounter.voided = 0'
+  named_scope :current, :conditions => "DATE(encounter.encounter_datetime) = CURRENT_DATE() AND encounter.voided = 0"
+  named_scope :past, :conditions => 'DATE(encounter.encounter_datetime) < CURRENT_DATE() AND encounter.voided = 0', 
+    :order => "encounter.encounter_datetime"
+  
   named_scope :active, :conditions => 'encounter.voided = 0'
   has_many :observations, :dependent => :destroy
   has_many :orders, :dependent => :destroy

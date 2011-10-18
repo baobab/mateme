@@ -100,6 +100,8 @@ class EncountersController < ApplicationController
 
   def new
     @facility_outcomes =  GlobalProperty.find_by_property("facility.outcomes").property_value.split(",") rescue []
+    
+    @procedures =  GlobalProperty.find_by_property("facility.procedures").property_value.split(",") rescue []
     # raise @facility_outcomes.to_yaml
     
     @new_hiv_status = params[:new_hiv_status]

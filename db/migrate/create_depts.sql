@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS=0;
+
 insert into role values ("Adults", "QECH user belongs to OPD Adults department") ON DUPLICATE KEY UPDATE role = "Adults";
 
 insert into role values ("Paediatrics", "QECH user belongs to OPD Paediatrics department") ON DUPLICATE KEY UPDATE role = "Paediatrics";
@@ -8,8 +10,25 @@ INSERT INTO global_property (property, property_value, description) VALUES ("fac
 
 DELETE FROM location WHERE name IN ("AETC", "Paeds A and E","Clinics","Medical","Surgical","Obs and Gynae","Psychiatry","Pharmacy","Laboratory","Managers","Spine");
 
-INSERT INTO location (name, creator, date_created) VALUES ("AETC", 1, NOW()), ("Paeds A and E", 1, NOW()), ("Clinics", 1, NOW()), ("Medical", 1, NOW()), ("Surgical", 1, NOW()), ("Obs and Gynae", 1, NOW()), ("Psychiatry", 1, NOW()), ("Pharmacy", 1, NOW()), ("Laboratory", 1, NOW()), ("Managers", 1, NOW()), ("Spine", 1, NOW());
+INSERT INTO location (name, creator, date_created, uuid) VALUES 
+("AETC", 1, NOW(), (SELECT UUID())), 
+("Paeds A and E", 1, NOW(), (SELECT UUID())), 
+("Clinics", 1, NOW(), (SELECT UUID())), 
+("Medical", 1, NOW(), (SELECT UUID())), 
+("Surgical", 1, NOW(), (SELECT UUID())), 
+("Obs and Gynae", 1, NOW(), (SELECT UUID())), 
+("Psychiatry", 1, NOW(), (SELECT UUID())), 
+("Pharmacy", 1, NOW(), (SELECT UUID())), 
+("Laboratory", 1, NOW(), (SELECT UUID())), 
+("Managers", 1, NOW(), (SELECT UUID())), 
+("Spine", 1, NOW(), (SELECT UUID()));
 
 DELETE FROM global_property WHERE property = "facility.outcomes";
 
 INSERT INTO global_property (property, property_value, description) VALUES ("facility.outcomes", "HOME,DEATH,ABSCONDEE,TRANSFER OUT,HOME BASED CARE", "");
+
+DELETE FROM global_property WHERE property = "facility.procedures";
+
+INSERT INTO global_property (property, property_value, description) VALUES ("facility.procedures", "Ascitic Tap,Catheter Insertion,Chest Drain Insertion,Fine Needle Aspirate,Incision and Drainage,Joint aspiration,Lumber Puncture,Manipulation Under Anaethesia,Nebulization,Other,Pericardial Tap,Pleural Tap,POP Application,POP Removal", "");
+
+SET FOREIGN_KEY_CHECKS=1;

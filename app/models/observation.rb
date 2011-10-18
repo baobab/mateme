@@ -135,4 +135,10 @@ class Observation < ActiveRecord::Base
     end
   end
 
+  def drug    
+    Drug.find(:all, :joins => [:drug_orders => [:order => [:encounter]]], 
+      :conditions => ["encounter.patient_id = ? AND encounter.encounter_id =", 
+        self.person_id, self.encounter_id]).collect{|d| d.name}.uniq    
+  end
+  
 end

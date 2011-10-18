@@ -5,6 +5,7 @@ class Drug < ActiveRecord::Base
   belongs_to :concept
   belongs_to :form, :foreign_key => 'dosage_form', :class_name => 'Concept'
   has_many :drug_substances, :through => :drug_ingredient
+  has_many :drug_orders, :foreign_key => :drug_inventory_id
   named_scope :active, :conditions => ['retired = 0']
   
   # Eventually this needs to be a lookup into a drug_packs table

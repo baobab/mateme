@@ -194,7 +194,13 @@ class Patient < ActiveRecord::Base
     previous_visits = self.visits.all - self.visits.current
   end
 
-  def previous_visits_diagnoses(concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id])
+  def previous_visits_diagnoses(concept_ids = [
+        ConceptName.find_by_name("DIAGNOSIS").concept_id, 
+        ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, 
+        ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, 
+        ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, 
+        ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id])
+    
     self.previous_visits.map{|visit| visit.encounters.active.map{|encounter|
         encounter.observations.active.all(
           :conditions => ["obs.concept_id IN (?)", concept_ids])
@@ -202,7 +208,11 @@ class Patient < ActiveRecord::Base
   end
 
   def visit_diagnoses
-    concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]
+    concept_ids = [ConceptName.find_by_name("DIAGNOSIS").concept_id, 
+      ConceptName.find_by_name("DIAGNOSIS, NON-CODED").concept_id, 
+      ConceptName.find_by_name("PRIMARY DIAGNOSIS").concept_id, 
+      ConceptName.find_by_name("SECONDARY DIAGNOSIS").concept_id, 
+      ConceptName.find_by_name("ADDITIONAL DIAGNOSIS").concept_id]
     visit_hash = Hash.new()
     self.previous_visits.each{|visit|
       visit_hash[visit.visit_id] = visit.encounters.active.map{|encounter|

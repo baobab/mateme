@@ -1,6 +1,6 @@
 class PatientsController < ApplicationController
   def show
-    # raise request.referrer.to_yaml    
+    # raise session.to_yaml    
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     
     redirect_to "/encounters/referral?patient_id=#{@patient.id}" and return if request.referrer.match(/\/people/)      
@@ -322,10 +322,21 @@ class PatientsController < ApplicationController
     @patient_ID = params[:patient_id]  #--removedas I am only passing the patient_id  || params[:id] || session[:patient_id]
     @patient = Patient.find(@patient_ID) rescue nil 
     @remote_visit_diagnoses = @patient.remote_visit_diagnoses rescue nil
-    @remote_visit_treatments = @patient.remote_visit_treatments
+    @remote_visit_treatments = @patient.remote_visit_treatments rescue nil
     @local_diagnoses = @patient.visit_diagnoses
     @local_treatments = @patient.visit_treatments
    
+    @past_local_cases = {}    
+    @patient.encounters.past.each{|e| 
+      @past_local_cases[e.encounter_datetime.strftime("%Y-%m-%d")] = {}      
+      }
+    
+    @patient.encounters.past.each{|e| 
+      @past_local_cases[e.encounter_datetime.strftime("%Y-%m-%d")][e.name] = e.to_s # e.observations.collect{|o| o.answer_string}      
+      }
+    
+    @past_local_cases = @past_local_cases.sort.reverse!
+    
     render :layout => false
     
   end
@@ -333,8 +344,11 @@ class PatientsController < ApplicationController
   def current_encounters
     @patient_id = params[:patient_id]
     @patient = Patient.find(@patient_id)
-    @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
-    @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+    # @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
+    # @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
+    
+    @encounters = @patient.encounters.current rescue []
+    @encounter_names = @patient.encounters.current.map{|encounter| encounter.name}.uniq rescue []    
 
     # raise @encounters.to_yaml
     
@@ -376,7 +390,18 @@ class PatientsController < ApplicationController
     #find patient object and arv number
     @patient_id = params[:patient_id]
     @patient = Patient.find(@patient_id) rescue nil
-    @remote_art_info = @patient.get_remote_art_info
+    @remote_art_info = @patient.get_remote_art_info rescue nil
+    
+    @past_local_cases = {}    
+    @patient.encounters.past.each{|e| 
+      @past_local_cases[e.encounter_datetime.strftime("%Y-%m-%d")] = {}      
+      }
+    
+    @patient.encounters.past.each{|e| 
+      @past_local_cases[e.encounter_datetime.strftime("%Y-%m-%d")][e.name] = e.to_s # e.observations.collect{|o| o.answer_string}      
+      }
+    
+    @past_local_cases = @past_local_cases.sort.reverse!
     
     render :layout => false
   end

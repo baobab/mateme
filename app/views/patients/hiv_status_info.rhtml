@@ -1,22 +1,35 @@
 <style type="text/css" >
-.mytableborder {
-border-top:1px dotted ;
-border-right:1px dotted ;
-border-bottom:1px dotted ;
-border-left:1px dotted ;
-font-size:9pt;
-/*background-color: #660000;*/
-}
-.outstanding{
-  font-weight: bold ;
-}
+  .mytableborder {
+    /*border-top:1px dotted ;
+    border-right:1px dotted ;
+    border-bottom:1px dotted ;
+    border-left:1px dotted ;
+    font-size:9pt;
+    background-color: #660000;*/
+  }
+  .outstanding{
+    font-weight: bold ;
+  }
+
+  td {
+    border: 1px solid #eee;
+    vertical-align: top;
+    font-size: 1.0em;
+  }
 </style>
 <div style="margin-top:20px;">
-  <table cellpadding="2" cellspacing="0" border ="1" width="100%">
-    <th valign="top" class="mytableborder"> <span />
-      Hiv Status info
+  <table border ="0" width="100%" cellpadding="4" cellspacing="2">
+    <th valign="top" class="mytableborder"style="background-color: #ccc; color: #333;" colspan="2">
+      HIV Status Information
     </th>
-    <tr class ="data"> <td class="mytableborder"> <span class='title'>Status : </span> </td> <td class="mytableborder"> <%= @remote_art_info rescue '' %><br/></td></tr>
+    <tr class ="data"> 
+      <td class="mytableborder" style="width: 50%;"> 
+        <span class='title'>Status: </span> 
+      </td> 
+      <td class="mytableborder"> 
+        <%= @remote_art_info rescue '' %><br/>
+      </td>
+    </tr>
 
   </table>
   <br/>

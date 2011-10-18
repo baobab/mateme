@@ -51,6 +51,7 @@ tt_cancel_show = '';
         <%  end %>
         <span id='patient_gender'><%= @patient.person.formatted_gender rescue '' %></span>
         <select id="tabs">
+<%#if @super_user%>
           <option value="/patients/current_encounters?patient_id=<%=@patient.patient_id%>">Visits Summary</option>
           <option value="/patients/past_diagnoses?patient_id=<%=@patient.patient_id%>">Medical History</option>
 
@@ -64,10 +65,19 @@ tt_cancel_show = '';
           <option value="/patients/hiv_status_info?patient_id=<%=@patient.patient_id%>"> HIV Status</option>
         </select>
         <select id="links">
+          <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</option>
+<%# end %>
+          <option value='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vital Signs</option>
           <option value='/encounters/new/outpatient_diagnosis?diagnosis_type=PRIMARY DIAGNOSIS&patient_id=<%= @patient.id -%>&diagnosis=true'>
             <%= (@category.downcase == "adults" ? "Emergency" : "OPD") %> Diagnosis</option>
+          
+          <option value='/encounters/new/procedure?patient_id=<%= @patient.id -%>'>Procedures</option>
+          
+          <% if @spine_clinician || @hmis_lab_order || @super_user || @lab %>
+              <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>-->
+            <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>
+          <% end %>
           <option value='/prescriptions/treatment?patient_id=<%= @patient.id -%>'>Treatment</option>
-          <option value='/encounters/new/vitals?patient_id=<%= @patient.id -%>'>Vitals</option>
           <option value='/encounters/new/admit_patient?patient_id=<%= @patient.id -%>'>Update Outcome</option>
           <%  if @spine_clinician  %>
             <option value='/patients/influenza?patient_id=<%= @patient.id -%>'>Influenza data</option>
@@ -79,14 +89,11 @@ tt_cancel_show = '';
           <% end %>
           <% if @spine_clinician || @hmis_lab_order || @super_user || @lab %>
             <!--<option value='/patients/specimen_labelling?patient_id=<%= @patient.id -%>'>Specimen Labelling</option>-->
-            <option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option>
+            <!--option value='/patients/new_test_set?patient_id=<%= @patient.id -%>'>Lab Orders</option-->
             <option value='/patients/print_lab_results?patient_id=<%= @patient.id -%>'>Print Lab Results</option>
             <option value='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</option>
           <% end %>
-<%#if @super_user%>
-          <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Full Demographics</option>
-<%# end %>
-          <option value='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</option>       <!--<option value='/patients/print_visit?patient_id=<%= @patient.id -%>'> Print Visit</option>-->
+      <option value='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</option>       <!--<option value='/patients/print_visit?patient_id=<%= @patient.id -%>'> Print Visit</option>-->
         </select>
 
         <!--<input type='submit' value='Finish' /> -->
