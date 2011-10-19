@@ -139,14 +139,21 @@ class Encounter < ActiveRecord::Base
 
   def to_print
     if name == 'TREATMENT'
-      o = orders.active.collect{|order| order.to_s if order.order_type_id == OrderType.find_by_name('Drug Prescribed').order_type_id}.join("\n")
+      o = orders.active.collect{|order| order.to_s if order.order_type_id == OrderType.find_by_name('Drug Order').order_type_id}.join("\n")
       o = "TREATMENT NOT DONE" if self.patient.treatment_not_done
       o = "No prescriptions have been made" if o.blank?
       o
+    elsif name == "PROCEDURES DONE"
+      procs = ["Procedures: "]
+      procs << observations.collect{|observation| observation.answer_string}.join(";")
+      procs
     elsif name == 'UPDATE HIV STATUS'
       'Hiv Status: ' + patient.hiv_status.to_s
     elsif name == 'DIAGNOSIS'
-      observations.collect{|observe| "Primary Diagnosis: #{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'PRIMARY DIAGNOSIS'}
+      obs = ["Diagnoses: "]
+      obs << observations.collect{|observe| 
+        "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'DIAGNOSIS'}.join(";")
+      obs
     end  
   end
 
@@ -197,9 +204,9 @@ class Encounter < ActiveRecord::Base
     encounter_types_hash = encounter_types.inject({}) {|result, row| result[row.encounter_type_id] = row.name; result }
     with_scope(:find => opts) do
       rows = self.all(
-         :select => 'count(*) as number, encounter_type', 
-         :group => 'encounter.encounter_type',
-         :conditions => ['encounter_type IN (?)', encounter_types.map(&:encounter_type_id)]) 
+        :select => 'count(*) as number, encounter_type', 
+        :group => 'encounter.encounter_type',
+        :conditions => ['encounter_type IN (?)', encounter_types.map(&:encounter_type_id)]) 
       return rows.inject({}) {|result, row| result[encounter_types_hash[row['encounter_type']]] = row['number']; result }
     end     
   end

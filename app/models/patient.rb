@@ -107,11 +107,13 @@ class Patient < ActiveRecord::Base
     label.font_horizontal_multiplier = 1
     label.font_vertical_multiplier = 1
     label.left_margin = 50
-    encs = self.last_visit.encounters.active
+    # encs = self.last_visit.encounters.active
+    encs = self.encounters.current
     enc_names = encs.map{|encounter| encounter.name}.uniq rescue []
     return nil if encs.blank?
     
-    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")} - #{encs.last.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
+    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}" +
+        " - #{encs.last.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)
     
     enc_names.each{|name|
       next if ["Registration", "Admit patient", "Update outcome"].include?(name.humanize)
@@ -119,7 +121,10 @@ class Patient < ActiveRecord::Base
           label.draw_multi_text("#{encounter.to_print}", :font_reverse => false) if encounter.name == name
         end
     }
-    label.draw_multi_text("Seen by: #{User.current_user.name rescue ''} at #{GlobalProperty.find_by_property('facility.short_name').property_value rescue ''} #{UserProperty.find_by_property_and_user_id('last_login_location', User.current_user.user_id).property_value rescue ''}", :font_reverse => true)
+    label.draw_multi_text("Seen by: #{User.current_user.name rescue ''} at " + 
+          " #{GlobalProperty.find_by_property('facility.short_name').property_value rescue ''}" + 
+          " #{UserProperty.find_by_property_and_user_id('last_login_location', 
+        User.current_user.user_id).property_value rescue ''}", :font_reverse => true)
     label.print(1)
   end
 

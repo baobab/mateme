@@ -1,6 +1,7 @@
 class EncountersController < ApplicationController
 
   def create
+    # raise params.to_yaml
     
     diagnoses = JSON.parse(params['final_diagnosis']).delete_if{|x| x=="<br>"} rescue []
 
@@ -101,8 +102,15 @@ class EncountersController < ApplicationController
   def new
     @facility_outcomes =  GlobalProperty.find_by_property("facility.outcomes").property_value.split(",") rescue []
     
-    @procedures =  GlobalProperty.find_by_property("facility.procedures").property_value.split(",") rescue []
-    # raise @facility_outcomes.to_yaml
+    @procedures = []
+    @proc =  GlobalProperty.find_by_property("facility.procedures").property_value.split(",") rescue []
+    
+    @proc.each{|proc|
+      proc_concept = ConceptName.find_by_name(proc, :conditions => ["voided = 0"]).concept_id rescue nil
+      @procedures << [proc, proc_concept] if !proc_concept.nil?
+    }
+        
+    # raise @procedures.to_yaml
     
     @new_hiv_status = params[:new_hiv_status]
 

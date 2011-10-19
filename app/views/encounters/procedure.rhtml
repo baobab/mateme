@@ -18,11 +18,78 @@
     :tt_pageStyleclass => "LongListSelect",
     :helpText => 'Procedure Done'
   } %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedures), options)%>
+  <%= select_tag("proc_done", options_for_select(@procedures), options)%>
 
+  <% counter = 0 %>
+  <% @procedures.each do |procedure| %>
+
+    <% options = {
+      :id => "proc_done_" + counter.to_s
+    } %>
+
+    <% if procedure[0].upcase != "OTHER" %>
+
+      <%= hidden_field_tag("observations[][value_coded_or_text]", nil, options) %>
+      <%= hidden_field_tag("observations[][concept_name]", "PROCEDURE DONE") %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
+
+    <% end %>
+
+    <% counter = counter + 1 %>
+  <% end %>  
+
+  <% options = {
+    :id => "other_proc_done",
+    :field_type => 'text',
+    :helpText => 'Other Procedure Done',
+    :condition => "getSelected().match(/OTHER/i)"
+  } %>
+
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
   <%= hidden_field_tag("observations[][concept_name]", "PROCEDURE DONE") %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
 
   <%= submit_tag "Finish" %> 
 </form>
+
+<script type="text/javascript" language="javascript" defer="true">
+  <!--
+    
+  var counter = <%= counter rescue -1 %>;
+  var procedures = [<%= "'" + @procedures.collect{|p| p[0]}.join("', '") + "'" %>];
+  
+  function setup(){
+    if(counter > 0){
+      for(var i = 0; i < counter; i++){        
+        document.getElementById(i).setAttribute("index", i);
+        
+        document.getElementById(i).onclick = function(){
+          if(__$("proc_done_" + this.getAttribute("index"))){
+            if(this.style.backgroundColor != "" || this.style.backgroundColor == "lightblue"){
+              __$("proc_done_" + this.getAttribute("index")).value = procedures[parseInt(this.getAttribute("index"))];
+            } else {
+              __$("proc_done_" + this.getAttribute("index")).value = "";
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  function getSelected(){
+    var choices = "";
+
+    for(var o = 0; o < __$('proc_done').options.length; o++){
+      if(__$('proc_done').options[o].selected == true){
+        choices += __$('proc_done').options[o].innerHTML + " ";
+      }
+    }
+
+    return choices;
+  }
+  
+  setTimeout("setup()", 1000);
+  //-->
+</script>
