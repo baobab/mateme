@@ -14,7 +14,7 @@
     <div id="facility">QECH</div>
     <div id="location"><%= @location %></div>
     <div id="user"><%=current_user.name%></div>
-    <div id="date"><%=Date.today%></div>
+    <div id="date"><%= (session[:datetime].strftime("%Y-%m-%d") rescue Date.today.strftime("%Y-%m-%d")) %></div>
 
     <base target="_parent" />
 

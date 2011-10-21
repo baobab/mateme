@@ -545,6 +545,10 @@ EOF
     return locations.split("\n")
   end
 
+  def self.current_health_center
+    @@current_health_center ||= Location.find(GlobalProperty.find_by_property("current_health_center_id").property_value) rescue self.current_location
+  end
+
   @@location_list = initialize_location_list()
 
 end

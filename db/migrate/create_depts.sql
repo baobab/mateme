@@ -6,7 +6,7 @@ insert into role values ("Paediatrics", "QECH user belongs to OPD Paediatrics de
 
 DELETE FROM global_property WHERE property = "facility.login_wards";
 
-INSERT INTO global_property (property, property_value, description) VALUES ("facility.login_wards", "AETC, Paeds A and E,Clinics,Medical,Surgical,Obs and Gynae,Psychiatry,Pharmacy,Laboratory,Managers,Spine", "") ON DUPLICATE KEY UPDATE property = "facility.login_wards";
+INSERT INTO global_property (property, property_value, description) VALUES ("facility.login_wards", "AETC,Paeds A and E,Clinics,Medical,Surgical,Obs and Gynae,Psychiatry,Pharmacy,Laboratory,Managers,Spine", "") ON DUPLICATE KEY UPDATE property = "facility.login_wards";
 
 DELETE FROM location WHERE name IN ("AETC", "Paeds A and E","Clinics","Medical","Surgical","Obs and Gynae","Psychiatry","Pharmacy","Laboratory","Managers","Spine");
 

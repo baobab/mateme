@@ -42,6 +42,7 @@ mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_depts.
 # mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_person_name_code.sql
 # mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_sessions.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_wards.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_preferred_names.sql
 # mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_weight_for_heights.sql
 # mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_weight_height_for_ages.sql
 

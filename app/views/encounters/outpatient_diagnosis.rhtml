@@ -12,7 +12,9 @@
 
   <% end %>
 
-  <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", 
+    ((!@outcome.nil? ? (@outcome.upcase.eql?("ADMITTED") ? "ADMISSION DIAGNOSIS" : "DISCHARGE DIAGNOSIS") : 
+          "DIAGNOSIS")) %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", session[:datetime] ||=  DateTime.now() %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
@@ -35,16 +37,18 @@
 
 <%# This options hash allows us to define our options in one place %>
   <% options = {
-    :helpText => "#{(@category.downcase == "adults" ? "Emergency" : "Outpatient")} diagnosis",
+    :helpText => "#{((!@outcome.nil? ? (@outcome.upcase.eql?("ADMITTED") ? "Admission" : "Discharge") : 
+          (@category.downcase == "adults" ? "Emergency" : "Outpatient")))} diagnosis",
     :allowFreeText => 'true',
     :ajaxURL => "/encounters/diagnoses?search_string=",
     :textCase => "upper" } %>
 
   <label for='observations[][value_coded_or_text]'>
-    <%= (@category.downcase == "adults" ? "Emergency" : "Outpatient") %> diagnosis
+    <%= ((!@outcome.nil? ? (@outcome.upcase.eql?("ADMITTED") ? "Admission" : "Discharge") : 
+          (@category.downcase == "adults" ? "Emergency" : "Outpatient"))) %> diagnosis
   </label>
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
-  <%= hidden_field_tag("observations[][value_text]", nil) %>
+  <%#= hidden_field_tag("observations[][value_text]", nil) %>
   <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
@@ -62,37 +66,114 @@
     }
   </script>
 
-  <% 4.times do |counter| %>
-    <% options[:condition] = "tstFormElements[#{counter}].value != ''" if counter > 0 %>
-    <% counter += 1 %>
-    <% options[:helpText] = "Additional diagnosis" %>
-    <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
-    <%= hidden_field_tag("observations[][value_text]", nil) %>
-    <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
-    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
-  <% end %>
+<%# optionsxtra[:condition] = "tstFormElements[0].value == '#{diagnosis}' || " + 
+"tstFormElements[1].value == '#{diagnosis}' || " + 
+"tstFormElements[2].value == '#{diagnosis}' || " + 
+"tstFormElements[3].value == '#{diagnosis}' || " + 
+" tstFormElements[4].value == '#{diagnosis}'" %>
 
-  <% options = {
+  <% optionsxtra = {
     :allowFreeText => 'true',
     :textCase => "upper" } %>
 
+  <% total_counter = 0 %>
   <% @diagnoses.each do |diagnosis_set| 
     diagnosis = diagnosis_set[0]
+
+    total_counter += 1
   %>
 
-    <% options[:condition] = "tstFormElements[0].value == '#{diagnosis}' || " + 
-              "tstFormElements[1].value == '#{diagnosis}' || " + 
-              "tstFormElements[2].value == '#{diagnosis}' || " + 
-              "tstFormElements[3].value == '#{diagnosis}' || " + 
-              " tstFormElements[4].value == '#{diagnosis}'" %>
-  
-    <% options[:helpText] = "Type of " + diagnosis.titleize %>
-    <%= select_tag("observations[][value_coded_or_text]", @diagnoses[diagnosis], options) %>
-    <%= hidden_field_tag("observations[][value_text]", nil) %>
-    <%= hidden_field_tag("observations[][concept_name]", diagnosis, options) %>
+    <% optionsxtra[:condition] = "tstFormElements[0].value == '#{diagnosis}'" %>
+
+    <% optionsxtra[:helpText] = "Type of " + diagnosis.titleize %>
+    <%= select_tag("observations[][value_coded_or_text]", @diagnoses[diagnosis], optionsxtra) %>
+    <%#= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", diagnosis, optionsxtra) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
+
+  <% end %>
+
+
+  <% optionsxtra = {
+    :field_type => 'text',
+    :helpText => 'Specify',
+    :condition => "tstFormElements[0].value.toUpperCase() == 'OTHER' " +
+      "|| tstFormElements[0].value.toUpperCase() == 'ABSCESS' "  +
+      "|| tstFormElements[0].value.toUpperCase() == 'ALL OTHER COMMUNICABLE DISEASES' "  +
+      "|| tstFormElements[0].value.toUpperCase() == 'ALL OTHER NON-COMMUNICABLE DISEASES' " +
+      "|| tstFormElements[0].value.toUpperCase() == 'ALL OTHER SURGICAL CONDITIONS' "   +
+      "|| tstFormElements[0].value.toUpperCase() == 'GYNAECOLOGICAL DISORDERS' "  +
+      "|| tstFormElements[0].value.toUpperCase() == 'OPPORTUNISTIC INFECTIONS' "  +
+      "|| tstFormElements[0].value.toUpperCase() == 'OTHER HEART DISEASES' "  +
+      "|| tstFormElements[0].value.toUpperCase() == 'OTHER SKIN CONDITION' " 
+  } %>
+
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, optionsxtra) %>
+  <%= hidden_field_tag("observations[][concept_name]", "SPECIFY") %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
+  <% total_counter += 1 %>
+
+  <% previous_count = 0 %>
+  <% 4.times do |counter| %>
+    <% total_counter += 1 
+    level_count = total_counter
+    counter += 1
+  %>
+
+    <% options[:condition] = "tstFormElements[#{previous_count}].value != ''" if counter > 0 %>
+
+    <% options[:helpText] = "Additional diagnosis" %>
+    <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+    <%#= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
+
+    <% optionsxtra = {
+      :allowFreeText => 'true',
+      :textCase => "upper" } %>
+
+    <% @diagnoses.each do |diagnosis_set| 
+      diagnosis = diagnosis_set[0]
+      total_counter += 1
+    %>
+
+      <% optionsxtra[:condition] = "tstFormElements[#{level_count}].value == '#{diagnosis}'" %>
+
+      <% optionsxtra[:helpText] = "Type of " + diagnosis.titleize %>
+      <%= select_tag("observations[][value_coded_or_text]", @diagnoses[diagnosis], optionsxtra) %>
+      <%#= hidden_field_tag("observations[][value_text]", nil) %>
+      <%= hidden_field_tag("observations[][concept_name]", diagnosis, optionsxtra) %>
+      <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+      <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>
+
+    <% end 
+  %>
+
+    <% optionsxtra = {
+      :field_type => 'text',
+      :helpText => 'Specify',
+      :condition => "tstFormElements[#{level_count}].value == 'OTHER'" +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'ABSCESS' "  +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'ALL OTHER COMMUNICABLE DISEASES' "  +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'ALL OTHER NON-COMMUNICABLE DISEASES' " +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'ALL OTHER SURGICAL CONDITIONS' "   +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'GYNAECOLOGICAL DISORDERS' "  +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'OPPORTUNISTIC INFECTIONS' "  +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'OTHER HEART DISEASES' "  +
+      "|| tstFormElements[#{level_count}].value.toUpperCase() == 'OTHER SKIN CONDITION' " 
+    } %>
+
+    <%= text_field_tag("observations[][value_coded_or_text]", nil, optionsxtra) %>
+    <%= hidden_field_tag("observations[][concept_name]", "SPECIFY") %>
+    <%#= hidden_field_tag("observations[][value_text]", nil) %>
+    <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", session[:datetime] ||=  DateTime.now()) %>  
+    <% total_counter += 1 %>
+  
+    <% previous_count = level_count%>
 
   <% end %>
 

@@ -2,9 +2,10 @@ class Encounter < ActiveRecord::Base
   set_table_name :encounter
   set_primary_key :encounter_id
   include Openmrs
+  
   # TODO, this needs to account for current visit, which needs to account for possible retrospective entry
   named_scope :current, :conditions => "DATE(encounter.encounter_datetime) = CURRENT_DATE() AND encounter.voided = 0"
-  named_scope :past, :conditions => 'DATE(encounter.encounter_datetime) < CURRENT_DATE() AND encounter.voided = 0', 
+  named_scope :past, :conditions => "DATE(encounter.encounter_datetime) < CURRENT_DATE() AND encounter.voided = 0", 
     :order => "encounter.encounter_datetime"
   
   named_scope :active, :conditions => 'encounter.voided = 0'
@@ -152,7 +153,8 @@ class Encounter < ActiveRecord::Base
     elsif name == 'DIAGNOSIS'
       obs = ["Diagnoses: "]
       obs << observations.collect{|observe| 
-        "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if observe.concept.name.name == 'DIAGNOSIS'}.join(";")
+        "#{observe.answer_concept.name.name}" rescue "#{observe.value_text}" if (observe.concept.name.name == 'DIAGNOSIS' || 
+            observe.concept.name.name == 'ADMISSION DIAGNOSIS' || observe.concept.name.name == 'DISCHARGE DIAGNOSIS')}.join(";")
       obs
     end  
   end

@@ -3,7 +3,7 @@ class PatientsController < ApplicationController
     # raise session.to_yaml    
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     
-    redirect_to "/encounters/referral?patient_id=#{@patient.id}" and return if request.referrer.match(/\/people/)      
+    redirect_to "/encounters/referral?patient_id=#{@patient.id}" and return if (request.referrer.match(/\/people/) && !@patient.encounters.current.collect{|e| e.name}.include?("IS PATIENT REFERRED?"))
     
     #find the user priviledges
     @super_user = false

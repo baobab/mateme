@@ -1,7 +1,7 @@
 class EncountersController < ApplicationController
 
   def create
-    # raise params.to_yaml
+    # raise request.referrer.to_yaml
     
     diagnoses = JSON.parse(params['final_diagnosis']).delete_if{|x| x=="<br>"} rescue []
 
@@ -90,7 +90,12 @@ class EncountersController < ApplicationController
       if(params[:next_url] == "prescriptions")
         redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
       else
-        redirect_to params[:next_url] and return
+        if request.referrer.match(/\/admit_patient/)
+          redirect_to params[:next_url] + "&outcome=" + params["outcome"] and return
+        else
+          redirect_to params[:next_url] and return
+        end
+        
       end      
     else
       # redirect_to "/prescriptions/treatment?patient_id=#{@patient.id}"
@@ -100,7 +105,11 @@ class EncountersController < ApplicationController
   end
 
   def new
-    @facility_outcomes =  GlobalProperty.find_by_property("facility.outcomes").property_value.split(",") rescue []
+    @outcome = params[:outcome] rescue nil
+    
+    # raise @outcome.nil?.to_yaml
+    
+    @facility_outcomes =  [' '] + GlobalProperty.find_by_property("facility.outcomes").property_value.split(",") rescue []
     
     @procedures = []
     @proc =  GlobalProperty.find_by_property("facility.procedures").property_value.split(",") rescue []
@@ -132,28 +141,34 @@ class EncountersController < ApplicationController
       "ABORTION COMPLICATIONS" =>  "",
       "CANCER" => "",
       "CANDIDA" => "",
-      "CHRONIC PSYCHIATRIC DISEASE" => "",
+      "CHRONIC PSYCHIATRIC DISORDER" => "",
       "DIARRHOEA DISEASES" => "",
-      "GI BLEED" => "",
+      "FRACTURE" => "",
+      "GASTROINTESTINAL BLEED" => "",
       "MALARIA" => "",
       "MENINGITIS" => "",
-      "MUSCULOSKELETAL PAIN" => "",
+      "MUSCULOSKELETAL PAINS" => "",
       "PNEUMONIA" => "",
       "POISONING" => "",
       "RENAL FAILURE" => "",
-      "ACCIDENT, MOTOR VEHICLE" => "",
+      "ROAD TRAFFIC ACCIDENT" => "",
       "SEXUALLY TRANSMITTED INFECTION" => "",
+      "SOFT TISSUE INJURY" => "",
       "TRAUMATIC CONDITIONS" => "",
       "TUBERCULOSIS" => "",
       "ULCERS" => ""
     }
-   
+    
+    tag_id = ConceptNameTag.find_by_tag("preferred_qech_aetc_opd").concept_name_tag_id
+    
     @diagnoses.each{|diagnosis_set|
         
       diagnosis = diagnosis_set[0]
       
       @diagnoses[diagnosis] = ConceptName.find(:all, :joins => :concept, 
-        :conditions => ["concept_name.concept_id IN (?) AND voided = 0", 
+        :conditions => ["concept_name.concept_name_id IN (?) AND concept_name.concept_id IN (?) AND voided = 0", 
+          ConceptNameTagMap.find(:all, :conditions => ["concept_name_tag_id = ?", 
+              tag_id]).collect{|c| c.concept_name_id},
           ConceptSet.find(:all, :conditions => ["concept_set IN (?)",
               ConceptName.find(:all, :joins => :concept, 
                 :conditions => ["voided = 0 AND name = ?", diagnosis]).collect{|nom| nom.concept_id}]).collect{|set| 
@@ -187,8 +202,16 @@ class EncountersController < ApplicationController
       diagnosis_concept_set = ConceptName.find_by_name('MALAWI NATIONAL DIAGNOSIS').concept
       diagnosis_concepts = Concept.find(:all, :joins => :concept_sets, :conditions => ['concept_set = ?', concept_set.id], :include => [:name])
     end  
+    
+    # valid_answers = diagnosis_concepts.map{|concept| ConceptName.find(:last, :conditions => ["concept_id = ? AND concept_name_id IN (?)", concept.id, ConceptNameTagMap.find(:all, :conditions => ["concept_name_tag_id = ?", 404]).collect{|c| c.concept_name_id}]).name rescue nil}
+    tag_id = ConceptNameTag.find_by_tag("preferred_qech_aetc_opd").concept_name_tag_id
+    
     valid_answers = diagnosis_concepts.map{|concept| 
-      name = concept.name.name rescue nil
+      # name = concept.name.name rescue nil
+      name = ConceptName.find(:last, :conditions => ["concept_id = ? AND concept_name_id IN (?) AND voided = 0", 
+          concept.id, ConceptNameTagMap.find(:all, :conditions => ["concept_name_tag_id = ?", 
+              tag_id]).collect{|c| c.concept_name_id}]).name rescue nil
+      
       name.match(search_string) ? name : nil rescue nil
     }.compact
     previous_answers = []
