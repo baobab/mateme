@@ -36,9 +36,16 @@ class Drug < ActiveRecord::Base
 
   # This method gets all generic drugs in the database
   def self.generic
+    tag_id = ConceptNameTag.find_by_tag("preferred_qech_aetc_opd").concept_name_tag_id
+    
     self.all.collect {|drug|
-      [Concept.find(drug.concept_id).name.name, drug.concept_id] rescue nil
-    }.compact.uniq rescue []
+      # [Concept.find(drug.concept_id).name.name, drug.concept_id] rescue nil
+      
+      [ConceptName.find(:last, :conditions => ["concept_id = ? AND voided = 0 AND concept_name_id IN (?)", 
+            drug.concept_id, ConceptNameTagMap.find(:all, :conditions => ["concept_name_tag_id = ?", tag_id]).collect{|c| 
+              c.concept_name_id}]).name, drug.concept_id] rescue nil
+    
+    }.compact.uniq # rescue []
   end
 
   # For a selected generic drug, this method gets all corresponding drug
