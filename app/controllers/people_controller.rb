@@ -271,7 +271,8 @@ class PeopleController < ApplicationController
   end
 
   def overview
-    @types = ["REFERRED", "REGISTRATION","VITALS", "TREATMENT", "DIABETES TREATMENTS"]
+    @types = ["IS PATIENT REFERRED?", "VITALS", "DIAGNOSIS", "PROCEDURES DONE", 
+      "LAB ORDERS", "TREATMENT", "ADMISSION DIAGNOSIS", "DISCHARGE DIAGNOSIS"]
     @me = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW()) AND encounter.creator = ?', User.current_user.user_id])
     @today = Encounter.statistics(@types, :conditions => ['DATE(encounter_datetime) = DATE(NOW())'])
     @year = Encounter.statistics(@types, :conditions => ['YEAR(encounter_datetime) = YEAR(NOW())'])
