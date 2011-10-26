@@ -253,7 +253,7 @@ class Person < ActiveRecord::Base
     # add person attributes
       person_attribute_params.each{|attribute_type_name, attribute|
         attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || PersonAttributeType.find_by_name("Unknown id")
-        person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
+        person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id) if !attribute.nil?
       } if person_attribute_params
  
 # TODO handle the birthplace attribute
