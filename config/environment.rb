@@ -49,7 +49,7 @@ end
 
 
 #Setup autossh tunnels to demographic servers
-=begin  
+
 remote_user = GlobalProperty.find_by_property("demographic_server_user").property_value rescue 'unknown'
 JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value).each{|demographic_server, local_port|
   # Use ssh-copy-id for passing keys around during setup
@@ -57,7 +57,7 @@ JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_por
 
   (pid = fork) ? Process.detach(pid) : exec(command_for_starting_autossh)
 } rescue nil
-=end
+
 
 
 

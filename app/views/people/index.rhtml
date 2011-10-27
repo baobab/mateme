@@ -3,6 +3,7 @@
 </style>
 <script type="text/javascript">
   tt_cancel_destination ='/logout';
+  // tt_cancel_show = '/people/search?category=<%= (session[:location] == "Paeds A and E" ? "paeds" : "adults") %>';
   tt_cancel_show = '/people/search';
   tt_active_tab = <%="'#{@tt_active_tab}'"%>;
   tstSuppressBarcode = false;

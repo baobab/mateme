@@ -1,7 +1,7 @@
 class PeopleController < ApplicationController
   
   def index
-    # raise session.to_yaml
+    # raise session[:location].to_yaml
     
     @tt_active_tab = params[:active_tab]
     user =  User.find(session[:user_id])

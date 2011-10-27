@@ -1,6 +1,9 @@
 class PatientsController < ApplicationController
   def show
     # raise session.to_yaml    
+    
+    session["category"] = (session[:location] == "Paeds A and E" ? "paeds" : "adults")
+    
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
     
     redirect_to "/encounters/referral?patient_id=#{@patient.id}" and return if (request.referrer.match(/\/people/) && !@patient.encounters.current.collect{|e| e.name}.include?("IS PATIENT REFERRED?"))
