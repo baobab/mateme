@@ -753,6 +753,12 @@ function toggleShowProgress() {
 }
 
 function loadSelectOptions(selectOptions, options, dualViewOptions) {
+    
+    if(dualViewOptions != undefined) {
+        tstDualViewOptions = eval(dualViewOptions);
+        setTimeout("addSummary(" + selected + ")", 0);
+    }
+
     var optionsList = "<ul id='tt_currentUnorderedListOptions'>";  // <li id='default'> </li>";
     var selectOptionCount = selectOptions.length;
     var selected = -1;
@@ -778,15 +784,10 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
     optionsList += "</ul>";
     options.innerHTML = optionsList;
 
-    if(dualViewOptions != undefined) {
-        tstDualViewOptions = eval(dualViewOptions);
-        setTimeout("addSummary(" + selected + ")", 200);
-    }
-
 }
 
 function addSummary(position){
-    tstTimerHandle = setTimeout("hideKeyBoard()", 200);
+    tstTimerHandle = setTimeout("hideKeyBoard()", 0);
     
     if(__$("viewport")) {
         __$("viewport").style.height = "250px";
@@ -1888,7 +1889,8 @@ function getDatePicker() {
         ds = new DateSelector({
             element: keyboardDiv,
             target: tstInputTarget,
-            format: "dd-MMM-yyyy"
+            format: "dd-MMM-yyyy",
+            max: (maxDate ? maxDate : new Date())
         });
     }
 

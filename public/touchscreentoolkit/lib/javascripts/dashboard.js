@@ -734,19 +734,21 @@ function generateGeneralDashboard(){
 
     nav.appendChild(finish);
 
-    var logout = document.createElement("button");
-    logout.id = "btnCancel";
-    logout.innerHTML = "<span>Cancel</span>";
-    logout.className = "red";
-    logout.style.cssFloat = "left";
-    logout.style.margin = "10px";
-    logout.onclick = function(){
-        if(tt_cancel_show){
-            window.location = tt_cancel_show;
+    if(tt_cancel_show){
+        var logout = document.createElement("button");
+        logout.id = "btnCancel";
+        logout.innerHTML = "<span>Cancel</span>";
+        logout.className = "red";
+        logout.style.cssFloat = "left";
+        logout.style.margin = "10px";
+        logout.onclick = function(){
+            if(tt_cancel_show){
+                window.location = tt_cancel_show;
+            }
         }
-    }
 
-    nav.appendChild(logout);
+        nav.appendChild(logout);
+    }
 
     main.innerHTML += page;
 
