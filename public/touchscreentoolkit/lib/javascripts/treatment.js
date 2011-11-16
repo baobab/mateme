@@ -252,7 +252,7 @@ function generateGenerics(){
     periodTopicDiv.style.fontSize = "1.5em";
     periodTopicDiv.style.height = "32px";
     periodTopicDiv.style.padding = "5px";
-    periodTopicDiv.innerHTML = "Duration";
+    periodTopicDiv.innerHTML = "Duration (Days)";
     periodTopicDiv.style.backgroundColor = "#999";
     periodTopicDiv.style.textAlign = "center";
     periodTopicDiv.style.color = "#eee";

@@ -373,4 +373,14 @@ class Person < ActiveRecord::Base
    phone_numbers.delete_if {|key, value| value == "" } 
   end
 
+  def sex
+    if self.gender == "M"
+      return "Male"
+    elsif self.gender == "F"
+      return "Female"
+    else
+      return nil
+    end
+  end
+
 end

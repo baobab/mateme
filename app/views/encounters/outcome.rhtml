@@ -17,7 +17,7 @@
      :condition => "($('select').value == 'option2')" } %>
 
   <%= select_tag("observations[][value_coded_or_text]", 
-    options_for_select(["", "ALIVE","DEAD", "TRANSFER IN", "TRANSFER OUT",
+    options_for_select(["", "ALIVE","DEAD", "TRANSFER OUT",
         "TREATMENT STOPPED"]),
     {:helpText => 'Discharge outcome'})%>
   <%= hidden_field_tag("observations[][value_text]", nil) %>

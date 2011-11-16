@@ -585,3 +585,20 @@ div.panel h2 {
     max-height: 30px;
     font-style: italic;
 }
+
+#patient-dashboard-custom {
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 0px;    
+    margin-top: 5px;
+    width: 30%;
+    height: 230px;
+    overflow: auto;
+    -moz-border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#custom_page {
+    width: 300px;
+    height: 230px;
+}

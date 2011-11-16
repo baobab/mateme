@@ -79,7 +79,7 @@ class Observation < ActiveRecord::Base
       return question if self.answer_string.downcase == 'yes'
     end
     
-    "#{question}: #{self.answer_string}"
+    "#{question}: #{self.answer_string}; "
   end
 
   def to_s_formatted

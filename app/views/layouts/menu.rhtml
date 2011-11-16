@@ -5,12 +5,15 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
 
-    <%= stylesheet_link_tag "dashboard" %>
-    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
-    <%= stylesheet_link_tag "graytabs" %>
-    <%= javascript_include_tag "dashboard" %>
-    <%= javascript_include_tag "preload" %>
-    <script type="text/javascript" language="javascript" src="/javascripts/utils.js"></script>
+    <%#= stylesheet_link_tag "dashboard" %>
+    <%#= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <%#= stylesheet_link_tag "graytabs" %>
+    <%#= javascript_include_tag "dashboard" %>
+    <%#= javascript_include_tag "preload" %>
+    <!--script type="text/javascript" language="javascript" src="/javascripts/utils.js"></script-->
+    
+    <script language="javascript" type="text/javascript" src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer="true"></script>
+
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
       tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";

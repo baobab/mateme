@@ -1,0 +1,270 @@
+.main-container {
+    height: 545px;
+    position: absolute;
+    width: 992px;
+    z-index: 20;
+    top: 5px;
+    left: 0px;
+}
+
+.diagnosis-columns{
+    height: 55%;
+    position: absolute;
+    border: dashed 1px #EEEEEE;
+    margin-left:5px;
+}
+
+#main-diagnosis{
+    left: 0%;
+    width:60%;
+}
+
+#sub-diagnosis{
+    left: 60%;
+    width: 16%;
+    margin-left:1%;
+}
+
+#frequency-select{
+    width: 93%;
+}
+
+#duration{
+    left: 77%;
+    width:23%;
+}
+
+#confirmatory-evidence{
+    left: 5%;
+    width: 90%;
+    background-color: #EEEEEE;
+    max-height: 76%;
+    position: absolute;
+    border-style: solid;
+    top:55px;
+}
+
+.diagnosis-headers{
+    width: 100%;
+    /*background-color: #BBCCD9;
+    height: 5%;*/
+    position: absolute;
+    font-style: bold;
+    padding-left: 5px;
+    padding-top: 5px;
+    font-size: 1.2em;
+}
+
+.drug-inputbox-div{
+    width: 100%;
+    height: 8%;
+    position: absolute;
+    font-style: bold;
+    top: 5%;
+}
+
+
+.drug-inputbox{
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom: 1px solid silver;
+    border-top: 1px solid silver;
+    border-left: 1px solid silver;
+    border-right: 1px solid silver;
+    margin-left: 1%;
+    width:98%;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:1.8em;
+    background:none;
+    padding-left:5px;
+    background-color:#EEEEEE;
+    margin-bottom: 3px;
+}
+
+.drugBarClass {
+    -moz-user-select:none;
+    color:black;
+    font-size:1.3em;
+    margin-left:1%;
+    margin-bottom: 2px;
+    padding-top:5px;
+    width:98.5%;
+    border-top:2px dotted;
+    border-bottom:2px dotted;
+    height:90px;
+    background-color:honeydew;
+    overflow:auto;
+}
+
+.notify-div{
+    width: 100%;
+    /*height: 8%;*/
+    position: absolute;
+    font-style: bold;
+    top: 5%;
+}
+
+.drug-select-div{
+    width: 100%;
+    height: 88%;
+    position: absolute;
+    top: 10%;
+    overflow:auto;
+    margin-left: 5px;
+    /*border:ridge 3px #EEEEEE;
+    background: #BBCCD9;*/
+}
+
+#duration-parent{
+    width: 95%;
+    border: 1px solid #EEEEEE;
+}
+
+.drug-select{
+    width:98%;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:1.4em;
+    padding:0;
+    margin:0;
+    size: 10;
+    height: 100%;
+    /*background: #BBCCD9;*/
+}
+
+.drug-select option {
+    word-wrap: normal;
+}
+
+.simple-keyboard{
+    position: absolute;
+    font-style: bold;
+    top: 82%;
+    z-index: 1005;
+    left:30%;
+}
+
+.simple-button {
+    margin: 0px;
+}
+
+.diagnosisBar {
+    font-size: 1.5em;
+    text-align: left;
+    background-color: Turquoise;
+    max-height: 255px;
+    overflow:auto;
+}
+
+.diagnosisBarDiv {
+    left: 250px;
+    width: 670px;
+    position: absolute;
+    top: 130px;
+    background-color: Turquoise;
+    z-index: 1002;
+    border: 3px solid #25a099;
+    display: none;
+}
+
+.notify-span{
+    font-size: 1.3em;
+    color: tomato;
+}
+
+.confirmatory-evidence-select-div{
+    width: 100%;
+    overflow:auto;
+}
+
+.confirmatory-evidence-select{
+    width:100%;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:1.4em;
+    padding:0;
+    margin:0;
+    size: 10;
+    max-height: 100px;
+}
+
+.confirmatory-evidence-select option {
+    word-wrap: normal;
+}
+
+.confirmatory-evidence-headers{
+    width: 100%;
+    background-color: #BBCCD9;
+    height: 8%;
+    font-style: bold;
+    font-size:1.5em;
+}
+
+#duration-div{
+    width:52%;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:1.4em;
+    padding:0;
+    margin:0;
+    size: 10;
+    height: 100%;
+    position: relative;
+    float: left;
+    /*border: 1px #EEEEEE solid;*/
+}
+
+#duration-values{
+    width:40%;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:1.4em;
+    padding:0;
+    margin:0;
+    size: 10;
+    height: 100%;
+    position: relative;
+    float: left;
+    border-left: 1px #EEEEEE solid;
+    margin-left:5px;
+}
+
+.selections{
+    cursor:pointer;
+    padding-left:30px;
+    font-style:italic;
+}
+
+.btn {
+    min-height: 40px;
+    margin: 0px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #6281a7;
+    color: #FFF;
+    font-weight: normal;
+    border: 5px outset #000;
+    padding: 9px;
+    cursor: pointer;
+    background:url(../images/btn_blue.png) right repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+    -moz-border-radius: 12px;
+}
+
+.btn:hover {
+    background:url(../images/btn_blue_hover.png) right repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.btn:active {
+    background:url(../images/btn_yellow.png) right repeat;
+    border: 3px inset #000;
+}
+
+
+
+
+
+
+
+
+

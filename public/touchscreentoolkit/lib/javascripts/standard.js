@@ -181,7 +181,7 @@ function createInputPage(pageNumber){
     // create back button if not on first page
     if (pageNumber>0) {
         var prevPageNo = pageNumber-1;
-        backButton.setAttribute("onMouseDown", "gotoPage("+prevPageNo+")");
+        backButton.setAttribute("onMouseDown", "gotoPage("+prevPageNo+", null, true)");
         backButton.style.display = 'block';
     } else {
         backButton.style.display = 'none';
@@ -745,7 +745,8 @@ function toggleShowProgress() {
         progressAreaBody.style.overflow = 'scroll';
         progressArea.style.display = 'block';
         showProgressButton.innerHTML = 'Hide Data';
-    } else {
+    }
+    else {
         progressAreaBody.style.overflow = 'hidden';
         progressArea.style.display = 'none';
         showProgressButton.innerHTML = 'Show Data';
@@ -753,7 +754,13 @@ function toggleShowProgress() {
 }
 
 function loadSelectOptions(selectOptions, options, dualViewOptions) {
-    var optionsList = "<ul id='tt_currentUnorderedListOptions'><li id='default'> </li>";
+    
+    if(dualViewOptions != undefined) {
+        tstDualViewOptions = eval(dualViewOptions);
+        setTimeout("addSummary(" + selected + ")", 0);
+    }
+
+    var optionsList = "<ul id='tt_currentUnorderedListOptions'>";  // <li id='default'> </li>";
     var selectOptionCount = selectOptions.length;
     var selected = -1;
 
@@ -765,28 +772,37 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
 
         // inherit mouse down options
         mouseDownAction = selectOptions[j].getAttribute("onmousedown")
-        mouseDownAction += '; updateTouchscreenInputForSelect(this); ' + (dualViewOptions ? 'changeSummary(this.id);' : '');
-
-        optionsList += '<li id=\'' + (j-1) + '\' onmousedown="'+ mouseDownAction +'"';
+        mouseDownAction += '; updateTouchscreenInputForSelect(' +
+        (tstFormElements[tstCurrentPage].getAttribute("multiple") ? '__$(\'optionValue\' + this.id), this' : 'this') + '); ' + 
+        (dualViewOptions ? 'changeSummary(this.id);' : '');
+        
+        optionsList += '<li id=\'' + (j-1) + '\' ';
         if (selectOptions[j].value) {
             optionsList += " id='option"+selectOptions[j].value +"' tstValue='"+selectOptions[j].value +"'";
             selected = j;
-        }
+        } 
+        
+        // optionsList += (j % 2 == 0 ? " class='odd' tag='odd' " : " class='even' tag='even'") + 
+        // ' onmousedown="'+ mouseDownAction +'"';
+    
+        optionsList += (j % 2 == 0 ? " class='odd' tag='odd' " : " class='even' tag='even'") + 
+            ' onclick="' + mouseDownAction + '" ';
+        
         // njih
-        optionsList += ">" + selectOptions[j].text + "</li>\n";
+        optionsList += ">" + (tstFormElements[tstCurrentPage].getAttribute("multiple") ? 
+            "<div style='display: table; border-spacing: 0px;'><div style='display: table-row'>" + 
+            "<div style='display: table-cell;'><img id='img" + (j-1) + "' src='/touchscreentoolkit/lib/images/unticked.jpg' alt='[ ]' />" + 
+            "</div><div style='display: table-cell; vertical-align: middle; " + 
+            "text-align: left; padding-left: 15px;' id='optionValue"  + (j-1) + "'>" : "") + 
+        selectOptions[j].text + "</div></div></div></li>\n";
     }
     optionsList += "</ul>";
     options.innerHTML = optionsList;
 
-    if(dualViewOptions != undefined) {
-        tstDualViewOptions = eval(dualViewOptions);
-        setTimeout("addSummary(" + selected + ")", 200);
-    }
-
 }
 
 function addSummary(position){
-    tstTimerHandle = setTimeout("hideKeyBoard()", 200);
+    tstTimerHandle = setTimeout("hideKeyBoard()", 0);
     
     if(__$("viewport")) {
         __$("viewport").style.height = "250px";
@@ -899,7 +915,7 @@ function unhighlight(element){
 }
 
 //TODO make these into 1 function
-function updateTouchscreenInputForSelect(element){
+function updateTouchscreenInputForSelect(element, parentElement){
     
     var inputTarget = tstInputTarget;
     var multiple = inputTarget.getAttribute("multiple") == "multiple";
@@ -907,11 +923,13 @@ function updateTouchscreenInputForSelect(element){
     if (multiple) {
         var val_arr = inputTarget.value.split(tstMultipleSplitChar);
         var val = "";
-        if (element.value.length>1)
-            val = element.value;
+        
+        if (element.innerHTML.length>1)
+            val = unescape(element.innerHTML);        
         // njih
-        else if (element.innerHTML.length>1)
-            val = unescape(element.innerHTML);
+        else if (element.value.length>1)
+            val = element.value;
+        
         // Check if the item is already included
         var idx = val_arr.toString().indexOf(val);
         if (idx == -1)
@@ -923,13 +941,17 @@ function updateTouchscreenInputForSelect(element){
         if (inputTarget.value.indexOf(tstMultipleSplitChar) == 0)
             inputTarget.value = inputTarget.value.substring(1, inputTarget.value.length);
     } else {
-        if (element.value.length>1)
+        if (element.value.length>1){
             inputTarget.value = element.value;
-        else if (element.innerHTML.length>1)
+        }
+        else if (element.innerHTML.length>0){
             inputTarget.value = element.innerHTML;
+        }
     }
 
-    highlightSelection(element.parentNode.childNodes, inputTarget)
+    highlightSelection(element.parentNode.childNodes, inputTarget, 
+        (parentElement ? parentElement.childNodes : null))
+            
     tt_update(inputTarget);
     checkRequireNextClick();
 }
@@ -971,7 +993,7 @@ function valueIncludedInOptions(val, options) {
     return false;
 }
 
-function optionIncludedInValue(opt, val_arr) {
+function optionIncludedInValue(opt, val_arr) {  
     // If lots of things are selected this could be bad... but indexOf is js
     // 1.6+
     for (var i = 0; i < val_arr.length; i++) {
@@ -981,24 +1003,44 @@ function optionIncludedInValue(opt, val_arr) {
 }
 
 function highlightSelection(options, inputElement){
-
     var val_arr = new Array();
     var multiple = inputElement.getAttribute("multiple") == "multiple";
     if (multiple)
         val_arr = inputElement.value.split(tstMultipleSplitChar);
     else
         val_arr.push(inputElement.value);
-    for(i=0;i<options.length;i++){
+        
+    for(i=0;i<options.length;i++){    
         if(options[i].style){
             // njih
             if(optionIncludedInValue(unescape(options[i].innerHTML), val_arr)){
                 options[i].style.backgroundColor = "lightblue"
+                
+                if(tstFormElements[tstCurrentPage].getAttribute("multiple")){
+                    var id = options[i].id.match(/optionValue(\d+)$/);
+                    
+                    if(id){
+                        __$(id[1]).style.backgroundColor = "lightblue"
+                        __$("img" + id[1]).src = "/touchscreentoolkit/lib/images/ticked.jpg";
+                    }            
+                }
+        
                 if (options[i].getAttribute("tstValue")) {
                     inputElement.setAttribute("tstValue", options[i].getAttribute("tstValue"));
                 }
             }
             else{
-                options[i].style.backgroundColor = ""
+                options[i].style.backgroundColor = ""   
+                
+                if(tstFormElements[tstCurrentPage].getAttribute("multiple")){
+                    var id = options[i].id.match(/optionValue(\d+)$/);
+                    
+                    if(id){
+                        __$(id[1]).style.backgroundColor = ""
+                        __$("img" + id[1]).src = "/touchscreentoolkit/lib/images/unticked.jpg";
+                    }            
+                }
+        
             }
         }
     }
@@ -1063,14 +1105,25 @@ function handleResult(optionsList, aXMLHttpRequest) {
     }
 }
 
-function tt_update(sourceElement){
+function tt_update(sourceElement, navback){
     var sourceValue = null;
     if (!sourceElement) return;
 
-    if (sourceElement.getAttribute("tstValue")) {
-        sourceValue = sourceElement.getAttribute("tstValue");
+    var condition = sourceElement.getAttribute("condition");
+        
+    if (sourceElement.getAttribute("tstValue")) {        
+        // skip destination page when a condition is false
+        if (condition && navback == true) {
+            sourceValue = "";            
+        } else {
+            sourceValue = sourceElement.getAttribute("tstValue");
+        }                
     } else {
-        sourceValue = sourceElement.value;
+        if (condition && navback == true) {
+            sourceValue = "";            
+        } else {
+            sourceValue = sourceElement.value;
+        }
     }
 
     var targetElement = returnElementWithAttributeValue("touchscreenInputID", sourceElement.getAttribute("refersToTouchscreenInputID"), tstFormElements);
@@ -1124,7 +1177,8 @@ function tt_update(sourceElement){
             var val_arr = new Array();
             if (targetElement.multiple) {
                 val_arr = sourceElement.value.split(tstMultipleSplitChar);
-            } else {
+            }
+            else {
                 val_arr.push(sourceElement.value);
             }
 
@@ -1225,15 +1279,18 @@ function joinDateValues(aDateElement) {
 
 // This detour has been added to capture alert messages that need to be displayed
 // before the next page is viewed
-function gotoPage(destPage, validate){
+function gotoPage(destPage, validate, navback){
     var currentPage = tstCurrentPage;
     var currentInput = __$("touchscreenInput"+currentPage);
+
+    var navback = (navback ? navback : false);    
 
     //	tt_BeforeUnload
     var unloadElementId = 'touchscreenInput';
     if (currentPage < destPage) {
         unloadElementId = 'touchscreenInput'+(destPage-1);
-    } else if (currentPage > destPage) {
+    }
+    else if (currentPage > destPage) {
         unloadElementId = 'touchscreenInput'+(destPage+1);
     }
 
@@ -1246,23 +1303,23 @@ function gotoPage(destPage, validate){
             if(result == true){
                 // Set a global handle for the timer function and the
                 // corresponding function for earlier cancelling when required
-                tstTimerHandle = setTimeout("navigateToPage(" + destPage + ", " + validate + ");", 3000);
-                tstTimerFunctionCall = "navigateToPage(" + destPage + ", " + validate + ");";
+                tstTimerHandle = setTimeout("navigateToPage(" + destPage + ", " + validate + ", " + navback + ");", 3000);
+                tstTimerFunctionCall = "navigateToPage(" + destPage + ", " + validate + ", " + navback + ");";
             } else {
-                navigateToPage(destPage, validate);
+                navigateToPage(destPage, validate, navback);
             }
         } else {
-            navigateToPage(destPage, validate);
+            navigateToPage(destPage, validate, navback);
         }
     } else {
-        navigateToPage(destPage, validate);
+        navigateToPage(destPage, validate, navback);
     }
 }
 
 //args: page number to load, validate: true/false
-function navigateToPage(destPage, validate){
+function navigateToPage(destPage, validate, navback){    
     clearTimeout(tstTimerHandle);
-
+    
     var currentPage = tstCurrentPage;
     var currentInput = __$("touchscreenInput"+currentPage);
 
@@ -1275,9 +1332,11 @@ function navigateToPage(destPage, validate){
 
             if(dispatchFlag()) return;
         }
-        tt_update(currentInput);
-        tstPageValues[currentPage] = currentInput.value;
-
+        
+        tstPageValues[currentPage] = currentInput.value;        
+        
+        tt_update(currentInput, navback);
+        
     // Progress Indicator -- disabled
     /*
 		 * var currentPageIndex = __$("progressAreaPage"+currentPage); if
@@ -1293,7 +1352,8 @@ function navigateToPage(destPage, validate){
     var unloadElementId = 'touchscreenInput';
     if (currentPage < destPage) {
         unloadElementId = 'touchscreenInput'+(destPage-1);
-    } else if (currentPage > destPage) {
+    }
+    else if (currentPage > destPage) {
         unloadElementId = 'touchscreenInput'+(destPage+1);
     }
 
@@ -1382,6 +1442,17 @@ function navigateToPage(destPage, validate){
             eval(tstInputTarget.getAttribute("tt_onLoad"));
         }
 
+        if(tstFormElements[tstCurrentPage].tagName == "SELECT") {
+            if(tstFormElements[tstCurrentPage].getAttribute("multiple")){
+                for(var j=0;j<tstFormElements[tstCurrentPage].options.length;j++){
+                    if(__$(j)){
+                        __$(j).click();
+                        __$(j).click();
+                    } 
+                }
+            }
+        }
+            
     }
     else{
 
@@ -1427,14 +1498,19 @@ function inputIsValid() {
 
 function confirmValue() {
     var confirmationBar = __$("confirmationBar");
-    confirmationBar.innerHTML = "Username: ";
+    confirmationBar.innerHTML = "<span style='font-size: 2em;'>Username: </span>";
     var username = document.createElement("input");
     username.setAttribute("id", "confirmUsername");
     username.setAttribute("type", "text");
     username.setAttribute("textCase", "lower");
+    username.style.fontSize = "2em";
+    username.style.width = "252px";
     confirmationBar.appendChild(username);
 
-    confirmationBar.innerHTML += "<div style='display: block;'><input type='submit' value='OK' class='button' style='float: left;' onclick='validateConfirmUsername()' onmousedown='validateConfirmUsername()'/><input type='submit' value='Cancel' class='button' style='float: right; right: 3px;' onmousedown='cancelConfirmValue()' />";
+    confirmationBar.innerHTML += "<div style='display: block; margin-top: 15px;'><input type='submit'" +
+        " value='OK' class='btn' style='float: left;' onclick='validateConfirmUsername()'" + 
+        " onmousedown='validateConfirmUsername()'/><input type='submit' value='Cancel' " + 
+        " class='btn' style='float: right; right: 3px;' onmousedown='cancelConfirmValue()' />";
 
     confirmationBar.style.display = "block";
     tstInputTarget = __$("confirmUsername");
@@ -1479,6 +1555,27 @@ function clearInput(){
 
     if(doListSuggestions){
         listSuggestions(tstCurrentPage);
+    }
+    
+    if(tstFormElements[tstPages[tstCurrentPage]].tagName == "SELECT"){
+        var options = __$("tt_currentUnorderedListOptions").getElementsByTagName("li");
+            
+        if(tstFormElements[tstPages[tstCurrentPage]].getAttribute("multiple")){
+            for(var i = 0; i < options.length; i++){
+                if(options[i].style.backgroundColor == "lightblue"){
+                    options[i].click();
+                    options[i].click();
+                }
+            }
+        } else {
+            for(var i = 0; i < options.length; i++){
+                if(options[i].style.backgroundColor == "lightblue"){
+                    options[i].style.backgroundColor = "";
+                    tstFormElements[tstPages[tstCurrentPage]].value = ""; 
+                    __$('touchscreenInput'+tstCurrentPage).setAttribute("tstvalue", "");
+                }
+            }
+        }
     }
 }
 
@@ -1575,6 +1672,10 @@ function showBestKeyboard(aPageNum) {
     }
 
     switch (inputElement.getAttribute("field_type")) {
+        case "password":
+        case "full_keyboard":
+            showKeyboard(true);
+            break;
         case "alpha":
             __$("keyboard").innerHTML = getPreferredKeyboard();
             break;
@@ -1709,7 +1810,7 @@ function getQwertyKeyboard(){
     keyboard = keyboard +
     "</span><span style='padding-left:0px' class='buttonLine'>" +
     getButtons("ZXCVBNM,.") + (tstFormElements[tstCurrentPage].tagName == "TEXTAREA" ? "" :
-    getButtonString('whitespace','&nbsp', 'width: 85px;')) +
+        getButtonString('whitespace','Space', 'width: 85px;')) +
     getButtonString('abc','A-Z') +
     getButtonString('SHIFT','aA') +
     "</span>";
@@ -1717,7 +1818,7 @@ function getQwertyKeyboard(){
     if(tstFormElements[tstCurrentPage].tagName == "TEXTAREA") {
         keyboard = keyboard +
         "</span><span style='padding-left:0px' class='buttonLine'>" +
-        getButtonString('whitespace','&nbsp', 'width: 520px;') +
+        getButtonString('whitespace','Space', 'width: 520px;') +
         getButtonString('return',"ENTER", 'width: 120px;') +
         "</span>";
     }
@@ -1751,13 +1852,13 @@ function getABCKeyboard(){
     getButtonString('na','N/A') +
     "</span><span class='buttonLine'>" +
     getButtons("QRSTUVWXYZ") + (tstFormElements[tstCurrentPage].tagName == "TEXTAREA" ? "" : 
-    getButtonString('whitespace','&nbsp', 'width: 85px;')) +
+        getButtonString('whitespace','Space', 'width: 85px;')) +
     "</span>";
 
     if(tstFormElements[tstCurrentPage].tagName == "TEXTAREA") {
         keyboard = keyboard +
         "</span><span style='padding-left:0px' class='buttonLine'>" +
-        getButtonString('whitespace','&nbsp', 'width: 520px;') +
+        getButtonString('whitespace','Space', 'width: 520px;') +
         getButtonString('return',"ENTER", 'width: 120px;') +
         "</span>";
     }
@@ -1886,7 +1987,8 @@ function getDatePicker() {
         ds = new DateSelector({
             element: keyboardDiv,
             target: tstInputTarget,
-            format: "dd-MMM-yyyy"
+            format: "dd-MMM-yyyy",
+            max: (maxDate ? maxDate : new Date())
         });
     }
 
@@ -2742,7 +2844,8 @@ RailsDate.prototype = {
                 yearElement = document.getElementsByName(str[1]+'['+str[2]+'(1i)]')[0];
             }
 
-        } else {
+        }
+        else {
             // handle date[year], date[month], date[day]
             var nameLength = this.element.name.length;
             var elementName = "";
@@ -3042,7 +3145,7 @@ DateSelector.prototype = {
 
     incrementMonth: function() {
         var currentDate = new Date(this.date.getFullYear(), this.date.getMonth() + 1,
-                this.date.getDate());
+            this.date.getDate());
 
         if(this.options.maxDate > currentDate){
 
@@ -3093,7 +3196,7 @@ DateSelector.prototype = {
 
     incrementDay: function() {
         var currentDate = new Date(this.date.getFullYear(), this.date.getMonth(),
-                    this.date.getDate() + 1);
+            this.date.getDate() + 1);
 
         if(this.options.maxDate >= currentDate){
             if (currentDate.getMonth() == this.date.getMonth())
@@ -3268,7 +3371,7 @@ var TimeSelector = function() {
 
     this.currentHour.value = this.time[0];
     this.currentMinute.value = this.time[1];
-    //this.currentSecond.value = this.time[2];
+//this.currentSecond.value = this.time[2];
 };
 
 TimeSelector.prototype = {
@@ -3340,8 +3443,8 @@ TimeSelector.prototype = {
     incrementMinute: function() {
         if(this.currentMinute.value == 59){
             this.currentMinute.value = 0;
-            //} else if(this.currentMinute.value >= (new Date().getMinutes())){
-            //  this.currentMinute.value++;
+        //} else if(this.currentMinute.value >= (new Date().getMinutes())){
+        //  this.currentMinute.value++;
         } else  {
             this.currentMinute.value++;
         }
@@ -3390,8 +3493,8 @@ TimeSelector.prototype = {
             return;
 
         aTargetElement.value = TimeUtil.zerofill((this.time[0]).toString(),2) + ":" +
-                               TimeUtil.zerofill((this.time[1]).toString(),2) + ":" +
-                               TimeUtil.zerofill((this.time[2]).toString(),2);
+        TimeUtil.zerofill((this.time[1]).toString(),2) + ":" +
+        TimeUtil.zerofill((this.time[2]).toString(),2);
     }
 
 };
@@ -3413,8 +3516,288 @@ var TimeUtil = {
 }
 
 function stripZero(value){
-    if(value.match(/^0/)){
-        return eval(value.substr(1));
-    }
+    try {
+        if(value.match(/^0/)){
+            return eval(value.substr(1));
+        }
+    }catch(e) {}
     return value;
+}
+
+function showKeyboard(full_keyboard){   
+    var div = document.createElement("div");
+    div.id = "divMenu";
+    // div.className = "keyboard";
+    
+    var row1 = ["Q","W","E","R","T","Y","U","I","O","P"];
+    var row2 = ["A","S","D","F","G","H","J","K","L",":"];
+    var row3 = ["Z","X","C","V","B","N","M",",",".","?"];
+    var row4 = ["cap","space","delete"];
+    var row5 = ["1","2","3","4","5","6","7","8","9","0"];
+    var row6 = ["_","-","@","(",")","+",";","=","\\","/"];
+
+    global_control = "touchscreenInput" + tstCurrentPage;
+
+    var tbl = document.createElement("table");
+    tbl.className = "keyBoardTable";
+    tbl.cellSpacing = 0;
+    tbl.cellPadding = 3;
+    tbl.id = "tblKeyboard";
+    tbl.style.width = "100%";
+
+    var tr5 = document.createElement("tr");
+
+    for(var i = 0; i < row5.length; i++){
+        var td5 = document.createElement("td");
+        td5.align = "center";
+        td5.vAlign = "middle";
+        td5.style.cursor = "pointer";
+        td5.bgColor = "#ffffff";
+        td5.width = "30px";
+
+        tr5.appendChild(td5);
+
+        var btn = document.createElement("button");
+        btn.className = "blue";
+        btn.innerHTML = "<span>" + row5[i] + "</span>";
+        btn.onclick = function(){
+            if(!this.innerHTML.match(/^$/)){
+                $(global_control).value += this.innerHTML.match(/<span>(.+)<\/span>/)[1];
+            }
+        }
+
+        td5.appendChild(btn);
+
+    }
+
+    if(full_keyboard){
+        tbl.appendChild(tr5);
+    }
+
+    var tr1 = document.createElement("tr");
+
+    for(var i = 0; i < row1.length; i++){
+        var td1 = document.createElement("td");
+        td1.align = "center";
+        td1.vAlign = "middle";
+        td1.style.cursor = "pointer";
+        td1.bgColor = "#ffffff";
+        td1.width = "30px";
+
+        tr1.appendChild(td1);
+
+        var btn = document.createElement("button");
+        btn.className = "blue";
+        btn.innerHTML = "<span>" + row1[i] + "</span>";
+        btn.onclick = function(){
+            if(!this.innerHTML.match(/^$/)){
+                $(global_control).value += this.innerHTML.match(/<span>(.+)<\/span>/)[1];
+            }
+        }
+
+        td1.appendChild(btn);
+
+    }
+
+    tbl.appendChild(tr1);
+
+    var tr2 = document.createElement("tr");
+
+    for(var i = 0; i < row2.length; i++){
+        var td2 = document.createElement("td");
+        td2.align = "center";
+        td2.vAlign = "middle";
+        td2.style.cursor = "pointer";
+        td2.bgColor = "#ffffff";
+        td2.width = "30px";
+
+        tr2.appendChild(td2);
+
+        var btn = document.createElement("button");
+        btn.className = "blue";
+        btn.innerHTML = "<span>" + row2[i] + "</span>";
+        btn.onclick = function(){
+            if(!this.innerHTML.match(/^$/)){
+                $(global_control).value += this.innerHTML.match(/<span>(.+)<\/span>/)[1];
+            }
+        }
+
+        td2.appendChild(btn);
+
+    }
+
+    tbl.appendChild(tr2);
+
+    var tr3 = document.createElement("tr");
+
+    for(var i = 0; i < row3.length; i++){
+        var td3 = document.createElement("td");
+        td3.align = "center";
+        td3.vAlign = "middle";
+        td3.style.cursor = "pointer";
+        td3.bgColor = "#ffffff";
+        td3.width = "30px";
+
+        tr3.appendChild(td3);
+
+        var btn = document.createElement("button");
+        btn.className = "blue";
+        btn.innerHTML = "<span>" + row3[i] + "</span>";
+        btn.onclick = function(){
+            if(!this.innerHTML.match(/^$/)){
+                $(global_control).value += this.innerHTML.match(/<span>(.+)<\/span>/)[1];
+            }
+        }
+
+        td3.appendChild(btn);
+
+    }
+
+    tbl.appendChild(tr3);
+
+    var tr6 = document.createElement("tr");
+
+    for(var i = 0; i < row6.length; i++){
+        var td6 = document.createElement("td");
+        td6.align = "center";
+        td6.vAlign = "middle";
+        td6.style.cursor = "pointer";
+        td6.bgColor = "#ffffff";
+        td6.width = "30px";
+
+        tr6.appendChild(td6);
+
+        var btn = document.createElement("button");
+        btn.className = "blue";
+        btn.innerHTML = "<span>" + row6[i] + "</span>";
+        btn.onclick = function(){
+            if(!this.innerHTML.match(/^$/)){
+                $(global_control).value += this.innerHTML.match(/<span>(.+)<\/span>/)[1];
+            }
+        }
+
+        td6.appendChild(btn);
+
+    }
+
+    if(full_keyboard){
+        tbl.appendChild(tr6);
+    }
+
+    var tr4 = document.createElement("tr");
+
+    for(var i = 0; i < row4.length; i++){
+        var td4 = document.createElement("td");
+        td4.align = "center";
+        td4.vAlign = "middle";
+        td4.style.cursor = "pointer";
+        td4.bgColor = "#ffffff";
+
+        switch(row4[i]){
+            case "cap":
+                td4.colSpan = 2;
+                break;
+            case "space":
+                td4.colSpan = 6;
+                break;
+            case "delete":
+                td4.colSpan = 2;
+                break;
+            default:
+                td4.colSpan = 2;
+        }
+
+        tr4.appendChild(td4);
+
+        var btn = document.createElement("button");
+        btn.innerHTML = (row4[i].trim().length > 0 ? "<span>" + row4[i] + "</span>" : "");
+        
+        if(row4[i] == "space"){
+            btn.style.width = "80%";
+        }
+        
+        btn.onclick = function(){
+            if(this.innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() == "cap"){
+                if(this.innerHTML.match(/<span>(.+)<\/span>/)[1] == "cap"){
+                    this.innerHTML = "<span>" + this.innerHTML.match(/<span>(.+)<\/span>/)[1].toUpperCase() + "</span>";
+
+                    var cells = $("tblKeyboard").getElementsByTagName("button");
+
+                    for(var c = 0; c < cells.length; c++){
+                        if(cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "cap"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "clear"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "space"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "full"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "basic" ){
+
+                            cells[c].innerHTML = "<span>" + cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() + "</span>";
+
+                        }
+                    }
+
+                } else {
+                    this.innerHTML = "<span>" + this.innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() + "</span>";
+
+                    var cells = $("tblKeyboard").getElementsByTagName("button");
+
+                    for(var c = 0; c < cells.length; c++){
+                        if(cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "cap"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "delete"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "space"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "full"
+                            && cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() != "basic" ){
+
+                            cells[c].innerHTML = "<span>" + cells[c].innerHTML.match(/<span>(.+)<\/span>/)[1].toUpperCase() + "</span>";
+
+                        }
+                    }
+
+                }
+            } else if(this.innerHTML.match(/<span>(.+)<\/span>/)[1] == "enter"){
+                if(!this.innerHTML.match(/^$/)){
+                    $(global_control).value += "\n";
+                }
+            } else if(this.innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() == "space"){
+
+                $(global_control).value += " ";
+
+            } else if(this.innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() == "delete"){
+
+                $(global_control).value = $(global_control).value.substring(0,$(global_control).value.length - 1);
+
+            } else if(this.innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() == "full"){
+
+                full_keyboard = true;
+
+                showKeyboard(global_control);
+
+            } else if(this.innerHTML.match(/<span>(.+)<\/span>/)[1].toLowerCase() == "basic"){
+
+                full_keyboard = false;
+
+                showKeyboard(global_control);
+
+            } else if(!this.innerHTML.match(/<span>(.+)<\/span>/)[1].match(/^$/)){
+
+                $(global_control).value += this.innerHTML.match(/<span>(.+)<\/span>/)[1];
+
+            }
+        }
+
+        if(row4[i].trim().length > 0) {
+            td4.appendChild(btn);
+        } else {
+            td4.innerHTML = "&nbsp;";
+        }
+        
+    }
+
+    tbl.appendChild(tr4);
+
+    div.appendChild(tbl);
+    
+    __$("keyboard").innerHTML = "";
+    
+    __$("keyboard").appendChild(div);
+    
 }

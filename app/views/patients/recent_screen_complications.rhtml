@@ -1,156 +1,167 @@
 <html>
-    <head>
-        <%= stylesheet_link_tag "miscellaneous" %>
-    </head>
-        <body>  
-          <base target="_parent">
-            <table cellpadding="5" width="100%" cellspacing="1">
+  <head>
+    <%= stylesheet_link_tag "miscellaneous" %>
+    <style type="text/css">
+      td {
+        vertical-align: top;
+      }
 
-            <tr>
-              <th class="tableHeader">Name</th>
-              <th class="tableHeader">Test</th>
-              <th class="tableHeader">Date</th>
-            </tr>
+      body{
+        font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+        overflow: hidden;
+      }
 
-            <%
-            creatinine = @recents["creatinine"]
-            foot_check = @recents["foot_check"]
-            visual_acuity = @recents["visual_acuity"]
-            urine_protein = @recents["urine_protein"]
-            fundoscopy = @recents["fundoscopy"]
-            urea = @recents["urea"]
+    </style>
+  </head>
+  <body>  
+  <base target="_parent">
+  <table cellpadding="5" width="100%" cellspacing="1">
 
-            def is_diabetes_test_expired(diabetes_test)
-              ((((Date.today - diabetes_test.obs_datetime.to_date).to_f/365.0)>1.0) ? true: false) rescue false
-            end
+    <tr>
+      <th class="tableHeader">Name</th>
+      <th class="tableHeader">Test</th>
+      <!--th class="tableHeader">Date</th-->
+    </tr>
 
-            def highlight_test(diabetes_test)
-              (is_diabetes_test_expired(diabetes_test) ? "#FF9999":"#FFFFFF")
-            end
+    <%
+    creatinine = @recents["creatinine"]
+    foot_check = @recents["foot_check"]
+    visual_acuity = @recents["visual_acuity"]
+    urine_protein = @recents["urine_protein"]
+    fundoscopy = @recents["fundoscopy"]
+    urea = @recents["urea"]
 
-            @creatinine_color    = highlight_test(creatinine)
-            @foot_check_color    = highlight_test(foot_check)
-            @visual_acuity_color = highlight_test(visual_acuity)
-            @urine_protein_color = highlight_test(urine_protein)
-            @fundoscopy_color    = highlight_test(fundoscopy)
-            @urea_color          = highlight_test(urea)
+    def is_diabetes_test_expired(diabetes_test)
+      ((((Date.today - diabetes_test.obs_datetime.to_date).to_f/365.0)>1.0) ? true: false) rescue false
+    end
 
-            complications_colors = [@creatinine_color, @foot_check_color,
-                                    @visual_acuity_color, @urine_protein_color,
-                                    @fundoscopy_color, @urea_color]
+    def highlight_test(diabetes_test)
+      (is_diabetes_test_expired(diabetes_test) ? "#FF9999":"#FFFFFF")
+    end
 
-            if complications_colors.include? "#FF9999"
-              @colorize_tab = true
-            else
-              @colorize_tab = false
-            end
-          %>
+    @creatinine_color    = highlight_test(creatinine)
+    @foot_check_color    = highlight_test(foot_check)
+    @visual_acuity_color = highlight_test(visual_acuity)
+    @urine_protein_color = highlight_test(urine_protein)
+    @fundoscopy_color    = highlight_test(fundoscopy)
+    @urea_color          = highlight_test(urea)
 
-            <% if(creatinine) %>
+    complications_colors = [@creatinine_color, @foot_check_color,
+      @visual_acuity_color, @urine_protein_color,
+      @fundoscopy_color, @urea_color]
 
-              <tr>
-                <td bgcolor="<%= @creatinine_color %>">
-                  <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'>Creatinine</a>
-                </td>
-                <td bgcolor="<%= @creatinine_color %>">
-                  <%=  creatinine.to_s_formatted.titleize %>
-                </td>
-                <td bgcolor="<%=@creatinine_color %>">
-                  <%=  creatinine.obs_datetime.strftime("%b, %Y") %>
-                </td>
-              </tr>
+    if complications_colors.include? "#FF9999"
+      @colorize_tab = true
+    else
+      @colorize_tab = false
+    end
+  %>
 
-            <% end %>
+    <% if(creatinine) %>
 
-            <% if(foot_check) %>
+      <tr>
+        <td bgcolor="<%= @creatinine_color %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=CREATININE'>Creatinine</a>
+        </td>
+        <td bgcolor="<%= @creatinine_color %>">
+          <%=  creatinine.to_s.titleize %>
+        </td>
+        <!--td bgcolor="<%=@creatinine_color %>">
+  <%#=  creatinine.obs_datetime.strftime("%b, %Y") %>
+        </td-->
+      </tr>
 
-              <tr>
-                <td bgcolor="<%= @foot_check_color%>">
-                  <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'>Foot Check</a>
-                </td>
-                <td bgcolor="<%= @foot_check_color %>">
-                  <%=  foot_check.to_s_formatted.titleize %>
-                </td>
-                <td bgcolor="<%= @foot_check_color %>">
-                  <%=  foot_check.obs_datetime.strftime("%b, %Y") %>
-                </td>
-              </tr>
+    <% end %>
 
-            <% end %>
+    <% if(foot_check) %>
 
-            <% if(visual_acuity) %>
+      <tr>
+        <td bgcolor="<%= @foot_check_color%>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FOOT CHECK'>Foot Check</a>
+        </td>
+        <td bgcolor="<%= @foot_check_color %>">
+          <%=  foot_check.to_s.titleize %>
+        </td>
+        <!--td bgcolor="<%= @foot_check_color %>">
+  <%#=  foot_check.obs_datetime.strftime("%b, %Y") %>
+        </td-->
+      </tr>
 
-              <tr>
-                <td bgcolor="<%= @visual_acuity_color %>">
-                  <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL+ACUITY'>Visual Acuity</a>
-                </td>
-                <td bgcolor="<%= @visual_acuity_color%>">
-                  <%=  visual_acuity.to_s_formatted.titleize %>
-                </td>
-                <td bgcolor="<%= @visual_acuity_color %>">
-                  <%=  visual_acuity.obs_datetime.strftime("%b, %Y") %>
-                </td>
-              </tr>
+    <% end %>
 
-            <% end %>
+    <% if(visual_acuity) %>
 
-            <% if(urine_protein) %>
+      <tr>
+        <td bgcolor="<%= @visual_acuity_color %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=VISUAL+ACUITY'>Visual Acuity</a>
+        </td>
+        <td bgcolor="<%= @visual_acuity_color%>">
+          <%=  visual_acuity.to_s.titleize %>
+        </td>
+        <!--td bgcolor="<%= @visual_acuity_color %>">
+  <%#=  visual_acuity.obs_datetime.strftime("%b, %Y") %>
+        </td-->
+      </tr>
 
-              <tr>
-                <td bgcolor="<%= @urine_protein_color %>" >
-                  <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE+PROTEIN'>Urine Protein</a>
-                </td>
-                <td bgcolor="<%= @urine_protein_color %>">
-                  <%=  urine_protein.to_s_formatted.titleize %>
-                </td>
-                <td bgcolor="<%= @urine_protein_color %>">
-                  <%=  urine_protein.obs_datetime.strftime("%b, %Y") %>
-                </td>
-              </tr>
+    <% end %>
 
-            <% end %>
+    <% if(urine_protein) %>
 
-            <% if(fundoscopy) %>
+      <tr>
+        <td bgcolor="<%= @urine_protein_color %>" >
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=URINE+PROTEIN'>Urine Protein</a>
+        </td>
+        <td bgcolor="<%= @urine_protein_color %>">
+          <%=  urine_protein.to_s.titleize %>
+        </td>
+        <!--td bgcolor="<%= @urine_protein_color %>">
+  <%#=  urine_protein.obs_datetime.strftime("%b, %Y") %>
+        </td-->
+      </tr>
 
-              <tr>
-                <td bgcolor="<%= @fundoscopy_color %>">
-                  <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'>Fundoscopy</a>
-                </td>
-                <td bgcolor="<%= @fundoscopy_color %>">
-                  <%=  fundoscopy.to_s_formatted.titleize %>
-                </td>
-                <td bgcolor="<%= @fundoscopy_color %>">
-                  <%=  fundoscopy.obs_datetime.strftime("%b, %Y") %>
-                </td>
-              </tr>
+    <% end %>
 
-            <% end %>
+    <% if(fundoscopy) %>
 
-            <% if(urea) %>
+      <tr>
+        <td bgcolor="<%= @fundoscopy_color %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=FUNDOSCOPY'>Fundoscopy</a>
+        </td>
+        <td bgcolor="<%= @fundoscopy_color %>">
+          <%=  fundoscopy.to_s.titleize %>
+        </td>
+        <!--td bgcolor="<%= @fundoscopy_color %>">
+  <%#=  fundoscopy.obs_datetime.strftime("%b, %Y") %>
+        </td-->
+      </tr>
 
-              <tr>
-                <td bgcolor="<%= @urea_color %>">
-                  <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'>Urea</a>
-                </td>
-                <td bgcolor="<%= @urea_color %>">
-                  <%=  urea.to_s_formatted.titleize %>
-                </td>
-                <td bgcolor="<%= @urea_color %>">
-                  <%=  urea.obs_datetime.strftime("%b, %Y") %>
-                </td>
-              </tr>
+    <% end %>
 
-            <% end %>
+    <% if(urea) %>
 
-          </table>
+      <tr>
+        <td bgcolor="<%= @urea_color %>">
+          <a href='/encounters/new/diabetes_test?patient_id=<%= @patient.id %> &diabetes_test_type=UREA'>Urea</a>
+        </td>
+        <td bgcolor="<%= @urea_color %>">
+          <%=  urea.to_s.titleize %>
+        </td>
+        <!--td bgcolor="<%= @urea_color %>">
+  <%#=  urea.obs_datetime.strftime("%b, %Y") %>
+        </td-->
+      </tr>
 
-        <script type="text/javascript">
-          var new_tab_color =  <%= @colorize_tab %>
-          /* set recent complications tab to red if there are outstanding tests to be done */
-          if (new_tab_color){
-            colorolizeTab('tabmenu', 'recent_complications_tab', '#FF0000');
-          }
-        </script>
-      </body>
+    <% end %>
+
+  </table>
+
+  <script type="text/javascript">
+    var new_tab_color =  <%= @colorize_tab %>
+    /* set recent complications tab to red if there are outstanding tests to be done */
+    if (new_tab_color){
+      colorolizeTab('tabmenu', 'recent_complications_tab', '#FF0000');
+    }
+  </script>
+</body>
 </html>
-    
+

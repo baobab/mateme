@@ -299,19 +299,21 @@ form{
 }
 
 .touchscreenPopup {
-    height: 100px;
+    height: 130px;
     width: 450px;
     position: absolute;
     top: 150px;
-    left: 150px;
+    left: 260px;
     font-size: 1.2em;
     float: right;
     text-align: left;
     z-index: 842;
     border: thin solid black;
-    background: white;
+    background: tomato;
     display: none;
-    padding: 10px;
+    padding: 20px;   
+    border: 5px outset tomato;
+    -moz-border-radius: 15px; 
 }
 
 .touchscreenPopup #confirmUsername {
@@ -355,8 +357,8 @@ button span {
 button, button.blue { 
     background:url(../images/buttons/btn_right_blue.png) right no-repeat;
     font-size:1.3em;
-    line-height:57px;
-    min-width:56px;
+    /*line-height:57px;*/
+    min-width:75px;
 }
 button span, button.blue span { 
     background:url(../images/buttons/btn_left_blue.png) left no-repeat;
@@ -693,7 +695,7 @@ button:hover.dark span {
 .ShortSelectList, 
 .NumbersOnlyWithDecimal,
 .NumbersOnly,
-.DatesOnly { height: 320px !important }
+.DatesOnly { height: 330px !important }
 .NoKeyboard, .NoControls { height: 520px !important } 
 .NoKeyboard .inputFrameClass { height: 440px !important } 
 .NoKeyboard .options { height: 395px !important } 
@@ -853,7 +855,7 @@ button:active {
 }
 
 .btn {
-    min-height: 50px;
+    min-height: 40px;
     margin: 0px;
     margin-bottom: 5px;
     font-size: 1.2em;
@@ -861,11 +863,12 @@ button:active {
     color: #FFF;
     font-weight: normal;
     border: 5px outset #000;
-    padding: 10px;
+    padding: 9px;
     cursor: pointer;
     background:url(../images/btn_blue.png) right repeat;
     -moz-user-select:none;
     -moz-user-focus:disabled;
+    -moz-border-radius: 12px;
 }
 
 .btn:hover {
@@ -881,4 +884,89 @@ button:active {
 
 #na, #Unknown, #backspace, #char, #whitespace, #num {
     float: right;
+}
+
+ul li.odd {
+    background-color: #ddd;
+}
+
+ul li.even {
+    background-color: #eee;
+}
+
+ul li {
+    cursor: pointer;
+}
+
+.selectedOption {
+    background-color: lightblue;
+}
+
+.ShortSelectList #scrollUp, 
+.ShortSelectList #scrollDown, 
+.ShortSelectList #clearButton,
+.ShortSelectList .touchscreenTextInput {
+  display: none;
+}
+
+.ShortSelectList .keyboard{
+  display: none;
+}
+
+.ShortSelectList #options,
+.ShortSelectList #viewport {
+  height: auto;
+ -moz-user-select:none
+}
+
+.ShortSelectList li {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.longSelectList #options,
+.longSelectList #viewport {
+  height: 580px;
+ -moz-user-select:none;
+}
+
+.longSelectList {
+ -moz-user-select:none
+}
+
+.longSelectList li {
+  margin-bottom: 1px;
+  margin-top: 1px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-size: 1.35em;
+}
+
+.longSelectList #scrollUp, 
+.longSelectList #scrollDown, 
+.longSelectList #clearButton,
+.longSelectList .touchscreenTextInput {
+  display: none;
+}
+
+.Numeric #options, 
+.Numeric #viewport{
+  display: none;
+}
+
+.Numeric .helpTextClass{
+  position: relative;
+}
+
+
+.Numeric .touchscreenTextInput{
+  top: auto;
+  position: relative;
+  display: block;
+
+  font-size: 3em;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }

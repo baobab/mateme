@@ -1,0 +1,902 @@
+/**************************************************************************
+  * touch-fancy.css
+  *   displays a fancy look and feel
+  *   it is used together with form.css or dashboard.css
+  *
+  *   CSS for the Touchscreen Toolkit library
+  *
+  * (c) 2011 Baobab Health Trust (http://www.baobabhealth.org)
+  *
+  * For lincense details, see the README.md file
+  *
+  * Browser:    Firefox
+  * Interface:  Touchscreen 
+  * Resolution: 800X600
+  *
+  **************************************************************************/
+
+body{
+    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
+    overflow: hidden;
+}
+
+form{
+    z-index:0;
+}
+
+#load_indicator{
+    height:600px;
+    width:800px;
+    z-index:1;
+    background-color:white;
+    font-size:3em;
+    position: absolute;
+}
+
+.options, .optionsSearchPage, .touchscreenTextInput, .searchResults {
+    font-size:1.5em;
+    -moz-user-select:none
+}
+
+.touchscreenTextInput{
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom: 1px solid silver;
+    width:928px;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:2.2em;
+    background:none;
+    padding-left:5px;
+}
+
+.options{
+    overflow: auto;
+    height:13em;
+}
+
+.options ul{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 0px;
+}
+.options li{
+    color: black;
+    list-style: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-family:"Nimbus Sans L","Arial Narrow",sans-serif;
+    font-size:1.5em;
+}
+.optionsList{
+    display:none;
+}
+.selectionText{
+    position:absolute;
+    background-color: white;
+    width: 400px;
+    height: 300px;;
+    border: 3px inset gray;
+    overflow:hidden;
+}
+.selectionOption{
+    font-size: 50px;
+    height:50px;
+    width: 2000px;
+}
+
+.buttonsDiv {
+    background-color: #333333;
+    display: block;
+    height: 80px;
+    position: absolute;
+    top: 670px;
+    width:  98%;
+    padding-right: 20px;
+    /*  z-index:10;*/
+}
+
+/*.button {
+  display:block;
+  font-size: 1.5em;
+  color: black;
+  background-color: lightgray;
+  margin: 15px;
+  border: 3px outset gray;
+  -moz-user-select:none;
+  width: 90px;
+  height: 50px;
+  text-align: center;
+  float:right;
+}*/
+
+.keyboardButton, #launchButton{
+    display: inline; /*-moz-inline-box;*/
+    -moz-user-select:none;
+}
+
+.toggleButtonTrue{
+    display:block;
+    font-size: 1.5em;
+    margin: 20px;
+    -moz-user-select:none;
+    width: 150px;
+    text-align: center;
+}
+
+.toggleButtonFalse{
+    display:block;
+    font-size: 1.5em;
+    margin: 20px;
+    -moz-user-select:none;
+    width: 150px;
+    text-align: center;
+}
+
+/*.inputContainer{
+  position:absolute;
+  top: 275px;
+  left: 450px;
+  background-color: white;
+  width: 300px;
+  height: 1em;
+  border: 3px inset gray;
+  font-size: 2em;
+  overflow:hidden;
+}*/
+
+.keyboard{
+    position:absolute;
+    display: block;
+    z-index: 10;
+    bottom: 85px;
+    left: 25px;
+    border: 1px solid #333;
+    -moz-border-radius: 15px;
+    padding: 5px;
+    background-color: #fff;
+    width: 935px;
+}
+
+.buttonLine{
+    display: block;
+    /*  height: 3.2em;*/
+    height: 70px;
+    /*	margin-top: 10px; */
+    width: 100%;
+}
+
+#launchButton{
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    width: 200px;
+    font-size: 1em;
+    -moz-opacity: 0.2;
+}
+
+.inputPage{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    height: 670px;
+    width: 998px;
+    overflow: hidden;
+}
+
+.helpText {
+    height: 2em;
+    width: 500px;
+    position: absolute;
+    top: 5px;
+    left: 25px;
+    font-size: 2em;
+    overflow: hidden;
+}
+
+.helpTextClass {
+    font-size: 2em;
+    padding-top: 5px;
+    padding-left: 25px;
+    width: 620px;
+    -moz-user-select: none;
+}
+
+.inputFrameClass {
+    border: 1px solid black;
+    margin-left:25px;
+    background: #F0F0F0;
+    width:935px;
+    -moz-border-radius: 10px;
+    padding: 5px;
+}
+
+.progressAreaSearchPage {
+    /*  height: 220px;*/
+    width: 250px;
+    position: absolute;
+    top: 5px;
+    right: 30px;
+    font-size: 1em;
+    background: white;
+    z-index: 2;
+    overflow: hidden;
+    border: thin solid;
+    display: none;
+}
+
+.progressArea {
+    /*  height: 220px;*/
+    width: 250px;
+    position: absolute;
+    top: 50px;
+    right: 30px;
+    font-size: 1em;
+    background: white;
+    z-index: 2;
+    overflow: hidden;
+    border: thin solid;
+    display: none;
+}
+
+.progressAreaBody {
+    height: 200px;
+    font-size: 1em;
+    background: white;
+    z-index: 2;
+    /*	overflow: scroll;*/
+    overflow: hidden;
+    border: thin solid;
+}
+
+
+.progressAreaHeader {
+    font-weight: bold;
+    text-align: center;
+    z-index: 2;
+}
+
+.currentIndex {
+    background-color: gray;
+    width: 245px;
+}
+
+.progressInputValue {
+    font-size: 0.8em;
+    display: inline;
+}
+
+.messageBar {
+    /*  height: 1em;*/
+    left: 250px;
+    width: 450px;
+    position: absolute;
+    top: 100px;
+    font-size: 2em;
+    text-align: center;
+    background-color: tomato;
+    padding: 10px;
+    z-index: 999;
+    border: 5px outset tomato;
+    display: none;
+    -moz-border-radius: 15px;
+}
+
+.confirmationBar {
+    height: 1em;
+    width: 400px;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    font-size: 1.2em;
+    float: right;
+    text-align: left;
+    /*border: 3px solid red;*/
+}
+
+.touchscreenPopup {
+    height: 130px;
+    width: 450px;
+    position: absolute;
+    top: 150px;
+    left: 260px;
+    font-size: 1.2em;
+    float: right;
+    text-align: left;
+    z-index: 842;
+    border: thin solid black;
+    background: tomato;
+    display: none;
+    padding: 20px;   
+    border: 5px outset tomato;
+    -moz-border-radius: 15px; 
+}
+
+.touchscreenPopup #confirmUsername {
+    font-size: 1.3em;
+    width: 250px;
+}
+
+#SHIFT, #qwerty, #na, #showDataButton, #lessthan, #greaterthan, #equals, #unknown {
+    display: none;
+}
+
+button.navButton {
+    float:right;
+    margin-top:20px;
+}
+
+button span {
+}
+
+button { 
+    color: white;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+    border:0;
+    cursor:pointer;
+    font-weight:bold;
+    text-align:center;
+}
+
+button span { 
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+    position:relative;
+    display:block;
+    white-space:nowrap;
+    padding:0 0 0 8px;
+}
+
+
+
+button, button.blue { 
+    background:url(../images/buttons/btn_right_blue.png) right no-repeat;
+    font-size:1.3em;
+    line-height:57px;
+    min-width:75px;
+}
+button span, button.blue span { 
+    background:url(../images/buttons/btn_left_blue.png) left no-repeat;
+    height:57px;
+    line-height:57px;
+    color:#fff;
+}
+button:hover, button:hover.blue {
+    background:url(../images/buttons/btn_right_hover_blue.png) right no-repeat;
+}
+button:hover span, button:hover.blue span {
+    background:url(../images/buttons/btn_left_hover_blue.png) left no-repeat;
+}
+
+button.red { 
+    background:url(../images/buttons/btn_right_red.png) right no-repeat;
+}
+button.red span { 
+    background:url(../images/buttons/btn_left_red.png) left no-repeat;
+}
+button:hover.red {
+    background:url(../images/buttons/btn_right_hover_red.png) right no-repeat;
+}
+button:hover.red span {
+    background:url(../images/buttons/btn_left_hover_red.png) left no-repeat;
+}
+
+button.green { 
+    background:url(../images/buttons/btn_right_green.png) right no-repeat;
+}
+button.green span { 
+    background:url(../images/buttons/btn_left_green.png) left no-repeat;
+}
+button:hover.green  {
+    background:url(../images/buttons/btn_right_hover_green.png) right no-repeat;
+}
+button:hover.green span {
+    background:url(../images/buttons/btn_left_hover_green.png) left no-repeat;
+}
+
+button.gray { 
+    background:url(../images/buttons/btn_right_gray.png) right no-repeat;
+}
+button.gray span { 
+    background:url(../images/buttons/btn_left_gray.png) left no-repeat;
+}
+button:hover.gray {
+    background:url(../images/buttons/btn_right_hover_gray.png) right no-repeat;
+}
+button:hover.gray span {
+    background:url(../images/buttons/btn_left_hover_gray.png) left no-repeat;
+}
+
+button.dark { 
+    background:url(../images/buttons/btn_right_dark.png) right no-repeat;
+}
+button.dark span { 
+    background:url(../images/buttons/btn_left_dark.png) left no-repeat;
+}
+button:hover.dark {
+    background:url(../images/buttons/btn_right_hover_dark.png) right no-repeat;
+}
+button:hover.dark span {
+    background:url(../images/buttons/btn_left_hover_dark.png) left no-repeat;
+}
+
+
+
+#cancelButton {
+    float:left;
+}
+
+#nextButton {
+}
+
+#btnNext {
+    min-width: 150px;
+}
+
+#backspace, #num, #space, #date, #abc{
+    padding-left: 0px;
+    text-align:center;
+}
+
+#scrollUp, #scrollDown{
+    position: absolute;
+    right: 0px;
+    height: 50px;
+    width: 50px;
+    background-color: lightgray;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#scrollUp{
+    top: 0px;
+    background-image: url(../images/arrow-up.png);
+}
+#scrollDown{
+    background-image: url(../images/arrow-down.png);
+    bottom: 0px;
+}
+
+.dateselector input, button{
+    margin: 2px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.dateselector input {
+    font-size:1.7em;
+    width: 100px;
+}
+.dateselector button {
+    display:block;
+    font-size: 1.5em;
+    color: black;
+    margin: 5px;
+    text-align: center;
+    width:90%;
+}
+
+.ShortSelectList #scrollUp, 
+.ShortSelectList #scrollDown, 
+.ShortSelectList #clearButton,
+.ShortSelectList .touchscreenTextInput {
+    display: none;
+}
+
+.ShortSelectList .keyboard{
+    display: none;
+}
+
+.ShortSelectList #options,
+.ShortSelectList #viewport {
+    height: auto;
+    -moz-user-select:none
+}
+
+.ShortSelectList li {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.Numeric #options, 
+.Numeric #viewport{
+    display: none;
+}
+
+.Numeric .helpTextClass{
+    position: relative;
+}
+
+
+.Numeric .touchscreenTextInput{
+    top: auto;
+    position: relative;
+    display: block;
+
+    font-size: 3em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.NumbersOnlyWithDecimal #star,
+.NumbersOnlyWithDecimal #abc,
+.NumbersOnlyWithDecimal #char,
+.NumbersOnlyWithDecimal #date,
+.NumbersOnlyWithDecimal #minus,
+.NumbersOnlyWithDecimal #plus,
+.NumbersOnlyWithDecimal #slash,
+.NumbersOnlyWithDecimal #comma,
+.NumbersOnlyWithDecimal #Unknown,
+.NumbersOnlyWithDecimal #percent{
+    display: none
+}
+
+.NumbersOnly #star,
+.NumbersOnly #abc,
+.NumbersOnly #char,
+.NumbersOnly #date,
+.NumbersOnly #minus,
+.NumbersOnly #plus,
+.NumbersOnly #decimal,
+.NumbersOnly #slash,
+.NumbersOnly #comma,
+.NumbersOnly #Unknown,
+.NumbersOnly #percent{
+    display: none
+}
+
+.NumbersOnlyWithDecimal .keyboardButton,
+.NumbersOnlyWithDecimal .buttonLine,
+.NumbersOnly .keyboardButton,
+.NumbersOnly .buttonLine{
+}
+
+.NumbersOnlyWithDecimal .keyboardButton,
+.NumbersOnly .keyboardButton{
+    font-size: 2em;
+}
+
+.NoControls #viewport,
+.NoControls #keyboard,
+.NoControls .touchscreenTextInput{
+    display: none;
+}
+
+.date_year #viewport{
+    display: none;
+}
+
+.date_year .touchscreenTextInput{
+    position:absolute;
+    top:100px
+}
+
+.date_year #num,
+.date_year #star,
+.date_year #abc,
+.date_year #date,
+.date_year #minus,
+.date_year #plus,
+.date_year #slash,
+.date_year #comma,
+.date_year #percent,
+.date_year #decimal,
+.date_year #backspace,
+.date_year #lessthan,
+.date_year #greaterthan,
+.date_year #equals{
+    display: none;
+}
+
+
+.date_day #viewport{
+    display: none;
+}
+
+.date_day .keyboard{
+    height:370px;
+    left:27px;
+    top:120px;
+    width:620px;
+    display:block;
+}
+
+.date_day .touchscreenTextInput{
+    position:absolute;
+    top:65px
+}
+
+.date_day #Unknown{
+    display:inline;
+    width:140px;
+}
+
+.date_year #minus{
+    display:none;
+}
+
+.date_year #Unknown{
+    display:inline;
+}
+
+.date_year .numericKeyboard .buttonLine{
+    height:95px;
+}
+
+.date_year .numericKeyboard{
+    font-size:1.2em;
+}
+
+.date_year .numericKeyboard .keyboardButton {
+}
+
+.date_year .keyboard{
+    bottom:50px;
+    display:block;
+    left:30px;
+    position:absolute;
+    z-index:10;
+}
+
+
+.date_year .keyboardButton{
+    color:black;
+    display:inline;
+    font-size:1.5em;
+    margin:5px;
+    text-align:center;
+}
+
+
+.date_month #viewport{
+    height:475px;
+    top:90px;
+    width:450px;
+}
+
+
+.date_month .options li{
+    color:black;
+    font-size:1em;
+    list-style-image:none;
+    list-style-position:outside;
+    list-style-type:none;
+    margin-bottom:5px;
+    margin-top:5px;
+    padding-left:5px;
+    padding-right:5px;
+    padding-bottom:1px;
+    padding-top:1px;
+}
+
+.message{
+    display: block;
+    font-size:.5em;
+}
+
+
+.infoBarClass {
+    -moz-user-select:none;
+    color:gray;
+    font-size:1.3em;
+    margin-left:25px;
+    padding-top:5px;
+    width:942px;
+    border-bottom:2px dotted;
+}  
+
+
+.ShortSelectList, 
+.NumbersOnlyWithDecimal,
+.NumbersOnly,
+.DatesOnly { height: 320px !important }
+.NoKeyboard, .NoControls { height: 520px !important } 
+.NoKeyboard .inputFrameClass { height: 440px !important } 
+.NoKeyboard .options { height: 395px !important } 
+
+#footer button, div.buttonsDiv button {
+    margin-top: 10px;
+    min-width: 140px;
+}
+
+textarea {
+    background-color: #eee;
+    border: 0px solid #eee;
+    padding: 10px;
+    font-size: 2.2em;
+}
+
+#apostrophe {
+    margin-left: 25px;
+}
+
+#backspace {
+    margin-left: 40px;
+}
+
+.qwertyKeyboard #backspace, #apostrophe {
+    margin-left: 20px;
+}
+
+.qwertyKeyboard #apostrophe {
+    margin-left: 5px;
+}
+
+.abcKeyboard #backspace {
+    margin-left: 5px;
+}
+
+.abcKeyboard #qwerty, #backspace, #num, #apostrophe {
+    margin-left: 5px;
+    min-width: 80px;
+}
+
+#zero {
+    margin-left: 85px;
+}
+
+button {
+    min-width:75px;
+    margin: 3px;
+}
+
+.NumbersWithUnknown #star,
+.NumbersWithUnknown #abc,
+.NumbersWithUnknown #char,
+.NumbersWithUnknown #date,
+.NumbersWithUnknown #minus,
+.NumbersWithUnknown #plus,
+.NumbersWithUnknown #decimal,
+.NumbersWithUnknown #slash,
+.NumbersWithUnknown #comma,
+.NumbersWithUnknown #percent{
+    display: none
+}
+
+.NumbersWithUnknown #Unknown{
+    display: block
+}
+
+.confirmation {
+    left:50%;
+    margin-left: -225px;
+    width: 400px;
+    position: absolute;
+    top: 30%;
+    font-size: 2em;
+    text-align: center;
+    background-color: tomato;
+    padding: 10px;
+    z-index: 999;
+    border: 5px outset tomato;
+}
+
+.NumbersWithUnknownAndDecimal #star,
+.NumbersWithUnknownAndDecimal #abc,
+.NumbersWithUnknownAndDecimal #char,
+.NumbersWithUnknownAndDecimal #date,
+.NumbersWithUnknownAndDecimal #minus,
+.NumbersWithUnknownAndDecimal #plus,
+.NumbersWithUnknownAndDecimal #slash,
+.NumbersWithUnknownAndDecimal #comma,
+.NumbersWithUnknownAndDecimal #percent{
+    display: none
+}
+
+.statusLabel {
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #efe;
+    font-size: 2em;
+    padding: 15px;
+    width: 915px;
+    top: 120px;
+    margin-left: 50%;
+    left: -475px;
+    -moz-border-radius: 20px;
+}
+
+.NoKeyboard #keyboard {
+    display: none;
+}
+
+button:active.blue span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.blue {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.green span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.green {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.red span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active.red {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active span {
+    background:url(../images/buttons/btn_left_yellow.png) left no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+button:active {
+    background:url(../images/buttons/btn_right_yellow.png) right no-repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.btn {
+    min-height: 50px;
+    margin: 0px;
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    background-color: #6281a7;
+    color: #FFF;
+    font-weight: normal;
+    border: 5px outset #000;
+    padding: 10px;
+    cursor: pointer;
+    background:url(../images/btn_blue.png) right repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.btn:hover {
+    background:url(../images/btn_blue_hover.png) right repeat;
+    -moz-user-select:none;
+    -moz-user-focus:disabled;
+}
+
+.btn:active {
+    background:url(../images/btn_yellow.png) right repeat;
+    border: 3px inset #000;
+}
+
+#na, #Unknown, #backspace, #char, #whitespace, #num {
+    float: right;
+}
+
+ul li.odd {
+    background-color: #ddd;
+}
+
+ul li.even {
+    background-color: #eee;
+}
+
+ul li {
+    cursor: pointer;
+}
+
+.selectedOption {
+    background-color: lightblue;
+}

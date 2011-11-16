@@ -5,7 +5,9 @@
 </style>
 <div id="dashboard">
     <%= render :partial => "details" %>    
-
+    <div id="project_name" >DM</div>
+    <div id="custom_banner" path="/patients/graph?patient_id=<%= @patient.id %>"></div>
+    
     <select id="links">
         <option value='/encounters/outcome?patient_id=<%= @patient.id -%>'>Outcome</option>
         <%if @doctor%>
@@ -66,6 +68,7 @@
     </select>
 
     <select id="navigation_links">
+      <option link="/people">Finish</option>
         <option link='<%= ((session[:datetime].to_date rescue '') != '' ?
                     "/people/reset_datetime/#{@patient.id}" : "/people/set_datetime/#{@patient.id}") %>'  ttSize="160px">
           <%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>

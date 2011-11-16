@@ -40,7 +40,7 @@
           :id => "patient_type",
         }) %>
 
-      <% @type_list = ["NEW PATIENT", "TRANSFER IN", "REFERRED"] %>
+      <% @type_list = ["NEW PATIENT", "TRANSFER IN", "TEMPORARY PATIENT"] %>
       <%= select_tag("observations[][value_coded_or_text]", options_for_select(@type_list),options)%>
       <%= hidden_field_tag("observations[][concept_name]",        "TYPE OF PATIENT")%>
       <%= hidden_field_tag("observations[][patient_id]",          @patient.id) %>
@@ -48,19 +48,19 @@
 
       <% options=default.merge(
         {:helpText => 'Year of Diabetes Diagnosis',
-          :field_type => 'text',  :id => "year_of_initial_diagnosis",
+          :field_type => 'number',  :id => "year_of_initial_diagnosis",
           # :optional => true,
           :multiple => false,
           :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
           :tt_onUnLoad => "onYearUpdateDateTime('initial_diagnosis_date', 'year_of_initial_diagnosis', 'diagnosis_date_value_modifier');",
-          :tt_pageStyleClass => "LongSelectList"
+          :tt_pageStyleClass => "NumbersWithUnknown"
         }) %>
 
-      <%= select_tag "year_of_initial_diagnosis", options_for_select(@select_init_diagnosis_year, ""),options %>
+      <%= text_field_tag "year_of_initial_diagnosis", nil, options %>
 
       <%= select_tag "month_of_initial_diagnosis", month_name_options(""),
         {:helpText => 'Month of Diagnosis',
-        :tt_pageStyleClass => 'LongSelectList',
+        :tt_pageStyleClass => 'longSelectList',
         :id => "month_of_initial_diagnosis",
         :condition => '$("year_of_initial_diagnosis").value.toLowerCase() != "unknown" && (year - $("year_of_initial_diagnosis").value <= 2)',
         :tt_onUnLoad => "onMonthUpdateDateTime('initial_diagnosis_date', 'month_of_initial_diagnosis', 'diagnosis_date_value_modifier');"}%>
@@ -93,7 +93,7 @@
           :condition => "$('tb_ever').value.match(/^yes$/i);",
           :absoluteMin => "1950", :min => "1940", :absoluteMax => Date.today.year,
           # :tt_onUnLoad => "$('tb_dates_value_coded_or_text').value = $('touchscreenInput' + tstCurrentPage).value; ",
-          :tt_pageStyleClass => "LongSelectList"
+          :tt_pageStyleClass => "longSelectList"
         }) %>
 
       <%= select_tag("observations[][value_numeric]", options_for_select(@select_init_diagnosis_year, ""),options) %>

@@ -131,8 +131,8 @@ class Patient < ActiveRecord::Base
     label.draw_multi_text("Diabetes Tests (Printed on: #{Date.today.strftime('%d/%b/%Y')})", :font_reverse => true)
 
     recent_complications.map{|key, complication|
-      label.draw_multi_text("* #{complication.to_s_formatted.titleize}\t(#{complication.obs_datetime.strftime("%b %Y")})", :font_reverse => false) rescue nil
-    }
+      label.draw_multi_text("* #{complication.to_s.titleize}\t", :font_reverse => false) rescue nil
+    } 
     label.print(1)
   end
 
@@ -305,73 +305,110 @@ class Patient < ActiveRecord::Base
 
     diabetes_test_id = EncounterType.find_by_name('Diabetes Test').id
 
+    creatinine = {}
+    @creatinine_obs = []
     creatinine_id = Concept.find_by_name('CREATININE').id
-    @creatinine_obs = @patient.person.observations.find(:all,
+    @patient.person.observations.find(:all,
       :joins => :encounter,
       :conditions => ['encounter_type = ? AND concept_id = ?',
         diabetes_test_id, creatinine_id],
-      :order => 'obs_datetime DESC').first rescue ""
-
+      :order => 'obs_datetime DESC').each{|o| 
+      @creatinine_obs << "#{o.to_s_formatted} #{("(" + 
+      o.obs_datetime.strftime("%d-%b-%Y") + ")") if !creatinine[o.obs_datetime.strftime("%d-%b-%Y")]}; "
+      creatinine[o.obs_datetime.strftime("%d-%b-%Y")] = true
+    } # rescue []
+   
     # Urine Protein
+    urine = {}
+    @urine_protein_obs = []
     urine_protein_id = Concept.find_by_name('URINE PROTEIN').id
-    @urine_protein_obs = @patient.person.observations.find(:all,
+    @patient.person.observations.find(:all,
       :joins => :encounter,
       :conditions => ['encounter_type = ? AND concept_id = ?',
         diabetes_test_id, urine_protein_id],
-      :order => 'obs_datetime DESC').first rescue ""
+      :order => 'obs_datetime DESC').each{|o| 
+      @urine_protein_obs << "#{o.to_s_formatted} #{("(" + 
+      o.obs_datetime.strftime("%d-%b-%Y") + ")") if !urine[o.obs_datetime.strftime("%d-%b-%Y")]}; "
+      urine[o.obs_datetime.strftime("%d-%b-%Y")] = true
+    } # rescue []
 
     # Foot Check
+    foot = {}
+    @foot_check_obs = []
     foot_check_encounters = @patient.encounters.find(:all,
       :joins => :observations,
       :conditions => ['concept_id IN (?)',
         ConceptName.find_all_by_name(['RIGHT FOOT/LEG',
             'LEFT FOOT/LEG']).map(&:concept_id)])
-    @foot_check_obs = @patient.person.observations.find(:all,
+    @patient.person.observations.find(:all,
       :joins => :encounter,
       :conditions => ['encounter_type = ? AND encounter.encounter_id IN (?)',
         diabetes_test_id, foot_check_encounters.map(&:id)],
-      :order => 'obs_datetime DESC').first rescue ""
+      :order => 'obs_datetime DESC').each{|o| 
+      @foot_check_obs << "#{o.to_s_formatted} #{("(" + 
+      o.obs_datetime.strftime("%d-%b-%Y") + ")") if !foot[o.obs_datetime.strftime("%d-%b-%Y")]}; "
+      foot[o.obs_datetime.strftime("%d-%b-%Y")] = true
+    } # rescue []
 
     # Visual Acuity RIGHT EYE FUNDOSCOPY
+    visual = {}
+    @visual_acuity_obs = []
     visual_acuity_encounters = @patient.encounters.find(:all,
       :joins => :observations,
       :conditions => ['concept_id IN (?)',
         ConceptName.find_all_by_name(['LEFT EYE VISUAL ACUITY',
             'RIGHT EYE VISUAL ACUITY']).map(&:concept_id)])
-    @visual_acuity_obs = @patient.person.observations.find(:all,
+    @patient.person.observations.find(:all,
       :joins => :encounter,
       :conditions => ['encounter_type = ? AND encounter.encounter_id IN (?)',
         diabetes_test_id, visual_acuity_encounters.map(&:id)],
-      :order => 'obs_datetime DESC').first rescue ""
+      :order => 'obs_datetime DESC').each{|o| 
+      @visual_acuity_obs << "#{o.to_s_formatted} #{("(" + 
+      o.obs_datetime.strftime("%d-%b-%Y") + ")") if !visual[o.obs_datetime.strftime("%d-%b-%Y")]}; "
+      visual[o.obs_datetime.strftime("%d-%b-%Y")] = true
+    } # rescue []
 
     # Fundoscopy
+    fundo = {}
+    @fundoscopy_obs = []
     fundoscopy_encounters = @patient.encounters.find(:all,
       :joins => :observations,
       :conditions => ['concept_id IN (?)',
         ConceptName.find_all_by_name(['LEFT EYE FUNDOSCOPY',
             'RIGHT EYE FUNDOSCOPY']).map(&:concept_id)])
-    @fundoscopy_obs = @patient.person.observations.find(:all,
+     @patient.person.observations.find(:all,
       :joins => :encounter,
       :conditions => ['encounter_type = ? AND encounter.encounter_id IN (?)',
         diabetes_test_id, fundoscopy_encounters.map(&:id)],
-      :order => 'obs_datetime DESC').first rescue ""
+      :order => 'obs_datetime DESC').each{|o| 
+      @fundoscopy_obs << "#{o.to_s_formatted} #{("(" + 
+      o.obs_datetime.strftime("%d-%b-%Y") + ")") if !fundo[o.obs_datetime.strftime("%d-%b-%Y")]}; "
+      fundo[o.obs_datetime.strftime("%d-%b-%Y")] = true
+    } # rescue []
 
     # Urea
+    urea = {}
+    @urea_obs = []
     urea_id = Concept.find_by_name('UREA').id
-    @urea_obs = @patient.person.observations.find(:all,
+    @patient.person.observations.find(:all,
       :joins => :encounter,
       :conditions => ['encounter_type = ? AND concept_id = ?',
         diabetes_test_id, urea_id],
-      :order => 'obs_datetime DESC').first rescue ""
+      :order => 'obs_datetime DESC').each{|o| 
+      @urea_obs << "#{o.to_s_formatted} #{("(" + 
+      o.obs_datetime.strftime("%d-%b-%Y") + ")") if !urea[o.obs_datetime.strftime("%d-%b-%Y")]}; "
+      urea[o.obs_datetime.strftime("%d-%b-%Y")] = true
+    } # rescue []
     
-    recent_screen_complications = {"creatinine" => @creatinine_obs,
-      "urine_protein" => @urine_protein_obs,
-      "foot_check" => @foot_check_obs,
-      "visual_acuity" => @visual_acuity_obs,
-      "fundoscopy" => @fundoscopy_obs,
-      "urea" => @urea_obs
-    }
+    recent_screen_complications = {}
+    recent_screen_complications["creatinine"] = @creatinine_obs.reverse if @creatinine_obs != []
+    recent_screen_complications["urine_protein"] = @urine_protein_obs.reverse if @urine_protein_obs != []
+    recent_screen_complications["foot_check"] = @foot_check_obs.reverse if @foot_check_obs != []
+    recent_screen_complications["visual_acuity"] = @visual_acuity_obs.reverse if @visual_acuity_obs != []
+    recent_screen_complications["fundoscopy"] = @fundoscopy_obs.reverse if @fundoscopy_obs != []
+    recent_screen_complications["urea"] = @urea_obs.reverse if @urea_obs != []    
 
+    recent_screen_complications
   end
 
   def self.patient_diabetes_medication_duration(patient_id)

@@ -501,7 +501,16 @@ function generateDashboard(){
         ageRow.appendChild(agevalue);
     }
 
-    if(__$('project_name')){
+    if(__$('custom_banner')){
+        var application = document.createElement("div");
+        application.id = "patient-dashboard-custom";
+
+        content.appendChild(application);
+
+        application.innerHTML = "<iframe src='" + (__$('custom_banner').getAttribute("path") ? 
+        __$('custom_banner').getAttribute("path") : "") + "' id='custom_page'></iframe>";;
+
+    } else if(__$('project_name')){
         var application = document.createElement("div");
         application.id = "patient-dashboard-application";
 
@@ -734,19 +743,21 @@ function generateGeneralDashboard(){
 
     nav.appendChild(finish);
 
-    var logout = document.createElement("button");
-    logout.id = "btnCancel";
-    logout.innerHTML = "<span>Cancel</span>";
-    logout.className = "red";
-    logout.style.cssFloat = "left";
-    logout.style.margin = "10px";
-    logout.onclick = function(){
-        if(tt_cancel_show){
-            window.location = tt_cancel_show;
+    if(tt_cancel_show){
+        var logout = document.createElement("button");
+        logout.id = "btnCancel";
+        logout.innerHTML = "<span>Cancel</span>";
+        logout.className = "red";
+        logout.style.cssFloat = "left";
+        logout.style.margin = "10px";
+        logout.onclick = function(){
+            if(tt_cancel_show){
+                window.location = tt_cancel_show;
+            }
         }
-    }
 
-    nav.appendChild(logout);
+        nav.appendChild(logout);
+    }
 
     main.innerHTML += page;
 

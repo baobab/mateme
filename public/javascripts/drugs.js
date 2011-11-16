@@ -1202,6 +1202,7 @@ function loadDrugs(drug, dosefreqdiv){
 
 function createSolubleInsulinDosageFrequencyTable(drug, dosefreqdiv){
     var tbl = document.createElement("table");
+    tbl.id = "lente";
     tbl.width = "100%";
     tbl.cellSpacing = 0;
     tbl.cellPadding = 3;
@@ -1235,6 +1236,7 @@ function createSolubleInsulinDosageFrequencyTable(drug, dosefreqdiv){
     tdBody.appendChild(div);
 
     var tblContent = document.createElement("table");
+    tbl.id = "lente";
     tblContent.cellSpacing = 1;
     tblContent.cellPadding = 2;
     tblContent.width = "100%";
@@ -1651,6 +1653,7 @@ function createLenteInsulinDosageFrequencyTable(drug, dosefreqdiv){
     tdBody.appendChild(div);
 
     var tblContent = document.createElement("table");
+    tbl.id = "lente";
     tblContent.cellSpacing = 1;
     tblContent.cellPadding = 2;
     tblContent.width = "100%";

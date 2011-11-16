@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Registration</title>
-        <script type="text/javascript" language="javascript" src="../lib/javascripts/touchScreenToolkit.js" defer  ></script>
+        <script type="text/javascript" language="javascript" src="lib/javascripts/touchScreenToolkit.js" defer  ></script>
         <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
         <script language="javascript">
             tstUsername = "";
@@ -30,13 +30,32 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Gender</td>
+                            <td>Password</td>
                             <td>
-                                <select style='width: 100%' name='gender' id='gender' helptext='Gender'>
+                                <input type='password' value='Text1%$^&' field_type='password' name='password' id='password' 
+                                       helptext='Password' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender (Single Selection Example)</td>
+                            <td>
+                                <select style='width: 100%' name='gender' id='gender' helptext='Gender (Single Selection Example)'>
                                     <option></option>
                                     <option>Male</option>
                                     <option>Female</option>
                                     <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Allergies (Multiple Selection Example)</td>
+                            <td>
+                                <select style='width: 100%' name='gender' id='gender' helptext='Allergies (Multiple Selection Example)' multiple="multiple">
+                                    <option></option>
+                                    <option>Groundnuts</option>
+                                    <option>Flowers</option>
+                                    <option>Fur</option>
+                                    <option>Dust</option>
                                 </select>
                             </td>
                         </tr>
@@ -49,13 +68,14 @@
                         <tr>
                             <td>Mother's Surname</td>
                             <td>
-                                <input type='text' value='Text' field_type='text' name='mother's_surname' id='mother's_surname' helptext='Mother's Surname' />
+                                <input type='text' value='Text' field_type='text' name='mothers_surname' id='mothers_surname' helptext="Mother's Surname" />
                             </td>
                         </tr>
                         <tr>
                             <td>Year Of Birth</td>
                             <td>
-                                <input type='text' value='' field_type='number' name='birth_year' id='birth_year' helptext='Year Of Birth' />
+                                <input type='text' value='' field_type='number' name='birth_year' id='birth_year' helptext='Year Of Birth' 
+                                       tt_pageStyleClass="NumbersWithUnknown" validationCode="this.value.match(/^19\d{2}$/)" validationMessage="This is a question for adults only" />
                             </td>
                         </tr>
                         <tr>
@@ -82,7 +102,10 @@
                         <tr>
                             <td>Birth Day</td>
                             <td>
-                                <input type='text' value='' field_type='number' name='birth_day' id='birth_day' helptext='Birth Day' />
+                                <input type='text' value='' field_type='number' name='bday' 
+                                       id='bday' helptext='Birth Day' 
+                                       tt_pageStyleClass="NumbersWithUnknown" />
+                                
                             </td>
                         </tr>
                         <tr>
@@ -106,7 +129,7 @@
                         <tr>
                             <td>Cell Phone Number</td>
                             <td>
-                                <input type='text' value='' field_type='number' name='cell_phone_number' id='cell_phone_number' helptext='Cell Phone Number' />
+                                <input type='text' value='' optional="true" field_type='number' name='cell_phone_number' id='cell_phone_number' helptext='Cell Phone Number' />
                             </td>
                         </tr>
                         <tr>

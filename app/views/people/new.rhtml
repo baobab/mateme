@@ -12,6 +12,28 @@
     height:17em;
   }
 </style>
+<style>
+
+  .tt_controls_month_of_birth #num , #apostrophe { display:none; }
+
+  .tt_controls_home_village #space , #apostrophe { display:inline; }
+
+  .tt_controls_current_traditional_authority_ta #space { display:inline; }
+
+  .tt_controls_current_village_residence #space { display:inline; }
+
+  .tt_controls_cell_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .tt_controls_home_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .tt_controls_office_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .nota #na {
+    display: block;
+  }
+
+</style>
+
 <script>
   var tt_cancel_destination = "/people"
   var skipped = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -41,11 +63,11 @@
 
   <%= text_field_tag "person[addresses][address2]", params[:address2], {:id => 'address2', :field_type => 'alpha', :helpText => 'Home Village', :ajaxURL => '/person_addresses/address2?search_string=', :allowFreeText => true, :condition => '$("address2").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } if ask_home_village %>
 
-  <%= select_tag "person[birth_year]", options_for_select(@select_years), {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "LongSelectList", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
+  <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number', :absoluteMin => "1890", :min => (Date.today.year-50), :max => (Date.today.year-10), :absoluteMax => Date.today.year, :tt_pageStyleClass => "NumbersOnlyWithUnknown", :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
   <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth', :tt_pageStyleClass => "LongSelectList", :condition => '$("person_birth_year").value.toLowerCase() != "unknown"'}%>
 
-  <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "Numeric NumbersOnly"} %>
+  <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Age Estimate', :absoluteMin => 1, :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"', :tt_pageStyleClass => "NumbersOnly"} %>
 
   <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day', :absoluteMin => 1, :absoluteMax => 31, :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")', :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value,$('person_birth_month').value)" %>
 
@@ -58,15 +80,21 @@
   <%= text_field_tag "person[addresses][address2]",  params[:address2], {:field_type => 'alpha', :helpText => 'Home district', :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true }%>
 
 <%if @ask_cell_phone == 'true'%>
-  <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Cell Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available", :validationMessage => "Not a valid phone number" %>
+  <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', 
+    :tt_pageStyleClass => "nota", :helpText => 'Cell Phone Number', :allowFreeText => "true", 
+    :validationRule => "^0\\d{9}$|Unknown|N\/A", :validationMessage => "Not a valid phone number" %>
 <%end%>
 
 <%if @ask_home_phone == 'true'%>
-  <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', :helpText => 'Home Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number" %>
+  <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', 
+    :tt_pageStyleClass => "nota", :helpText => 'Home Phone Number', :allowFreeText => "true", 
+    :validationRule => "^0\\d{7}$|Unknown|N\/A|^0\\d{9}$", :validationMessage => "Not a valid phone number" %>
 <%end%>
 
 <%if @ask_office_phone == 'true'%>
-  <%= text_field_tag "person[attributes][office_phone_number]",  nil, :field_type => 'number', :helpText => 'Office Phone Number', :allowFreeText => "true", :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$", :validationMessage => "Not a valid phone number" %>
+  <%= text_field_tag "person[attributes][office_phone_number]",  nil, :field_type => 'number', 
+    :tt_pageStyleClass => "nota", :helpText => 'Office Phone Number', :allowFreeText => "true", 
+    :validationRule => "^0\\d{7}$|Unknown|N\/A|^0\\d{9}$", :validationMessage => "Not a valid phone number" %>
 <%end%>
 
   <%= select_tag "person[attributes][occupation]", options_for_select([" ", "Housewife", "Farmer", "Police", "Soldier", "Business", "Teacher", "Student", "Healthcare Worker"].sort.concat(["Other"]), params[:occupation]), {:helpText => 'Occupation'}%>

@@ -5,7 +5,7 @@
 
 <style>
   .even {
-     -moz-border-radius: 15px;
+    -moz-border-radius: 15px;
   }
   .outerdiv{
     background-color: white;
@@ -21,76 +21,76 @@
       <div >
         <div id = "content"></div>
         <base target="_parent">
-          <%@lab_results_header = false%>
-          <% @outcome_updated = false %>
+        <%@lab_results_header = false%>
+        <% @outcome_updated = false %>
 
-          <table width="100%">
-            <%@encounter_names.each{|encounter_name|
-                header = true
-                i = 0
-                for encounter in @encounters do
-                  i += 1
+        <table width="100%">
+          <%@encounter_names.each{|encounter_name|
+            header = true
+            i = 0
+            for encounter in @encounters do
+              i += 1
 
-                  if encounter.name == encounter_name %>
-                      <%
-                      if((@lab_results_header == true) && (encounter.name == "DIABETES TEST" || encounter.name == "LAB RESULTS"))
-                        header = false
-                      end
-                      %>
-
-                    <%if header == true %>
-
-                      <%header_title = encounter.name.humanize.titleize
-                        header_title = "HIV Status" if header_title == "Update Hiv Status".titleize
-                        header_title = "Lab Results" if header_title == "Diabetes Test".titleize
-                      if((encounter.name == "DIABETES TEST" || encounter.name == "LAB RESULTS"))
-                        @lab_results_header = true
-                      end
-                    %>
-
-                      <tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h(header_title)%></th> </tr>
-                    <%end%>
-                    <% header = false%>
-                    <tr>
-                      <td>
-                        <%if header_title == "Update Outcome".titleize
-                          if !@outcome_updated %>
-                            <%= @patient.retro_updated_outcome(current_session_date).to_s.lstrip.gsub(/\n/, '<br/>')%>
-                          <% end %>
-                        <% else %>
-                          <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') %>
-                        <%  end %>
-                        <%#= current_outcome %>
-                      </td>
-                      <td>
-
-                        <% if(encounter.to_s != "No prescriptions have been made") %>
-                         <% if(header_title == "Update Outcome".titleize)%>
-                           <%if !@outcome_updated%>
-                                <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
-                                  {:confirm => "Are you sure you want to void this entry?", :form_id => "frm_current_encounter_"+i.to_s},
-                                  {:encounter_id => @patient.retro_updated_outcome(current_session_date).encounter_id, :void => "true"}) -%>
-                              <%  @outcome_updated = true %>
-                            <% end %>
-                        <%else%>
-                            <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
-                              {:confirm => "Are you sure you want to void this entry?", :form_id => "frm_current_encounter_"+i.to_s},
-                              {:encounter_id => encounter.encounter_id, :void => "true"}) -%>
-                         <% end %>
-                        <% end %>
-
-                      </td>
-                    </tr>
-                  <%end
+              if encounter.name == encounter_name %>
+                <%
+                if((@lab_results_header == true) && (encounter.name == "DIABETES TEST" || encounter.name == "LAB RESULTS"))
+                  header = false
                 end
-              }%>
+              %>
+
+                <%if header == true %>
+
+                  <%header_title = encounter.name.humanize.titleize
+                  header_title = "HIV Status" if header_title == "Update Hiv Status".titleize
+                  header_title = "Lab Results" if header_title == "Diabetes Test".titleize
+                  if((encounter.name == "DIABETES TEST" || encounter.name == "LAB RESULTS"))
+                    @lab_results_header = true
+                  end
+                %>
+
+                  <tr> <th class="tableHeader" colspan="2" style="height:2px;"><%=h(header_title)%></th> </tr>
+                <%end%>
+                <% header = false%>
+                <tr>
+                  <td>
+                    <%if header_title == "Update Outcome".titleize
+                      if !@outcome_updated %>
+                        <%= @patient.retro_updated_outcome(current_session_date).to_s.lstrip.gsub(/\n/, '<br/>')%>
+                      <% end %>
+                    <% else %>
+                      <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') %>
+                    <%  end %>
+      <%#= current_outcome %>
+                  </td>
+                  <td>
+
+                    <% if(encounter.to_s != "No prescriptions have been made") %>
+                      <% if(header_title == "Update Outcome".titleize)%>
+                        <%if !@outcome_updated%>
+                          <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                            {:confirm => "Are you sure you want to void this entry?", :form_id => "frm_current_encounter_"+i.to_s},
+                            {:encounter_id => @patient.retro_updated_outcome(current_session_date).encounter_id, :void => "true"}) -%>
+                          <%  @outcome_updated = true %>
+                        <% end %>
+                      <%else%>
+                        <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
+                          {:confirm => "Are you sure you want to void this entry?", :form_id => "frm_current_encounter_"+i.to_s},
+                          {:encounter_id => encounter.encounter_id, :void => "true"}) -%>
+                      <% end %>
+                    <% end %>
+
+                  </td>
+                </tr>
+              <%end
+            end
+          }%>
         </table>
         </base>
       </div>
     </div>
-    <div style="display: table-cell; max-width: 50%; padding: 5px; border: 1px solid #eee;">
-      <%= render "simple_graph" %>
-    </div>
-   </div>
+    <!--div style="display: table-cell; max-width: 50%; padding: 5px; border: 1px solid #eee;">
+      <%#= render "simple_graph" %>
+    </div-->
+  </div>
 
 </div>
