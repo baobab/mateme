@@ -648,7 +648,7 @@ function getOptions() {
                 } else {
                     loadSelectOptions(selectOptions, options);
                 }
-                
+                      
                 var val = elementSelectedValue(tstFormElements[i]);
                 if (val == null) val = "";
                 tstInputTarget.value = val;
@@ -678,6 +678,7 @@ function getOptions() {
     }
 
     viewPort.appendChild(options)
+    
     return viewPort
 }
 
@@ -786,12 +787,12 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
         // ' onmousedown="'+ mouseDownAction +'"';
     
         optionsList += (j % 2 == 0 ? " class='odd' tag='odd' " : " class='even' tag='even'") + 
-            ' onclick="' + mouseDownAction + '" ';
+        ' onclick="' + mouseDownAction + '" ';
         
         // njih
         optionsList += ">" + (tstFormElements[tstCurrentPage].getAttribute("multiple") ? 
             "<div style='display: table; border-spacing: 0px;'><div style='display: table-row'>" + 
-            "<div style='display: table-cell;'><img id='img" + (j-1) + "' src='/touchscreentoolkit/lib/images/unticked.jpg' alt='[ ]' />" + 
+            "<div style='display: table-cell;'><img id='img" + (j-1) + "' src='lib/images/unticked.jpg' alt='[ ]' />" + 
             "</div><div style='display: table-cell; vertical-align: middle; " + 
             "text-align: left; padding-left: 15px;' id='optionValue"  + (j-1) + "'>" : "") + 
         selectOptions[j].text + "</div></div></div></li>\n";
@@ -915,7 +916,7 @@ function unhighlight(element){
 }
 
 //TODO make these into 1 function
-function updateTouchscreenInputForSelect(element, parentElement){
+function updateTouchscreenInputForSelect(element){
     
     var inputTarget = tstInputTarget;
     var multiple = inputTarget.getAttribute("multiple") == "multiple";
@@ -949,8 +950,7 @@ function updateTouchscreenInputForSelect(element, parentElement){
         }
     }
 
-    highlightSelection(element.parentNode.childNodes, inputTarget, 
-        (parentElement ? parentElement.childNodes : null))
+    highlightSelection(element.parentNode.childNodes, inputTarget)
             
     tt_update(inputTarget);
     checkRequireNextClick();
@@ -1021,7 +1021,7 @@ function highlightSelection(options, inputElement){
                     
                     if(id){
                         __$(id[1]).style.backgroundColor = "lightblue"
-                        __$("img" + id[1]).src = "/touchscreentoolkit/lib/images/ticked.jpg";
+                        __$("img" + id[1]).src = "lib/images/ticked.jpg";
                     }            
                 }
         
@@ -1037,7 +1037,7 @@ function highlightSelection(options, inputElement){
                     
                     if(id){
                         __$(id[1]).style.backgroundColor = ""
-                        __$("img" + id[1]).src = "/touchscreentoolkit/lib/images/unticked.jpg";
+                        __$("img" + id[1]).src = "lib/images/unticked.jpg";
                     }            
                 }
         
@@ -1508,9 +1508,9 @@ function confirmValue() {
     confirmationBar.appendChild(username);
 
     confirmationBar.innerHTML += "<div style='display: block; margin-top: 15px;'><input type='submit'" +
-        " value='OK' class='btn' style='float: left;' onclick='validateConfirmUsername()'" + 
-        " onmousedown='validateConfirmUsername()'/><input type='submit' value='Cancel' " + 
-        " class='btn' style='float: right; right: 3px;' onmousedown='cancelConfirmValue()' />";
+    " value='OK' class='btn' style='float: left;' onclick='validateConfirmUsername()'" + 
+    " onmousedown='validateConfirmUsername()'/><input type='submit' value='Cancel' " + 
+    " class='btn' style='float: right; right: 3px;' onmousedown='cancelConfirmValue()' />";
 
     confirmationBar.style.display = "block";
     tstInputTarget = __$("confirmUsername");
