@@ -491,7 +491,8 @@ class Patient < ActiveRecord::Base
   end
 
   def has_diabetes_initial_questions? #returns true if the initial questions exist and false if not
-    diabetes_initial_questions = self.encounters.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id)}.compact.last
+    diabetes_initial_questions = self.encounters.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id)}.compact.last rescue ""
+    
     return false if diabetes_initial_questions.blank?
     return true
   end
@@ -500,7 +501,7 @@ class Patient < ActiveRecord::Base
     self.encounters.all(:include => [:observations], :conditions => ["encounter.encounter_type = ?", EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id]).map{|encounter|
       encounter.observations.active.last(
         :conditions => ["obs.concept_id = ?", ConceptName.find_by_name("DIABETES DIAGNOSIS DATE").concept_id])
-    }.flatten.compact.last
+    }.flatten.compact.last rescue nil
   end
 
   def retro_updated_outcome(search_date)

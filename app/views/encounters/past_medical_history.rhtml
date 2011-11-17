@@ -122,7 +122,7 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
       :condition => '$("strokes_value_coded_or_text").value == "Yes"',
       :optional => true,
       :multiple => true,
-      :tt_pageStyleClass => "MultiSelectList"
+      :tt_pageStyleClass => "longSelectList"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",        "YEAR OF OCCURRENCE") %>
@@ -194,7 +194,7 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
       :optional => true,
       :multiple => false,
       :tt_onUnLoad => "$('year_of_echo_value_numeric').value = $('year_of_echo').value",
-      :tt_pageStyleClass => "LongSelectList"
+      :tt_pageStyleClass => "longSelectList"
     }) %>
 
   <%= select_tag("cardiac_problem[year_of_echo]", options_for_select(@select_years),options) %>
@@ -214,20 +214,19 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
     {:helpText => 'HYPERTENSION: Year of diagnosis',
       :id => "hypertension_year_of_diagnosis",
       :field_type => 'number',
-      :tt_requireNextClick => false,
       :optional => true,  :multiple => false,
       :condition => '$("hypertension_value_coded_or_text").value == "Yes"',
       :tt_onUnLoad => "onYearUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_year_of_diagnosis', 'hypertension_value_modifier');",
-      :tt_pageStyleClass => "LongSelectList"
+      :tt_pageStyleClass => "NumbersWithUnknown"
     } ) %>
 
-  <%= select_tag "hypertension[year_started]", options_for_select(@select_years),options %>
+  <%= text_field_tag "hypertension[year_started]", nil,options %>
 
   <%= select_tag "hypertension[month_started]", month_name_options,
     {:helpText => 'HYPERTENSION: Month of diagnosis',
     :tt_requireNextClick => false,
     :id => "hypertension_month_of_diagnosis",
-    :tt_pageStyleClass => "LongSelectList",
+    :tt_pageStyleClass => "longSelectList",
     :tt_onUnLoad => "onMonthUpdateDateTime('hypertension_date_of_diagnosis', 'hypertension_month_of_diagnosis', 'hypertension_value_modifier');",
     :condition => '$("hypertension_value_coded_or_text").value == "Yes" && $("hypertension_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("hypertension_year_of_diagnosis").value <= 2)',
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'HYPERTENSION: ' + $('hypertension_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"
@@ -277,7 +276,7 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
       :optional => true,  :multiple => false,
       :condition => '$("tuberculosis_value_coded_or_text").value == "Yes"',
       :tt_onUnLoad => "onYearUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_year_of_diagnosis', 'tuberculosis_value_modifier');",
-      :tt_pageStyleClass => "LongSelectList"
+      :tt_pageStyleClass => "longSelectList"
     } ) %>
 
   <%= select_tag "tuberculosis[year_started]", options_for_select(@select_years),options %>
@@ -286,7 +285,7 @@ begin @select_years << Array.new(1){this_year}; this_year = this_year - 1; end w
     {:helpText => 'TUBERCULOSIS: Month of diagnosis',
     :id => "tuberculosis_month_of_diagnosis",
     :tt_requireNextClick => false,
-    :tt_pageStyleClass => "LongSelectList",
+    :tt_pageStyleClass => "longSelectList",
     :tt_onUnLoad => "onMonthUpdateDateTime('tuberculosis_date_of_diagnosis', 'tuberculosis_month_of_diagnosis', 'tuberculosis_value_modifier');",
     :condition => '$("tuberculosis_value_coded_or_text").value == "Yes" && $("tuberculosis_year_of_diagnosis").value.toLowerCase() != "unknown" && (this_year - $("tuberculosis_year_of_diagnosis").value <= 2)',
     :tt_onLoad => "$('helpText'+tstCurrentPage).innerHTML = 'TUBERCULOSIS: ' + $('tuberculosis_year_of_diagnosis').value + '-<font color=#FF0000>MMM</font>-DD'"

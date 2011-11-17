@@ -34,152 +34,16 @@
     <!--div id="graph2" class="graph-button" onmousedown="plotAccordingToChoices(2);">Weight</div-->
     <div id="graph3" class="graph-button" onmousedown="plotAccordingToChoices(3);">BMI</div>
     <div id="graph4" class="graph-button" onmousedown="plotAccordingToChoices(4);">HbA1c</div>
-</div>
-<div id="simplegraphholder"></div>
+  </div>
+  <div id="simplegraphholder"></div>
 </div>
 
 <script type="text/javascript">
   jQuery.noConflict();
 
   function setData() {
-
-    var patient_weight = [
-        <% @min = Time.now
-        @max = Time.now
-        @obs = @patient.person.observations.find_by_concept_name("WEIGHT (KG)")
-        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
-        @min = obs.obs_datetime if obs.obs_datetime < @min %>
-        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
-        <%= obs.value_numeric -%>],<% end %>
-        ];
-
-   var patient_height = [
-        <% @min = Time.now
-        @max = Time.now
-        @obs = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
-        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
-        @min = obs.obs_datetime if obs.obs_datetime < @min %>
-        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
-        <%= obs.value_numeric -%>],<% end %>
-        ];
-
-    var currentWeight = null;
-    var currentHeight = null;
-    if (patient_weight.length > 0) {
-      currentWeight = patient_weight[patient_weight.length - 1][1];
-    }
-    if (patient_height.length > 0) {
-      currentHeight = patient_height[patient_height.length - 1][1];
-    }
-
-    var patientBMIHistory = []
-
-     /* TODO: Revise this code to allow for BMI rates over time */
-    if(currentHeight > 1.0){
-      patientBMIHistory.push([patient_weight[patient_weight.length - 1][0], calculateBMI(currentHeight, currentWeight)]);
-    }
-    else{
-      for (var i=0;i<patient_height.length;i++) {
-        if (patient_height[i] && patient_weight[i]) {
-          patientBMIHistory.push([patient_weight[i][0],
-                                  calculateBMI(patient_height[i][1], patient_weight[i][1])]);
-        }
-      }
-    }
-
-    var patientBMI = showBMI(currentHeight, currentWeight);
-
-    var systolic = [
-        <% @min = Time.now
-        @max = Time.now
-        @obs = @patient.person.observations.find_by_concept_name("SYSTOLIC BLOOD PRESSURE")
-        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
-        @min = obs.obs_datetime if obs.obs_datetime < @min %>
-        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
-        <%= obs.value_numeric -%>],<% end %>
-        ];
-
-    var diastolic = [
-        <% @min = Time.now
-        @max = Time.now
-        @obs = @patient.person.observations.find_by_concept_name("DIASTOLIC BLOOD PRESSURE")
-        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
-        @min = obs.obs_datetime if obs.obs_datetime < @min %>
-        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
-        <%= obs.value_numeric -%>],<% end %>
-        ];
-
-    var fasting = [
-        <% @min = Time.now
-        @max = Time.now
-        @obs = @patient.person.observations.find_by_concept_name("FASTING")
-        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
-        @min = obs.obs_datetime if obs.obs_datetime < @min %>
-        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
-        <%= obs.value_numeric -%>],<% end %>
-        ];
-
-    var random = [
-        <% @min = Time.now
-        @max = Time.now
-        @obs = @patient.person.observations.find_by_concept_name("RANDOM")
-        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
-        @min = obs.obs_datetime if obs.obs_datetime < @min %>
-        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
-        <%= obs.value_numeric -%>],<% end %>
-        ];
-
-    var glycated = [
-        <% @min = Time.now
-        @max = Time.now
-        @obs = @patient.person.observations.find_by_concept_name("HbA1c")
-        @obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
-        @min = obs.obs_datetime if obs.obs_datetime < @min %>
-        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
-        <%= obs.value_numeric -%>],<% end %>
-        ];
-
-    var bpGraphData = [{color: "green", points: { show: true }, lines: {show: true}, data: systolic,  label: "Systolic"},
-                   {color: "red", points: { show: true }, lines: {show: true}, data: diastolic ,  label: "Diastolic"}];
-
-    var bsGraphData = [ {color: "blue", points: { show: true }, lines: {show: true}, data: fasting ,  label: "Fasting"},
-                    {color: "green", points: { show: true }, lines: {show: true}, data: random,  label: "Random"}];
-
-    var weightLabel = "Weight <br/>("+ patientBMI +")";
-    var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label:weightLabel}];
+    var fixed = {};
     
-    var bmiLabel = patientBMI+"<br/>";
-    if (currentWeight) {
-      bmiLabel += "Weight: "+ currentWeight +" kg";
-    }
-    var bmiGraphData = [{data: patientBMIHistory, points: { show: true },lines: {show: true},  label:bmiLabel}];
-
-    var hba1cGraphData  = [{color: "rgb( 0, 205, 0)", points: { show: true },lines: {show: true}, data: glycated,  label: "HbA1c"}];
-
-    return [bsGraphData, bpGraphData, weightGraphData, bmiGraphData, hba1cGraphData];
-  }
-
-  function calculateBMI(height, weight) {
-    return (weight/(height*height)*10000).toFixed(1);
-  }
-
-  function showBMI(height, weight) {
-      var dispCurrentBmi = calculateBMI(height, weight);
-      var displayBmiInfo = "BMI: ";
-      if (dispCurrentBmi > 18.5) {
-        displayBmiInfo += dispCurrentBmi;
-      } else if (dispCurrentBmi > 17.0) {
-        displayBmiInfo += "<font color ='red'><b>" + dispCurrentBmi + "--Eligible for counseling</b></font>";
-      } else {
-        displayBmiInfo += "<font color ='red'><b>" + dispCurrentBmi + "--Eligible for therapeutic feeding</b></font>";
-      }
-
-      return displayBmiInfo;
-   }
-
-  function setPlotOptions(key) {
-    var options;
-
     max_x_axis = new Date();
     min_x_axis = new Date();
 
@@ -187,58 +51,239 @@
     max_x_axis = (new Date(max_x_axis.getFullYear() +"/"+ (max_x_axis.getMonth() + 2) +"/"+ max_x_axis.getDate())).getTime();
     min_x_axis = (new Date(min_x_axis.getFullYear() +"/"+ (min_x_axis.getMonth() + 2) +"/"+ min_x_axis.getDate())).getTime();
 
-    switch(key){
-      case 0: /* blood sugar tab */
-        y_axis = { min: 40, max: 500, ticks: 8};
-      break;
+    fixed["bmi1"] = [[min_x_axis, 20], [max_x_axis, 20]];
 
-      case 1:/* BP tab */
-        y_axis = { min: 40, max: 240, ticks: 8};
-      break;
+    fixed["bmi2"] = [[min_x_axis, 26], [max_x_axis, 26]];
 
-      case 2: /*  Weight */
-        y_axis = { min: 40, max: 250, ticks: 8};
-      break;
+    fixed["bp1"] = [[min_x_axis, 80], [max_x_axis, 80]];
 
-      case 3: /* BMI */
-        y_axis = {min: 10, max: 50, ticks: 8,
-                  tickFormatter: function (v, axis) { return v.toFixed(axis.tickDecimals) },
-                  tickDecimals: 1};
-      break;
+    fixed["bp2"] = [[min_x_axis, 130], [max_x_axis, 130]];
 
-      case 4: /* HbA1c */
-        y_axis = { min: 6, max: 20, ticks: 8};
-      break;
+    fixed["fast1"] = [[min_x_axis, 70], [max_x_axis, 70]];
 
-    }
+    fixed["fast2"] = [[min_x_axis, 130], [max_x_axis, 130]];
 
-    options = {
-      grid: { clickable: true },
-      legend: {position:"nw"},
-      xaxis:  {min:min_x_axis, max: max_x_axis, ticks: 8, mode: "time",timeformat: "%b-%Y"},
-      yaxis:  y_axis
-    };
-    return options;
-  }
+    fixed["random1"] = [[min_x_axis, 70], [max_x_axis, 70]];
 
-  /* hard-code color indices to prevent them from shifting as
+    fixed["random2"] = [[min_x_axis, 200], [max_x_axis, 200]];
+
+    var patient_weight = [
+<% @min = Time.now
+@max = Time.now
+@obs = @patient.person.observations.find_by_concept_name("WEIGHT (KG)")
+@obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+  @min = obs.obs_datetime if obs.obs_datetime < @min %>
+        [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+  <%= obs.value_numeric -%>],<% end %>
+      ];
+
+      var patient_height = [
+<% @min = Time.now
+@max = Time.now
+@obs = @patient.person.observations.find_by_concept_name("HEIGHT (CM)")
+@obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+  @min = obs.obs_datetime if obs.obs_datetime < @min %>
+          [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+  <%= obs.value_numeric -%>],<% end %>
+        ];
+
+        var currentWeight = null;
+        var currentHeight = null;
+        if (patient_weight.length > 0) {
+          currentWeight = patient_weight[patient_weight.length - 1][1];
+        }
+        if (patient_height.length > 0) {
+          currentHeight = patient_height[patient_height.length - 1][1];
+        }
+
+        var patientBMIHistory = []
+
+        /* TODO: Revise this code to allow for BMI rates over time */
+        if(currentHeight > 1.0){
+          patientBMIHistory.push([patient_weight[patient_weight.length - 1][0], calculateBMI(currentHeight, currentWeight)]);
+        }
+        else{
+          for (var i=0;i<patient_height.length;i++) {
+            if (patient_height[i] && patient_weight[i]) {
+              patientBMIHistory.push([patient_weight[i][0],
+                calculateBMI(patient_height[i][1], patient_weight[i][1])]);
+            }
+          }
+        }
+
+        var patientBMI = showBMI(currentHeight, currentWeight);
+
+        var systolic = [
+<% @min = Time.now
+@max = Time.now
+@obs = @patient.person.observations.find_by_concept_name("SYSTOLIC BLOOD PRESSURE")
+@obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+  @min = obs.obs_datetime if obs.obs_datetime < @min %>
+            [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+  <%= obs.value_numeric -%>],<% end %>
+          ];
+
+          var diastolic = [
+<% @min = Time.now
+@max = Time.now
+@obs = @patient.person.observations.find_by_concept_name("DIASTOLIC BLOOD PRESSURE")
+@obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+  @min = obs.obs_datetime if obs.obs_datetime < @min %>
+              [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+  <%= obs.value_numeric -%>],<% end %>
+            ];
+
+            var fasting = [
+<% @min = Time.now
+@max = Time.now
+@obs = @patient.person.observations.find_by_concept_name("FASTING")
+@obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+  @min = obs.obs_datetime if obs.obs_datetime < @min %>
+                [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+  <%= obs.value_numeric -%>],<% end %>
+              ];
+
+              var random = [
+<% @min = Time.now
+@max = Time.now
+@obs = @patient.person.observations.find_by_concept_name("RANDOM")
+@obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+  @min = obs.obs_datetime if obs.obs_datetime < @min %>
+                  [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+  <%= obs.value_numeric -%>],<% end %>
+                ];
+
+                var glycated = [
+<% @min = Time.now
+@max = Time.now
+@obs = @patient.person.observations.find_by_concept_name("HbA1c")
+@obs.sort_by{|obs| obs.obs_datetime}.each do |obs|
+  @min = obs.obs_datetime if obs.obs_datetime < @min %>
+                    [<%= (obs.obs_datetime.to_i * 1000) -%>, /* multiply 1000 to convert time stamp to javascript mode*/
+  <%= obs.value_numeric -%>],<% end %>
+                  ];
+
+                  var bpGraphData = [
+                    { id: 'row2', data: fixed["bp2"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} },              
+                    { id: 'row1', data: fixed["bp1"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} }, 
+                    {color: "green", points: { show: true }, lines: {show: true}, data: systolic,  label: "Systolic"},
+                    {color: "red", points: { show: true }, lines: {show: true}, data: diastolic ,  label: "Diastolic"}];
+
+                  var bsGraphData = [ 
+                    { id: 'row2', data: fixed["fast2"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} },              
+                    { id: 'row1', data: fixed["fast1"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} }, 
+                    {color: "blue", points: { show: true }, lines: {show: true}, data: fasting ,  label: "Fasting"},
+                    {color: "green", points: { show: true }, lines: {show: true}, data: random,  label: "Random"}];
+
+                  var weightLabel = "Weight <br/>("+ patientBMI +")";
+                  var weightGraphData = [{data: patient_weight, points: { show: true },lines: {show: true},  label:weightLabel}];
+    
+                  var bmiLabel = patientBMI+"<br/>";
+                  if (currentWeight) {
+                    bmiLabel += "Weight: "+ currentWeight +" kg";
+                  }
+                                    
+                  var bmiGraphData = [                      
+                    { id: 'row2', data: fixed["bmi2"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} },              
+                    { id: 'row1', data: fixed["bmi1"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} }, 
+                    {data: patientBMIHistory, points: { show: true },lines: {show: true},  label:bmiLabel}];
+
+                  var hba1cGraphData  = [
+                    { id: 'row2', data: fixed["random1"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} },
+                    { id: 'row2', data: fixed["random2"], yaxis: 20, color: "orange", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1, fill: 0.2} },
+                    {color: "rgb( 0, 205, 0)", points: { show: true },lines: {show: true}, data: glycated,  label: "HbA1c"}];
+
+                  return [bsGraphData, bpGraphData, weightGraphData, bmiGraphData, hba1cGraphData];
+                }
+
+                function calculateBMI(height, weight) {
+                  return (weight/(height*height)*10000).toFixed(1);
+                }
+
+                function showBMI(height, weight) {
+                  var dispCurrentBmi = calculateBMI(height, weight);
+                  var displayBmiInfo = "BMI: ";
+                  if (dispCurrentBmi > 18.5) {
+                    displayBmiInfo += dispCurrentBmi;
+                  } else if (dispCurrentBmi > 17.0) {
+                    displayBmiInfo += "<font color ='red'><b>" + dispCurrentBmi + "--Eligible for counseling</b></font>";
+                  } else {
+                    displayBmiInfo += "<font color ='red'><b>" + dispCurrentBmi + "--Eligible for therapeutic feeding</b></font>";
+                  }
+
+                  return displayBmiInfo;
+                }
+
+                function setPlotOptions(key) {
+                  var options;
+
+                  max_x_axis = new Date();
+                  min_x_axis = new Date();
+
+                  min_x_axis.setYear( min_x_axis.getFullYear() - 2 );
+                  max_x_axis = (new Date(max_x_axis.getFullYear() +"/"+ (max_x_axis.getMonth() + 2) +"/"+ max_x_axis.getDate())).getTime();
+                  min_x_axis = (new Date(min_x_axis.getFullYear() +"/"+ (min_x_axis.getMonth() + 2) +"/"+ min_x_axis.getDate())).getTime();
+
+                  switch(key){
+                    case 0: /* blood sugar tab */
+                      y_axis = { min: 40, max: 300, ticks: 8};
+                      break;
+
+                    case 1:/* BP tab */
+                      y_axis = { min: 40, max: 240, ticks: 8};
+                      break;
+
+                    case 2: /*  Weight */
+                      y_axis = { min: 40, max: 250, ticks: 8};
+                      break;
+
+                    case 3: /* BMI */
+                      y_axis = {min: 10, max: 50, ticks: 8,
+                        tickFormatter: function (v, axis) { return v.toFixed(axis.tickDecimals) },
+                        tickDecimals: 1};
+                      break;
+
+                    case 4: /* HbA1c */
+                      y_axis = { min: 6, max: 300, ticks: 8};
+                      break;
+
+                  }
+
+                  options = {
+                    grid: { clickable: true },
+                    legend: {position:"nw"},
+                    xaxis:  {min:min_x_axis, max: max_x_axis, ticks: 8, mode: "time",timeformat: "%b-%Y"},
+                    yaxis:  y_axis
+                  };
+                  return options;
+                }
+
+                /* hard-code color indices to prevent them from shifting as
    the user switches among the graphs */
 
-  var i = 0;
-  var datasets = setData();
+                var i = 0;
+                var datasets = setData();
 
-  jQuery.each(datasets, function(key, val) {
-    val.color = i;
-    ++i;
-  });
+                jQuery.each(datasets, function(key, val) {
+                  val.color = i;
+                  ++i;
+                });
 
-  function plotAccordingToChoices(key) {
-    if (typeof(key) == 'undefined') key = 0;
-    jQuery('#choices div').attr('class', 'graph-button');
-    jQuery('#graph'+key).attr('class', 'graph-button active');
-    jQuery.plot(jQuery("#simplegraphholder"), datasets[key], setPlotOptions(key));
-  }
+                function plotAccordingToChoices(key) {
+                  if (typeof(key) == 'undefined') key = 0;
+                  jQuery('#choices div').attr('class', 'graph-button');
+                  jQuery('#graph'+key).attr('class', 'graph-button active');
+                  jQuery.plot(jQuery("#simplegraphholder"), datasets[key], setPlotOptions(key));
+                }
 
-  plotAccordingToChoices(0);
+                plotAccordingToChoices(0);
 
 </script>
