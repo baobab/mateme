@@ -164,18 +164,18 @@
                   ];
 
                   var bpGraphData = [
-                    { id: 'row2', data: fixed["bp2"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} },              
-                    { id: 'row1', data: fixed["bp1"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} }, 
+                    { id: 'row2', data: fixed["bp2"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} },              
+                    { id: 'row1', data: fixed["bp1"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} }, 
                     {color: "green", points: { show: true }, lines: {show: true}, data: systolic,  label: "Systolic"},
                     {color: "red", points: { show: true }, lines: {show: true}, data: diastolic ,  label: "Diastolic"}];
 
                   var bsGraphData = [ 
-                    { id: 'row2', data: fixed["fast2"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} },              
-                    { id: 'row1', data: fixed["fast1"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} }, 
+                    { id: 'row2', data: fixed["fast2"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} },              
+                    { id: 'row1', data: fixed["fast1"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} }, 
                     {color: "blue", points: { show: true }, lines: {show: true}, data: fasting ,  label: "Fasting"},
                     {color: "green", points: { show: true }, lines: {show: true}, data: random,  label: "Random"}];
 
@@ -188,17 +188,17 @@
                   }
                                     
                   var bmiGraphData = [                      
-                    { id: 'row2', data: fixed["bmi2"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} },              
-                    { id: 'row1', data: fixed["bmi1"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} }, 
+                    { id: 'row2', data: fixed["bmi2"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} },              
+                    { id: 'row1', data: fixed["bmi1"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} }, 
                     {data: patientBMIHistory, points: { show: true },lines: {show: true},  label:bmiLabel}];
 
                   var hba1cGraphData  = [
-                    { id: 'row2', data: fixed["random1"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} },
-                    { id: 'row2', data: fixed["random2"], yaxis: 20, color: "orange", points: {show: false}, 
-                      lines: {show: false, lineWidth: 1, fill: 0.2} },
+                    { id: 'row2', data: fixed["random1"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} },
+                    { id: 'row2', data: fixed["random2"], yaxis: 20, color: "yellow", points: {show: false}, 
+                      lines: {show: false, lineWidth: 1} },
                     {color: "rgb( 0, 205, 0)", points: { show: true },lines: {show: true}, data: glycated,  label: "HbA1c"}];
 
                   return [bsGraphData, bpGraphData, weightGraphData, bmiGraphData, hba1cGraphData];
