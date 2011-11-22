@@ -5,8 +5,8 @@
     font-size: 1.4em;
     width: 250px;
   }
-   a {text-decoration: none;}
-   a:visited{color:green;}
+  a {text-decoration: none;}
+  a:visited{color:green;}
   .label {
     font-weight: bold;
     padding: 25px;
@@ -19,25 +19,27 @@
   tt_cancel_show = '<%=  "/patients/show/#{@patient.id}" %>';
 </script>
 
-<center><h2><%= "Demographics for #{@patient.person.name}"%></h2></center>
-<h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
+<div id="general_dashboard">
+  <center><h2><%= "Demographics for #{@patient.person.name}"%></h2></center>
+  <h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
 
-<table>
-  <tr>
-    <td><a class="label" href='/person_names/edit/<%= @patient.id%>'>Name Of Patient:</a></td><td class="label"><%= @person.name %></td>
-    <td><a class="label" href='/patient_identifiers/edit/<%= @patient.id%>?type=14'>DC Number:</a></td><td class="label"><%= @patient.diabetes_number %></td>
-  </tr>
-  <tr>
-    <td><a class="label" href='/person_addresses/edit/<%= @patient.id%>?field=home_district'>Home District:</a></td><td class="label"><%= "#{@address.address2}" %></td>
-    <td><a class="label" href='/people/edit/<%= @patient.id%>?field=birthdate'>Age:</a></td><td class="label"><%= @person.age %></td>
-  </tr>
-  <tr>
-    <td><a class="label" href='/person_attributes/edit/<%= @patient.id%>?type=12'>Phone Number:</a></td><td class="label"><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></td>
-    <td><a class="label" href='/people/edit/<%= @patient.id%>?field=gender'>Gender:</a></td><td class="label"><%= @person.gender %></td>
-  </tr>
-  <tr>
-    <td><a class="label" href='/person_addresses/edit/<%= @patient.id%>?field=contact_address'>Contact Address:</a></td><td class="label" colspan="1"><%= "#{@address.city_village},#{@address.county_district},
-        #{@address.state_province}" %></td>
-    <td><a class="label" href='/patient_identifiers/edit/<%= @patient.id%>?type=16'>DS Number:</a></td><td class="label"><%= @patient.ds_number %></td>
-  </tr
-</table>
+  <table>
+    <tr>
+      <td><a class="label" href='/person_names/edit/<%= @patient.id%>'>Name Of Patient:</a></td><td class="label"><%= @person.name %></td>
+      <td><a class="label" href='/patient_identifiers/edit/<%= @patient.id%>?type=14'>DC Number:</a></td><td class="label"><%= @patient.diabetes_number %></td>
+    </tr>
+    <tr>
+      <td><a class="label" href='/person_addresses/edit/<%= @patient.id%>?field=home_district'>Home District:</a></td><td class="label"><%= "#{@address.address2}" %></td>
+      <td><a class="label" href='/people/edit/<%= @patient.id%>?field=birthdate'>Age:</a></td><td class="label"><%= @person.age %></td>
+    </tr>
+    <tr>
+      <td><a class="label" href='/person_attributes/edit/<%= @patient.id%>?type=12'>Phone Number:</a></td><td class="label"><%=  @person.phone_numbers.collect {|k,v| v}.first rescue 'Unknown' %></td>
+      <td><a class="label" href='/people/edit/<%= @patient.id%>?field=gender'>Gender:</a></td><td class="label"><%= @person.gender %></td>
+    </tr>
+    <tr>
+      <td><a class="label" href='/person_addresses/edit/<%= @patient.id%>?field=contact_address'>Contact Address:</a></td><td class="label" colspan="1"><%= "#{@address.city_village},#{@address.county_district},
+#{@address.state_province}" %></td>
+      <td><a class="label" href='/patient_identifiers/edit/<%= @patient.id%>?type=16'>DS Number:</a></td><td class="label"><%= @patient.ds_number %></td>
+    </tr
+  </table>
+</div>
