@@ -512,4 +512,30 @@ class Patient < ActiveRecord::Base
     #self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
   end
 
+  def dm_visit_label(user_id)
+    label = ZebraPrinter::StandardLabel.new
+    label.font_size = 3
+    label.font_horizontal_multiplier = 1
+    label.font_vertical_multiplier = 1
+    label.left_margin = 50
+    encs = encounters.current.active.find(:all)
+    return nil if encs.blank?
+    
+    label.draw_multi_text("Visit: #{encs.first.encounter_datetime.strftime("%d/%b/%Y %H:%M")}", :font_reverse => true)    
+    encs.each {|encounter|
+      # next if encounter.name.humanize == "Registration"
+      if encounter.name.upcase == "TREATMENT" || encounter.name.upcase == "APPOINTMENT" ||
+          encounter.name.upcase == "LAB RESULTS" || encounter.name.upcase == "VITALS" ||
+          encounter.name.upcase == "UPDATE HIV STATUS" || 
+          (encounter.name.upcase == "DIABETES TEST" && (encounter.to_s.include?("URINE") || 
+            encounter.to_s.include?("CR"))) 
+        label.draw_multi_text("#{encounter.name.humanize}: #{encounter.to_s}", :font_reverse => false)
+      end
+    }
+    user    = User.find(user_id)
+    facility = "QECH"
+    label.draw_multi_text("Seen by: #{user.name.titleize} at #{facility} DM Clinic", :font_reverse => true)    
+    label.print(1)
+  end
+  
 end

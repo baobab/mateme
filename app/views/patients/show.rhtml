@@ -38,8 +38,7 @@
             <option value='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</option>
         <%end %>
 
-        <%if @registration_clerk%>
-            <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</option>
+        <%if @registration_clerk%>            
             <option value='/patients/print_registration?patient_id=<%= @patient.id -%>'>Print Registration</option>
             <option value='/patients/generate_booking?patient_id=<%= @patient.id -%>'>Bookings</option>
         <%end %>
@@ -53,9 +52,10 @@
             <option value='/prescriptions/?patient_id=<%= @patient.id -%>'>Treatments</option>
             <option value='/patients/hiv_status?patient_id=<%= @patient.id -%>'>HIV/ART Status</option>
             <option value='/patients/generate_booking?patient_id=<%= @patient.id -%>'>Bookings</option>
-            <option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</option>
+            <!--option value='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</option-->
             <option value='/patients/print_visit?patient_id=<%= @patient.id -%>'>Print Visit</option>
         <%end %>
+                    
     </select>
     
     <select id="tabs">
@@ -72,6 +72,8 @@
         <option link='<%= ((session[:datetime].to_date rescue '') != '' ?
                     "/people/reset_datetime/#{@patient.id}" : "/people/set_datetime/#{@patient.id}") %>'  ttSize="160px">
           <%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>
+        <option value='/patients/demographics?patient_id=<%= @patient.id -%>' 
+                link='/patients/demographics?patient_id=<%= @patient.id -%>'>Edit Demographics</option>
     </select>
 </div>
 <!--

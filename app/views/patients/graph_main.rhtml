@@ -14,41 +14,40 @@
   }
   #simplegraphholder {
     display: block;
-    width: 278px;
-    height: 190px;
+    width: 880px;
+    height: 550px;
     padding: 5px;
   }
   #graph{
-    float:right;
+    margin: 50px;
+    font-size: 1.5em;
   }
 </style>
 
-<link rel="stylesheet" href="/touchscreentoolkit/lib/stylesheets/touch-fancy.css" type="text/css" />
+<script type="text/javascript">
+  tt_cancel_destination = '<%=  "/patients/show/#{@patient.id}" %>';
+  tt_cancel_show = '<%=  "/patients/show/#{@patient.id}" %>';
+</script>
+
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.js"></script>
 <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
 
-<script language="javascript" type="text/javascript">
-  <!--
-    var current_graph = 0;  
-  //-->
-</script>
-
-<div id="graph">
-  <div id="choices">
-    <div id="graph0" class="graph-button" onmousedown="plotAccordingToChoices(0); current_graph=0">Blood Sugar</div>
-    <div id="graph1" class="graph-button" onmousedown="plotAccordingToChoices(1); current_graph=1">BP</div>
-    <!--div id="graph2" class="graph-button" onmousedown="plotAccordingToChoices(2);">Weight</div-->
-    <div id="graph3" class="graph-button" onmousedown="plotAccordingToChoices(3); current_graph=3">BMI</div>
-    <div id="graph4" class="graph-button" onmousedown="plotAccordingToChoices(4); current_graph=4">HbA1c</div>
+<div id="general_dashboard">
+  <div id="graph">
+    <div id="choices">
+      <div id="graph0" class="graph-button" onmousedown="plotAccordingToChoices(0);" 
+           onclick="plotAccordingToChoices(0);">Blood Sugar</div>
+      <div id="graph1" class="graph-button" onmousedown="plotAccordingToChoices(1);" 
+           onclick="plotAccordingToChoices(1);">BP</div>
+      <!--div id="graph2" class="graph-button" onmousedown="plotAccordingToChoices(2);">Weight</div-->
+      <div id="graph3" class="graph-button" onmousedown="plotAccordingToChoices(3);" 
+           onclick="plotAccordingToChoices(3);">BMI</div>
+      <div id="graph4" class="graph-button" onmousedown="plotAccordingToChoices(4);" 
+           onclick="plotAccordingToChoices(4);">HbA1c</div>
+    </div>
+    <div id="simplegraphholder"></div>
   </div>
-  <div id="simplegraphholder"></div>
 </div>
-
-<button onclick="window.parent.location = '/patients/graph_main?patient_id=<%= @patient.id %>&graph=' + current_graph" 
-        class="btn" style="position: absolute; top: 0px; left: 249px; width: 10px; 
-        padding: 0px; min-width: 50px; padding-bottom: 4px;">
-  +
-</button>
 
 <script type="text/javascript">
   jQuery.noConflict();
@@ -297,5 +296,11 @@
                 }
 
                 plotAccordingToChoices(0);
+
+                function activateGraph(){
+                  document.getElementById("graph<%= params[:graph] rescue 0 %>").click();
+                }
+                
+                setTimeout("activateGraph()", 200);
 
 </script>

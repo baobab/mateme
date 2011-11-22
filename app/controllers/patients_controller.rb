@@ -354,7 +354,7 @@ class PatientsController < ApplicationController
   end
   
   def visit_label
-    print_string = Patient.find(params[:patient_id]).visit_label(session[:user_id]) rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")
+    print_string = Patient.find(params[:patient_id]).dm_visit_label(session[:user_id]) rescue (raise "Unable to find patient (#{params[:patient_id]}) or generate a visit label for that patient")    
     send_data(print_string,:type=>"application/label; charset=utf-8", :stream=> false, :filename=>"#{params[:patient_id]}#{rand(10000)}.lbl", :disposition => "inline")
   end
 
@@ -756,6 +756,63 @@ class PatientsController < ApplicationController
     # set the patient's medication period
     @patient_medication_period = Patient.patient_diabetes_medication_duration(@patient.patient_id)
     render :layout => false
+  end
+  
+  def graph_main
+    session_date = session[:datetime].to_date rescue Date.today
+    
+    @patient      = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
+    #@encounters   = @patient.encounters.current.active.find(:all)
+    @encounters   = @patient.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?',session_date.to_date])
+    excluded_encounters = ["Registration", "Diabetes history","Complications", #"Diabetes test",
+      "General health", "Diabetes treatments", "Diabetes admissions","Hospital admissions",
+      "Hypertension management", "Past diabetes medical history"] 
+    @encounter_names = @patient.encounters.active.map{|encounter| encounter.name}.uniq.delete_if{ |encounter| excluded_encounters.include? encounter.humanize } rescue []
+    ignored_concept_id = Concept.find_by_name("NO").id;
+
+    @observations = Observation.find(:all, :order => 'obs_datetime DESC', 
+      :limit => 50, :conditions => ["person_id= ? AND obs_datetime < ? AND value_coded != ?",
+        @patient.patient_id, Time.now.to_date, ignored_concept_id])
+
+    @observations.delete_if { |obs| obs.value_text.downcase == "no" rescue nil }
+
+    # delete encounters that are not required for display on patient's summary
+    @lab_results_ids = [Concept.find_by_name("Urea").id, Concept.find_by_name("Urine Protein").id, Concept.find_by_name("Creatinine").id]
+    @encounters.map{ |encounter| (encounter.name == "DIABETES TEST" && encounter.observations.delete_if{|obs| !(@lab_results_ids.include? obs.concept.id)})}
+    @encounters.delete_if{|encounter|(encounter.observations == [])}
+
+    @obs_datetimes = @observations.map { |each|each.obs_datetime.strftime("%d-%b-%Y")}.uniq
+
+    @vitals = Encounter.find(:all, :order => 'encounter_datetime DESC',
+      :limit => 50, :conditions => ["patient_id= ? AND encounter_datetime < ? ",
+        @patient.patient_id, Time.now.to_date])
+
+    @patient_treatements = @patient.treatments
+
+    diabetes_id       = Concept.find_by_name("DIABETES MEDICATION").id
+
+    @patient_diabetes_treatements     = []
+    @patient_hypertension_treatements = []
+
+    @patient_diabetes_treatements = @patient.aggregate_treatments
+
+    selected_medical_history = ['DIABETES DIAGNOSIS DATE','SERIOUS CARDIAC PROBLEM','STROKE','HYPERTENSION','TUBERCULOSIS']
+    @medical_history_ids = selected_medical_history.map { |medical_history| Concept.find_by_name(medical_history).id }
+    @significant_medical_history = []
+    @observations.each { |obs| @significant_medical_history << obs if @medical_history_ids.include? obs.concept_id}
+
+    @arv_number = @patient.arv_number rescue nil
+    @status     = @patient.hiv_status
+    #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
+    @hiv_test_date    = @patient.hiv_test_date rescue "UNKNOWN"
+    @hiv_test_date = "Unkown" if @hiv_test_date.blank?
+    @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
+
+    @recents = Patient.recent_screen_complications(@patient.patient_id)
+
+    # set the patient's medication period
+    @patient_medication_period = Patient.patient_diabetes_medication_duration(@patient.patient_id)
+    render :layout => 'menu'
   end
   
 end
