@@ -45,7 +45,7 @@
     unknown[0]= "Unknown"
     days_with_unknown = day
     days = [""].concat day%>
-    <%= select_tag(:set_day, options_for_select(days),
+    <%= text_field_tag(:set_day, nil,
         :field_type => 'number' , :absoluteMax => Date.today.to_s ,:helpText => 'Day' ,
         :validationJS =>'validateDate()',
         :validationMessage => "You must enter an earlier date than #{Date.today.strftime('%Y-%b-%d')}")  %>

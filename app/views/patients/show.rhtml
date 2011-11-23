@@ -62,7 +62,8 @@
         <!-- <option value="/patients/simple_graph?id=<%#= @patient.id -%>">Graph</option> -->
         <option value="/patients/current_encounters?id=<%= @patient.id -%>">Visit Summary</option>
         <option value="/patients/diabetes_treatments?id=<%= @patient.id -%>">Current Medication</option>
-        <option value="/patients/recent_screen_complications?id=<%= @patient.id -%>">Recent Complications</option>
+        <option value="/patients/recent_screen_complications?id=<%= @patient.id -%>" 
+                <%= (@highlight ? " selectedTab='true'" : "") %> >Recent Complications</option>
         <option value="/patients/important_medical_history?id=<%= @patient.id -%>">Medical History</option>
         <option value="/patients/hiv?id=<%= @patient.id -%>">HIV Status</option>
     </select>

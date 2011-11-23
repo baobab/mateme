@@ -73,7 +73,23 @@ class PatientsController < ApplicationController
     @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
 
     @recents = Patient.recent_screen_complications(@patient.patient_id)
-
+    
+    max_creatinine = !is_diabetes_test_expired(@recents["max_creatinine_date"])
+    max_foot_check = !is_diabetes_test_expired(@recents["max_foot_check_date"])
+    max_visual_acuity = !is_diabetes_test_expired(@recents["max_visual_acuity_date"])
+    max_urine_protein = !is_diabetes_test_expired(@recents["max_urine_protein_date"])
+    max_fundoscopy = !is_diabetes_test_expired(@recents["max_fundoscopy_date"])
+    max_urea = !is_diabetes_test_expired(@recents["max_urea_date"])
+    max_macrovascular = !is_diabetes_test_expired(@recents["max_macrovascular_date"])
+    
+    @highlight = ((@recents["urea"] && @recents["foot_check"] && @recents["visual_acuity"] && 
+          @recents["macrovascular"] && @recents["creatinine"] && 
+          @recents["fundoscopy"] && @recents["urine_protein"] && max_creatinine && 
+          max_foot_check && max_visual_acuity && max_urine_protein && 
+          max_fundoscopy && max_urea && max_macrovascular) ? false : true)
+          
+    # raise @recents.to_yaml
+    
     # set the patient's medication period
     @patient_medication_period = Patient.patient_diabetes_medication_duration(@patient.patient_id)
 
@@ -242,15 +258,15 @@ class PatientsController < ApplicationController
   end
   
   def important_medical_history
-      recent_screen_complications
+    recent_screen_complications
   end
   
-    def simple_graph
-      recent_screen_complications
+  def simple_graph
+    recent_screen_complications
   end
   
   def hiv
-      recent_screen_complications
+    recent_screen_complications
   end
   def recent_screen_complications
     session_date = session[:datetime].to_date rescue Date.today
@@ -601,9 +617,9 @@ class PatientsController < ApplicationController
           @enc.save
 
           @obs = Observation.new(:concept_name => "APPOINTMENT DATE",
-             :value_datetime => params[:appointment_date],
-             :encounter_id => @enc.encounter_id,
-             :person_id => @enc.patient_id
+            :value_datetime => params[:appointment_date],
+            :encounter_id => @enc.encounter_id,
+            :person_id => @enc.patient_id
           )
 
           @obs.save
@@ -621,7 +637,7 @@ class PatientsController < ApplicationController
       
       if(@type)
         @enc = @patient.encounters.find(:all, :joins => :observations,
-              :conditions => ['encounter_type = ?', @type])
+          :conditions => ['encounter_type = ?', @type])
 
 =begin
           Encounter.find(:last, :conditions =>
@@ -651,7 +667,7 @@ class PatientsController < ApplicationController
 
               if o.value_datetime.to_date == params[:appointmentDate].to_date
                 o.update_attributes(:voided => 1, :date_voided => Time.now.to_date,
-                :voided_by => session[:user_id], :void_reason => reason)
+                  :voided_by => session[:user_id], :void_reason => reason)
 
                 @voided = true
               end
@@ -815,4 +831,8 @@ class PatientsController < ApplicationController
     render :layout => 'menu'
   end
   
+  def is_diabetes_test_expired(diabetes_test)
+    ((((Date.today - diabetes_test.to_date).to_f/365.0)>1.0) ? true: false) # rescue false
+  end
+
 end

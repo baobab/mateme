@@ -98,3 +98,35 @@ iframe {
     width: 100%;
     border: 0px solid #fff;
 }
+
+.deSelectedHighlightedTab {
+    border-left: 3px outset #333;
+    -moz-border-radius: 10px;
+    padding: 8px;
+    padding-top: 3px;
+    border-right: 3px outset #333;
+    border-top: 3px outset #333;
+    float: left;
+    cursor: pointer;
+    -moz-user-select:none;
+    font-weight: normal;
+    font-size: 18px;
+    background-color: rgb(192, 0, 0);
+    color: #fff;
+}
+
+.selectedHighlightedTab {
+    border-left: 2px inset #333;
+    border-right: 2px inset #333;
+    border-top: 2px inset #333;
+    -moz-border-radius: 8px;
+    padding: 8px;
+    padding-top: 3px;
+    float: left;
+    cursor: pointer;
+    -moz-user-select:none;
+    font-weight: normal;
+    font-size: 18px;
+    background-color: pink;
+    color: #000;
+}
