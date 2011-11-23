@@ -69,7 +69,7 @@ class PatientsController < ApplicationController
     @status     = @patient.hiv_status
     #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
     @hiv_test_date    = @patient.hiv_test_date rescue "UNKNOWN"
-    @hiv_test_date = "Unkown" if @hiv_test_date.blank?
+    @hiv_test_date = "Unknown" if @hiv_test_date.blank?
     @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
 
     @recents = Patient.recent_screen_complications(@patient.patient_id)
@@ -88,6 +88,20 @@ class PatientsController < ApplicationController
           max_foot_check && max_visual_acuity && max_urine_protein && 
           max_fundoscopy && max_urea && max_macrovascular) ? false : true)
           
+    status = 'UNKNOWN'
+    @hivHighlight = false
+    if @arv_number && !@arv_number.empty?
+      status = 'REACTIVE'
+    elsif @status
+      status = @status.to_s
+    end
+    
+    if((status != 'REACTIVE'))
+          if((@hiv_test_date.upcase == "UNKNOWN") || ( (@hiv_test_date.upcase != "UNKNOWN") && (((((Time.now().to_f - (@hiv_test_date.to_datetime.to_f rescue 0))/ 31536000).to_i) > 0))))
+            @hivHighlight = true
+          end
+    end
+    
     # raise @recents.to_yaml
     
     # set the patient's medication period
@@ -268,6 +282,7 @@ class PatientsController < ApplicationController
   def hiv
     recent_screen_complications
   end
+  
   def recent_screen_complications
     session_date = session[:datetime].to_date rescue Date.today
     #find the user priviledges
@@ -337,7 +352,7 @@ class PatientsController < ApplicationController
     @status     = @patient.hiv_status
     #@status =Concept.find(Observation.find(:first,  :conditions => ["voided = 0 AND person_id= ? AND concept_id = ?",@patient.person.id, Concept.find_by_name('HIV STATUS').id], :order => 'obs_datetime DESC').value_coded).name.name rescue 'UNKNOWN'
     @hiv_test_date    = @patient.hiv_test_date rescue "UNKNOWN"
-    @hiv_test_date = "Unkown" if @hiv_test_date.blank?
+    @hiv_test_date = "Unknown" if @hiv_test_date.blank?
     @remote_art_info  = Patient.remote_art_info(@patient.national_id) rescue nil
 
     @recents = Patient.recent_screen_complications(@patient.patient_id)
@@ -832,7 +847,7 @@ class PatientsController < ApplicationController
   end
   
   def is_diabetes_test_expired(diabetes_test)
-    ((((Date.today - diabetes_test.to_date).to_f/365.0)>1.0) ? true: false) # rescue false
+    ((((Date.today - diabetes_test.to_date).to_f/365.0)>1.0) ? true: false) rescue false
   end
 
 end

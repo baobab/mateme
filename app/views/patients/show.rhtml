@@ -65,7 +65,8 @@
         <option value="/patients/recent_screen_complications?id=<%= @patient.id -%>" 
                 <%= (@highlight ? " selectedTab='true'" : "") %> >Recent Complications</option>
         <option value="/patients/important_medical_history?id=<%= @patient.id -%>">Medical History</option>
-        <option value="/patients/hiv?id=<%= @patient.id -%>">HIV Status</option>
+        <option value="/patients/hiv?id=<%= @patient.id -%>" 
+                <%= (@hivHighlight ? " selectedTab='true'" : "") %> >HIV Status</option>
     </select>
 
     <select id="navigation_links">
