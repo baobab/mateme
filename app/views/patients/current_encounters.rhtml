@@ -12,10 +12,33 @@
     height: 100%;
     width: 100%;
   }
-  
+
   #messageBar {
     left: 110px;
     top: 50px;
+  }
+</style>
+
+<style type="text/css">  
+  .even {
+    background-color: #eee;
+    padding: 10px;
+    -moz-border-radius: 10px;
+    margin-bottom: 5px;
+    min-height: 35px;
+  }
+  .odd {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid #eee;
+    -moz-border-radius: 10px;
+    margin-bottom: 5px;
+    min-height: 35px;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0px;
   }
 </style>
 
@@ -30,7 +53,7 @@
           <%@lab_results_header = false%>
           <% @outcome_updated = false %>
 
-          <table width="100%">
+          <table width="100%" cellpadding="5">
             <%@encounter_names.each{|encounter_name|
               header = true
               i = 0
@@ -58,24 +81,27 @@
                   <%end%>
                   <% header = false%>
                   <tr>
-                    <td>
+                    <td class="data <%= state = cycle('even', 'odd') %>">
                       <%if header_title == "Update Outcome".titleize
                         if !@outcome_updated %>
-                          <%= @patient.retro_updated_outcome(current_session_date).to_s.lstrip.gsub(/\n/, '<br/>')%>
+                          <%= @patient.retro_updated_outcome(current_session_date)["obs"].to_s.lstrip.gsub(/\n/, '<br/>') rescue "&nbsp;"%>
+                          <span><%=  @patient.retro_updated_outcome(current_session_date)["datetime"].to_date.strftime("%d-%b-%y %H:%M") rescue "" %></span>
                         <% end %>
                       <% else %>
-                        <%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') %>
+                        <div style="clear:left;" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span>
+                          <span><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
+                        </div>
                       <%  end %>
       <%#= current_outcome %>
                     </td>
-                    <td>
+                    <td align="right" style="padding: 10px;" class="data <%= state %>">
 
                       <% if(encounter.to_s != "No prescriptions have been made") %>
                         <% if(header_title == "Update Outcome".titleize)%>
                           <%if !@outcome_updated%>
                             <%=img_button_submit_to("/patients/show/#{@patient.patient_id}", "/images/cancel_flat_small_red.png",
                               {:confirm => "Are you sure you want to void this entry?", :form_id => "frm_current_encounter_"+i.to_s},
-                              {:encounter_id => @patient.retro_updated_outcome(current_session_date).encounter_id, :void => "true"}) -%>
+                              {:encounter_id => @patient.retro_updated_outcome(current_session_date)["encounter_id"], :void => "true"}) -%>
                             <%  @outcome_updated = true %>
                           <% end %>
                         <%else%>

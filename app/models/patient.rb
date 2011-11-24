@@ -563,10 +563,21 @@ class Patient < ActiveRecord::Base
 
   def retro_updated_outcome(search_date)
     session_date = search_date
-    self.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?', session_date.to_date]).map{
+    obs = []
+    
+    encounter = self.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?', session_date.to_date]).map{
       |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)
     }.compact.last
-    #self.encounters.current.map{ |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)}.compact.last
+    
+    encounter.observations.each{|o| obs << o.answer_string}
+    
+    result = {"encounter_id" => encounter.encounter_id}
+    
+    result["datetime"] = encounter.encounter_datetime
+    
+    result["obs"] = obs.join(" : ")
+    
+    result
   end
 
   def dm_visit_label(user_id)

@@ -323,4 +323,20 @@ class EncountersController < ApplicationController
   def finish_visit
     @patient = Patient.find(params[:patient_id] || session[:patient_id])
   end
+  
+  def static_locations
+    search_string = (params[:search_string] || "").upcase
+
+    locations = []
+
+    File.open(RAILS_ROOT + "/public/data/locations.txt", "r").each{ |loc|
+      locations << loc if loc.upcase.strip.match(search_string)
+    }
+
+    locations = locations.sort
+    
+    render :text => "<li></li><li " + locations.map{|location| "value=\"#{location}\">#{location}" }.join("</li><li ") + "</li>"
+
+  end
+
 end
