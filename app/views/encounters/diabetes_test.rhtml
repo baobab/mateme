@@ -539,7 +539,19 @@ $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_parent_concept_name' name='observations[][parent_concept_name]' value='FOOT CHECK' field_value='FOOT CHECK'/>
-  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0' name='observations[][value_coded_or_text]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0' name='observations[][value_coded_or_text]' value='NORMAL' field_value='NORMAL'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_0_concept_name' name='observations[][concept_name]' value='NORMAL' field_value='NORMAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_0_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_1_concept_name' name='observations[][concept_name]' value='NORMAL' field_value='NORMAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_1_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_0_grandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
 
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_concept_name' name='observations[][concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
@@ -553,11 +565,35 @@ $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0' name='observations[][value_coded_or_text]' value='DORSALIS PEDIS' field_value='DORSALIS PEDIS'/>
 
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_0_concept_name' name='observations[][concept_name]' value='DORSALIS PEDIS' field_value='DORSALIS PEDIS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_0_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_1_concept_name' name='observations[][concept_name]' value='DORSALIS PEDIS' field_value='DORSALIS PEDIS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_1_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_0_greatgrandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
+
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_concept_name' name='observations[][concept_name]' value='PULSES PRESENT' field_value='PULSES PRESENT'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
-  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1' name='observations[][value_coded_or_text]' value='POSTERIAL TIBIAL' field_value='POSTERIAL TIBIAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1' name='observations[][value_coded_or_text]' value='POSTERIOR TIBIAL' field_value='POSTERIOR TIBIAL'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_0_concept_name' name='observations[][concept_name]' value='POSTERIOR TIBIAL' field_value='POSTERIOR TIBIAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_0_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_1_concept_name' name='observations[][concept_name]' value='POSTERIOR TIBIAL' field_value='POSTERIOR TIBIAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_1_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_1_grandchild_1_greatgrandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
 
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_2_concept_name' name='observations[][concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_2_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
@@ -617,7 +653,19 @@ $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_parent_concept_name' name='observations[][parent_concept_name]' value='FOOT CHECK' field_value='FOOT CHECK'/>
-  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4' name='observations[][value_coded_or_text]' value='NORMAL' field_value='NORMAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4' name='observations[][value_coded_or_text]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_0_concept_name' name='observations[][concept_name]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_0_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_1_concept_name' name='observations[][concept_name]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_1_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='LEFT FOOT/LEG' field_value='LEFT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_0_child_4_grandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
 
   <input disabled type='hidden' id='Footcheck_root_0_parent_1' name='encounter' value='Right foot/leg' field_value='Right foot/leg'/>
 
@@ -625,7 +673,19 @@ $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_parent_concept_name' name='observations[][parent_concept_name]' value='FOOT CHECK' field_value='FOOT CHECK'/>
-  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0' name='observations[][value_coded_or_text]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0' name='observations[][value_coded_or_text]' value='NORMAL' field_value='NORMAL'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_0_concept_name' name='observations[][concept_name]' value='NORMAL' field_value='NORMAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_0_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_1_concept_name' name='observations[][concept_name]' value='NORMAL' field_value='NORMAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_1_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_0_grandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
 
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_concept_name' name='observations[][concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
@@ -639,11 +699,35 @@ $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0' name='observations[][value_coded_or_text]' value='DORSALIS PEDIS' field_value='DORSALIS PEDIS'/>
 
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_0_concept_name' name='observations[][concept_name]' value='DORSALIS PEDIS' field_value='DORSALIS PEDIS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_0_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_1_concept_name' name='observations[][concept_name]' value='DORSALIS PEDIS' field_value='DORSALIS PEDIS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_1_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_0_greatgrandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
+
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_concept_name' name='observations[][concept_name]' value='PULSES PRESENT' field_value='PULSES PRESENT'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
-  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1' name='observations[][value_coded_or_text]' value='POSTERIAL TIBIAL' field_value='POSTERIAL TIBIAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1' name='observations[][value_coded_or_text]' value='POSTERIOR TIBIAL' field_value='POSTERIOR TIBIAL'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_0_concept_name' name='observations[][concept_name]' value='POSTERIOR TIBIAL' field_value='POSTERIOR TIBIAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_0_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_1_concept_name' name='observations[][concept_name]' value='POSTERIOR TIBIAL' field_value='POSTERIOR TIBIAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_1_id_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_1_grandchild_1_greatgrandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
 
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_2_concept_name' name='observations[][concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_2_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
@@ -703,7 +787,19 @@ $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
   <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_parent_concept_name' name='observations[][parent_concept_name]' value='FOOT CHECK' field_value='FOOT CHECK'/>
-  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4' name='observations[][value_coded_or_text]' value='NORMAL' field_value='NORMAL'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4' name='observations[][value_coded_or_text]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_0_concept_name' name='observations[][concept_name]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_0_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_0_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_0_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_0' name='observations[][value_coded_or_text]' value='YES' field_value='YES'/>
+
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_1_concept_name' name='observations[][concept_name]' value='NUMBNESS SYMPTOMS' field_value='NUMBNESS SYMPTOMS'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_1_patient_id' name='observations[][patient_id]' value='<%= @patient.id %>' field_value='<%= @patient.id %>' field_value='<%= @patient.id %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_1_obs_datetime' name='observations[][obs_datetime]' value='<%= Time.now() %>' field_value='<%= Time.now() %>'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_1_parent_concept_name' name='observations[][parent_concept_name]' value='RIGHT FOOT/LEG' field_value='RIGHT FOOT/LEG'/>
+  <input disabled type='hidden' id='Footcheck_root_0_parent_1_child_4_grandchild_1' name='observations[][value_coded_or_text]' value='NO' field_value='NO'/>
 
 
   <!--  AUTO GENERATED CODE ENDS FROM HERE  -->
@@ -760,7 +856,7 @@ $('infoBar'+tstCurrentPage).innerHTML = 'Urea (' + $('urea_unit').value + ')';
 
 <textarea cols=0 rows=0 disabled type='hidden' id='Fundoscopy'>Fundoscopy|Fundoscopy{Left Eye<parentgroup0><1>Normal<childradio0></childradio0>Abnormal<childradio1>Cataracts<grandchildcheckbox0></grandchildcheckbox0>Diabetic Retinopathy<grandchildcheckbox1>Background Retinopathy<greatgrandchildradio0></greatgrandchildradio0>Ploriferative Retinopathy<greatgrandchildradio1></greatgrandchildradio1>End Stage Eye Disease<greatgrandchildradio2></greatgrandchildradio2>Maculopathy<greatgrandchildradio3></greatgrandchildradio3></grandchildcheckbox1>Hypertensive Retinopathy<grandchildcheckbox2>1<greatgrandchildradio0></greatgrandchildradio0>2<greatgrandchildradio1></greatgrandchildradio1>3<greatgrandchildradio2></greatgrandchildradio2>4<greatgrandchildradio3></greatgrandchildradio3></grandchildcheckbox2></childradio1></1></parentgroup0>Right Eye<parentgroup1><1>Normal<childradio0></childradio0>Abnormal<childradio1>Cataracts<grandchildcheckbox0></grandchildcheckbox0>Diabetic Retinopathy<grandchildcheckbox1>Background Retinopathy<greatgrandchildradio0></greatgrandchildradio0>Ploriferative Retinopathy<greatgrandchildradio1></greatgrandchildradio1>End Stage Eye Disease<greatgrandchildradio2></greatgrandchildradio2>Maculopathy<greatgrandchildradio3></greatgrandchildradio3></grandchildcheckbox1>Hypertensive Retinopathy<grandchildcheckbox2>1<greatgrandchildradio0></greatgrandchildradio0>2<greatgrandchildradio1></greatgrandchildradio1>3<greatgrandchildradio2></greatgrandchildradio2>4<greatgrandchildradio3></greatgrandchildradio3></grandchildcheckbox2></childradio1></1></parentgroup1>}</textarea>
 
-<textarea cols=0 rows=0 disabled type='hidden' id='Footcheck'>Footcheck|Footcheck{Left foot/leg<parentgroup0><1>Numbness symptoms?<childcheckbox0></childcheckbox0>Pulses Present<childcheckbox1>Dorsalis Pedis<grandchildcheckbox0></grandchildcheckbox0>Posterial Tibial<grandchildcheckbox1></grandchildcheckbox1></childcheckbox1>General Condition<childcheckbox2>Good<grandchildcheckbox0></grandchildcheckbox0>Minor skin lesions/fungal infections<grandchildcheckbox1></grandchildcheckbox1>Current foot ulceration<grandchildcheckbox2></grandchildcheckbox2>Oedema<grandchildcheckbox3></grandchildcheckbox3></childcheckbox2>Amputation<childcheckbox3>Toe(s) only<grandchildradio0></grandchildradio0>Below knee (BKA)<grandchildradio1></grandchildradio1>Above Knee (AKA)<grandchildradio2></grandchildradio2></childcheckbox3>Normal<childcheckbox4></childcheckbox4></1></parentgroup0>Right foot/leg<parentgroup1><1>Numbness symptoms?<childcheckbox0></childcheckbox0>Pulses Present<childcheckbox1>Dorsalis Pedis<grandchildcheckbox0></grandchildcheckbox0>Posterial Tibial<grandchildcheckbox1></grandchildcheckbox1></childcheckbox1>General Condition<childcheckbox2>Good<grandchildcheckbox0></grandchildcheckbox0>Minor skin lesions/fungal infections<grandchildcheckbox1></grandchildcheckbox1>Current foot ulceration<grandchildcheckbox2></grandchildcheckbox2>Oedema<grandchildcheckbox3></grandchildcheckbox3></childcheckbox2>Amputation<childcheckbox3>Toe(s) only<grandchildradio0></grandchildradio0>Below knee (BKA)<grandchildradio1></grandchildradio1>Above Knee (AKA)<grandchildradio2></grandchildradio2></childcheckbox3>Normal<childcheckbox4></childcheckbox4></1></parentgroup1>}</textarea>
+<textarea cols=0 rows=0 disabled type='hidden' id='Footcheck'>Footcheck|Footcheck{Left foot/leg<parentgroup0><1>Normal<childcheckbox0>Yes<grandchildradio0></grandchildradio0>No<grandchildradio1></grandchildradio1></childcheckbox0>Pulses Present<childcheckbox1>Dorsalis Pedis<grandchildcheckbox0>Yes<greatgrandchildradio0></greatgrandchildradio0>No<greatgrandchildradio1></greatgrandchildradio1></grandchildcheckbox0>Posterior Tibial<grandchildcheckbox1>Yes<greatgrandchildradio0></greatgrandchildradio0>No<greatgrandchildradio1></greatgrandchildradio1></grandchildcheckbox1></childcheckbox1>General Condition<childcheckbox2>Good<grandchildcheckbox0></grandchildcheckbox0>Minor skin lesions/fungal infections<grandchildcheckbox1></grandchildcheckbox1>Current foot ulceration<grandchildcheckbox2></grandchildcheckbox2>Oedema<grandchildcheckbox3></grandchildcheckbox3></childcheckbox2>Amputation<childcheckbox3>Toe(s) only<grandchildradio0></grandchildradio0>Below knee (BKA)<grandchildradio1></grandchildradio1>Above Knee (AKA)<grandchildradio2></grandchildradio2></childcheckbox3>Numbness symptoms?<childcheckbox4>Yes<grandchildradio0></grandchildradio0>No<grandchildradio1></grandchildradio1></childcheckbox4></1></parentgroup0>Right foot/leg<parentgroup1><1>Normal<childcheckbox0>Yes<grandchildradio0></grandchildradio0>No<grandchildradio1></grandchildradio1></childcheckbox0>Pulses Present<childcheckbox1>Dorsalis Pedis<grandchildcheckbox0>Yes<greatgrandchildradio0></greatgrandchildradio0>No<greatgrandchildradio1></greatgrandchildradio1></grandchildcheckbox0>Posterior Tibial<grandchildcheckbox1>Yes<greatgrandchildradio0></greatgrandchildradio0>No<greatgrandchildradio1></greatgrandchildradio1></grandchildcheckbox1></childcheckbox1>General Condition<childcheckbox2>Good<grandchildcheckbox0></grandchildcheckbox0>Minor skin lesions/fungal infections<grandchildcheckbox1></grandchildcheckbox1>Current foot ulceration<grandchildcheckbox2></grandchildcheckbox2>Oedema<grandchildcheckbox3></grandchildcheckbox3></childcheckbox2>Amputation<childcheckbox3>Toe(s) only<grandchildradio0></grandchildradio0>Below knee (BKA)<grandchildradio1></grandchildradio1>Above Knee (AKA)<grandchildradio2></grandchildradio2></childcheckbox3>Numbness symptoms?<childcheckbox4>Yes<grandchildradio0></grandchildradio0>No<grandchildradio1></grandchildradio1></childcheckbox4></1></parentgroup1>}</textarea>
 
 <textarea cols=0 rows=0 disabled type='hidden' id='Urine_Protein'>Urine Protein|Urine Protein{Negative<parentradio0></parentradio0>Trace<parentradio1></parentradio1>+<parentradio2></parentradio2>++<parentradio3></parentradio3>+++<parentradio4></parentradio4>++++<parentradio5></parentradio5>}</textarea>
 
