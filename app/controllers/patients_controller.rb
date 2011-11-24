@@ -850,4 +850,15 @@ class PatientsController < ApplicationController
     ((((Date.today - diabetes_test.to_date).to_f/365.0)>1.0) ? true: false) rescue false
   end
 
+  def void 
+    session_date = (session[:datetime] ? session[:datetime].to_date : Date.today)
+    self.encounters.find(:all, :conditions => ['DATE(encounter_datetime) = ?', session_date]).map{
+      |e| e if(e.encounter_type == EncounterType.find_by_name("UPDATE OUTCOME").id)
+    }.compact.last
+    @encounter = Encounter.find(params[:encounter_id])
+    @patient = @encounter.patient
+    @encounter.void
+    redirect_to "/patients/current_encounters?patient_id=#{@patient.id}" and return
+  end
+
 end
