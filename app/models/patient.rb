@@ -601,7 +601,7 @@ class Patient < ActiveRecord::Base
       end
     }
     user    = User.find(user_id)
-    facility = "QECH"
+    facility = GlobalProperty.find_by_property("facility.name").property_value rescue "Undefined" # "QECH"
     label.draw_multi_text("Seen by: #{user.name.titleize} at #{facility} DM Clinic", :font_reverse => true)    
     label.print(1)
   end

@@ -1,35 +1,31 @@
 #!/bin/bash
 
-# DB_USER="root --password=XXX"
-DB_USER="root -p"
-DB="mateme_dev"
-SITE="cmerd"
+usage(){
+  echo "Usage: $0 ENVIRONMENT SITE"
+  echo
+  echo "ENVIRONMENT should be: development|test|production"
+  echo "Available SITES:"
+  ls -1 db/data
+} 
 
-echo "CREATE DATABASE $DB" | mysql -u $DB_USER
-echo "CREATE DATABASE $DB_test" | mysql -u $DB_USER
+ENV=$1
+# SITE=$2
 
+if [ -z "$ENV" ] ; then
+  usage
+  exit
+fi
+
+set -x # turns on stacktrace mode which gives useful debug information
 
 if [ ! -x config/database.yml ] ; then
   cp config/database.yml.example config/database.yml
 fi
 
-mysql -u $DB_USER $DB < db/schema.sql
-mysql -u $DB_USER $DB < db/migrate/alter_global_property.sql
-mysql -u $DB_USER $DB < db/migrate/create_sessions.sql
-mysql -u $DB_USER $DB < db/migrate/create_weight_for_heights.sql
-mysql -u $DB_USER $DB < db/migrate/create_weight_height_for_ages.sql
+USERNAME=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['username']"`
+PASSWORD=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['password']"`
+DATABASE=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['database']"`
 
-echo "USE $DB; ALTER TABLE concept_name ADD COLUMN concept_name_id INT(11) NULL;" | mysql -u $DB_USER
-echo "USE $DB; create table person_name_code (person_name_code_id int(11),
-person_name_id int(11),
-given_name_code varchar(255),
-middle_name_code varchar(255),
-family_name_code varchar(255),
-family_name2_code varchar(255),
-family_name_suffix_code varchar(255));" | mysql -u $DB_USER
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_dc_autoincrement_index.sql
+# mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_dc_number_prefix.sql
 
-#rake openmrs:bootstrap:load:defaults RAILS_ENV=production
-#rake openmrs:bootstrap:load:site SITE=$SITE RAILS_ENV=production
-rake openmrs:bootstrap:load:defaults 
-rake openmrs:bootstrap:load:site SITE=$SITE
-rake db:fixtures:load

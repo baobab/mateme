@@ -6,7 +6,8 @@ class PeopleController < ApplicationController
     @super_user = true  if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("superuser") rescue nil
     @doctor = true if User.find(session[:user_id]).user_roles.collect{|x|x.role}.first.downcase.include?("doctor") rescue nil
     @date = (session[:datetime].to_date rescue Date.today).strftime("%Y-%m-%d")
-
+    @facility = GlobalProperty.find_by_property("facility.name").property_value rescue "Undefined"
+    
     render :layout => "menu"
   end
  
