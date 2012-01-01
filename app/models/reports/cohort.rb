@@ -20,8 +20,10 @@ class Reports::Cohort
       :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
-          "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0",
-        @start_date, @end_date], 
+          "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND 
+          patient.voided = 0 AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date, @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
     # @patients = Patient.find(:all, :joins => [:encounter], :conditions => 
@@ -36,8 +38,10 @@ class Reports::Cohort
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 AND " +
-          "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15",
-        @start_date, @end_date], 
+          "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date, @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
     # @patients = Patient.find(:all, :joins => [:person], :conditions =>
@@ -53,7 +57,10 @@ class Reports::Cohort
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 AND " +
-          "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14",
+          "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date,
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
@@ -69,7 +76,11 @@ class Reports::Cohort
       :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
-          "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 AND UCASE(person.gender) = 'M'",
+          "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? 
+          AND patient.voided = 0 AND UCASE(person.gender) = 'M' 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date,
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
@@ -86,7 +97,10 @@ class Reports::Cohort
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 
-          AND UCASE(person.gender) = 'M' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15",
+          AND UCASE(person.gender) = 'M' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date,
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
@@ -103,7 +117,10 @@ class Reports::Cohort
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 
-          AND UCASE(person.gender) = 'M' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14",
+          AND UCASE(person.gender) = 'M' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date,
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
@@ -120,7 +137,10 @@ class Reports::Cohort
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 
-          AND UCASE(person.gender) = 'F'",
+          AND UCASE(person.gender) = 'F' 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date,
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
@@ -137,7 +157,10 @@ class Reports::Cohort
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 
-          AND UCASE(person.gender) = 'F' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15",
+          AND UCASE(person.gender) = 'F' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date,
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
@@ -154,7 +177,10 @@ class Reports::Cohort
       :conditions => ["encounter.patient_id = patient.patient_id AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') >= ? AND " + 
           "DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= ? AND patient.voided = 0 
-          AND UCASE(person.gender) = 'F' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14",
+          AND UCASE(person.gender) = 'F' AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
+        @start_date, @end_date,
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
@@ -337,8 +363,11 @@ class Reports::Cohort
 
   def oral_treatments
     Patient.find(:all, :joins => [:encounters => :orders], 
-      :conditions => ["order_id IN (?) AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') IN (?) " + 
-          "AND NOT patient.patient_id IN (?)", 
+      :conditions => ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?  
+          AND order_id IN (?) AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') IN (?) " + 
+          "AND NOT patient.patient_id IN (?)",
+        @start_date, @end_date, 
         DrugOrder.find(:all, :conditions => ["drug_inventory_id IN (?)", 
             Drug.find(:all, :conditions => ["name LIKE ? OR name LIKE ?", "%metformin%", 
                 "%glibenclamide%"]).collect{|d| d.drug_id}]).collect{|o| o.order_id}, 
@@ -417,8 +446,10 @@ class Reports::Cohort
 
   def insulin
     Patient.find(:all, :joins => [:encounters => :orders], 
-      :conditions => ["order_id IN (?) AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') IN (?) " + 
-          "AND NOT patient.patient_id IN (?)", 
+      :conditions => ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?  
+          AND order_id IN (?) AND DATE_FORMAT(encounter_datetime, '%Y-%m-%d') IN (?) " + 
+          "AND NOT patient.patient_id IN (?)", @start_date, @end_date,
         DrugOrder.find(:all, :conditions => ["drug_inventory_id IN (?)", 
             Drug.find(:all, :conditions => ["name LIKE ?", "%insulin%"]).collect{|d| d.drug_id}]).collect{|o| o.order_id}, 
         Encounter.find(:all, :select => ["DATE_FORMAT(MAX(encounter_datetime), '%Y-%m-%d') encdt"], 
@@ -493,7 +524,9 @@ class Reports::Cohort
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%insulin%'))) \
                                       AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') >= '" + @start_date +
         "' AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' 
-                                    AND p.voided = 0 GROUP BY p.patient_id").length
+                                    AND DATE_FORMAT(p.date_created, '%Y-%m-%d') >= '" + @start_date + "' 
+                                        AND DATE_FORMAT(p.date_created, '%Y-%m-%d') <= '" + @end_date + "'  
+                                        AND p.voided = 0 GROUP BY p.patient_id").length
   end
 
   # Metformin
