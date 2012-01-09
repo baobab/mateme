@@ -1,5 +1,5 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
-#RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.2' unless defined? RAILS_GEM_VERSION
 MATEME_VERSION = '1.0'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
@@ -20,6 +20,9 @@ end
 
 MATEME_SETTINGS = YAML.load_file(File.join(Rails.root, "config", "settings.yml"))[Rails.env] rescue nil
 
+health_data = YAML.load(File.open(File.join(RAILS_ROOT, "config/database.yml"), "r"))['healthdata']
+MasterPatientRecord.establish_connection(health_data)     
+
 require 'fixtures'
 require 'composite_primary_keys'
 require 'has_many_through_association_extension'
@@ -27,6 +30,7 @@ require 'bantu_soundex'
 require 'json'
 require 'colorfy_strings'
 require 'mechanize'
+require 'rest_client'
 
 # Foreign key checks use a lot of resources but are useful during development
 module ActiveRecord
@@ -49,9 +53,11 @@ end
 
 #Setup autossh tunnels to demographic servers
 
+#Setup autossh tunnels to demographic servers
+remote_user = GlobalProperty.find_by_property("demographic_server_user").property_value rescue 'unknown'
 JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value).each{|demographic_server, local_port|
   # Use ssh-copy-id for passing keys around during setup
-  command_for_starting_autossh = "autossh -L #{local_port}:localhost:80 #{demographic_server} -N -oPasswordAuthentication=no"
-  (pid = fork) ? Process.detach(pid) : exec(command_for_starting_autossh)
-} rescue nil
-
+    command_for_starting_autossh = "autossh -L #{local_port}:localhost:3001 #{remote_user}@#{demographic_server} -N -oPasswordAuthentication=no"
+      (pid = fork) ? Process.detach(pid) : exec(command_for_starting_autossh)
+      } rescue nil
+      
