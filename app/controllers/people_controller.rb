@@ -61,11 +61,8 @@ class PeopleController < ApplicationController
 
     if !remote_parent_server.empty?
 
-        found_person_data = Person.create_remote(params)
-        found_person_data['person']['patient']['identifiers']['diabetes_number'] = params[:person][:patient][:identifiers][:diabetes_number] unless found_person_data.nil?
+        found_person = Person.create_remote(params)
 
-        found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
-        
         if found_person
           found_person.patient.national_id_label
           print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
