@@ -54,9 +54,9 @@ class Patient < ActiveRecord::Base
     label.font_horizontal_multiplier = 2
     label.font_vertical_multiplier = 2
     label.left_margin = 50
-    label.draw_barcode(50,180,0,1,5,15,120,false,"#{self.national_id}")
+    label.draw_barcode(50,180,0,1,5,15,120,false,"#{self.old_identification_number}")
     label.draw_multi_text("#{self.person.name.titleize.delete("'")}") #'
-    label.draw_multi_text("#{self.national_id_with_dashes} #{self.person.birthdate_formatted}#{sex}")
+    label.draw_multi_text("#{self.old_identification_number_with_dashes} #{self.person.birthdate_formatted}#{sex}")
     label.draw_multi_text("#{address}")
     label.print(1)
   end
@@ -605,5 +605,15 @@ class Patient < ActiveRecord::Base
     label.draw_multi_text("Seen by: #{user.name.titleize} at #{facility} DM Clinic", :font_reverse => true)    
     label.print(1)
   end
+
+  def old_identification_number
+    id = self.patient_identifiers.find_by_identifier_type(PatientIdentifierType.find_by_name("Old Identification Number").id).identifier rescue nil
+    return id                                                       
+  end 
+
+  def old_identification_number_with_dashes                                     
+    id = self.old_identification_number                                     
+    id[0..4] + "-" + id[5..8] + "-" + id[9..-1] rescue id                       
+  end       
   
 end
