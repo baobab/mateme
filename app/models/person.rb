@@ -3,7 +3,7 @@ class Person < ActiveRecord::Base
   set_primary_key "person_id"
 
   include Openmrs
-
+  
   has_one :patient, :foreign_key => :patient_id, :dependent => :destroy
   has_many :names, :class_name => 'PersonName', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_name.voided = 0', :order => 'person_name.preferred DESC'
   has_many :addresses, :class_name => 'PersonAddress', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_address.voided = 0', :order => 'person_address.preferred DESC'
@@ -37,7 +37,7 @@ class Person < ActiveRecord::Base
     birth_date=self.birthdate
     estimate=self.birthdate_estimated
     patient_age += (estimate && birth_date.month == 7 && birth_date.day == 1  && 
-      today.month < birth_date.month && self.date_changed.year == today.year) ? 1 : 0
+        today.month < birth_date.month && self.date_changed.year == today.year) ? 1 : 0
   end
 
   def age_in_months(today = Date.today)
@@ -99,21 +99,21 @@ class Person < ActiveRecord::Base
     end
 
     demographics = {"person" => {
-      "date_changed" => self.date_changed.to_s,
-      "gender" => self.gender,
-      "birth_year" => self.birthdate.year,
-      "birth_month" => birth_month,
-      "birth_day" => birth_day,
-      "names" => {
-        "given_name" => self.names[0].given_name,
-        "family_name" => self.names[0].family_name,
-        "family_name2" => ""
-      },
-      "addresses" => {
-        "county_district" => "",
-        "city_village" => self.addresses[0].city_village
-      },
-    }}
+        "date_changed" => self.date_changed.to_s,
+        "gender" => self.gender,
+        "birth_year" => self.birthdate.year,
+        "birth_month" => birth_month,
+        "birth_day" => birth_day,
+        "names" => {
+          "given_name" => self.names[0].given_name,
+          "family_name" => self.names[0].family_name,
+          "family_name2" => ""
+        },
+        "addresses" => {
+          "county_district" => "",
+          "city_village" => self.addresses[0].city_village
+        },
+      }}
  
     if not self.patient.patient_identifiers.blank? 
       demographics["person"]["patient"] = {"identifiers" => {}}
@@ -143,17 +143,17 @@ class Person < ActiveRecord::Base
 
     return people.first.id unless people.blank? || people.size > 1
     people = Person.find(:all, :include => [{:names => [:person_name_code]}, :patient], :conditions => [
-    "gender = ? AND \
+        "gender = ? AND \
      person.voided = 0 AND \
      (patient.voided = 0 OR patient.voided IS NULL) AND \
      (person_name.given_name LIKE ? OR person_name_code.given_name_code LIKE ?) AND \
      (person_name.family_name LIKE ? OR person_name_code.family_name_code LIKE ?)",
-    params[:gender],
-    params[:given_name],
-    (params[:given_name] || '').soundex,
-    params[:family_name],
-    (params[:family_name] || '').soundex
-    ]) if people.blank?
+        params[:gender],
+        params[:given_name],
+        (params[:given_name] || '').soundex,
+        params[:family_name],
+        (params[:family_name] || '').soundex
+      ]) if people.blank?
 
     return people
   end
@@ -204,12 +204,12 @@ class Person < ActiveRecord::Base
     person.addresses.create(address_params)
     
     # add person attributes
-      person_attribute_params.each{|attribute_type_name, attribute|
-        attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || PersonAttributeType.find_by_name("Unknown id")
-        person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
-      } if person_attribute_params
+    person_attribute_params.each{|attribute_type_name, attribute|
+      attribute_type = PersonAttributeType.find_by_name(attribute_type_name.humanize.titleize) || PersonAttributeType.find_by_name("Unknown id")
+      person.person_attributes.create("value" => attribute, "person_attribute_type_id" => attribute_type.person_attribute_type_id)
+    } if person_attribute_params
  
-# TODO handle the birthplace attribute
+    # TODO handle the birthplace attribute
  
     if (!patient_params.nil?)
       patient = person.create_patient
@@ -229,38 +229,34 @@ class Person < ActiveRecord::Base
   end
 
   def self.find_remote(known_demographics)
-    servers = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.all"}).property_value.split(/,/) rescue nil
-    return nil if servers.blank?
+    # known_demographics.merge!({"_method"=>"put"}) #This is probably necessary when querrying a mateme demographics server
+    # Some strange parsing to get the params formatted right for mechanize
+    demographics_params = CGI.unescape(known_demographics.to_param).split('&').map{|elem| elem.split('=')}
 
-    wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt"
-    # use ssh to establish a secure connection then query the localhost
-    # use wget to login (using cookies and sessions) and set the location
-    # then pull down the demographics
-    # TODO fix login/pass and location with something better
+    # Could probably define this in environment.rb and reuse to improve speed if necessary
+    mechanize_browser = WWW::Mechanize.new
 
-    login = "mikmck"
-    password = "mike"
-    location = 8
+    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
 
-    post_data = known_demographics
-    post_data["_method"]="put"
+    result = demographic_servers.map{|demographic_server, local_port|
 
-    local_demographic_lookup_steps = [ 
-      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost/session\"",
-      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost/people/demographics\""
-    ]
-    results = []
-    servers.each{|server|
-      command = "ssh meduser@#{server} '#{local_demographic_lookup_steps.join(";\n")}'"
-      output = `#{command}`
-      results.push output if output and output.match(/person/)
-    }
-    # TODO need better logic here to select the best result or merge them
-    # Currently returning the longest result - assuming that it has the most information
-    # Can't return multiple results because there will be redundant data from sites
-    result = results.sort{|a,b|b.length <=> a.length}.first
+      begin
+        # Note: we don't use the demographic_server because it is port forwarded to localhost
+        output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
 
+      rescue Timeout::Error
+        return 'timeout'
+      rescue
+        return 'creationfailed'
+      end
+
+
+      output if output and output.match(/person/)
+
+      # TODO need better logic here to select the best result or merge them
+      # Currently returning the longest result - assuming that it has the most information
+      # Can't return multiple results because there will be redundant data from sites
+    }.sort{|a,b|b.length <=> a.length}.first
 
     result ? JSON.parse(result) : nil
 
@@ -269,98 +265,105 @@ class Person < ActiveRecord::Base
   def formatted_gender
 
     if self.gender == "F" then "Female"
-      elsif self.gender == "M" then "Male"
-        else "Unknown"
+    elsif self.gender == "M" then "Male"
+    else "Unknown"
     end
     
   end
 
-  def self.create_remote(received_params)
-    #raise known_demographics.to_yaml
+  def self.create_remote(params)
 
-    #Format params for BART
-     new_params = received_params[:person]
-     known_demographics = Hash.new()
-     new_params['gender'] == 'F' ? new_params['gender'] = "Female" : new_params['gender'] = "Male"
-
-       known_demographics = {
-                  "occupation"=>"#{new_params[:attributes][:occupation]}",
-                   "patient_year"=>"#{new_params[:birth_year]}",
-                   "patient"=>{
-                    "gender"=>"#{new_params[:gender]}",
-                    "birthplace"=>"#{new_params[:addresses][:address2]}",
-                    "creator" => 1,
-                    "changed_by" => 1
-                    },
-                   "p_address"=>{
-                    "identifier"=>"#{new_params[:addresses][:state_province]}"},
-                   "home_phone"=>{
-                    "identifier"=>"#{new_params[:attributes][:home_phone_number]}"},
-                   "cell_phone"=>{
-                    "identifier"=>"#{new_params[:attributes][:cell_phone_number]}"},
-                   "office_phone"=>{
-                    "identifier"=>"#{new_params[:attributes][:office_phone_number]}"},
-                   "patient_id"=>"",
-                   "patient_day"=>"#{new_params[:birth_day]}",
-                   "patientaddress"=>{"city_village"=>"#{new_params[:addresses][:city_village]}"},
-                   "patient_name"=>{
-                    "family_name"=>"#{new_params[:names][:family_name]}",
-                    "given_name"=>"#{new_params[:names][:given_name]}", "creator" => 1
-                    },
-                   "patient_month"=>"#{new_params[:birth_month]}",
-                   "patient_age"=>{
-                    "age_estimate"=>"#{new_params[:age_estimate]}"
-                    },
-                   "age"=>{
-                    "identifier"=>""
-                    },
-                   "current_ta"=>{
-                    "identifier"=>"#{new_params[:addresses][:county_district]}"}
-                  }
-
-
-    servers = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value.split(/,/) rescue nil
-
-    server_address_and_port = servers.to_s.split(':')
-
-    server_address = server_address_and_port.first
-    server_port = server_address_and_port.second
-
-    return nil if servers.blank?
-
-    wget_base_command = "wget --quiet --load-cookies=cookie.txt --quiet --cookies=on --keep-session-cookies --save-cookies=cookie.txt"
-
-    login = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.username"}).property_value.split(/,/) rescue "admin"
-    password = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.password"}).property_value.split(/,/) rescue "test"
-    location = GlobalProperty.find(:first, :conditions => {:property => "remote_bart.location"}).property_value.split(/,/) rescue 31
-    machine = GlobalProperty.find(:first, :conditions => {:property => "remote_machine.account_name"}).property_value.split(/,/) rescue 'meduser'
-
-    post_data = known_demographics
-    post_data["_method"]="put"
-
-    local_demographic_lookup_steps = [ 
-      "#{wget_base_command} -O /dev/null --post-data=\"login=#{login}&password=#{password}\" \"http://localhost:#{server_port}/session\"",
-      "#{wget_base_command} -O /dev/null --post-data=\"_method=put&location=#{location}\" \"http://localhost:#{server_port}/session\"",
-      "#{wget_base_command} -O - --post-data=\"#{post_data.to_param}\" \"http://localhost:#{server_port}/patient/create_remote\""
-    ]
-
-    results = []
-    servers.each{|server|
-      command = "ssh #{machine}@#{server_address} '#{local_demographic_lookup_steps.join(";\n")}'"
-      output = `#{command}`
-      results.push output if output and output.match(/person/)
+    address_params = params["person"]["addresses"]
+		names_params = params["person"]["names"]
+		patient_params = params["person"]["patient"]
+    birthday_params = params["person"]
+		params_to_process = params.reject{|key,value| 
+      key.match(/addresses|patient|names|relation|cell_phone_number|home_phone_number|office_phone_number|agrees_to_be_visited_for_TB_therapy|agrees_phone_text_for_TB_therapy/) 
     }
-    result = results.sort{|a,b|b.length <=> a.length}.first
+		birthday_params = params_to_process["person"].reject{|key,value| key.match(/gender/) }
+		person_params = params_to_process["person"].reject{|key,value| key.match(/birth_|age_estimate|occupation/) }
 
-    result ? person = JSON.parse(result) : nil
-    known_demographics["occupation"]
 
-    begin
-      person["person"]["attributes"]["occupation"] = known_demographics["occupation"]
-      person["person"]["attributes"]["cell_phone_number"] = known_demographics["cell_phone"]["identifier"]
-    rescue
-    end
-    person
+		if person_params["gender"].to_s == "Female"
+      person_params["gender"] = 'F'
+		elsif person_params["gender"].to_s == "Male"
+      person_params["gender"] = 'M'
+		end
+    
+		unless birthday_params.empty?
+		  if birthday_params["birth_year"] == "Unknown"
+			  birthdate = Date.new(Date.today.year - birthday_params["age_estimate"].to_i, 7, 1)
+        birthdate_estimated = 1
+		  else
+			  year = birthday_params["birth_year"]
+        month = birthday_params["birth_month"]
+        day = birthday_params["birth_day"]
+
+        month_i = (month || 0).to_i                                                 
+        month_i = Date::MONTHNAMES.index(month) if month_i == 0 || month_i.blank?   
+        month_i = Date::ABBR_MONTHNAMES.index(month) if month_i == 0 || month_i.blank?
+                                                                                    
+        if month_i == 0 || month == "Unknown"                                       
+          birthdate = Date.new(year.to_i,7,1)                                
+          birthdate_estimated = 1
+        elsif day.blank? || day == "Unknown" || day == 0                            
+          birthdate = Date.new(year.to_i,month_i,15)                         
+          birthdate_estimated = 1
+        else                                                                        
+          birthdate = Date.new(year.to_i,month_i,day.to_i)                   
+          birthdate_estimated = 0
+        end
+		  end
+    else
+      birthdate_estimated = 0
+		end
+
+
+    #create person in healthdata database
+    healthdata_params = params['person']
+    healthdata_params['birthdate'] = birthdate
+    healthdata_patient = self.create_healthdata_patient(healthdata_params)
+    legacy_id = "#{healthdata_patient.Site_ID.to_s}#{healthdata_patient.Pat_ID.to_i.to_s}"
+    
+    params['person']['patient']['identifiers']['old_identification_number'] = legacy_id
+    
+    passed_params = {"person"=> 
+        {"data" =>
+          {"addresses"=>
+            {"state_province"=> address_params["address2"],
+            "address2"=> address_params["address1"],
+            "city_village"=> address_params["city_village"],
+            "county_district"=> address_params["county_district"]
+          },
+          "attributes"=>
+            {"occupation"=> params["person"]["occupation"],
+            "cell_phone_number" => params["person"]["cell_phone_number"] },
+          "patient"=>
+            {"identifiers"=>
+              {"diabetes_number"=> patient_params["identifiers"]["diabetes_number"],
+              "legacy_d" => patient_params["identifiers"]["legacy_id"]
+            }},
+          "gender"=> person_params["gender"],
+          "birthdate"=> birthdate,
+          "birthdate_estimated"=> birthdate_estimated ,
+          "names"=>{"family_name"=> names_params["family_name"],
+            "given_name"=> names_params["given_name"]
+          }}}}
+    
+
+
+    uri = "http://admin:admin@localhost:3001/people.json/"                          
+    recieved_params = RestClient.post(uri,passed_params)      
+                                          
+    national_id = JSON.parse(recieved_params)["npid"]["value"]
+	  person = self.create_from_form(params[:person])
+    identifier_type = PatientIdentifierType.find_by_name("National id") || PatientIdentifierType.find_by_name("Unknown id")
+    person.patient.patient_identifiers.create("identifier" => national_id, 
+      "identifier_type" => identifier_type.patient_identifier_type_id) unless national_id.blank?
+   
+    
+    return person
+
   end
 
   def phone_numbers
@@ -370,7 +373,7 @@ class Person < ActiveRecord::Base
       phone_numbers[attribute_type_name] = number 
     }
     phone_numbers
-   phone_numbers.delete_if {|key, value| value == "" } 
+    phone_numbers.delete_if {|key, value| value == "" }
   end
 
   def sex
@@ -382,5 +385,32 @@ class Person < ActiveRecord::Base
       return nil
     end
   end
+
+  def self.create_healthdata_patient(params)
+
+    birthdate = params["birthdate"].to_date
+    addresses = params["addresses"]
+
+    patient_hash = {
+        "First_Name" => params["names"]["given_name"],
+        "Last_Name" => params["names"]["family_name"],
+        "Sex" => params["gender"],
+        "Day_Of_Birth" => birthdate.day,
+        "Month_Of_Birth" => birthdate.month,
+        "Year_Of_Birth" => birthdate.year,
+        "Birth_TA" => params["addresses"]["address2"],
+        "Location" => 0,
+        "Address" => "#{addresses['state_province']} / #{addresses['county_district']} / #{addresses['city_village']}",
+        "Site_ID" => 101,
+        "Pat_ID" => MasterPatientRecord.maximum(:Pat_ID).to_i + 1,
+        "Birth_Date" => birthdate.to_date.strftime("%d-%b-%Y"),
+        "Date_Reg" => Date.today.strftime("%d-%b-%Y")
+        }
+
+    #raise patient_hash.to_yaml
+    patient = MasterPatientRecord.create(patient_hash)
+end
+
+  
 
 end
