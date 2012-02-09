@@ -35,7 +35,7 @@ body{
     height:750px;
     margin-left:-500px;
     margin-top:-380px;
-
+    -moz-user-select:none;
 }
 
 #footer {
@@ -329,6 +329,7 @@ div.panel h2 {
     max-height: 122px;
     width: 190px;
     overflow: hidden;
+    -moz-user-select:none;
 }
 
 #main {
@@ -354,6 +355,7 @@ div.panel h2 {
     padding-top: 40px;
     margin-bottom: 0px;
     width: 30%;
+    -moz-user-select:none;
 }
 
 #patient-dashboard-applicationname {
@@ -367,6 +369,7 @@ div.panel h2 {
     padding-bottom: 27px;
     height: 98px;
     overflow: hidden;
+    -moz-user-select:none;
 }
 
 #buttonlinks {
@@ -382,6 +385,7 @@ div.panel h2 {
     width: 73%;
     height: 57%;
     margin-left: 3px;
+    -moz-user-select:none;
 }
 
 #detailscontainer {
@@ -400,6 +404,7 @@ div.panel h2 {
     width: 40%;
     background-color: #fff;
     padding: 10px;
+    -moz-user-select:none;
 }
 
 #detailsRow1{
@@ -584,4 +589,29 @@ div.panel h2 {
     overflow: hidden;
     max-height: 30px;
     font-style: italic;
+}
+
+#patient-dashboard-custom {
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 0px;    
+    margin-top: 5px;
+    width: 30%;
+    height: 230px;
+    overflow: auto;
+    -moz-border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#custom_page {
+    width: 300px;
+    height: 230px;
+}
+
+.female {
+    background:url(../images/female.gif) center no-repeat;
+}
+
+.male {
+    background:url(../images/male.gif) center no-repeat;
 }

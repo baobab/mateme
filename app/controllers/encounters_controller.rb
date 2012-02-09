@@ -1,4 +1,5 @@
 require 'barby'
+require 'barby/barcode/code_128'
 require 'barby/outputter/rmagick_outputter'
 
 class EncountersController < ApplicationController
@@ -533,7 +534,7 @@ class EncountersController < ApplicationController
       } rescue []
 
       t1 = Thread.new{
-        Kernel.system "htmldoc --webpage -f /tmp/output-" + session[:user_id].to_s + ".pdf http://" +
+        Kernel.system "htmldoc --size 210x297mm --webpage -f /tmp/output-" + session[:user_id].to_s + ".pdf http://" +
           request.env["HTTP_HOST"] + "\"/encounters/observations_printable?patient_id=" +
           @patient.id.to_s + "&user_id=" + @user + "\"\n"
       }

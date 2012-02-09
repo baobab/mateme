@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Registration</title>
-        <script type="text/javascript" language="javascript" src="../lib/javascripts/touchScreenToolkit.js" defer  ></script>
+        <script type="text/javascript" language="javascript" src="lib/javascripts/touchScreenToolkit.js" defer  ></script>
         <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
         <script language="javascript">
             tstUsername = "";
@@ -9,34 +9,130 @@
             tt_cancel_destination = '../home.html';
             tt_cancel_show = 'show.html';
         </script>
+        <style>
+            .tt_unknown #SHIFT {
+                display: none;
+            }
+        </style>
     </head>
     <body><div id='content'>
             <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
-                <form  action='show.html'>
+                <form  action='' method="post">
                     <table cellpadding=10>
                         <tr>
                             <th colspan=2>Registration</th>
                         </tr>
                         <tr>
+                            <td>Preferred Keyboard</td>
+                            <td>
+                                <select style='width: 100%' name='keybrd' id='keybrd' tt_requireNextClick="false"
+                                        helptext='Preferred Keyboard'>
+                                    <option></option>
+                                    <option value="abc">abc</option>
+                                    <option value="qwerty">qwerty</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Are you sure?</td>
+                            <td>
+                                <select style='width: 100%' name='verifykeybrd' id='verifykeybrd' tt_requireNextClick="false"
+                                        helptext='Are you sure?' tt_onUnLoad="tstUserKeyboardPref=__$('keybrd').value">
+                                    <option></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>First Name</td>
                             <td>
-                                <input type='text' value='Text' field_type='text' name='first_name' id='first_name' helptext='First Name' />
+                                <input type='text' value='Text' field_type='password' name='first_name' id='first_name' 
+                                       helptext='First Name' />
                             </td>
                         </tr>
                         <tr>
                             <td>Last Name</td>
                             <td>
-                                <input type='text' value='Text' field_type='text' name='last_name' id='last_name' helptext='Last Name' />
+                                <input type='text' value='Text' field_type='text' name='last_name' id='last_name' 
+                                       helptext='Last Name' />
                             </td>
                         </tr>
                         <tr>
-                            <td>Gender</td>
+                            <td>Password</td>
                             <td>
-                                <select style='width: 100%' name='gender' id='gender' helptext='Gender'>
+                                <input type='password' value='Text1%$^&' field_type='password' name='password' id='password' 
+                                       helptext='Password' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gender (Single Selection Example)</td>
+                            <td>
+                                <select style='width: 100%' name='gender' id='gender' helptext='Gender (Single Selection Example)'>
                                     <option></option>
-                                    <option>Male</option>
+                                    <option selected="selected">Male</option>
                                     <option>Female</option>
                                     <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Allergies (Multiple Selection Example)</td>
+                            <td>
+                                <select style='width: 100%' name='drug' id='drug' helptext='Allergies (Multiple Selection Example)' 
+                                        multiple="multiple">
+                                    <option value="ABC+3TC">ABC+3TC</option>
+                                    <option value="AZT + 3TC">AZT + 3TC</option>
+
+                                    <option value="AZT/3TC/NVP">AZT/3TC/NVP</option>
+                                    <option value="d4T/3TC/EFV">d4T/3TC/EFV</option>
+                                    <option value="d4T/3TC/NVP">d4T/3TC/NVP</option>
+                                    <option value="d4T/3TC">d4T/3TC</option>
+                                    <option value="d4T">d4T</option>
+                                    <option selected value="Didanosine">Didanosine</option>
+                                    <option selected value="Efavirenz">Efavirenz</option>
+                                    <option selected value="Lamivudine">Lamivudine</option>
+                                    <option value="LPV/r">LPV/r</option>
+
+                                    <option value="Nelfinavir">Nelfinavir</option>
+                                    <option value="Nevirapine">Nevirapine</option>
+                                    <option value="Stavudine Lamivudine and Abacavir">Stavudine Lamivudine and Abacavir</option>
+                                    <option value="TDF+3TC">TDF+3TC</option>
+                                    <option selected value="TDF/3TC/EFV">TDF/3TC/EFV</option>
+                                    <option selected value="TDF">TDF</option>
+                                    <option value="Zidovudine">Zidovudine</option>
+                                    <option value="Other antiretroviral drug">Other antiretroviral drug</option>
+                                    <option value="Unknown antiretroviral drug">Unknown antiretroviral drug</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Secondary Drug (Multiple Selection Example)</td>
+                            <td>
+                                <select style='width: 100%' name='secdrug' id='secdrug' helptext='Allergies (Multiple Selection Example)' 
+                                        multiple="multiple">
+                                    <option value="ABC+3TC">ABC+3TC</option>
+                                    <option value="AZT + 3TC">AZT + 3TC</option>
+
+                                    <option value="AZT/3TC/NVP">AZT/3TC/NVP</option>
+                                    <option value="d4T/3TC/EFV">d4T/3TC/EFV</option>
+                                    <option value="d4T/3TC/NVP">d4T/3TC/NVP</option>
+                                    <option value="d4T/3TC">d4T/3TC</option>
+                                    <option value="d4T">d4T</option>
+                                    <option value="Didanosine">Didanosine</option>
+                                    <option value="Efavirenz">Efavirenz</option>
+                                    <option value="Lamivudine">Lamivudine</option>
+                                    <option value="LPV/r">LPV/r</option>
+
+                                    <option value="Nelfinavir">Nelfinavir</option>
+                                    <option value="Nevirapine">Nevirapine</option>
+                                    <option value="Stavudine Lamivudine and Abacavir">Stavudine Lamivudine and Abacavir</option>
+                                    <option value="TDF+3TC">TDF+3TC</option>
+                                    <option value="TDF/3TC/EFV">TDF/3TC/EFV</option>
+                                    <option value="TDF">TDF</option>
+                                    <option value="Zidovudine">Zidovudine</option>
+                                    <option value="Other antiretroviral drug">Other antiretroviral drug</option>
+                                    <option value="Unknown antiretroviral drug">Unknown antiretroviral drug</option>
                                 </select>
                             </td>
                         </tr>
@@ -49,19 +145,24 @@
                         <tr>
                             <td>Mother's Surname</td>
                             <td>
-                                <input type='text' value='Text' field_type='text' name='mother's_surname' id='mother's_surname' helptext='Mother's Surname' />
+                                <input type='text' value='Text' field_type='text' name='mothers_surname' id='mothers_surname' 
+                                       helptext="Mother's Surname" tt_pageStyleClass="tt_unknown" />
                             </td>
                         </tr>
                         <tr>
                             <td>Year Of Birth</td>
                             <td>
-                                <input type='text' value='' field_type='number' name='birth_year' id='birth_year' helptext='Year Of Birth' />
+                                <input type='text' value='' field_type='number' name='birth_year' id='birth_year' 
+                                       helptext='Year Of Birth' 
+                                       tt_pageStyleClass="NumbersWithUnknown" validationCode="this.value.match(/^19\d{2}|Unknown$/)" 
+                                       validationMessage="This is a question for adults only" />
                             </td>
                         </tr>
                         <tr>
                             <td>Month Of Birth</td>
                             <td>
-                                <select style='width: 100%' name='birth_month' id='birth_month' helptext='Month Of Birth'>
+                                <select style='width: 100%' name='birth_month' id='birth_month' 
+                                        helptext='Month Of Birth' condition="__$('birth_year').value != 'Unknown'">
                                     <option></option>
                                     <option value="1">Jan</option>
                                     <option value="2">Feb</option>
@@ -82,31 +183,47 @@
                         <tr>
                             <td>Birth Day</td>
                             <td>
-                                <input type='text' value='' field_type='number' name='birth_day' id='birth_day' helptext='Birth Day' />
+                                <input type='text' value='' field_type='number' name='bday' 
+                                       id='bday' helptext='Birth Day' 
+                                       tt_pageStyleClass="NumbersWithUnknown" condition="__$('birth_year').value != 'Unknown'" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+                            <td>
+                                <input type='text' value='' field_type='number' name='age' 
+                                       id='age' helptext='Age' 
+                                       tt_pageStyleClass="NumbersOnly" condition="__$('birth_year').value == 'Unknown'" />
+
                             </td>
                         </tr>
                         <tr>
                             <td>Home Village</td>
                             <td>
-                                <input type='text' value='Text' field_type='text' name='home_village' id='home_village' helptext='Home Village' />
+                                <input type='text' value='Text' field_type='text' name='home_village' id='home_village' 
+                                       helptext='Home Village' />
                             </td>
                         </tr>
                         <tr>
                             <td>Current Traditional Authority (ta)</td>
                             <td>
-                                <input type='text' value='Text' field_type='text' name='current_traditional_authority_(ta)' id='current_traditional_authority_(ta)' helptext='Current Traditional Authority (ta)' />
+                                <input type='text' value='Text' field_type='text' name='current_traditional_authority_(ta)' 
+                                       id='current_traditional_authority_(ta)' helptext='Current Traditional Authority (ta)' />
                             </td>
                         </tr>
                         <tr>
                             <td>Current Village (residence)</td>
                             <td>
-                                <input type='text' value='Text' field_type='text' name='current_village_(residence)' id='current_village_(residence)' helptext='Current Village (residence)' />
+                                <input type='text' value='Text' field_type='text' name='current_village_(residence)' 
+                                       id='current_village_(residence)' helptext='Current Village (residence)' />
                             </td>
                         </tr>
                         <tr>
                             <td>Cell Phone Number</td>
                             <td>
-                                <input type='text' value='' field_type='number' name='cell_phone_number' id='cell_phone_number' helptext='Cell Phone Number' />
+                                <input type='text' value='' optional="true" field_type='number' name='cell_phone_number' 
+                                       id='cell_phone_number' helptext='Cell Phone Number' />
                             </td>
                         </tr>
                         <tr>

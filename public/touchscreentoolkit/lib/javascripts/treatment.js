@@ -18,7 +18,7 @@ var current_generic = null;
 var selectedGenerics = {};
 var current_diagnosis = null;
 
-var search_path = (typeof(search_path) != "undefined" ? search_path : "/search/load_frequencies_and_dosages");
+var search_path = (typeof(search_path) != "undefined" ? search_path : "/prescriptions/load_frequencies_and_dosages");
 
 // This function exists in the TouchScreenToolkit but repeated here in case it's
 // not referenced
@@ -179,7 +179,7 @@ function generateGenerics(){
     drugsDiv.appendChild(drugsListDiv);
 
     var doseDiv = document.createElement("div");
-    doseDiv.style.width = "33%";
+    doseDiv.style.width = "42%";
     doseDiv.style.height = "49%";
     doseDiv.style.backgroundColor = "#fff";
     doseDiv.style.borderRight = "1px solid #ccc";
@@ -209,7 +209,7 @@ function generateGenerics(){
     doseDiv.appendChild(doseListDiv);
 
     var freqDiv = document.createElement("div");
-    freqDiv.style.width = "33%";
+    freqDiv.style.width = "24%";
     freqDiv.style.height = "49%";
     freqDiv.style.backgroundColor = "#ff0";
     freqDiv.style.borderRight = "1px solid #ccc";
@@ -252,7 +252,7 @@ function generateGenerics(){
     periodTopicDiv.style.fontSize = "1.5em";
     periodTopicDiv.style.height = "32px";
     periodTopicDiv.style.padding = "5px";
-    periodTopicDiv.innerHTML = "Duration";
+    periodTopicDiv.innerHTML = "Duration (Days)";
     periodTopicDiv.style.backgroundColor = "#999";
     periodTopicDiv.style.textAlign = "center";
     periodTopicDiv.style.color = "#eee";
@@ -928,7 +928,7 @@ function showFixedKeyboard(ctrl, global_control){
 
     var row1 = ["Q","W","E","R","T","Y","U","I","O","P"];
     var row2 = ["", "A","S","D","F","G","H","J","K","L"];
-    var row3 = ["clear", "Z","X","C","V","B","N","M",""];
+    var row3 = ["clear", "Z","X","C","V","B","N","M","stat<br />dose"];
     var row5 = ["1","2","3","4","5","6","7","8","9","0"];
 
     var tbl = document.createElement("table");
@@ -1045,7 +1045,20 @@ function showFixedKeyboard(ctrl, global_control){
                 searchDrug();
             }
             
-        } else {
+        } else if(row3[i].trim() == "stat<br />dose"){            
+            td3.style.fontSize = "0.9em";            
+            td3.style.padding = "0px";           
+            td3.style.fontWeight = "bold";
+            
+            td3.onclick = function(){
+                if ($("optionOD"))
+                    $("optionOD").click();
+                if ($("group1_1-10"))
+                    $("group1_1-10").click();
+                if ($("group2_1"))
+                    $("group2_1").click();
+            }
+        } else {            
 
             td3.onclick = function(){
                 if(!this.innerHTML.match(/^$/)){

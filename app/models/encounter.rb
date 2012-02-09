@@ -5,6 +5,7 @@ class Encounter < ActiveRecord::Base
   # TODO, this needs to account for current visit, which needs to account for possible retrospective entry
   named_scope :current, :conditions => 'DATE(encounter.encounter_datetime) = CURRENT_DATE() AND encounter.voided = 0'
   named_scope :active, :conditions => 'encounter.voided = 0'
+  
   has_many :observations, :dependent => :destroy
   has_many :orders, :dependent => :destroy
   belongs_to :type, :class_name => "EncounterType", :foreign_key => :encounter_type

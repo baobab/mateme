@@ -12,8 +12,6 @@ class Person < ActiveRecord::Base
   has_many :person_attributes, :foreign_key => :person_id, :dependent => :destroy #, :conditions => 'person.voided = 0'
   has_many :observations, :class_name => 'Observation', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'obs.voided = 0' do
 
-
-
     def find_by_concept_name(name)
       concept_name = ConceptName.find_by_name(name)
       find(:all, :conditions => ['concept_id = ?', concept_name.concept_id]) rescue []

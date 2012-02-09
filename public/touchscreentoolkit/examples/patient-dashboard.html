@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Patient Dashboard</title>
-        <script type="text/javascript" language="javascript" src="../lib/javascripts/touchScreenToolkit.js" defer  ></script>
+        <script type="text/javascript" language="javascript" src="lib/javascripts/touchScreenToolkit.js" defer  ></script>
         <meta http-equiv='content-type' content='text/html;charset=UTF-8' />
         <script language="javascript">
             tstUsername = "";
@@ -13,34 +13,33 @@
     <body><div id='content'>
             <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
                 <form id = 'dashboard' action='../home.html'>
-                    <table cellpadding=10>
-                        <tr>
-                            <th colspan=2>Patient Dashboard</th>
-                        </tr>
-                        <h1 id='project_name'>
-                            bart
-                        </h1>
-                        <span id='patient_name'>Test Patient</span><span id='patient_id'>P00002</span><span id='patient_residence'>18/1453</span><span id='patient_age'>34</span><span id='patient_gender'>Female</span><select id="tabs">
-                            <option value='overview.html'>Overview</option>
-                            <option value='treatment.html'>Treatment</option>
-                            <option value='relationships.html'>Relationships</option>
-                            <option value='programs.html'>Programs</option>
-                        </select>
-                        <select id="links">
-                            <option value='tasks.html'>Tasks</option>
-                            <option value='mastercard.html'>Mastercard</option>
-                            <option value=''>Print Visit</option>
-                            <option value=''>Print ID</option>
-                            <option value='dispense.html'>Dispense</option>
-                            <option value='regimens.html'>Regimen</option>
-                            <option value='prescription.html'>Prescription</option>
-                        </select>
-                        <tr>
-                            <td align='center'>
-                                <input type='submit' value='Finish' />
-                            </td>
-                        </tr>
-                    </table>
+                    <div>Patient Dashboard</div>
+                    <div id='project_name'>
+                        <div style="margin-top: 0px; color: #6281A7;">
+                            project
+                        </div>
+                    </div>
+                    <span id='patient_name'>Test Patient</span>
+                    <span id='patient_id'>P00002</span>
+                    <span id='patient_residence'>18/1453</span>
+                    <span id='patient_age'>34</span>
+                    <span id='patient_gender'>Male</span>
+                    <select id="tabs">
+                        <option value='overview.html'>Overview</option>
+                        <option value='treatment.html' alertTab="true">Treatment</option>
+                        <option value='relationships.html' selectedTab='true'>Relationships</option>
+                        <option value='programs.html'>Programs</option>
+                    </select>
+                    <select id="links">
+                        <option value='tasks.html'>Tasks</option>
+                        <option value='mastercard.html'>Mastercard</option>
+                        <option value=''>Print Visit</option>
+                        <option value=''>Print ID</option>
+                        <option value='dispense.html'>Dispense</option>
+                        <option value='regimens.html'>Regimen</option>
+                        <option value='prescription.html'>Prescription</option>
+                    </select>
+                    <input type='submit' value='Finish' />
                 </form>
             </center>
         </div>
