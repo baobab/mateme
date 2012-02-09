@@ -497,6 +497,38 @@ class EncountersController < ApplicationController
     @patient.create_barcode
 
     @encounters = {}
+    @outpatient_diagnosis = {}
+    @referral = {}
+
+    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
+        EncounterType.find_by_name("IS PATIENT REFERRED?").encounter_type_id]).each{|e|
+      e.observations.each{|o|
+        if o.concept.name.name == "IS PATIENT REFERRED?"
+          if !@referral[o.concept.name.name.upcase]
+            @referral[o.concept.name.name.upcase] = []
+          end
+
+          @referral[o.concept.name.name.upcase] << o.answer_string
+        elsif o.concept.name.name.include?("TIME")
+          @referral[o.concept.name.name.upcase] = o.value_datetime.to_date
+        else
+          @referral[o.concept.name.name.upcase] = o.answer_string
+        end
+      }
+    } rescue {}
+
+    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
+        EncounterType.find_by_name("DIAGNOSIS").encounter_type_id]).each{|e|
+      e.observations.each{|o|
+        if o.concept.name.name == "DIAGNOSIS"
+          if !@outpatient_diagnosis[o.concept.name.name.upcase]
+            @outpatient_diagnosis[o.concept.name.name.upcase] = []
+          end
+
+          @outpatient_diagnosis[o.concept.name.name.upcase] << o.answer_string
+        end
+      }
+    } rescue {}
 
     @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
         EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).each{|e|

@@ -146,14 +146,15 @@
           <b>Feeding<br />Option:</b> <%= @encounters["INFANT FEEDING METHOD"] %>
         </td>
         <td>
-          <b>Referred:</b> <%= @encounters["REFERRED"].titleize rescue "" %>&nbsp;&nbsp;&nbsp;
+          <b>Referred:</b> <%=  @referral["IS PATIENT REFERRED?"].to_s rescue ""%>&nbsp;&nbsp;&nbsp;
         </td>
         <td colspan="2">
-          <% if @encounters["REFERRED"] == "YES" %>
+          <% if @referral["IS PATIENT REFERRED?"].to_s == "Yes" %>
 
-            <b>From:</b> <%= @encounters["REFERRAL CLINIC IF REFERRED"].titleize rescue "" %>&nbsp;&nbsp;&nbsp;
+            <b>From:</b> <%= @referral["REFERRAL CLINIC IF REFERRED"] rescue "" %>&nbsp;&nbsp;&nbsp;
 
-            <b>Reason:</b> <%= @encounters["REASON FOR REFERRAL TO ANOTHER SITE"].titleize rescue "" %>
+            <b>Reason:</b> <%= @outpatient_diagnosis["DIAGNOSIS"].to_s rescue "" %>
+            <%#= @referral["REASON FOR REFERRAL TO ANOTHER SITE"] rescue "" %>
 
           <% else %>
             &nbsp;
@@ -184,7 +185,7 @@
       </tr>
       <tr>
         <td colspan="4">
-          <b>Admitted Due To:</b> <%= @encounters["ADMISSION DIAGNOSIS"] %>
+          <b>Admitted Due To:</b> <%= @outpatient_diagnosis["DIAGNOSIS"].titleize rescue "" %>
         </td>
       </tr>
       <tr>
@@ -242,7 +243,11 @@
           <b>Cervical Dilation:</b> <%= @encounters["CERVICAL DILATION"].titleize rescue "" %>
         </td>
         <td>
-          <b>Caput/Moulding:</b> <%= @encounters["CAPUT OR MOULDING"].titleize rescue "" %>
+          <% if !@encounters["MOULDING"].blank? %>
+            <b>Caput/Moulding:</b> <%= @encounters["MOULDING"].titleize rescue "" %>
+          <% else %>
+            <b>Caput/Moulding:</b> <%= @encounters["CAPUT"].titleize rescue "" %>
+          <% end %>
         </td>
       </tr>
       <tr>
