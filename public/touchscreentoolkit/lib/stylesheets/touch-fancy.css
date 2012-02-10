@@ -801,8 +801,13 @@ button {
 .NumbersWithUnknownAndDecimal #plus,
 .NumbersWithUnknownAndDecimal #slash,
 .NumbersWithUnknownAndDecimal #comma,
+.NumbersWithUnknownAndDecimal #qwerty,
 .NumbersWithUnknownAndDecimal #percent{
     display: none
+}
+
+.NumbersWithUnknownAndDecimal #Unknown{
+    display: block
 }
 
 .statusLabel {

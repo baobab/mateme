@@ -176,6 +176,10 @@
   .level #nine {
     display: none;
   }
+  
+  .na #na {
+    display: block;
+  }
 </style>
 <style>
   #num {display: none;}
@@ -197,7 +201,7 @@
       :id => "fundus",
       :helptext => "Fundus (weeks)",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly"
+      :tt_pageStyleClass => "NumbersOnly na"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "FUNDUS IN CM", {:id => 'fundus_concept_name'}) %>
@@ -208,7 +212,8 @@
   <% options = default.merge({
       :id => "lie",
       :helptext => "Lie",
-      :field_type => "text"
+      :field_type => "text",
+      :condition => "__$('fundus').value != 'N/A'"
     }) %>
   <% @lie = ["", "Longitudinal", "Transverse", "Oblique"] %>
 
@@ -220,7 +225,8 @@
   <% options = default.merge({
       :id => "presentation",
       :helptext => "Presentation",
-      :field_type => "text"
+      :field_type => "text",
+      :condition => "__$('fundus').value != 'N/A'"
     }) %>
   <% @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow"] %>
 
@@ -232,7 +238,8 @@
   <% options = default.merge({
       :id => "position",
       :helptext => "Position",
-      :field_type => "text"
+      :field_type => "text",
+      :condition => "__$('fundus').value != 'N/A'"
     }) %>
   <% @position = ["", "Vertex",
     "Breech",
@@ -251,7 +258,7 @@
       :id => "vertex",
       :helptext => "Vertex Position Type",
       :field_type => "text",
-      :condition => "$('position').value.trim().toUpperCase() == 'VERTEX';"
+      :condition => "$('position').value.trim().toUpperCase() == 'VERTEX' && __$('fundus').value != 'N/A'"
     }) %>
   <% @vertex = ["", "Left Occipito Anterior",
     "Left Occipito Transverse",
@@ -270,7 +277,7 @@
       :id => "breech",
       :helptext => "Breech Position Type",
       :field_type => "text",
-      :condition => "$('position').value.trim().toUpperCase() == 'BREECH';"
+      :condition => "$('position').value.trim().toUpperCase() == 'BREECH' && __$('fundus').value != 'N/A';"
     }) %>
   <% @breech = ["", "Left Sacro Anterior",
     "Left Sacro Transverse",
@@ -289,7 +296,7 @@
       :id => "face",
       :helptext => "Face Position Type",
       :field_type => "text",
-      :condition => "$('position').value.trim().toUpperCase() == 'FACE';"
+      :condition => "$('position').value.trim().toUpperCase() == 'FACE' && __$('fundus').value != 'N/A';"
     }) %>
   <% @face = ["", "Left Mento Anterior",
     "Left Mento Transverse",
@@ -308,7 +315,7 @@
       :id => "shoulder",
       :helptext => "Shoulder Position Type",
       :field_type => "text",
-      :condition => "$('position').value.trim().toUpperCase() == 'SHOULDER';"
+      :condition => "$('position').value.trim().toUpperCase() == 'SHOULDER' && __$('fundus').value != 'N/A';"
     }) %>
   <% @shoulder = ["", "Left Acromion Dorsal Anterior",
     "Left Acromion Dorsal Posterior",
@@ -326,9 +333,10 @@
   <% options = default.merge({
       :id => "contractions",
       :helptext => "Contractions",
-      :field_type => "text"
+      :field_type => "text",
+      :condition => "__$('fundus').value != 'N/A'"
     }) %>
-  <% @contractions = ["", "Yes", "No"] %>
+  <% @contractions = ["", "Yes", "No", "Niggling"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS", {:id => 'contractions_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@contractions),options) %>
@@ -340,7 +348,7 @@
       :id => "contractions_intensity",
       :helptext => "Contractions Intensity",
       :field_type => "text",
-      :condition => "$('contractions').value.trim().toUpperCase() == 'YES';"
+      :condition => "__$('contractions').value.trim().toUpperCase() != 'NO' && __$('fundus').value != 'N/A';"
     }) %>
   <% @contractions_intensity = ["", "Mild", "Moderate", "Strong"] %>
 
@@ -357,7 +365,8 @@
       :absoluteMax => 5,
       :absoluteMin => 1,
       :tt_onLoad => "setTimeout('changeIds()', 100);",
-      :condition => "$('contractions').value.trim().toUpperCase() == 'YES';"
+      :condition => "$('contractions').value.trim().toUpperCase() == 'YES' " + 
+        "&& __$('fundus').value != 'N/A' && __$('contractions').value != 'Niggling';"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS LEVEL", {:id => 'contractions_level_concept_name'}) %>
@@ -369,7 +378,8 @@
   <% options = default.merge({
       :id => "descent",
       :helptext => "Descent",
-      :field_type => "text"
+      :field_type => "text",
+      :condition => "__$('fundus').value != 'N/A'"
     }) %>
   <% @descent = ["", "5/5", "4/5", "3/5", "2/5", "1/5", "0/5"] %>
 

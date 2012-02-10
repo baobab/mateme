@@ -137,9 +137,9 @@
       :id => "cervical_dilation",
       :helptext => "Cervical Dilation",
       :field_type => "text",
-      :tt_pageStyleClass => "LongSelectList"
+      :tt_pageStyleClass => "LongSelectList NoKeyboard"
     }) %>
-  <% @cervical_dilation = [""]
+  <% @cervical_dilation = ["", "Not Done"]
   (1..10).each{|c| @cervical_dilation << "#{c} cm"}
 %>
 

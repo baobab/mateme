@@ -184,7 +184,7 @@
       :id => "temperature",
       :helptext => "Temperature",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnlyWithDecimal"
+      :tt_pageStyleClass => "NumbersWithUnknownAndDecimal"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "TEMPERATURE", {:id => 'temperature_concept_name'}) %>
@@ -196,7 +196,7 @@
       :id => "fhr",
       :helptext => "Fetal Heart Rate",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersOnly",
+      :tt_pageStyleClass => "NumbersWithUnknownAndDecimal",
       :absoluteMin => 0,
       :max => 200
     }) %>

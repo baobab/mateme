@@ -80,7 +80,7 @@ class EncountersController < ApplicationController
     @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
     @diagnosis_type = params[:diagnosis_type]
-    @facility = GlobalProperty.find_by_property("facility.name").property_value rescue ""
+    @facility = (GlobalProperty.find_by_property("facility.name").property_value rescue "") # || (Location.find(session[:facility]).name rescue "")    
 
     @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ? OR encounter_type = ?",
         EncounterType.find_by_name("OBSERVATIONS").encounter_type_id,
@@ -494,6 +494,9 @@ class EncountersController < ApplicationController
     @patient    = Patient.find(params[:patient_id] || session[:patient_id]) rescue nil
     @user = params[:user_id]
 
+    @facility = (GlobalProperty.find_by_property("facility.name").property_value rescue "") || 
+      (Location.find(session[:facility]).name rescue "")    
+    
     @patient.create_barcode
 
     @encounters = {}
