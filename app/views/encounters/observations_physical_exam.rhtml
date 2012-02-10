@@ -336,7 +336,7 @@
       :field_type => "text",
       :condition => "__$('fundus').value != 'N/A'"
     }) %>
-  <% @contractions = ["", "Yes", "No", "Niggling"] %>
+  <% @contractions = ["", "Yes", "No"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS", {:id => 'contractions_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@contractions),options) %>
@@ -350,7 +350,7 @@
       :field_type => "text",
       :condition => "__$('contractions').value.trim().toUpperCase() != 'NO' && __$('fundus').value != 'N/A';"
     }) %>
-  <% @contractions_intensity = ["", "Mild", "Moderate", "Strong"] %>
+  <% @contractions_intensity = ["", "Mild", "Moderate", "Strong", "Niggling"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS INTENSITY", {:id => 'contractions_intensity_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@contractions_intensity),options) %>
@@ -366,7 +366,7 @@
       :absoluteMin => 1,
       :tt_onLoad => "setTimeout('changeIds()', 100);",
       :condition => "$('contractions').value.trim().toUpperCase() == 'YES' " + 
-        "&& __$('fundus').value != 'N/A' && __$('contractions').value != 'Niggling';"
+        "&& __$('fundus').value != 'N/A' && __$('contractions_intensity').value != 'Niggling';"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "CONTRACTIONS LEVEL", {:id => 'contractions_level_concept_name'}) %>
