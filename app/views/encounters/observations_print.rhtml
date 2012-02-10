@@ -26,7 +26,8 @@
       Finish
     </span>
   </button>
-  <button class="blue" onclick="window.location = '/encounters/print_note?patient_id=<%= @patient.id %>&user_id=<%= session[:user_id] %>'"
+  <button class="blue" onclick="if(__$('popupBox')){__$('popupBox').innerHTML = 'Printing. Please wait...'}; 
+    showStatus(); window.location = '/encounters/print_note?patient_id=<%= @patient.id %>&user_id=<%= session[:user_id] %>'"
           style="float: right; margin: 10px;">
     <span>
       Print

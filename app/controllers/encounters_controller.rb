@@ -566,9 +566,16 @@ class EncountersController < ApplicationController
       } rescue []
 
       t1 = Thread.new{
+        # wkhtmltopdf
+=begin        
         Kernel.system "htmldoc --size 210x297mm --webpage -f /tmp/output-" + session[:user_id].to_s + ".pdf http://" +
           request.env["HTTP_HOST"] + "\"/encounters/observations_printable?patient_id=" +
           @patient.id.to_s + "&user_id=" + @user + "\"\n"
+=end        
+        
+        Kernel.system "wkhtmltopdf -s A4 http://" +
+          request.env["HTTP_HOST"] + "\"/encounters/observations_printable?patient_id=" +
+          @patient.id.to_s + "&user_id=" + @user + "\" /tmp/output-" + session[:user_id].to_s + ".pdf \n"
       }
 
       t2 = Thread.new{
