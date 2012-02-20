@@ -303,7 +303,7 @@ class Person < ActiveRecord::Base
 
       begin
         # Note: we don't use the demographic_server because it is port forwarded to localhost
-        output = mechanize_browser.post("http://localhost:#{local_port}/people/demographics", demographics_params).body
+        output = mechanize_browser.post("http://localhost:#{local_port}/people/remote_demographics", demographics_params).body
 
       rescue Timeout::Error
         return 'timeout'
