@@ -24,9 +24,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:encounter], :conditions => 
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? AND voided = 0",
-    #    @start_date, @end_date]).length
   end
 
   def total_adults_registered
@@ -40,10 +37,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? AND " +
-    #      "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 AND patient.voided = 0",
-    #    @start_date, @end_date]).length
   end
 
   def total_children_registered
@@ -57,10 +50,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? AND " +
-    #      "COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 AND patient.voided = 0",
-    #    @start_date, @end_date]).length
   end
 
   def total_men_registered
@@ -74,10 +63,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
-    #      AND UCASE(person.gender) = ? AND patient.voided = 0",
-    #    @start_date, @end_date, "M"]).length
   end
 
   def total_adult_men_registered
@@ -91,10 +76,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
-    #      AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 AND patient.voided = 0",
-    #    @start_date, @end_date, "M"]).length
   end
 
   def total_boy_children_registered
@@ -108,10 +89,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
-    #      AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 AND patient.voided = 0",
-    #    @start_date, @end_date, "M"]).length
   end
 
   def total_women_registered
@@ -125,10 +102,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
-    #      AND UCASE(person.gender) = ? AND patient.voided = 0",
-    #    @start_date, @end_date, "F"]).length
   end
 
   def total_adult_women_registered
@@ -142,10 +115,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
-    #      AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 AND patient.voided = 0",
-    #    @start_date, @end_date, "F"]).length
   end
 
   def total_girl_children_registered
@@ -159,10 +128,6 @@ class Reports::Cohort
         @start_date, @end_date], 
       :group => ["patient.patient_id"]).length
 
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? \
-    #      AND UCASE(person.gender) = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 AND patient.voided = 0",
-    #    @start_date, @end_date, "F"]).length
   end
 
   # Get all patients ever registered
@@ -175,8 +140,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :conditions => ["patient.voided = 0 AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?",
-    #    @end_date]).collect{|p| p.patient_id}.uniq.length
   end
 
   def total_adults_ever_registered
@@ -189,9 +152,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions => 
-    #    ["COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 AND patient.voided = 0 AND \
-    #    DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", @end_date]).length
   end
 
   def total_children_ever_registered
@@ -204,9 +164,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 AND patient.voided = 0 AND \
-    #    DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", @end_date]).length
   end
 
   def total_men_ever_registered
@@ -219,8 +176,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions => ["person.gender = ? \
-    # AND patient.voided = 0 AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", "M", @end_date]).length
   end
 
   def total_adult_men_ever_registered
@@ -233,9 +188,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions => 
-    #    ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 AND patient.voided = 0 \
-    #     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", "M", @end_date]).length
   end
 
   def total_boy_children_ever_registered
@@ -248,9 +200,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions => 
-    #    ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 AND patient.voided = 0 \
-    #     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", "M", @end_date]).length
   end
 
   def total_women_ever_registered
@@ -263,8 +212,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions => ["person.gender = ? AND patient.voided = 0 \
-    #     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", "F", @end_date]).length
   end
 
   def total_adult_women_ever_registered
@@ -277,9 +224,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) >= 15 AND patient.voided = 0 \
-    #     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", "F", @end_date]).length
   end
 
   def total_girl_children_ever_registered
@@ -292,9 +236,6 @@ class Reports::Cohort
         @end_date], 
       :group => ["patient.patient_id"]).length
     
-    # @patients = Patient.find(:all, :joins => [:person], :conditions =>
-    #    ["person.gender = ? AND COALESCE(DATEDIFF(NOW(), person.birthdate)/365, 0) <= 14 AND patient.voided = 0 \
-    #     AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ?", "F", @end_date]).length
   end
 
   # Oral Treatments
@@ -316,24 +257,6 @@ class Reports::Cohort
               :group => ["patient_id"], 
               :conditions => ["encounter_datetime <= ?", @end_date]).collect{|e| e.encdt}]).collect{|o| o.patient_id}]).uniq.length
 
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT p.patient_id, MAX(e.encounter_datetime) FROM patient p 
-                                  LEFT OUTER JOIN encounter e ON e.patient_id = p.patient_id
-                                  WHERE p.patient_id IN
-                                    (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                        (SELECT order_id FROM drug_order
-                                          WHERE drug_inventory_id IN
-                                            (SELECT drug_id FROM drug d WHERE name LIKE '%metformin%' OR
-                                      name LIKE '%glibenclamide%')))
-                                  AND NOT p.patient_id IN (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                    (SELECT order_id FROM drug_order
-                                      WHERE drug_inventory_id IN
-                                        (SELECT drug_id FROM drug d WHERE name LIKE '%insulin%'))) AND \
-                                        DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' \
-                                        AND p.voided = 0 GROUP BY p.patient_id").length
-=end
   end
 
   def oral_treatments
@@ -359,25 +282,6 @@ class Reports::Cohort
               :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?", 
                 @start_date, @end_date]).collect{|e| e.encdt}]).collect{|o| o.patient_id}]).uniq.length
 
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT p.patient_id, MAX(e.encounter_datetime) FROM patient p 
-                                  LEFT OUTER JOIN encounter e ON e.patient_id = p.patient_id
-                                  WHERE p.patient_id IN
-                                    (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                        (SELECT order_id FROM drug_order
-                                          WHERE drug_inventory_id IN
-                                            (SELECT drug_id FROM drug d WHERE name LIKE '%metformin%' OR
-                                      name LIKE '%glibenclamide%')))
-                                  AND NOT p.patient_id IN (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                    (SELECT order_id FROM drug_order
-                                      WHERE drug_inventory_id IN
-                                        (SELECT drug_id FROM drug d WHERE name LIKE '%insulin%'))) \
-                                    AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') >= '" + @start_date +
-        "' AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND p.voided = 0 GROUP BY p.patient_id").length
-=end
   end
 
   # Insulin
@@ -399,24 +303,6 @@ class Reports::Cohort
               :group => ["patient_id"], 
               :conditions => ["encounter_datetime <= ?", @end_date]).collect{|e| e.encdt}]).collect{|o| o.patient_id}]).uniq.length
 
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT p.patient_id, MAX(e.encounter_datetime) FROM patient p 
-                                  LEFT OUTER JOIN encounter e ON e.patient_id = p.patient_id
-                                  WHERE NOT p.patient_id IN
-                                    (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                        (SELECT order_id FROM drug_order
-                                          WHERE drug_inventory_id IN
-                                            (SELECT drug_id FROM drug d WHERE name LIKE '%metformin%' OR
-                                      name LIKE '%glibenclamide%')))
-                                  AND p.patient_id IN (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                    (SELECT order_id FROM drug_order
-                                      WHERE drug_inventory_id IN
-                                        (SELECT drug_id FROM drug d WHERE name LIKE '%insulin%'))) AND \
-                                        DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' \
-                                        AND p.voided = 0 GROUP BY p.patient_id").length
-=end
   end
 
   def insulin
@@ -441,25 +327,6 @@ class Reports::Cohort
               :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?", 
                 @start_date, @end_date]).collect{|e| e.encdt}]).collect{|o| o.patient_id}]).uniq.length
 
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT p.patient_id, MAX(e.encounter_datetime) FROM patient p 
-                                  LEFT OUTER JOIN encounter e ON e.patient_id = p.patient_id
-                                  WHERE NOT p.patient_id IN
-                                    (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                        (SELECT order_id FROM drug_order
-                                          WHERE drug_inventory_id IN
-                                            (SELECT drug_id FROM drug d WHERE name LIKE '%metformin%' OR
-                                      name LIKE '%glibenclamide%')))
-                                  AND p.patient_id IN (SELECT DISTINCT patient_id FROM orders
-                                      WHERE order_id IN
-                                    (SELECT order_id FROM drug_order
-                                      WHERE drug_inventory_id IN
-                                        (SELECT drug_id FROM drug d WHERE name LIKE '%insulin%'))) \
-                                      AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') >= '" + @start_date +
-                                  "' AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + 
-                                  "' AND p.voided = 0 GROUP BY p.patient_id").length
-=end
   end
 
   # Oral and Insulin
@@ -525,8 +392,8 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%metformin%')) \
-                                    AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') >= '" + @start_date +
-        "' AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' \
+                                    AND DATE_FORMAT(p.date_created, '%Y-%m-%d') >= '" + @start_date +
+        "' AND DATE_FORMAT(p.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                     AND p.voided = 0 GROUP BY p.patient_id").length
   end
 
@@ -551,8 +418,8 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%glibenclamide%')) \
-                                    AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') >= '" + @start_date +
-        "' AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' \
+                                    AND DATE_FORMAT(p.date_created, '%Y-%m-%d') >= '" + @start_date +
+        "' AND DATE_FORMAT(p.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                     AND p.voided = 0 GROUP BY p.patient_id").length
   end
 
@@ -577,8 +444,8 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%lente%' AND name LIKE '%insulin%')) \
-                                    AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') >= '" + @start_date +
-        "' AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' \
+                                    AND DATE_FORMAT(p.date_created, '%Y-%m-%d') >= '" + @start_date +
+        "' AND DATE_FORMAT(p.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                     AND p.voided = 0 GROUP BY p.patient_id").length
   end
 
@@ -603,8 +470,8 @@ class Reports::Cohort
                                     (SELECT order_id FROM drug_order \
                                       WHERE drug_inventory_id IN \
                                         (SELECT drug_id FROM drug d WHERE name LIKE '%soluble%' AND name LIKE '%insulin%')) \
-                                    AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') >= '" + @start_date +
-        "' AND DATE_FORMAT(e.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + "' \
+                                    AND DATE_FORMAT(p.date_created, '%Y-%m-%d') >= '" + @start_date +
+        "' AND DATE_FORMAT(p.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
                                     AND p.voided = 0 GROUP BY p.patient_id").length
   end
 
@@ -712,26 +579,6 @@ class Reports::Cohort
 
   # No complications
   def no_complications_ever
-=begin
-    @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
-                                 (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
-                                      OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE')) AND NOT \
-                                    patient_id IN (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'CATARACT')) AND NOT patient_id IN \
-                                    (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'END STAGE DISEASE')) AND NOT patient_id IN \
-                                  (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'PLORIFERATIVE RETINOPATHY')) AND NOT patient_id IN \
-                                   (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'BACKGROUND RETINOPATHY'))").length
-=end
-
     bgretinopathy = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
                                       WHERE name = 'BACKGROUND RETINOPATHY')").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
@@ -798,29 +645,6 @@ class Reports::Cohort
   end
 
   def no_complications
-=begin
-    @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
-                                 (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded IN (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'MYOCARDIAL INFARCTION' OR name = 'ANGINA' \
-                                      OR name = 'STROKE' OR name = 'PERIPHERAL VASCULAR DISEASE')) AND NOT \
-                                    patient_id IN (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'CATARACT')) AND NOT patient_id IN \
-                                    (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'END STAGE DISEASE')) AND NOT patient_id IN \
-                                  (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'PLORIFERATIVE RETINOPATHY')) AND NOT patient_id IN \
-                                   (SELECT DISTINCT person_id FROM obs \
-                                  WHERE value_coded = (SELECT concept_id FROM concept_name \
-                                      WHERE name = 'BACKGROUND RETINOPATHY')) AND \
-                                      DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-                                    "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").length
-=end
-
     bgretinopathy = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
                                   WHERE value_coded = (SELECT concept_id FROM concept_name \
@@ -1043,86 +867,6 @@ class Reports::Cohort
                                     AND patient.voided = 0").length
   end
 
-  # TB
-=begin
-  def tb_known_ever
-
-      @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name where name = 'DIAGNOSIS DATE') \
-                                      AND obs_group_id IN (SELECT obs_id FROM obs s WHERE concept_id IN \
-                                        (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS')) \
-                                        AND DATEDIFF(NOW(), value_datetime)/365 <= 2").length
-
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS') \
-                                      AND value_coded IN (SELECT DISTINCT concept_id FROM concept_name WHERE name = 'YES') \
-                                        AND patient.voided = 0").length
-
-
-    @orders = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM
-                                    (SELECT person_id, value_datetime FROM obs
-                                      LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id
-                                      WHERE concept_id IN (SELECT concept_id FROM concept_name
-                                        WHERE name = 'DIABETES DIAGNOSIS DATE') AND patient.voided = 0 AND \
-                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "') AS v1,
-                                    (SELECT person_id, value_datetime FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id
-                                      WHERE concept_id = (SELECT concept_id FROM concept_name WHERE
-                                       name = 'DIAGNOSIS DATE') AND obs_group_id IN (SELECT obs_id FROM obs s WHERE
-                                        concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS'))
-                                      AND patient.voided = 0 AND \
-                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "') AS v2
-                                      WHERE v1.person_id = v2.person_id").length
-
-
-  end
-
-  def tb_known
-
-      @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
-                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                      WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name where name = 'DIAGNOSIS DATE') \
-                                      AND obs_group_id IN (SELECT obs_id FROM obs WHERE concept_id IN \
-                                        (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS')) \
-                                        AND DATEDIFF(NOW(), value_datetime)/365 <= 2 \
-                                      AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-                                      "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").length
-
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs \
-                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                      WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS') \
-                                      AND value_coded IN (SELECT DISTINCT concept_id FROM concept_name WHERE name = 'YES') \
-                                      AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-        "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-   
-    tb = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM
-                                    (SELECT person_id, value_datetime FROM obs
-                                      LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id
-                                      WHERE concept_id IN (SELECT concept_id FROM concept_name
-                                        WHERE name = 'DIABETES DIAGNOSIS DATE') AND patient.voided = 0) AS v1,
-                                    (SELECT person_id, value_datetime FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id
-                                      WHERE concept_id = (SELECT concept_id FROM concept_name WHERE
-                                       name = 'DIAGNOSIS DATE') AND obs_group_id IN (SELECT obs_id FROM obs s WHERE
-                                        concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS'))
-                                      AND patient.voided = 0) AS v2
-                                      WHERE v1.person_id = v2.person_id").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
-
-    @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE patient_id IN \
-                                (" + (tb.length > 0 ? tb : "0") +  ")
-                                AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-                                "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                        AND patient.voided = 0").length
-  end
-                                 AND patient.voided = 0").length
-=end
-
-
-
   # TB After Diabetes
   def tb_after_diabetes_ever
     @orders = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM \
@@ -1202,11 +946,13 @@ class Reports::Cohort
   end
 
   def tb_ever
+       
     @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
                               patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
                               FROM concept_name WHERE name = 'TUBERCULOSIS') AND value_coded IN \
                               (SELECT concept_id FROM concept_name WHERE name = 'YES') AND patient.voided = 0 AND \
                                         DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' ").length
+                                       
   end
 
   def tb
@@ -1219,56 +965,63 @@ class Reports::Cohort
                                         AND patient.voided = 0").length
   end
 
-  def tb_known_ever
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
-                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
-                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND patient.voided = 0 AND \
-                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' ").length
+  def tb_yes_ever
+    
+    @patients = Patient.find(:all, :joins => [:encounters => :observations], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
+          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?)", 
+        EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
+        ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
+          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "YES"]).collect{|c| 
+          c.concept_id}], :group => ["patient.patient_id"]).length
+                            
   end
 
-  def tb_known
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
-                              patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
-                              FROM concept_name WHERE name = 'TUBERCULOSIS') AND \
-                               DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-        "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                        AND patient.voided = 0").length
+  def tb_yes
+    
+    @patients = Patient.find(:all, :joins => [:encounters => :observations], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
+          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?) " + 
+          "AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? ", 
+        EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
+        ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
+          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "YES"]).collect{|c| 
+          c.concept_id}, @start_date, @end_date], :group => ["patient.patient_id"]).length
+                           
+  end
+
+  def tb_no_ever
+    
+    @patients = Patient.find(:all, :joins => [:encounters => :observations], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
+          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?)", 
+        EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
+        ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
+          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "NO"]).collect{|c| 
+          c.concept_id}], :group => ["patient.patient_id"]).length
+                            
+  end
+
+  def tb_no
+    
+    @patients = Patient.find(:all, :joins => [:encounters => :observations], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
+          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?) " + 
+          "AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
+          AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? ", 
+        EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
+        ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
+          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "NO"]).collect{|c| 
+          c.concept_id}, @start_date, @end_date], :group => ["patient.patient_id"]).length
+                           
   end
 
   def tb_unkown_ever
-=begin
-    tblasttwoyrs = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name where name = 'DIAGNOSIS DATE') \
-                                      AND obs_group_id IN (SELECT obs_id FROM obs s WHERE concept_id IN \
-                                        (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS') \
-                                        AND patient.voided = 0)").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
-
-    tbafter = Order.find_by_sql("SELECT DISTINCT v1.person_id FROM \
-                                    (SELECT person_id, value_datetime FROM obs \
-                                      LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                      WHERE concept_id IN (SELECT concept_id FROM concept_name \
-                                        WHERE name = 'DIABETES DIAGNOSIS DATE') AND patient.voided = 0) AS v1,
-                                    (SELECT person_id, value_datetime FROM obs o  \
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id \
-                                      WHERE concept_id = (SELECT concept_id FROM concept_name WHERE \
-                                       name = 'DIAGNOSIS DATE') AND obs_group_id IN (SELECT obs_id FROM obs s WHERE \
-                                        concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS')) \
-                                      AND patient.voided = 0) AS v2
-                                      WHERE v1.person_id = v2.person_id AND v1.value_datetime < v2.value_datetime").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
-    
-    @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
-                                (" + (tblasttwoyrs.length > 0 ? tblasttwoyrs : "0") +  ") AND NOT patient_id IN (" +
-                                (tbafter.length > 0 ? tbafter : "0") + ") AND patient.voided = 0").length
-
-    tb = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS') \
-                                      AND value_coded IN (SELECT DISTINCT concept_id FROM concept_name WHERE name = 'YES') \
-                                        AND patient.voided = 0").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
-
-=end
-    
     tb = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
                               patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
                               FROM concept_name WHERE name = 'TUBERCULOSIS')").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
@@ -1279,48 +1032,6 @@ class Reports::Cohort
   end
 
   def tb_unkown
-=begin
-    tblasttwoyrs = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o
-                                    LEFT OUTER JOIN patient ON patient.patient_id = o.person_id WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name where name = 'DIAGNOSIS DATE') \
-                                      AND obs_group_id IN (SELECT obs_id FROM obs s WHERE concept_id IN \
-                                        (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS'))
-                                    AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-                                    "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
-
-    tbafter = Order.find_by_sql("SELECT v1.person_id FROM \
-                                    (SELECT person_id, value_datetime FROM obs
-                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id
-                                    WHERE concept_id IN (SELECT concept_id FROM concept_name \
-                                        WHERE name = 'DIABETES DIAGNOSIS DATE')
-                                    AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-                                    "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0) AS v1,
-                                    (SELECT person_id, value_datetime FROM obs o
-                                    LEFT OUTER JOIN patient ON patient.patient_id = o.person_id
-                                    WHERE concept_id = (SELECT concept_id FROM concept_name WHERE \
-                                       name = 'DIAGNOSIS DATE') AND obs_group_id IN (SELECT obs_id FROM obs s WHERE \
-                                        concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS'))
-                                    AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-                                    "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0) AS v2
-                                      WHERE v1.person_id = v2.person_id AND v1.value_datetime < v2.value_datetime").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
-
-    @orders = Order.find_by_sql("SELECT DISTINCT patient_id FROM patient WHERE NOT patient_id IN \
-                                (" + (tblasttwoyrs.length > 0 ? tblasttwoyrs : "0") +  ") AND NOT patient_id IN (" +
-                                (tbafter.length > 0 ? tbafter : "0") + ")  
-                                    AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" + @start_date +
-                                    "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").length
-
-    tb = Order.find_by_sql("SELECT DISTINCT person_id FROM obs o
-                                      LEFT OUTER JOIN patient ON patient.patient_id = o.person_id WHERE concept_id = \
-                                    (SELECT concept_id FROM concept_name WHERE name = 'TUBERCULOSIS') \
-                                      AND value_coded IN (SELECT DISTINCT concept_id FROM concept_name WHERE name = 'YES') \
-                                        AND patient.voided = 0").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
-=end
-
     tb = Order.find_by_sql("SELECT DISTINCT person_id FROM obs LEFT OUTER JOIN patient ON \
                               patient.patient_id = obs.person_id WHERE concept_id = (SELECT concept_id \
                               FROM concept_name WHERE name = 'TUBERCULOSIS')").collect{|o| o.person_id}.compact.delete_if{|x| x == ""}.join(", ")
@@ -1435,18 +1146,7 @@ class Reports::Cohort
         ConceptName.find(:all, :conditions => ["name = 'DEAD'"]).collect{|c| c.concept_id}, 
         ConceptName.find(:all, :conditions => ["name = 'OUTCOME'"]).collect{|c| c.concept_id}, @end_date], 
       :group => "encounter.patient_id").length
-    
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id, MAX(encounter.encounter_datetime) FROM obs 
-                                  LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id 
-                                  LEFT OUTER JOIN encounter ON encounter.patient_id = patient.patient_id
-                                        WHERE value_coded IN \
-                                    (SELECT concept_id FROM concept_name WHERE name = 'DEAD') AND \
-                                      concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
-                                      AND patient.voided = 0 AND \
-                                        DATE_FORMAT(encounter.encounter_datetime, '%Y-%m-%d') <= '" + @end_date + 
-                                        "' GROUP BY patient.patient_id").length
-=end                                        
+                                   
   end
 
   def dead
@@ -1457,17 +1157,7 @@ class Reports::Cohort
         ConceptName.find(:all, :conditions => ["name = 'DEAD'"]).collect{|c| c.concept_id}, 
         ConceptName.find(:all, :conditions => ["name = 'OUTCOME'"]).collect{|c| c.concept_id}, @start_date, @end_date], 
       :group => "encounter.patient_id").length
-
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs   \
-                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                      WHERE value_coded IN \
-                                        (SELECT concept_id FROM concept_name WHERE name = 'DEAD') AND \
-                                      concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
-                                        AND DATE_FORMAT(obs.date_created, '%Y-%m-%d') >= '" +
-        @start_date + "' AND DATE_FORMAT(obs.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").length
-=end                                    
+                              
   end
 
   def alive_ever
@@ -1500,15 +1190,7 @@ class Reports::Cohort
         ConceptName.find(:all, :conditions => ["name = 'TRANSFER OUT'"]).collect{|c| c.concept_id}, 
         ConceptName.find(:all, :conditions => ["name = 'OUTCOME'"]).collect{|c| c.concept_id}, @end_date], 
       :group => "encounter.patient_id").length
-
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs  LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                        WHERE value_coded IN \
-                                    (SELECT concept_id FROM concept_name WHERE name = 'TRANSFER OUT') AND \
-                                      concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
-                                    AND patient.voided = 0 AND \
-                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-=end                                        
+                                   
   end
 
   def transfer_out
@@ -1519,17 +1201,7 @@ class Reports::Cohort
         ConceptName.find(:all, :conditions => ["name = 'TRANSFER OUT'"]).collect{|c| c.concept_id}, 
         ConceptName.find(:all, :conditions => ["name = 'OUTCOME'"]).collect{|c| c.concept_id}, @start_date, @end_date], 
       :group => "encounter.patient_id").length
-
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs   \
-                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                      WHERE value_coded IN \
-                                        (SELECT concept_id FROM concept_name WHERE name = 'TRANSFER OUT') AND \
-                                      concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
-                                        AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
-        @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").length
-=end                                    
+                               
   end
 
   def stopped_treatment_ever
@@ -1540,15 +1212,7 @@ class Reports::Cohort
         ConceptName.find(:all, :conditions => ["name = 'TREATMENT STOPPED'"]).collect{|c| c.concept_id}, 
         ConceptName.find(:all, :conditions => ["name = 'OUTCOME'"]).collect{|c| c.concept_id}, @end_date], 
       :group => "encounter.patient_id").length
-
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs  LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                        WHERE value_coded IN \
-                                    (SELECT concept_id FROM concept_name WHERE name = 'TREATMENT STOPPED') AND \
-                                      concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
-                                    AND patient.voided = 0 AND \
-                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'").length
-=end                                        
+                                     
   end
 
   def stopped_treatment
@@ -1559,17 +1223,7 @@ class Reports::Cohort
         ConceptName.find(:all, :conditions => ["name = 'TREATMENT STOPPED'"]).collect{|c| c.concept_id}, 
         ConceptName.find(:all, :conditions => ["name = 'OUTCOME'"]).collect{|c| c.concept_id}, @start_date, @end_date], 
       :group => "encounter.patient_id").length
-
-=begin    
-    @orders = Order.find_by_sql("SELECT DISTINCT person_id FROM obs   \
-                                    LEFT OUTER JOIN patient ON patient.patient_id = obs.person_id \
-                                      WHERE value_coded IN \
-                                        (SELECT concept_id FROM concept_name WHERE name = 'TREATMENT STOPPED') AND \
-                                      concept_id IN (SELECT concept_id FROM concept_name WHERE name = 'OUTCOME') \
-                                        AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
-        @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0").length
-=end                                    
+                                 
   end
 
   # Treatment (Alive and Even Defaulters)
@@ -1604,16 +1258,7 @@ class Reports::Cohort
         Encounter.find(:all, :select => ["MAX(encounter_datetime) encdt"], 
           :conditions => ["encounter_datetime <= ?", @end_date],
           :group => ["patient_id"]).collect{|e| e.encdt}]).length
-    
-=begin    
-    @orders = Order.find_by_sql("SELECT orders.patient_id FROM orders \
-                                  LEFT OUTER JOIN patient ON patient.patient_id = orders.patient_id 
-                                  LEFT OUTER JOIN encounter ON encounter.encounter_id = orders.encounter_id
-                                  WHERE DATEDIFF('#{@end_date}', encounter_datetime)/30 > 6 \
-                                    AND patient.voided = 0 AND \
-                                        DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "'                                          
-                                    GROUP BY patient_id").length
-=end
+   
   end
 
   def defaulters
@@ -1622,15 +1267,7 @@ class Reports::Cohort
         Encounter.find(:all, :select => ["MAX(encounter_datetime) encdt"], 
           :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?", @start_date, @end_date],
           :group => ["patient_id"]).collect{|e| e.encdt}]).length
-    
-=begin    
-    @orders = Order.find_by_sql("SELECT orders.patient_id FROM orders LEFT OUTER JOIN patient ON \
-                                 patient.patient_id = orders.patient_id WHERE DATEDIFF('#{@end_date}', auto_expire_date)/30 > 6 \
-                                 AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= '" +
-        @start_date + "' AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= '" + @end_date + "' \
-                                    AND patient.voided = 0 \
-                                          GROUP BY patient_id").length
-=end                                          
+                                          
   end
 
   # Maculopathy

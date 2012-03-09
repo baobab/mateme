@@ -140,9 +140,17 @@ class CohortController < ApplicationController
     @amputations_or_ulcers = @amputation + @current_foot_ulceration
 
 
-    @tb_known_ever = report.tb_known_ever
+    @tb_ever = report.tb_yes_ever
 
-    @tb_known = report.tb_known
+    @tb = report.tb_yes
+
+    @no_tb_ever = report.tb_no_ever
+
+    @no_tb = report.tb_no
+
+    @tb_known_ever = @no_tb_ever + @tb_ever
+
+    @tb_known = @no_tb + @tb
 
     @tb_after_diabetes_ever = report.tb_after_diabetes_ever
 
@@ -152,17 +160,9 @@ class CohortController < ApplicationController
 
     @tb_before_diabetes = report.tb_before_diabetes
 
-    @tb_unknown_ever = report.tb_unkown_ever
+    @tb_unknown_ever = @total_ever_registered - @tb_known_ever
 
-    @tb_unknown = report.tb_unkown
-
-    @no_tb_ever = report.no_tb_ever
-
-    @no_tb = report.no_tb
-
-    @tb_ever = report.tb_ever
-
-    @tb = report.tb
+    @tb_unknown = @total_registered - @tb_known
 
     @reactive_not_on_art_ever = report.reactive_not_on_art_ever
 
