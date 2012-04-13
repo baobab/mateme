@@ -12,7 +12,7 @@ var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=fa
     
   <%= hidden_field_tag "encounter[encounter_type_name]", "ADMIT PATIENT" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@admission_wards), {:helpText => 'Admit to ward'})%>

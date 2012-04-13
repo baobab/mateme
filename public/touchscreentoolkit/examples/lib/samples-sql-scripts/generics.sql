@@ -1,0 +1,1 @@
+generics = [];  Drug.all.each{|drug| Concept.find(drug.concept_id, :conditions => ["retired = 0"]).concept_names.each{|conceptname| generics << [(conceptname.name.titleize == "Tetanus Toxoid Vaccine" ? "TTV" : conceptname.name), drug.concept_id] rescue nil}.compact.uniq rescue []}; generics

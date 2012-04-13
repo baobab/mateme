@@ -1611,7 +1611,7 @@ function showMessage(aMessage, withCancel, timed) {
         "<button onmousedown='tstMessageBar.style.display = \"none\"; " +
         "clearTimeout(tstTimerHandle);'><span>Cancel</span></button>" : "") : "") +
     "<button style='width: 200px;' onmousedown='tstMessageBar.style.display = \"none\"; " +
-    "clearTimeout(tstTimerHandle); eval(tstTimerFunctionCall);'><span>Ok</span></button>";
+    "clearTimeout(tstTimerHandle); eval(tstTimerFunctionCall);'><span>OK</span></button>";
     if (aMessage.length > 0) {
         messageBar.style.display = 'block'
         if((typeof(timed) == "undefined" ? true : timed) == true){
@@ -1701,7 +1701,8 @@ function showBestKeyboard(aPageNum) {
     switch (inputElement.getAttribute("field_type")) {
         case "password":
         case "full_keyboard":
-            showKeyboard(true, (tstUserKeyboardPref.toLowerCase() == "qwerty" ? true : false));
+            showKeyboard(true, (typeof(tstUserKeyboardPref) != 'undefined' && 
+                tstUserKeyboardPref.toLowerCase() == "qwerty" ? true : false));
             break;
         case "alpha":
             __$("keyboard").innerHTML = getPreferredKeyboard();
@@ -1717,6 +1718,32 @@ function showBestKeyboard(aPageNum) {
             break;
         case "boolean":
             __$("keyboard").innerHTML = "";
+            break;
+        case "calendar":
+            __$("keyboard").innerHTML = "";
+            __$("page" + aPageNum).innerHTML = "";
+            
+            var selected = {};
+            var selecteddate = null;
+            var start_date_week = null;
+            var end_date_week = null;
+            
+            if(inputElement.getAttribute("selecteddays")){
+                selected = eval(inputElement.getAttribute("selecteddays"));
+            }
+            
+            if(inputElement.getAttribute("startweekdate")){
+                start_date_week = inputElement.getAttribute("startweekdate");
+            }
+            
+            if(inputElement.getAttribute("endweekdate")){
+                end_date_week = inputElement.getAttribute("endweekdate");
+            }
+            
+            selecteddate = inputElement.value;
+            
+            createCalendar("page" + aPageNum, inputElement.id, selecteddate, 
+                selected, start_date_week, end_date_week);                  
             break;
         default:
             __$("keyboard").innerHTML = getPreferredKeyboard();
@@ -1770,6 +1797,9 @@ function getDatePart(aElementName) {
 
 
 function gotoNextPage() {
+    if(__$("category")){
+        document.body.removeChild(__$("category"));
+    }
     gotoPage(tstCurrentPage+1, true);
 }
 
@@ -3936,3 +3966,44 @@ function showStatus(){
     
     __$("popupBox").style.display = "block";
 }
+
+function checkCtrl(obj){
+    var o = obj;
+    var t = o.offsetTop;
+    var l = o.offsetLeft + 1;
+    var w = o.offsetWidth;
+    var h = o.offsetHeight;
+
+    while((o ? (o.offsetParent != document.body) : false)){
+        o = o.offsetParent;
+        t += (o ? o.offsetTop : 0);
+        l += (o ? o.offsetLeft : 0);
+    }
+    return [w, h, t, l];
+}
+     
+function showCategory(category){
+    var pos = checkCtrl(__$("content"));
+    
+    if(__$("category")){
+        document.body.removeChild(__$("category"));
+    }
+    
+    var cat = document.createElement("div");
+    cat.id = "category";
+    cat.style.position = "absolute";
+    cat.style.left = (pos[3] + (pos[0] - 378)) + "px";
+    cat.style.top = (pos[2] + 5) + "px";
+    cat.style.width = "350px";
+    cat.style.height = "45px";
+    cat.style.fontSize = "36px";
+    cat.style.padding = "10px";
+    cat.style.backgroundColor = "#9e9";
+    cat.style.color = "#000";
+    cat.style.opacity = "0.95";
+    cat.style.zIndex = 100;
+    cat.style.textAlign = "center";
+    cat.innerHTML = category;
+    
+    document.body.appendChild(cat);
+}  

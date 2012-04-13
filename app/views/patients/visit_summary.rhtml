@@ -66,7 +66,9 @@
                 <%=h (encounter.name.humanize == "Observations" ? "Admission Examinations" : encounter.name.humanize) %>
               </div>
             <%end; header = 'false'%>
-            <div style="clear:left; font-size:10pt" class="summary"><span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>') -%></span>
+            <div style="clear:left; font-size:10pt" class="summary">
+              <span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>').gsub(/Guardian\sRelationship\sTo\sChild/, 
+                  "Guardian Relation").gsub(/Highest\sLevel\sOf\sSchool\sCompleted/, "Education Level") -%></span>
               <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
             </div>
           </li>

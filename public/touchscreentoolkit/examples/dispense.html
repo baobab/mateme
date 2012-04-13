@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Prescription</title>
+        <link href="lib/stylesheets/drug-style.css" type="text/css" rel="stylesheet" />
+        <link href="lib/stylesheets/dispense.css" type="text/css" rel="stylesheet" />
+        <style>
+            .table {
+                display: table;
+            }
+
+            .row {
+                display: table-row;
+            }
+
+            .cell {
+                display: table-cell;
+            }
+        </style>
+        <script type="text/javascript" src="lib/javascripts/touchScreenToolkit.js" defer></script>
+        <script type="text/javascript" src="lib/javascripts/generics.js" ></script>
+        <script type="text/javascript" src="lib/javascripts/dispense.js" defer></script>
+    </head>
+    <body id="mateme">
+        <div id='content'>
+            <form id='prescription' action="" method='post'>
+
+                <input id="encounter_encounter_type_name" name="encounter[encounter_type_name]" type="hidden" value="TREATMENT" />
+                <input id="encounter_patient_id" name="encounter[patient_id]" type="hidden" value="34" />
+                <input id="encounter_encounter_datetime" name="encounter[encounter_datetime]" type="hidden" value="2012-02-27T14:40:49+02:00" />
+
+                <input id="encounter_provider_id" name="encounter[provider_id]" type="hidden" value="1" />
+
+                <input
+                    type='text' name='drugs' tt_onLoad='generateGenerics(100)'
+                    tt_onUnLoad='removeGenerics()' tt_pageStyleClass='NoControls'
+                    optional />
+
+                <input type="hidden" value="34" id="patient_id" name="patient_id" />
+
+
+                <input name="commit" type="submit" value="Finish" />
+
+            </form>
+
+            <div id="footer">
+            </div>  
+        </div>
+    </body>
+</html>

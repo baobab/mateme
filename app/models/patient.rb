@@ -462,8 +462,15 @@ class Patient < ActiveRecord::Base
   end
 
   def next_of_kin
-    PersonAttribute.find(:last, :conditions => ["person_id = ? AND person_attribute_type_id = ?",
-        self.id, PersonAttributeType.find_by_name("NEXT OF KIN")]).value rescue ""
+    nok = {} 
+    
+    self.encounters.last(:conditions => ["encounter_type = ?", 
+        EncounterType.find_by_name("SOCIAL HISTORY").id]).observations.each{|o| 
+      nok[o.concept.name.name] = o.answer_string      
+    } 
+    
+    nok
+
   end
 
   def create_barcode

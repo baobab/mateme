@@ -8,7 +8,7 @@
   } %>
 	<%= hidden_field_tag "encounter[encounter_type_name]", "MEDICAL HISTORY" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
   
   <label for='history_diabetes_year'>DIABETES HISTORY: Year of Diagnosis</label>

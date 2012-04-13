@@ -38,7 +38,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%
@@ -282,6 +282,35 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <!-- Finish here Set 3 -->
+
+  <% options = {
+    :id => "perineum",
+    :field_type => 'text',
+    :helptext =>"Perineum",
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "PERINEUM") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Intact", "Tear", "Episiotomy"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+  <% options = {
+    :id => "tear",
+    :field_type => 'text',
+    :helptext =>"Tear Extent",
+    :condition => "($('perineum').value.toUpperCase() == 'TEAR')",
+    :tt_onLoad => '__$("touchscreenInput" + tstCurrentPage).style.display = "none";'
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "TEAR") %>
+  <%= select_tag("observations[][value_coded_or_text]", 
+    options_for_select([
+        ["", ""], 
+        ["1<sup>o</sup>", "1 Degree"], 
+        ["2<sup>o</sup>", "2 Degrees"], 
+        ["3<sup>o</sup>", "3 Degrees"], 
+        ["4<sup>o</sup>", "4 Degrees"]]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <% options = {
     :id => "procedure_done",

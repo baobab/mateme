@@ -1,0 +1,63 @@
+.dialog {
+    -moz-border-radius: 30px; 
+    padding: 40px;
+    font-size: 24px;
+    border: 4px outset #eee;
+}
+
+.no-selection {
+    -moz-user-select: none;
+}
+
+.table {
+    display: table;
+    border-spacing: 5px;
+    width: 100%;
+}
+
+.row {
+    display: table-row;
+}
+
+.cell {
+    display: table-cell;
+}
+
+.inputBox {
+    font-size: 1em; 
+    padding: 5px; 
+    width: 100%;
+    background-color: #eee;
+}
+
+ul.popup {    
+  font-size:0.9em;
+  padding:0px;
+  overflow:auto;
+  list-style: none;
+  vertical-align:top;
+  height: 200px;
+  margin-top: -2px;
+  border: 2px inset #eee;
+}
+
+ul li.oddf {
+  background-color:#eee;
+}
+
+ul li{
+    padding: 10px;
+    min-height: 30px;
+}
+
+.dialog .button {
+    font-weight: normal;
+    min-width: 120px;
+    font-size: 0.9em;
+}
+
+.messageBar button {
+    font-weight: normal;  
+    font-size: 0.9em;  
+    min-width: 180px;
+}

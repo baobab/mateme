@@ -117,7 +117,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <% options = default.merge({
@@ -128,7 +128,7 @@
         "$('admission_date').value.trim()"
     }) %>
 
-  <%= text_field_tag("admission_date",DateTime.now().strftime("%Y-%m-%d"),options) %>
+  <%= text_field_tag("admission_date",nil,options) %>
 
   <%= hidden_field_tag("observations[][concept_name]", 'ADMISSION DATE', {:id => 'admission_date_concept_name'}) %>
   <%= hidden_field_tag("observations[][value_datetime]", nil, {:id => "admission_date_value_datetime"}) %>

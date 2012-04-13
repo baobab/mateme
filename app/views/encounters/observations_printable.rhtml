@@ -53,7 +53,7 @@
                 <b>NOK:</b>
               </td>
               <td>
-                <%= @patient.next_of_kin %>&nbsp;
+                <%= @nok %>&nbsp;
               </td>
             </tr>
           </table>
@@ -67,13 +67,13 @@
           <b>Religion:</b>
         </td>
         <td>
-          &nbsp;
+          <%= @religion %>&nbsp;
         </td>
         <td>
           <b>Education Level:</b>
         </td>
         <td>
-          &nbsp;
+          <%= @education %>&nbsp;
         </td>
       </tr>
       <tr>
@@ -103,8 +103,8 @@
             end
           %>
 
-            <%= "<b>#{i}#{indice}:</b>&nbsp;#{(e == "SPONTANEOUS VAGINAL DELIVERY" ? "SVD" :
-            (e == "CAESAREAN SECTION" ? "CS" : ""))} &nbsp;&nbsp;&nbsp;" %>
+            <%= "<b>#{i}#{indice}:</b>&nbsp;#{(e.upcase == "SPONTANEOUS VAGINAL DELIVERY" ? "SVD" :
+            (e.upcase == "CAESAREAN SECTION" ? "CS" : ""))} &nbsp;&nbsp;&nbsp;" %>
 
           <%
           } rescue "&nbsp;"
@@ -119,8 +119,10 @@
           <b>EDD:</b> <%= (@encounters["DATE OF LAST MENSTRUAL PERIOD"].to_date + 7.days + 9.months).strftime("%d/%b/%Y") rescue "" %>
         </td>
         <td colspan="2">
-          <b>PMTCT:</b> <%= (@encounters["HIV STATUS"] == "REACTIVE" ? "Yes" : "No") %>&nbsp;&nbsp;&nbsp;
-          <% if @encounters["HIV STATUS"] == "REACTIVE" %>
+          <b>PMTCT:</b> <%= (!@encounters["HIV STATUS"].nil? ? 
+              (@encounters["HIV STATUS"].upcase == "REACTIVE" ? "Yes" : (@encounters["HIV STATUS"].upcase == 
+                  "UNKNOWN" ? "Unknown" : "No")) : "") %>&nbsp;&nbsp;&nbsp;
+          <% if !@encounters["HIV STATUS"].nil? && @encounters["HIV STATUS"].upcase == "REACTIVE" %>
 
             <b>ARVs:</b> <%= @encounters["ON ANTIRETROVIRAL THERAPY"].titleize rescue "" %>&nbsp;&nbsp;&nbsp;
 
@@ -153,13 +155,19 @@
         <td>
           <b>Referred:</b> <%=  @referral["IS PATIENT REFERRED?"].to_s rescue ""%>&nbsp;&nbsp;&nbsp;
         </td>
-        <td colspan="2">
+        <td>
           <% if @referral["IS PATIENT REFERRED?"].to_s == "Yes" %>
 
-            <b>From:</b> <%= @referral["REFERRAL CLINIC IF REFERRED"] rescue "" %>&nbsp;&nbsp;&nbsp;
+          <b>From:</b> <div><%= @referral["REFERRAL CLINIC IF REFERRED"] rescue "" %></div>
 
-            <b>Reason:</b> <%= @outpatient_diagnosis["DIAGNOSIS"].to_s rescue "" %>
-            <%#= @referral["REASON FOR REFERRAL TO ANOTHER SITE"] rescue "" %>
+          <% else %>
+            &nbsp;
+          <% end %>
+        </td>
+        <td>
+          <% if @referral["IS PATIENT REFERRED?"].to_s == "Yes" %>
+
+            <b>Reason:</b> <%= @referral["REASON FOR REFERRAL TO ANOTHER SITE"] rescue "" %>
 
           <% else %>
             &nbsp;
@@ -190,7 +198,7 @@
       </tr>
       <tr>
         <td colspan="4">
-          <b>Admitted Due To:</b> <%= @outpatient_diagnosis["DIAGNOSIS"].titleize rescue "" %>
+          <b>Admitted Due To:</b> <%= @outpatient_diagnosis["DIAGNOSIS"].join(", ") rescue "" %>
         </td>
       </tr>
       <tr>
@@ -211,7 +219,7 @@
       </tr>
       <tr>
         <td>
-          <b>Fundus:</b> <%= @encounters["FUNDUS IN CM"] %> cm
+          <b>Fundus:</b> <%= @encounters["FUNDUS"] %> weeks
         </td>
         <td>
           <b>Lie:</b> <%= @encounters["LIE"].titleize rescue "" %>
@@ -222,7 +230,7 @@
       </tr>
       <tr>
         <td>
-          <b>Position:</b> <%= @encounters["POSITION"].titleize rescue "" %>
+          <b>Position:</b> <%= @position.titleize rescue "" %>
         </td>
         <td>
           <b>Contractions:</b> <%= @encounters["CONTRACTIONS"].titleize rescue "" %>

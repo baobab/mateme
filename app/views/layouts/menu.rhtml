@@ -7,7 +7,7 @@
     <%= @title = "#{controller.controller_name.humanize} #{controller.action_name.humanize}" rescue ""  %>
     <script language="javascript">
       tstUsername = "<%= User.current_user.username unless User.current_user.nil? %>";
-      tstCurrentDate = "<%= Time.now.strftime("%Y/%m/%d") %>";
+      tstCurrentDate = "<%= (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>";
       var tt_cancel_destination = null;
     </script>
     <%#= stylesheet_link_tag "mateme" %>

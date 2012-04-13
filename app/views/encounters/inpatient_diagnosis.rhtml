@@ -11,7 +11,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
    <input type='text' name='diagnosis_ctrl' tt_onLoad='setNextAttribute();createElements();updateInfoBar();updateMainDiagnosis();$("diagnosis-inputbox").focus()' tt_onUnLoad='hideDiagnosisContainer()' tt_pageStyleClass='NoControls' optional /> 

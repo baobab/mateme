@@ -1,0 +1,75 @@
+# medical_history.rhtml
+<style type="text/css">
+
+  .nota #na {
+    display: block;
+  }
+  
+  .nota #decimal {
+    display: none;
+  }
+
+</style>
+<script type="text/javascript" language="javascript">
+  <!--
+  tt_cancel_show = "/patients/show/<%= @patient.id %>";
+  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+  //-->
+</script>
+
+<% form_tag :controller => "encounters", :action => "create" do %>
+  <%= hidden_field_tag "encounter[encounter_type_name]", "SOCIAL HISTORY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+  <%session_date = session[:datetime] || Time.now() %>
+
+  <%= touch_text_field_tag "GUARDIAN FIRST NAME", @patient, nil,
+    {:id => "first_name",
+    :helptext => "Next of Kin First Name" } %>
+
+  <%= touch_text_field_tag "GUARDIAN LAST NAME", @patient, nil,
+    {:id => "last_name",
+    :helptext => "Next of Kin Last Name" } %>
+
+  <%#= touch_text_field_tag "GUARDIAN ADDRESS", @patient, nil,
+    {:id => "address",
+    :helptext => "Next of Kin Address",
+    :optional => :true
+  } %>
+
+  <%= touch_text_field_tag "NEXT OF KIN TELEPHONE", @patient, nil,
+    {:id => "last_name",:field_type => 'number',
+    :validationRule => "^0\\d{7}$|Unknown|Not Available|N\/A|^0\\d{9}$",
+    :validationMessage => "Not a valid phone number",
+    :tt_pageStyleClass => "nota NumbersOnlyWithUnknown",
+    :helptext => "Next of Kin Phone Number" } %>
+
+  <%= touch_select_tag "GUARDIAN RELATION", @patient, options_for_select(@relation),
+    {:id => "relation",
+    :helptext => "Next of Kin Relation Type" } %>
+
+  <%= touch_text_field_tag "OTHER RELATIVE", @patient, nil,
+    { 
+    :id => "other",
+    :helpText => "Specify other Relation Type",
+    :condition => "__$('relation').value == 'Other'"
+  } %>
+
+  <%= touch_select_tag "EDUCATION LEVEL", @patient, options_for_select(["", "Primary", "Secondary", "Tertiary", "None", "Other"]),
+    {:id => "education",
+    :helptext => "Education Level" } %>
+
+  <%= touch_select_tag "Religion", @patient, options_for_select(@religions),
+    {:id => "religion",
+    :helptext => "Religion" } %>
+    
+  <%= touch_text_field_tag "Other", @patient, nil,
+    { 
+    :id => "other",
+    :helpText => "Specify other religion",
+    :condition => "__$('religion').value == 'Other'"
+  } %>
+
+  <%= submit_tag 'Finish' %>
+<% end %>

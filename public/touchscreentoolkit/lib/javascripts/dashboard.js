@@ -674,7 +674,8 @@ function generateDashboard(){
                         window.location = this.getAttribute("link");
                     }
                 }
-            } else if ((j == 0 && tt_cancel_destination) || (!tt_cancel_show && !tt_cancel_destination && j == 1)) {
+            } else if (((j == 0 && tt_cancel_destination) || 
+                (!tt_cancel_show && !tt_cancel_destination && j == 1)) && !__$("btnNext")) {
                 button.className = "green";
                 button.id = "btnNext";
                 button.style.cssFloat = "right";

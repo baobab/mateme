@@ -1024,3 +1024,8 @@ ul li {
     width: 450px;
     z-index: 999;
 }
+
+#category {
+    -moz-border-radius: 15px;
+    border: 1px solid #999;
+}

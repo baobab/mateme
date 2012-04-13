@@ -1614,10 +1614,10 @@ function showMessage(aMessage, withCancel, timed) {
     var messageBar = tstMessageBar;
     messageBar.innerHTML = aMessage +
     "<br />" + (typeof(withCancel) != "undefined" ? (withCancel == true ?
-        "<button onmousedown='tstMessageBar.style.display = \"none\"; " +
-        "clearTimeout(tstTimerHandle);'><span>Cancel</span></button>" : "") : "") +
-    "<button style='width: 200px;' onmousedown='tstMessageBar.style.display = \"none\"; " +
-    "clearTimeout(tstTimerHandle); eval(tstTimerFunctionCall);'><span>Ok</span></button>";
+        "<button onmousedown=\"tstMessageBar.style.display = 'none'; " +
+        "clearTimeout(tstTimerHandle);\"><span>Cancel</span></button>" : "") : "") +
+    "<button style='width: 200px;' onmousedown=\"tstMessageBar.style.display = 'none'; " +
+    "clearTimeout(tstTimerHandle); eval(tstTimerFunctionCall);\"><span>OK</span></button>";
     if (aMessage.length > 0) {
         messageBar.style.display = 'block'
         if((typeof(timed) == "undefined" ? true : timed) == true){
@@ -1723,6 +1723,32 @@ function showBestKeyboard(aPageNum) {
             break;
         case "boolean":
             __$("keyboard").innerHTML = "";
+            break;
+        case "calendar":
+            __$("keyboard").innerHTML = "";
+            __$("page" + aPageNum).innerHTML = "";
+            
+            var selected = {};
+            var selecteddate = null;
+            var start_date_week = null;
+            var end_date_week = null;
+            
+            if(inputElement.getAttribute("selecteddays")){
+                selected = eval(inputElement.getAttribute("selecteddays"));
+            }
+            
+            if(inputElement.getAttribute("startweekdate")){
+                start_date_week = inputElement.getAttribute("startweekdate");
+            }
+            
+            if(inputElement.getAttribute("endweekdate")){
+                end_date_week = inputElement.getAttribute("endweekdate");
+            }
+            
+            selecteddate = inputElement.value;
+            
+            createCalendar("page" + aPageNum, inputElement.id, selecteddate, 
+                selected, start_date_week, end_date_week);            
             break;
         default:
             __$("keyboard").innerHTML = getPreferredKeyboard();

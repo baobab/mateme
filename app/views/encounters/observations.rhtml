@@ -103,6 +103,18 @@
           </button>
         </div>
         <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("GUARDIAN FIRST NAME") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("GUARDIAN FIRST NAME") ? "" :
+                      "window.location = '/patients/social_history?patient_id=#{@patient.id}';") %> ">
+            <span>Social History</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          &nbsp;
+        </div>
+        <div style="display: table-cell">
           <button class="blue"
                   onclick="window.location = '/encounters/new/observations_print?patient_id=<%= @patient.id %>'">
             <span>Admission Notes Printing</span>

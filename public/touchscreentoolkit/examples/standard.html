@@ -8,6 +8,32 @@
             tstCurrentDate = "2010/03/12";
             tt_cancel_destination = '../home.html';
             tt_cancel_show = 'show.html';
+            
+            var today = new Date();
+            var y = today.getFullYear();
+            var m = padZeros((today.getMonth() + 1), 2);
+            var date0 = y + "-" + m + "-" + padZeros(today.getDate(), 2);
+            var date1 = y+"-"+m+"-10";
+            var date2 = y+"-"+m+"-26";
+            
+            var sel = {};
+            
+            function padZeros(number, positions){
+                var zeros = parseInt(positions) - String(number).length;
+                var padded = "";
+    
+                for(var i = 0; i < zeros; i++){
+                    padded += "0";
+                }
+    
+                padded += String(number);
+    
+                return padded;
+            }
+
+            sel[date1] = 600;
+            sel[date2] = 4;
+            
         </script>
         <style>
             .tt_unknown #SHIFT {
@@ -56,6 +82,13 @@
                             <td>
                                 <input type='text' value='Text' field_type='text' name='last_name' id='last_name' 
                                        helptext='Last Name' />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Join Date</td>
+                            <td>
+                                <input type='text' field_type='calendar' name='join_date' id='join_date' 
+                                       helptext='Join Date' value="2012-04-12" selecteddays="sel" />
                             </td>
                         </tr>
                         <tr>

@@ -18,6 +18,8 @@ class EncountersController < ApplicationController
       if !observation[:value_time].blank?
         observation["value_datetime"] = Time.now.strftime("%Y-%m-%d ") + observation["value_time"]
         observation.delete(:value_time)
+      elsif observation[:value_time]
+        observation.delete(:value_time)
       end
       
       values = "coded_or_text group_id boolean coded drug datetime numeric modifier text".split(" ").map{|value_name|
@@ -29,7 +31,7 @@ class EncountersController < ApplicationController
       observation[:encounter_id]    = encounter.id
       observation[:obs_datetime]    = encounter.encounter_datetime ||= Time.now()
       observation[:person_id]     ||= encounter.patient_id
-      Observation.create(observation)
+      Observation.create(observation) # rescue nil
     end
 
     # if encounter.type.name.eql?("REFER PATIENT OUT?")
@@ -82,9 +84,11 @@ class EncountersController < ApplicationController
     @diagnosis_type = params[:diagnosis_type]
     @facility = (GlobalProperty.find_by_property("facility.name").property_value rescue "") # || (Location.find(session[:facility]).name rescue "")    
 
-    @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ? OR encounter_type = ?",
+    @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => 
+        ["encounter_type = ? OR encounter_type = ? OR encounter_type = ?",
         EncounterType.find_by_name("OBSERVATIONS").encounter_type_id,
-        EncounterType.find_by_name("DIAGNOSIS").encounter_type_id]).collect{|e|        
+        EncounterType.find_by_name("DIAGNOSIS").encounter_type_id,
+        EncounterType.find_by_name("SOCIAL HISTORY").encounter_type_id]).collect{|e|        
       e.observations.collect{|o| o.concept.name.name.upcase}
     }.join(", ") rescue ""
 
@@ -550,6 +554,19 @@ class EncountersController < ApplicationController
       }
     } rescue {}
 
+    @nok = (@patient.next_of_kin["GUARDIAN FIRST NAME"] + " " + @patient.next_of_kin["GUARDIAN LAST NAME"]) rescue ""
+    
+    @religion = (@patient.next_of_kin["RELIGION"] ? (@patient.next_of_kin["RELIGION"].upcase == "OTHER" ? 
+          @patient.next_of_kin["OTHER"] : @patient.next_of_kin["RELIGION"]) : "") rescue ""
+    
+    @education = @patient.next_of_kin["HIGHEST LEVEL OF SCHOOL COMPLETED"] rescue ""
+    
+    @position = (@encounters["CEPHALIC"] ? @encounters["CEPHALIC"] : "") + 
+      (@encounters["BREECH"] ? @encounters["BREECH"] : "") + (@encounters["FACE"] ? @encounters["FACE"] : "") + 
+      (@encounters["SHOULDER"] ? @encounters["SHOULDER"] : "") rescue ""
+    
+    # raise @encounters.to_yaml
+    
     render :layout => false
   end
 
@@ -606,7 +623,7 @@ class EncountersController < ApplicationController
       locations << loc if loc.upcase.strip.match(search_string)
     }
 
-    render :text => "<li " + locations.map{|location| "value=\"#{location}\">#{location}" }.join("</li><li ") + "</li>"
+    render :text => "<li></li><li " + locations.map{|location| "value=\"#{location}\">#{location}" }.join("</li><li ") + "</li>"
 
   end
 

@@ -363,4 +363,40 @@ class PatientsController < ApplicationController
     render :layout => false
   end
   
+  def social_history
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
+    
+    relation = ["Mother",
+      "Husband",
+      "Sister",
+      "Friend",
+      "Aunt",
+      "Neighbour",
+      "Other"]
+    
+    @relation = Observation.find(:all, :joins => [:concept, :encounter], 
+      :conditions => ["obs.concept_id = ? AND NOT value_text IN (?) AND " + 
+          "encounter_type = ?", 
+        ConceptName.find_by_name("OTHER RELATIVE").concept_id, relation, 
+        EncounterType.find_by_name("SOCIAL HISTORY").id]).collect{|o| o.value_text}
+    
+    @relation = relation + @relation
+    religions = ["Jehovahs Witness",  
+      "Roman Catholic", 
+      "Presbyterian (C.C.A.P.)",
+      "Seventh Day Adventist", 
+      "Baptist", 
+      "Moslem",
+      "Other"]
+    
+    @religions = Observation.find(:all, :joins => [:concept, :encounter], 
+      :conditions => ["obs.concept_id = ? AND NOT value_text IN (?) AND " + 
+          "encounter_type = ?", 
+        ConceptName.find_by_name("Other").concept_id, religions, 
+        EncounterType.find_by_name("SOCIAL HISTORY").id]).collect{|o| o.value_text}
+    
+    @religions = religions + @religions
+    
+    # raise @religions.to_yaml
+  end
 end

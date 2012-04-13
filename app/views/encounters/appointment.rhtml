@@ -25,7 +25,7 @@
 <form id='appointment' action="/encounters/create" method='post'>
   <%= hidden_field_tag "encounter[encounter_type_name]", "APPOINTMENT" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <label for='time_until_next_visit'>Time Until Next Appointment</label>

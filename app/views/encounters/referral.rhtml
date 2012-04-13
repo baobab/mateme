@@ -1,5 +1,14 @@
 <script>
   var tt_cancel_destination = "/patients/show/<%= @patient.patient_id %>"
+  
+  // Every 500 milliseconds update the Next/Finish button
+  function updateNextFinish(){
+    if (tstInputTarget.value == '')
+      $('nextButton').innerHTML = '<span>Finish</span>';
+    else
+      $('nextButton').innerHTML = '<span>Next</span>';
+    setTimeout(updateNextFinish, 500)
+  }
 </script>
 <style>
   #space { display:inline; font-size:1.2em; }
@@ -10,7 +19,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "IS PATIENT REFERRED?" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
 
@@ -22,6 +31,8 @@
     :id => "referred",
     :field_type => 'text'
   } %>
+  <%= hidden_field_tag("observations[][value_datetime]",   nil)%>
+  <%= hidden_field_tag("observations[][value_time]",   nil)%>
   <%= hidden_field_tag("observations[][concept_name]", "IS PATIENT REFERRED?", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -36,6 +47,8 @@
     :ajaxURL => "/encounters/static_locations?search_string="
   } %>
   <%= text_field_tag "observations[][value_coded_or_text]", nil, options %>
+  <%= hidden_field_tag("observations[][value_datetime]",   nil)%>
+  <%= hidden_field_tag("observations[][value_time]",   nil)%>
   <%= hidden_field_tag("observations[][concept_name]", "REFERRAL CLINIC IF REFERRED", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
@@ -44,8 +57,10 @@
     :id => "time_of_delivery",
     :field_type => 'time',
     :helptext =>"Time of referral arrival",
-    :condition => "($('select').value == 'YES')"
+    :condition => "(__$('select').value == 'YES')"
   }%>
+  <%= hidden_field_tag "observations[][value_coded_or_text]", nil %>
+  <%= hidden_field_tag("observations[][value_datetime]",   nil)%>
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
   <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL ARRIVAL TIME")%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
@@ -55,12 +70,29 @@
     :id => "date_of_delivery",
     :field_type => 'date',
     :helptext =>"Date of referral arrival",
-    :condition => "($('select').value == 'YES')"
+    :condition => "(__$('select').value == 'YES')"
   }%>
+  <%= hidden_field_tag "observations[][value_coded_or_text]", nil %>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+  <%= hidden_field_tag("observations[][value_time]",   nil)%>
   <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL ARRIVAL DATE")%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+
+<%# This options hash allows us to define our options in one place %>
+  <% options = {
+    :helpText       => 'Select referral diagnosis',
+    :allowFreeText  => 'true',
+    :ajaxURL        => "/encounters/diagnoses?search_string=",
+    :textCase       => "upper",
+    :tt_pageStyleClass => "qwertyKeyboardOnly",
+    :condition => "(__$('select').value == 'YES')"
+  } %>
+
+  <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
+  <%= hidden_field_tag("observations[][concept_name]", "REASON FOR REFERRAL TO ANOTHER SITE", options) %>
+  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
   <%= hidden_field_tag "next_url", (@roles.include?("Registration Clerk") ? "/people" : "/patients/show/#{@patient.id}") %>
 

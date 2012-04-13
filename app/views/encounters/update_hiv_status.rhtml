@@ -20,7 +20,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE HIV STATUS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", DateTime.now() %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "POSITIVE","NEGATIVE"]), {:helpText => 'HIV Status'})%>

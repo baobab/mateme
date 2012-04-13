@@ -74,6 +74,7 @@ function include(file){
                 includeCss("form");
                 includeCss("graytabs");
                 includeCss("touch-fancy");
+                includeCss("calendar");
                 break;
         }
     }
@@ -189,6 +190,7 @@ if((document.forms[0] != undefined ? (document.forms[0].getAttribute("extended")
 } else {
     try {
         include("standard");
+        include("calendar");
         calledMethod = "loadTouchscreenToolkit()";
         setTimeout("loadTouchscreenToolkit()", timerout);
     }catch(e){}
