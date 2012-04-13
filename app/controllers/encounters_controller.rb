@@ -7,6 +7,9 @@ class EncountersController < ApplicationController
   def create
     # raise params.to_yaml
     
+    params[:encounter][:encounter_datetime] = (params[:encounter][:encounter_datetime].to_date.strftime("%Y-%m-%d ") + 
+        Time.now.strftime("%H:%M")) rescue Time.now()
+    
     encounter = Encounter.new(params[:encounter])
     # encounter.encounter_datetime = session[:datetime] unless session[:datetime].blank? # not sure why this was put here. It's spoiling the dates
     encounter.save
@@ -29,7 +32,7 @@ class EncountersController < ApplicationController
       next if values.length == 0
       observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
       observation[:encounter_id]    = encounter.id
-      observation[:obs_datetime]    = encounter.encounter_datetime ||= Time.now()
+      observation[:obs_datetime]    = (encounter.encounter_datetime.to_date.strftime("%Y-%m-%d ") + Time.now.strftime("%H:%M")) rescue Time.now()
       observation[:person_id]     ||= encounter.patient_id
       Observation.create(observation) # rescue nil
     end
@@ -554,7 +557,9 @@ class EncountersController < ApplicationController
       }
     } rescue {}
 
-    @nok = (@patient.next_of_kin["GUARDIAN FIRST NAME"] + " " + @patient.next_of_kin["GUARDIAN LAST NAME"]) rescue ""
+    @nok = (@patient.next_of_kin["GUARDIAN FIRST NAME"] + " " + @patient.next_of_kin["GUARDIAN LAST NAME"] + 
+      (@patient.next_of_kin["NEXT OF KIN TELEPHONE"] ? " (" + @patient.next_of_kin["NEXT OF KIN TELEPHONE"] +
+        ")" : "")) rescue ""
     
     @religion = (@patient.next_of_kin["RELIGION"] ? (@patient.next_of_kin["RELIGION"].upcase == "OTHER" ? 
           @patient.next_of_kin["OTHER"] : @patient.next_of_kin["RELIGION"]) : "") rescue ""
@@ -565,7 +570,7 @@ class EncountersController < ApplicationController
       (@encounters["BREECH"] ? @encounters["BREECH"] : "") + (@encounters["FACE"] ? @encounters["FACE"] : "") + 
       (@encounters["SHOULDER"] ? @encounters["SHOULDER"] : "") rescue ""
     
-    # raise @encounters.to_yaml
+    # raise @patient.next_of_kin.to_yaml
     
     render :layout => false
   end

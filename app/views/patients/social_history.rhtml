@@ -71,5 +71,7 @@
     :condition => "__$('religion').value == 'Other'"
   } %>
 
+  <%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}", {:disabled => true} %>
+
   <%= submit_tag 'Finish' %>
 <% end %>

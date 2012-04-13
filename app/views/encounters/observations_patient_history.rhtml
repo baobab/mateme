@@ -160,7 +160,7 @@
   <%= hidden_field_tag("observations[][concept_name]",  "PARITY", {:id => 'parity_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% (1..8).each{|e| %>
 
@@ -190,7 +190,7 @@
     <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE", {:id => 'delivery_mode#{e}_concept_name'}) %>
     <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_modes),options) %>
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% } %>
 
@@ -206,7 +206,7 @@
   <%= hidden_field_tag("observations[][concept_name]",  "Number of Abortions", {:id => 'no_of_abortions_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = default.merge({
       :id => "tt_status_value",
@@ -221,7 +221,7 @@
   <%= hidden_field_tag("observations[][concept_name]",  "TT STATUS", {:id => 'tt_status_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = default.merge({
       :id => "last_menstrual_period_date",
@@ -234,6 +234,6 @@
   <%= hidden_field_tag("observations[][concept_name]",  "LAST MENSTRUAL PERIOD", {:id => 'last_menstrual_period_date_concept_name'}) %>
   <%= text_field_tag("observations[][value_datetime]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
 </form>

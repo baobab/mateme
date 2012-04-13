@@ -38,7 +38,8 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", 
+    (session[:datetime] ? session[:datetime].to_date : (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%
@@ -71,18 +72,18 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@main_outcomes.sort()), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "admission_section",
     :field_type => 'text',
     :helptext =>"Select admission section",
-    :condition => "($('discharge_outcome').value == 'Admitted')"
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'ADMITTED')"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "ADMISSION SECTION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@admission_section), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
 <%# options = {
 :id => "delivery_period",
@@ -93,7 +94,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
 <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_period), options)%>
 <%#= hidden_field_tag("observations[][concept_name]",  "DELIVERY PERIOD") %>
 <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-<%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+<%#= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "number_of_babies",
@@ -105,7 +106,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "NUMBER OF BABIES")%>
   <%= text_field_tag("observations[][value_coded_or_text]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <!-- From Here - Set 1 -->
   <% options = {
@@ -117,7 +118,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "baby_outcome",
@@ -128,7 +129,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "time_of_delivery",
@@ -139,7 +140,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "date_of_delivery",
@@ -151,7 +152,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "delivery_mode",
@@ -163,7 +164,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <!-- Finish here Set 1 -->
 
@@ -177,7 +178,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "baby_outcome2",
@@ -188,7 +189,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "time_of_delivery2",
@@ -199,7 +200,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "date_of_delivery2",
@@ -210,7 +211,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "delivery_mode2",
@@ -221,7 +222,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <!-- Finish here Set 2 -->
 
@@ -235,7 +236,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "baby_outcome3",
@@ -246,7 +247,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "time_of_delivery3",
@@ -257,7 +258,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "date_of_delivery3",
@@ -268,7 +269,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "delivery_mode3",
@@ -279,7 +280,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <!-- Finish here Set 3 -->
 
@@ -292,7 +293,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "PERINEUM") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Intact", "Tear", "Episiotomy"]), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "tear",
@@ -310,7 +311,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
         ["3<sup>o</sup>", "3 Degrees"], 
         ["4<sup>o</sup>", "4 Degrees"]]), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "procedure_done",
@@ -322,7 +323,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
   <% options = {
     :id => "postpartum_type",
@@ -334,7 +335,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "POSTPARTUM HYSTERECTOMY") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@postpartum_type), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
 <%# options = {
 :id => "discharged_to_where",
@@ -363,7 +364,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true;}"
 <%#= hidden_field_tag("observations[][concept_name]",  "DISCHARGED") %>
 <%#= hidden_field_tag("observations[][value_coded_or_text]",  "", {:id => 'discharged_to_where_value_coded_or_text'}) %>
 <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-<%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+<%#= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
 <%#= hidden_field_tag "next_url", "/encounters/new/admission_diagnosis/?patient_id=#{@patient.id}", {:disabled => true} %>
   <%= hidden_field_tag "next_url", "/encounters/new/refer_out/?patient_id=#{@patient.id}", {:disabled => true} %>

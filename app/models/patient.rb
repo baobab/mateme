@@ -443,18 +443,18 @@ class Patient < ActiveRecord::Base
     }
 
     self.encounters.active.reverse.each{|e|
-      encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name] = {}
+      encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name.upcase] = {}
     }
 
     self.encounters.active.reverse.each{|e|
       e.observations.each{|o|
-        encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name][o.to_a[0]] = []
+        encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name.upcase][o.to_a[0].upcase] = []
       }
     }
 
     self.encounters.active.reverse.each{|e|
       e.observations.each{|o|
-        encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name][o.to_a[0]] << o.to_a[1]
+        encs[e.encounter_datetime.strftime("%Y-%m-%d")][e.type.name.upcase][o.to_a[0].upcase] << o.to_a[1]
       }
     }
 

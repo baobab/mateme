@@ -316,7 +316,7 @@ class PatientsController < ApplicationController
       @regstration_clerk  = true
     end
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
-    outcome = @patient.current_outcome
+    outcome = @patient.current_outcome rescue ""
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
@@ -324,9 +324,9 @@ class PatientsController < ApplicationController
       o.diagnosis_string
     }.delete_if{|x|
       x == ""
-    }
+    } rescue []
 
-    @past_treatments = @patient.visit_treatments
+    @past_treatments = @patient.visit_treatments rescue []
     render :layout => false
   end
 
@@ -349,17 +349,17 @@ class PatientsController < ApplicationController
       @regstration_clerk  = true
     end
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
-    outcome = @patient.current_outcome
+    outcome = @patient.current_outcome rescue ""
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name}.uniq rescue []
 
-    @past_diagnoses = @patient.past_history  # @patient.previous_visits_diagnoses.collect{|o|
+    @past_diagnoses = @patient.past_history rescue []  # @patient.previous_visits_diagnoses.collect{|o|
     # o.diagnosis_string
     # }.delete_if{|x|
     #  x == ""
     # }
 
-    @past_treatments = @patient.visit_treatments
+    @past_treatments = @patient.visit_treatments rescue []
     render :layout => false
   end
   
