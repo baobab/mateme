@@ -284,16 +284,16 @@
       </tr>
       <tr>
         <td colspan="4">
-          <b>Impression:</b> <%= @encounters["CLINICAL IMPRESSION COMMENTS"].titleize rescue "" %>
-          <% (((@encounters["CLINICAL IMPRESSION COMMENTS"].titleize rescue "").length)..110).each{|p| %>
+          <b>Impression:</b> <%= @encounters["CLINICAL IMPRESSION COMMENTS"].titleize.gsub(/\n/, '<br/>') rescue "" %>
+          <% (((@encounters["CLINICAL IMPRESSION COMMENTS"].titleize.gsub(/\n/, '<br/>') rescue "").length)..110).each{|p| %>
             <%="....."%>
           <% } %>
         </td>
       </tr>
       <tr>
         <td colspan="4">
-          <b>Plan:</b> <%= @encounters["PLAN"].titleize rescue "" %>
-          <% (((@encounters["PLAN"].titleize rescue "").length)..200).each{|p| %>
+          <b>Plan:</b> <%= @encounters["PLAN"].titleize.gsub(/\n/, '<br/>') rescue "" %>
+          <% (((@encounters["PLAN"].titleize.gsub(/\n/, '<br/>') rescue "").length)..200).each{|p| %>
             <%="....."%>
           <% } %>
         </td>
