@@ -13,7 +13,7 @@
             var date2 = y+"-"+m+"-26";
             
             sel[date1] = 600;
-            sel[date2] = 4;
+            sel[date2] = 4000;
             
             function padZeros(number, positions){
                 var zeros = parseInt(positions) - String(number).length;
@@ -35,8 +35,8 @@
             <div id='description' style='color:#777;position:absolute;margin-top:-70px;'></div><center>
                 <form  action='' method="post">
                     <input type='text' field_type='calendar' name='join_date' id='join_date' 
-                           helptext='Join Date' value="2012-04-12" selecteddays="sel" />
-                           <!--startweekdate="2011-11-22" endweekdate="2012-09-30"-->
+                           helptext='Join Date' value="2012-04-12" selecteddays="sel" 
+                           startweekdate="2011-11-22" endweekdate="2012-09-30" />
                 </form>            
             </center>
         </div>

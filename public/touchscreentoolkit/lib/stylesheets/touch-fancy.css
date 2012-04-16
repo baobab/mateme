@@ -1029,3 +1029,15 @@ ul li {
     -moz-border-radius: 15px;
     border: 1px solid #999;
 }
+
+.table {
+    display: table;    
+}
+
+.row {
+    display: table-row;
+}
+
+.cell {
+    display: table-cell;
+}

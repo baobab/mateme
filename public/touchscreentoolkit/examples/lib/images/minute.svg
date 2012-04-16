@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="566.71918"
+   height="566.71918"
+   id="minute"
+   version="1.1"
+   inkscape:version="0.48.1 r9760"
+   sodipodi:docname="minute.svg"
+   onload=" RunMinScript(evt); SetMParams();">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="113.71514"
+     inkscape:cy="273.68674"
+     inkscape:document-units="px"
+     inkscape:current-layer="minute"
+     showgrid="false"
+     inkscape:window-width="1358"
+     inkscape:window-height="666"
+     inkscape:window-x="0"
+     inkscape:window-y="40"
+     inkscape:window-maximized="1"
+     inkscape:snap-grids="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <script
+     id="script3080"
+     type="text/ecmascript">var m_element;
+var mSVGDoc;
+var mSVGRoot;
+
+var scale = 0.65;
+var timerMID = null;
+var timerMRunning = false;
+var showM = true;
+
+function stopMclock(){
+    if(timerMRunning)
+    clearInterval(timerMID)
+    timerMRunning = false
+}
+
+function startMclock(){
+    // Make sure the clock is stopped
+    stopMclock()
+    timerMID = setInterval(&quot;showSelectedM()&quot;,1000)
+    timerMRunning = true
+}
+
+function showSelectedM(){
+	if(showM == true){
+		var paramArray = [];
+        	if ( document.defaultView.frameElement ) {
+			var params = document.defaultView.frameElement.getElementsByTagName(&quot;param&quot;);
+
+           		for ( var i = 0, iLen = params.length; iLen &gt; i; i++ ) {
+				var eachParam = params[ i ];
+				var name = eachParam.getAttribute( &quot;name&quot; );
+				var value = eachParam.getAttribute( &quot;value&quot; );
+              
+				if(value == &quot;selected&quot;){
+					setActiveMin(name);
+				}
+			}
+		}
+	}
+}
+
+function SetMParams() {
+		startMclock();
+}
+
+
+function __$(id){
+	return document.getElementById(id);
+}
+
+function __$__(id){
+	return document.defaultView.parent.document.getElementById(id);
+}
+
+function setActiveMin(id){
+	var controls = [&quot;tm5&quot;, &quot;tm10&quot;, &quot;tm15&quot;, &quot;tm20&quot;, &quot;tm25&quot;, &quot;tm30&quot;, &quot;tm35&quot;, &quot;tm40&quot;, &quot;tm45&quot;, &quot;tm50&quot;, &quot;tm55&quot;, &quot;tm0&quot;];
+
+	for(var i = 0; i &lt; controls.length; i++){
+		__$(controls[i]).style.cssText = &quot;fill-opacity: 1; stroke: rgb(0, 0, 0); stroke-opacity: 1; fill:  #ffffff;&quot;;
+		if(__$__(&quot;e&quot; + controls[i])) __$__(&quot;e&quot; + controls[i]).setAttribute(&quot;value&quot;, &quot;&quot;);
+	}
+
+	__$(id).style.cssText = &quot;fill-opacity: 1; stroke: rgb(0, 0, 0); stroke-opacity: 1; fill:  #9cdcf1;&quot;;
+
+	tstCurrentSelectedMinRange = id.substring(2);
+
+	if(__$__(&quot;e&quot; + id)) {
+		__$__(&quot;e&quot; + id).value = &quot;selected&quot;;
+	}
+}
+
+function RunMinScript(LoadEvent) {
+	var time = (new Date()).getMinutes();
+	var range = &quot;&quot;;
+
+	if(time &gt;= 1 &amp;&amp; time &lt;= 5){
+		range = 5;
+	} else if(time &gt;= 6 &amp;&amp; time &lt;= 10){
+		range = 10;
+	} else if(time &gt;= 11 &amp;&amp; time &lt;= 15){
+		range = 15;
+	} else if(time &gt;= 16 &amp;&amp; time &lt;= 20){
+		range = 20;
+	} else if(time &gt;= 21 &amp;&amp; time &lt;= 25){
+		range = 25;
+	} else if(time &gt;= 26 &amp;&amp; time &lt;= 30){
+		range = 30;
+	} else if(time &gt;= 31 &amp;&amp; time &lt;= 35){
+		range = 35;
+	} else if(time &gt;= 36 &amp;&amp; time &lt;= 40){
+		range = 40;
+	} else if(time &gt;= 41 &amp;&amp; time &lt;= 45){
+		range = 45;
+	} else if(time &gt;= 46 &amp;&amp; time &lt;= 50){
+		range = 50;
+	} else if(time &gt;= 51 &amp;&amp; time &lt;= 55){
+		range = 55;
+	} else if(time &gt;= 56 &amp;&amp; time &lt;= 59){
+		range = 0;
+	} 
+
+	setActiveMin(&quot;tm&quot; + range);
+
+	mSVGDoc			= LoadEvent.target.ownerDocument;
+	m_element		= mSVGDoc.getElementById(&quot;layerMinute&quot;);
+
+	setMDimension(566.72*scale,566.72*scale);
+         setMScale(scale,scale);
+}
+
+function setMDimension(w,h) {
+	mSVGDoc.documentElement.setAttribute(&quot;width&quot;, w);
+	mSVGDoc.documentElement.setAttribute(&quot;height&quot;, h);
+}
+
+function setMScale(sw, sh) {
+	m_element.setAttribute(&quot;transform&quot;, &quot;scale(&quot; + sw + &quot; &quot; + sh +&quot;)&quot;);
+}</script>
+  <g
+     inkscape:groupmode="layer"
+     id="layerMinute"
+     inkscape:label="layer1"
+     sodipodi:insensitive="true">
+    <g
+       inkscape:label="1"
+       inkscape:groupmode="layer"
+       id="l1"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         transform="matrix(0.27563735,-0.9612617,0.9612617,0.27563735,-277.06506,780.60233)"
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="tm5"
+         sodipodi:cx="434.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:rx="274.28571"
+         sodipodi:ry="275.71429"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:start="6.2610995"
+         sodipodi:end="6.786662"
+         inkscape:label="#5"
+         onclick="setActiveMin(&quot;tm5&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(5);}" />
+    </g>
+    <g
+       id="l2"
+       inkscape:groupmode="layer"
+       inkscape:label="2"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         transform="matrix(0.7193398,-0.69465838,0.69465838,0.7193398,-313.26817,412.97464)"
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="tm10"
+         sodipodi:cx="434.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:rx="274.28571"
+         sodipodi:ry="275.71429"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:start="6.2610995"
+         sodipodi:end="6.786662"
+         inkscape:label="#10"
+         onclick="setActiveMin(&quot;tm10&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(10);}" />
+    </g>
+    <g
+       inkscape:label="3"
+       inkscape:groupmode="layer"
+       id="l3"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         transform="matrix(0.97029573,-0.2419219,0.2419219,0.97029573,-161.18193,75.85588)"
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="tm15"
+         sodipodi:cx="434.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:rx="274.28571"
+         sodipodi:ry="275.71429"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:start="6.2610995"
+         sodipodi:end="6.786662"
+         inkscape:label="#15"
+         onclick="setActiveMin(&quot;tm15&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(15);}" />
+    </g>
+    <g
+       inkscape:label="4"
+       inkscape:groupmode="layer"
+       id="l4"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         sodipodi:end="6.786662"
+         sodipodi:start="6.2610995"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:ry="275.71429"
+         sodipodi:rx="274.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:cx="434.28571"
+         id="tm20"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc"
+         transform="matrix(0.9612617,0.27563735,-0.27563735,0.9612617,138.46551,-139.04946)"
+         inkscape:label="#20"
+         onclick="setActiveMin(&quot;tm20&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(20);}" />
+    </g>
+    <g
+       inkscape:label="5"
+       inkscape:groupmode="layer"
+       id="l5"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         transform="matrix(0.69465838,0.7193398,-0.7193398,0.69465838,506.0932,-175.25257)"
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="tm25"
+         sodipodi:cx="434.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:rx="274.28571"
+         sodipodi:ry="275.71429"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:start="6.2610995"
+         sodipodi:end="6.786662"
+         inkscape:label="#25"
+         onclick="setActiveMin(&quot;tm25&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(25);}" />
+    </g>
+    <g
+       inkscape:label="6"
+       inkscape:groupmode="layer"
+       id="l6"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         sodipodi:end="6.786662"
+         sodipodi:start="6.2610995"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:ry="275.71429"
+         sodipodi:rx="274.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:cx="434.28571"
+         id="tm30"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc"
+         transform="matrix(0.2419219,0.97029573,-0.97029573,0.2419219,843.21196,-23.166333)"
+         inkscape:label="#30"
+         onclick="setActiveMin(&quot;tm30&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(30);}" />
+    </g>
+    <g
+       inkscape:label="7"
+       inkscape:groupmode="layer"
+       id="l7"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         transform="matrix(-0.27563735,0.9612617,-0.9612617,-0.27563735,1058.1173,276.48111)"
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="tm35"
+         sodipodi:cx="434.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:rx="274.28571"
+         sodipodi:ry="275.71429"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:start="6.2610995"
+         sodipodi:end="6.786662"
+         inkscape:label="#35"
+         onclick="setActiveMin(&quot;tm35&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(35);}" />
+    </g>
+    <g
+       id="l8"
+       inkscape:groupmode="layer"
+       inkscape:label="8"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         transform="matrix(-0.7193398,0.69465838,-0.69465838,-0.7193398,1094.3204,644.1088)"
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="tm40"
+         sodipodi:cx="434.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:rx="274.28571"
+         sodipodi:ry="275.71429"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:start="6.2610995"
+         sodipodi:end="6.786662"
+         inkscape:label="#40"
+         onclick="setActiveMin(&quot;tm40&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(40);}" />
+    </g>
+    <g
+       id="l9"
+       inkscape:groupmode="layer"
+       inkscape:label="9"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         sodipodi:end="6.786662"
+         sodipodi:start="6.2610995"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:ry="275.71429"
+         sodipodi:rx="274.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:cx="434.28571"
+         id="tm45"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc"
+         transform="matrix(-0.97029573,0.2419219,-0.2419219,-0.97029573,942.23419,981.22756)"
+         inkscape:label="#45"
+         onclick="setActiveMin(&quot;tm45&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(45);}" />
+    </g>
+    <g
+       id="l10"
+       inkscape:groupmode="layer"
+       inkscape:label="10"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         transform="matrix(-0.9612617,-0.27563735,0.27563735,-0.9612617,642.58675,1196.1329)"
+         sodipodi:type="arc"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="tm50"
+         sodipodi:cx="434.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:rx="274.28571"
+         sodipodi:ry="275.71429"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:start="6.2610995"
+         sodipodi:end="6.786662"
+         inkscape:label="#50"
+         onclick="setActiveMin(&quot;tm50&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(50);}" />
+    </g>
+    <g
+       id="l11"
+       inkscape:groupmode="layer"
+       inkscape:label="11"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         sodipodi:end="6.786662"
+         sodipodi:start="6.2610995"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:ry="275.71429"
+         sodipodi:rx="274.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:cx="434.28571"
+         id="tm55"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc"
+         transform="matrix(-0.69465838,-0.7193398,0.7193398,-0.69465838,274.95906,1232.336)"
+         inkscape:label="#55"
+         onclick="setActiveMin(&quot;tm55&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(55);}" />
+    </g>
+    <g
+       inkscape:label="12"
+       inkscape:groupmode="layer"
+       id="l12"
+       style="display:inline"
+       transform="translate(-107.16655,-245.18216)"
+       sodipodi:insensitive="true">
+      <path
+         sodipodi:end="6.786662"
+         sodipodi:start="6.2610995"
+         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         sodipodi:ry="275.71429"
+         sodipodi:rx="274.28571"
+         sodipodi:cy="573.79077"
+         sodipodi:cx="434.28571"
+         id="tm0"
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         sodipodi:type="arc"
+         transform="matrix(-0.2419219,-0.97029573,0.97029573,-0.2419219,-62.159702,1080.2498)"
+         inkscape:label="#0"
+         onclick="setActiveMin(&quot;tm0&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(0);}" />
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3043"
+       inkscape:label="t1"
+       sodipodi:insensitive="true">
+      <text
+         xml:space="preserve"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="380.82755"
+         y="106.08961"
+         id="text3006"
+         sodipodi:linespacing="125%"
+         onclick="setActiveMin(&quot;tm5&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(5);}"><tspan
+           sodipodi:role="line"
+           id="tspan3008"
+           x="380.82755"
+           y="106.08961">5</tspan></text>
+    </g>
+    <g
+       inkscape:label="t2"
+       id="g3010"
+       inkscape:groupmode="layer"
+       sodipodi:insensitive="true">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3012"
+         y="187.91197"
+         x="445.47729"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"
+         onclick="setActiveMin(&quot;tm10&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(10);}"><tspan
+           y="187.91197"
+           x="445.47729"
+           id="tspan3014"
+           sodipodi:role="line">10</tspan></text>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3016"
+       inkscape:label="t3"
+       sodipodi:insensitive="true">
+      <text
+         xml:space="preserve"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="472.7514"
+         y="304.0795"
+         id="text3018"
+         sodipodi:linespacing="125%"
+         onclick="setActiveMin(&quot;tm15&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(15);}"><tspan
+           sodipodi:role="line"
+           id="tspan3020"
+           x="472.7514"
+           y="304.0795">15</tspan></text>
+    </g>
+    <g
+       inkscape:label="t4"
+       id="g3022"
+       inkscape:groupmode="layer"
+       sodipodi:insensitive="true">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3024"
+         y="416.20648"
+         x="446.48743"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"
+         onclick="setActiveMin(&quot;tm20&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(20);}"><tspan
+           y="416.20648"
+           x="446.48743"
+           id="tspan3026"
+           sodipodi:role="line">20</tspan></text>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3028"
+       inkscape:label="t5"
+       sodipodi:insensitive="true">
+      <text
+         xml:space="preserve"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="365.67523"
+         y="493.98819"
+         id="text3030"
+         sodipodi:linespacing="125%"
+         onclick="setActiveMin(&quot;tm25&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(25);}"><tspan
+           sodipodi:role="line"
+           id="tspan3032"
+           x="365.67523"
+           y="493.98819">25</tspan></text>
+    </g>
+    <g
+       inkscape:label="t6"
+       id="g3034"
+       inkscape:groupmode="layer"
+       sodipodi:insensitive="true">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3036"
+         y="525.30292"
+         x="250.51784"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"
+         onclick="setActiveMin(&quot;tm30&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(30);}"><tspan
+           y="525.30292"
+           x="250.51784"
+           id="tspan3038"
+           sodipodi:role="line">30</tspan></text>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3046"
+       inkscape:label="t7"
+       sodipodi:insensitive="true">
+      <text
+         xml:space="preserve"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="140.41121"
+         y="491.9679"
+         id="text3048"
+         sodipodi:linespacing="125%"
+         onclick="setActiveMin(&quot;tm35&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(35);}"><tspan
+           sodipodi:role="line"
+           id="tspan3050"
+           x="140.41121"
+           y="491.9679">35</tspan></text>
+    </g>
+    <g
+       inkscape:label="t8"
+       id="g3052"
+       inkscape:groupmode="layer"
+       sodipodi:insensitive="true">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3054"
+         y="410.14554"
+         x="55.558399"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"
+         onclick="setActiveMin(&quot;tm40&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(40);}"><tspan
+           y="410.14554"
+           x="55.558399"
+           id="tspan3056"
+           sodipodi:role="line">40</tspan></text>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3058"
+       inkscape:label="t9"
+       style="display:inline"
+       sodipodi:insensitive="true">
+      <text
+         xml:space="preserve"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="27.274128"
+         y="307.10999"
+         id="text3060"
+         sodipodi:linespacing="125%"
+         onclick="setActiveMin(&quot;tm45&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(45);}"><tspan
+           sodipodi:role="line"
+           id="tspan3062"
+           x="27.274128"
+           y="307.10999">45</tspan></text>
+    </g>
+    <g
+       inkscape:label="t10"
+       id="g3064"
+       inkscape:groupmode="layer"
+       sodipodi:insensitive="true">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3066"
+         y="198.01349"
+         x="55.558395"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"
+         onclick="setActiveMin(&quot;tm50&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(50);}"><tspan
+           y="198.01349"
+           x="55.558395"
+           id="tspan3068"
+           sodipodi:role="line">50</tspan></text>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3070"
+       inkscape:label="t11"
+       sodipodi:insensitive="true">
+      <text
+         xml:space="preserve"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="135.36044"
+         y="111.14039"
+         id="text3072"
+         sodipodi:linespacing="125%"
+         onclick="setActiveMin(&quot;tm55&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(55);}"><tspan
+           sodipodi:role="line"
+           id="tspan3074"
+           x="135.36044"
+           y="111.14039">55</tspan></text>
+    </g>
+    <g
+       inkscape:groupmode="layer"
+       id="g3040"
+       inkscape:label="t12"
+       sodipodi:insensitive="true">
+      <text
+         xml:space="preserve"
+         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="266.68027"
+         y="69.724121"
+         id="text3042"
+         sodipodi:linespacing="125%"
+         onclick="setActiveMin(&quot;tm0&quot;); if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeMinuteUpdate(0);}"><tspan
+           sodipodi:role="line"
+           id="tspan3044"
+           x="266.68027"
+           y="69.724121">0</tspan></text>
+    </g>
+  </g>
+</svg>

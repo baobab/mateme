@@ -140,7 +140,7 @@
       :id => "admission_time",
       :condition => "$('admission_date').value.trim().length > 0;",
       :helptext => "Admission Time",
-      :field_type => "time",
+      :field_type => "advancedTime",
       :tt_onUnLoad => "$('admission_time_value_datetime').value = " +
         "$('admission_date_value_datetime').value.trim() + ' ' + $('admission_time').value.trim();"
     }) %>

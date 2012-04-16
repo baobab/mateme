@@ -1721,6 +1721,9 @@ function showBestKeyboard(aPageNum) {
         case "time":
             getTimePicker();
             break;
+        case "advancedTime":
+            getAdvancedTimePicker();
+            break;
         case "boolean":
             __$("keyboard").innerHTML = "";
             break;
@@ -3966,3 +3969,368 @@ function showStatus(){
     
     __$("popupBox").style.display = "block";
 }
+
+function getAdvancedTimePicker() {
+    if (typeof(AdvancedTimeSelector) == "undefined")
+        return;
+
+    var inputElement = tstFormElements[tstPages[tstCurrentPage]];
+    var keyboardDiv = __$('keyboard');
+    keyboardDiv.innerHTML = "";
+
+    var railsDate = new RailsDate(inputElement);
+    if (railsDate.isDayOfMonthElement()) {
+        getDayOfMonthPicker(railsDate.getYearElement().value, railsDate.getMonthElement().value);
+        return;
+    }
+
+    var defaultDate = joinDateValues(inputElement);
+    //defaultDate = defaultDate.replace("-", "/", "g");
+    var arrDate = defaultDate.split(':');
+    __$("touchscreenInput"+tstCurrentPage).value = defaultDate;
+
+    if (arrDate.length == 3) {
+        ds = new AdvancedTimeSelector({
+            element: keyboardDiv,
+            target: tstInputTarget,
+            hour: arrDate[0],
+            minute: arrDate[1],
+            second: arrDate[2],
+            format: "H:M:S",
+            maxNow: (tstInputTarget.getAttribute("maxNow") ? true : false)
+        });
+    } else {
+        ds = new AdvancedTimeSelector({
+            element: keyboardDiv,
+            target: tstInputTarget,
+            format: "H:M:S",
+            maxNow: (tstInputTarget.getAttribute("maxNow") ? true : false)
+        });
+    }
+
+// __$("options" + tstCurrentPage).innerHTML = "";
+}
+
+var AdvancedTimeSelector = function() {
+    this.time = [new Date().getHours(), new Date().getMinutes(), new Date().getSeconds()];
+
+    if (! arguments[0])
+        arguments[0] = {};
+
+    this.options = {
+        hour: arguments[0].hour || this.time[0],
+        minute: arguments[0].minute || this.time[1],
+        second: arguments[0].second || this.time[2],
+        format: "H:M:S",
+        element: arguments[0].element || document.body,
+        target: arguments[0].target,
+        maxNow: arguments[0].maxNow
+    };
+
+    if (typeof(tstCurrentTime) != "undefined" && tstCurrentTime) {
+        var splitTime = tstCurrentTime.split(":");
+        if (splitTime.length == 3) {
+            this.time = [splitTime[0], splitTime[1], splitTime[2]];
+        }
+    }	else {
+        this.time = [this.options.hour, this.options.minute, this.options.second];
+    }
+    this.element = this.options.element;
+    this.format = this.options.format;
+    this.target = this.options.target;
+
+    this.element.appendChild(this.build());
+
+    this.currentHour = $('timeselector_hour');
+    this.currentMinute = $('timeselector_minute');
+    //this.currentSecond = $('timeselector_second');
+
+    this.currentHour.value = this.time[0];
+    this.currentMinute.value = this.time[1];
+//this.currentSecond.value = this.time[2];
+};
+
+AdvancedTimeSelector.prototype = {
+    build: function() {
+        var hr = (new Date()).getHours();
+        var node = document.createElement('div');
+        // TODO: move style stuff to a css file
+        node.innerHTML = ' \
+			<div id="timeselector" class="dateselector"> \
+                            <div class="table" style="width: 100%;"><div class="row"><div class="cell" \
+                                        style="text-align: center; font-size: 36px;">\
+                                        Hour</div><div class="cell">&nbsp;</div><div class="cell" \
+                                        style="text-align: center; font-size: 36px;">Minute</div></div>\
+                                        <div class="row"><div class="cell" \
+                                        style="text-align: center;"><object type="image/svg+xml" \
+                                        data="/touchscreentoolkit/examples/lib/images/hour.svg" wmode="transparent" \
+                                        style="padding:5px; overflow:hidden;" \
+                                        id="hour" >\
+                                    <param id="et1" name="t1" value="" />\
+                                    <param id="et2" name="t2" value="" />\
+                                    <param id="et3" name="t3" value="" />\
+                                    <param id="et4" name="t4" value="" />\
+                                    <param id="et5" name="t5" value="" />\
+                                    <param id="et6" name="t6" value="" />\
+                                    <param id="et7" name="t7" value="" />\
+                                    <param id="et8" name="t8" value="" />\
+                                    <param id="et9" name="t9" value="" />\
+                                    <param id="et10" name="t10" value="" />\
+                                    <param id="et11" name="t11" value="" />\
+                                    <param id="et12" name="t12" value="" /></object></div><div class="cell"></div>\
+                              <div class="cell" style="text-align: center;"><object type="image/svg+xml" \
+                                data="/touchscreentoolkit/examples/lib/images/minute.svg" \
+                                   wmode="transparent" \
+                                style="padding:5px; overflow:hidden;" id="minute" >\
+                                    <param id="etm5" name="tm5" value="" />\
+                                    <param id="etm10" name="tm10" value="" />\
+                                    <param id="etm15" name="tm15" value="" />\
+                                    <param id="etm20" name="tm20" value="" />\
+                                    <param id="etm25" name="tm25" value="" />\
+                                    <param id="etm30" name="tm30" value="" />\
+                                    <param id="etm35" name="tm35" value="" />\
+                                    <param id="etm40" name="tm40" value="" />\
+                                    <param id="etm45" name="tm45" value="" />\
+                                    <param id="etm50" name="tm50" value="" />\
+                                    <param id="etm55" name="tm55" value="" />\
+                                    <param id="etm0" name="tm0" value="" /></object> \
+                                </div></div><div class="row"><div class="cell"><div class="table" \
+                                style="margin-left: 20px;"><div class="row"><div class="cell">\
+                                <button id="timeselector_preHour" style="width: 100px;" onmousedown="ds.decrementHour();">\
+                                <span>-</span></button></div><div class="cell" style="vertical-align: middle; text-align: center;">\
+                                <input id="timeselector_hour" type="text" style="margin-left: 10px;" />\
+                                </div><div class="cell"><button id="timeselector_nextHour" onmousedown="ds.incrementHour();" ' + 
+                                (this.options["maxNow"] == true ? 'class="blue" ' : 'class="red" ') + 
+                                ' style="width: 100px;" ><span>+</span></button></div></div></div> </div>\
+                                <div class="cell"><button id="ampm" style="width: 150px;" \
+                                onmousedown="ds.changeScope();"><span>' + (hr >= 12 ? 'PM' : 'AM') + 
+                                '</span></button></div><div class="cell"> \
+                                <div class="table" \
+                                style="margin-right: 25px; float: right;"><div class="row"><div class="cell"> \
+                                <button id="timeselector_preMinute" onmousedown="ds.decrementMinute();" style="width: 100px;"> \
+                                <span>-</span></button>\
+                                </div><div class="cell" style="vertical-align: middle; text-align: center;">\
+                                <input id="timeselector_minute" type="text" style="margin-left: 10px;"/>\
+                                </div><div class="cell"><button id="timeselector_nextMinute" style="width: 100px;"\
+                                 onmousedown="ds.incrementMinute();"' + 
+                                (this.options["maxNow"] == true ? 'class="blue" ' : 'class="red" ') + 
+                                ' ><span>+</span></button></div></div></div>\
+                                </div></div></div></div></div>	';
+
+        return node;
+    },
+
+    init: function() {
+        this.update(this.target);
+    },
+
+    changeScope: function(){
+        if(this.currentHour.value > 12){
+            this.currentHour.value = parseInt(this.currentHour.value) - 12;
+            __$("ampm").innerHTML = "<span>AM</span>";
+        } else if(this.currentHour.value <= 12){
+            this.currentHour.value = parseInt(this.currentHour.value) + 12;
+            __$("ampm").innerHTML = "<span>PM</span>";
+        }
+        this.time[0] = this.currentHour.value;
+        this.update(this.target);
+    },
+
+    incrementHour: function() {
+        if(this.options["maxNow"] == true){       
+            if(this.currentHour.value >= (new Date().getHours())){
+
+            } else if(this.currentHour.value == 23){
+                this.currentHour.value = 0;
+            } else {
+                this.currentHour.value++;
+            }
+        } else if(this.currentHour.value == 23){
+            this.currentHour.value = 0;
+        } else {
+            this.currentHour.value++;
+        }
+        
+        this.time[0] = this.currentHour.value;
+        this.update(this.target);
+    },
+
+    decrementHour: function() {
+        if(this.currentHour.value == 0){
+            this.currentHour.value = 0;
+        } else {
+            this.currentHour.value--;
+        }
+
+        this.time[0] = this.currentHour.value;
+        this.update(this.target);
+    },
+
+    incrementMinute: function() {
+        if(this.options["maxNow"] == true){        
+            if(this.currentMinute.value == 59){
+                this.currentMinute.value = 0;
+            } else if(this.currentMinute.value >= (new Date().getMinutes())){
+                this.currentMinute.value = 0;
+            } else  {
+                this.currentMinute.value++;
+            }
+        } else  {
+            this.currentMinute.value++;
+        }
+
+        this.time[1] = this.currentMinute.value;
+        this.update(this.target);
+    },
+
+    decrementMinute: function() {
+        if(this.currentMinute.value == 0){
+            this.currentMinute.value = 0;
+        } else {
+            this.currentMinute.value--;
+        }
+
+        this.time[1] = this.currentMinute.value;
+        this.update(this.target);
+    },
+
+    incrementSecond: function() {
+        if(this.options["maxNow"] == true){        
+            if(this.currentSecond.value == 59){
+                this.currentSecond.value = 0;
+            } else {
+                this.currentSecond.value++;
+            }
+        } else {
+            this.currentSecond.value++;
+        }
+
+        this.time[2] = this.currentSecond.value;
+        this.update(this.target);
+    },
+
+    decrementSecond: function() {
+        if(this.currentSecond.value == 0){
+            this.currentSecond.value = 0;
+        } else {
+            this.currentSecond.value--;
+        }
+
+        this.time[2] = this.currentSecond.value;
+        this.update(this.target);
+    },
+
+    invokeHourUpdate: function(pos){
+        var hr = pos;
+            
+        if(hr != null){
+            if(__$("ampm").innerHTML.toLowerCase() == "<span>pm</span>"){
+                if(hr == 12){
+                    this.currentHour.value = hr;
+                } else {
+                    this.currentHour.value = (hr == 12 ? 0 : (hr + 12));
+                }
+            } else {
+                if(hr == 12){
+                    this.currentHour.value = 0;
+                } else {
+                    this.currentHour.value = hr;
+                }
+            }
+        }
+        
+        this.time[0] = this.currentHour.value;
+        this.update(this.target);
+    },
+    
+    updateHourDisk: function(){
+       var params = __$("hour").getElementsByTagName("param");
+       var hr = (parseInt(this.currentHour.value) == 0 ? 12 : (parseInt(this.currentHour.value) > 12 ? 
+           (parseInt(this.currentHour.value) - 12) : this.currentHour.value));
+       
+       for(var i = 0; i < params.length; i++){
+           if(params[i]){
+               if(params[i].id == "et" + hr){
+                   params[i].value = "selected";
+               } else {
+                   params[i].value = "";
+               }
+           }
+       } 
+       
+       if(parseInt(this.currentHour.value) >= 12){
+           __$("ampm").innerHTML = "<span>PM</span>";
+       } else {
+           __$("ampm").innerHTML = "<span>AM</span>";
+       }
+    },
+
+    invokeMinuteUpdate: function(pos){
+        var min = pos;
+            
+        if(min != null){
+            this.currentMinute.value = min;
+        }
+        
+        this.time[1] = this.currentMinute.value;
+        this.update(this.target);
+    },
+    
+    updateMinuteDisk: function(){
+       var params = __$("minute").getElementsByTagName("param");
+       var time = parseInt(this.currentMinute.value);
+       
+       var range = "";
+
+	if(time >= 1 && time <= 5){
+		range = 5;
+	} else if(time >= 6 && time <= 10){
+		range = 10;
+	} else if(time >= 11 && time <= 15){
+		range = 15;
+	} else if(time >= 16 && time <= 20){
+		range = 20;
+	} else if(time >= 21 && time <= 25){
+		range = 25;
+	} else if(time >= 26 && time <= 30){
+		range = 30;
+	} else if(time >= 31 && time <= 35){
+		range = 35;
+	} else if(time >= 36 && time <= 40){
+		range = 40;
+	} else if(time >= 41 && time <= 45){
+		range = 45;
+	} else if(time >= 46 && time <= 50){
+		range = 50;
+	} else if(time >= 51 && time <= 55){
+		range = 55;
+	} else if(time >= 56 && time <= 59){
+		range = 0;
+	} 
+       
+       for(var i = 0; i < params.length; i++){
+           if(params[i]){
+               if(params[i].id == "etm" + range){
+                   params[i].value = "selected";
+               } else {
+                   params[i].value = "";
+               }
+           }
+       }        
+    },
+    
+    update: function(aDateElement) {
+        var aTargetElement = aDateElement || this.target;
+
+        if (!aTargetElement)
+            return;
+
+        aTargetElement.value = TimeUtil.zerofill((this.time[0]).toString(),2) + ":" +
+        TimeUtil.zerofill((this.time[1]).toString(),2) + ":" +
+        TimeUtil.zerofill((this.time[2]).toString(),2);
+    
+        this.updateHourDisk();
+        this.updateMinuteDisk();
+    }
+
+};
