@@ -466,7 +466,7 @@ class Patient < ActiveRecord::Base
     
     self.encounters.last(:conditions => ["encounter_type = ?", 
         EncounterType.find_by_name("SOCIAL HISTORY").id]).observations.each{|o| 
-      nok[o.concept.name.name] = o.answer_string      
+      nok[o.concept.name.name.upcase] = o.answer_string      
     } 
     
     nok

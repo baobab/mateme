@@ -10,11 +10,13 @@
     <script language="javascript">
       tstUsername = "";
       tstCurrentDate = "2010/03/12";
-      tt_cancel_show = "<%= ((@refer_out == true && @result.length) || @discharged.to_s.upcase.include?("DISCHARGED") == true ?
+      tt_cancel_show = "<%= ((@refer_out == true && @result.length > 0) || 
+    (@discharged.to_s.upcase.include?("DISCHARGED") == true && @result.length > 0) ?
     ("/encounters/print_discharge_note/?patient_id=#{@patient.id}&encounter_id=#{@result[0][0]}") :
     '/people/index') %>";
           
   tt_cancel_destination = '/people/index';
+  // tt_cancel_show = '/people/index';
     </script>
     <!--link type="text/css" href="stylesheets/graytabs.css" rel="stylesheet" />
     <link href="stylesheets/touch-fancy.css?1266397276" media="screen" rel="stylesheet" type="text/css" />

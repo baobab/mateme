@@ -113,7 +113,7 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("DIAGNOSIS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("DIAGNOSIS") ? "" :
-                      "window.location = '/encounters/diagnoses_index?patient_id=#{@patient.id}';") %> ">
+                      "window.location = '/encounters/new/outpatient_diagnosis?patient_id=#{@patient.id}&next=true';") %> ">
             <span>Admission Diagnosis</span>
           </button>
         </div>
