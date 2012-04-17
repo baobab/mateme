@@ -3527,13 +3527,19 @@ TimeSelector.prototype = {
         if(this.options["maxNow"] == true){        
             if(this.currentMinute.value == 59){
                 this.currentMinute.value = 0;
+                this.incrementHour();
             } else if(this.currentMinute.value >= (new Date().getMinutes())){
                 this.currentMinute.value = 0;
             } else  {
                 this.currentMinute.value++;
             }
         } else  {
-            this.currentMinute.value++;
+            if(this.currentMinute.value == 59){
+                this.currentMinute.value = 0;
+                this.incrementHour();
+            } else {
+                this.currentMinute.value++;
+            }
         }
 
         this.time[1] = this.currentMinute.value;
@@ -4170,13 +4176,19 @@ AdvancedTimeSelector.prototype = {
         if(this.options["maxNow"] == true){        
             if(this.currentMinute.value == 59){
                 this.currentMinute.value = 0;
+                this.incrementHour();
             } else if(this.currentMinute.value >= (new Date().getMinutes())){
                 this.currentMinute.value = 0;
             } else  {
                 this.currentMinute.value++;
             }
         } else  {
-            this.currentMinute.value++;
+            if(this.currentMinute.value == 59){
+                this.currentMinute.value = 0;
+                this.incrementHour();
+            } else {
+                this.currentMinute.value++;
+            }
         }
 
         this.time[1] = this.currentMinute.value;
