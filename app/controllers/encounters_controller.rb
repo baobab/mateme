@@ -530,7 +530,7 @@ class EncountersController < ApplicationController
     @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
         EncounterType.find_by_name("DIAGNOSIS").encounter_type_id]).each{|e|
       e.observations.each{|o|
-        if o.concept.name.name == "DIAGNOSIS"
+        if o.concept.name.name.upcase == "DIAGNOSIS"
           if !@outpatient_diagnosis[o.concept.name.name.upcase]
             @outpatient_diagnosis[o.concept.name.name.upcase] = []
           end
