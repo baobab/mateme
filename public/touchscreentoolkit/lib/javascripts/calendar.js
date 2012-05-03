@@ -255,7 +255,10 @@ function createMonth(date, selected, initialdate, startweekdate, endweekdate){
                     dayCell.setAttribute("value", current_day.getDate());
                             
                     dayCell.setAttribute("daytype", "weekday");
-                                        
+                              
+                    dayCell.setAttribute("date", current_day.getFullYear() + "-" + padZeros((current_day.getMonth()+1),2) + 
+                        "-" + padZeros(current_day.getDate(), 2));          
+                              
                     dayCell.className = "cCell day cellActive" + 
                     ((current_day.getFullYear() == today.getFullYear() && 
                         current_day.getMonth() == today.getMonth() && 
@@ -263,7 +266,7 @@ function createMonth(date, selected, initialdate, startweekdate, endweekdate){
                     
                     dayCell.onclick = function(){
                         var celldate = current_day.getFullYear() + "-" + padZeros((current_day.getMonth()),2) + 
-                        "-" + padZeros(__$(active_cell).getAttribute("value"));
+                        "-" + padZeros(__$(active_cell).getAttribute("value"), 2);
                         
                         if(celldate == date){
                             __$(active_cell).style.backgroundColor = initial_selected_color;
@@ -287,13 +290,19 @@ function createMonth(date, selected, initialdate, startweekdate, endweekdate){
                         padZeros(this.getAttribute("value"), 2);
                                 
                         selected_date = new Date(current_year, months[current_month][0], this.getAttribute("value"));
+                        
+                        if(targetControl.getAttribute("ajaxCalendarUrl")){
+                            ajaxCalendarRequest(__$(this.id), targetControl.getAttribute("ajaxCalendarUrl"), 
+                                __$(this.id).getAttribute("date"));
+                        }
                     }
                 } else {                                        
                     dayCell.className = "cCell day cellInactive";
                     dayCell.style.color = "#999";
                 }
                 
-                current_day.setDate(current_day.getDate() + 1);
+                current_day.setDate(current_day.getDate() + 1); 
+                
             }
             if(found){
                 __$(active_cell).click();
@@ -302,7 +311,7 @@ function createMonth(date, selected, initialdate, startweekdate, endweekdate){
         
         carry_over_day = new Date(current_day.getFullYear(), current_day.getMonth(), current_day.getDate());
     }
-      
+     
 }
                         
 function createCalendar(control, target, date, selected, startweekdate, endweekdate){
@@ -344,13 +353,27 @@ function createCalendar(control, target, date, selected, startweekdate, endweekd
                 
         var bannerrowcell2 = document.createElement("div");
         bannerrowcell2.className = "cCell";
-        bannerrowcell2.style.textAlign = "right";
+        bannerrowcell2.style.textAlign = "none";
         bannerrowcell2.style.padding = "0px";
+        bannerrowcell2.style.fontSize = "2.5em";
+        bannerrowcell2.style.verticalAlign = "middle";
         
-        bannerrowcell2.innerHTML = "<button onclick='subtractYear()' class='btn'>" +
-        "-</button><span id='year'></span><button onclick='addYear()' class='btn'>+</button>";
+        bannerrowcell2.innerHTML = (targetControl.getAttribute("helpText") ? 
+            (targetControl.getAttribute("helpText").trim().length > 15 ? 
+            targetControl.getAttribute("helpText").substring(0,14) + "..." : 
+            targetControl.getAttribute("helpText")) : "");
 
         bannerrow.appendChild(bannerrowcell2);
+        
+        var bannerrowcell3 = document.createElement("div");
+        bannerrowcell3.className = "cCell";
+        bannerrowcell3.style.textAlign = "right";
+        bannerrowcell3.style.padding = "0px";
+        
+        bannerrowcell3.innerHTML = "<button onclick='subtractYear()' class='btn'>" +
+        "-</button><span id='year'></span><button onclick='addYear()' class='btn'>+</button>";
+
+        bannerrow.appendChild(bannerrowcell3);
         
         var mainrow2cell = document.createElement("div");
         mainrow2cell.className = "cCell";
@@ -360,5 +383,39 @@ function createCalendar(control, target, date, selected, startweekdate, endweekd
         mainrow2.appendChild(mainrow2cell);
         
         createMonth(date, selected, date, startweekdate, endweekdate);
+    }
+}
+
+function ajaxCalendarRequest(aElement, aUrl, date) {
+    var httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function() {
+        handleCalendarResult(aElement, httpRequest, date);
+    };
+    try {
+        httpRequest.open('GET', aUrl, true);
+        httpRequest.send(null);
+    } catch(e){
+    }
+}
+
+function handleCalendarResult(element, aXMLHttpRequest, date) {
+    if (!aXMLHttpRequest) return;
+
+    if (!element) return;
+
+    if (aXMLHttpRequest.readyState == 4 && aXMLHttpRequest.status == 200) {
+        var result = JSON.parse(aXMLHttpRequest.responseText);                
+        
+        if(result[date]){
+        
+            if(element.getElementsByTagName("div").length <= 0){                    
+                var count = document.createElement("div");
+                count.className = "dayCount";
+                        
+                element.appendChild(count);
+            }
+        
+            element.getElementsByTagName("div")[0].innerHTML = result[date];
+        }
     }
 }
