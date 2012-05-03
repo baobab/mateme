@@ -145,6 +145,9 @@
         "$('admission_date_value_datetime').value.trim() + ' ' + $('admission_time').value.trim();"
     }) %>
 
+  <% options[:maxNow] = :true if ((session[:datetime] ? session[:datetime].to_date : 
+        DateTime.now()).strftime("%Y-%m-%d")) == DateTime.now().strftime("%Y-%m-%d") %>
+  
   <%= text_field_tag("admission_time",Time.now().strftime("%H:%M"),options) %>
 
   <%= hidden_field_tag("observations[][concept_name]", 'ADMISSION TIME', {:id => 'admission_time_concept_name'}) %>

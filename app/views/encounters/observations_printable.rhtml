@@ -233,7 +233,8 @@
         <b>Position:</b> <%= @position.titleize rescue "" %>
       </td>
       <td>
-        <b>Contractions:</b> <%= @encounters["CONTRACTIONS"].titleize rescue "" %>
+        <b>Contractions:</b> <%= (@encounters["CONTRACTIONS"].titleize == "Yes" ? 
+            @encounters["CONTRACTIONS INTENSITY"].titleize : @encounters["CONTRACTIONS"].titleize) rescue "" %>
       </td>
       <td>
         <b>FHR:</b> <%= @encounters["FETAL HEART RATE"].titleize rescue "" %>

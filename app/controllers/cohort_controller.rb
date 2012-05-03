@@ -86,6 +86,8 @@ class CohortController < ApplicationController
         @section = Location.find_by_name("Post-Natal Ward (High Risk)").location_id rescue nil
     when 7:
         @section = Location.find_by_name("Post-Natal Ward (Low Risk)").location_id rescue nil
+    when 8:
+        @section = Location.find_by_name("Theater").location_id rescue nil
     end
 
     report = Reports::Cohort.new(@start_date, @end_date, @section)

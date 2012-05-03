@@ -82,7 +82,7 @@ class EncountersController < ApplicationController
     @facility_outcomes =  JSON.parse(GlobalProperty.find_by_property("facility.outcomes").property_value) rescue {}
     #raise @facility_outcomes.to_yaml
     @new_hiv_status = params[:new_hiv_status]
-    @admission_wards = [' '] + GlobalProperty.find_by_property('facility.admission_wards').property_value.split(',') rescue []
+    @admission_wards = [' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
     @diagnosis_type = params[:diagnosis_type]
     @facility = (GlobalProperty.find_by_property("facility.name").property_value rescue "") # || (Location.find(session[:facility]).name rescue "")    
@@ -99,7 +99,7 @@ class EncountersController < ApplicationController
         ConceptName.find_by_name("LAST MENSTRUAL PERIOD").concept_id, @patient.encounters.collect{|e| e.id}],
       :order => :obs_datetime).last.value_datetime rescue nil
 
-    # raise @encounters.to_yaml
+    # raise @admission_wards.inspect
 
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
@@ -570,7 +570,7 @@ class EncountersController < ApplicationController
       (@encounters["BREECH"] ? @encounters["BREECH"] : "") + (@encounters["FACE"] ? @encounters["FACE"] : "") + 
       (@encounters["SHOULDER"] ? @encounters["SHOULDER"] : "") rescue ""
     
-    # raise @patient.next_of_kin.to_yaml
+    # raise @encounters.to_yaml
     
     render :layout => false
   end

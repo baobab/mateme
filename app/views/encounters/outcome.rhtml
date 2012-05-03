@@ -21,13 +21,16 @@
     "DELIVERED BEFORE ARRIVAL",
     "DELIVERED IN THEATRE",
     "DELIVERED IN ANTENATAL WARD"] %>
-  <% @admission_section = ["", "ANTENATAL WARD", "LABOUR WARD", "GYNECOLOGY", "HDU"] %>
+  <%# @admission_section = ["", "ANTENATAL WARD", "LABOUR WARD", "GYNECOLOGY", "HDU"] %>
+  <% @admission_section = @admission_wards %>
 
   <% if @facility.upcase.eql?("KAMUZU CENTRAL HOSPITAL")
-    @admission_section << "POSTNATAL WARD"
+    # @admission_section = @admission_section << "POSTNATAL WARD"
+    @admission_section = @admission_section - ["Post-Natal Ward (High Risk)", "Post-Natal Ward (Low Risk)"]
   else
-    @admission_section << "POSTNATAL WARD - HIGH RISK"
-    @admission_section << "POSTNATAL WARD - LOW RISK"
+    # @admission_section << "POSTNATAL WARD - HIGH RISK"
+    # @admission_section << "POSTNATAL WARD - LOW RISK"
+    @admission_section = @admission_section - ["Post-Natal Ward"]
   end %>
 
   <%@delivery_mode = [""] + Concept.find_by_name("DELIVERY MODE").concept_answers.collect{|c| c.name} %>
