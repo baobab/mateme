@@ -39,8 +39,8 @@ mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_weight
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/concepts.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/global_property.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_printers.sql
-mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_wards.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/locations.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_wards.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/change_concept_names_case_to_upper.sql
 
 # echo "USE $DATABASE; ALTER TABLE concept_name ADD COLUMN concept_name_id INT(11) NULL;" | mysql -u $USERNAME --password=$PASSWORD
