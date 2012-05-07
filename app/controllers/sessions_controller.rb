@@ -45,7 +45,7 @@ class SessionsController < ApplicationController
 
       elsif @location_name.upcase.eql?("BWAILA MATERNITY UNIT")
 
-        if !ward.upcase.eql?("POST-NATAL WARD") && !ward.upcase.eql?("Gynaecology Ward".upcase)
+        if !ward.upcase.eql?("POST-NATAL WARD") # && !ward.upcase.eql?("Gynaecology Ward".upcase)
           @login_wards << ward
         end
 
