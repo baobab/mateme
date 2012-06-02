@@ -310,5 +310,206 @@ class CohortController < ApplicationController
       "&start_date=#{ @start_date }&end_date=#{ @end_date }&reportType=#{@reportType}" and return
   end
 
+  def report
+    @section = Location.find(params[:location_id]).name rescue ""
+    
+    @start_date = (params[:start_date].to_time rescue Time.now)
+    
+    @end_date = (params[:end_date].to_time rescue Time.now)
+    
+    @group1_start = @start_date
+    
+    @group1_end = (@end_date <= (@start_date + 12.hour) ? @end_date : (@start_date + 12.hour))
+        
+    @group2_start = (@end_date > (@start_date + 12.hour) ? (@start_date + 12.hour) : nil)
+    
+    @group2_end = (@end_date > (@start_date + 12.hour) ? @end_date : nil)
+       
+    render :layout => false
+  end
+  
+  def q
+    if params[:field]
+      case params[:field]
+      when "admissions"
+        admissions(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "svd"
+        svd(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "c_section"
+        c_section(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "vacuum_extraction"
+        vacuum_extraction(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "breech_delivery"
+        breech_delivery(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "twins"
+        twins(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "triplets"
+        triplets(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "live_births"
+        live_births(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "macerated"
+        macerated(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "fresh"
+        fresh(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "neonatal_death"
+        neonatal_death(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "maternal_death"
+        maternal_death(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "bba"
+        bba(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "referral_out"
+        referral_out(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "referral_in"
+        referral_in(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "discharges"
+        discharges(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "abscondees"
+        abscondees(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "post_mothers"
+        post_mothers(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "post_babies"
+        post_babies(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "ante_labor"
+        ante_labor(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "post_labor"
+        post_labor(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "labor_high"
+        labor_high(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "labor_low"
+        labor_low(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "theatre_high"
+        theatre_high(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "ante_theatre"
+        ante_theatre(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "labor_gynae"
+        labor_gynae(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "gynae_labor"
+        gynae_labor(params[:start_date], params[:end_date], params[:group], params[:field])
+      end
+    end           
+  end
+  
+  def admissions(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(admission_ward, '') != '' " + 
+          "AND admission_date >= ? AND admission_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+
+  def svd(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Spontaneous vaginal delivery' " + 
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+
+  def c_section(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Caesarean section' " + 
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+
+  def vacuum_extraction(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Vacuum extraction delivery' " + 
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+
+  def breech_delivery(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Breech delivery' " + 
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+
+  def twins(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def triplets(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def live_births(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def macerated(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def fresh(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def neonatal_death(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def maternal_death(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def bba(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def referral_out(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def referral_in(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def discharges(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def abscondees(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def post_mothers(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def post_babies(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def ante_labor(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def post_labor(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def labor_high(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def labor_low(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def theatre_high(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def ante_theatre(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def labor_gynae(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
+
+  def gynae_labor(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    render :text => [params[:group]].to_json
+  end
 
 end

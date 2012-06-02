@@ -1,110 +1,65 @@
+<%= javascript_include_tag "touchscreen" %>
+<%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+
 <style type="text/css">
-  body {
-    font-family: "Nimbus Sans L", "Arial Narrow", sans-serif;
-    font-size: 1.2em;
-  }
-  .even {
-    background-color: #eee;
-    padding: 10px;
-    -moz-border-radius: 10px;
-    margin-bottom: 5px;
-  }
-  .odd {
-    background-color: #fff;
-    padding: 10px;
-    border: 1px solid #eee;
-    -moz-border-radius: 10px;
-    margin-bottom: 5px;
+  .visit-summary-header{
+    text-align: left;
+    font-size:  1em;
+    color:      #FFFFFF;
+    background: #808080;
   }
 
-  .list {
-    list-style: none;
-    padding: 0px;
+  .visit-summary{
+    text-align: left;
+  }
+
+  .no-visit-summary{
+    text-align: left;
+    font-size:  1.2em;
   }
 </style>
-<div style="margin-top:5px; overflow: hidden;">
-  <!--h2 style="color: #666;">Visit History</h2-->
-  <!--div style="width: 95%; background-color: #666; padding: 10px; border: 1px solid #eee;
-       -moz-border-radius: 10px; margin-bottom: 1px; color: #fff; margin-left: 7px;">
-    <table width="100%" style="color: #fff;">
-      <tr>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Diagnoses
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Procedure Done
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Number of Babies Delivered
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Mode of Delivery
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Outcome
-        </th>
-        <th style="width:20%;">
-          Date
-        </th>
-      </tr>
-    </table>
-  </div-->
-  <div style="width: 680px; overflow: -moz-scrollbars-vertical; height: 315px;">
-    <table class="list" style="width: 98%; left: 8px; right: -66px;
-           position: relative; margin-top: 8px; font-size: 0.7em; border: 1px solid #000;"
-           cellpadding="5" cellspacing="1">
-      <tr style="width: 95%; background-color: #666; padding: 10px; border: 1px solid #eee;
-          -moz-border-radius: 10px; margin-bottom: 1px; color: #fff; margin-left: 7px;">
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Diagnoses
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Procedure Done
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Number of Babies Delivered
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Mode of Delivery
-        </th>
-        <th style="width:20%; border-right: 1px solid #fff;">
-          Outcome
-        </th>
-        <th style="width:20%;">
-          Date
-        </th>
-      </tr>
-      <%
-      # raise @past_diagnoses.to_yaml
 
+<base target="_parent">
+<div id="previous-visits" style=" width: 100%; height: 320px; overflow: auto;">
+  <table width="100%">
+
+    <% @past_encounter_dates.each do |encounter_date|
+      header = true
+      previous_encounter = ""
       i = 0
-      @past_diagnoses.each{|entry|
-          
-      %>
-        <tr class="data <%= cycle('even', 'odd') %>" style="padding: 8px;">
-          <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["DIAGNOSIS"]["Diagnosis".upcase].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
-          </td>
-          <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["Procedure done".upcase].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
-          </td>
-          <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " align="center" valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["Number of babies".upcase].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
-          </td>
-          <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["Delivery mode".upcase].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
-          </td>
-          <td style="width:20%; border-right: 1px solid <%= (i % 2 == 0 ? '#fff' : '#eee') %> " valign="top">
-            <%= entry[1]["UPDATE OUTCOME"]["Baby outcome".upcase].collect{|e| e}.delete_if{|x| x.empty?}.uniq.join(", ").titleize rescue "&nbsp;" %>
-          </td>
-          <td style="width:20%;" align="center" valign="top">
-            <%= entry[0] %>
-          </td>
-        </tr>
-        <%
-        i = i + 1
-      }
-    %>
-    </table>
-  </div>
+      for encounter in @previous_visits do
+        i += 1
+
+        if (encounter.encounter_datetime.to_date == encounter_date.to_date)
+          if encounter.name == previous_encounter 
+            header = false
+          end
+        %>
+          <%if header == true
+            header_title = ( encounter_date.strftime("%d-%b-%Y").to_s + " - ").humanize.titleize %>
+            <tr> <th class="visit-summary-header" colspan="2" style="height:2px;"><%=h(header_title)%></th> </tr>
+          <%end%>
+          <% previous_encounter = encounter.name %>
+          <% header = false %>
+          <tr>
+            <td class="visit-summary">
+              <b><%= ( encounter.name.to_s + ": " ).humanize.titleize.upcase rescue nil %></b>
+              <br /> <%= encounter.to_s  rescue nil %> <br />
+            </td>
+            <td>
+            </td>
+          </tr>
+        <%  
+        end
+      end
+    end %>
+    <% if @past_encounter_dates.blank? %>
+      <div class="no-visit-summary"><b>There are no previous visits for this patient</b></div>
+    <% end %>
+  </table>
 </div>
+<div id="graph">
+  <div id="choices" style="padding-top:5px;"> </div>
+  <div id="simplegraphholder" class="gadget-cell"></div>
+</div>
+</base>

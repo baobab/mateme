@@ -1,0 +1,71 @@
+DELIMITER $$
+DROP TRIGGER IF EXISTS `obs_after_update`$$
+CREATE TRIGGER `obs_after_update` AFTER UPDATE 
+ON `obs`
+FOR EACH ROW
+BEGIN
+  	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "BABY OUTCOME" LIMIT 1) AND new.voided = 1 THEN
+		SET @outcome = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
+
+  		DELETE FROM patient_report WHERE patient_id = new.person_id AND baby_outcome = @outcome AND baby_outcome_date = new.obs_datetime;
+	END IF;
+
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "DELIVERY MODE" LIMIT 1) AND new.voided = 1 THEN
+		SET @mode = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
+
+  		DELETE FROM patient_report WHERE patient_id = new.person_id AND delivery_mode = @mode AND delivery_date = new.obs_datetime;
+	END IF;
+
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "NUMBER OF BABIES" LIMIT 1) AND new.voided = 1 THEN
+		SET @mode = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
+
+  		DELETE FROM patient_report WHERE patient_id = new.person_id AND babies = @mode AND birthdate = new.obs_datetime;
+	END IF;
+
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "OUTCOME" LIMIT 1) AND new.voided = 1 THEN
+		SET @mode = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
+
+  		DELETE FROM patient_report WHERE patient_id = new.person_id AND outcome = @mode AND outcome_date = new.obs_datetime;
+	END IF;
+	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "ADMISSION TIME" LIMIT 1) THEN
+		SET @ward = (SELECT name FROM location WHERE location_id = new.location_id);	
+
+  		DELETE FROM patient_report WHERE patient_id = new.person_id AND admission_ward = @ward AND admission_date = new.value_datetime;
+	END IF;
+	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "DIAGNOSIS" LIMIT 1) THEN
+		SET @diagnosis = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
+
+		DELETE FROM patient_report WHERE patient_id = new.person_id AND diagnosis = @diagnosis AND diagnosis_date = new.obs_datetime;
+	END IF;
+	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "ADMISSION SECTION" LIMIT 1) THEN
+		SET @ward = (SELECT name FROM location WHERE location_id = new.location_id);	
+
+		DELETE FROM patient_report WHERE patient_id = new.person_id AND source_ward = @ward AND destination_ward = new.value_text AND internal_transfer_date = new.obs_datetime;
+	END IF;
+	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "IS PATIENT REFERRED?" LIMIT 1) AND new.value_coded IN (SELECT concept_id FROM concept_name WHERE name = "Yes") THEN
+
+		DELETE FROM patient_report WHERE patient_id = new.person_id AND referral_in = new.obs_datetime;
+	END IF;
+	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "CLINIC SITE OTHER" LIMIT 1) AND new.value_coded IN (SELECT concept_id FROM concept_name WHERE name = "Yes") THEN
+
+		DELETE FROM patient_report WHERE patient_id = new.person_id AND referral_out = new.obs_datetime;
+	END IF;
+	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "PROCEDURE DONE" LIMIT 1) THEN
+		SET @procedure = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
+
+		DELETE FROM patient_report WHERE patient_id = new.person_id AND procedure_done = @procedure AND procedure_date = new.obs_datetime;
+	END IF;
+	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "CLINIC SITE OTHER" LIMIT 1) AND new.value_coded IN (SELECT concept_id FROM concept_name WHERE name = "No") THEN
+
+		DELETE FROM patient_report WHERE patient_id = new.person_id AND discharged_home = new.obs_datetime;
+	END IF;
+END$$
+
+DELIMITER ;

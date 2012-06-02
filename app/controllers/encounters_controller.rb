@@ -99,7 +99,9 @@ class EncountersController < ApplicationController
         ConceptName.find_by_name("LAST MENSTRUAL PERIOD").concept_id, @patient.encounters.collect{|e| e.id}],
       :order => :obs_datetime).last.value_datetime rescue nil
 
-    # raise @admission_wards.inspect
+    @location = Location.current_location.name rescue nil
+    
+    # raise @location.downcase.to_yaml
 
     redirect_to "/" and return unless @patient
     redirect_to next_task(@patient) and return unless params[:encounter_type]
@@ -558,8 +560,9 @@ class EncountersController < ApplicationController
     } rescue {}
 
     @nok = (@patient.next_of_kin["GUARDIAN FIRST NAME"] + " " + @patient.next_of_kin["GUARDIAN LAST NAME"] + 
-      (@patient.next_of_kin["NEXT OF KIN TELEPHONE"] ? " (" + @patient.next_of_kin["NEXT OF KIN TELEPHONE"] +
-        ")" : "")) rescue ""
+        " - " + @patient.next_of_kin["GUARDIAN RELATIONSHIP TO CHILD"] + " " +
+        (@patient.next_of_kin["NEXT OF KIN TELEPHONE"] ? " (" + @patient.next_of_kin["NEXT OF KIN TELEPHONE"] +
+          ")" : "")) rescue ""
     
     @religion = (@patient.next_of_kin["RELIGION"] ? (@patient.next_of_kin["RELIGION"].upcase == "OTHER" ? 
           @patient.next_of_kin["OTHER"] : @patient.next_of_kin["RELIGION"]) : "") rescue ""
@@ -570,7 +573,7 @@ class EncountersController < ApplicationController
       (@encounters["BREECH"] ? @encounters["BREECH"] : "") + (@encounters["FACE"] ? @encounters["FACE"] : "") + 
       (@encounters["SHOULDER"] ? @encounters["SHOULDER"] : "") rescue ""
     
-    # raise @encounters.to_yaml
+    # raise @patient.next_of_kin.to_yaml
     
     render :layout => false
   end

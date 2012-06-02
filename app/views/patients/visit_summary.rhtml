@@ -68,7 +68,8 @@
             <%end; header = 'false'%>
             <div style="clear:left; font-size:10pt" class="summary">
               <span><%= encounter.to_s.lstrip.gsub(/\n/, '<br/>').gsub(/Guardian\sRelationship\sTo\sChild/, 
-                  "Guardian Relation").gsub(/Highest\sLevel\sOf\sSchool\sCompleted/, "Education Level") -%></span>
+                  "Guardian Relation").gsub(/Highest\sLevel\sOf\sSchool\sCompleted/, "Education Level").gsub(/Gender\sOf\sContact/i,
+                "Gender") -%></span>
               <span style ="font-size:10pt"><%=encounter.encounter_datetime.strftime("%d-%b-%y %H:%M") %></span>
             </div>
           </li>

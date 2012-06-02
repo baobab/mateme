@@ -1,0 +1,140 @@
+<style type="text/css">
+  button.blue {
+    width: 350px;
+    margin: 15px;
+    margin-left: 60px;
+  }
+  button.gray {
+    width: 350px;
+    margin: 15px;
+    margin-left: 60px;
+  }
+  #nav {
+    background-color: #333333;
+    border-top:3px solid #99AAB7;
+    color:#CADCEA;
+    height:80px;
+    width:100%;
+    bottom:-5px;
+    position:absolute;
+    overflow:hidden;
+    z-index: 1000;
+  }
+  #footer {
+    background-color: #333333;
+  }
+</style>
+<div id='content'>
+  <div id='description' style='color:#777;position:absolute;margin-top:-70px;'>
+  </div>
+  <center>
+    <div style="position: absolute; left: 60px; top: 30px; padding: 15px; background-color: #fff;
+         border: 1px solid #ccc; -moz-border-radius: 30px; width: 350px;">
+      <h1>Ante-Natal Examinations</h1>
+    </div>
+    <div style="display: table; -moz-border-radius: 30px;
+         border: 1px solid #eee; padding: 15px; width: 95%; margin-top: 100px;">
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          &nbsp;
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("HIV STATUS") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("HIV STATUS") ? "" : 
+                      "window.location = '/encounters/new/observations_pmtct?patient_id=#{@patient.id}'") %> ">
+            <span>PMTCT</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("GUARDIAN FIRST NAME") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("GUARDIAN FIRST NAME") ? "" :
+                      "window.location = '/patients/social_history?patient_id=#{@patient.id}';") %> ">
+            <span>Social History</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("LAST MENSTRUAL PERIOD") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("LAST MENSTRUAL PERIOD") ? "" :
+                      "window.location = '/encounters/new/observations_patient_history?patient_id=#{@patient.id}'") %> ">
+            <span>Patient History</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("ADMISSION DATE") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("ADMISSION DATE") ? "" :
+                      "window.location = '/encounters/new/observations_admission?patient_id=#{@patient.id}'") %> ">
+            <span>Admission Details</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("STATION") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("STATION") ? "" :
+                      "window.location = '/encounters/new/observations_vaginal_exam?patient_id=#{@patient.id}'") %> ">
+            <span>Vaginal Examination</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("SYSTOLIC") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("SYSTOLIC") ? "" :
+                      "window.location = '/encounters/new/observations_vitals?patient_id=#{@patient.id}'") %> ">
+            <span>Vitals</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "" :
+                      "window.location = '/encounters/new/observations_notes?patient_id=#{@patient.id}'") %> ">
+            <span>Notes</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("FUNDUS") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("FUNDUS") ? "" :
+                      "window.location = '/encounters/new/observations_physical_exam?patient_id=#{@patient.id}'") %> ">
+            <span>Physical Examination</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          <button class="blue"
+                  onclick="window.location = '/encounters/new/observations_print?patient_id=<%= @patient.id %>'">
+            <span>Admission Notes Printing</span>
+          </button>
+        </div>
+      </div>
+      <div style="display: table-row">
+        <div style="display: table-cell">
+          <button class="<%= (@encounters.include?("DIAGNOSIS") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("DIAGNOSIS") ? "" :
+                      "window.location = '/encounters/new/outpatient_diagnosis?patient_id=#{@patient.id}&next=true';") %> ">
+            <span>Admission Diagnosis</span>
+          </button>
+        </div>
+        <div style="display: table-cell">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+  </center>
+  <div id="nav">
+    <button class="green" onclick="window.location = '/patients/show/<%= @patient.id %>'"
+            style="float: right; margin: 10px;">
+      <span>
+        Finish
+      </span>
+    </button>
+    <!--button class="green" onclick="window.location = '/encounters/diagnoses_index?patient_id=<%= @patient.id %>'"
+            style="float: right; margin: 10px;">
+      <span>
+        Finish
+      </span>
+    </button-->
+  </div>
+</div>

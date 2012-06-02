@@ -215,7 +215,7 @@
       :field_type => "text",
       :condition => "__$('fundus').value != 'N/A'"
     }) %>
-  <% @lie = ["", "Longitudinal", "Transverse", "Oblique"] %>
+  <% @lie = ["", "Longitudinal", "Transverse", "Oblique", "Undefined"] %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "LIE", {:id => 'lie_concept_name'}) %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@lie),options) %>

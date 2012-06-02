@@ -110,6 +110,14 @@
     </tr>
     <tr>
       <td>
+        &nbsp;
+      </td>
+      <td colspan="4">
+        <b>Abortions:</b> <%= @encounters["NUMBER OF ABORTIONS"].to_i rescue "" %>
+      </td>
+    </tr>
+    <tr>
+      <td>
         <b>LMP:</b> <%= @encounters["DATE OF LAST MENSTRUAL PERIOD"] %>
       </td>
       <td>
@@ -128,10 +136,7 @@
         <% end %>
       </td>
     </tr>
-    <tr>
-      <!--td colspan="4" style="padding: 0px;">
-        <table width="100%">
-          <tr-->
+    <!--tr>
       <td style="border-top: 0px solid #000;">
         <b>Ward:</b> <%= @encounters["WARD"] %>
       </td>
@@ -141,10 +146,7 @@
       <td style="border-top: 0px solid #000;" colspan="2">
         <b>Bed Number:</b> <%= @encounters["BED NUMBER"] %>
       </td>
-      <!--/tr>
-    </table>
-  </td-->
-    </tr>
+    </tr-->
     <tr>
       <td>
         <b>Feeding<br />Option:</b> <%= @encounters["INFANT FEEDING METHOD"] %>

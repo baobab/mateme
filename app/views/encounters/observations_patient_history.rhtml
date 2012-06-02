@@ -69,9 +69,9 @@
     }
 
     $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" + 
-          edod + "</i><br /><br />Gestation Weeks: " + (gestation < 32 &&
-          gestation.trim().length > 0 ? "<i style='color: red'>(Premature)</i>" : "") +
-          "<i style='font-size: 1.2em; float: right; width: 100px;'>" + gestation + "</i>";
+      edod + "</i><br /><br />Gestation Weeks: " + (gestation < 32 &&
+      gestation.trim().length > 0 ? "<i style='color: red'>(Premature)</i>" : "") +
+      "<i style='font-size: 1.2em; float: right; width: 100px;'>" + gestation + "</i>";
     
     timedEvent = setTimeout('calculateEDOD()', 500);
   }
@@ -134,13 +134,13 @@
 
   <% options = default.merge({
       :id => "gravida_value",
-      :helptext => "Enter Gravida",
+      :helptext => "Gravida",
       :field_type => "number",
       :absoluteMin => "1",
       :max => "15",
       :flag => '{"message":"Patient at risk of PPH.<br/> Ensure family planing is discussed.","condition":"^([5-9]|[1][0-9])"}',
-      :tt_pageStyleClass => "NumbersOnly",
-      :tt_onUnload => "$('parity_value').setAttribute('absoluteMax', $('gravida_value').value)"
+      :tt_pageStyleClass => "NumbersOnly" #,
+      # :tt_onUnload => "$('parity_value').setAttribute('absoluteMax', $('gravida_value').value)"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "GRAVIDA", {:id => 'gravida_concept_name'}) %>
@@ -148,13 +148,29 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
+  <%= touch_select_tag "MULTIPLE GESTATION", @patient, options_for_select([["", ""], ["No", "No"], ["Yes", "Yes"]]),
+    {:id => "multiple_pregnancy",
+    :helptext => "Ever Had Multiple Pregnancy?",
+    :condition => "__$('gravida_value').value > 1"
+  } %>
+
   <% options = default.merge({
       :id => "parity_value",
-      :helptext => "Enter Parity",
+      :helptext => "Number Of Deliveries",
       :field_type => "number",
       :absoluteMin => "0",
+      :condition => "((__$('multiple_pregnancy').value == 'No' && (__$('gravida_value').value) > 1) || " + 
+        "(__$('multiple_pregnancy').value == 'Yes' && __$('gravida_value').value > 1))",
       :max => "15",
-      :tt_pageStyleClass => "NumbersOnly"
+      :tt_onLoad => "if(__$('multiple_pregnancy').value.toLowerCase()=='no'){__$('touchscreenInput' + " + 
+        "tstCurrentPage).setAttribute('absoluteMax', (__$('gravida_value').value - 1))}",
+      :tt_pageStyleClass => "NumbersOnly",
+      :tt_onUnLoad => "if(__$('multiple_pregnancy').value.toLowerCase()=='no'){
+    __$('no_of_abortions').setAttribute('validationRule', '[' + (parseInt(__$('gravida_value').value) - 
+    parseInt(__$('parity_value').value) - 1) + ']');
+    __$('no_of_abortions').setAttribute('validationMessage', 'Expected value is ' + (parseInt(__$('gravida_value').value) - 
+    parseInt(__$('parity_value').value) - 1));
+    }"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "PARITY", {:id => 'parity_concept_name'}) %>
@@ -162,7 +178,23 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
 
-  <% (1..8).each{|e| %>
+  <% options = default.merge({
+      :id => "no_of_abortions",
+      :helptext => "Number of abortions",
+      :field_type => "number",
+      :absoluteMin => "0",
+      :max => "5",
+      :tt_pageStyleClass => "NumbersOnly",
+      :condition => "((__$('multiple_pregnancy').value == 'No' && (__$('gravida_value').value) > 1) || " + 
+        "(__$('multiple_pregnancy').value == 'Yes' && __$('gravida_value').value > 1))"
+    }) %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "Number of Abortions", {:id => 'no_of_abortions_concept_name'}) %>
+  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
+
+  <% (1..20).each{|e| %>
 
     <%
     indice = ""
@@ -177,7 +209,8 @@
       indice = "<sup>th</sup>"
     end
 
-    @delivery_modes = ["", "Spontaneous vaginal delivery", "Caesarean Section"]
+    @delivery_modes = ["", "Spontaneous vaginal delivery", "Caesarean Section", 
+      "Vacuum extraction delivery", "Breech delivery"]
   %>
 
     <% options = default.merge({
@@ -195,22 +228,8 @@
   <% } %>
 
   <% options = default.merge({
-      :id => "no_of_abortions",
-      :helptext => "Number of abortions",
-      :field_type => "number",
-      :absoluteMin => "0",
-      :max => "5",
-      :tt_pageStyleClass => "NumbersOnly"
-    }) %>
-
-  <%= hidden_field_tag("observations[][concept_name]",  "Number of Abortions", {:id => 'no_of_abortions_concept_name'}) %>
-  <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
-
-  <% options = default.merge({
       :id => "tt_status_value",
-      :helptext => "Enter TT status",
+      :helptext => "TT status",
       :field_type => "number",
       :absoluteMin => "0",
       :max => "5",

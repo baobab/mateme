@@ -360,7 +360,26 @@ class PatientsController < ApplicationController
     # }
 
     @past_treatments = @patient.visit_treatments rescue []
+    @previous_visits  = get_previous_encounters(params[:patient_id])
+
+    @encounter_dates = @previous_visits.map{|encounter| encounter.encounter_datetime.to_date}.uniq.reverse.first(6) rescue []
+
+    @past_encounter_dates = []
+
+    @encounter_dates.each do |encounter|
+      @past_encounter_dates << encounter if encounter < (session[:datetime].to_date rescue Date.today.to_date)
+    end
+
     render :layout => false
+  end
+  
+  def get_previous_encounters(patient_id)
+    previous_encounters = Encounter.find(:all,
+      :conditions => ["encounter.voided = ? and patient_id = ?", 0, patient_id],
+      :include => [:observations]
+    )
+
+    return previous_encounters
   end
   
   def social_history
