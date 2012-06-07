@@ -250,7 +250,8 @@
         </td>
         <td>
           <b>Contractions:</b> <%= (@encounters["CONTRACTIONS"].titleize == "Yes" ? 
-              @encounters["CONTRACTIONS INTENSITY"].titleize : @encounters["CONTRACTIONS"].titleize) rescue "" %>
+              @encounters["CONTRACTIONS INTENSITY"].titleize + "/" + @encounters["CONTRACTIONS LEVEL"].titleize : 
+              @encounters["CONTRACTIONS"].titleize) rescue "" %>
         </td>
         <td>
           <b>FHR:</b> <%= @encounters["FETAL HEART RATE"].titleize rescue "" %>
@@ -269,7 +270,7 @@
           <i style="font-size: 1.3em; text-decoration: underline;">Vaginal Examination</i>
         </td>
         <td>
-          <b>Station:</b> <%= @encounters["STATION"].titleize rescue "" %>
+          <b>Station:</b> <%= @encounters["STATION"] rescue "" %>
         </td>
         <td>
           <b>Cervical Dilation:</b> <%= @encounters["CERVICAL DILATION"].titleize rescue "" %>
