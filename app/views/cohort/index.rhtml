@@ -5,175 +5,30 @@
     <%#= stylesheet_link_tag fancy_or_high_contrast_touch %>
     <link href="/stylesheets/cohort.css" media="screen" rel="stylesheet" type="text/css" />
     <!--script type="text/javascript" language="javascript" src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer></script-->
-    <script type="text/javascript" language="javascript">
-      <!--
-
-      var minYear = 2008;
-      
-      function $(id){
-        return document.getElementById(id);
-      }
-
-      //-->
-    </script>
+    
     <style>
       #Unknown {display: none;}
       #num {display: none;}
     </style>
   </head>
-  <body>
-    <%
-
-    min = 2008
-    max = Time.now.strftime("%Y").to_i
-
-    array = []
-
-    (min..max).each{|yr| array << yr}
-
-    quarters = []
-    qtr = []
-
-    i = 1
-
-    array.each do |a|
-      date = Date.parse("1.1.#{a}")
-
-      4.times do
-        if date > Date.today
-          break
-        end
-
-        qtr << {"name" => "Q" + i.to_s + " " + a.to_s,
-          "min" => date.strftime("%Y-%m-%d"),
-          "max" => (date+3.month-1.day).strftime("%Y-%m-%d")}
-
-        quarters << [date, date+3.month-1.day]
-        date += 3.month
-        i += 1
-      end
-
-      # Push year
-      qtr << a
-
-      i = 1
-    end
-    quarters
-
-    open = false
-
-    # raise qtr.to_yaml
-    %>
+  <body>    
 
     <form id="frmReport" action="/cohort/cohort" method="post">
-      <select id="selSelect" name="selSelect" helpText="Report By:">
-        <option></option>
-        <option value="day">Day</option>
-        <option value="week">Week</option>
-        <option value="month">Month</option>
-        <option value="quarter">Quarter</option>
-        <option value="year">Year</option>
-        <option value="range">Select Range</option>
-      </select>
+      
+      <input type="text" field_type="date" id="start_date" name="start_date" value="" helpText="Select Start Date:" />
 
-      <input type="text" field_type="date" id="day" name="day" value="" helpText="Select Day:"
-             condition="$('selSelect').value == 'day';" />
+      <input type="text" field_type="advancedTime" id="start_date" name="start_time" value="" helpText="Select Start Time:" />
 
-      <select id="selYear" field_type="number" name="selYear" helpText="Select Year:"
-              condition="$('selSelect').value == 'month' || $('selSelect').value == 'year' || $('selSelect').value == 'week';">
-        <option></option>
-        <% array.reverse.each do |y| %>
-          <option><%= y %></option>
-        <% end %>
-      </select>
+      <input type="text" field_type="date" id="end_date" name="end_date" value="" helpText="Select End Date:" />
 
-      <select id="selMonth" name="selMonth" helpText="Select Month:" condition="$('selSelect').value == 'month';">
-        <option></option>
-        <option value="1">January</option>
-        <option value="2">February</option>
-        <option value="3">March</option>
-        <option value="4">April</option>
-        <option value="5">May</option>
-        <option value="6">June</option>
-        <option value="7">July</option>
-        <option value="8">August</option>
-        <option value="9">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-      </select>
-
-      <select id="selQtr" name="selQtr" helpText="Select Quarter:" field_type="number"
-              condition="$('selSelect').value == 'quarter'" tt_pageStyleClass="NumbersOnly">
-        <option></option>
-        <% qtr.reverse.each{|q|
-
-          if q.to_s.match(/^\d{4}$/)
-            if open == true
-            %>
-              </optgroup>
-            <%
-            end
-            open = true
-          %>
-
-            <optgroup label="<%= q %>" style="padding:10px; border-bottom:1px dotted black;">
-
-            <% else %>
-
-              <option value="min=<%= q["min"] %>&max=<%= q["max"] %>" style="text-align:center; padding:10px">
-                <%= q["name"] %>
-              </option>
-
-            <%
-            end
-
-          }
-
-          if open == true
-          %>
-
-          </optgroup>
-
-        <%
-        end
-      %>
-      </select>
-
-
-      <select id="selWeek" name="selWeek" helpText="Select Week:" field_type="number"
-              condition="$('selSelect').value == 'week'">
-        <option></option>
-        <% (1..52).each do |w| %>
-          <option value="<%= w %>">Week <%= w %></option>
-        <% end %>
-      </select>
-
-      <input type="text" field_type="date" id="start_date" name="start_date" value="" helpText="Select Start Date:"
-             condition="$('selSelect').value == 'range';" />
-
-      <input type="text" field_type="date" id="end_date" name="end_date" value="" helpText="Select End Date:"
-             condition="$('selSelect').value == 'range';" />
+      <input type="text" field_type="advancedTime" id="start_date" name="end_time" value="" helpText="Select End Time:" />
 
       <% if @reportType.nil? %>
 
         <select id="reportType" name="reportType" helpText="Select Report Type:" >
           <option></option>
-          <option value="1">Aggregate Maternity Statistics</option>
-          <option value="2">End of Shift Report - Labour Ward</option>
-          <option value="3">End of Shift Report - AnteNatal Ward</option>
-
-          <% if @location.upcase.eql?("KAMUZU CENTRAL HOSPITAL") %>
-
-            <option value="4">End of Shift Report - Post Natal Ward</option>
-            <option value="5">End of Shift Report - Gynae</option>
-
-          <% else %>
-
-            <option value="6">End of Shift Report - Post Natal Ward (High Risk)</option>
-            <option value="7">End of Shift Report - Post Natal Ward (Low Risk)</option>
-
-          <% end %>
+          <option value="1">End of Shift</option>
+          <option value="2">Diagnoses Report</option>          
         </select>
 
       <% else %>

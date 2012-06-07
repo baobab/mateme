@@ -41,7 +41,7 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("HIV STATUS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("HIV STATUS") ? "" : 
-                      "window.location = '/encounters/new/observations_pmtct?patient_id=#{@patient.id}'") %> ">
+                      "window.location = '/encounters/new/observations_pmtct?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>PMTCT</span>
           </button>
         </div>
@@ -50,14 +50,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("GUARDIAN FIRST NAME") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("GUARDIAN FIRST NAME") ? "" :
-                      "window.location = '/patients/social_history?patient_id=#{@patient.id}';") %> ">
+                      "window.location = '/patients/social_history?patient_id=#{@patient.id}&ret=antenatal';") %> ">
             <span>Social History</span>
           </button>
         </div>
         <div style="display: table-cell">
-          <button class="<%= (@encounters.include?("LAST MENSTRUAL PERIOD") ? "gray" : "blue") %>"
-                  onclick="<%= (@encounters.include?("LAST MENSTRUAL PERIOD") ? "" :
-                      "window.location = '/encounters/new/observations_patient_history?patient_id=#{@patient.id}'") %> ">
+          <button class="<%= (@encounters.include?("TT STATUS") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("TT STATUS") ? "" :
+                      "window.location = '/encounters/new/observations_patient_history?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>Patient History</span>
           </button>
         </div>
@@ -66,14 +66,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("ADMISSION DATE") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("ADMISSION DATE") ? "" :
-                      "window.location = '/encounters/new/observations_admission?patient_id=#{@patient.id}'") %> ">
+                      "window.location = '/encounters/new/observations_admission?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>Admission Details</span>
           </button>
         </div>
         <div style="display: table-cell">
-          <button class="<%= (@encounters.include?("STATION") ? "gray" : "blue") %>"
-                  onclick="<%= (@encounters.include?("STATION") ? "" :
-                      "window.location = '/encounters/new/observations_vaginal_exam?patient_id=#{@patient.id}'") %> ">
+          <button class="<%= (@encounters.include?("CERVICAL DILATION") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("CERVICAL DILATION") ? "" :
+                      "window.location = '/encounters/new/observations_vaginal_exam?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>Vaginal Examination</span>
           </button>
         </div>
@@ -82,14 +82,14 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("SYSTOLIC") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("SYSTOLIC") ? "" :
-                      "window.location = '/encounters/new/observations_vitals?patient_id=#{@patient.id}'") %> ">
+                      "window.location = '/encounters/new/observations_vitals?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>Vitals</span>
           </button>
         </div>
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "" :
-                      "window.location = '/encounters/new/observations_notes?patient_id=#{@patient.id}'") %> ">
+                      "window.location = '/encounters/new/observations_notes?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>Notes</span>
           </button>
         </div>
@@ -98,13 +98,13 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("FUNDUS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("FUNDUS") ? "" :
-                      "window.location = '/encounters/new/observations_physical_exam?patient_id=#{@patient.id}'") %> ">
+                      "window.location = '/encounters/new/observations_physical_exam?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>Physical Examination</span>
           </button>
         </div>
         <div style="display: table-cell">
           <button class="blue"
-                  onclick="window.location = '/encounters/new/observations_print?patient_id=<%= @patient.id %>'">
+                  onclick="window.location = '/encounters/new/observations_print?patient_id=<%= @patient.id %>&ret=antenatal'">
             <span>Admission Notes Printing</span>
           </button>
         </div>
@@ -113,7 +113,7 @@
         <div style="display: table-cell">
           <button class="<%= (@encounters.include?("DIAGNOSIS") ? "gray" : "blue") %>"
                   onclick="<%= (@encounters.include?("DIAGNOSIS") ? "" :
-                      "window.location = '/encounters/new/outpatient_diagnosis?patient_id=#{@patient.id}&next=true';") %> ">
+                      "window.location = '/encounters/new/outpatient_diagnosis?patient_id=#{@patient.id}&next=true&ret=antenatal';") %> ">
             <span>Admission Diagnosis</span>
           </button>
         </div>

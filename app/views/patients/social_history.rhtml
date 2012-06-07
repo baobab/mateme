@@ -13,7 +13,7 @@
 <script type="text/javascript" language="javascript">
   <!--
   tt_cancel_show = "/patients/show/<%= @patient.id %>";
-  tt_cancel_destination = "/patients/show/<%= @patient.id %>";
+  var tt_cancel_destination = "/encounters/new/<%= (params[:ret] ? params[:ret] : "observations") %>/?patient_id=<%=  @patient.id %>"
   //-->
 </script>
 
@@ -71,7 +71,7 @@
     :condition => "__$('religion').value == 'Other'"
   } %>
 
-  <%= hidden_field_tag "next_url", "/encounters/new/observations?patient_id=#{@patient.id}" %>
+  <%= hidden_field_tag "next_url", "/encounters/new/#{ (params[:ret] ? params[:ret] : "observations") }/?patient_id=#{@patient.id}" %>
 
   <%= submit_tag 'Finish' %>
 <% end %>

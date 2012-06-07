@@ -1,5 +1,5 @@
 <script>
-  var tt_cancel_destination = "/encounters/new/observations?patient_id=<%= @patient.patient_id %>"
+  var tt_cancel_destination = "/encounters/new/<%= (params[:ret] ? params[:ret] : "observations") %>/?patient_id=<%=  @patient.id %>"
   var timedEvent;
 
   function setDate(elementId){
@@ -113,7 +113,7 @@
     :allowFreeText => 'true',
   } %>
 
-  <%= hidden_field_tag "next_url", "/encounters/new/observations/?patient_id=#{@patient.id}" %>
+  <%= hidden_field_tag "next_url", "/encounters/new/#{ (params[:ret] ? params[:ret] : "observations") }/?patient_id=#{@patient.id}" %>
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>

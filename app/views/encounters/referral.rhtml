@@ -19,7 +19,7 @@
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "IS PATIENT REFERRED?" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
 
@@ -35,7 +35,7 @@
   <%= hidden_field_tag("observations[][value_time]",   nil)%>
   <%= hidden_field_tag("observations[][concept_name]", "IS PATIENT REFERRED?", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <label for="refer">Referral Facility?</label>
   <% options = {
@@ -51,7 +51,7 @@
   <%= hidden_field_tag("observations[][value_time]",   nil)%>
   <%= hidden_field_tag("observations[][concept_name]", "REFERRAL CLINIC IF REFERRED", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% options = {
     :id => "time_of_delivery",
@@ -64,7 +64,7 @@
   <%= text_field_tag("observations[][value_time]",   nil, options)%>
   <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL ARRIVAL TIME")%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% options = {
     :id => "date_of_delivery",
@@ -77,7 +77,7 @@
   <%= hidden_field_tag("observations[][value_time]",   nil)%>
   <%= hidden_field_tag("observations[][concept_name]",  "REFERRAL ARRIVAL DATE")%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
 <%# This options hash allows us to define our options in one place %>
   <% options = {
@@ -92,7 +92,7 @@
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
   <%= hidden_field_tag("observations[][concept_name]", "REASON FOR REFERRAL TO ANOTHER SITE", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <%= hidden_field_tag "next_url", (@roles.include?("Registration Clerk") ? "/people" : "/patients/show/#{@patient.id}") %>
 

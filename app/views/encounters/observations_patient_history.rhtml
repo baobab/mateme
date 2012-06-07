@@ -1,5 +1,5 @@
 <script>
-  var tt_cancel_destination = "/encounters/new/observations/?patient_id=<%=  @patient.id %>"
+  var tt_cancel_destination = "/encounters/new/<%= (params[:ret] ? params[:ret] : "observations") %>/?patient_id=<%=  @patient.id %>"
   var timedEvent;
 
   function setDate(elementId){
@@ -125,11 +125,12 @@
     :allowFreeText => 'true',
   } %>
 
-  <%= hidden_field_tag "next_url", "/encounters/new/observations/?patient_id=#{@patient.id}" %>
+  <%= hidden_field_tag "next_url", "/encounters/new/#{ (params[:ret] ? params[:ret] : "observations") }/?patient_id=#{@patient.id}" %>
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_time : 
+      DateTime.now()).strftime("%Y-%m-%d %H:%M") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <% options = default.merge({
@@ -146,12 +147,12 @@
   <%= hidden_field_tag("observations[][concept_name]",  "GRAVIDA", {:id => 'gravida_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <%= touch_select_tag "MULTIPLE GESTATION", @patient, options_for_select([["", ""], ["No", "No"], ["Yes", "Yes"]]),
     {:id => "multiple_pregnancy",
     :helptext => "Ever Had Multiple Pregnancy?",
-    :condition => "__$('gravida_value').value > 1"
+    :condition => "__$('gravida_value').value > #{(params[:ret] == "postnatal" ? 0 : 1)}"
   } %>
 
   <% options = default.merge({
@@ -159,24 +160,24 @@
       :helptext => "Number Of Deliveries",
       :field_type => "number",
       :absoluteMin => "0",
-      :condition => "((__$('multiple_pregnancy').value == 'No' && (__$('gravida_value').value) > 1) || " + 
-        "(__$('multiple_pregnancy').value == 'Yes' && __$('gravida_value').value > 1))",
+      :condition => "((__$('multiple_pregnancy').value == 'No' && (__$('gravida_value').value) > #{(params[:ret] ? 0 : 1)}) || " + 
+        "(__$('multiple_pregnancy').value == 'Yes' && __$('gravida_value').value > #{(params[:ret] == "postnatal" ? 0 : 1)}))",
       :max => "15",
       :tt_onLoad => "if(__$('multiple_pregnancy').value.toLowerCase()=='no'){__$('touchscreenInput' + " + 
-        "tstCurrentPage).setAttribute('absoluteMax', (__$('gravida_value').value - 1))}",
+        "tstCurrentPage).setAttribute('absoluteMax', (__$('gravida_value').value - #{(params[:ret] == "postnatal" ? 0 : 1)}))}",
       :tt_pageStyleClass => "NumbersOnly",
       :tt_onUnLoad => "if(__$('multiple_pregnancy').value.toLowerCase()=='no'){
     __$('no_of_abortions').setAttribute('validationRule', '[' + (parseInt(__$('gravida_value').value) - 
-    parseInt(__$('parity_value').value) - 1) + ']');
+    parseInt(__$('parity_value').value) - #{(params[:ret] == "postnatal" ? 0 : 1)}) + ']');
     __$('no_of_abortions').setAttribute('validationMessage', 'Expected value is ' + (parseInt(__$('gravida_value').value) - 
-    parseInt(__$('parity_value').value) - 1));
+    parseInt(__$('parity_value').value) - #{(params[:ret] == "postnatal" ? 0 : 1)}));
     }"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "PARITY", {:id => 'parity_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% options = default.merge({
       :id => "no_of_abortions",
@@ -185,14 +186,14 @@
       :absoluteMin => "0",
       :max => "5",
       :tt_pageStyleClass => "NumbersOnly",
-      :condition => "((__$('multiple_pregnancy').value == 'No' && (__$('gravida_value').value) > 1) || " + 
-        "(__$('multiple_pregnancy').value == 'Yes' && __$('gravida_value').value > 1))"
+      :condition => "((__$('multiple_pregnancy').value == 'No' && (__$('gravida_value').value) > #{(params[:ret] == "postnatal" ? 0 : 1)}) || " + 
+        "(__$('multiple_pregnancy').value == 'Yes' && __$('gravida_value').value > #{(params[:ret] == "postnatal" ? 0 : 1)}))"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "Number of Abortions", {:id => 'no_of_abortions_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% (1..20).each{|e| %>
 
@@ -223,7 +224,7 @@
     <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE", {:id => 'delivery_mode#{e}_concept_name'}) %>
     <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_modes),options) %>
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% } %>
 
@@ -240,19 +241,20 @@
   <%= hidden_field_tag("observations[][concept_name]",  "TT STATUS", {:id => 'tt_status_concept_name'}) %>
   <%= text_field_tag("observations[][value_numeric]",   nil, options) %>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
-  <% options = default.merge({
-      :id => "last_menstrual_period_date",
-      :helptext => "Last Menstrual Period Date",
-      :field_type => "date",
-      :tt_onLoad => "timedEvent = setTimeout('calculateEDOD()', 100);",
-      :tt_onUnLoad => "clearTimeout(timedEvent);"
-    }) %>
+  <% if params[:ret] && params[:ret] == "antenatal" %>
+    <% options = default.merge({
+        :id => "last_menstrual_period_date",
+        :helptext => "Last Menstrual Period Date",
+        :field_type => "date",
+        :tt_onLoad => "timedEvent = setTimeout('calculateEDOD()', 100);",
+        :tt_onUnLoad => "clearTimeout(timedEvent);"
+      }) %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "LAST MENSTRUAL PERIOD", {:id => 'last_menstrual_period_date_concept_name'}) %>
-  <%= text_field_tag("observations[][value_datetime]",   nil, options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d")) %>
-
+    <%= hidden_field_tag("observations[][concept_name]",  "LAST MENSTRUAL PERIOD", {:id => 'last_menstrual_period_date_concept_name'}) %>
+    <%= text_field_tag("observations[][value_datetime]",   nil, options) %>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+  <% end %>
 </form>

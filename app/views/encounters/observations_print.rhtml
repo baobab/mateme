@@ -18,16 +18,20 @@
     height: 88.5%;
   }
 </style>
-<iframe id="main" src="/encounters/observations_printable/?patient_id=<%= @patient.id %>"></iframe>
+
+<iframe id="main" src="/encounters/observations_printable/?patient_id=<%= @patient.id %><%= (params[:ret] ? "&ret=" + params[:ret] : 
+    "") %>"></iframe>
 <div id="nav">
-  <button class="green" onclick="window.location = '/encounters/new/observations?patient_id=<%= @patient.id %>'"
+  <button class="green" onclick="window.location = '/encounters/new/<%= (params[:ret] ? params[:ret] : 
+    "observations") %>/?patient_id=<%=  @patient.id %>'"
           style="float: right; margin: 10px;">
     <span>
       Finish
     </span>
   </button>
   <button class="blue" onclick="if(__$('popupBox')){__$('popupBox').innerHTML = '<p>Printing. Please wait...</p>'}; 
-    showStatus(); window.location = '/encounters/print_note?patient_id=<%= @patient.id %>&user_id=<%= session[:user_id] %>'"
+    showStatus(); window.location = '/encounters/print_note?patient_id=<%= @patient.id %>&user_id=<%= 
+        session[:user_id] %><%= (params[:ret] ? "&ret=" + params[:ret] : "") %>'"
           style="float: right; margin: 10px;">
     <span>
       Print

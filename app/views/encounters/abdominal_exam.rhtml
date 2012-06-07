@@ -1,0 +1,42 @@
+<script>
+  <!--
+  var tt_cancel_destination = "/encounters/new/<%= (params[:ret] ? params[:ret] : "observations") %>/?patient_id=<%=  @patient.id %>"
+  
+  //-->
+</script>
+
+<form id='current_delivery' action="/encounters/create" method='post'>
+
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+  <%= hidden_field_tag "next_url", "/encounters/new/#{ (params[:ret] ? params[:ret] : "observations") }/?patient_id=#{@patient.id}" %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "ABDOMINAL EXAMINATION" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M") %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  
+  <% options = {
+    :id => "uterus",
+    :field_type => 'text',
+    :helptext =>"Uterus"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF UTERUS") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Well contracted", "Not contracted (boggy)"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "status_of_placenta",
+    :field_type => 'text',
+    :helptext =>"Status of Placenta"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF PLACENTA") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Delivered", "Not delivered"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+</form>

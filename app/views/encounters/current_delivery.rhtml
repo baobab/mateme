@@ -1,0 +1,379 @@
+<script>
+  <!--
+  var tt_cancel_destination = "/encounters/new/<%= (params[:ret] ? params[:ret] : "observations") %>/?patient_id=<%=  @patient.id %>"
+  
+  function isValidDateFormat(value){
+    return value.trim().match(/(\d{4})\-(\d{2})\-(\d{2})\s(\d{2})\:(\d{2})/);
+  }
+
+  function isValidTimeFormat(value){
+    return value.trim().match(/(\d{2})\:(\d{2})/);
+  }
+
+  function createDate(value){
+    var d = isValidDateFormat(value);
+    
+    if(d){
+      return new Date(eval(d[1]),(eval(d[2])-1),eval(d[3]),eval(d[4]),eval(d[5]));
+    } else {
+      return new Date();
+    }
+  }
+  
+  function dateTimeFormatted(value){
+    return value.getFullYear() + "-" + padZeros((value.getMonth() + 1),2) + "-" + 
+      padZeros(value.getDate(),2) + " " + padZeros(value.getHours(),2) + ":" + 
+      padZeros(value.getMinutes(),2)
+  }
+
+  // Expects Date object and time string
+  function mergeDateTime(date, time){
+    var t = isValidTimeFormat(time);
+    
+    if(t){
+      return new Date(date.getFullYear(), date.getMonth(), date.getDate(), eval(t[1]), eval(t[2]));
+    } else {
+      return date;
+    }
+  }
+
+  function updateTimeOtherFields(group){
+    var outcome_date = __$("baby" + group + "_outcome_date").value.trim();
+    var delivery_mode_date = __$("baby" + group + "_delivery_mode_date").value.trim();
+    var time = __$("time_of_delivery" + group).value.trim();
+    
+    if(isValidTimeFormat(time)){
+      
+      outcome_date = createDate(outcome_date);
+      
+      outcome_date = mergeDateTime(outcome_date, time);
+      
+      __$("baby" + group + "_outcome_date").value = dateTimeFormatted(outcome_date);
+      
+      delivery_mode_date = createDate(delivery_mode_date);
+      
+      delivery_mode_date = mergeDateTime(delivery_mode_date, time);
+      
+      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(delivery_mode_date);
+      
+      if(group == 1){
+        
+        var number_of_babies_date = __$("number_of_babies_date").value.trim();
+        
+        number_of_babies_date = createDate(number_of_babies_date);
+      
+        number_of_babies_date = mergeDateTime(number_of_babies_date, time);
+      
+        __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);
+      
+      }
+    }
+  }
+  
+  function updateDateOtherFields(group){
+    var outcome_date = createDate(__$("baby" + group + "_outcome_date").value.trim());
+    var delivery_mode_date = createDate(__$("baby" + group + "_delivery_mode_date").value.trim());
+    var date = __$("date_of_delivery" + group).value.trim();
+    var time = padZeros(outcome_date.getHours(),2) + ":" + padZeros(outcome_date.getMinutes(),2);
+    
+    if(isValidTimeFormat(time)){
+      
+      date = createDate(date);
+      
+      date = mergeDateTime(date, time);
+      
+      __$("baby" + group + "_outcome_date").value = dateTimeFormatted(date);
+    }
+    
+    date = __$("date_of_delivery" + group).value.trim();
+    time = padZeros(delivery_mode_date.getHours(),2) + ":" + padZeros(delivery_mode_date.getMinutes(),2);
+    
+    if(isValidTimeFormat(time)){
+      date = createDate(date);
+      
+      date = mergeDateTime(date, time);
+      
+      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(date);
+      
+    }
+    
+    var number_of_babies_date = createDate(__$("number_of_babies_date").value.trim());
+        
+    date = __$("date_of_delivery" + group).value.trim();
+    time = padZeros(number_of_babies_date.getHours(),2) + ":" + padZeros(number_of_babies_date.getMinutes(),2);
+    
+    if(group == 1 && isValidTimeFormat(time)){
+        
+      number_of_babies_date = createDate(number_of_babies_date);
+      
+      number_of_babies_date = mergeDateTime(number_of_babies_date, time);
+      
+      __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);
+      
+    }
+  }
+  
+  //-->
+</script>
+
+<form id='current_delivery' action="/encounters/create" method='post'>
+
+  <%@presentation = [""] + Concept.find_by_name("PRESENTATION").concept_answers.collect{|c| c.name} %>
+  <%@baby_outcome = [""] + Concept.find_by_name("BABY OUTCOME").concept_answers.collect{|c| c.name} %>
+  <%@delivery_mode = [""] + Concept.find_by_name("DELIVERY MODE").concept_answers.collect{|c| c.name} %>
+  <%@procedure_done = [""] + Concept.find_by_name("PROCEDURE DONE").concept_answers.collect{|c| c.name}.sort %>
+  <%@postpartum_type = ["", "TOTAL POSTPARTUM HYSTERECTOMY", "SUB-TOTAL POSTPARTUM HYSTERECTOMY"]%>
+
+  <% @delivery_mode = @delivery_mode - ["Vacuum extraction delivery", "Caesarean section"] %>
+  <% default={
+    :allowFreeText => 'true',
+  } %>
+
+  <%= hidden_field_tag "next_url", "/encounters/new/#{ (params[:ret] ? params[:ret] : "observations") }/?patient_id=#{@patient.id}" %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "CURRENT BBA DELIVERY" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M") %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% options = {
+    :id => "number_of_babies",
+    :field_type => 'number',
+    :helptext =>"Number of babies",
+    :tt_pageStyleClass => "Numeric NumbersOnly",
+    :absoluteMin => 1
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "NUMBER OF BABIES")%>
+  <%= text_field_tag("observations[][value_coded_or_text]",   nil, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "number_of_babies_date"
+    }) %>
+
+  <!-- From Here - Set 1 -->
+  
+  <% options = {
+    :id => "baby_outcome1",
+    :field_type => 'text',
+    :helptext =>"Baby: Status"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Cried", "No Cry"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby1_outcome_date"
+    })
+%>
+
+  <% options = {
+    :id => "time_of_delivery1",
+    :field_type => 'advancedTime',
+    :helptext =>"Baby: Time of Delivery",
+    :tt_onUnLoad => "updateTimeOtherFields(1)",
+    :optional => true
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
+  <%= text_field_tag("observations[][value_time]",   nil, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : 
+        DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "date_of_delivery1",
+    :field_type => 'date',
+    :helptext =>"Baby: Date of Delivery",
+    :tt_onUnload => ""
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
+  <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "baby_gender1",
+    :field_type => 'text',
+    :helptext =>"Baby: Gender"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "delivery_mode1",
+    :field_type => 'text',
+    :helptext =>"Baby: Delivery Mode",
+    :tt_pageStyleClass => "qwertyKeyboardOnly"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby1_delivery_mode_date"
+    }) %>
+
+  <!-- Finish here Set 1 -->
+
+  <!-- From Here - Set 2 -->
+  
+  <% options = {
+    :id => "baby_outcome2",
+    :field_type => 'text',
+    :helptext =>"2<sup>nd</sup> Baby: Status"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Cried", "No Cry"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby2_outcome_date"
+    }) %>
+
+  <% options = {
+    :id => "time_of_delivery2",
+    :field_type => 'advancedTime',
+    :helptext =>"2<sup>nd</sup> Baby: Time of Delivery",
+    :condition => "(parseInt($('number_of_babies').value) > 1)",
+    :tt_onUnLoad => "updateTimeOtherFields(2)",
+    :optional => true
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
+  <%= text_field_tag("observations[][value_time]",   nil, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "date_of_delivery2",
+    :field_type => 'date',
+    :helptext =>"2<sup>nd</sup> Baby: Date of Delivery",
+    :condition => "(parseInt($('number_of_babies').value) > 1)"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
+  <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "baby_gender2",
+    :field_type => 'text',
+    :helptext =>"2<sup>nd</sup> Baby: Gender",
+    :condition => "(parseInt($('number_of_babies').value) > 1)"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "delivery_mode2",
+    :field_type => 'text',
+    :helptext =>"2<sup>nd</sup> Baby: Delivery Mode",
+    :condition => "(parseInt($('number_of_babies').value) > 1)"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby2_delivery_mode_date"
+    }) %>
+
+  <!-- Finish here Set 2 -->
+
+  <!-- From Here - Set 3 -->
+  
+  <% options = {
+    :id => "baby_outcome3",
+    :field_type => 'text',
+    :helptext =>"3<sup>rd</sup> Baby: Status"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Cried", "No Cry"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby3_outcome_date"
+    }) %>
+
+  <% options = {
+    :id => "time_of_delivery3",
+    :field_type => 'advancedTime',
+    :helptext =>"3<sup>rd</sup> Baby: Time of Delivery",
+    :condition => "(parseInt($('number_of_babies').value) > 2)",
+    :tt_onUnLoad => "updateTimeOtherFields(3)",
+    :optional => true
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
+  <%= text_field_tag("observations[][value_time]",   nil, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "date_of_delivery3",
+    :field_type => 'date',
+    :helptext =>"3<sup>rd</sup> Baby: Date of Delivery",
+    :condition => "(parseInt($('number_of_babies').value) > 2)"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
+  <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "baby_gender3",
+    :field_type => 'text',
+    :helptext =>"3<sup>rd</sup> Baby: Gender",
+    :condition => "(parseInt($('number_of_babies').value) > 2)"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "delivery_mode3",
+    :field_type => 'text',
+    :helptext =>"3<sup>rd</sup> Baby: Delivery Mode",
+    :condition => "(parseInt($('number_of_babies').value) > 2)"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby3_delivery_mode_date"
+    }) %>
+
+  <!-- Finish here Set 3 -->
+
+  <% options = {
+    :id => "place_of_delivery",
+    :field_type => 'text',
+    :helptext =>"Place of delivery"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "PLACE OF DELIVERY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Home", "Transit", "TBA", "Other"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = {
+    :id => "birth_attended_by",
+    :field_type => 'text',
+    :helptext =>"Birth attended by"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "BIRTH ATTENDED BY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Self", "TBA", "Other"]), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+</form>

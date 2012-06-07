@@ -122,7 +122,7 @@
     <table id="report" width="100%" cellspacing="1">
       <tr>
         <th class="head" colspan="4">
-          End of Shift Report
+          Diagnoses Report
         </th>
       </tr>
       <tr>
@@ -183,71 +183,39 @@
        *  ]
        **/
       var fields = [
-        ["Admissions", 2, "admissions", "/cohort/q?field=admissions"],
+        ["Premature Labour", 3, "premature_labour", "/cohort/q?field=premature_labour"],
         
-        ["Delivery Mode", 2],
+        ["Abortions", 3, "abortions", "/cohort/q?field=abortions"],
         
-        ["Total Deliveries", 3, "total_deliveries", "/cohort/q?field=total_deliveries"],
+        ["Cancer of Cervix", 3, "cancer_of_cervix", "/cohort/q?field=cancer_of_cervix"],
         
-        ["SVD", 3, "svd", "/cohort/q?field=svd"],
+        ["Molar Pregnancy", 3, "molar_pregnancy", "/cohort/q?field=molar_pregnancy"],
         
-        ["C/Section", 3, "c_section", "/cohort/q?field=c_section"],
+        ["Fibriods", 3, "fibriods", "/cohort/q?field=fibriods"],
         
-        ["Vacuum Extraction", 3, "vacuum_extraction", "/cohort/q?field=vacuum_extraction"],
+        ["Pelvic Inflammatory Disease", 3, "pelvic_inflamatory_disease", "/cohort/q?field=pelvic_inflamatory_disease"],
         
-        ["Breech Delivery", 3, "breech_delivery", "/cohort/q?field=breech_delivery"],
+        ["Anaemia", 3, "anaemia", "/cohort/q?field=anaemia"],
         
-        ["Twins", 3, "twins", "/cohort/q?field=twins"],
+        ["Malaria", 3, "malaria", "/cohort/q?field=malaria"],
         
-        ["Triplets", 3, "triplets", "/cohort/q?field=triplets"],
+        ["Post Partum", 3, "post_partum", "/cohort/q?field=post_partum"],
         
-        ["Baby Outcome", 2],
-        ["Live Births", 3, "live_births", "/cohort/q?field=live_births"],
+        ["Haemorrhage", 3, "haemorrhage", "/cohort/q?field=haemorrhage"],
         
-        ["Still Births (Macerated)", 3, "macerated", "/cohort/q?field=macerated"],
+        ["Ante Partum", 3, "ante_partum", "/cohort/q?field=ante_partum"],
         
-        ["Still Births (Fresh)", 3, "fresh", "/cohort/q?field=fresh"],
+        ["Pre-Eclampsia", 3, "pre_eclampsia", "/cohort/q?field=pre_eclampsia"],
         
-        ["Neonatal Death", 3, "neonatal_death", "/cohort/q?field=neonatal_death"],
+        ["Eclampsia", 3, "eclampsia", "/cohort/q?field=eclampsia"],
         
-        ["Maternal Death", 2],
-        ["Maternal Death", 3, "maternal_death", "/cohort/q?field=maternal_death"],
+        ["Premature Labour", 3, "premature_labour", "/cohort/q?field=premature_labour"],
         
-        ["Born Before Arrival", 2],
-        ["Born Before Arrival Babies", 3, "bba", "/cohort/q?field=bba"],
+        ["Premature Membranes Rapture", 3, "premature_membranes_rapture", "/cohort/q?field=premature_membranes_rapture"],
         
-        ["Referrals Outcomes", 2],
-        ["Referral Out", 3, "referral_out", "/cohort/q?field=referral_out"],
+        ["Laparatomy", 3, "laparatomy", "/cohort/q?field=laparatomy"],
         
-        ["Referral In", 3, "referral_in", "/cohort/q?field=referral_in"],
-        
-        ["Discharges", 2],
-        ["Dicharges", 3, "discharges", "/cohort/q?field=discharges"],
-        
-        ["Abscondees", 2],
-        ["Abscondees", 3, "abscondees", "/cohort/q?field=abscondees"],
-        
-        ["Postnatal Clients", 2],
-        ["Postnatal Mothers", 3, "post_mothers", "/cohort/q?field=post_mothers"],
-        
-        ["Postnatal Babies", 3, "post_babies", "/cohort/q?field=post_babies"],
-        
-        ["Internal Transfers", 2],
-        ["Antenantal - Labour", 3, "ante_labor", "/cohort/q?field=ante_labor"],
-        
-        ["Post-Natal - Labour", 3, "post_labor", "/cohort/q?field=post_labor"],
-        
-        ["Labour - Post-Natal (High Risk)", 3, "labor_high", "/cohort/q?field=labor_high"],
-        
-        ["Labour - Post-Natal (Low Risk)", 3, "labor_low", "/cohort/q?field=labor_low"],
-        
-        ["Theatre - Post-Natal (High Risk)", 3, "theatre_high", "/cohort/q?field=theatre_high"],
-        
-        ["Ante-Natal - Theatre", 3, "ante_theatre", "/cohort/q?field=ante_theatre"],
-        
-        ["Labour - Gynaecology", 3, "labor_gynae", "/cohort/q?field=labor_gynae"],
-        
-        ["Gynaecology - Labour", 3, "gynae_labor", "/cohort/q?field=gynae_labor"]
+        ["Ruptured Uterus", 3, "ruptured_uterus", "/cohort/q?field=ruptured_uterus"]
       ];
       
       function __$(id){

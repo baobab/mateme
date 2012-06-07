@@ -143,7 +143,7 @@ class PeopleController < ApplicationController
     if request.post?
       unless params[:retrospective_date] == ""
         # set for 1 second after midnight to designate it as a retrospective date
-        date_of_encounter = (params[:retrospective_date] + " 0:00:01").to_time
+        date_of_encounter = (params[:retrospective_date] + " " + Time.now.strftime("%H:%M")).to_time
 
         session[:datetime] = date_of_encounter if date_of_encounter.to_date != Date.today
       end

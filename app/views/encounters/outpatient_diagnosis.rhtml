@@ -1,5 +1,7 @@
 <script>
- var tt_cancel_destination = "/patients/show/<%= @patient.id %>"
+ var tt_cancel_destination = "<%= (params[:ret] ? "/encounters/new/#{ params[:ret] }?patient_id=#{ @patient.id }" : 
+    "/patients/show/#{ @patient.id }") %>";
+ 
  //var tt_cancel_destination = "/encounters/diagnoses_index/?patient_id=<%=  @patient.id %>"
 
   // Every 500 milliseconds update the Next/Finish button
@@ -19,13 +21,14 @@
 <form id='outpatient_diagnosis' action="/encounters/create" method='post'>
 
   <% if params[:next] %>
-    <%= hidden_field_tag "next_url", "/encounters/new/observations/?patient_id=#{ @patient.patient_id }" %>
+    <%= hidden_field_tag "next_url", "/encounters/new/#{ (params[:ret] ? params[:ret] : 
+    "observations") }/?patient_id=#{ @patient.patient_id }" %>
   <% end %>
 
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "DIAGNOSIS" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
 
@@ -41,7 +44,7 @@
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
   <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= hidden_field_tag("observations[][obs_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% options[:optional] = 'true' %>
   <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
@@ -54,36 +57,36 @@
     <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
     <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+    <%= hidden_field_tag("observations[][obs_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
     <% counter += 1 %>
   <% end %>
 
-  <% 10.times do |counter| %>
-    <% options = {
+  <%# 10.times do |counter| %>
+    <%# options = {
       :id => "estimated_time_of_delivery",
       :field_type => 'time',
       :helptext =>"Estimated Time of Delivery",
       :condition => "(tstFormElements[#{counter}].value == 'BORN BEFORE ARRIVAL')"
     }%>
-    <%= text_field_tag("observations[][value_time]",   nil, options)%>
-    <%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED TIME FOR DELIVERY BEFORE ARRIVAL")%>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+    <%#= text_field_tag("observations[][value_time]",   nil, options)%>
+    <%#= hidden_field_tag("observations[][concept_name]",  "ESTIMATED TIME FOR DELIVERY BEFORE ARRIVAL")%>
+    <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%#= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
-    <% options = {
+    <%# options = {
       :id => "estimated_date_of_delivery",
       :field_type => 'date',
       :helptext =>"Estimated Date of Delivery",
       :condition => "(tstFormElements[#{counter}].value == 'BORN BEFORE ARRIVAL')"
     }%>
-    <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
-    <%= hidden_field_tag("observations[][concept_name]",  "ESTIMATED DATE")%>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+    <%#= text_field_tag("observations[][value_datetime]",   nil, options)%>
+    <%#= hidden_field_tag("observations[][concept_name]",  "ESTIMATED DATE")%>
+    <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%#= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
-    <% counter += 1 %>
-  <% end %>
+    <%# counter += 1 %>
+  <%# end %>
 
   <%= submit_tag "Finish" %>
 </form>

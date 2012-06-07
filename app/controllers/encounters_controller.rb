@@ -32,7 +32,7 @@ class EncountersController < ApplicationController
       next if values.length == 0
       observation.delete(:value_text) unless observation[:value_coded_or_text].blank?
       observation[:encounter_id]    = encounter.id
-      observation[:obs_datetime]    = (encounter.encounter_datetime.to_date.strftime("%Y-%m-%d ") + Time.now.strftime("%H:%M")) rescue Time.now()
+      # observation[:obs_datetime]    = (encounter.encounter_datetime.to_date.strftime("%Y-%m-%d ") + Time.now.strftime("%H:%M")) rescue Time.now()
       observation[:person_id]     ||= encounter.patient_id
       Observation.create(observation) # rescue nil
     end
@@ -88,10 +88,14 @@ class EncountersController < ApplicationController
     @facility = (GlobalProperty.find_by_property("facility.name").property_value rescue "") # || (Location.find(session[:facility]).name rescue "")    
 
     @encounters = @patient.current_visit.encounters.active.find(:all, :conditions => 
-        ["encounter_type = ? OR encounter_type = ? OR encounter_type = ?",
+        ["encounter_type = ? OR encounter_type = ? OR encounter_type = ? OR encounter_type = ? " + 
+          "OR encounter_type = ? OR encounter_type = ?",
         EncounterType.find_by_name("OBSERVATIONS").encounter_type_id,
         EncounterType.find_by_name("DIAGNOSIS").encounter_type_id,
-        EncounterType.find_by_name("SOCIAL HISTORY").encounter_type_id]).collect{|e|        
+        EncounterType.find_by_name("SOCIAL HISTORY").encounter_type_id,
+        EncounterType.find_by_name("CURRENT BBA DELIVERY").encounter_type_id,
+        EncounterType.find_by_name("ABDOMINAL EXAMINATION").encounter_type_id,
+        EncounterType.find_by_name("PHYSICAL EXAMINATION BABY").encounter_type_id]).collect{|e|        
       e.observations.collect{|o| o.concept.name.name.upcase}
     }.join(", ") rescue ""
 
@@ -115,7 +119,7 @@ class EncountersController < ApplicationController
 
     diagnosis_concepts    = Concept.find_by_name("MATERNITY DIAGNOSIS LIST").concept_members_names.sort.uniq rescue []
 
-    @results = diagnosis_concepts.collect{|e| e}.delete_if{|x| !x.match(/^#{search_string}/)}
+    @results = diagnosis_concepts.collect{|e| e}.delete_if{|x| !x.match(/^#{search_string}/i)}
     
     render :text => "<li>" + @results.join("</li><li>") + "</li>"
     
@@ -509,6 +513,8 @@ class EncountersController < ApplicationController
     @patient.create_barcode
 
     @encounters = {}
+    @babyencounters = {}
+    @bbaencounters = {}
     @outpatient_diagnosis = {}
     @referral = {}
 
@@ -529,10 +535,11 @@ class EncountersController < ApplicationController
       }
     } rescue {}
 
-    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
-        EncounterType.find_by_name("DIAGNOSIS").encounter_type_id]).each{|e|
+    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ? OR encounter_type = ?",
+        EncounterType.find_by_name("DIAGNOSIS").encounter_type_id, 
+        EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).each{|e|        
       e.observations.each{|o|
-        if o.concept.name.name.upcase == "DIAGNOSIS"
+        if o.concept.name.name.upcase == "DIAGNOSIS" || o.concept.name.name.upcase == "ADMISSION DIAGNOSIS"
           if !@outpatient_diagnosis[o.concept.name.name.upcase]
             @outpatient_diagnosis[o.concept.name.name.upcase] = []
           end
@@ -542,16 +549,18 @@ class EncountersController < ApplicationController
       }
     } rescue {}
 
-    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
-        EncounterType.find_by_name("OBSERVATIONS").encounter_type_id]).each{|e|
+    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ? " + 
+          "OR encounter_type = ?",
+        EncounterType.find_by_name("OBSERVATIONS").encounter_type_id,
+        EncounterType.find_by_name("ABDOMINAL EXAMINATION").encounter_type_id]).each{|e|
       e.observations.each{|o|
-        if o.concept.name.name == "DELIVERY MODE"
+        if o.concept.name.name.upcase == "DELIVERY MODE"
           if !@encounters[o.concept.name.name.upcase]
             @encounters[o.concept.name.name.upcase] = []
           end
           
           @encounters[o.concept.name.name.upcase] << o.answer_string
-        elsif o.concept.name.name.include?("TIME")
+        elsif o.concept.name.name.upcase.include?("TIME")
           @encounters[o.concept.name.name.upcase] = o.value_datetime.strftime("%H:%M")
         else
           @encounters[o.concept.name.name.upcase] = o.answer_string
@@ -559,6 +568,50 @@ class EncountersController < ApplicationController
       }
     } rescue {}
 
+    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ? ",
+        EncounterType.find_by_name("CURRENT BBA DELIVERY").encounter_type_id]).each{|e|
+      e.observations.each{|o|
+        if o.concept.name.name.upcase == "DELIVERY MODE"
+          if !@bbaencounters[o.concept.name.name.upcase]
+            @bbaencounters[o.concept.name.name.upcase] = []
+          end
+          
+          @bbaencounters[o.concept.name.name.upcase] << o.answer_string
+        elsif o.concept.name.name.upcase.include?("TIME")
+          @bbaencounters[o.concept.name.name.upcase] = o.value_datetime.strftime("%H:%M")
+        else
+          @bbaencounters[o.concept.name.name.upcase] = o.answer_string
+        end
+      }
+    } rescue {}
+
+    @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
+        EncounterType.find_by_name("PHYSICAL EXAMINATION BABY").encounter_type_id]).each{|e|
+      e.observations.each{|o|
+        if o.concept.name.name.upcase == "CONDITION OF BABY AT ADMISSION" || 
+            o.concept.name.name.upcase == "WEIGHT (KG)" || 
+            o.concept.name.name.upcase == "TEMPERATURE (C)" || 
+            o.concept.name.name.upcase == "RESPIRATORY RATE" || 
+            o.concept.name.name.upcase == "PULSE" || 
+            o.concept.name.name.upcase == "CORD CLEAN" || 
+            o.concept.name.name.upcase == "CORD TIED" || 
+            o.concept.name.name.upcase == "SPECIFY" || 
+            o.concept.name.name.upcase == "ABDOMEN"
+          if !@babyencounters[o.concept.name.name.upcase]
+            @babyencounters[o.concept.name.name.upcase] = []
+          end
+          
+          @babyencounters[o.concept.name.name.upcase] << o.answer_string
+        elsif o.concept.name.name.upcase.include?("TIME")
+          @babyencounters[o.concept.name.name.upcase] = o.value_datetime.strftime("%H:%M")
+        else
+          @babyencounters[o.concept.name.name.upcase] = o.answer_string
+        end
+      }
+    } rescue {}
+
+    # raise @encounters.to_yaml
+    
     @nok = (@patient.next_of_kin["GUARDIAN FIRST NAME"] + " " + @patient.next_of_kin["GUARDIAN LAST NAME"] + 
         " - " + @patient.next_of_kin["GUARDIAN RELATIONSHIP TO CHILD"] + " " +
         (@patient.next_of_kin["NEXT OF KIN TELEPHONE"] ? " (" + @patient.next_of_kin["NEXT OF KIN TELEPHONE"] +
@@ -603,7 +656,8 @@ class EncountersController < ApplicationController
         
         Kernel.system "wkhtmltopdf -s A4 http://" +
           request.env["HTTP_HOST"] + "\"/encounters/observations_printable?patient_id=" +
-          @patient.id.to_s + "&user_id=" + @user + "\" /tmp/output-" + session[:user_id].to_s + ".pdf \n"
+          @patient.id.to_s + (params[:ret] ? "&ret=" + params[:ret] : "") + "&user_id=" + @user + 
+          "\" /tmp/output-" + session[:user_id].to_s + ".pdf \n"
       }
 
       t2 = Thread.new{
@@ -619,7 +673,8 @@ class EncountersController < ApplicationController
 
     end
 
-    redirect_to "/encounters/new/observations_print?patient_id=#{@patient.id}" and return
+    redirect_to "/encounters/new/observations_print?patient_id=#{@patient.id}"+ 
+      (params[:ret] ? "&ret=" + params[:ret] : "") and return
   end
 
   def static_locations

@@ -23,6 +23,9 @@ class CohortController < ApplicationController
     @start_date = params[:start_date] rescue nil
     @end_date = params[:end_date] rescue nil
 
+    @start_time = params[:start_time] rescue nil
+    @end_time = params[:end_time] rescue nil
+
     @reportType = params[:reportType] rescue ""    
 
     render :layout => "menu"
@@ -190,58 +193,6 @@ class CohortController < ApplicationController
 
     @specified_period = report.specified_period
 
-=begin
-    # raise @specified_period.to_yaml
-
-    @admissions0730_1630 = report.admissions0730_1630
-
-    @admissions1630_0730 = report.admissions1630_0730
-
-    @discharged0730_1630 = report.discharged0730_1630
-
-    @discharged1630_0730 = report.discharged1630_0730
-
-    @referrals0730_1630 = report.referrals0730_1630
-
-    @referrals1630_0730 = report.referrals1630_0730
-
-    @deaths0730_1630 = report.deaths0730_1630
-
-    @deaths1630_0730 = report.deaths1630_0730
-
-    @cesarean0730_1630 = report.cesarean0730_1630
-
-    @cesarean1630_0730 = report.cesarean1630_0730
-
-    @svds0730_1630 = report.svds0730_1630
-
-    @svds1630_0730 = report.svds1630_0730
-
-    @vacuum0730_1630 = report.vacuum0730_1630
-
-    @vacuum1630_0730 = report.vacuum1630_0730
-
-    @breech0730_1630 = report.breech0730_1630
-
-    @breech1630_0730 = report.breech1630_0730
-    
-    @ruptured0730_1630 = report.ruptured0730_1630
-
-    @ruptured1630_0730 = report.ruptured1630_0730
-
-    @bba0730_1630 = report.bba0730_1630
-
-    @bba1630_0730 = report.bba1630_0730
-
-    @triplets0730_1630 = report.triplets0730_1630
-
-    @triplets1630_0730 = report.triplets1630_0730
-
-    @twins0730_1630 = report.twins0730_1630
-
-    @twins1630_0730 = report.twins1630_0730
-=end
-
     render :layout => false
   end
 
@@ -261,33 +212,10 @@ class CohortController < ApplicationController
 
     if params
       link = ""
-      case @selSelect
-      when "week" 
-
-        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selYear=#{@selYear}&selWeek=#{@selWeek}&reportType=#{@reportType}"
-
-      when "month"
-
-        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selYear=#{@selYear}&selMonth=#{@selMonth}&reportType=#{@reportType}"
-
-      when "year"
-
-        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selYear=#{@selYear}&reportType=#{@reportType}"
-
-      when "quarter"
-
-        link = "/cohort/cohort_print?selSelect=#{@selSelect}&selQtr=#{@selQtr}&reportType=#{@reportType}"
-
-      when "range"
-
-        link = "/cohort/cohort_print?selSelect=#{@selSelect}&start_date=#{@start_date}&end_date=#{@end_date}&reportType=#{@reportType}"
-
-      when "day"
-
-        link = "/cohort/cohort_print?selSelect=#{@selSelect}&day=#{@day}&reportType=#{@reportType}"
-
-      end
-                
+      
+      link = "/cohort/#{ (@reportType.to_i == 2 ? "diagnoses_report" : "report") }" + 
+        "?start_date=#{@start_date}+#{@start_time}&end_date=#{@end_date}+#{@end_time}&reportType=#{@reportType}"
+              
       t1 = Thread.new{
         Kernel.system "htmldoc --webpage -f /tmp/output-" + session[:user_id].to_s + ".pdf \"http://" +
           request.env["HTTP_HOST"] + link + "\"\n"
@@ -311,6 +239,24 @@ class CohortController < ApplicationController
   end
 
   def report
+    @section = Location.find(params[:location_id]).name rescue ""
+    
+    @start_date = (params[:start_date].to_time rescue Time.now)
+    
+    @end_date = (params[:end_date].to_time rescue Time.now)
+    
+    @group1_start = @start_date
+    
+    @group1_end = (@end_date <= (@start_date + 12.hour) ? @end_date : (@start_date + 12.hour))
+        
+    @group2_start = (@end_date > (@start_date + 12.hour) ? (@start_date + 12.hour) : nil)
+    
+    @group2_end = (@end_date > (@start_date + 12.hour) ? @end_date : nil)
+       
+    render :layout => false
+  end
+  
+  def diagnoses_report
     @section = Location.find(params[:location_id]).name rescue ""
     
     @start_date = (params[:start_date].to_time rescue Time.now)
@@ -385,6 +331,42 @@ class CohortController < ApplicationController
         labor_gynae(params[:start_date], params[:end_date], params[:group], params[:field])
       when "gynae_labor"
         gynae_labor(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "total_deliveries"
+        total_deliveries(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "premature_labour"
+        premature_labour(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "abortions"
+        abortions(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "cancer_of_cervix"
+        cancer_of_cervix(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "molar_pregnancy"
+        molar_pregnancy(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "fibriods"
+        fibriods(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "pelvic_inflamatory_disease"
+        pelvic_inflamatory_disease(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "anaemia"
+        anaemia(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "malaria"
+        malaria(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "post_partum"
+        post_partum(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "haemorrhage"
+        haemorrhage(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "ante_partum"
+        ante_partum(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "pre_eclampsia"
+        pre_eclampsia(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "eclampsia"
+        eclampsia(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "premature_labour"
+        premature_labour(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "premature_membranes_rapture"
+        premature_membranes_rapture(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "laparatomy"
+        laparatomy(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "ruptured_uterus"
+        ruptured_uterus(params[:start_date], params[:end_date], params[:group], params[:field])
       end
     end           
   end
@@ -392,6 +374,13 @@ class CohortController < ApplicationController
   def admissions(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(admission_ward, '') != '' " + 
           "AND admission_date >= ? AND admission_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+
+  def total_deliveries(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') != '' " + 
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}
     
     render :text => patients.to_json
   end
@@ -425,91 +414,296 @@ class CohortController < ApplicationController
   end
 
   def twins(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(babies, '') = 2 " + 
+          "AND birthdate >= ? AND birthdate <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def triplets(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(babies, '') = 3 " + 
+          "AND birthdate >= ? AND birthdate <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def live_births(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Alive' " + 
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def macerated(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Macerated still birth' " + 
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def fresh(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Fresh still birth' " + 
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def neonatal_death(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Neonatal death' " + 
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def maternal_death(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(outcome, '') = 'Patient died' " + 
+          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def bba(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = []
+      
+    PatientReport.find(:all, :conditions => ["COALESCE(bba_babies, '') != '' " + 
+          "AND bba_date >= ? AND bba_date <= ?", startdate, enddate]).each{|p| 
+      (1..(p.bba_babies.to_i)).each{|b|
+        patients << p.patient_id
+      }
+    }
+    
+    render :text => patients.to_json
   end
 
   def referral_out(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(referral_out, '') != '' " + 
+          "AND referral_out >= ? AND referral_out <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def referral_in(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(referral_in, '') != '' " + 
+          "AND referral_in >= ? AND referral_in <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def discharges(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(outcome, '') = 'Discharged' " + 
+          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def abscondees(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(outcome, '') = 'Absconded' " + 
+          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def post_mothers(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["(COALESCE(last_ward_where_seen, '') = 'Post-Natal Ward' OR " + 
+          "COALESCE(last_ward_where_seen, '') = 'Post-Natal Ward (High Risk)' OR COALESCE(last_ward_where_seen, '') = " + 
+          "'Post-Natal Ward (Low Risk)') AND last_ward_where_seen_date >= ? AND last_ward_where_seen_date <= ?", 
+        startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def post_babies(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["(COALESCE(last_ward_where_seen, '') = 'Post-Natal Ward' OR " + 
+          "COALESCE(last_ward_where_seen, '') = 'Post-Natal Ward (High Risk)' OR COALESCE(last_ward_where_seen, '') = " + 
+          "'Post-Natal Ward (Low Risk)') AND COALESCE(delivery_mode, '') != '' AND last_ward_where_seen_date >= ? " + 
+          "AND last_ward_where_seen_date <= ?", startdate, enddate]).collect{|p| p.patient_id}
+    
+    render :text => patients.to_json
   end
 
   def ante_labor(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Ante-Natal Ward' AND " + 
+          "COALESCE(destination_ward, '') = 'Labour Ward' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}
+    
+    render :text => patients.to_json
   end
 
   def post_labor(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["(COALESCE(source_ward, '') = 'Post-Natal Ward' OR " + 
+          "COALESCE(source_ward, '') = 'Post-Natal Ward (High Risk)' OR COALESCE(source_ward, '') = 'Post-Natal Ward (Low Risk)') AND " + 
+          "COALESCE(destination_ward, '') = 'Labour Ward' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def labor_high(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Labour Ward' AND " + 
+          "COALESCE(destination_ward, '') = 'Post-Natal Ward (High Risk)' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def labor_low(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Labour Ward' AND " + 
+          "COALESCE(destination_ward, '') = 'Post-Natal Ward (Low Risk)' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def theatre_high(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Theater' AND " + 
+          "COALESCE(destination_ward, '') = 'Post-Natal Ward (High Risk)' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def ante_theatre(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Ante-Natal Ward' AND " + 
+          "COALESCE(destination_ward, '') = 'Theater' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def labor_gynae(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Labour Ward' AND " + 
+          "COALESCE(destination_ward, '') = 'Gynaecology Ward' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
   end
 
   def gynae_labor(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    render :text => [params[:group]].to_json
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Gynaecology Ward' AND " + 
+          "COALESCE(destination_ward, '') = 'Labour Ward' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+  
+  # DIAGNOSES
+  def premature_labour(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Premature Labour", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def abortions(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Abortions", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def cancer_of_cervix(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Cancer of Cervix", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def molar_pregnancy(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Molar Pregnancy", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def fibriods(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis LIKE ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "%Fibroid%", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def pelvic_inflamatory_disease(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Pelvic Inflammatory Disease", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def anaemia(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Anaemia", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def malaria(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Malaria", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def post_partum(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Post Partum", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def haemorrhage(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Haemorrhage", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def ante_partum(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis LIKE ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "%Ante%Partum%", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def pre_eclampsia(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Pre-Eclampsia", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def eclampsia(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?",
+        "Eclampsia", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def premature_labour(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Premature Labour", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def premature_membranes_rapture(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Premature Membranes Rapture", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def laparatomy(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["procedure_done LIKE ? AND procedure_date >= ? AND procedure_date <= ?", 
+        "%Laparatomy%", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
+  end
+
+  def ruptured_uterus(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["diagnosis = ? AND diagnosis_date >= ? AND diagnosis_date <= ?", 
+        "Ruptured Uterus", startdate, enddate]).collect{|p| p.patient_id}.uniq
+
+    render :text => patients.to_json
   end
 
 end

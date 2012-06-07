@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <title>Maternity Cohort Report</title>
+
+    <script type="text/javascript">
+      tt_cancel_destination = '/people';
+    </script>
+
+    <style>
+      #main {
+        width: 99.7%;
+        height: 88.5%;
+        overflow: auto;
+      }
+
+      button{
+        margin: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <iframe id="main" src="/cohort/cohort_print?selSelect=<%= @selSelect %>&day=<%= @day %>&selYear=<%= 
+            @selYear %>&selWeek=<%= @selWeek %>&selMonth=<%= @selMonth %>&selQtr=<%= @selQtr %>&start_date=<%=
+            @start_date %>&end_date=<%= @end_date %>&reportType=<%= @reportType %>"></iframe>
+
+    <div style="z-index:11;bottom:0px; height: 82px; width: 100%; left: 0px;
+         right: -66px; position: absolute; background-color: #333333; padding: 0px;">
+      <button onclick="window.location = '/cohort';" class="button navButton red"
+              id="cancelButton" style="position: absolute; z-index: 100; margin-top: 10px;"><span>Cancel</span>
+      </button>
+
+      <button onclick="window.location = '/people';" class="button navButton green"
+              id="nextButton" style="margin-top: 10px; margin-right: 20px;" ><span>Finish</span>
+      </button>
+      <button onclick="window.location = '/cohort?reportType=<%= @reportType %>';" class="button navButton blue"
+              id="backButton" style="margin-top: 10px;" ><span>Back</span>
+      </button>
+      <button class="button navButton blue" style="margin-top: 10px;"
+      <% case @selSelect
+      when "week" %>
+
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&selWeek=<%= @selWeek %>&reportType=<%= @reportType %>'"
+
+              <% when "month" %>
+
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&selMonth=<%= @selMonth %>&reportType=<%= @reportType %>'"
+
+              <% when "year" %>
+
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selYear=<%= @selYear %>&reportType=<%= @reportType %>'"
+
+              <% when "quarter" %>
+
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&selQtr=<%= @selQtr %>&reportType=<%= @reportType %>'"
+
+              <% when "range" %>
+
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&start_date=<%= @start_date %>&end_date=<%= @end_date %>&reportType=<%= @reportType %>'"
+
+              <% when "day" %>
+
+                onclick="window.location = '/cohort/print_cohort?selSelect=<%= @selSelect %>&day=<%= @day %>&reportType=<%= @reportType %>'"
+
+              <% end %>
+
+              style="float: right; ">
+        <span>
+          Print
+        </span>
+      </button>
+    </div>
+  </body>
+</html>

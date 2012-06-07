@@ -47,7 +47,27 @@
   <div id="table_div">
 
     <table id="stats" cellpadding="0">
-      <tr>
+      
+        <tr>
+          <th>
+            <button onclick="window.parent.location='/cohort/?reportType=1'">
+              <span>
+                End of Shift Report
+              </span>
+            </button>
+          </th>
+        </tr>
+        <tr>
+          <th>
+            <button onclick="window.parent.location='/cohort/?reportType=2'">
+              <span>
+                Diagnoses Report
+              </span>
+            </button>
+          </th>
+        </tr>
+        
+      <!--tr>
         <th>
           <button onclick="window.parent.location='/cohort/?reportType=3'">
             <span>
@@ -101,8 +121,8 @@
           </th>
         </tr>
 
-      <% end %>
-
+      <% end %>      
+      
       <tr>
         <th>
           <button onclick="window.parent.location='/cohort/?reportType=8'">
@@ -118,7 +138,7 @@
             </span>
           </button>
         </th>
-      </tr>
+      </tr-->      
     </table>
   </div>
 </div>
