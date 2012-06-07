@@ -32,6 +32,14 @@ mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_p
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/locations.sql
 # mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/encounter_types.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_wards.sql
+
+FILES=db/triggers/*
+for f in $FILES
+do
+	echo "Installing $f trigger file..."
+	mysql --user=$USERNAME --password=$PASSWORD $DATABASE < $f
+done
+
 # mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/change_concept_names_case_to_upper.sql
 
 # echo "USE $DATABASE; ALTER TABLE concept_name ADD COLUMN concept_name_id INT(11) NULL;" | mysql -u $USERNAME --password=$PASSWORD
