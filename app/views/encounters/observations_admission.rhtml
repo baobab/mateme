@@ -101,7 +101,7 @@
     top: 120px;
     margin-left: 50%;
     left: -470px;
-    -moz-border-radius: 20px;
+    border-radius: 20px;
   }
 </style>
 <style>
@@ -186,22 +186,23 @@ session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
       :id => "diagnosis0"
     } %>
 
-    <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
+    <% options[:optional] = 'true' %>
+  
+    <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS") %>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]", (session[:datetime] ? 
           session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
     <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
 
-    <% options[:optional] = 'true' %>
   <%# options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
 
     <% 5.times do |counter| %>
-      <% options[:condition] = "__$('diagnosis#{counter - 1}').value != ''" if counter > 0 %>
+      <% options[:condition] = "__$('diagnosis#{counter}').value != ''" # if counter > 0 %>
       <% options[:helpText] = "Select the next diagnosis" %>
       <% options[:tt_pageStyleClass] = "qwertyKeyboardOnly" %>
-      <% options[:id] = "diagnosis#{counter}" %>
+      <% options[:id] = "diagnosis#{counter + 1}" %>
 
-      <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
+      <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS") %>
       <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
       <%= hidden_field_tag("observations[][obs_datetime]", 
         (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>

@@ -1,27 +1,54 @@
 <style>
-.options{
+  .options{
     height:11em;
   }
 </style>
 <script>
-var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=false"
+  <!--
+  var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=false"
+
+  function checkSelection(){
+    if(__$("touchscreenInput" + tstCurrentPage).value == "No"){
+      document.forms[0].action = "/patients/show/<%= params[:patient_id] %>?skip_check=true"
+    } else {
+      document.forms[0].action = "/encounters/create"
+    }
+    
+    console.log(document.forms[0].action);
+    
+    setTimeout('checkSelection()', 100);
+  }
+  
+  //-->
 </script>
 <form id='outcome' action="/encounters/create" method='post'>
- <% options = {} %>
+  <% options = {} %>
 
-    
+
   <%= hidden_field_tag "encounter[encounter_type_name]", "ADMIT PATIENT" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
   <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_date : DateTime.now()).strftime("%Y-%m-%d") %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@admission_wards), {:helpText => 'Admit to ward'})%>
-  <%= hidden_field_tag("observations[][value_text]", nil) %>
-  <%= hidden_field_tag("observations[][concept_name]", "ADMIT TO WARD", options) %>
-  <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
+  <%= select_tag("admit", options_for_select(["", "Yes", "No"]), 
+    {
+      :helpText => 'Admit to this ward',
+      :tt_onLoad => "setTimeout('checkSelection()', 50)"
+    })%>
+
+  <% options = {
+    :id => "admission_section",
+    :field_type => 'text',
+    :helptext =>"Select admission section",
+    :condition => "($('discharge_outcome').value.toUpperCase() == 'ADMITTED')"
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "ADMISSION SECTION") %>
+  <%= hidden_field_tag("observations[][value_coded_or_text]", @location, options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+  <%= hidden_field_tag("observations[][value_modifier]",    @last_location) %>
 
   <%= submit_tag "Finish" %>    
- </form>
+</form>
 
 

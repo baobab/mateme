@@ -225,7 +225,8 @@
   <% options = {
     :id => "baby_outcome2",
     :field_type => 'text',
-    :helptext =>"2<sup>nd</sup> Baby: Status"
+    :helptext =>"2<sup>nd</sup> Baby: Status",
+    :condition => "parseInt(__$('number_of_babies').value) > 1"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Cried", "No Cry"]), options)%>
@@ -240,7 +241,7 @@
     :id => "time_of_delivery2",
     :field_type => 'advancedTime',
     :helptext =>"2<sup>nd</sup> Baby: Time of Delivery",
-    :condition => "(parseInt($('number_of_babies').value) > 1)",
+    :condition => "parseInt(__$('number_of_babies').value) > 1",
     :tt_onUnLoad => "updateTimeOtherFields(2)",
     :optional => true
   }%>
@@ -253,7 +254,7 @@
     :id => "date_of_delivery2",
     :field_type => 'date',
     :helptext =>"2<sup>nd</sup> Baby: Date of Delivery",
-    :condition => "(parseInt($('number_of_babies').value) > 1)"
+    :condition => "parseInt(__$('number_of_babies').value) > 1"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
@@ -264,7 +265,7 @@
     :id => "baby_gender2",
     :field_type => 'text',
     :helptext =>"2<sup>nd</sup> Baby: Gender",
-    :condition => "(parseInt($('number_of_babies').value) > 1)"
+    :condition => "parseInt(__$('number_of_babies').value) > 1"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
@@ -275,7 +276,7 @@
     :id => "delivery_mode2",
     :field_type => 'text',
     :helptext =>"2<sup>nd</sup> Baby: Delivery Mode",
-    :condition => "(parseInt($('number_of_babies').value) > 1)"
+    :condition => "parseInt(__$('number_of_babies').value) > 1"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
@@ -293,7 +294,8 @@
   <% options = {
     :id => "baby_outcome3",
     :field_type => 'text',
-    :helptext =>"3<sup>rd</sup> Baby: Status"
+    :helptext =>"3<sup>rd</sup> Baby: Status",
+    :condition => "parseInt(__$('number_of_babies').value) > 2"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Cried", "No Cry"]), options)%>
@@ -308,7 +310,7 @@
     :id => "time_of_delivery3",
     :field_type => 'advancedTime',
     :helptext =>"3<sup>rd</sup> Baby: Time of Delivery",
-    :condition => "(parseInt($('number_of_babies').value) > 2)",
+    :condition => "parseInt(__$('number_of_babies').value) > 2",
     :tt_onUnLoad => "updateTimeOtherFields(3)",
     :optional => true
   }%>
@@ -321,7 +323,7 @@
     :id => "date_of_delivery3",
     :field_type => 'date',
     :helptext =>"3<sup>rd</sup> Baby: Date of Delivery",
-    :condition => "(parseInt($('number_of_babies').value) > 2)"
+    :condition => "parseInt(__$('number_of_babies').value) > 2"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
   <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
@@ -332,7 +334,7 @@
     :id => "baby_gender3",
     :field_type => 'text',
     :helptext =>"3<sup>rd</sup> Baby: Gender",
-    :condition => "(parseInt($('number_of_babies').value) > 2)"
+    :condition => "parseInt(__$('number_of_babies').value) > 2"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
@@ -343,7 +345,7 @@
     :id => "delivery_mode3",
     :field_type => 'text',
     :helptext =>"3<sup>rd</sup> Baby: Delivery Mode",
-    :condition => "(parseInt($('number_of_babies').value) > 2)"
+    :condition => "parseInt(__$('number_of_babies').value) > 2"
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>

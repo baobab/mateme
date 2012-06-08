@@ -1,5 +1,14 @@
 class PatientsController < ApplicationController
   def show
+    # raise params.to_yaml
+    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
+    
+    @last_location = @patient.encounters.find(:last).location_id rescue nil
+    
+    if session[:location_id] != @last_location && (params[:skip_check] ? (params[:skip_check] == "true" ? false : true ) : true)
+      redirect_to "/encounters/new/admit_patient?patient_id=#{@patient.id}" and return
+    end
+    
     #find the user priviledges
     @super_user = false
     @clinician  = false
@@ -18,7 +27,7 @@ class PatientsController < ApplicationController
     elsif @user_privilege.include?("regstration_clerk")
       @regstration_clerk  = true
     end  
-    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
+    
     outcome = @patient.current_outcome
     @encounters = @patient.current_visit.encounters.active.find(:all) rescue []
     @encounter_names = @patient.current_visit.encounters.active.map{|encounter| encounter.name.upcase}.uniq rescue []

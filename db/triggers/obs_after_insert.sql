@@ -20,8 +20,11 @@ BEGIN
 	
 	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "NUMBER OF BABIES" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" THEN
 		SET @mode = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
+		SET @existing = (SELECT COUNT(*) FROM patient_report WHERE birthdate >= DATE_ADD(new.obs_datetime, INTERVAL -7 DAY) AND birthdate <= DATE_ADD(new.obs_datetime, INTERVAL 7 DAY) AND patient_id = new.person_id AND COALESCE(babies, '') != '');
 
-  		INSERT INTO patient_report (patient_id, babies, birthdate, obs_datetime, obs_id) VALUES(new.person_id, @mode, new.obs_datetime, new.obs_datetime, new.obs_id);
+		IF @existing <= 0 THEN
+	 		INSERT INTO patient_report (patient_id, babies, birthdate, obs_datetime, obs_id) VALUES(new.person_id, @mode, new.obs_datetime, new.obs_datetime, new.obs_id);
+		END IF;
 	END IF;
 	
 	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "NUMBER OF BABIES" LIMIT 1) AND @type = "CURRENT BBA DELIVERY" THEN
@@ -36,7 +39,7 @@ BEGIN
   		INSERT INTO patient_report (patient_id, outcome, outcome_date, obs_datetime, obs_id) VALUES(new.person_id, @mode, new.obs_datetime, new.obs_datetime, new.obs_id);
 	END IF;
 	
-	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "ADMISSION TIME" LIMIT 1) AND COALESCE(new.value_modifier, '') = '' THEN
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "ADMISSION TIME" LIMIT 1) THEN
 		SET @ward = (SELECT name FROM location WHERE location_id = new.location_id);	
 
   		INSERT INTO patient_report (patient_id, admission_ward, admission_date, obs_datetime, obs_id) VALUES(new.person_id, @ward, new.value_datetime, new.value_datetime, new.obs_id);
@@ -48,8 +51,8 @@ BEGIN
   		INSERT INTO patient_report (patient_id, diagnosis, diagnosis_date, obs_datetime, obs_id) VALUES(new.person_id, @diagnosis, new.obs_datetime, new.obs_datetime, new.obs_id);
 	END IF;
 	
-	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "ADMISSION SECTION" LIMIT 1) THEN
-		SET @ward = (SELECT name FROM location WHERE location_id = new.location_id);	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "ADMISSION SECTION" LIMIT 1) AND COALESCE(new.value_modifier, '') != '' THEN
+		SET @ward = (SELECT name FROM location WHERE location_id = new.value_modifier);	
 
   		INSERT INTO patient_report (patient_id, source_ward, destination_ward, internal_transfer_date, obs_datetime, obs_id) VALUES(new.person_id, @ward, new.value_text, new.obs_datetime, new.obs_datetime, new.obs_id);
 

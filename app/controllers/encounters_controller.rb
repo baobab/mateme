@@ -34,6 +34,7 @@ class EncountersController < ApplicationController
       observation[:encounter_id]    = encounter.id
       # observation[:obs_datetime]    = (encounter.encounter_datetime.to_date.strftime("%Y-%m-%d ") + Time.now.strftime("%H:%M")) rescue Time.now()
       observation[:person_id]     ||= encounter.patient_id
+      # observation[:location_id]     ||= encounter.location_id
       Observation.create(observation) # rescue nil
     end
 
@@ -104,6 +105,8 @@ class EncountersController < ApplicationController
       :order => :obs_datetime).last.value_datetime rescue nil
 
     @location = Location.current_location.name rescue nil
+        
+    @last_location = @patient.encounters.find(:last).location_id rescue nil
     
     # raise @location.downcase.to_yaml
 

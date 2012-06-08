@@ -75,7 +75,7 @@ body{
     height:80%;
     background-color: #fff;
     border:1px solid #ccf;
-    -moz-border-radius:10px;
+    border-radius:10px;
     overflow: hidden;
     margin: 10px;
 }
@@ -103,7 +103,7 @@ body{
 
 .textInput {
     border: 1px #ccc solid;
-    -moz-border-radius: 10px;
+    border-radius: 10px;
     padding: 5px;
 }
 
@@ -150,7 +150,7 @@ body{
     height:540px;
     overflow: hidden;
     width: 870px;
-    -moz-border-radius: 15px;
+    border-radius: 15px;
 }
 .text {
     font-size: 0.8em;
@@ -271,7 +271,7 @@ button:hover.dark span {
     border: 2px solid #99f;
     background-color: #ffffff;
     padding: 5px;
-    -moz-border-radius:15px;
+    border-radius:15px;
 }
 
 .missingValue {
@@ -316,7 +316,7 @@ a:active {
     width: 89.35%;
     background-color: #fff;
     border: 1px solid #ccc;
-    -moz-border-radius: 10px;
+    border-radius: 10px;
     padding: 10px;
     margin-top: -32px;
     color: #000;

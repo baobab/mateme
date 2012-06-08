@@ -4,7 +4,7 @@
     display: table;
     border: 1px solid #999;
     border-spacing: 5px;
-    -moz-border-radius: 10px;
+    border-radius: 10px;
     -moz-user-select: none;
 }
 .cRow {
@@ -22,14 +22,14 @@
     color: #eee;
     width: 50px;
     border: 1px solid #999;
-    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 .weekEnd {
     background-color: #f99;
     font-weight: bold;
     width: 50px;
     border: 1px solid #999;
-    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 .weekEndDay {
     background-color: #fff;
@@ -38,7 +38,7 @@
     height: 58px;
     width: 70px;
     border: 1px solid #999;
-    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 .cellInactive {
     background-color: #eee;
@@ -64,7 +64,7 @@
     /*margin-top: 20px;*/
     background-color: #99f;
     padding: 8px;
-    -moz-border-radius: 30px;
+    border-radius: 30px;
     color: #eee;
     min-width: 20px;
     text-align: center;
