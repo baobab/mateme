@@ -373,7 +373,7 @@ class CohortController < ApplicationController
   
   def admissions(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(admission_ward, '') != '' " + 
-          "AND admission_date >= ? AND admission_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND admission_date >= ? AND admission_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
@@ -386,78 +386,78 @@ class CohortController < ApplicationController
   end
 
   def svd(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Spontaneous vaginal delivery' " + 
-          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'SPONTANEOUS VAGINAL DELIVERY' " + 
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def c_section(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Caesarean section' " + 
-          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def vacuum_extraction(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Vacuum extraction delivery' " + 
-          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def breech_delivery(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(delivery_mode, '') = 'Breech delivery' " + 
-          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND delivery_date >= ? AND delivery_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def twins(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(babies, '') = 2 " + 
-          "AND birthdate >= ? AND birthdate <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND birthdate >= ? AND birthdate <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def triplets(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(babies, '') = 3 " + 
-          "AND birthdate >= ? AND birthdate <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND birthdate >= ? AND birthdate <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def live_births(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Alive' " + 
-          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def macerated(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Macerated still birth' " + 
-          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def fresh(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Fresh still birth' " + 
-          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def neonatal_death(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(baby_outcome, '') = 'Neonatal death' " + 
-          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND baby_outcome_date >= ? AND baby_outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def maternal_death(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(outcome, '') = 'Patient died' " + 
-          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
@@ -477,28 +477,28 @@ class CohortController < ApplicationController
 
   def referral_out(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(referral_out, '') != '' " + 
-          "AND referral_out >= ? AND referral_out <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND referral_out >= ? AND referral_out <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def referral_in(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(referral_in, '') != '' " + 
-          "AND referral_in >= ? AND referral_in <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND referral_in >= ? AND referral_in <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def discharges(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(outcome, '') = 'Discharged' " + 
-          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
 
   def abscondees(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(outcome, '') = 'Absconded' " + 
-          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+          "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
@@ -507,7 +507,7 @@ class CohortController < ApplicationController
     patients = PatientReport.find(:all, :conditions => ["(COALESCE(last_ward_where_seen, '') = 'Post-Natal Ward' OR " + 
           "COALESCE(last_ward_where_seen, '') = 'Post-Natal Ward (High Risk)' OR COALESCE(last_ward_where_seen, '') = " + 
           "'Post-Natal Ward (Low Risk)') AND last_ward_where_seen_date >= ? AND last_ward_where_seen_date <= ?", 
-        startdate, enddate]).collect{|p| p.patient_id}.uniq
+        startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
     render :text => patients.to_json
   end
@@ -524,7 +524,7 @@ class CohortController < ApplicationController
   def ante_labor(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Ante-Natal Ward' AND " + 
           "COALESCE(destination_ward, '') = 'Labour Ward' " + 
-          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
     
     render :text => patients.to_json
   end
@@ -555,7 +555,8 @@ class CohortController < ApplicationController
   end
 
   def theatre_high(startdate = Time.now, enddate = Time.now, group = 1, field = "")
-    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Theater' AND " + 
+    patients = PatientReport.find(:all, :conditions => ["(COALESCE(source_ward, '') = 'Theater' " + 
+          "OR COALESCE(source_ward, '') = 'Theatre') AND " + 
           "COALESCE(destination_ward, '') = 'Post-Natal Ward (High Risk)' " + 
           "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
     
@@ -564,7 +565,7 @@ class CohortController < ApplicationController
 
   def ante_theatre(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Ante-Natal Ward' AND " + 
-          "COALESCE(destination_ward, '') = 'Theater' " + 
+          "(COALESCE(destination_ward, '') = 'Theater' OR COALESCE(destination_ward, '') = 'Theatre') " + 
           "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
     
     render :text => patients.to_json
