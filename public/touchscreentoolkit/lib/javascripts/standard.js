@@ -768,6 +768,10 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
         setTimeout("addSummary(" + selected + ")", 0);
     }
 
+    if(tstFormElements[tstCurrentPage].getAttribute("selectAll")){         
+        setTimeout("addSelectAllButton()", 0);     
+    }
+    
     var optionsList = "<ul id='tt_currentUnorderedListOptions'>";  // <li id='default'> </li>";
     var selectOptionCount = selectOptions.length;
     var selected = -1;
@@ -4147,11 +4151,11 @@ AdvancedTimeSelector.prototype = {
                                 <span>-</span></button></div><div class="cell" style="vertical-align: middle; text-align: center;">\
                                 <input id="timeselector_hour" type="text" style="margin-left: 10px;" />\
                                 </div><div class="cell"><button id="timeselector_nextHour" onmousedown="ds.incrementHour();" ' + 
-                                (this.options["maxNow"] == true ? 'class="blue" ' : 'class="red" ') + 
-                                ' style="width: 100px;" ><span>+</span></button></div></div></div> </div>\
+        (this.options["maxNow"] == true ? 'class="blue" ' : 'class="red" ') + 
+        ' style="width: 100px;" ><span>+</span></button></div></div></div> </div>\
                                 <div class="cell"><button id="ampm" style="width: 150px;" \
                                 onmousedown="ds.changeScope();"><span>' + (hr >= 12 ? 'PM' : 'AM') + 
-                                '</span></button></div><div class="cell"> \
+        '</span></button></div><div class="cell"> \
                                 <div class="table" \
                                 style="margin-right: 25px; float: right;"><div class="row"><div class="cell"> \
                                 <button id="timeselector_preMinute" onmousedown="ds.decrementMinute();" style="width: 100px;"> \
@@ -4160,8 +4164,8 @@ AdvancedTimeSelector.prototype = {
                                 <input id="timeselector_minute" type="text" style="margin-left: 10px;"/>\
                                 </div><div class="cell"><button id="timeselector_nextMinute" style="width: 100px;"\
                                  onmousedown="ds.incrementMinute();"' + 
-                                (this.options["maxNow"] == true ? 'class="blue" ' : 'class="red" ') + 
-                                ' ><span>+</span></button></div></div></div>\
+        (this.options["maxNow"] == true ? 'class="blue" ' : 'class="red" ') + 
+        ' ><span>+</span></button></div></div></div>\
                                 </div></div></div></div></div>	';
 
         return node;
@@ -4297,25 +4301,25 @@ AdvancedTimeSelector.prototype = {
     },
     
     updateHourDisk: function(){
-       var params = __$("hour").getElementsByTagName("param");
-       var hr = (parseInt(this.currentHour.value) == 0 ? 12 : (parseInt(this.currentHour.value) > 12 ? 
-           (parseInt(this.currentHour.value) - 12) : this.currentHour.value));
+        var params = __$("hour").getElementsByTagName("param");
+        var hr = (parseInt(this.currentHour.value) == 0 ? 12 : (parseInt(this.currentHour.value) > 12 ? 
+            (parseInt(this.currentHour.value) - 12) : this.currentHour.value));
        
-       for(var i = 0; i < params.length; i++){
-           if(params[i]){
-               if(params[i].id == "et" + hr){
-                   params[i].value = "selected";
-               } else {
-                   params[i].value = "";
-               }
-           }
-       } 
+        for(var i = 0; i < params.length; i++){
+            if(params[i]){
+                if(params[i].id == "et" + hr){
+                    params[i].value = "selected";
+                } else {
+                    params[i].value = "";
+                }
+            }
+        } 
        
-       if(parseInt(this.currentHour.value) >= 12){
-           __$("ampm").innerHTML = "<span>PM</span>";
-       } else {
-           __$("ampm").innerHTML = "<span>AM</span>";
-       }
+        if(parseInt(this.currentHour.value) >= 12){
+            __$("ampm").innerHTML = "<span>PM</span>";
+        } else {
+            __$("ampm").innerHTML = "<span>AM</span>";
+        }
     },
 
     invokeMinuteUpdate: function(pos){
@@ -4330,46 +4334,46 @@ AdvancedTimeSelector.prototype = {
     },
     
     updateMinuteDisk: function(){
-       var params = __$("minute").getElementsByTagName("param");
-       var time = parseInt(this.currentMinute.value);
+        var params = __$("minute").getElementsByTagName("param");
+        var time = parseInt(this.currentMinute.value);
        
-       var range = "";
+        var range = "";
 
-	if(time >= 1 && time <= 5){
-		range = 5;
-	} else if(time >= 6 && time <= 10){
-		range = 10;
-	} else if(time >= 11 && time <= 15){
-		range = 15;
-	} else if(time >= 16 && time <= 20){
-		range = 20;
-	} else if(time >= 21 && time <= 25){
-		range = 25;
-	} else if(time >= 26 && time <= 30){
-		range = 30;
-	} else if(time >= 31 && time <= 35){
-		range = 35;
-	} else if(time >= 36 && time <= 40){
-		range = 40;
-	} else if(time >= 41 && time <= 45){
-		range = 45;
-	} else if(time >= 46 && time <= 50){
-		range = 50;
-	} else if(time >= 51 && time <= 55){
-		range = 55;
-	} else if(time >= 56 && time <= 59){
-		range = 0;
-	} 
+        if(time >= 1 && time <= 5){
+            range = 5;
+        } else if(time >= 6 && time <= 10){
+            range = 10;
+        } else if(time >= 11 && time <= 15){
+            range = 15;
+        } else if(time >= 16 && time <= 20){
+            range = 20;
+        } else if(time >= 21 && time <= 25){
+            range = 25;
+        } else if(time >= 26 && time <= 30){
+            range = 30;
+        } else if(time >= 31 && time <= 35){
+            range = 35;
+        } else if(time >= 36 && time <= 40){
+            range = 40;
+        } else if(time >= 41 && time <= 45){
+            range = 45;
+        } else if(time >= 46 && time <= 50){
+            range = 50;
+        } else if(time >= 51 && time <= 55){
+            range = 55;
+        } else if(time >= 56 && time <= 59){
+            range = 0;
+        } 
        
-       for(var i = 0; i < params.length; i++){
-           if(params[i]){
-               if(params[i].id == "etm" + range){
-                   params[i].value = "selected";
-               } else {
-                   params[i].value = "";
-               }
-           }
-       }        
+        for(var i = 0; i < params.length; i++){
+            if(params[i]){
+                if(params[i].id == "etm" + range){
+                    params[i].value = "selected";
+                } else {
+                    params[i].value = "";
+                }
+            }
+        }        
     },
     
     update: function(aDateElement) {
@@ -4387,3 +4391,91 @@ AdvancedTimeSelector.prototype = {
     }
 
 };
+
+function addSelectAllButton(){
+    var holder = document.createElement("div");
+    holder.id = "holder";
+    holder.style.margin = "5px";
+    holder.style.display = "table";
+    holder.style.cursor = "pointer";
+
+    __$("keyboard").appendChild(holder);
+    
+    var row = document.createElement("div");
+    row.style.display = "table-row";
+    
+    holder.appendChild(row);  
+    
+    var cell1 = document.createElement("div");
+    cell1.style.display = "table-cell";
+    cell1.style.verticalAlign = "middle";
+    
+    row.appendChild(cell1);  
+    
+    var cell2 = document.createElement("div");
+    cell2.style.display = "table-cell";
+    cell2.id = "lblSelectAll";
+    cell2.innerHTML = "Select All";
+    cell2.style.verticalAlign = "middle";
+    cell2.style.fontSize = "36px";
+    cell2.style.paddingLeft = "10px";
+    cell2.onclick = function(){
+        __$("chkSelectAll").click();
+    }
+    
+    row.appendChild(cell2);  
+    
+    var checkbox = document.createElement("img");
+    checkbox.src = "/touchscreentoolkit/lib/images/unticked.jpg";
+    checkbox.id = "chkSelectAll";
+    checkbox.setAttribute("checked", "false")
+    
+    checkbox.onclick = function(){
+        if(this.getAttribute("checked") == "false"){
+            toggleState("uncheck");
+            this.setAttribute("checked", "true");
+            this.src = "/touchscreentoolkit/lib/images/ticked.jpg";
+            __$("lblSelectAll").innerHTML = "Deselect All";
+        } else {
+            toggleState("check");
+            this.setAttribute("checked", "false");
+            this.src = "/touchscreentoolkit/lib/images/unticked.jpg";
+            __$("lblSelectAll").innerHTML = "Select All";
+        }
+    }
+    
+    cell1.appendChild(checkbox);  
+    
+}
+     
+function toggleState(state){
+    switch(state.toLowerCase()){
+        case "check":
+            checkAll();
+            break;
+        case "uncheck":
+            unCheckAll()
+            break;
+    }
+}
+    
+function checkAll(){
+    var elements = __$("tt_currentUnorderedListOptions").getElementsByTagName("li");
+    
+    for(var i = 0; i < elements.length; i++){
+        if(__$("img" + elements[i].id).src.match(/\/touchscreentoolkit\/lib\/images\/ticked.jpg/)){
+            elements[i].click();
+        }
+    }
+}
+    
+function unCheckAll(){
+    var elements = __$("tt_currentUnorderedListOptions").getElementsByTagName("li");
+    
+    for(var i = 0; i < elements.length; i++){
+        if(__$("img" + elements[i].id).src.match(/\/touchscreentoolkit\/lib\/images\/unticked.jpg/)){
+            elements[i].click();
+        }
+    }
+}
+   

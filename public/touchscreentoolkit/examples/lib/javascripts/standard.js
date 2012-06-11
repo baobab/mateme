@@ -769,6 +769,10 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
         setTimeout("addSummary(" + selected + ")", 0);
     }
     
+    if(tstFormElements[tstCurrentPage].getAttribute("selectAll")){         
+        setTimeout("addSelectAllButton()", 0);     
+    }
+    
     var optionsList = "<ul id='tt_currentUnorderedListOptions'>";  // <li id='default'> </li>";
     var selectOptionCount = selectOptions.length;
     var selected = -1;
@@ -4346,3 +4350,90 @@ AdvancedTimeSelector.prototype = {
     }
 
 };
+
+function addSelectAllButton(){
+    var holder = document.createElement("div");
+    holder.id = "holder";
+    holder.style.margin = "5px";
+    holder.style.display = "table";
+    holder.style.cursor = "pointer";
+
+    __$("keyboard").appendChild(holder);
+    
+    var row = document.createElement("div");
+    row.style.display = "table-row";
+    
+    holder.appendChild(row);  
+    
+    var cell1 = document.createElement("div");
+    cell1.style.display = "table-cell";
+    cell1.style.verticalAlign = "middle";
+    
+    row.appendChild(cell1);  
+    
+    var cell2 = document.createElement("div");
+    cell2.style.display = "table-cell";
+    cell2.id = "lblSelectAll";
+    cell2.innerHTML = "Select All";
+    cell2.style.verticalAlign = "middle";
+    cell2.style.fontSize = "36px";
+    cell2.style.paddingLeft = "10px";
+    cell2.onclick = function(){
+      __$("chkSelectAll").click();
+    }
+    
+    row.appendChild(cell2);  
+    
+    var checkbox = document.createElement("img");
+    checkbox.src = "/touchscreentoolkit/examples/lib/images/unticked.jpg";
+    checkbox.id = "chkSelectAll";
+    checkbox.setAttribute("checked", "false")
+    
+    checkbox.onclick = function(){
+      if(this.getAttribute("checked") == "false"){
+        toggleState("uncheck");
+        this.setAttribute("checked", "true");
+        this.src = "/touchscreentoolkit/examples/lib/images/ticked.jpg";
+        __$("lblSelectAll").innerHTML = "Deselect All";
+      } else {
+        toggleState("check");
+        this.setAttribute("checked", "false");
+        this.src = "/touchscreentoolkit/examples/lib/images/unticked.jpg";
+        __$("lblSelectAll").innerHTML = "Select All";
+      }
+    }
+    
+    cell1.appendChild(checkbox);  
+    
+  }
+     
+  function toggleState(state){
+    switch(state.toLowerCase()){
+      case "check":
+        checkAll();
+        break;
+      case "uncheck":
+        unCheckAll()
+        break;
+    }
+  }
+    
+  function checkAll(){
+    var elements = __$("tt_currentUnorderedListOptions").getElementsByTagName("li");
+    
+    for(var i = 0; i < elements.length; i++){
+      if(__$("img" + elements[i].id).src.match(/\/lib\/images\/ticked.jpg/)){
+        elements[i].click();
+      }
+    }
+  }
+    
+  function unCheckAll(){
+    var elements = __$("tt_currentUnorderedListOptions").getElementsByTagName("li");
+    
+    for(var i = 0; i < elements.length; i++){
+      if(__$("img" + elements[i].id).src.match(/\/lib\/images\/unticked.jpg/)){
+        elements[i].click();
+      }
+    }
+  }

@@ -2010,7 +2010,7 @@ function removeGenerics(){
     "frequency", "morning_dose", "afternoon_dose", "evening_dose", "night_dose",
     "duration", "prn"];
     
-    for(var i in __$("ulDoses").children){        
+    for(var i = 0; i <  __$("ulDoses").children.length; i++){        
         for(var j = 0; j < fields.length; j++){            
             var field = document.createElement("input");
             field.type = "hidden";
