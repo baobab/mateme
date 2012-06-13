@@ -32,13 +32,15 @@ mysql --user=$USERNAME --password=$PASSWORD -e "DROP DATABASE ${DATABASE};"
 mysql --user=$USERNAME --password=$PASSWORD -e "CREATE DATABASE ${DATABASE};"
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < tmp/schema.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/triggers/patient_report.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/triggers/obs_after_insert.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/triggers/obs_after_update.sql
 
-FILES=db/triggers/*
-for f in $FILES
-do
-	echo "Installing $f trigger file..."
-	mysql --user=$USERNAME --password=$PASSWORD $DATABASE < $f
-done
+# FILES=db/triggers/*
+# for f in $FILES
+# do
+#	echo "Installing $f trigger file..."
+#	mysql --user=$USERNAME --password=$PASSWORD $DATABASE < $f
+# done
 
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < tmp/data.sql
 
