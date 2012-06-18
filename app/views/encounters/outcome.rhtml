@@ -612,12 +612,12 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     "__$('Unknown').onclick=function(){__$('touchscreenInput'+tstCurrentPage).value='N/A'}; " + 
     "$('nextButton').innerHTML = '<span>Finish</span>';" %>
 
+  <% options[:optional] = 'true' %>
   <%= text_field_tag("observations[][value_coded_or_text]", nil, options) %>
   <%= hidden_field_tag("observations[][concept_name]", "DIAGNOSIS", options) %>
   <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]", DateTime.now()) %>
 
-  <% options[:optional] = 'true' %>
   <% options[:tt_onLoad] = "setTimeout(updateNextFinish, 20)" %>
 
   <% 10.times do |counter| %>

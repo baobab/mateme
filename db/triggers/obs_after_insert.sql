@@ -5,20 +5,21 @@ ON `obs`
 FOR EACH ROW
 BEGIN
 	SET @type = (SELECT name FROM encounter_type WHERE encounter_type_id = (SELECT encounter_type FROM encounter WHERE encounter_id = new.encounter_id));
+	SET @outcometype = (SELECT name FROM encounter_type WHERE encounter_type_id = (SELECT encounter_type FROM encounter WHERE encounter_id = new.encounter_id));
 
-  	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "BABY OUTCOME" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" THEN
+  	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "BABY OUTCOME" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" AND @outcometype = "UPDATE OUTCOME" THEN
 		SET @outcome = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
 
   		INSERT INTO patient_report (patient_id, baby_outcome, baby_outcome_date, obs_datetime, obs_id) VALUES(new.person_id, @outcome, new.obs_datetime, new.obs_datetime, new.obs_id);
 	END IF;
 	
-	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "DELIVERY MODE" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" THEN
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "DELIVERY MODE" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" AND @outcometype = "UPDATE OUTCOME" THEN
 		SET @mode = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
 
   		INSERT INTO patient_report (patient_id, delivery_mode, delivery_date, obs_datetime, obs_id) VALUES(new.person_id, @mode, new.obs_datetime, new.obs_datetime, new.obs_id);
 	END IF;
 	
-	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "NUMBER OF BABIES" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" THEN
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "NUMBER OF BABIES" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" AND @outcometype = "UPDATE OUTCOME" THEN
 		SET @mode = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
 		SET @existing = (SELECT COUNT(*) FROM patient_report WHERE birthdate >= DATE_ADD(new.obs_datetime, INTERVAL -7 DAY) AND birthdate <= DATE_ADD(new.obs_datetime, INTERVAL 7 DAY) AND patient_id = new.person_id AND COALESCE(babies, '') != '');
 
@@ -33,7 +34,7 @@ BEGIN
   		INSERT INTO patient_report (patient_id, bba_babies, bba_date, obs_datetime, obs_id) VALUES(new.person_id, @mode, new.obs_datetime, new.obs_datetime, new.obs_id);
 	END IF;
 	
-	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "OUTCOME" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" THEN
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "OUTCOME" LIMIT 1) AND @type != "CURRENT BBA DELIVERY" AND @outcometype = "UPDATE OUTCOME" THEN
 		SET @mode = (SELECT name FROM concept_name WHERE concept_name_id = new.value_coded_name_id);	
 
   		INSERT INTO patient_report (patient_id, outcome, outcome_date, obs_datetime, obs_id) VALUES(new.person_id, @mode, new.obs_datetime, new.obs_datetime, new.obs_id);
