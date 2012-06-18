@@ -264,7 +264,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :field_type => 'text',
     :helptext =>"Baby: Outcome",
     :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' || $('discharge_outcome').value.toUpperCase() == 'DISCHARGED')")
+        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')")
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
@@ -273,6 +273,23 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
     {
       :id => "baby1_outcome_date"
+    })
+%>
+
+  <% options = {
+    :id => "baby_outcome1_status",
+    :field_type => 'text',
+    :helptext =>"Baby: Discharge Outcome",
+    :condition => (@location.downcase == "ante-natal ward" ? "false" :
+        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED')")
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby1_outcome_date_status"
     })
 %>
 
@@ -351,10 +368,9 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <% options = {
     :id => "baby_outcome2",
     :field_type => 'text',
-    :helptext =>"2<sup>nd</sup> Baby: Outcome",
+    :helptext =>"2<sup>nd</sup> Baby: Discharge Outcome",
     :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1) || " + 
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)")
+        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1)")
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
@@ -363,6 +379,22 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
     {
       :id => "baby2_outcome_date"
+    }) %>
+
+  <% options = {
+    :id => "baby_outcome2_status",
+    :field_type => 'text',
+    :helptext =>"2<sup>nd</sup> Baby: Outcome",
+    :condition => (@location.downcase == "ante-natal ward" ? "false" :
+        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)")
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby2_outcome_date_status"
     }) %>
 
   <% options = {
@@ -443,8 +475,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :field_type => 'text',
     :helptext =>"3<sup>rd</sup> Baby: Outcome",
     :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2) || " +  
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)")
+        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2)")
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
@@ -453,6 +484,22 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
     {
       :id => "baby3_outcome_date"
+    }) %>
+
+  <% options = {
+    :id => "baby_outcome3_status",
+    :field_type => 'text',
+    :helptext =>"3<sup>rd</sup> Baby: Discharge Outcome",
+    :condition => (@location.downcase == "ante-natal ward" ? "false" :
+        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)")
+  }%>
+  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  
+    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+    {
+      :id => "baby3_outcome_date_status"
     }) %>
 
   <% options = {
