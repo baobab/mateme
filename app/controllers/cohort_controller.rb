@@ -707,4 +707,11 @@ class CohortController < ApplicationController
     render :text => patients.to_json
   end
 
+  def decompose
+    @patients = Patient.find(:all, :conditions => ["patient_id IN (?)", params[:patients].split(",")]).uniq
+    
+    # raise @patients.to_yaml
+    render :layout => false
+  end
+  
 end

@@ -58,6 +58,21 @@
       .two {
         font-weight: bold;
       }
+
+      a:link {
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: orange !important;
+        text-decoration: underline;
+      }
+
+      a:visited {
+        color: #000;
+        text-decoration: none;
+      }
     </style>
     <style type="text/css" media="print">
       body {
@@ -115,6 +130,21 @@
 
       .two {
         font-weight: bold;
+      }
+      
+      a:link {
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: orange !important;
+        text-decoration: underline;
+      }
+
+      a:visited {
+        color: #000;
+        text-decoration: none;
       }
     </style>
   </head>
@@ -354,11 +384,23 @@
             
             clients_collection[element] = clients;
             
-            __$(element).innerHTML = clients_collection[element].length; 
+            if(clients_collection[element].length > 0){
             
-            if(__$(base + "_total") && __$(base + "_1") && __$(base + "_2")){
-              __$(base + "_total").innerHTML = eval(__$(base + "_1").innerHTML) + 
-                (__$(base + "_2").innerHTML != "&nbsp;" ? eval(__$(base + "_2").innerHTML) : 0)
+              __$(element).innerHTML = "<form id='frm" + element + "' method='post' target='_parent' action='decompose'>" +
+                "<input type='hidden' value='" + clients_collection[element] + "' name='patients' />" + 
+                "<a href=\"javascript:document.getElementById('frm" + element + "').submit()\">" + 
+                clients_collection[element].length + "</a></form>";
+              
+            } else {
+              
+              __$(element).innerHTML = clients_collection[element].length; 
+              
+            }
+            
+            if(__$(base + "_total") && __$("frm" + base + "_1") && __$("frm" + base + "_2")){
+              __$(base + "_total").innerHTML = eval(__$("frm" + base + "_1").getElementsByTagName("a")[0].innerHTML) + 
+                (__$("frm" + base + "_2").getElementsByTagName("a")[0].innerHTML != "&nbsp;" ? 
+                eval(__$("frm" + base + "_2").getElementsByTagName("a")[0].innerHTML) : 0)
             }
           }
         }
