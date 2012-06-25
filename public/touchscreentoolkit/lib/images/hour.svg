@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="566.71997"
-   height="566.71918"
+   width="340.03149"
+   height="340.03149"
    id="hour"
    version="1.1"
    inkscape:version="0.48.1 r9760"
@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="78.482749"
-     inkscape:cy="259.29527"
+     inkscape:cx="36.392942"
+     inkscape:cy="145.95142"
      inkscape:document-units="px"
-     inkscape:current-layer="layerHour"
+     inkscape:current-layer="hour"
      showgrid="false"
-     inkscape:window-width="1358"
-     inkscape:window-height="666"
+     inkscape:window-width="1592"
+     inkscape:window-height="873"
      inkscape:window-x="0"
-     inkscape:window-y="40"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:snap-grids="true"
      fit-margin-top="0"
@@ -59,7 +59,7 @@
 var hSVGDoc;
 var hSVGRoot;
 
-var scale = 0.65;
+var scale = 1.0;
 var timerHID = null;
 var timerHRunning = false;
 var showH = true;
@@ -146,8 +146,8 @@ function RunHourScript(LoadEvent) {
 	hSVGDoc			= LoadEvent.target.ownerDocument;
 	h_element		= hSVGDoc.getElementById(&quot;layerHour&quot;);
 
-	setHDimension(566.72*scale,566.72*scale);
-         setHScale(scale,scale);
+	//setHDimension(360*scale,360*scale);
+        // setHScale(scale,scale);
 }
 
 function setHDimension(w,h) {
@@ -163,16 +163,16 @@ function setHScale(sw, sh) {
   <g
      inkscape:groupmode="layer"
      id="layerHour"
-     inkscape:label="layer1">
+     inkscape:label="layer1"
+     transform="translate(-113.34383,-113.34382)">
     <g
        inkscape:label="1"
        inkscape:groupmode="layer"
        id="l1"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
-         transform="matrix(0.27563735,-0.9612617,0.9612617,0.27563735,-277.06506,780.60233)"
+         transform="matrix(0.16538241,-0.57675702,0.57675702,0.16538241,-10.028584,679.77809)"
          sodipodi:type="arc"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="t1"
@@ -180,7 +180,7 @@ function setHScale(sw, sh) {
          sodipodi:cy="573.79077"
          sodipodi:rx="274.28571"
          sodipodi:ry="275.71429"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:start="6.2610995"
          sodipodi:end="6.786662"
          inkscape:label="#1"
@@ -191,10 +191,9 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        inkscape:label="2"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
-         transform="matrix(0.7193398,-0.69465838,0.69465838,0.7193398,-313.26817,412.97464)"
+         transform="matrix(0.43160388,-0.41679503,0.41679503,0.43160388,-31.75045,459.20148)"
          sodipodi:type="arc"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="t2"
@@ -202,7 +201,7 @@ function setHScale(sw, sh) {
          sodipodi:cy="573.79077"
          sodipodi:rx="274.28571"
          sodipodi:ry="275.71429"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:start="6.2610995"
          sodipodi:end="6.786662"
          inkscape:label="#2"
@@ -213,10 +212,9 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        id="l3"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
-         transform="matrix(0.97029573,-0.2419219,0.2419219,0.97029573,-161.18193,75.85588)"
+         transform="matrix(0.58217744,-0.14515314,0.14515314,0.58217744,59.501294,256.93022)"
          sodipodi:type="arc"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="t3"
@@ -224,7 +222,7 @@ function setHScale(sw, sh) {
          sodipodi:cy="573.79077"
          sodipodi:rx="274.28571"
          sodipodi:ry="275.71429"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:start="6.2610995"
          sodipodi:end="6.786662"
          inkscape:label="#3"
@@ -235,12 +233,11 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        id="l4"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
          sodipodi:end="6.786662"
          sodipodi:start="6.2610995"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:ry="275.71429"
          sodipodi:rx="274.28571"
          sodipodi:cy="573.79077"
@@ -248,7 +245,7 @@ function setHScale(sw, sh) {
          id="t4"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          sodipodi:type="arc"
-         transform="matrix(0.9612617,0.27563735,-0.27563735,0.9612617,138.46551,-139.04946)"
+         transform="matrix(0.57675702,0.16538241,-0.16538241,0.57675702,239.28976,127.98702)"
          inkscape:label="#4"
          onclick="setActive(&quot;t4&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(4);}" />
     </g>
@@ -257,10 +254,9 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        id="l5"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
-         transform="matrix(0.69465838,0.7193398,-0.7193398,0.69465838,506.0932,-175.25257)"
+         transform="matrix(0.41679503,0.43160388,-0.43160388,0.41679503,459.86637,106.26515)"
          sodipodi:type="arc"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="t5"
@@ -268,7 +264,7 @@ function setHScale(sw, sh) {
          sodipodi:cy="573.79077"
          sodipodi:rx="274.28571"
          sodipodi:ry="275.71429"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:start="6.2610995"
          sodipodi:end="6.786662"
          inkscape:label="#5"
@@ -279,12 +275,11 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        id="l6"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
          sodipodi:end="6.786662"
          sodipodi:start="6.2610995"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:ry="275.71429"
          sodipodi:rx="274.28571"
          sodipodi:cy="573.79077"
@@ -292,7 +287,7 @@ function setHScale(sw, sh) {
          id="t6"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          sodipodi:type="arc"
-         transform="matrix(0.2419219,0.97029573,-0.97029573,0.2419219,843.21196,-23.166333)"
+         transform="matrix(0.14515314,0.58217744,-0.58217744,0.14515314,662.13763,197.51689)"
          inkscape:label="#6"
          onclick="setActive(&quot;t6&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(6);}" />
     </g>
@@ -301,10 +296,9 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        id="l7"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
-         transform="matrix(-0.27563735,0.9612617,-0.9612617,-0.27563735,1058.1173,276.48111)"
+         transform="matrix(-0.16538241,0.57675702,-0.57675702,-0.16538241,791.08083,377.30536)"
          sodipodi:type="arc"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="t7"
@@ -312,7 +306,7 @@ function setHScale(sw, sh) {
          sodipodi:cy="573.79077"
          sodipodi:rx="274.28571"
          sodipodi:ry="275.71429"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:start="6.2610995"
          sodipodi:end="6.786662"
          inkscape:label="#7"
@@ -323,10 +317,9 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        inkscape:label="8"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
-         transform="matrix(-0.7193398,0.69465838,-0.69465838,-0.7193398,1094.3204,644.1088)"
+         transform="matrix(-0.43160388,0.41679503,-0.41679503,-0.43160388,812.80269,597.88197)"
          sodipodi:type="arc"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="t8"
@@ -334,7 +327,7 @@ function setHScale(sw, sh) {
          sodipodi:cy="573.79077"
          sodipodi:rx="274.28571"
          sodipodi:ry="275.71429"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:start="6.2610995"
          sodipodi:end="6.786662"
          inkscape:label="#8"
@@ -345,12 +338,11 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        inkscape:label="9"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
          sodipodi:end="6.786662"
          sodipodi:start="6.2610995"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:ry="275.71429"
          sodipodi:rx="274.28571"
          sodipodi:cy="573.79077"
@@ -358,7 +350,7 @@ function setHScale(sw, sh) {
          id="t9"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          sodipodi:type="arc"
-         transform="matrix(-0.97029573,0.2419219,-0.2419219,-0.97029573,942.23419,981.22756)"
+         transform="matrix(-0.58217744,0.14515314,-0.14515314,-0.58217744,721.55097,800.15323)"
          inkscape:label="#9"
          onclick="setActive(&quot;t9&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(9);}" />
     </g>
@@ -367,10 +359,9 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        inkscape:label="10"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
-         transform="matrix(-0.9612617,-0.27563735,0.27563735,-0.9612617,642.58675,1196.1329)"
+         transform="matrix(-0.57675702,-0.16538241,0.16538241,-0.57675702,541.7625,929.09643)"
          sodipodi:type="arc"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          id="t10"
@@ -378,7 +369,7 @@ function setHScale(sw, sh) {
          sodipodi:cy="573.79077"
          sodipodi:rx="274.28571"
          sodipodi:ry="275.71429"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:start="6.2610995"
          sodipodi:end="6.786662"
          inkscape:label="#10"
@@ -389,12 +380,11 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        inkscape:label="11"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
          sodipodi:end="6.786662"
          sodipodi:start="6.2610995"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:ry="275.71429"
          sodipodi:rx="274.28571"
          sodipodi:cy="573.79077"
@@ -402,7 +392,7 @@ function setHScale(sw, sh) {
          id="t11"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          sodipodi:type="arc"
-         transform="matrix(-0.69465838,-0.7193398,0.7193398,-0.69465838,274.95906,1232.336)"
+         transform="matrix(-0.41679503,-0.43160388,0.43160388,-0.41679503,321.18589,950.81829)"
          inkscape:label="#11"
          onclick="setActive(&quot;t11&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(11);}" />
     </g>
@@ -411,12 +401,11 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        id="l12"
        style="display:inline"
-       transform="translate(-107.16655,-245.18216)"
-       sodipodi:insensitive="true">
+       transform="translate(-107.16655,-245.18216)">
       <path
          sodipodi:end="6.786662"
          sodipodi:start="6.2610995"
-         d="m 708.50452,567.70189 a 274.28571,275.71429 0 0 1 -33.9691,139.11378 L 434.28571,573.79077 z"
+         d="m 708.50452,567.70189 c 1.06732,48.56974 -10.65121,96.56067 -33.9691,139.11378 L 434.28571,573.79077 z"
          sodipodi:ry="275.71429"
          sodipodi:rx="274.28571"
          sodipodi:cy="573.79077"
@@ -424,151 +413,143 @@ function setHScale(sw, sh) {
          id="t12"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          sodipodi:type="arc"
-         transform="matrix(-0.2419219,-0.97029573,0.97029573,-0.2419219,-62.159702,1080.2498)"
+         transform="matrix(-0.14515314,-0.58217744,0.58217744,-0.14515314,118.91463,859.56657)"
          inkscape:label="#12"
          onclick="setActive(&quot;t12&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(12);}" />
     </g>
     <g
        inkscape:groupmode="layer"
        id="g3043"
-       inkscape:label="t1"
-       sodipodi:insensitive="true">
+       inkscape:label="t1">
       <text
          xml:space="preserve"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="373.75647"
-         y="106.08961"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="337.59772"
+         y="176.99759"
          id="text3006"
          sodipodi:linespacing="125%"
          onclick="setActive(&quot;t1&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(1);}"><tspan
            sodipodi:role="line"
            id="tspan3008"
-           x="373.75647"
-           y="106.08961">1</tspan></text>
+           x="337.59772"
+           y="176.99759">1</tspan></text>
     </g>
     <g
        inkscape:label="t2"
        id="g3010"
-       inkscape:groupmode="layer"
-       sodipodi:insensitive="true">
+       inkscape:groupmode="layer">
       <text
          sodipodi:linespacing="125%"
          id="text3012"
-         y="187.91197"
-         x="460.62958"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="226.09102"
+         x="389.72159"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"
          onclick="setActive(&quot;t2&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(2);}"><tspan
-           y="187.91197"
-           x="460.62958"
+           y="226.09102"
+           x="389.72159"
            id="tspan3014"
            sodipodi:role="line">2</tspan></text>
     </g>
     <g
        inkscape:groupmode="layer"
        id="g3016"
-       inkscape:label="t3"
-       sodipodi:insensitive="true">
+       inkscape:label="t3">
       <text
          xml:space="preserve"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="487.90369"
-         y="305.08966"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="406.08603"
+         y="296.39761"
          id="text3018"
          sodipodi:linespacing="125%"
          onclick="setActive(&quot;t3&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(3);}"><tspan
            sodipodi:role="line"
            id="tspan3020"
-           x="487.90369"
-           y="305.08966">3</tspan></text>
+           x="406.08603"
+           y="296.39761">3</tspan></text>
     </g>
     <g
        inkscape:label="t4"
        id="g3022"
-       inkscape:groupmode="layer"
-       sodipodi:insensitive="true">
+       inkscape:groupmode="layer">
       <text
          sodipodi:linespacing="125%"
          id="text3024"
-         y="415.19632"
-         x="461.63971"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="362.46161"
+         x="390.32767"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"
          onclick="setActive(&quot;t4&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(4);}"><tspan
-           y="415.19632"
-           x="461.63971"
+           y="362.46161"
+           x="390.32767"
            id="tspan3026"
            sodipodi:role="line">4</tspan></text>
     </g>
     <g
        inkscape:groupmode="layer"
        id="g3028"
-       inkscape:label="t5"
-       sodipodi:insensitive="true">
+       inkscape:label="t5">
       <text
          xml:space="preserve"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="375.77676"
-         y="497.01865"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="338.80988"
+         y="411.55502"
          id="text3030"
          sodipodi:linespacing="125%"
          onclick="setActive(&quot;t5&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(5);}"><tspan
            sodipodi:role="line"
            id="tspan3032"
-           x="375.77676"
-           y="497.01865">5</tspan></text>
+           x="338.80988"
+           y="411.55502">5</tspan></text>
     </g>
     <g
        inkscape:label="t6"
        id="g3034"
-       inkscape:groupmode="layer"
-       sodipodi:insensitive="true">
+       inkscape:groupmode="layer">
       <text
          sodipodi:linespacing="125%"
          id="text3036"
-         y="523.28265"
-         x="270.72089"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="427.31342"
+         x="275.77637"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"
          onclick="setActive(&quot;t6&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(6);}"><tspan
-           y="523.28265"
-           x="270.72089"
+           y="427.31342"
+           x="275.77637"
            id="tspan3038"
            sodipodi:role="line">6</tspan></text>
     </g>
     <g
        inkscape:groupmode="layer"
        id="g3046"
-       inkscape:label="t7"
-       sodipodi:insensitive="true">
+       inkscape:label="t7">
       <text
          xml:space="preserve"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="159.60411"
-         y="489.94757"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="209.10629"
+         y="407.31238"
          id="text3048"
          sodipodi:linespacing="125%"
          onclick="setActive(&quot;t7&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(7);}"><tspan
            sodipodi:role="line"
            id="tspan3050"
-           x="159.60411"
-           y="489.94757">7</tspan></text>
+           x="209.10629"
+           y="407.31238">7</tspan></text>
     </g>
     <g
        inkscape:label="t8"
        id="g3052"
-       inkscape:groupmode="layer"
-       sodipodi:insensitive="true">
+       inkscape:groupmode="layer">
       <text
          sodipodi:linespacing="125%"
          id="text3054"
-         y="422.26736"
-         x="67.680229"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="366.70425"
+         x="153.95197"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"
          onclick="setActive(&quot;t8&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(8);}"><tspan
-           y="422.26736"
-           x="67.680229"
+           y="366.70425"
+           x="153.95197"
            id="tspan3056"
            sodipodi:role="line">8</tspan></text>
     </g>
@@ -576,56 +557,53 @@ function setHScale(sw, sh) {
        inkscape:groupmode="layer"
        id="g3058"
        inkscape:label="t9"
-       style="display:inline"
-       sodipodi:insensitive="true">
+       style="display:inline">
       <text
          xml:space="preserve"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="36.365501"
-         y="307.10999"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="135.16313"
+         y="297.60983"
          id="text3060"
          sodipodi:linespacing="125%"
          onclick="setActive(&quot;t9&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(9);}"><tspan
            sodipodi:role="line"
            id="tspan3062"
-           x="36.365501"
-           y="307.10999">9</tspan></text>
+           x="135.16313"
+           y="297.60983">9</tspan></text>
     </g>
     <g
        inkscape:label="t10"
        id="g3064"
-       inkscape:groupmode="layer"
-       sodipodi:insensitive="true">
+       inkscape:groupmode="layer">
       <text
          sodipodi:linespacing="125%"
          id="text3066"
-         y="193.97289"
-         x="55.558395"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="229.72755"
+         x="146.67886"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"
          onclick="setActive(&quot;t10&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(10);}"><tspan
-           y="193.97289"
-           x="55.558395"
+           y="229.72755"
+           x="146.67886"
            id="tspan3068"
            sodipodi:role="line">10</tspan></text>
     </g>
     <g
        inkscape:groupmode="layer"
        id="g3070"
-       inkscape:label="t11"
-       sodipodi:insensitive="true">
+       inkscape:label="t11">
       <text
          xml:space="preserve"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="135.36044"
-         y="111.14039"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="194.5601"
+         y="180.02806"
          id="text3072"
          sodipodi:linespacing="125%"
          onclick="setActive(&quot;t11&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(11);}"><tspan
            sodipodi:role="line"
            id="tspan3074"
-           x="135.36044"
-           y="111.14039">11</tspan></text>
+           x="194.5601"
+           y="180.02806">11</tspan></text>
     </g>
     <g
        inkscape:groupmode="layer"
@@ -633,16 +611,16 @@ function setHScale(sw, sh) {
        inkscape:label="t12">
       <text
          xml:space="preserve"
-         style="font-size:56px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-         x="244.45692"
-         y="73.764732"
+         style="font-size:33.59999847px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="260.01797"
+         y="157.60268"
          id="text3042"
          sodipodi:linespacing="125%"
          onclick="setActive(&quot;t12&quot;);     if(document.defaultView.parent.window.ds) {document.defaultView.parent.window.ds.invokeHourUpdate(12);}"><tspan
            sodipodi:role="line"
            id="tspan3044"
-           x="244.45692"
-           y="73.764732">12</tspan></text>
+           x="260.01797"
+           y="157.60268">12</tspan></text>
     </g>
   </g>
 </svg>

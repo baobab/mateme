@@ -324,7 +324,7 @@ div.panel h2 {
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 22px;
-    -moz-border-radius: 75px;
+    border-radius: 75px;
     border: 1px solid #eee;
     max-height: 122px;
     width: 190px;
@@ -363,7 +363,7 @@ div.panel h2 {
     color: #ddd;
     text-align: center;
     padding: 3px;
-    -moz-border-radius: 75px;
+    border-radius: 75px;
     border: 1px solid #ddd;
     padding: 10px;
     padding-bottom: 27px;
@@ -397,7 +397,7 @@ div.panel h2 {
 #details {
     display: table;
     border: 1px solid #999;
-    -moz-border-radius: 20px;
+    border-radius: 20px;
     float: left;
     overflow: hidden;
     margin: 5px;
@@ -456,7 +456,7 @@ div.panel h2 {
 #gender {
     width: 30px;
     height: 30px;
-    -moz-border-radius: 20px;
+    border-radius: 20px;
     border: 1px #000 solid;
     background-color: #eef;
 }
@@ -530,7 +530,7 @@ div.panel h2 {
     height: 30px;
     width: 225px;
     background-color: #fff;
-    -moz-border-radius: 40px;
+    border-radius: 40px;
     font-size: 1.5em;
     color: #666;
     text-align: center;
@@ -545,7 +545,7 @@ div.panel h2 {
     height: 50px;
     width: 740px;
     background-color: #fff;
-    -moz-border-radius: 40px;
+    border-radius: 40px;
     background-color: #eee;
 }
 
@@ -585,7 +585,7 @@ div.panel h2 {
     margin-top: 6px;
     background-color: #eee;
     padding: 5px;
-    -moz-border-radius: 30px;
+    border-radius: 30px;
     overflow: hidden;
     max-height: 30px;
     font-style: italic;
@@ -599,7 +599,7 @@ div.panel h2 {
     width: 30%;
     height: 230px;
     overflow: auto;
-    -moz-border-radius: 5px;
+    border-radius: 5px;
     border: 1px solid #ddd;
 }
 

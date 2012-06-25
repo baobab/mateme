@@ -154,7 +154,7 @@ form{
     bottom: 85px;
     left: 25px;
     border: 1px solid #333;
-    -moz-border-radius: 15px;
+    border-radius: 15px;
     padding: 5px;
     background-color: #fff;
     width: 935px;
@@ -211,7 +211,7 @@ form{
     margin-left:25px;
     background: #F0F0F0;
     width:935px;
-    -moz-border-radius: 10px;
+    border-radius: 10px;
     padding: 5px;
 }
 
@@ -283,7 +283,7 @@ form{
     z-index: 999;
     border: 5px outset tomato;
     display: none;
-    -moz-border-radius: 15px;
+    border-radius: 15px;
 }
 
 .confirmationBar {
@@ -313,7 +313,7 @@ form{
     display: none;
     padding: 20px;   
     border: 5px outset tomato;
-    -moz-border-radius: 15px; 
+    border-radius: 15px; 
 }
 
 .touchscreenPopup #confirmUsername {
@@ -815,7 +815,7 @@ button {
     top: 120px;
     margin-left: 50%;
     left: -475px;
-    -moz-border-radius: 20px;
+    border-radius: 20px;
 }
 
 .NoKeyboard #keyboard {
@@ -884,7 +884,7 @@ button:active {
     background:url(../images/btn_blue.png) right repeat;
     -moz-user-select:none;
     -moz-user-focus:disabled;
-    -moz-border-radius: 12px;
+    border-radius: 12px;
 }
 
 .btn:hover {
@@ -1002,7 +1002,7 @@ ul li {
     display: none;
     padding: 20px;   
     border: 5px outset #40f999;
-    -moz-border-radius: 15px; 
+    border-radius: 15px; 
 }
 
 #progress_bar {

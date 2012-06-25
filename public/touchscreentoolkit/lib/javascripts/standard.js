@@ -4107,7 +4107,7 @@ AdvancedTimeSelector.prototype = {
         var node = document.createElement('div');
         // TODO: move style stuff to a css file
         node.innerHTML = ' \
-			<div id="timeselector" class="dateselector"> \
+			<div id="timeselector" class="dateselector" style="min-height: 477px;"> \
                             <div class="table" style="width: 100%;"><div class="row"><div class="cell" \
                                         style="text-align: center; font-size: 36px;">\
                                         Hour</div><div class="cell">&nbsp;</div><div class="cell" \

@@ -246,7 +246,7 @@
     background:url(../images/btn_blue.png) right repeat;
     -moz-user-select:none;
     -moz-user-focus:disabled;
-    -moz-border-radius: 12px;
+    border-radius: 12px;
 }
 
 .btn:hover {
