@@ -331,6 +331,8 @@ class CohortController < ApplicationController
         labor_gynae(params[:start_date], params[:end_date], params[:group], params[:field])
       when "gynae_labor"
         gynae_labor(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "labor_ante"
+        labor_ante(params[:start_date], params[:end_date], params[:group], params[:field])
       when "total_deliveries"
         total_deliveries(params[:start_date], params[:end_date], params[:group], params[:field])
       when "premature_labour"
@@ -541,6 +543,14 @@ class CohortController < ApplicationController
   def labor_high(startdate = Time.now, enddate = Time.now, group = 1, field = "")
     patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Labour Ward' AND " + 
           "COALESCE(destination_ward, '') = 'Post-Natal Ward (High Risk)' " + 
+          "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
+    
+    render :text => patients.to_json
+  end
+
+  def labor_ante(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(source_ward, '') = 'Labour Ward' AND " + 
+          "COALESCE(destination_ward, '') = 'Ante-Natal Ward' " + 
           "AND internal_transfer_date >= ? AND internal_transfer_date <= ?", startdate, enddate]).collect{|p| p.patient_id}.uniq
     
     render :text => patients.to_json

@@ -131,7 +131,7 @@
       .two {
         font-weight: bold;
       }
-      
+
       a:link {
         color: #000;
         text-decoration: none;
@@ -271,6 +271,8 @@
         
         ["Labour - Post-Natal (Low Risk)", 3, "labor_low", "/cohort/q?field=labor_low"],
         
+        ["Labour - Ante-Natal", 3, "labor_ante", "/cohort/q?field=labor_ante"],
+        
         ["Theatre - Post-Natal (High Risk)", 3, "theatre_high", "/cohort/q?field=theatre_high"],
         
         ["Ante-Natal - Theatre", 3, "ante_theatre", "/cohort/q?field=ante_theatre"],
@@ -384,19 +386,12 @@
             
             clients_collection[element] = clients;
             
-            if(clients_collection[element].length > 0){
-            
-              __$(element).innerHTML = "<form id='frm" + element + "' method='post' target='_parent' action='decompose'>" +
-                "<input type='hidden' value='" + clients_collection[element] + "' name='patients' />" + 
-                "<a href=\"javascript:document.getElementById('frm" + element + "').submit()\">" + 
-                clients_collection[element].length + "</a></form>";
+            __$(element).innerHTML = "<form id='frm" + element + "' method='post' target='_parent' action='decompose'>" +
+              "<input type='hidden' value='" + clients_collection[element] + "' name='patients' /><a " + 
+              (clients_collection[element].length > 0 ? "href=\"javascript:document.getElementById('frm" + element + 
+              "').submit()\" " : "") + ">" + 
+              clients_collection[element].length + "</a></form>";
               
-            } else {
-              
-              __$(element).innerHTML = clients_collection[element].length; 
-              
-            }
-            
             if(__$(base + "_total") && __$("frm" + base + "_1") && __$("frm" + base + "_2")){
               __$(base + "_total").innerHTML = eval(__$("frm" + base + "_1").getElementsByTagName("a")[0].innerHTML) + 
                 (__$("frm" + base + "_2").getElementsByTagName("a")[0].innerHTML != "&nbsp;" ? 
