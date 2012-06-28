@@ -93,6 +93,8 @@ class UserController < ApplicationController
 
     if params[:user_id]
       @user = User.find(params[:user_id])
+    else
+      @user = User.find(session[:user_edit])
     end
   end
 
@@ -170,45 +172,46 @@ class UserController < ApplicationController
   end
 
   def destroy
+    @user = User.find(params[:user_id])
     unless request.get?
-      @user = User.find(session[:user_edit])
+      # @user = User.find(session[:user_edit])
       if @user.update_attributes(:voided => true, :void_reason => params[:user][:void_reason],:voided_by => session[:user_id],:date_voided => Time.now.to_s)
         flash[:notice]='User has successfully been removed.'
-        redirect_to :action => 'voided_list'
+        redirect_to :action => 'search_user' # 'voided_list'
       else
-        flash[:notice]='User was not successfully removed'
+        flash[:error]='User was not successfully removed'
         redirect_to :action => 'destroy'
       end
     end
   end
   
   def add_role
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     unless request.get?
       user_role=UserRole.new
       user_role.role = Role.find_by_role(params[:user_role][:role_id])
       user_role.user_id=@user.user_id
       user_role.save
       flash[:notice] = "You have successfuly added the role of #{params[:user_role][:role_id]}"
-      redirect_to :action => "show"
+      redirect_to :action => "show", 'user_id' => @user.user_id
     else
-      user_roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role.role}
+      user_roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role}
       all_roles = Role.find(:all).collect{|r|r.role}
       @roles = (all_roles - user_roles)
-      @show_super_user = true if UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role.role != "superuser" }
+      @show_super_user = true if UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role != "superuser" }
     end
   end
   
   def delete_role
-    @user = User.find(params[:id])
+    @user = User.find(params[:user_id])
     unless request.post?
-      @roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role.role}
+      @roles = UserRole.find_all_by_user_id(@user.user_id).collect{|ur|ur.role}
     else
       role = Role.find_by_role(params[:user_role][:role_id]).role
       user_role =  UserRole.find_by_role_and_user_id(role,@user.user_id)  
       user_role.destroy
       flash[:notice] = "You have successfuly removed the role of #{params[:user_role][:role_id]}"
-      redirect_to :action =>"show"
+      redirect_to :action =>"show", :user_id =>@user.id
     end
   end
   
@@ -221,7 +224,8 @@ class UserController < ApplicationController
     session[:user_edit] = nil
     unless request.get?
       session[:user_edit] = User.find_by_username(params[:user][:username]).user_id
-      redirect_to :action =>"show"
+      
+      redirect_to :action =>"show", 'user_id' => session[:user_edit]
     end
   end
   

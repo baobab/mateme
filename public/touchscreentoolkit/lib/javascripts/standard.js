@@ -1609,6 +1609,12 @@ function clearInput(){
 }
 
 function showMessage(aMessage, withCancel, timed) {
+    if(typeof(tstMessageBar) == "undefined"){
+        __$("content").innerHTML += "<div id='messageBar' class='messageBar'></div>";
+        
+        tstMessageBar = __$('messageBar');
+    }
+    
     var messageBar = tstMessageBar;
     messageBar.innerHTML = aMessage +
     "<br />" + (typeof(withCancel) != "undefined" ? (withCancel == true ?

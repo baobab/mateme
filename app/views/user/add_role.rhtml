@@ -1,7 +1,7 @@
 <script type="text/javascript">
-  tt_cancel_destination = "/user/user_menu"; 
+  tt_cancel_destination = "/user/show?user_id=<%= @user.id %>"; 
 </script>
 
-<% form_tag :action => "add_role", :id =>@user do %>
+<% form_tag :action => "add_role", :user_id =>@user.id do %>
   <%= render:partial => "form"%>
 <% end %>

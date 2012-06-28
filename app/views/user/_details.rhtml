@@ -8,6 +8,7 @@
 <h2 style="font-size: 2em;"><%= @user.username%></h2>
 <table cellpadding="2" cellspacing="0" style="font-size: 1.8em;">
   <tr> <td> <span class='title'> Name: </span> </td> <td> <%= @user.name rescue 'Unknown' %><br/> </td></tr>
-  <tr> <td> <span class='title'> Role: </span> </td> <td> <%= @user.user_roles.collect{|r|r.role}.join(",") rescue 'Unknown' %><br/> </td></tr>
+  <tr> <td style="vertical-align: top;"> <span class='title'> Role<%= (@user.user_roles.length > 1 ? "s" : "") %>: 
+      </span> </td> <td> <%= @user.user_roles.collect{|r|r.role}.join(",") rescue 'Unknown' %><br/> </td></tr>
 </table>
 </div>

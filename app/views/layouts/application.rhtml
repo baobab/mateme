@@ -43,10 +43,26 @@
           <% end %>
         </div>
         <% unless flash[:notice].nil? %>
-          <p id="flash_notice" style="color: green"><%= flash[:notice] %></p>
+          <!--p id="flash_notice" style="color: green"><%= flash[:notice] %></p-->
+        
+        <script type="text/javascript" language="javascript">
+          <!--
+          
+          setTimeout("showMessage('<%= flash[:notice] %>', false, false)", 200);
+          
+          //-->
+        </script>
         <% end %>
         <% unless flash[:error].nil? %>
-          <p id="flash_error" style="color: red"><%= flash[:error] %></p>
+          <!--p id="flash_error" style="color: red"><%= flash[:error] %></p-->
+        <script type="text/javascript" language="javascript">
+          <!--
+          
+          setTimeout("showMessage('<%= flash[:error] %>', false, false)", 200);
+          
+          //-->
+        </script>
+          
         <% end %>
         <%= yield %>
         <div id="footer">
