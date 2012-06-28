@@ -794,7 +794,7 @@ function loadSelectOptions(selectOptions, options, dualViewOptions) {
         
         optionsList += '<li id=\'' + (j-1) + '\' ';
         if (selectOptions[j].value) {
-            optionsList += " id='option"+selectOptions[j].value +"' tstValue='"+selectOptions[j].value +"'";
+            optionsList += " id=\"option"+selectOptions[j].value +"\" tstValue=\""+selectOptions[j].value +"\"";
             selected = j;
         } 
         
