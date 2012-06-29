@@ -47,9 +47,11 @@ class EncountersController < ApplicationController
     
     if encounter.patient.current_visit.encounters.active.collect{|e|
         e.observations.collect{|o|
-          o.answer_string if o.answer_string.to_s.upcase.include?("PATIENT DIED")
+          o.answer_string if o.answer_string.to_s.upcase.include?("PATIENT DIED") || 
+            o.answer_string.to_s.upcase.include?("DISCHARGED")
         }.compact if e.type.name.upcase.eql?("UPDATE OUTCOME")
-      }.compact.collect{|p| true if p.to_s.upcase.include?("PATIENT DIED")}.compact.include?(true) == true
+      }.compact.collect{|p| true if p.to_s.upcase.include?("PATIENT DIED") ||
+          p.to_s.upcase.include?("DISCHARGED")}.compact.include?(true) == true
 
       encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
 
