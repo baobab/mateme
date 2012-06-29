@@ -966,59 +966,54 @@ class Reports::Cohort
   end
 
   def tb_yes_ever
-    
+    ids_for_concept_no = ConceptName.find(:all, :conditions => ["name = ?", "YES"]).collect{|c| c.concept_id} 
     @patients = Patient.find(:all, :joins => [:encounters => :observations], 
-      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime), value_coded"], 
       :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
-          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?)", 
+          "AND encounter_type = ? AND obs.concept_id IN (?) " + 
+          "AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? ", 
         EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
         ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
-          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "YES"]).collect{|c| 
-          c.concept_id}], :group => ["patient.patient_id"]).length
-                            
+          c.concept_id}, @end_date], :group => ["patient.patient_id HAVING value_coded IN (#{ids_for_concept_no.join(", ")})"]).length       
+                    
   end
 
   def tb_yes
-    
+    ids_for_concept_no = ConceptName.find(:all, :conditions => ["name = ?", "YES"]).collect{|c| c.concept_id} 
     @patients = Patient.find(:all, :joins => [:encounters => :observations], 
-      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime), value_coded"], 
       :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
-          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?) " + 
+          "AND encounter_type = ? AND obs.concept_id IN (?) " + 
           "AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
           AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? ", 
         EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
         ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
-          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "YES"]).collect{|c| 
-          c.concept_id}, @start_date, @end_date], :group => ["patient.patient_id"]).length
-                           
+          c.concept_id}, @start_date, @end_date], :group => ["patient.patient_id HAVING value_coded IN (#{ids_for_concept_no.join(", ")})"]).length       
   end
 
   def tb_no_ever
-    
+    ids_for_concept_no = ConceptName.find(:all, :conditions => ["name = ?", "NO"]).collect{|c| c.concept_id} 
     @patients = Patient.find(:all, :joins => [:encounters => :observations], 
-      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime), value_coded"], 
       :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
-          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?)", 
+          "AND encounter_type = ? AND obs.concept_id IN (?) " + 
+          "AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? ", 
         EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
         ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
-          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "NO"]).collect{|c| 
-          c.concept_id}], :group => ["patient.patient_id"]).length
-                            
+          c.concept_id}, @end_date], :group => ["patient.patient_id HAVING value_coded IN (#{ids_for_concept_no.join(", ")})"]).length                            
   end
 
   def tb_no
-    
+    ids_for_concept_no = ConceptName.find(:all, :conditions => ["name = ?", "NO"]).collect{|c| c.concept_id} 
     @patients = Patient.find(:all, :joins => [:encounters => :observations], 
-      :select => ["patient.patient_id, MAX(encounter.encounter_datetime)"], 
+      :select => ["patient.patient_id, MAX(encounter.encounter_datetime), value_coded"], 
       :conditions => ["encounter.patient_id = patient.patient_id AND patient.voided = 0 " + 
-          "AND encounter_type = ? AND obs.concept_id IN (?) AND value_coded IN (?) " + 
+          "AND encounter_type = ? AND obs.concept_id IN (?) " + 
           "AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') >= ? 
           AND DATE_FORMAT(patient.date_created, '%Y-%m-%d') <= ? ", 
         EncounterType.find_by_name("DIABETES INITIAL QUESTIONS").id, 
         ConceptName.find(:all, :conditions => ["name = ?", "HAVE YOU EVER HAD TB?"]).collect{|c| 
-          c.concept_id}, ConceptName.find(:all, :conditions => ["name = ?", "NO"]).collect{|c| 
-          c.concept_id}, @start_date, @end_date], :group => ["patient.patient_id"]).length
-                           
+          c.concept_id}, @start_date, @end_date], :group => ["patient.patient_id HAVING value_coded IN (#{ids_for_concept_no.join(", ")})"]).length        
   end
 
   def tb_unkown_ever
