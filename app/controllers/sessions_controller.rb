@@ -37,6 +37,8 @@ class SessionsController < ApplicationController
     @login_wards = [' ']
 
     @wards.each{|ward|
+      @login_wards << ward
+=begin      
       if @location_name.upcase.eql?("KAMUZU CENTRAL HOSPITAL")
 
         if !ward.upcase.eql?("POST-NATAL WARD (LOW RISK)") && !ward.upcase.eql?("POST-NATAL WARD (HIGH RISK)")
@@ -50,6 +52,7 @@ class SessionsController < ApplicationController
         end
 
       end
+=end      
     }
 
     if !@location_name.blank?
