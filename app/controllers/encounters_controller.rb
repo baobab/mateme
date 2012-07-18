@@ -51,7 +51,7 @@ class EncountersController < ApplicationController
             o.answer_string.to_s.upcase.include?("DISCHARGED")
         }.compact if e.type.name.upcase.eql?("UPDATE OUTCOME")
       }.compact.collect{|p| true if p.to_s.upcase.include?("PATIENT DIED") ||
-         p.to_s.upcase.include?("DISCHARGED")}.compact.include?(true) == true
+          p.to_s.upcase.include?("DISCHARGED")}.compact.include?(true) == true
 
       encounter.patient.current_visit.update_attributes(:end_date => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
 
@@ -110,7 +110,15 @@ class EncountersController < ApplicationController
 
     @encounters = @encounters + (@encounters == "" ? @anc_encounters : ", " + @anc_encounters)
 
-    # raise @encounters.to_yaml
+    @anc_encounters = AncConnection::Patient.find(session["patient_anc_map"][@patient.id],
+      :conditions => ["encounter_type = ?",
+        AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").encounter_type_id]).encounters.collect{|e|
+      e.observations.collect{|o|
+        o.concept.concept_names.map(& :name).last.upcase
+      }
+    }.join(", ") rescue ""
+
+    @encounters = @encounters + (@encounters == "" ? @anc_encounters : ", " + @anc_encounters)
 
     @lmp = Observation.find(:all, :conditions => ["concept_id IN (?) AND person_id = 34 AND encounter_id IN (?)", 
         ConceptName.find_by_name("LAST MENSTRUAL PERIOD").concept_id, @patient.encounters.collect{|e| e.id}],
@@ -533,6 +541,48 @@ class EncountersController < ApplicationController
     @outpatient_diagnosis = {}
     @referral = {}
 
+    @deliveries = 0
+    @gravida = 0
+    @abortions = 0
+    
+    if !(session["patient_anc_map"][@patient.id] rescue nil).nil?
+      @ancpatient = AncConnection::Patient.find(session["patient_anc_map"][@patient.id]) rescue nil
+
+      @anc_patient = ANCService::ANC.new(@ancpatient)
+
+      @pregnancies = @anc_patient.active_range
+
+      @range = []
+
+      @pregnancies = @pregnancies[1]
+
+      @pregnancies.each{|preg|
+        @range << preg[0].to_date
+      }
+
+      @encs = AncConnection::Encounter.find(:all, :conditions => ["patient_id = ? AND encounter_type = ?",
+          @ancpatient.id, AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id]).length
+
+      if @encs > 0
+        @deliveries = AncConnection::Observation.find(:last,
+          :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @ancpatient.id,
+            AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+            AncConnection::ConceptName.find_by_name('PARITY').concept_id]).answer_string.to_i rescue nil
+
+        @deliveries = @deliveries + (@range.length > 0 ? @range.length - 1 : @range.length) if !@deliveries.nil?
+
+        @gravida = AncConnection::Observation.find(:last,
+          :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @ancpatient.id,
+            AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+            AncConnection::ConceptName.find_by_name('GRAVIDA').concept_id]).answer_string.to_i rescue nil
+
+        @abortions = AncConnection::Observation.find(:last,
+          :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @ancpatient.id,
+            AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+            AncConnection::ConceptName.find_by_name('NUMBER OF ABORTIONS').concept_id]).answer_string.to_i rescue nil
+      end
+    end
+    
     @patient.current_visit.encounters.active.find(:all, :conditions => ["encounter_type = ?",
         EncounterType.find_by_name("IS PATIENT REFERRED?").encounter_type_id]).each{|e|
       e.observations.each{|o|

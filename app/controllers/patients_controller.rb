@@ -18,7 +18,7 @@ class PatientsController < ApplicationController
     if session[:location_id] != @last_location && (params[:skip_check] ? (params[:skip_check] == "true" ? false : true ) : true)
       redirect_to "/encounters/new/admit_patient?patient_id=#{@patient.id}" and return
     end
-    
+
     #find the user priviledges
     @super_user = false
     @clinician  = false

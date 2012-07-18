@@ -76,10 +76,12 @@
     </tr>
     <tr>
       <td>
-        <b>Gravida:</b> <%= @encounters["PATIENT PREGNANT"].to_i rescue "" %>
+        <b>Gravida:</b> <%= (@encounters["PATIENT PREGNANT"].to_i < @gravida ?
+              @gravida : @encounters["PATIENT PREGNANT"].to_i) rescue "" %>
       </td>
       <td>
-        <b>Parity:</b>  <%= @encounters["PARITY"].to_i rescue "" %>
+        <b>Parity:</b>  <%= (@encounters["PARITY"].to_i < @deliveries ? @deliveries :
+            @encounters["PARITY"].to_i ) rescue "" %>
       </td>
       <td colspan="3">
 
@@ -114,7 +116,8 @@
         &nbsp;
       </td>
       <td colspan="4">
-        <b>Abortions:</b> <%= @encounters["NUMBER OF ABORTIONS"].to_i rescue "" %>
+        <b>Abortions:</b> <%= (@encounters["NUMBER OF ABORTIONS"].to_i < @abortions ? @abortions :
+              @encounters["NUMBER OF ABORTIONS"].to_i) rescue "" %>
       </td>
     </tr>
     <tr>

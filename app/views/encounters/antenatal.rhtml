@@ -54,8 +54,8 @@
           </button>
         </div>
         <div style="display: table-cell">
-          <button class="<%= (@encounters.include?("TT STATUS") ? "gray" : "blue") %>"
-                  onclick="<%= (@encounters.include?("TT STATUS") ? "" :
+          <button class="<%= (@encounters.include?("TT STATUS") || @encounters.include?("GRAVIDA") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("TT STATUS") || @encounters.include?("GRAVIDA") ? "" :
                       "window.location = '/encounters/new/observations_patient_history?patient_id=#{@patient.id}&ret=antenatal'") %> ">
             <span>Patient History</span>
           </button>

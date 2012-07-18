@@ -4,6 +4,8 @@ class AncConnection::Encounter < ActiveRecord::Base
   set_primary_key :encounter_id
   include AncConnection::Openmrs
   has_many :observations, :class_name => "AncConnection::Observation", :dependent => :destroy, :conditions => {:voided => 0}
+  has_many :drug_orders, :class_name => "AncConnection::DrugOrder",  :through   => :orders,  :foreign_key => 'order_id'
+  has_many :orders, :class_name => "AncConnection::Order", :dependent => :destroy, :conditions => {:voided => 0}
   belongs_to :type, :class_name => "AncConnection::EncounterType", :foreign_key => :encounter_type, :conditions => {:retired => 0}
   belongs_to :provider, :class_name => "AncConnection::Person", :foreign_key => :provider_id, :conditions => {:voided => 0}
   belongs_to :patient, :class_name => "AncConnection::Patient", :conditions => {:voided => 0}
