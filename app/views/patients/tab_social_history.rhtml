@@ -1,0 +1,88 @@
+<style type="text/css">
+  .selected{
+    color: #f00;
+    font-weight: bold;
+  }
+
+  #tbl1 td {
+    padding: 1px;
+    padding-top: 5.4px;
+    padding-bottom: 5px;
+  }
+
+  #tbl2 th {
+    font-weight: bold;
+    font-size: 0.9em;
+    border: 1px solid #000;
+    padding: 2px;
+    background-color: #333;
+    color: #fff;
+  }
+
+  #tbl2 td {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-style: italic;
+  }
+</style>
+
+<table width="100%" border="0" style="height: 100%" cellpadding="0">
+  <tr>
+    <th style="height: 30px; font-size: 1.4em;" align="left" colspan="2">
+      Social History
+  <!--div style="float: right; color: #f00;
+       font-weight: normal; padding-right: 10px;">
+    Refer*
+  </div-->
+</th>
+</tr>
+<tr>
+  <td valign="top" align="center">
+    <table id="tbl1" width="90%" cellspacing="2">
+      <tr>
+        <td style="padding-left: 10px;">
+          Patient Currently Smokes
+        </td>
+        <td style="border: 1px solid #000;" align="center" 
+            <%= (!@smokes.nil? ? (@smokes.upcase == "YES" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@smokes.nil? ? (@smokes.upcase == "YES" ? "Yes" : "No") : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Currently Consumes Alcohol
+        </td>
+        <td style="border: 1px solid #000;" align="center"
+            <%= (!@alcohol.nil? ? (@alcohol.upcase == "YES" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@alcohol.nil? ? (@alcohol.upcase == "YES" ? "Yes" : "No") : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Nutrition Status
+        </td>
+        <td style="border: 1px solid #000;" align="center"
+            <%= (!@nutrition.nil? ? (@nutrition.titleize == "Malnourished" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@nutrition.nil? ? @nutrition.titleize : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Marital Status
+        </td>
+        <td style="border: 1px solid #000;" align="center">
+          &nbsp;<%= (!@civil.nil? ? (@civil.titleize == "Other" ? @civil_other : @civil) : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Religion
+        </td>
+        <td style="border: 1px solid #000;" align="center">
+          &nbsp;<%= (!@religion.nil? ? (@religion.titleize == "Other" ? @religion_other : @religion.titleize) : "") %>&nbsp;
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>

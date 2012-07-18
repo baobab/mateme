@@ -1,0 +1,456 @@
+<style type="text/css">
+  .slanted {
+    -moz-transform:rotate(-60deg);
+  }
+  .vert{
+    -moz-transform:rotate(-90deg);
+  }
+  .leftTop {
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+  }
+  .rightBottom {
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+  }
+  .topic {
+    text-align: center;
+  }
+  .selected{
+    border: 1px solid #00f;
+    border-radius: 10px;
+    width:20px;
+    text-align: center;
+  }
+
+  table {
+    font-size: 0.9em;
+  }
+
+  #main td {
+    vertical-align: top;
+  }
+</style>
+
+<table width="100%" border="0" cellpadding="0">
+  <tr>
+    <th style="height: 30px; font-size: 1.4em;" align="left">
+      Visit History
+      <div style="font-size: 0.6em;
+           font-weight: normal; padding-right: 10px;">
+        <table style="border: 1px solid #000;">
+          <tr>
+            <th>
+              LMP:
+            </th>
+            <td>
+              <%= @current_range[0]["START"].to_date.strftime("%d/%b/%Y") rescue "&nbsp;" %>
+            </td>
+            <th style="padding-left: 30px;">
+              EDD:
+            </th>
+            <td>
+              <%= (@current_range[0]["END"].to_date - 5.week).strftime("%d/%b/%Y") rescue "&nbsp;" %>
+            </td>
+            <th style="padding-left: 30px;">
+              Planned Delivery Place:
+            </th>
+            <td>
+              <%= @current_range[0]["PLANNED DELIVERY PLACE"] rescue "&nbsp;" %>
+            </td>
+            <th style="padding-left: 30px;">
+              Bed Net Given?:
+            </th>
+            <td>
+              <%= @current_range[0]["MOSQUITO NET"] rescue "&nbsp;" %>
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </th>
+  </tr>
+  <tr>
+    <td>
+      <table id="main" style="width: 100%; height: 100%;" border="0" cellpadding="2"
+             cellspacing="0">
+        <tr style="font-size: 0.8em; font-weight: normal;">
+          <th rowspan="4" class="leftTop">
+            <div style="-moz-transform:rotate(-90deg);
+                 font-size: 1.2em; font-weight: normal;">Visit</div>
+          </th>
+          <td rowspan="4" class="topic leftTop" style="font-weight: normal;">
+            Visit Date
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Gest. age
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Fundal Height
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Position & Presentation
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Fetal heart
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Weight (kg)
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            BP
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Urine prot.
+          </td>
+          <td colspan="5" class="topic"
+              style="border-top: 1px solid #000;
+              border-left: 1px solid #000;">
+            Number of tablets/dose given
+          </td>
+          <td rowspan="4" class="topic leftTop" colspan="2">
+            On CPT
+          </td>
+          <td rowspan="4" class="topic leftTop" colspan="2">
+            On ART
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Signs / Symptoms
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Medications / Outcome
+          </td>
+          <td rowspan="4" class="topic leftTop">
+            Next Visit Date
+          </td>
+          <td rowspan="4" class="topic leftTop"
+              style="border-right: 1px solid #000">
+            Provider Name
+          </td>
+        </tr>
+        <tr style="font-size: 0.8em; font-weight: normal;">
+          <td colspan="4" class="topic" style="border-left: 1px solid #000">
+            Mother
+          </td>
+          <td class="topic">
+            Baby
+          </td>
+        </tr>
+        <tr style="font-size: 0.8em;
+            font-weight: normal; ">
+          <td class="topic"
+              style="border-top: 1px solid #000;
+              border-left: 1px solid #000;" colspan="2">
+            TTV
+          </td>
+          <td class="topic leftTop" rowspan="2">
+            SP
+          </td>
+          <td class="topic leftTop" rowspan="2">
+            FeFo
+          </td>
+          <!--td class="topic leftTop" rowspan="2">
+            NVP
+          </td>
+          <td class="topic leftTop" rowspan="2">
+            AZT
+          </td-->
+          <!--td class="topic leftTop" rowspan="2" colspan="3">
+            TDF/
+            3TC/
+            EFV
+          </td-->
+          <td class="topic leftTop" rowspan="2">
+            NVP
+          </td>
+        </tr>
+        <tr>
+          <td class="topic leftTop" style="">
+            <div style="-moz-transform:rotate(-90deg);
+                 font-size: 0.8em; font-weight: normal; height: 30px; margin-left: 5px;">Prev</div>
+          </td>
+          <th class="topic leftTop">
+            <div style="-moz-transform:rotate(-90deg);
+                 font-size: 0.8em; font-weight: normal;">New</div>
+          </th>
+        </tr>
+
+        <%
+        @i = 0
+
+        out = []
+
+        @encounters.each{|v,k|
+          out << [k["ANC VISIT TYPE"]["REASON FOR VISIT"].squish.to_i, v]
+        }
+        out = out.sort
+
+        out.each do |key, element|
+          
+          encounter = @encounters[element]
+
+          @i = @i + 1
+        %>
+
+          <tr style="font-size: 0.8em; font-weight: normal; font-style: italic;">
+            <td class="topic leftTop" style="font-style: normal;">
+  <%#= @i %>
+              <%= key %>
+            </td>
+            <td class="leftTop">
+              <%= element %>
+            </td>
+            <td class="leftTop" align="center">
+              <%= (((element.to_date - @current_range[0]["START"].to_date).to_i / 7) <= 0 ? "?" :
+                  (((element.to_date - @current_range[0]["START"].to_date).to_i / 7) - 1).to_s + " wks") rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop" align="center">
+              <%= (encounter["OBSERVATIONS"]["FUNDUS"].to_i <= 0 ? "?" :
+                  encounter["OBSERVATIONS"]["FUNDUS"].to_i.to_s + " (wks)") rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop">
+              <%= (encounter["OBSERVATIONS"]["POSITION"]).to_s.titleize.gsub("Breech Delivery", "Breech") rescue "&nbsp;" %>&nbsp;
+              <%= (encounter["OBSERVATIONS"]["PRESENTATION"]).to_s.titleize.gsub("Breech Delivery", "Breech") rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop" align="center">
+              <%= (encounter["OBSERVATIONS"]["FETAL HEART BEAT"].humanize == "Unknown" ? "?" :
+                  encounter["OBSERVATIONS"]["FETAL HEART BEAT"].humanize) rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop" align="center">
+              <%= (encounter["VITALS"]["WEIGHT (KG)"].to_i <= 0 ? "?" :
+                  ((encounter["VITALS"]["WEIGHT (KG)"].to_s.match(/\.[1-9]/) ?
+                      encounter["VITALS"]["WEIGHT (KG)"] :
+                      encounter["VITALS"]["WEIGHT (KG)"].to_i))) rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop">
+              <%= (encounter["VITALS"]["SYSTOLIC BLOOD PRESSURE"].to_i <= 0 ? "?" :
+                  encounter["VITALS"]["SYSTOLIC BLOOD PRESSURE"].to_i) rescue "?" %>/<%= (encounter["VITALS"]["DIASTOLIC BLOOD PRESSURE"].to_i <= 0 ? "?" :
+                  encounter["VITALS"]["DIASTOLIC BLOOD PRESSURE"].to_i) rescue "?" %>
+            </td>
+            <td class="leftTop" align="center">
+              <%= encounter["LAB RESULTS"]["URINE PROTEIN"] rescue "&nbsp;" %>&nbsp;
+            </td>
+            <td class="topic leftTop" align="center">
+              <%= (encounter["CURRENT PREGNANCY"]["TT STATUS"] ?
+                  encounter["CURRENT PREGNANCY"]["TT STATUS"].to_i : "&nbsp;") rescue "&nbsp;" %>&nbsp;
+            </td>
+            <td class="topic leftTop" align="center">
+              <%= (@drugs[encounter[0]]["TTV"] > 0 ? 1 : "&nbsp;")  rescue "&nbsp;"; %>&nbsp;
+            </td>
+            <td class="leftTop" align="center">
+              <%= (@drugs[encounter[0]]["SP"].to_i > 0 ? @drugs[encounter[0]]["SP"].to_i : "&nbsp;") rescue "&nbsp;";  %>
+            </td>
+            <td class="leftTop" align="center">
+              <%= (@drugs[encounter[0]]["Fefol"].to_i > 0 ? @drugs[encounter[0]]["Fefol"].to_i : "&nbsp;") rescue "&nbsp;";  %>
+            </td>
+            <!--td class="leftTop" align="center">
+  <%#= (@drugs[encounter[0]]["NVP"].to_i > 0 ? @drugs[encounter[0]]["NVP"].to_i : "&nbsp;") rescue "&nbsp;";  %>
+            </td-->
+            <!--td class="leftTop" align="center">
+  <%#= (@drugs[encounter[0]]["TMP/SMX"].to_i > 0 ? @drugs[encounter[0]]["TMP/SMX"].to_i : "&nbsp;") rescue "&nbsp;";  %>
+            </td-->
+            <!--td class="leftTop" align="center" colspan="3">
+  <%#= (@drugs[encounter[0]]["TDF/3TC/EFV"].to_i > 0 ? @drugs[encounter[0]]["TDF/3TC/EFV"].to_i : "&nbsp;") rescue "&nbsp;";  %>
+            </td-->
+            <td class="leftTop" align="center">
+              <%= (@drugs[encounter[0]]["NVP"].to_i > 0 ? @drugs[encounter[0]]["NVP"].to_i : "&nbsp;") rescue "&nbsp;"; %>
+            </td>
+            <td class="leftTop" align="center" colspan="2">
+              <%= (encounter["LAB RESULTS"]["TAKING CO-TRIMOXAZOLE PREVENTIVE THERAPY"].upcase == "YES" ? "Y" : "N") rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop" align="center" colspan="2">
+              <%= (encounter["LAB RESULTS"]["ON ART"].upcase == "YES" ? "Y" : "N") rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop" align="center">
+              <%= encounter["OBSERVATIONS"]["DIAGNOSIS"].humanize rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop">
+              <%= "<b>Outcome:</b> " + encounter["UPDATE OUTCOME"]["OUTCOME"].humanize + ";<br />" rescue "&nbsp;" %>
+              <%= ("<b>Other Drugs:</b> " +
+                  (@other_drugs[encounter[0]].collect{|d, v|
+                    "#{d}: #{ (v.to_s.match(/\.[1-9]/) ? v : v.to_i) }"
+                  }.join("; ")) + ";<br />") if @other_drugs[encounter[0]].length > 0 rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop">
+              <%= encounter["APPOINTMENT"]["APPOINTMENT DATE"] rescue "&nbsp;" %>
+            </td>
+            <td class="leftTop" style="border-right: 1px solid #000;">
+              <%= encounter["USER"] rescue "&nbsp;" %>&nbsp;
+            </td>
+          </tr>
+
+        <% end
+
+        #c((@i + 1)..8).each{|p|
+        %>
+
+        <!--tr style="font-size: 0.8em; font-weight: normal;">
+          <td class="topic leftTop">
+<%#= p %>
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="topic leftTop" align="center">
+            &nbsp;
+          </td>
+          <td class="topic leftTop" align="center">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop" align="center" colspan="2">
+            &nbsp;
+          </td>
+          <td class="leftTop" align="center" colspan="2">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop">
+            &nbsp;
+          </td>
+          <td class="leftTop" style="border-right: 1px solid #000;">
+            &nbsp;
+          </td>
+        </tr-->
+
+<%# } %>
+
+        <tr>
+          <td class="topic leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <!--td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td-->
+          <!--td class="leftTop" colspan="3"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td-->
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop" colspan="2"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop" colspan="2"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+          <td class="leftTop"
+              style="border-right: 1px solid #000;
+              border-bottom: 1px solid #000;">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

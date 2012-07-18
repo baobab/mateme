@@ -2,7 +2,17 @@ class PatientsController < ApplicationController
   def show
     # raise params.to_yaml
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
-    
+
+    @maternity_patient = ANCService::ANC.new(@patient)
+
+    if session["patient_anc_map"].nil?
+      session["patient_anc_map"] = {}
+    end
+
+    if session["patient_anc_map"][@patient.id].nil?
+      session["patient_anc_map"][@patient.id] = AncConnection::PatientIdentifier.search_by_identifier(@maternity_patient.national_id).id
+    end
+
     @last_location = @patient.encounters.find(:last).location_id rescue nil
     
     if session[:location_id] != @last_location && (params[:skip_check] ? (params[:skip_check] == "true" ? false : true ) : true)
@@ -427,4 +437,312 @@ class PatientsController < ApplicationController
     
     # raise @religions.to_yaml
   end
+
+  def tab_obstetric_history
+    @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
+    
+    @anc_patient = ANCService::ANC.new(@patient)
+
+    @pregnancies = @anc_patient.active_range
+
+    @range = []
+
+    @pregnancies = @pregnancies[1]
+
+    @pregnancies.each{|preg|
+      @range << preg[0].to_date
+    }
+
+
+    @encs = AncConnection::Encounter.find(:all, :conditions => ["patient_id = ? AND encounter_type = ?",
+        @patient.id, AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id]).length
+
+    if @encs > 0
+      @deliveries = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('PARITY').concept_id]).answer_string.to_i rescue nil
+
+      @deliveries = @deliveries + (@range.length > 0 ? @range.length - 1 : @range.length) if !@deliveries.nil?
+
+      @gravida = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('GRAVIDA').concept_id]).answer_string.to_i rescue nil
+
+      @multipreg = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all, :conditions => ["encounter_type = ?",
+              AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id]).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('MULTIPLE GESTATION').concept_id]).answer_string.upcase.squish rescue nil
+
+      @abortions = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('NUMBER OF ABORTIONS').concept_id]).answer_string.to_i rescue nil
+
+      @stillbirths = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('STILL BIRTH').concept_id]).answer_string.upcase.squish rescue nil
+
+      #Observation.find(:all, :conditions => ["person_id = ? AND encounter_id IN (?) AND value_coded = ?", 40, Encounter.find(:all, :conditions => ["patient_id = ?", 40]).collect{|e| e.encounter_id}, ConceptName.find_by_name('Caesarean section').concept_id])
+
+      @csections = AncConnection::Observation.find(:all,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND (concept_id = ? AND value_coded = ?)", @patient.id,
+          AncConnection::Encounter.find(:all, :conditions => ["patient_id = ? AND encounter_type = ?", @patient.id,
+              AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id]).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('Caesarean section').concept_id,
+          AncConnection::ConceptName.find_by_name('Yes').concept_id]).length rescue nil
+
+      @vacuum = AncConnection::Observation.find(:all,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND value_coded = ?", @patient.id,
+          AncConnection::Encounter.find(:all, :conditions => ["patient_id = ? AND encounter_type = ?",
+              @patient.id, AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id]).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('Vacuum extraction delivery').concept_id]).length rescue nil
+
+      @symphosio = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('SYMPHYSIOTOMY').concept_id]).answer_string.upcase.squish rescue nil
+
+      @haemorrhage = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('HEMORRHAGE').concept_id]).answer_string.upcase.squish rescue nil
+
+      @preeclampsia = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('PRE-ECLAMPSIA').concept_id]).answer_string.upcase.squish rescue nil
+
+      @eclampsia = AncConnection::Observation.find(:last,
+        :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?", @patient.id,
+          AncConnection::Encounter.find(:all).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('ECLAMPSIA').concept_id]).answer_string.upcase.squish rescue nil
+    end
+
+    # raise @eclampsia.blank?.to_yaml
+
+    render :layout => false
+  end
+
+  def tab_medical_history
+    @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
+
+    @anc_patient = ANCService::ANC.new(@patient)
+
+    @asthma = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('ASTHMA').concept_id]).answer_string.upcase.squish rescue nil
+
+    @hyper = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('HYPERTENSION').concept_id]).answer_string.upcase.squish rescue nil
+
+    @diabetes = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('DIABETES').concept_id]).answer_string.upcase.squish rescue nil
+
+    @epilepsy = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('EPILEPSY').concept_id]).answer_string.upcase.squish rescue nil
+
+    @renal = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('RENAL DISEASE').concept_id]).answer_string.upcase.squish rescue nil
+
+    @fistula = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('FISTULA REPAIR').concept_id]).answer_string.upcase.squish rescue nil
+
+    @deform = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('SPINE OR LEG DEFORM').concept_id]).answer_string.upcase.squish rescue nil
+
+    @surgicals = AncConnection::Observation.find(:all, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ? AND encounter_type = ?",
+            @patient.id, AncConnection::EncounterType.find_by_name("SURGICAL HISTORY").id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('PROCEDURE DONE').concept_id]).collect{|o|
+      "#{o.answer_string.squish} (#{AncConnection::Observation.find(o.id + 1,
+      :conditions => ["concept_id = ?", AncConnection::ConceptName.find_by_name("Date Received").concept_id]
+      ).value_datetime.to_date.strftime('%d-%b-%Y') rescue "Unknown" })"} rescue []
+
+    @age = @anc_patient.age rescue 0
+
+    render :layout => false
+  end
+
+  def tab_visit_history
+    @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
+
+    @anc_patient = ANCService::ANC.new(@patient)
+
+    @current_range = @anc_patient.active_range((params[:target_date] ?
+          params[:target_date].to_date : (session[:datetime] ? session[:datetime].to_date : Date.today)))
+
+    # raise @current_range.to_yaml
+
+    @encounters = {}
+
+    @patient.encounters.find(:all, :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?",
+        @current_range[0]["START"], @current_range[0]["END"]]).collect{|e|
+      @encounters[e.encounter_datetime.strftime("%d/%b/%Y")] = {"USER" => User.find(e.creator).name }
+    }
+
+    @patient.encounters.find(:all, :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?",
+        @current_range[0]["START"], @current_range[0]["END"]]).collect{|e|
+      @encounters[e.encounter_datetime.strftime("%d/%b/%Y")][e.type.name.upcase] = ({} rescue "") if !e.type.nil?
+    }
+
+    @patient.encounters.find(:all, :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?",
+        @current_range[0]["START"], @current_range[0]["END"]]).collect{|e|
+      if !e.type.nil?
+        e.observations.each{|o|
+          if o.to_a[0]
+            if o.to_a[0].upcase == "DIAGNOSIS" && @encounters[e.encounter_datetime.strftime("%d/%b/%Y")][e.type.name.upcase][o.to_a[0].upcase]
+              @encounters[e.encounter_datetime.strftime("%d/%b/%Y")][e.type.name.upcase][o.to_a[0].upcase] += "; " + o.to_a[1]
+            else
+              @encounters[e.encounter_datetime.strftime("%d/%b/%Y")][e.type.name.upcase][o.to_a[0].upcase] = o.to_a[1]
+              if o.to_a[0].upcase == "PLANNED DELIVERY PLACE"
+                @current_range[0]["PLANNED DELIVERY PLACE"] = o.to_a[1]
+              elsif o.to_a[0].upcase == "MOSQUITO NET"
+                @current_range[0]["MOSQUITO NET"] = o.to_a[1]
+              end
+            end
+          end
+        }
+      end
+    }
+
+    @drugs = {};
+    @other_drugs = {};
+    main_drugs = ["TTV", "SP", "Fefol", "NVP", "TDF/3TC/EFV"]
+
+    @patient.encounters.find(:all, :order => "encounter_datetime DESC",
+      :conditions => ["encounter_type = ? AND encounter_datetime >= ? AND encounter_datetime <= ?",
+        AncConnection::EncounterType.find_by_name("TREATMENT").id, @current_range[0]["START"], @current_range[0]["END"]]).each{|e|
+      @drugs[e.encounter_datetime.strftime("%d/%b/%Y")] = {} if !@drugs[e.encounter_datetime.strftime("%d/%b/%Y")];
+      @other_drugs[e.encounter_datetime.strftime("%d/%b/%Y")] = {} if !@other_drugs[e.encounter_datetime.strftime("%d/%b/%Y")];
+      e.orders.each{|o|
+        if main_drugs.include?(o.drug_order.drug.name[0, o.drug_order.drug.name.index(" ")])
+          if o.drug_order.drug.name[0, o.drug_order.drug.name.index(" ")] == "NVP"
+            if o.drug_order.drug.name.upcase.include?("ML")
+              @drugs[e.encounter_datetime.strftime("%d/%b/%Y")][o.drug_order.drug.name[0, o.drug_order.drug.name.index(" ")]] = o.drug_order.amount_needed
+            else
+              @other_drugs[e.encounter_datetime.strftime("%d/%b/%Y")][o.drug_order.drug.name[0, o.drug_order.drug.name.index(" ")]] = o.drug_order.amount_needed
+            end
+          else
+            @drugs[e.encounter_datetime.strftime("%d/%b/%Y")][o.drug_order.drug.name[0, o.drug_order.drug.name.index(" ")]] = o.drug_order.amount_needed
+          end
+        else
+          @other_drugs[e.encounter_datetime.strftime("%d/%b/%Y")][o.drug_order.drug.name[0, o.drug_order.drug.name.index(" ")]] = o.drug_order.amount_needed
+        end
+      }
+    }
+
+    render :layout => false
+  end
+
+  def tab_detailed_obstetric_history
+    @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
+
+    @anc_patient = ANCService::ANC.new(@patient)
+
+    @obstetrics = {}
+    search_set = ["YEAR OF BIRTH", "PLACE OF BIRTH", "PREGNANCY", "LABOUR DURATION",
+      "METHOD OF DELIVERY", "CONDITION AT BIRTH", "BIRTH WEIGHT", "ALIVE",
+      "AGE AT DEATH", "UNITS OF AGE OF CHILD", "PROCEDURE DONE"]
+    current_level = 0
+
+    AncConnection::Encounter.find(:all, :conditions => ["encounter_type = ? AND patient_id = ?",
+        AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id, @patient.id]).each{|e|
+      e.observations.each{|obs|
+        concept = obs.concept.concept_names.map(& :name).last rescue nil
+        if(!concept.nil?)
+          if search_set.include?(concept.upcase)
+            if obs.concept_id == (AncConnection::ConceptName.find_by_name("YEAR OF BIRTH").concept_id rescue nil)
+              current_level += 1
+
+              @obstetrics[current_level] = {}
+            end
+
+            if @obstetrics[current_level]
+              @obstetrics[current_level][concept.upcase] = obs.answer_string rescue nil
+
+              if obs.concept_id == (AncConnection::ConceptName.find_by_name("YEAR OF BIRTH").concept_id rescue nil) && obs.answer_string.to_i == 0
+                @obstetrics[current_level]["YEAR OF BIRTH"] = "Unknown"
+              end
+            end
+
+          end
+        end
+      }
+    }
+
+    # raise @obstetrics.to_yaml
+
+    @pregnancies = @anc_patient.active_range
+
+    @range = []
+
+    @pregnancies = @pregnancies[1]
+
+    @pregnancies.each{|preg|
+      @range << preg[0].to_date
+    }
+
+    @range = @range.sort
+
+    @range.each{|y|
+      current_level += 1
+      @obstetrics[current_level] = {}
+      @obstetrics[current_level]["YEAR OF BIRTH"] = y.year
+      @obstetrics[current_level]["PLACE OF BIRTH"] = "<b>(Here)</b>"
+    }
+
+    render :layout => false
+  end
+
+  def tab_social_history
+    @alcohol = nil
+    @smoke = nil
+    @nutrition = nil
+    
+    @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
+
+    @anc_patient = ANCService::ANC.new(@patient)
+
+    @alcohol = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('Patient currently consumes alcohol').concept_id]).answer_string rescue nil
+
+    @smokes = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('Patient currently smokes').concept_id]).answer_string rescue nil
+
+    @nutrition = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('Nutrition status').concept_id]).answer_string rescue nil
+
+    @civil = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('Civil status').concept_id]).answer_string.titleize rescue nil
+
+    @civil_other = (AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+          @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('Other Civil Status Comment').concept_id]).answer_string rescue nil) if @civil == "Other"
+
+    @religion = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+        @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
+        AncConnection::ConceptName.find_by_name('Religion').concept_id]).answer_string.titleize rescue nil
+
+    @religion_other = (AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
+          @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ? AND encounter_type = ?",
+              @patient.id, AncConnection::EncounterType.find_by_name("SOCIAL HISTORY").id]).collect{|e| e.encounter_id},
+          AncConnection::ConceptName.find_by_name('Other').concept_id]).answer_string rescue nil) if @religion == "Other"
+
+    render :layout => false
+  end
+
 end

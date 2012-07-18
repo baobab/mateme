@@ -4,6 +4,7 @@ class Person < ActiveRecord::Base
 
   include Openmrs
 
+  cattr_accessor :session_datetime
   attr_accessor :education_level, :religion
 
   has_one :patient, :foreign_key => :patient_id, :dependent => :destroy

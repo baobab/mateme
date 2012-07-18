@@ -102,6 +102,16 @@ class EncountersController < ApplicationController
       e.observations.collect{|o| o.concept.name.name.upcase}
     }.join(", ") rescue ""
 
+    @anc_encounters = AncConnection::Patient.find(session["patient_anc_map"][@patient.id]).encounters.current.collect{|e|
+      e.observations.collect{|o|
+        o.concept.concept_names.map(& :name).last.upcase
+      }
+    }.join(", ") rescue ""
+
+    @encounters = @encounters + (@encounters == "" ? @anc_encounters : ", " + @anc_encounters)
+
+    # raise @encounters.to_yaml
+
     @lmp = Observation.find(:all, :conditions => ["concept_id IN (?) AND person_id = 34 AND encounter_id IN (?)", 
         ConceptName.find_by_name("LAST MENSTRUAL PERIOD").concept_id, @patient.encounters.collect{|e| e.id}],
       :order => :obs_datetime).last.value_datetime rescue nil

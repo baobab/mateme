@@ -1,0 +1,110 @@
+<style type="text/css">
+  .selected{
+    color: #f00;
+    font-weight: bold;
+  }
+
+  td {
+    padding: 4px;
+  }
+</style>
+
+<table width="100%" border="0" style="height: 100%" cellpadding="5">
+  <tr>
+    <th style="height: 30px; font-size: 1.4em;" align="left">
+      Medical History
+  <div style="float: right; color: #f00;
+       font-weight: normal; padding-right: 30px;">
+    Refer*
+  </div>
+</th>
+</tr>
+<tr>
+  <td valign="top" align="left">
+    <table width="90%" cellspacing="3">
+      <tr>
+        <td style="padding-left: 30px;">
+          Asthma
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (!@asthma.nil? ? (@asthma != "NO" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@asthma.nil? ? (@asthma == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+        <td style="padding-left: 30px;">
+          Hypertension
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (@hyper != "NO" ? "class='selected'" : "") %>>
+          &nbsp;<%= (!@hyper.nil? ? (@hyper == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 30px;">
+          Diabetes
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (@diabetes != "NO" ? "class='selected'" : "") %>>
+          &nbsp;<%= (!@diabetes.nil? ? (@diabetes == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+        <td style="padding-left: 30px;">
+          Epilepsy
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (@epilepsy != "NO" ? "class='selected'" : "") %>>
+          &nbsp;<%= (!@epilepsy.nil? ? (@epilepsy == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 30px;">
+          Renal disease
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (@renal != "NO" ? "class='selected'" : "") %>>
+          &nbsp;<%= (!@renal.nil? ? (@renal == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+        <td style="padding-left: 30px;">
+          Fistula repair
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (@fistula != "NO" ? "class='selected'" : "") %>>
+          &nbsp;<%= (!@fistula.nil? ? (@fistula == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 30px;">
+          Leg/Spine deformation
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (@deform != "NO" ? "class='selected'" : "") %>>
+          &nbsp;<%= (!@deform.nil? ? (@deform == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+        <td style="padding-left: 30px;">
+          Age
+        </td>
+        <td style="border: 1px solid #000;"
+            align="left" <%= (((@age > 0 && @age < 16) || (@age > 40)) ? "class='selected'" : "") %>>
+          &nbsp;<%= @age rescue "" %>&nbsp;
+        </td>
+      </tr>
+
+      <% if @surgicals.length > 0 
+
+        @surgicals.each do |proc|
+        %>
+
+          <tr>
+            <td style="padding-left: 30px;">
+              Procedure Done
+            </td>
+            <td class="selected" style="border: 1px solid #000; font-weight: normal;" align="left" colspan="3">
+              &nbsp;<%= proc rescue "" %>&nbsp;
+            </td>
+          </tr>
+
+        <% 
+        end
+      end %>
+    </table>
+  </td>
+</tr>
+</table>

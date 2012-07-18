@@ -75,4 +75,8 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  def create_from_dde_server
+    CoreService.get_global_property_value('create.from.dde.server').to_s == "true" rescue false
+  end
+
 end

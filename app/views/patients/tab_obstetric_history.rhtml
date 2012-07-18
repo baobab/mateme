@@ -1,0 +1,138 @@
+<style type="text/css">
+  .selected{
+    color: #f00;
+    font-weight: bold;
+  }
+
+  #tbl1 td {
+    padding: 1px;
+    padding-top: 5.4px;
+    padding-bottom: 5px;
+  }
+
+  #tbl2 th {
+    font-weight: bold;
+    font-size: 0.9em;
+    border: 1px solid #000;
+    padding: 2px;
+    background-color: #333;
+    color: #fff;
+  }
+
+  #tbl2 td {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-style: italic;
+  }
+</style>
+
+<table width="100%" border="0" style="height: 100%" cellpadding="0">
+  <tr>
+    <th style="height: 30px; font-size: 1.4em;" align="left" colspan="3">
+      Obstetric History
+  <div style="float: right; color: #f00;
+       font-weight: normal; padding-right: 10px;">
+    Refer*
+  </div>
+</th>
+</tr>
+<tr>
+  <td valign="top" align="center">
+    <table id="tbl1" width="90%" cellspacing="2">
+      <tr>
+        <td style="padding-left: 10px;">
+          Gravida
+        </td>
+        <td style="border: 1px solid #000;" align="center">
+          &nbsp;<%= @gravida %>&nbsp;
+        </td>
+        <td style="padding-left: 50px;">
+          Multiple Pregnancy
+        </td>
+        <td style="border: 1px solid #000;" align="center">
+          &nbsp;<%= @multipreg %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Deliveries
+        </td>
+        <td style="border: 1px solid #000;" align="center" <%= (@deliveries.nil? ? "" : (@deliveries > 4 ? "class='selected'" : "")) %>>
+          &nbsp;<%= @deliveries %>&nbsp;
+        </td>
+        <td style="padding-left: 50px;">
+          Abortions
+        </td>
+        <td style="border: 1px solid #000;" align="center" <%= (@abortions.nil? ? "" : (@abortions > 1 ? "class='selected'" : "")) %>>
+          &nbsp;<%= @abortions %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Stillbirths
+        </td>
+        <td style="border: 1px solid #000;"
+            align="center" <%= (!@stillbirths.nil? ? (@stillbirths.upcase == "YES" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@stillbirths.nil? ? (@stillbirths.upcase == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+        <td style="padding-left: 50px;">
+          C-sections
+        </td>
+        <td style="border: 1px solid #000;"
+            align="center" <%= (!@csections.nil? ? (@csections > 0 ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@csections.nil? ? (@csections > 0 ? "YES" : "NO") : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Vacuum extraction
+        </td>
+        <td style="border: 1px solid #000;"
+            align="center" <%= (!@vacuum.nil? ? (@vacuum > 0 ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@vacuum.nil? ? (@vacuum > 0 ? "YES" : "NO") : "") %>&nbsp;
+        </td>
+        <td style="padding-left: 50px;">
+          Symphysiotomy
+        </td>
+        <td style="border: 1px solid #000;"
+            align="center" <%= (!@symphosio.nil? ? (@symphosio.upcase != "NO" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@symphosio.nil? ? (@symphosio.upcase == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left: 10px;">
+          Haemorrhage
+        </td>
+        <td style="border: 1px solid #000;"
+            align="center" <%= (!@haemorrhage.nil? ? (@haemorrhage.upcase == "PPH" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= @haemorrhage %>&nbsp;
+        </td>
+        <td style="padding-left: 50px;">
+          Pre-Eclampsia
+        </td>
+        <td style="border: 1px solid #000;"
+            align="center" <%= (!@preeclampsia.nil? ? (@preeclampsia.upcase != "NO" ? "class='selected'" : "") : "") %>>
+          &nbsp;<%= (!@preeclampsia.nil? ? (@preeclampsia.upcase == "NO" ? "NO" : "YES") : "") %>&nbsp;
+        </td>
+      </tr>
+      <% if (!@preeclampsia.nil? ? (@preeclampsia.upcase == "NO" ? "NO" : "YES") : "NO") == "YES" %>
+        <tr>
+          <td>
+            &nbsp;
+          </td>
+          <td>
+            &nbsp;
+          </td>
+          <td style="padding-left: 50px;">
+            Eclampsia
+          </td>
+          <td style="border: 1px solid #000;"
+              align="center" <%= (!@eclampsia.nil? && !@eclampsia.blank? ? ((@eclampsia.upcase != "NO" ? "class='selected'" : "")) : "") %>>
+            &nbsp;<%= (!@eclampsia.nil? && !@eclampsia.blank? ? (@eclampsia.upcase == "NO" ? "NO" : "YES") : "") %>&nbsp;
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </td>
+</tr>
+</table>

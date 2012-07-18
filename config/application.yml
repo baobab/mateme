@@ -1,0 +1,12 @@
+production:
+ create.from.dde.server: true
+ 
+development:
+ create.from.dde.server: true
+ 
+test: &TEST
+ create_from_remote: no
+ use.user.selected.activities: yes
+
+cucumber:
+  <<: *TEST

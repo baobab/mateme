@@ -55,7 +55,10 @@ class PeopleController < ApplicationController
   def search
     found_person = nil
     if params[:identifier]
-      local_results = Person.search_by_identifier(params[:identifier])
+      local_results = ANCService.search_by_identifier(params[:identifier])
+
+      # raise local_results.to_yaml
+      
       if local_results.length > 1
         @people = Person.search(params)
       elsif local_results.length == 1
@@ -90,7 +93,8 @@ class PeopleController < ApplicationController
       :family_name2 => params[:family_name2], :address2 => params[:address2], :identifier => params[:identifier]
   end
  
-  def create
+  def created
+
     remote_parent_server = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value
     if !remote_parent_server.blank?
       found_person_data = Person.create_remote(params)
@@ -136,6 +140,43 @@ class PeopleController < ApplicationController
       end
     end
   
+  end
+
+  def create
+
+    person = ANCService.create_patient_from_dde(params) if create_from_dde_server
+
+    if !person.blank?
+
+      found_person = person
+
+      if found_person
+
+        found_person.patient.national_id_label
+        if params[:next_url]
+          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}",
+            params[:next_url] + "?patient_id=#{ found_person.patient.id }")
+        else
+          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
+        end
+
+      else
+        redirect_to :action => "index"
+      end
+    else
+      person = Person.create_from_form(params[:person])
+
+      if params[:next_url]
+        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}",
+          params[:next_url] + "?patient_id=#{ person.patient.id }")
+      elsif params[:person][:patient]
+        person.patient.national_id_label
+        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))
+      else
+        redirect_to :action => "index"
+      end
+    end
+
   end
  
   # TODO refactor so this is restful and in the right controller.

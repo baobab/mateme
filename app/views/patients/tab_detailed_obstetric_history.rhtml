@@ -1,0 +1,125 @@
+<style type="text/css">
+  .selected{
+    color: #f00;
+    font-weight: bold;
+  }
+
+  table {
+    font-size: 0.9em;
+  }
+
+  #tbl1 td {
+    padding: 1px;
+    padding-top: 5.4px;
+    padding-bottom: 5px;
+  }
+
+  #tbl2 th {
+    font-weight: bold;
+    font-size: 0.9em;
+    border: 1px solid #000;
+    padding: 2px;
+    background-color: #ff;
+    color: #000;
+  }
+
+  #tbl2 td {
+    border: 1px solid #ccc;
+    padding: 2px;
+    font-style: italic;
+  }
+</style>
+
+<table width="100%" border="0" style="height: 100%" cellpadding="0">
+  <tr>
+    <th style="height: 30px; font-size: 1.4em;" align="left" colspan="2">
+      Detailed Obstetric History
+    </th>
+  </tr>
+  <tr>
+    <td style="vertical-align: top;">
+      <table id="tbl2">
+        <tr>
+          <th>
+            &nbsp;
+          </th>
+          <th>
+            Year
+          </th>
+          <th>
+            Place
+          </th>
+          <th>
+            Gestation (months)<sup>*</sup>
+          </th>
+          <th>
+            Labour duration<sup>*</sup>
+          </th>
+          <th>
+            Delivery method
+          </th>
+          <th>
+            Condition at birth
+          </th>
+          <th>
+            Birth weight
+          </th>
+          <th>
+            Alive now?
+          </th>
+          <th>
+            Age at death<sup>*</sup>
+          </th>
+        </tr>
+
+<%# 
+["YEAR OF BIRTH", "PLACE OF BIRTH", "PREGNANCY", "LABOUR DURATION", 
+"METHOD OF DELIVERY", "CONDITION AT BIRTH", "BIRTH WEIGHT", "ALIVE", "AGE AT DEATH"]      
+%>
+        <% (1..(@obstetrics.length + 1)).each do |pos| %>
+          <tr>
+            <td>
+              <%= pos %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["YEAR OF BIRTH"] ? 
+                    (@obstetrics[pos]["YEAR OF BIRTH"].to_i > 0 ? @obstetrics[pos]["YEAR OF BIRTH"].to_i : 
+                      "Unknown") : "&nbsp;") : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["PLACE OF BIRTH"] ? @obstetrics[pos]["PLACE OF BIRTH"] : "&nbsp;") : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["PREGNANCY"] ? @obstetrics[pos]["PREGNANCY"] : "&nbsp;") : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["LABOUR DURATION"] ? @obstetrics[pos]["LABOUR DURATION"] : "&nbsp;") : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["METHOD OF DELIVERY"] ? @obstetrics[pos]["METHOD OF DELIVERY"].titleize : 
+                    (@obstetrics[pos]["PROCEDURE DONE"] ? @obstetrics[pos]["PROCEDURE DONE"] : "&nbsp;")) : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["CONDITION AT BIRTH"] ? @obstetrics[pos]["CONDITION AT BIRTH"] : "&nbsp;") : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["BIRTH WEIGHT"] ? @obstetrics[pos]["BIRTH WEIGHT"] : "&nbsp;") : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["ALIVE"] ? @obstetrics[pos]["ALIVE"] : "&nbsp;") : "&nbsp;") %>
+            </td>
+            <td>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["AGE AT DEATH"] ? 
+                    (@obstetrics[pos]["AGE AT DEATH"].to_s.match(/\.[1-9]/) ? @obstetrics[pos]["AGE AT DEATH"] : 
+                      @obstetrics[pos]["AGE AT DEATH"].to_i) : "&nbsp;") : "&nbsp;") %>
+              <%= (@obstetrics[pos] ? (@obstetrics[pos]["UNITS OF AGE OF CHILD"] ? 
+                    @obstetrics[pos]["UNITS OF AGE OF CHILD"] : "&nbsp;") : "&nbsp;") %>
+            </td>
+          </tr>
+
+        <% end %>
+
+      </table>
+    </td>
+  </tr>
+</table>

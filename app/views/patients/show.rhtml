@@ -24,7 +24,7 @@
             <h1 id='project_name'>
               <div style='font-size: 0.8em; margin-top: 12px; color: #6281A7;'>maternity</div>
             </h1>
-            
+
             <span id='patient_name'><%= @patient.person.name %></span>
             <span id='patient_id'><%= @patient.national_id %></span>
             <span id='patient_residence'><%= @patient.person.current_residence %></span>
@@ -34,6 +34,21 @@
             <select id="tabs">
               <option value='/patients/visit_summary?patient_id=<%= @patient.id %>'>Visit Summary</option>
               <option value='/patients/visit_history?patient_id=<%= @patient.id %>'>Visit History</option>
+              <option value='/patients/tab_obstetric_history?patient_id=<%= session["patient_anc_map"][@patient.id]  %>' >
+                Obstetric History
+              </option>
+              <option value='/patients/tab_medical_history?patient_id=<%= session["patient_anc_map"][@patient.id]  %>' >
+                Medical History
+              </option>
+              <option value='/patients/tab_social_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>' >
+                Social History
+              </option>
+              <option value='/patients/tab_detailed_obstetric_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>'>
+                Detailed Obstetric History
+              </option>
+              <option value='/patients/tab_visit_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>'>
+                Current Pregnancy
+              </option>
             </select>
             <select id="links">
               <!--option value='/encounters/new/observations?patient_id=<%= @patient.id %>'>Admission Exams</option-->
@@ -41,6 +56,8 @@
               <option value='/encounters/new/postnatal?patient_id=<%= @patient.id %>'>Post-Natal Exams</option>
               <option value='/encounters/new/outcome?patient_id=<%= @patient.id %>'>Update Outcome</option>
               <option value='/encounters/update_hiv_status?patient_id=<%= @patient.id %>'>Update Hiv Status</option>
+            </select>
+            <select id="navigation_links">
               <option value='/patients/demographics?patient_id=<%= @patient.id %>'>Full Demographics</option>
               <option value='/patients/print_registration?patient_id=<%= @patient.id %>'>Print Registration</option>
             </select>

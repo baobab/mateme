@@ -79,7 +79,8 @@ module PatientService
     
       @dde_server_password = GlobalProperty.find_by_property("dde_server_password").property_value rescue ""
     
-      uri = "http://#{@dde_server_username}:#{@dde_server_password}@#{@dde_server}/people.json/"                          
+      uri = "http://#{@dde_server_username}:#{@dde_server_password}@#{@dde_server}/people.json/"
+
       recieved_params = RestClient.post(uri,passed_params)      
                                           
       national_id = JSON.parse(recieved_params)["npid"]["value"]
