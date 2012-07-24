@@ -44,6 +44,20 @@ class EncountersController < ApplicationController
     # raise encounter.to_yaml
     
     # elsif encounter.patient.current_visit.encounters.active.collect{|e|
+
+    @patient = Patient.find(params[:encounter][:patient_id])
+
+    if encounter.patient.current_visit.encounters.active.collect{|e|
+        e.observations.collect{|o|
+          o.answer_string if o.answer_string.to_s.upcase.include?("PATIENT DIED") ||
+            o.answer_string.to_s.upcase.include?("DISCHARGED")
+        }.compact if e.type.name.upcase.eql?("UPDATE OUTCOME")
+      }.compact.collect{|p| true if p.to_s.upcase.include?("DISCHARGED")}.compact.include?(true) == true
+      print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}",
+        next_task(@patient)) and return if (encounter.type.name.upcase == \
+          "UPDATE OUTCOME")
+      return
+    end
     
     if encounter.patient.current_visit.encounters.active.collect{|e|
         e.observations.collect{|o|
@@ -57,8 +71,6 @@ class EncountersController < ApplicationController
 
       redirect_to "/people" and return
     end
-
-    @patient = Patient.find(params[:encounter][:patient_id])
 
     if params[:next_url]
 
@@ -405,7 +417,7 @@ class EncountersController < ApplicationController
     
   end
 
-  def label
+  def label    
     send_label(Encounter.find(params[:encounter_id]).label)
   end
 

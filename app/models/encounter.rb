@@ -177,6 +177,19 @@ class Encounter < ActiveRecord::Base
         label.draw_multi_text("Current Residence: #{self.patient.person.current_residence}", :font_reverse => false)
         label.draw_barcode(120,200,0,1,3,10,80,false,"#{self.patient.national_id}")
         label.print
+      elsif self.to_s.upcase.include?("DISCHARGED")
+        label = ZebraPrinter::Label.new()
+        label.font_size = 3
+        label.font_horizontal_multiplier = 1
+        label.font_vertical_multiplier = 1
+        label.left_margin = 300
+        label.draw_multi_text("ADMITTED ON: #{self.admission_date}")
+        label.draw_multi_text("DISCHARGED ON: #{Time.now.strftime("%d %b %Y %H:%M")}", :font_reverse => false)
+        label.draw_multi_text("NAME: #{self.patient.name}")
+        label.draw_multi_text("DIAGNOSES: #{self.discharge_summary[0].titleize}", :font_reverse => false)
+        label.draw_multi_text("MANAGEMENT: #{self.discharge_summary[1].titleize}", :font_reverse => false)
+        label.draw_multi_text("DISCHARGED BY: #{User.current_user.name.titleize rescue ''}")
+        label.print
       end
     end
   end
@@ -240,9 +253,9 @@ class Encounter < ActiveRecord::Base
     encounter_types_hash = encounter_types.inject({}) {|result, row| result[row.encounter_type_id] = row.name; result }
     with_scope(:find => opts) do
       rows = self.all(
-         :select => 'count(*) as number, encounter_type',
-         :group => 'encounter.encounter_type',
-         :conditions => ['encounter_type IN (?)', encounter_types.map(&:encounter_type_id)])
+        :select => 'count(*) as number, encounter_type',
+        :group => 'encounter.encounter_type',
+        :conditions => ['encounter_type IN (?)', encounter_types.map(&:encounter_type_id)])
       return rows.inject({}) {|result, row| result[encounter_types_hash[row['encounter_type']]] = row['number']; result }
     end
   end

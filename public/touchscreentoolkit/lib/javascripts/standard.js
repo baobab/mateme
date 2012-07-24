@@ -2157,6 +2157,10 @@ function press(pressedChar){
     if (singleButtonMode)
         inputTarget.value = "";
 
+    var unknownClickedEarlier = inputTarget.value.toLowerCase();
+    if (unknownClickedEarlier == "unknown" || unknownClickedEarlier == "n/a")
+        inputTarget.value = "";
+
     if (pressedChar.length == 1) {
         inputTarget.value += getRightCaseValue(pressedChar);
 
