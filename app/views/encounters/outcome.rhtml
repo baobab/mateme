@@ -140,11 +140,11 @@
     "DELIVERED BEFORE ARRIVAL",
     "DELIVERED IN THEATRE",
     "DELIVERED IN ANTENATAL WARD"] %>
-  
+
   <% @main_outcomes = @main_outcomes - ["Admitted"] %>
-  
+
   <% @main_outcomes = @main_outcomes - ["Discharged"] if !@location.upcase.include?("POST") && !@location.upcase.include?("ANTE") %>
-  
+
 <%# @admission_section = ["", "ANTENATAL WARD", "LABOUR WARD", "GYNECOLOGY", "HDU"] %>
   <% @admission_section = @admission_wards %>
 
@@ -160,14 +160,14 @@
   <%@delivery_mode = [""] + Concept.find_by_name("DELIVERY MODE").concept_answers.collect{|c| c.name} %>
   <%@procedure_done = [""] + Concept.find_by_name("PROCEDURE DONE").concept_answers.collect{|c| c.name}.sort %>
   <%@postpartum_type = ["", "TOTAL POSTPARTUM HYSTERECTOMY", "SUB-TOTAL POSTPARTUM HYSTERECTOMY"]%>
-  <%@discharged_to_where = [["",""], ["Home - Waiting", "Home - Waiting"], 
+  <%@discharged_to_where = [["",""], ["Home - Waiting", "Home - Waiting"],
     ["Another Health Facility", "Another Health Facility"]]%>
   <%@health_facility = ["", "KCH"]%>
 
   <%= hidden_field_tag "encounter[encounter_type_name]", "UPDATE OUTCOME" %>
   <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
-  <%= hidden_field_tag "encounter[encounter_datetime]", 
-    (session[:datetime] ? session[:datetime].to_time : (session[:datetime] ? session[:datetime].to_time : 
+  <%= hidden_field_tag "encounter[encounter_datetime]",
+    (session[:datetime] ? session[:datetime].to_time : (session[:datetime] ? session[:datetime].to_time :
         DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
@@ -203,7 +203,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "OUTCOME") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@main_outcomes.sort()), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : 
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time :
         DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% options = {
@@ -240,326 +240,133 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][concept_name]",  "NUMBER OF BABIES")%>
   <%= text_field_tag("observations[][value_coded_or_text]",   nil, options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
+  <%= hidden_field_tag("observations[][obs_datetime]",
     (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
     {
       :id => "number_of_babies_date"
     }) %>
 
-  <!-- From Here - Set 1 -->
-  <% options = {
-    :id => "presentation1",
-    :field_type => 'text',
-    :helptext =>"Baby: Presentation",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' /*|| $('discharge_outcome').value.toUpperCase() == 'DISCHARGED'*/)")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "baby_outcome1",
-    :field_type => 'text',
-    :helptext =>"Baby: Outcome",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby1_outcome_date"
-    })
+  <%
+  prefixes = {
+    1=>"st",
+    2=>"nd",
+    3=>"rd",
+    4=>"th",
+    5=>"th",
+    6=>"th",
+    7=>"th",
+    8=>"th",
+    9=>"th",
+    10=>"th"
+  }
 %>
+  <% (1..10).each do |baby| %>
 
-  <% options = {
-    :id => "baby_outcome1_status",
-    :field_type => 'text',
-    :helptext =>"Baby: Discharge Outcome",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED')")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby1_outcome_date_status"
-    })
-%>
+    <% options = {
+      :id => "presentation#{baby}",
+      :field_type => 'text',
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Presentation",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "(($('discharge_outcome').value.toUpperCase() == 'DELIVERED' /*|| $('discharge_outcome').value.toUpperCase() == 'DISCHARGED'*/) " +
+          " && parseInt($('number_of_babies').value) > #{baby - 1})")
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
-  <% options = {
-    :id => "time_of_delivery1",
-    :field_type => 'advancedTime',
-    :helptext =>"Baby: Time of Delivery",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' /*|| $('discharge_outcome').value.toUpperCase() == 'DISCHARGED'*/)"),
-    :tt_onUnLoad => "updateTimeOtherFields(1)"
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
-  <%= text_field_tag("observations[][value_time]",   nil, options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : 
-        DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+    <% options = {
+      :id => "baby_outcome#{baby}",
+      :field_type => 'text',
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Discharge Outcome",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1})")
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",
+      (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+      {
+        :id => "baby#{baby}_outcome_date"
+      }) %>
 
-  <% options = {
-    :id => "date_of_delivery1",
-    :field_type => 'date',
-    :helptext =>"Baby: Date of Delivery",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' /*|| $('discharge_outcome').value.toUpperCase() == 'DISCHARGED'*/)"),
-    :tt_onUnload => ""
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
-  <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+    <% options = {
+      :id => "baby_outcome#{baby}_status",
+      :field_type => 'text',
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Outcome",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})")
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",
+      (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+      {
+        :id => "baby#{baby}_outcome_date_status"
+      }) %>
 
-  <% options = {
-    :id => "baby_gender1",
-    :field_type => 'text',
-    :helptext =>"Baby: Gender",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' /*|| $('discharge_outcome').value.toUpperCase() == 'DISCHARGED'*/)")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+    <% options = {
+      :id => "time_of_delivery#{baby}",
+      :field_type => 'advancedTime',
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Time of Delivery",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+      :tt_onUnLoad => "updateTimeOtherFields(#{baby})"
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
+    <%= text_field_tag("observations[][value_time]",   nil, options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ?
+          session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
-  <% options = {
-    :id => "delivery_mode1",
-    :field_type => 'text',
-    :helptext =>"Baby: Delivery Mode",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' /*|| $('discharge_outcome').value.toUpperCase() == 'DISCHARGED'*/)"),
-    :tt_pageStyleClass => "qwertyKeyboardOnly"
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby1_delivery_mode_date"
-    }) %>
+    <% options = {
+      :id => "date_of_delivery#{baby}",
+      :field_type => 'date',
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Date of Delivery",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/")
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
+    <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ?
+          session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
-  <!-- Finish here Set 1 -->
+    <% options = {
+      :id => "baby_gender#{baby}",
+      :field_type => 'text',
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Gender",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/")
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
-  <!-- From Here - Set 2 -->
-  <% options = {
-    :id => "presentation2",
-    :field_type => 'text',
-    :helptext =>"2<sup>nd</sup> Baby: Presentation",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "(($('discharge_outcome').value.toUpperCase() == 'DELIVERED' /*|| $('discharge_outcome').value.toUpperCase() == 'DISCHARGED'*/) " +
-        " && parseInt($('number_of_babies').value) > 1)")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+    <% options = {
+      :id => "delivery_mode#{baby}",
+      :field_type => 'text',
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Delivery Mode",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/")
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",
+      (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
+      {
+        :id => "baby#{baby}_delivery_mode_date"
+      }) %>
 
-  <% options = {
-    :id => "baby_outcome2",
-    :field_type => 'text',
-    :helptext =>"2<sup>nd</sup> Baby: Discharge Outcome",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1)")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby2_outcome_date"
-    }) %>
-
-  <% options = {
-    :id => "baby_outcome2_status",
-    :field_type => 'text',
-    :helptext =>"2<sup>nd</sup> Baby: Outcome",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby2_outcome_date_status"
-    }) %>
-
-  <% options = {
-    :id => "time_of_delivery2",
-    :field_type => 'advancedTime',
-    :helptext =>"2<sup>nd</sup> Baby: Time of Delivery",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1) /*|| " + 
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)*/"),
-    :tt_onUnLoad => "updateTimeOtherFields(2)"
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
-  <%= text_field_tag("observations[][value_time]",   nil, options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "date_of_delivery2",
-    :field_type => 'date',
-    :helptext =>"2<sup>nd</sup> Baby: Date of Delivery",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1) /*|| " + 
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)*/")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
-  <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "baby_gender2",
-    :field_type => 'text',
-    :helptext =>"2<sup>nd</sup> Baby: Gender",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1) /*|| " + 
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)*/")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "delivery_mode2",
-    :field_type => 'text',
-    :helptext =>"2<sup>nd</sup> Baby: Delivery Mode",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 1) /*|| " + 
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 1)*/")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby2_delivery_mode_date"
-    }) %>
-
-  <!-- Finish here Set 2 -->
-
-  <!-- From Here - Set 3 -->
-  <% options = {
-    :id => "presentation3",
-    :field_type => 'text',
-    :helptext =>"3<sup>rd</sup> Baby: Presentation",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2) */|| " +  
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)*/")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "baby_outcome3",
-    :field_type => 'text',
-    :helptext =>"3<sup>rd</sup> Baby: Outcome",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2)")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "BABY OUTCOME") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby3_outcome_date"
-    }) %>
-
-  <% options = {
-    :id => "baby_outcome3_status",
-    :field_type => 'text',
-    :helptext =>"3<sup>rd</sup> Baby: Discharge Outcome",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "STATUS OF BABY") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@baby_outcome), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby3_outcome_date_status"
-    }) %>
-
-  <% options = {
-    :id => "time_of_delivery3",
-    :field_type => 'advancedTime',
-    :helptext =>"3<sup>rd</sup> Baby: Time of Delivery",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2) /*|| " +  
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)*/"),
-    :tt_onUnLoad => "updateTimeOtherFields(3)"
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "TIME OF DELIVERY")%>
-  <%= text_field_tag("observations[][value_time]",   nil, options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "date_of_delivery3",
-    :field_type => 'date',
-    :helptext =>"3<sup>rd</sup> Baby: Date of Delivery",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2) /*|| " +  
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)*/")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "DATE OF DELIVERY")%>
-  <%= text_field_tag("observations[][value_datetime]",   nil, options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "baby_gender3",
-    :field_type => 'text',
-    :helptext =>"3<sup>rd</sup> Baby: Gender",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2) /*|| " +  
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)*/")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "Gender of contact") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Male", "Female"]), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "delivery_mode3",
-    :field_type => 'text',
-    :helptext =>"3<sup>rd</sup> Baby: Delivery Mode",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > 2) /*|| " +  
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > 2)*/")
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  
-    (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
-    {
-      :id => "baby3_delivery_mode_date"
-    }) %>
-
-  <!-- Finish here Set 3 -->
+  <% end %>
 
   <% options = {
     :id => "perineum",
@@ -569,7 +376,8 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
         "($('discharge_outcome').value.toUpperCase() == 'DELIVERED')")
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "PERINEUM") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Intact", "Tear", "Episiotomy"]), options)%>
+  <%= select_tag("observations[][value_coded_or_text]",
+    options_for_select(["", "Intact", "Tear", "Episiotomy", "Laceration"]), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
@@ -582,26 +390,13 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :tt_onLoad => '__$("touchscreenInput" + tstCurrentPage).style.display = "none";'
   }%>
   <%= hidden_field_tag("observations[][concept_name]",  "TEAR") %>
-  <%= select_tag("observations[][value_coded_or_text]", 
+  <%= select_tag("observations[][value_coded_or_text]",
     options_for_select([
-        ["", ""], 
-        ["1<sup>o</sup>", "1 Degree"], 
-        ["2<sup>o</sup>", "2 Degrees"], 
-        ["3<sup>o</sup>", "3 Degrees"], 
+        ["", ""],
+        ["1<sup>o</sup>", "1 Degree"],
+        ["2<sup>o</sup>", "2 Degrees"],
+        ["3<sup>o</sup>", "3 Degrees"],
         ["4<sup>o</sup>", "4 Degrees"]]), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-  <% options = {
-    :id => "postpartum_type",
-    :field_type => 'text',
-    :helptext =>"Select Postpartum Hesterectomy Type",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('procedure_done').value == 'POSTPARTUM HYSTERECTOMY')"),
-    :tt_pageStyleClass => "qwertyKeyboardOnly"
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "POSTPARTUM HYSTERECTOMY") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@postpartum_type), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
@@ -609,13 +404,13 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :id => "discharged_to_where",
     :field_type => 'text',
     :helptext =>"Discharged to where?",
-    :tt_onUnLoad => "if($('discharged_to_where').value.toUpperCase() == 'HOME - WAITING' || " + 
+    :tt_onUnLoad => "if($('discharged_to_where').value.toUpperCase() == 'HOME - WAITING' || " +
       "$('discharged_to_where').value.toUpperCase() == 'ANOTHER HEALTH FACILITY')\
   {$('discharged_to_where_value_coded_or_text').value = $('discharged_to_where').value; \
   $('next_url').disabled = false;} else {$('next_url').disabled = true;}"
   }%>
 
-  <% options[:condition] = (@location.downcase == "ante-natal ward" ? 
+  <% options[:condition] = (@location.downcase == "ante-natal ward" ?
       "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED')" : "false") %>
 
   <%= select_tag("discharged_to_where", options_for_select(@discharged_to_where), options)%>
@@ -629,7 +424,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     :tt_onUnLoad => "$('discharged_to_where_value_coded_or_text').value = $('health_facility').value;"
   }%>
 
-  <% options[:condition] = (@location.downcase == "ante-natal ward" ? 
+  <% options[:condition] = (@location.downcase == "ante-natal ward" ?
       "($('discharged_to_where').value.toUpperCase() == 'ANOTHER HEALTH FACILITY')" : "false") %>
 
   <%= select_tag("health_facility", options_for_select(@health_facility), options)%>
@@ -655,8 +450,8 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   } %>
 
   <% options[:id] = 'diagnosis0' %>
-  <% options[:tt_onLoad] = "__$('Unknown').innerHTML='<span>N/A</span>'; " + 
-    "__$('Unknown').onclick=function(){__$('touchscreenInput'+tstCurrentPage).value='N/A'}; " + 
+  <% options[:tt_onLoad] = "__$('Unknown').innerHTML='<span>N/A</span>'; " +
+    "__$('Unknown').onclick=function(){__$('touchscreenInput'+tstCurrentPage).value='N/A'}; " +
     "$('nextButton').innerHTML = '<span>Finish</span>';" %>
 
   <% options[:optional] = 'true' %>
@@ -669,7 +464,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
 
   <% 10.times do |counter| %>
     <% options[:condition] = (@location.downcase == "ante-natal ward" && counter > 0 ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED') && __$('diagnosis#{counter}').value != '' && " + 
+        "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED') && __$('diagnosis#{counter}').value != '' && " +
         "__$('diagnosis0').value != 'N/A'" ) %>
 
     <% options[:helpText] = "Select the next diagnosis" %>
@@ -711,19 +506,47 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     <% counter += 1 %>
   <% end %>
 
-  <% options = {
-    :id => "procedure_done",
-    :field_type => 'text',
-    :helptext =>"Procedure Done",
-    :condition => (@location.downcase == "ante-natal ward" ? "false" :
-        "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' || $('discharge_outcome').value.toUpperCase() == 'DISCHARGED')"),
-    :tt_pageStyleClass => "qwertyKeyboardOnly"
-  }%>
-  <%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+  <% (1..5).each do |proc| %>
 
+    <% options = {
+      :id => "procedure_done#{proc}",
+      :field_type => 'text',
+      :helptext =>"#{proc}<sup>#{prefixes[proc]}</sup> Procedure Done",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' || " +
+          "$('discharge_outcome').value.toUpperCase() == 'DISCHARGED') #{proc > 1 ?
+        "&& (__$('procedure_done#{proc - 1}').value != '' && __$('procedure_done#{proc - 1}').value != 'None')":"" }"),
+      :tt_pageStyleClass => "qwertyKeyboardOnly"
+    }%>
+
+    <%
+    if proc > 1
+      options["optional"] = "true"
+    end
+  %>
+
+    <%
+    @procedure_done = @procedure_done - ["None"] if proc > 1
+  %>
+    <%= hidden_field_tag("observations[][concept_name]",  "PROCEDURE DONE") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@procedure_done), options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+    <% options = {
+      :id => "postpartum_type",
+      :field_type => 'text',
+      :helptext =>"Select Postpartum Hesterectomy Type",
+      :condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('procedure_done#{proc}').value == 'POSTPARTUM HYSTERECTOMY')"),
+      :tt_pageStyleClass => "qwertyKeyboardOnly"
+    }%>
+    <%= hidden_field_tag("observations[][concept_name]",  "POSTPARTUM HYSTERECTOMY") %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@postpartum_type), options)%>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% end %>
 
 <%#= hidden_field_tag "next_url", "/encounters/new/admission_diagnosis/?patient_id=#{@patient.id}", {:disabled => true} %>
 

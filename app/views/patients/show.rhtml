@@ -34,21 +34,28 @@
             <select id="tabs">
               <option value='/patients/visit_summary?patient_id=<%= @patient.id %>'>Visit Summary</option>
               <option value='/patients/visit_history?patient_id=<%= @patient.id %>'>Visit History</option>
-              <option value='/patients/tab_obstetric_history?patient_id=<%= session["patient_anc_map"][@patient.id]  %>' >
-                Obstetric History
-              </option>
-              <option value='/patients/tab_medical_history?patient_id=<%= session["patient_anc_map"][@patient.id]  %>' >
-                Medical History
-              </option>
-              <option value='/patients/tab_social_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>' >
-                Social History
-              </option>
-              <option value='/patients/tab_detailed_obstetric_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>'>
-                Detailed Obstetric History
-              </option>
-              <option value='/patients/tab_visit_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>'>
-                Current Pregnancy
-              </option>
+
+              <% if @link_to_anc %>
+              
+                <option value='/patients/tab_obstetric_history?patient_id=<%= session["patient_anc_map"][@patient.id]  %>' >
+                  Obstetric History
+                </option>
+                <option value='/patients/tab_medical_history?patient_id=<%= 
+                            session["patient_anc_map"][@patient.id]  %>&internal_id=<%= @patient.id %>' >
+                  Medical History
+                </option>
+                <option value='/patients/tab_social_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>' >
+                  Social History
+                </option>
+                <option value='/patients/tab_detailed_obstetric_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>'>
+                  Detailed Obstetric History
+                </option>
+                <option value='/patients/tab_visit_history?patient_id=<%= session["patient_anc_map"][@patient.id] %>'>
+                  Current Pregnancy
+                </option>
+
+              <% end %>
+
             </select>
             <select id="links">
               <!--option value='/encounters/new/observations?patient_id=<%= @patient.id %>'>Admission Exams</option-->

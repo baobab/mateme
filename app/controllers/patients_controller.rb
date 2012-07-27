@@ -1,6 +1,6 @@
 class PatientsController < ApplicationController
   def show
-    # raise params.to_yaml
+    # raise link_to_anc.to_yaml
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
 
     @maternity_patient = ANCService::ANC.new(@patient)
@@ -74,6 +74,8 @@ class PatientsController < ApplicationController
       x == ""
     }
 
+    @link_to_anc = link_to_anc
+    
     # raise @encounter_names.include?("Refer patient out?".upcase).to_yaml
 
     @past_treatments = @patient.visit_treatments
@@ -441,21 +443,21 @@ class PatientsController < ApplicationController
   def tab_obstetric_history
     @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
     
-    @anc_patient = ANCService::ANC.new(@patient)
+    @anc_patient = ANCService::ANC.new(@patient) rescue nil
 
-    @pregnancies = @anc_patient.active_range
+    @pregnancies = @anc_patient.active_range if !@anc_patient.nil?
 
     @range = []
 
-    @pregnancies = @pregnancies[1]
+    @pregnancies = @pregnancies[1] if !@anc_patient.nil?
 
     @pregnancies.each{|preg|
       @range << preg[0].to_date
-    }
+    } if !@anc_patient.nil?
 
 
     @encs = AncConnection::Encounter.find(:all, :conditions => ["patient_id = ? AND encounter_type = ?",
-        @patient.id, AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id]).length
+        @patient.id, AncConnection::EncounterType.find_by_name("OBSTETRIC HISTORY").id]).length rescue 0
 
     if @encs > 0
       @deliveries = AncConnection::Observation.find(:last,
@@ -530,7 +532,7 @@ class PatientsController < ApplicationController
   def tab_medical_history
     @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
 
-    @anc_patient = ANCService::ANC.new(@patient)
+    @anc_patient = ANCService::ANC.new(@patient) rescue nil
 
     @asthma = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
         @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},
@@ -570,16 +572,18 @@ class PatientsController < ApplicationController
 
     @age = @anc_patient.age rescue 0
 
+    @age = (Person.find(params[:internal_id]).age rescue 0) if @age == 0
+
     render :layout => false
   end
 
   def tab_visit_history
     @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
 
-    @anc_patient = ANCService::ANC.new(@patient)
+    @anc_patient = ANCService::ANC.new(@patient) rescue nil
 
     @current_range = @anc_patient.active_range((params[:target_date] ?
-          params[:target_date].to_date : (session[:datetime] ? session[:datetime].to_date : Date.today)))
+          params[:target_date].to_date : (session[:datetime] ? session[:datetime].to_date : Date.today))) if !@anc_patient.nil?
 
     # raise @current_range.to_yaml
 
@@ -588,12 +592,12 @@ class PatientsController < ApplicationController
     @patient.encounters.find(:all, :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?",
         @current_range[0]["START"], @current_range[0]["END"]]).collect{|e|
       @encounters[e.encounter_datetime.strftime("%d/%b/%Y")] = {"USER" => User.find(e.creator).name }
-    }
+    } if !@anc_patient.nil?
 
     @patient.encounters.find(:all, :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?",
         @current_range[0]["START"], @current_range[0]["END"]]).collect{|e|
       @encounters[e.encounter_datetime.strftime("%d/%b/%Y")][e.type.name.upcase] = ({} rescue "") if !e.type.nil?
-    }
+    } if !@anc_patient.nil?
 
     @patient.encounters.find(:all, :conditions => ["encounter_datetime >= ? AND encounter_datetime <= ?",
         @current_range[0]["START"], @current_range[0]["END"]]).collect{|e|
@@ -613,7 +617,7 @@ class PatientsController < ApplicationController
           end
         }
       end
-    }
+    } if !@anc_patient.nil?
 
     @drugs = {};
     @other_drugs = {};
@@ -639,7 +643,7 @@ class PatientsController < ApplicationController
           @other_drugs[e.encounter_datetime.strftime("%d/%b/%Y")][o.drug_order.drug.name[0, o.drug_order.drug.name.index(" ")]] = o.drug_order.amount_needed
         end
       }
-    }
+    } if !@anc_patient.nil?
 
     render :layout => false
   end
@@ -647,7 +651,7 @@ class PatientsController < ApplicationController
   def tab_detailed_obstetric_history
     @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
 
-    @anc_patient = ANCService::ANC.new(@patient)
+    @anc_patient = ANCService::ANC.new(@patient) rescue nil
 
     @obstetrics = {}
     search_set = ["YEAR OF BIRTH", "PLACE OF BIRTH", "PREGNANCY", "LABOUR DURATION",
@@ -678,15 +682,15 @@ class PatientsController < ApplicationController
           end
         end
       }
-    }
+    } if !@patient.nil?
 
     # raise @obstetrics.to_yaml
 
-    @pregnancies = @anc_patient.active_range
+    @pregnancies = @anc_patient.active_range if !@patient.nil?
 
     @range = []
 
-    @pregnancies = @pregnancies[1]
+    @pregnancies = @pregnancies[1] rescue []
 
     @pregnancies.each{|preg|
       @range << preg[0].to_date
@@ -711,7 +715,7 @@ class PatientsController < ApplicationController
     
     @patient = AncConnection::Patient.find(params[:patient_id]) rescue nil
 
-    @anc_patient = ANCService::ANC.new(@patient)
+    @anc_patient = ANCService::ANC.new(@patient) rescue nil
 
     @alcohol = AncConnection::Observation.find(:last, :conditions => ["person_id = ? AND encounter_id IN (?) AND concept_id = ?",
         @patient.id, AncConnection::Encounter.find(:all, :conditions => ["patient_id = ?", @patient.id]).collect{|e| e.encounter_id},

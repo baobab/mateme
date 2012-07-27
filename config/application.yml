@@ -1,8 +1,10 @@
 production:
  create.from.dde.server: true
+ link.to.anc: false
  
 development:
  create.from.dde.server: true
+ link.to.anc: true
  
 test: &TEST
  create_from_remote: no

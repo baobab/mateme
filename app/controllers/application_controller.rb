@@ -79,4 +79,8 @@ class ApplicationController < ActionController::Base
     CoreService.get_global_property_value('create.from.dde.server').to_s == "true" rescue false
   end
 
+  def link_to_anc
+    CoreService.get_global_property_value('link.to.anc').to_s == "true" rescue false
+  end
+
 end

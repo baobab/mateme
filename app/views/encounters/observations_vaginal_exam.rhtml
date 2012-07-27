@@ -141,7 +141,7 @@
         :field_type => "text",
         :tt_pageStyleClass => "LongSelectList NoKeyboard"
       }) %>
-    <% @cervical_dilation = ["", "Not Done", "Finger Tip"]
+    <% @cervical_dilation = ["", "Not Done", "Finger Tip", "Open", "Closed"]
     (1..10).each{|c| @cervical_dilation << "#{c} cm"}
   %>
 
@@ -190,6 +190,7 @@
         :condition => "$('membranes').value.toLowerCase() == 'ruptured'",
         :helptext => "Membranes Rupture Time",
         :field_type => "advancedTime",
+        :optional => "true",
         :tt_onUnLoad => "$('rupture_time_value_datetime').value = " +
           "$('rupture_date').value.trim() + ' ' + $('rupture_time').value.trim();"
       }) %>
@@ -262,9 +263,11 @@
       }) %>
 
     <%= hidden_field_tag("observations[][concept_name]",  "BLOOD LOSS") %>
-    <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", "Active bleeding", "No active bleeding"]),options) %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(["", 
+          "Active bleeding", "No active bleeding", "Lochia"]),options) %>
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ?
+          session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
     <% options = default.merge({
         :id => "tear",
