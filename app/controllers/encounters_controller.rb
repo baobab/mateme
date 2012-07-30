@@ -5,7 +5,6 @@ require 'barby/outputter/rmagick_outputter'
 class EncountersController < ApplicationController
 
   def create
-    # raise params.to_yaml
     
     params[:encounter][:encounter_datetime] = (params[:encounter][:encounter_datetime].to_date.strftime("%Y-%m-%d ") + 
         Time.now.strftime("%H:%M")) rescue Time.now()
@@ -56,7 +55,8 @@ class EncountersController < ApplicationController
       print_and_redirect("/encounters/label/?encounter_id=#{encounter.id}",
         next_task(@patient)) and return if (encounter.type.name.upcase == \
           "UPDATE OUTCOME")
-      return
+      # return next_task(@patient)
+      redirect_to next_task(@patient)
     end
     
     if encounter.patient.current_visit.encounters.active.collect{|e|

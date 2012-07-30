@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.62, for debian-linux-gnu (i686)
+-- MySQL dump 10.13  Distrib 5.5.24, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: maternity_development
 -- ------------------------------------------------------
--- Server version	5.1.62-0ubuntu0.11.04.1
+-- Server version	5.5.24-0ubuntu0.12.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,8 +51,10 @@ CREATE TABLE `patient_report` (
   `last_ward_where_seen_date` datetime DEFAULT NULL,
   `bba_babies` int(11) DEFAULT NULL,
   `bba_date` datetime DEFAULT NULL,
+  `discharged` datetime DEFAULT NULL,
+  `discharge_ward` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`patient_report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=219 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -64,4 +66,4 @@ CREATE TABLE `patient_report` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-06-06  9:57:17
+-- Dump completed on 2012-07-30 12:22:39

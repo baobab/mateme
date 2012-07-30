@@ -81,6 +81,12 @@ BEGIN
   		INSERT INTO patient_report (patient_id, discharged_home, obs_datetime, obs_id) VALUES(new.person_id, new.obs_datetime, new.obs_datetime, new.obs_id);
 	END IF;
 	
+	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "OUTCOME" LIMIT 1) AND new.value_coded = (SELECT concept_id FROM concept_name WHERE name = "DISCHARGED" LIMIT 1) THEN
+      SET @ward = (SELECT name FROM location WHERE location_id = new.location_id);
+      
+  		INSERT INTO patient_report (patient_id, discharged, discharge_ward, obs_datetime, obs_id) VALUES(new.person_id, new.obs_datetime, @ward, new.obs_datetime, new.obs_id);
+	END IF;
+	
 END$$
 
 DELIMITER ;
