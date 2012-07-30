@@ -309,6 +309,10 @@ class CohortController < ApplicationController
         referral_in(params[:start_date], params[:end_date], params[:group], params[:field])
       when "discharges"
         discharges(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "discharges_low_risk"
+        discharges_low_risk(params[:start_date], params[:end_date], params[:group], params[:field])
+      when "discharges_high_risk"
+        discharges_high_risk(params[:start_date], params[:end_date], params[:group], params[:field])
       when "abscondees"
         abscondees(params[:start_date], params[:end_date], params[:group], params[:field])
       when "post_mothers"
@@ -495,6 +499,20 @@ class CohortController < ApplicationController
     patients = PatientReport.find(:all, :conditions => ["COALESCE(outcome, '') = 'Discharged' " + 
           "AND outcome_date >= ? AND outcome_date <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
     
+    render :text => patients.to_json
+  end
+
+  def discharges_low_risk(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(discharge_ward, '') = 'Post-Natal Ward (Low Risk)' " +
+          "AND discharged >= ? AND discharged <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
+
+    render :text => patients.to_json
+  end
+
+  def discharges_high_risk(startdate = Time.now, enddate = Time.now, group = 1, field = "")
+    patients = PatientReport.find(:all, :conditions => ["COALESCE(discharge_ward, '') = 'Post-Natal Ward (High Risk)' " +
+          "AND discharged >= ? AND discharged <= ?", startdate, enddate]).collect{|p| p.patient_id} #.uniq
+
     render :text => patients.to_json
   end
 
