@@ -103,19 +103,19 @@
           </button>
         </div><%# raise @encounters.to_yaml %>
         <div style="display: table-cell">
-          <button class="<%= (@encounters.include?("CONDITION OF BABY AT ADMISSION") ? "gray" : "blue") %>"
-                  onclick="<%= (@encounters.include?("CONDITION OF BABY AT ADMISSION") ? "" :
-                      "window.location = '/encounters/new/physical_examination_baby?patient_id=#{@patient.id}&ret=postnatal'") %> ">
-            <span>Physical Examination Baby</span>
+          <button class="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "" :
+                      "window.location = '/encounters/new/observations_notes?patient_id=#{@patient.id}&ret=postnatal'") %> ">
+            <span>Notes</span>
           </button>
         </div>
       </div>
       <div style="display: table-row">
         <div style="display: table-cell">
-          <button class="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "gray" : "blue") %>"
-                  onclick="<%= (@encounters.include?("PLAN") || @encounters.include?("IMPRESSION") ? "" :
-                      "window.location = '/encounters/new/observations_notes?patient_id=#{@patient.id}&ret=postnatal'") %> ">
-            <span>Notes</span>
+          <button class="<%= (@encounters.include?("CONDITION OF BABY AT ADMISSION") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("CONDITION OF BABY AT ADMISSION") ? "" :
+                      "window.location = '/encounters/new/physical_examination_baby?patient_id=#{@patient.id}&ret=postnatal'") %> ">
+            <span>Physical Examination Baby</span>
           </button>
         </div>
         <div style="display: table-cell">
