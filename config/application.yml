@@ -4,7 +4,7 @@ production:
  
 development:
  create.from.dde.server: true
- link.to.anc: true
+ link.to.anc: false
  
 test: &TEST
  create_from_remote: no

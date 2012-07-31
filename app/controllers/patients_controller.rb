@@ -5,14 +5,16 @@ class PatientsController < ApplicationController
 
     @maternity_patient = ANCService::ANC.new(@patient)
 
-    if session["patient_anc_map"].nil?
-      session["patient_anc_map"] = {}
-    end
+    if link_to_anc
+      if session["patient_anc_map"].nil?
+        session["patient_anc_map"] = {}
+      end
 
-    if session["patient_anc_map"][@patient.id].nil?
-      session["patient_anc_map"][@patient.id] = AncConnection::PatientIdentifier.search_by_identifier(@maternity_patient.national_id).id
+      if session["patient_anc_map"][@patient.id].nil?
+        session["patient_anc_map"][@patient.id] = AncConnection::PatientIdentifier.search_by_identifier(@maternity_patient.national_id).id
+      end
     end
-
+    
     @last_location = @patient.encounters.find(:last).location_id rescue nil
     
     if session[:location_id] != @last_location && (params[:skip_check] ? (params[:skip_check] == "true" ? false : true ) : true)
