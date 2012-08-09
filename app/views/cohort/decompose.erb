@@ -6,8 +6,8 @@
     <link href="/stylesheets/dashboard.css" media="screen" rel="stylesheet" type="text/css" />
     <script type="text/javascript" language="javascript">
       <!--
-      tt_cancel_destination = '/reports/select';
-      tt_show = '/reports/select';
+      tt_cancel_destination = '/cohort?reportType=1';
+      tt_show = '/cohort?reportType=1';
       //-->
     </script>
     <style media="print">
@@ -137,7 +137,7 @@
                         <%= patient.national_id rescue "&nbsp;" %>
                       </div>
                       <div class="cell">
-                        <%= patient.name rescue "" %>
+                        <%= patient.person.name rescue "" %>
                       </div>
                       <div class="cell">
                         <%= patient.date_created.strftime("%d/%b/%Y") rescue "" %>
