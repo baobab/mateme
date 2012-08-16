@@ -419,7 +419,7 @@ function generateDashboard(){
     gender.id = "gendercell";
     if(__$('patient_gender')){
         gender.innerHTML = "<div id='gender' style='padding-left: 3px; padding-top: 2px; " + 
-            "height: 25px; width: 25px;' class='" +
+        "height: 25px; width: 25px;' class='" +
         (__$('patient_gender').innerHTML.toLowerCase().trim() == "female" ? "female" : "male") +
         "' /></div>";
     }
@@ -1004,6 +1004,12 @@ function checkForBarcode(validAction){
 
     if (!barcode_element)
         return
+
+    barcode_element.onkeydown = function(event){
+        if(event.keyCode == 13){
+            this.value += '$'
+        }
+    }
 
     // Look for anything with a dollar sign at the end
     if (barcode_element.value.match(/.+\$$/i) != null || barcode_element.value.match(/.+\$$/i) != null){

@@ -1004,6 +1004,12 @@ function checkForBarcode(validAction){
     if (!barcode_element)
         return
 
+    barcode_element.onkeydown = function(event){
+        if(event.keyCode == 13){
+            this.value += '$'
+        }
+    }
+
     // Look for anything with a dollar sign at the end
     if (barcode_element.value.match(/.+\$$/i) != null || barcode_element.value.match(/.+\$$/i) != null){
         barcode_element.value = barcode_element.value.substring(0,barcode_element.value.length-1)
