@@ -80,6 +80,11 @@ class PeopleController < ApplicationController
         end
       end
       if found_person
+
+        patient = DDEService::Patient.new(found_person.patient)
+
+        patient.check_old_national_id(params[:identifier])
+
         redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
       end
     end

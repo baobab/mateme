@@ -5,8 +5,11 @@ class PatientIdentifierType < ActiveRecord::Base
   has_many :patient_identifier, :foreign_key => :identifier_type
 
   def next_identifier(options = {})
+    create_from_dde_server = CoreService.get_global_property_value('create.from.dde.server').to_s == "true" rescue false
+
     case self.name
-      when "National id"
+    when "National id"
+      if !create_from_dde_server
         health_center_id = Location.current_location.site_id
         national_id_version = "1"
         national_id_prefix = "P#{national_id_version}#{health_center_id.rjust(3,"0")}"
@@ -25,6 +28,8 @@ class PatientIdentifierType < ActiveRecord::Base
         patient_identifier.patient = options[:patient]
         patient_identifier.save!
         patient_identifier
+      end
     end
+    
   end
 end
