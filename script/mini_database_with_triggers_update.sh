@@ -34,6 +34,8 @@ mysql --user=$USERNAME --password=$PASSWORD $DATABASE < tmp/schema.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/triggers/patient_report.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/triggers/obs_after_insert.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/triggers/obs_after_update.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/create_dde_server_connection.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/districts.sql
 
 # FILES=db/triggers/*
 # for f in $FILES

@@ -64,27 +64,27 @@ module ANCService
   
     def current_weight
       obs = self.person.observations.recent(1).question("WEIGHT (KG)").all
-      obs.first.value_numeric rescue 0
+      obs.last.value_numeric || obs.last.value_text rescue 0
     end
   
     def current_height
       obs = self.person.observations.recent(1).question("HEIGHT (CM)").all
-      obs.first.value_numeric rescue 0
+      obs.last.value_numeric || obs.last.value_text rescue 0
     end
   
     def initial_weight
       obs = self.person.observations.recent(1).question("WEIGHT (KG)").all
-      obs.last.value_numeric rescue 0
+      obs.first.value_numeric || obs.first.value_text rescue 0
     end
   
     def initial_height
       obs = self.person.observations.recent(1).question("HEIGHT (CM)").all
-      obs.last.value_numeric rescue 0
+      obs.first.value_numeric || obs.first.value_text rescue 0
     end
 
     def initial_bmi
       obs = self.person.observations.recent(1).question("BMI").all
-      obs.last.value_numeric rescue nil
+      obs.first.value_numeric rescue nil
     end
 
     def min_weight
@@ -197,9 +197,9 @@ module ANCService
         }      
       }
     
-      # raise @obstetrics.to_yaml
+      # raise @anc_patient.to_yaml
     
-      @pregnancies = @anc_patient.active_range
+      @pregnancies = self.active_range
     
       @range = []
     
@@ -662,7 +662,8 @@ module ANCService
       label.draw_text("Epilepsy",400,170,0,2,1,1,false)
       label.draw_text("Vacuum Extraction",28,200,0,2,1,1,false)
       label.draw_text("Renal Disease",400,200,0,2,1,1,false)
-      label.draw_text("Symphisiotomy",28,230,0,2,1,1,false)
+      # label.draw_text("Symphisiotomy",28,230,0,2,1,1,false)
+      label.draw_text("C/Section",28,230,0,2,1,1,false)
       label.draw_text("Fistula Repair",400,230,0,2,1,1,false)
       label.draw_text("Haemorrhage",28,260,0,2,1,1,false)
       label.draw_text("Leg/Spine Deformation",400,260,0,2,1,1,false)
@@ -697,8 +698,10 @@ module ANCService
         (!@stillbirths.nil? ? (@stillbirths.upcase == "NO" ? false : true) : false))
       label.draw_text("#{(!@vacuum.nil? ? (@vacuum > 0 ? "YES" : "NO") : "")}",280,200,0,2,1,1,
         (!@vacuum.nil? ? (@vacuum > 0 ? true : false) : false))
-      label.draw_text("#{(!@symphosio.nil? ? (@symphosio.upcase == "NO" ? "NO" : "YES") : "")}",280,230,0,2,1,1,
-        (!@symphosio.nil? ? (@symphosio.upcase == "NO" ? false : true) : false))
+      # label.draw_text("#{(!@symphosio.nil? ? (@symphosio.upcase == "NO" ? "NO" : "YES") : "")}",280,230,0,2,1,1,
+      #   (!@symphosio.nil? ? (@symphosio.upcase == "NO" ? false : true) : false))
+      label.draw_text("#{(!@csections.nil? ? (@csections <= 0 ? "NO" : "YES") : "")}",280,230,0,2,1,1,
+        (!@csections.nil? ? (@csections <= 0 ? false : true) : false))
       label.draw_text("#{@haemorrhage}",280,260,0,2,1,1,(@haemorrhage.upcase == "PPH" ? true : false))
       label.draw_text("#{(!@preeclampsia.nil? ? (@preeclampsia.upcase == "NO" ? "NO" : "YES") : "")}",280,285,0,2,1,1,
         (!@preeclampsia.nil? ? (@preeclampsia.upcase == "NO" ? false : true) : false))
@@ -1215,9 +1218,49 @@ module ANCService
       "#{self.person.names.first.given_name} #{self.person.names.first.family_name}".titleize rescue nil
     end  
 
-    def address
-      "#{self.person.addresses.first.city_village}" rescue nil
+    def first_name
+      "#{self.person.names.first.given_name}".titleize rescue nil
+    end
+
+    def last_name
+      "#{self.person.names.first.family_name}".titleize rescue nil
+    end
+
+    def middle_name
+      "#{self.person.names.first.middle_name}".titleize rescue nil
+    end
+
+    def maiden_name
+      "#{self.person.names.first.family_name2}".titleize rescue nil
+    end
+
+    def current_address2
+      "#{self.person.addresses.last.city_village}" rescue nil
     end 
+
+    def current_address1
+      "#{self.person.addresses.last.address1}" rescue nil
+    end
+
+    def current_district
+      "#{self.person.addresses.last.address2}" rescue nil
+    end
+
+    def current_address
+      "#{self.current_address1}, #{self.current_address2}, #{self.current_district}" rescue nil
+    end
+
+    def home_district
+      "#{self.person.addresses.last.subregion}" rescue nil
+    end
+
+    def home_ta
+      "#{self.person.addresses.last.county_district}" rescue nil
+    end
+
+    def home_village
+      "#{self.person.addresses.last.neighborhood_cell}" rescue nil
+    end
 
     def age(today = Date.today)
       return nil if self.person.birthdate.nil?
@@ -1238,7 +1281,15 @@ module ANCService
       months = (today.month - self.person.birthdate.month)
       (years * 12) + months
     end
-    
+
+    def age_in_weeks(today = Date.today)
+      weeks = (today - self.person.birthdate).to_i / 7
+    end
+
+    def age_in_days(today = Date.today)
+      days = (today - self.person.birthdate).to_i
+    end
+
     def birthdate_formatted
       if self.person.birthdate_estimated==1
         if self.person.birthdate.day == 1 and self.person.birthdate.month == 7
@@ -1327,9 +1378,29 @@ module ANCService
       return demographics
     end
 
+    def nationality
+      nationality = get_attribute("Citizenship")
+
+      if !nationality.nil? and nationality.downcase == "other"
+        nationality = get_attribute("Race")
+      end
+      
+      nationality
+    end
+
     def get_attribute(attribute)
       PersonAttribute.find(:first,:conditions =>["voided = 0 AND person_attribute_type_id = ? AND person_id = ?",
           PersonAttributeType.find_by_name(attribute).id,self.person.id]).value rescue nil
+    end
+
+    def get_full_attribute(attribute)
+      PersonAttribute.find(:first,:conditions =>["voided = 0 AND person_attribute_type_id = ? AND person_id = ?",
+          PersonAttributeType.find_by_name(attribute).id,self.person.id]) rescue nil
+    end
+
+    def set_attribute(attribute, value)
+      PersonAttribute.create(:person_id => self.person.person_id, :value => value,
+        :person_attribute_type_id => (PersonAttributeType.find_by_name(attribute).id))
     end
 
     def phone_numbers
@@ -1443,6 +1514,120 @@ module ANCService
           o.answer_string.to_i if o.concept.concept_names.first.name.downcase == "reason for visit"
         }.compact
       }.flatten rescue []
+    end
+
+    def mother
+      self.patient.relationships.find(:last, :conditions => ["relationship = ?",
+          RelationshipType.find_by_b_is_to_a("Mother").id]) rescue nil
+    end
+
+    def father
+      self.patient.relationships.find(:last, :conditions => ["relationship = ?",
+          RelationshipType.find_by_b_is_to_a("Father").id]) rescue nil
+    end
+
+    def siblings
+      Relationship.find(:all, :conditions => ["person_b = ? AND person_a != ?",
+          self.mother.relation.id, self.patient.id]) rescue []
+    end
+
+    def export_person
+      mother = ANCService::ANC.new(self.mother.relation.patient) rescue nil
+      father = ANCService::ANC.new(self.father.relation.patient) rescue nil
+      {
+        "birthdate_estimated" => (self.person.birthdate_estimated rescue nil),
+        "gender" => (self.person.gender rescue nil),
+        "birthdate" => (self.person.birthdate rescue nil),
+        "names" => {
+          "given_name" => self.first_name,
+          "family_name" => self.last_name
+        },
+        "patient" => {
+          "identifiers" => {
+            "diabetes_number" => "",
+            "national_id" => self.national_id
+          }
+        },
+        "attributes" => {
+          "occupation" => (self.get_full_attribute("Occupation").value rescue nil),
+          "cell_phone_number" => (self.get_full_attribute("Cell Phone Number").value rescue nil),
+          "citizenship" => (self.get_full_attribute("Citizenship").value rescue nil),
+          "race" => (self.get_full_attribute("Race").value rescue nil)
+        },
+        "addresses" => {
+          "address1" => (self.current_address1 rescue nil),
+          "city_village" => (self.current_address2 rescue nil),
+          "address2" => (self.current_district rescue nil),
+          "subregion" => (self.home_district rescue nil),
+          "county_district" => (self.home_ta rescue nil),
+          "neighborhood_cell" => (self.home_village rescue nil)
+        },
+        "mother" => {
+          "birthdate_estimated" => (mother.person.birthdate_estimated rescue nil),
+          "gender" => (mother.person.gender rescue nil),
+          "birthdate" => (mother.person.birthdate rescue nil),
+          "names" => {
+            "given_name" => (mother.first_name rescue nil),
+            "family_name" => (mother.last_name rescue nil)
+          },
+          "patient" => {
+            "identifiers" => {
+              "diabetes_number" => "",
+              "national_id" => (mother.national_id rescue nil)
+            }
+          },
+          "attributes" => {
+            "occupation" => (mother.get_full_attribute("Occupation").value rescue nil),
+            "cell_phone_number" => (mother.get_full_attribute("Cell Phone Number").value rescue nil),
+            "citizenship" => (mother.get_full_attribute("Citizenship").value rescue nil),
+            "race" => (mother.get_full_attribute("Race").value rescue nil)
+          },
+          "addresses" => {
+            "address1" => (mother.current_address1 rescue nil),
+            "city_village" => (mother.current_address2 rescue nil),
+            "address2" => (mother.current_district rescue nil),
+            "subregion" => (mother.home_district rescue nil),
+            "county_district" => (mother.home_ta rescue nil),
+            "neighborhood_cell" => (mother.home_village rescue nil)
+          }
+        },
+        "father" => {
+          "birthdate_estimated" => (father.person.birthdate_estimated rescue nil),
+          "gender" => (father.person.gender rescue nil),
+          "birthdate" => (father.person.birthdate rescue nil),
+          "names" => {
+            "given_name" => (father.first_name rescue nil),
+            "family_name" => (father.last_name rescue nil)
+          },
+          "patient" => {
+            "identifiers" => {
+              "diabetes_number" => "",
+              "national_id" => (father.national_id rescue nil)
+            }
+          },
+          "attributes" => {
+            "occupation" => (father.get_full_attribute("Occupation").value rescue nil),
+            "cell_phone_number" => (father.get_full_attribute("Cell Phone Number").value rescue nil),
+            "citizenship" => (father.get_full_attribute("Citizenship").value rescue nil),
+            "race" => (father.get_full_attribute("Race").value rescue nil)
+          },
+          "addresses" => {
+            "address1" => (father.current_address1 rescue nil),
+            "city_village" => (father.current_address2 rescue nil),
+            "address2" => (father.current_district rescue nil),
+            "subregion" => (father.home_district rescue nil),
+            "county_district" => (father.home_ta rescue nil),
+            "neighborhood_cell" => (father.home_village rescue nil)
+          }
+        },
+        "facility" => {
+          "Health District" => (self.get_full_attribute("Health District").value rescue nil),
+          "Health Center" => (self.get_full_attribute("Health Center").value rescue nil),
+          "Provider Title" => (self.get_full_attribute("Provider Title").value rescue nil),
+          "Hospital Date" => (self.get_full_attribute("Hospital Date").value rescue nil),
+          "Provider Name" => (self.get_full_attribute("Provider Name").value rescue nil)
+        }
+      }
     end
 
   end
@@ -1587,9 +1772,9 @@ module ANCService
 		address_params = params["addresses"]
 		names_params = params["names"]
 		patient_params = params["patient"]
-		params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|relation|cell_phone_number|home_phone_number|office_phone_number|agrees_to_be_visited_for_TB_therapy|agrees_phone_text_for_TB_therapy|attributes/) }
+		params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|relation|cell_phone_number|home_phone_number|office_phone_number|agrees_to_be_visited_for_TB_therapy|agrees_phone_text_for_TB_therapy/) }
 		birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
-		person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate|occupation|identifiers|landmark_or_plot_number/) }
+		person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate|occupation|identifiers|citizenship|race/) }
 
 		if person_params["gender"].to_s == "Female"
       person_params["gender"] = 'F'
@@ -1682,17 +1867,17 @@ module ANCService
     patient_params = params["patient"]
     person_attribute_params = params["attributes"]
 
-    params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|attributes/) }
-    birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
+    params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|attributes|cat|action|controller/) }
+    birthday_params = params_to_process.reject{|key,value| key.match(/gender|person_id|cat|action|controller/) }
 
-    person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate/) }
+    person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate|cat|action|controller/) }
 
     if !birthday_params.empty?
 
       if birthday_params["birth_year"] == "Unknown"
-        person.set_birthdate_by_age(birthday_params["age_estimate"])
+        set_birthdate_by_age(person, birthday_params["age_estimate"])
       else
-        person.set_birthdate(birthday_params["birth_year"], birthday_params["birth_month"], birthday_params["birth_day"])
+        set_birthdate(person, birthday_params["birth_year"], birthday_params["birth_month"], birthday_params["birth_day"])
       end
 
       person.birthdate_estimated = 1 if params["birthdate_estimated"] == 'true'
@@ -1715,6 +1900,87 @@ module ANCService
       end
     } if person_attribute_params
 
+  end
+
+  def self.import_person(person)
+    if !person["patient"]["identifiers"]["national_id"].nil? and !person["patient"]["identifiers"]["national_id"].blank?
+      child = person.reject{|key,value| key.match(/father|mother|facility/) }
+
+      found_person_data = self.search_by_identifier(child["patient"]["identifiers"]["national_id"])
+
+      found_person = self.create_from_form(child) if found_person_data.nil?
+
+      child_id = nil
+      if !found_person_data.nil?
+        child_id = found_person_data.last.id
+      else
+        child_id = found_person.last.id
+      end
+
+      found_mother_data = self.search_by_identifier(person["mother"]["patient"]["identifiers"]["national_id"]) rescue nil?
+      found_mother = self.create_from_form(person["mother"]) if found_mother_data.nil?
+
+      mother_id = nil
+      if !found_mother_data.nil?
+        mother_id = found_mother_data.last.id rescue nil
+      else
+        mother_id = found_mother.last.id rescue nil
+      end
+
+      if !mother_id.nil?
+        mother_type = RelationshipType.find_by_b_is_to_a("Mother").relationship_type_id
+
+        Relationship.find(:all, :conditions => ["person_a = ? AND relationship = ?",
+            child_id, mother_type]).each{|r|
+          r.void
+        }
+
+        Relationship.create(
+          # :creator => User.first.id,
+          :person_a => child_id,
+          :person_b => mother_id,
+          :relationship => mother_type)
+      end
+      
+      found_father_data = self.search_by_identifier(person["father"]["patient"]["identifiers"]["national_id"]) rescue nil?
+      found_father = self.create_from_form(person["father"]) if found_father_data.nil?
+
+      father_id = nil
+      if !found_father_data.nil?
+        father_id = found_father_data.last.id rescue nil
+      else
+        father_id = found_father.last.id rescue nil
+      end
+
+      if !father_id.nil?
+        father_type = RelationshipType.find_by_b_is_to_a("Father").relationship_type_id
+
+        Relationship.find(:all, :conditions => ["person_a = ? AND relationship = ?",
+            child_id, father_type]).each{|r|
+          r.void
+        }
+
+        Relationship.create(
+          # :creator => User.first.id,
+          :person_a => child_id,
+          :person_b => father_id,
+          :relationship => father_type)
+
+      end
+
+      facility = ["Health Center", "Provider Name", "Provider Title", "Hospital Date", "Health District"]
+        
+      patient = ANCService::ANC.new(Patient.find(child_id)) rescue nil
+
+      facility.each do|field|
+        if !person["facility"][field].nil? && !person["facility"][field].blank?
+          patient.set_attribute("#{field}", "#{person["facility"][field]}")
+        end
+      end
+
+      return "Baby Added"
+    end
+    return "Baby Not Added"
   end
 
   def self.create_patient_from_dde(params)
@@ -1786,11 +2052,11 @@ module ANCService
 
     if !params["remote"]
 
-      @dde_server = GlobalProperty.find_by_property("dde_server_ip").property_value rescue ""
+      @dde_server = GlobalProperty.find_by_property("dde_server_ip").property_value # rescue ""
 
-      @dde_server_username = GlobalProperty.find_by_property("dde_server_username").property_value rescue ""
+      @dde_server_username = GlobalProperty.find_by_property("dde_server_username").property_value # rescue ""
 
-      @dde_server_password = GlobalProperty.find_by_property("dde_server_password").property_value rescue ""
+      @dde_server_password = GlobalProperty.find_by_property("dde_server_password").property_value # rescue ""
 
       uri = "http://#{@dde_server_username}:#{@dde_server_password}@#{@dde_server}/people.json/"
 

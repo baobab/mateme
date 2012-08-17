@@ -40,8 +40,71 @@ class PeopleController < ApplicationController
     @ask_cell_phone = GlobalProperty.find_by_property("use_patient_attribute.cellPhone").property_value rescue nil
     @ask_home_phone = GlobalProperty.find_by_property("use_patient_attribute.homePhone").property_value rescue nil 
     @ask_office_phone = GlobalProperty.find_by_property("use_patient_attribute.officePhone").property_value rescue nil
+    @occupations = occupations
   end
-  
+
+  def occupations
+    ['','Driver','Housewife','Messenger','Business','Farmer','Salesperson','Teacher',
+     'Student','Security guard','Domestic worker', 'Police','Office worker',
+     'Preschool child','Mechanic','Prisoner','Craftsman','Healthcare Worker','Soldier'].sort.concat(["Other","Unknown"])
+  end
+
+  # List traditional authority containing the string given in params[:value]
+  def traditional_authority
+    district_id = District.find_by_name("#{params[:filter_value]}").id
+    traditional_authority_conditions = ["name LIKE (?) AND district_id = ?", "#{params[:search_string]}%", district_id]
+
+    traditional_authorities = TraditionalAuthority.find(:all,:conditions => traditional_authority_conditions, :order => 'name')
+    traditional_authorities = traditional_authorities.map do |t_a|
+      "<li value='#{t_a.name}'>#{t_a.name}</li>"
+    end
+    render :text => traditional_authorities.join('') + "<li value='Other'>Other</li>" and return
+  end
+
+    # Regions containing the string given in params[:value]
+  def region
+    region_conditions = ["name LIKE (?)", "#{params[:value]}%"]
+
+    regions = Region.find(:all,:conditions => region_conditions, :order => 'name')
+    regions = regions.map do |r|
+      "<li value='#{r.name}'>#{r.name}</li>"
+    end
+    render :text => regions.join('') and return
+  end
+
+    # Districts containing the string given in params[:value]
+  def district
+    region_id = Region.find_by_name("#{params[:filter_value]}").id
+    region_conditions = ["name LIKE (?) AND region_id = ? ", "#{params[:search_string]}%", region_id]
+
+    districts = District.find(:all,:conditions => region_conditions, :order => 'name')
+    districts = districts.map do |d|
+      "<li value='#{d.name}'>#{d.name}</li>"
+    end
+    render :text => districts.join('') + "<li value='Other'>Other</li>" and return
+  end
+
+    # Villages containing the string given in params[:value]
+  def village
+    traditional_authority_id = TraditionalAuthority.find_by_name("#{params[:filter_value]}").id
+    village_conditions = ["name LIKE (?) AND traditional_authority_id = ?", "#{params[:search_string]}%", traditional_authority_id]
+
+    villages = Village.find(:all,:conditions => village_conditions, :order => 'name')
+    villages = villages.map do |v|
+      "<li value='#{v.name}'>#{v.name}</li>"
+    end
+    render :text => villages.join('') + "<li value='Other'>Other</li>" and return
+  end
+
+  # Landmark containing the string given in params[:value]
+  def landmark
+    landmarks = PersonAddress.find(:all, :select => "DISTINCT address1" , :conditions => ["city_village = (?) AND address1 LIKE (?)", "#{params[:filter_value]}", "#{params[:search_string]}%"])
+    landmarks = landmarks.map do |v|
+      "<li value='#{v.address1}'>#{v.address1}</li>"
+    end
+    render :text => landmarks.join('') + "<li value='Other'>Other</li>" and return
+  end
+
   def identifiers
   end
  
@@ -148,7 +211,7 @@ class PeopleController < ApplicationController
   end
 
   def create
-
+    
     person = ANCService.create_patient_from_dde(params) if create_from_dde_server
 
     if !person.blank?

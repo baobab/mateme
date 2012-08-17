@@ -32,6 +32,8 @@ mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_p
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/locations.sql
 # mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/encounter_types.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_wards.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/create_dde_server_connection.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/districts.sql
 
 FILES=db/triggers/*
 for f in $FILES

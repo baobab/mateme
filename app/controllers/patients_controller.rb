@@ -1,4 +1,6 @@
 class PatientsController < ApplicationController
+  before_filter :find_patient, :except => [:void]
+  
   def show
     # raise link_to_anc.to_yaml
     @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil 
@@ -192,36 +194,42 @@ class PatientsController < ApplicationController
   end
 
   def demographics
-    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
-    @national_id = @patient.national_id_with_dashes rescue nil 
-    
-    @first_name = @patient.person.names.first.given_name rescue nil
-    @last_name = @patient.person.names.first.family_name rescue nil
-    @birthdate = @patient.person.birthdate_formatted rescue nil
-    @gender = @patient.person.formatted_gender rescue ''
+    @person = Patient.find(params[:person_id]) rescue nil
+    @update_patient = ANCService::ANC.new(@person) rescue nil
 
-    @current_village = @patient.person.addresses.first.city_village rescue ''
-    @current_ta = @patient.person.addresses.first.county_district rescue ''
-    @current_district = @patient.person.addresses.first.state_province rescue ''
-    @home_district = @patient.person.addresses.first.address2 rescue ''
+    @national_id = @update_patient.national_id_with_dashes rescue nil
 
-    @primary_phone = @patient.person.phone_numbers["Cell Phone Number"] rescue ''
-    @secondary_phone = @patient.person.phone_numbers["Home Phone Number"] rescue ''
-    
-    @occupation = @patient.person.occupation rescue ''
+    @first_name = @person.person.names.first.given_name rescue nil
+    @last_name = @person.person.names.first.family_name rescue nil
+    @maiden_name = @person.person.names.first.family_name2 rescue nil
+    @birthdate = @update_patient.birthdate_formatted rescue nil
+    @gender = @update_patient.sex rescue ''
+
+    @current_village = @person.person.addresses.first.city_village rescue ''
+    @current_ta = @person.person.addresses.first.county_district rescue ''
+    @current_district = @person.person.addresses.first.state_province rescue ''
+    @home_district = @person.person.addresses.first.address2 rescue ''
+
+    @primary_phone = @update_patient.phone_numbers[:cell_phone_number] rescue ''
+    @secondary_phone = @update_patient.phone_numbers["Home Phone Number"] rescue ''
+
+    @occupation = @update_patient.get_attribute("occupation") rescue ''
+
     render :template => 'patients/demographics', :layout => 'menu'
 
   end
 
   def edit_demographics
-    @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    # @patient = Patient.find(params[:patient_id]  || params[:id] || session[:patient_id]) rescue nil
+    @person = Patient.find(params[:person_id]) rescue nil
     @field = params[:field]
     render :partial => "edit_demographics", :field =>@field, :layout => true and return
   end
 
   def update_demographics
-    Person.update_demographics(params)
-    redirect_to :action => 'demographics', :patient_id => params['person_id'] and return
+    ANCService.update_demographics(params)
+    redirect_to :action => 'demographics', :patient_id => params['patient_id'],
+      :person_id => params['person_id'] and return
   end
 
   # Diagnosis: method for accessing the diagnosis view

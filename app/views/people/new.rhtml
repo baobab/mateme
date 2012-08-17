@@ -1,137 +1,422 @@
 <style>
-  .tt_controls_month_of_birth #keyboard{
-    display: none;
-  }
-  #tt_page_month_of_birth .options{
-    height:17em;
-  }
-  .tt_controls_occupation #keyboard{
-    display: none;
-  }
-  #tt_page_occupation .options{
-    height:17em;
-  }
+
+  .tt_controls_year_of_birth #qwerty { display:none; }
+  .tt_controls_age_estimate #qwerty { display:none; }
+  .tt_controls_cell_phone_number #qwerty { display:none; }
+  .tt_controls_ground_phone_number #qwerty { display:none; }
+  .tt_controls_office_phone_number #qwerty { display:none; }
+
+  .tt_controls_year_of_birth #Unknown { display:block; }
+  .tt_controls_age_estimate #Unknown { display:none; }
+
+  .tt_controls_middle_name  #na { display: block; }
+  .tt_controls_ground_phone_number #Unknown { display:block; }
+
+  .tt_controls_region_of_origin .keyboard{display:none;}
+  .tt_controls_current_region .keyboard{display:none;}
+
+  .tt_controls_month_of_birth .keyboard{display:none;}
+  #tt_page_month_of_birth .options{height:570px;}
+  #tt_page_month_of_birth .options li{font-size:30px;}
+
+  .tt_controls_home_village #space , #apostrophe { display:inline; }
+  .tt_controls_home_district #num  { display:none; }
+
+  .tt_controls_current_traditional_authority_ta #space { display:inline; }
+
+  .tt_controls_current_village_residence #space { display:inline; }
+
+  .tt_controls_cell_phone_number #num , #plus, #apostrophe, #star, #char, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .tt_controls_home_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .tt_controls_office_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .tt_controls_occupation .keyboard{display:none;}
+  #tt_page_occupation .options{height:500px;}
+  #tt_page_occupation .options li{font-size:30px;}
+  #space {display:inline;}
 
   .nota #na {
     display: block;
   }
 
+  #num{ display:block; }
+  #char{ display:none; }
+  #apostrophe { display:inline; }
+
+  .tt_controls_home_district #num{ display:none; }
+  .tt_controls_current_district #num{ display:none; }
+
+  .tt_controls_current_city_place_or_area_of_residence #num{ display:block; }
+  .tt_controls_current_city_place_or_area_of_residence #char{ display:block; }
+
+  .tt_controls_closest_landmark_or_plot_number #num{ display:block; }
+  .tt_controls_closest_landmark_or_plot_number #char{ display:block; }
+
+  .azButton .numericKeyboard #char {
+    display: block;
+  }
+
+  .azButton #whitespace {
+    display: none;
+  }
 </style>
+
 <script>
-  var tt_cancel_destination = "/people"
-  var skipped = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  
+<% if params[:relation] %>
+    var tt_cancel_destination = "/patients/show/<%=h params[:patient_id] -%>"
+<% else %>
+    var tt_cancel_destination = "/clinic"
+<% end %>
+
+  var dob_year = null ; var dob_month = null ; dob_day = null;
+  var set_dob = null;
+
+  var skipped = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
   function seen(page) {
     for (var i = page; i >= 0; i--) {
       skipped[i] = 1;
     }
   }
+
+  function setDOB() {
+    try {
+      dob_year = document.getElementById('tt_page_year_of_birth').getElementsByTagName("input")[0].value
+    }catch(e){ dob_year = dob_year }
+    try {
+      dob_month = document.getElementById('tt_page_month_of_birth').getElementsByTagName("input")[0].getAttribute('tstvalue')
+      if (dob_month.length == 1)
+        dob_month = 0 + dob_month
+    }catch(e){ dob_month = dob_month }
+    try {
+      dob_day = document.getElementById('tt_page_birth_day').getElementsByTagName("input")[0].value
+      if (dob_day.length == 1)
+        dob_day = 0 + dob_day
+    }catch(e){ dob_day = dob_day }
+
+    set_dob = (dob_year + '-' + dob_month + '-' + dob_day)
+    return true
+  }
+
+  function validateDOB() {
+    setDOB();
+    curr_date = new Date();
+
+    if (dateCreate(set_dob) == 'Invalid Date') {
+      if (set_dob.split('-')[1] == 'Unknown')
+        return true
+
+      if (curr_date.getFullYear() == parseInt(dob_year)) {
+        if ((curr_date.getMonth() + 1) < parseInt(dob_month)){
+          if (document.getElementById('tt_page_month_of_birth') != null)
+            return true
+
+          return false
+        }
+      }
+
+      if (dob_month == 'Unknown'){
+        if (curr_date.getFullYear() == parseInt(dob_year)) {
+          if ((curr_date.getMonth() + 1) < parseInt(dob_month))
+            return false
+        }
+      }
+    }else{
+      if (document.getElementById('tt_page_month_of_birth') != null)
+        return true
+
+      if (curr_date < dateCreate(set_dob)) 
+        return false
+    }
+    return true
+  }
+
+  function dateCreate(date_str){
+    intyear = 0 ; intmonth = 0 ; intday = 0;
+    intyear = parseInt(date_str.substring(0,4))
+    intmonth = (parseInt(date_str.substring(5,7)) - 1)
+    intday = (parseInt(date_str.substring(8,10)))
+
+    if (intmonth == -1)
+      intmonth = (parseInt(date_str.substring(5,7).substring(1,2)) - 1)
+
+    if (intday == 0)
+      intday = parseInt(date_str.substring(8,10).substring(1,2))
+
+    return new Date(intyear,intmonth,intday);
+  }
+
+  function set_ajaxURL_for_suggestions(url, filter_value) {
+    $('touchscreenInput'+tstCurrentPage).setAttribute('ajaxURL', url + filter_value + "&search_string=");
+    listSuggestions(tstCurrentPage);
+  }
+
 </script>
 
 <% form_for :person, @person, :url => { :action => "create" } do |f| %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "REGISTRATION" %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ?
+      session[:datetime].to_date.strftime("%Y-%m-%d %H:%M:%S") : Time.now) %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <%= hidden_field_tag "next_url", "/encounters/referral/" %>
 
   <%= hidden_field_tag "person[gender]", "F", {:id => 'gender' } %>
 
-  <%= text_field_tag "person[names][given_name]", params[:given_name], {:id => 'given_name', :field_type => 'alpha',
-    :helpText => 'Please enter first name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true,
-    :condition => '$("given_name").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } %>
+  <%= text_field_tag "person[names][given_name]", params[:given_name],
+    {:id => 'given_name',
+    :field_type => 'alpha',
+    :helpText => "First Name",
+    :ajaxURL => '/person_names/given_names?search_string=',
+    :allowFreeText => true,
+    :condition => '$("given_name").value == "" || skipped[tstCurrentPage] == 1',
+    :tt_onLoad => 'seen(tstCurrentPage);' } %>
 
-  <%= text_field_tag "person[names][family_name]", params[:family_name], {:id => 'family_name', :field_type => 'alpha',
-    :helpText => 'Please enter last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true,
-    :condition => '$("family_name").value == "" || skipped[tstCurrentPage] == 1', :tt_onLoad => 'seen(tstCurrentPage);' } %>
+  <%= text_field_tag "person[names][family_name]", params[:family_name],
+    {:id => 'family_name',
+    :field_type => 'alpha',
+    :helpText => "Last Name",
+    :ajaxURL => '/person_names/family_names?search_string=',
+    :allowFreeText => true,
+    :condition => '$("family_name").value == "" || skipped[tstCurrentPage] == 1',
+    :tt_onLoad => 'seen(tstCurrentPage);' } %>
 
-  <%= text_field_tag "person[birth_year]", nil, {:helpText => 'Year of Birth', :field_type => 'number',
-    :absoluteMin => "1890", :min => "1940", :absoluteMax => Date.today.year, :tt_pageStyleClass => "NumbersWithUnknown",
+  Gender: <%= f.select :gender, options_for_select([["", ""], ["Male", "M"], ["Female", "F"]], "F"),
+    {:selected => params[:gender]}, {:id => 'gender',
+    :helpText => "Gender",
+    :condition => 'false/*$("gender").value == "" || skipped[tstCurrentPage] == 1*/',
+    :tt_onLoad => 'seen(tstCurrentPage);',
+    :tt_onUnLoad => "if(__$('gender').value.toLowerCase() == 'm'){
+    __$('person_birth_year').setAttribute('absoluteMin', #{(session[:datetime] || Date.today).to_date.year - 6});
+    }"
+  }  %>
+
+  <%= text_field_tag "person[names][family_name2]", params[:family_name2],
+    {:id => 'family_name2',
+    :field_type => 'alpha',
+    :helpText => "Maiden Name",
+    :ajaxURL => '/person_names/family_names?search_string=',
+    :allowFreeText => true,
+    # :condition => '$("family_name2").value == "" || skipped[tstCurrentPage] == 1',
     :tt_onLoad => 'seen(tstCurrentPage);' }  %>
 
-  <%= select_tag "person[birth_month]", month_name_options, {:helpText => 'Month of Birth',
-    :condition => '$("person_birth_year").value.toLowerCase() != "unknown" '}%>
+  <%= text_field_tag "person[names][middle_name]", params[:middle_name],
+    {:id => 'middle_name',
+    :field_type => 'alpha',
+    :helpText => "Middle Name",
+    :ajaxURL => '/person_names/given_names?search_string=',
+    :allowFreeText => true,
+    :condition => '$("middle_name").value == "" || skipped[tstCurrentPage] == 1',
+    :tt_pageStyleClass => "azButton",
+    :tt_onLoad => 'seen(tstCurrentPage);' } %>
 
-  <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number', :helpText => 'Birth Day',
-    :absoluteMin => 1, :absoluteMax => 31,
-    :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown") ',
-    :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value,$('person_birth_month').value)"%>
+  <%= text_field_tag "person[birth_year]", nil, {
+    :helpText => "Year of Birth",
+    :field_type => 'number',
+    :absoluteMin => ((session[:datetime] || Date.today).to_date.year - 55),
+    :min => ((session[:datetime] || Date.today).to_date.year - 50),
+    :max => ((session[:datetime] || Date.today).to_date.year),
+    :absoluteMax => ((session[:datetime] || Date.today).to_date.year),
+    :tt_pageStyleClass => "Numeric NumbersOnlyWithUnknown",
+    :tt_onLoad => 'seen(tstCurrentPage);',
+    :validationJS => "setDOB();"
+  }  %>
 
-  <%= text_field_tag "person[age_estimate]", nil, {:helpText => 'Please enter age of client', :absoluteMin => 1,
-    :absoluteMax => age_limit, :field_type => 'number', :condition => '$("person_birth_year").value == "Unknown"',
-    :tt_pageStyleClass => "NumbersWithUnknown"} %>
+  <%= select_tag "person[birth_month]", month_name_options,
+    {:helpText => "Month of Birth",
+    :condition => '$("person_birth_year").value.toLowerCase() != "unknown"',
+    :validationJS => "validateDOB();",
+    :validationMessage => 'Please enter a valid date'}%>
 
-  <%#= text_field_tag "person[attributes][education_level]", params[:education_level],
-  {:id => "education_level", :field_type => 'text', :condition => ' ' +
-  '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
-  :helptext => "Education Level" } %>
+  <%= text_field_tag "person[age_estimate]", nil, {
+    :helpText => "Age Estimate",
+    :absoluteMin => 0,
+    :absoluteMax => 55,
+    :field_type => 'number',
+    :condition => '$("person_birth_year").value == "Unknown"',
+    :tt_onLoad => "$('nextButton').style.display = 'block';",
+    :tt_pageStyleClass => "Numeric NumbersOnly"
+  } %>
 
-  <%#= text_field_tag "person[attributes][religion]", params[:religion],
-  {:id => ":religion", :field_type => 'alpha', :condition => ' ' +
-  '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
-  :helptext => "Religion" } %>
+  <%= text_field_tag "person[birth_day]",  nil, :field_type => 'number',
+    :helpText => "Birth Day",
+    :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")',
+    :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value, $('person_birth_month').value);$('nextButton').style.display = 'block';" ,:validationJS => "validateDOB()",:validationMessage => 'Please enter a valid date'%>
 
-  <%= text_field_tag "person[attributes][place_of_birth]",  params[:address2], {:field_type => 'alpha', :helpText => 'Place of birth',
-    :ajaxURL => '/search/place_of_birth?search_string=', :allowFreeText => true, :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' }%>
+  <%= select_tag("person[citizenship]",
+    options_for_select([" ", "Malawian", "Other"], params[:citizenship]),
+    :helpText =>"Nationality",
+    :tt_onLoad => 'seen(tstCurrentPage);') %>
 
-  <%#= text_field_tag "person[attributes][next_of_kin]", params[:next_of_kin],
-  {:id => "next_of_kin", :field_type => 'alpha', :condition => ' ' +
-  '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
-  :helptext => "Next Of Kin" } %>
+  <%= text_field_tag "person[race]",  nil, :field_type => 'text',
+    :helpText => "Other Nationality",
+    :condition => '($("person_citizenship").value != "Malawian")'%>
 
-  <%#= text_field_tag "person[attributes][:next_of_kin_contact_number]", params[:next_of_kin_contact_number],
-  {:id => ":next_of_kin_contact_number", :field_type => 'alpha', :condition => ' ' +
-  '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"',
-  :helptext => "Next Of Kin Contact Number" } %>
+  <p><label for="region_region_name">Region of Origin</label></br>
+    <%= text_field "region" , 'region_name',
+      :helpText => "Region of Origin",:tt_requireNextClick => false,
+      :ajaxURL => '/people/region/Region?field=role&value=',
+      :condition => '($("person_citizenship").value == "Malawian")',
+      :tt_onLoad => "$('nextButton').style.display = 'none';" %></p>
 
-  <%= text_field_tag "person[addresses][county_district]",  params[:county_district], {:field_type => 'alpha',
-    :helpText => 'Ancestral Traditional Authority', :ajaxURL => '/search/ta?search_string=', :allowFreeText => true, :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' }%>
+  <%= text_field_tag "person[addresses][subregion]", params[:address2], {:id => 'address2',
+    :tt_requireNextClick => false, :ajaxURL => '', :field_type => 'alpha',
+    :condition => '($("person_citizenship").value == "Malawian")',
+    :helpText => "Home District", :allowFreeText => false,
+    :tt_onLoad => "seen(tstCurrentPage); set_ajaxURL_for_suggestions('/people/district/District?filter_value=',document.getElementById('region_region_name').value);$('nextButton').style.display = 'none';" } %>
 
-  <%= text_field_tag "person[addresses][city_village]",  params[:city_village], {:field_type => 'alpha',
-    :helpText => 'Current place of residence', :ajaxURL => '/search/village?search_string=', :allowFreeText => true, :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' }%>
+  <%= text_field_tag "p['address2_a']" , nil, {id => 'address2_a',
+    :tt_onUnLoad => '$("address2").value = $("address2_a").value',
+    :condition => '$("address2").value == "Other" && ($("person_citizenship").value == "Malawian")', :id => 'address2_a',
+    :tt_requireNextClick => true, :ajaxURL => '/person_addresses/address2?search_string=',
+    :allowFreeText => true, :field_type => 'alpha', :helpText => "Specify Home District",
+    :tt_onLoad => "$('nextButton').style.display = 'block';" } %>
 
-  <%= text_field_tag "person[attributes][landmark_or_plot_number]",  params[:state_province], {:field_type => 'alpha',
-    :helpText => 'Landmark or plot number', :ajaxURL => '/search/district?search_string=', :allowFreeText => true, :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' }%>
+  <%= text_field "person[addresses]" , 'county_district',
+    :helpText => "Ancestral Traditional Authority (T/A) or area of residence",
+    :tt_requireNextClick => false, :ajaxURL => '', :tt_pageStyleClass => "azButton",
+    :condition => '($("person_citizenship").value == "Malawian") && $("address2").value != "Other"',
+    :tt_onLoad => "set_ajaxURL_for_suggestions('/people/traditional_authority/TraditionalAuthority?filter_value=' ,document.getElementById('address2').value);$('nextButton').style.display = 'none';"  %></p>
 
-  <%if @ask_cell_phone == 'true'%>
-    <%= text_field_tag "person[attributes][cell_phone_number]",  nil, :field_type => 'number', :helpText => 'Primary Phone Number',
-      :allowFreeText => "true", :validationRule => "^0\\d{9}$|Unknown|Not Available|N\/A", :validationMessage => "Not a valid phone number",
-      :tt_pageStyleClass => "NumbersWithUnknown nota", :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"' %>
+  <%= text_field_tag "person[addresses][neighborhood_cell]", params[:city_village],
+    {
+    :field_type => 'alpha',
+    :helpText => "Home Village",
+    :tt_requireNextClick => false,
+    :condition => '($("person_citizenship").value == "Malawian")',
+    :tt_pageStyleClass => "azButton",
+    :ajaxURL => '/people/village?search_string=',
+    :allowFreeText => false ,
+    :tt_onLoad => "set_ajaxURL_for_suggestions('/people/village/Village?filter_value=' ,document.getElementById('person_addresses_county_district').value);$('nextButton').style.display = 'none';"}%>
+
+  <%= text_field "p[addresses]" , 'county_district_a',
+    :tt_onUnLoad => '$("person_addresses_county_district").value = $("p_addresses_county_district_a").value',
+    :condition => '$("address2").value == "Other"',
+    :ajaxURL => '/person_addresses/traditional_authority?search_string=' ,
+    :helpText => 'Specify Ancestral Traditional Authority (T/A) or area of residence' ,
+    :tt_pageStyleClass => "azButton",
+    :allowFreeText => true,
+    :tt_onLoad => "$('nextButton').style.display = 'block';"   %></p>
+
+  <p><label for="filter_region">Current Region</label></br>
+    <%= text_field "filter" , 'region', :helpText => "Current Region", :tt_requireNextClick => false, :ajaxURL => '',
+      :tt_onLoad => "set_ajaxURL_for_suggestions('/people/region/Region?filter_value=','');$('nextButton').style.display = 'none';" %></p>
+
+
+  <%= text_field_tag "person[addresses][address2]", '', {:id => 'filter_district', :field_type => 'alpha',
+    :helpText => "Current District", :tt_requireNextClick => false, :ajaxURL => '', :allowFreeText => false, :tt_onLoad => "seen(tstCurrentPage); set_ajaxURL_for_suggestions('/people/district/District?filter_value=' ,document.getElementById('filter_region').value);$('nextButton').style.display = 'none';" } %>
+
+  <p><label for="filter_t_a">Traditional Authority (T/A) or area of residence</label></br>
+
+    <%= text_field "filter" , 't_a', :condition => '$("filter_district").value != "Other"',
+      :helpText => "Traditional Authority (T/A) or area of residence", :tt_requireNextClick => false, :ajaxURL => '', :tt_pageStyleClass => "azButton", :tt_onLoad => "set_ajaxURL_for_suggestions('/people/traditional_authority/TraditionalAuthority?filter_value=' ,document.getElementById('filter_district').value);$('nextButton').style.display = 'none';" %></p>
+
+  <%= text_field "filter" , 't_a_a', :tt_onUnLoad => 'if ($("t_a_a")) {$("t_a").value = $("t_a_a").value}',
+    :condition => '$("filter_district").value == "Other"',
+    :ajaxURL => '/person_addresses/traditional_authority?search_string=',
+    :tt_pageStyleClass => "azButton", :allowFreeText => true,
+    :helpText => "Specify Traditional Authority (T/A) or area of residence",
+    :tt_onLoad => "$('nextButton').style.display = 'block';" %></p>
+
+  <%= text_field_tag "person[addresses][city_village]", params[:city_village],
+    {:condition => '$("filter_t_a").value != "Other"',
+    :field_type => 'alpha',
+    :helpText => "Location/Village",
+    :tt_requireNextClick => false,
+    :tt_pageStyleClass => "azButton",
+    :ajaxURL => '/people/village?search_string=',
+    :allowFreeText => false ,
+    :tt_onLoad => "set_ajaxURL_for_suggestions('/people/village/Village?filter_value=' ,document.getElementById('filter_t_a').value);$('nextButton').style.display = 'none';"}%>
+
+  <%= text_field_tag "p[addresses][city_village_a]", params[:city_village_a],
+    {:tt_onUnLoad => '$("person_addresses_city_village").value = $("p_addresses_city_village_a").value',
+    :condition => '$("filter_t_a").value == "Other"' ,
+    :ajaxURL => '/person_addresses/village?search_string=',
+    :allowFreeText => true, :field_type => 'alpha',
+    :helpText => "Specify Location/Village",
+    :tt_pageStyleClass => "azButton",
+    :tt_requireNextClick => true, :tt_onLoad => "$('nextButton').style.display = 'block';"}%>
+
+
+  <%= text_field_tag "person[addresses][address1]",  params[:address1],
+    {	:id => 'address1',
+    :helpText => "Closest Landmark or Plot Number<br />" +
+      '<div style="font-size:0.7em;font-style:italic; margin-left: 40px;">' +
+      '(Please do not include these words: Next to, close, in front of, behind)</div>',
+    :allowFreeText => true, :ajaxURL => '',
+    :tt_pageStyleClass => "azButton",
+    :tt_onLoad => "set_ajaxURL_for_suggestions('/people/landmark?filter_value=' ,document.getElementById('person_addresses_city_village').value);$('nextButton').style.display = 'block';" }%>
+
+  <%= text_field_tag "person[cell_phone_number]",  params[:cell_phone_number],
+    {
+    :field_type => 'number',
+    :helpText => "Cell Phone Number",
+    :validationRule => "^0\\d{7}$|Unknown|Not Available|N\/A|^0\\d{9}$",
+    :validationMessage => "Not a valid phone number",
+    :tt_pageStyleClass => "nota",
+    :id => 'cellphone'
+  }
+%>
+
+  <% ask_multiple_phone_numbers = get_global_property_value("ask.multiple.phone.numbers") rescue 'false'
+  if ask_multiple_phone_numbers == 'true'
+  %>
+    <%= text_field_tag "person[office_phone_number]",  params[:office_phone_number],
+      {
+      :field_type => 'number',
+      :helpText => 'Office Phone Number',
+      :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$",
+      :validationMessage => "Not a valid phone number"
+    }
+  %>
+
+    <%= text_field_tag "person[home_phone_number]",  params[:home_phone_number],
+      {
+      :field_type => 'number',
+      :helpText => 'Home Phone Number',
+      :validationRule => "^0\\d{7}$|Unknown|Not Available|^0\\d{9}$",
+      :validationMessage => "Not a valid phone number"
+    }
+  %>
+  <%else%>
+    <%= text_field_tag "person[home_phone_number]",  params[:home_phone_number],
+      {:field_type => 'number', :helpText => 'Ground Phone Number',
+      :allowFreeText => true, :tt_pageStyleClass => "nota",
+      :validationRule => "^0\\d{7,9}$|Unknown|Not Available|N\/A",
+      :validationMessage => "Not a valid phone number" }
+  %>
   <%end%>
 
-  <%if @ask_home_phone == 'true'%>
-    <%= text_field_tag "person[attributes][home_phone_number]",  nil, :field_type => 'number', :helpText => 'Secondary Phone Number',
-      :allowFreeText => "true", :validationRule => "^0\\d+$|Unknown|Not Available|N\/A|^0\\d{9}$",
-      :validationMessage => "Not a valid phone number", :tt_pageStyleClass => "Numeric NumbersWithUnknown nota", :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"'%>
-  <%end%>
+  <%#= select_tag("person[agrees_phone_text_for_TB_therapy]", options_for_select([" ", "Yes", "No", "Unknown"] ,params[:agrees_phone_text_for_TB_therapy]),:helpText =>"Can we send you an SMS for follow-up?", :condition => "$('cellphone').value !='Unknown' && $('cellphone').value !='N/A'", :tt_onLoad => 'seen(tstCurrentPage);') if ask_sms_for_TB_therapy%>
 
-  <%if @ask_office_phone == 'true'%>
-    <%= text_field_tag "person[attributes][office_phone_number]",  nil, :field_type => 'number', :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"', 
-      :helpText => 'Office Phone Number', :allowFreeText => "true", :tt_pageStyleClass => "Numeric NumbersWithUnknown nota",
-      :validationRule => "^0\\d{7}$|Unknown|Not Available|N\/A|^0\\d{9}$", :validationMessage => "Not a valid phone number"%>
-  <%end%>
+  <%#= select_tag("person[agrees_to_be_visited_for_TB_therapy]", options_for_select([" ", "Yes", "No", "Unknown"] ,params[:agrees_to_be_visited_for_TB_therapy]),:helpText =>"Can we visit you at home for follow-up?", :tt_onLoad => 'seen(tstCurrentPage);') if ask_visit_home_for_TB_therapy %>
 
-  <%= select_tag "person[attributes][occupation]",
-    options_for_select([" ", "Housewife",
-      "Housemaid",
-      "Farmer",
-      "Police",
-      "Soldier",
-      "Business",
-      "Teacher",
-      "Student",
-      "Healthcare Worker"].sort.concat(["Other"]), params[:occupation]), {:helpText => 'Occupation', :condition => ' ' +
-      '$("given_name").value.toLowerCase() != "unknown" && $("family_name").value.toLowerCase() != "unknown"'}%>
+
+  <%#= select_tag("person[occupation]", options_for_select([" ", "Housewife", "Farmer", "Police", "Soldier", "Business", "Teacher", "Student", "Healthcare Worker"].sort.concat(["Other"]) ,params[:occupation]),:helpText =>"Occupation",:allowFreeText => true, :tt_onLoad => 'seen(tstCurrentPage);')%>
+
+  <%= select_tag("person[occupation]", options_for_select(@occupations ,params[:occupation]),
+    :helpText =>"Occupation",
+    :id => "occupation",
+    :allowFreeText => false,
+    :tt_onLoad => 'seen(tstCurrentPage);',
+    :ttMatchFromBeginning => "true")%>
 
   <!-- Make sure patient is created -->
 
   <%= hidden_field_tag "person[patient]", "" %>
 
+  <%= hidden_field_tag "relation", params[:relation] %>
+
   <%= hidden_field_tag :identifier, params[:identifier] %>
+
+  <input type="hidden" id="cat" name="cat" value="<%=h params[:cat] -%>" />
+
+  <% if !params[:patient_id].nil? %>
+    <input type="hidden" id="patient_id" name="patient_id" value="<%=h params[:patient_id] -%>" />
+  <% end %>
 
   <%= submit_tag "Create person" %>
 

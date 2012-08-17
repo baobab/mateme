@@ -72,12 +72,12 @@ module PatientService
           }}}}
 
     if !params["remote"]
-      
-      @dde_server = GlobalProperty.find_by_property("dde_server_ip").property_value rescue ""
+
+      @dde_server = GlobalProperty.find_by_property("dde_server_ip").property_value # rescue ""
     
-      @dde_server_username = GlobalProperty.find_by_property("dde_server_username").property_value rescue ""
+      @dde_server_username = GlobalProperty.find_by_property("dde_server_username").property_value # rescue ""
     
-      @dde_server_password = GlobalProperty.find_by_property("dde_server_password").property_value rescue ""
+      @dde_server_password = GlobalProperty.find_by_property("dde_server_password").property_value # rescue ""
     
       uri = "http://#{@dde_server_username}:#{@dde_server_password}@#{@dde_server}/people.json/"
 

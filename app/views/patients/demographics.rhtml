@@ -1,7 +1,7 @@
 <style type="text/css">
 
   table {
-    width: 70%;
+    width: 100%;
     border-collapse: collapse;
   }
 
@@ -29,6 +29,24 @@
     border-width: 0px 1px 1px;
   }
 
+  #printButton {
+    position: absolute;
+    top: 678px;
+    left: 600px;
+    z-index: 1;
+  }
+
+  .buttonsDiv {
+    background-color: #333333;
+    display: block;
+    height: 80px;
+    position: absolute;
+    top: 670px;
+    width:  98%;
+    padding-right: 20px;
+    /*  z-index:10;*/
+  }
+
 </style>
 
 <script type="text/javascript">
@@ -39,64 +57,109 @@
   <div id="details" style="float:none">
     <!--form>
     <%= hidden_field_tag("observations[][patient_id]", @patient.id) %>
+    <%= hidden_field_tag("person_id", @person.id) %>
+    <%= hidden_field_tag("patient_id", @patient.id) %>
+    <%= hidden_field_tag("cat", params[:cat]) %>
     </form-->
 
     <div>
-      <h2><%= "Demographics for #{@patient.person.name}"%></h2>
+      <h2><%= "Demographics for #{@update_patient.name}"%></h2>
       <h3>(You can update/change any detail by touching on the indicator and going through the update process)</h3>
       <table>
         <tr>
-          <td class='title' style='border-width:1px 1px 1px'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=first_name">First Name</a></td>
+          <td class='title' style='border-width:1px 1px 1px'>
+            <a href="edit_demographics?patient_id=<%=@patient.id%>&field=first_name&person_id=<%= 
+               @person.id %>&cat=<%= (params["cat"] rescue "") %>&given_name=<%= @first_name %>">
+              First Name
+            </a>
+          </td>
           <td class='data' style='border-width:1px 1px 1px'><%= @first_name %></td>
         </tr>
         <tr>
-          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=last_name">Last Name</a></td>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=last_name&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&family_name=<%= @last_name %>">Last Name</a></td>
           <td class='data'><%=@last_name%></td>
         </tr>
+        <% if @update_patient.gender == "F" and @update_patient.age > 10 %>
+          <tr>
+            <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=maiden_name&person_id=<%=
+                                 @person.id %>&cat=<%= (params["cat"] rescue "") %>&family_name=<%= @last_name %>">Maiden Name</a></td>
+            <td class='data'><%=@update_patient.maiden_name%></td>
+          </tr>
+        <% end %>
         <tr>
-          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=birthdate">Birthdate </a></td>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=birthdate&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>">Birthdate </a></td>
           <td class='data'><%=@birthdate%></td>
         </tr>
         <tr>
-          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=gender">Gender</a></td>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=gender&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&gender=<%= (@gender == "Male" ? "M" : "F") %>">Gender</a></td>
           <td class='data'><%=@gender%></td>
         </tr>
+
         <tr>
-          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_village"> Current Residence</a></td>
-          <td class='data'> <%=@current_village%></td>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=citizenship">Nationality</a></td>
+          <td class='data'> <%= @update_patient.nationality %></td>
         </tr>
         <tr>
-          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_ta">Current Traditional Authority</a></td>
-          <td class='data'><%=@current_ta%></td>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=address1"> Current Residence</a></td>
+          <td class='data'> <%= @update_patient.current_address1 %></td>
         </tr>
-        <!--
-          <tr>
-          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=current_district"> Current District</a> </td>
-          <td class='data'> <%=@current_district%></td>
-          </tr>
-	 <tr>
-            <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=home_district"> Home District</a></td>
-            <td class='data'><%=@home_district%></td>
-          </tr>
-        -->
         <tr>
-          <td class='title'> <a href="edit_demographics?patient_id=<%=@patient.id%>&field=primary_phone">Primary Phone</a></td>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=current_district">Current Traditional Authority</a></td>
+          <td class='data'><%= @update_patient.current_address2 %></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=current_district"> Current District</a></td>
+          <td class='data'> <%= @update_patient.current_district %></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=home_village">Home Village</a></td>
+          <td class='data'> <%= @update_patient.home_village %></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=home_district">Home Traditional Authority</a></td>
+          <td class='data'><%= @update_patient.home_ta %></td>
+        </tr>
+        <tr>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+                               @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=home_district">Home District</a></td>
+          <td class='data'> <%= @update_patient.home_district %></td>
+        </tr>
+        <!--tr>
+          <td class='title'> <a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+        @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=primary_phone">Primary Phone</a></td>
           <td class='data'><%=@primary_phone%></td>
         </tr>
-        <!--
-          <tr> <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=secondary_phone">Secondary Phone</a></td> <td class='data'><%=@secondary_phone%></td></tr>
-        -->
         <tr>
-          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&field=occupation">Occupation</a></td>
+          <td class='title'><a href="edit_demographics?patient_id=<%=@patient.id%>&person_id=<%=
+        @person.id %>&cat=<%= (params["cat"] rescue "") %>&field=occupation">Occupation</a></td>
           <td class='data'><%=@occupation%><br/> </td>
-        </tr>
+        </tr-->
+
       </table>
+
+      <!--button id="printButton" class="button blue"
+              onclick="window.location = '/patients/print_registration?patient_id=<%= @patient.id %>'">
+        <span>Print Registration</span>
+      </button-->
     </div>
   </div>
 </div>
-<div id="footer" style="position: absolute; bottom: 80px; width: 1000px;">
-  <div id="buttons" class="buttonsDiv" style="top:0px">
-    <button id="finishButton" class="button navButton green" onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;"><span>Finish</span></button></div>
+<div id="footer">
+  <div id="buttons" class="buttonsDiv">
+    <button id="finishButton" class="button navButton green" 
+            onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
+      <span>Finish</span>
+    </button>
+  </div>
   <div id="tt_extraButtons"/>
 </div>
 

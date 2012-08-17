@@ -42,6 +42,8 @@ mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_p
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/locations.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_wards.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/change_concept_names_case_to_upper.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/create_dde_server_connection.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/districts.sql
 
 # echo "USE $DATABASE; ALTER TABLE concept_name ADD COLUMN concept_name_id INT(11) NULL;" | mysql -u $USERNAME --password=$PASSWORD
 # echo "USE $DATABASE; create table person_name_code (person_name_code_id int(11),

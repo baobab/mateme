@@ -83,4 +83,11 @@ class ApplicationController < ActionController::Base
     CoreService.get_global_property_value('link.to.anc').to_s == "true" rescue false
   end
 
+  private
+
+  def find_patient
+    @patient = Patient.find(params[:patient_id] || session[:patient_id] || params[:id]) rescue nil
+    @anc_patient = ANCService::ANC.new(@patient) rescue nil
+  end
+  
 end
