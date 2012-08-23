@@ -19,6 +19,8 @@ fi
 #    cp config/database.yml.example config/database.yml
 # fi
 
+sudo apt-get install htmldoc
+
 USERNAME=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['username']"`
 PASSWORD=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['password']"`
 DATABASE=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['database']"`
