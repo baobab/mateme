@@ -1,9 +1,9 @@
 production:
- create.from.dde.server: true
+ create.from.dde.server: false
  link.to.anc: false
  
 development:
- create.from.dde.server: true
+ create.from.dde.server: false
  link.to.anc: false
  
 test: &TEST
