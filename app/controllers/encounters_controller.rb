@@ -56,7 +56,7 @@ class EncountersController < ApplicationController
         next_task(@patient)) and return if (encounter.type.name.upcase == \
           "UPDATE OUTCOME")
       # return next_task(@patient)
-      redirect_to next_task(@patient)
+      redirect_to next_task(@patient) and return
     end
     
     if encounter.patient.current_visit.encounters.active.collect{|e|
