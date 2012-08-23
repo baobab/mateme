@@ -88,6 +88,7 @@ class ApplicationController < ActionController::Base
   def find_patient
     @patient = Patient.find(params[:patient_id] || session[:patient_id] || params[:id]) rescue nil
     @anc_patient = ANCService::ANC.new(@patient) rescue nil
+    @maternity_patient = MaternityService::Maternity.new(@patient) rescue nil
   end
   
 end

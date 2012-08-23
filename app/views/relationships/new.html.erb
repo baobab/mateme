@@ -1,0 +1,43 @@
+<style type="text/css">
+  /* TEMP, move out of here! */
+  .options {
+    height:500px;
+  }
+  .keyboard{display:none;}
+</style>
+<script>
+<% if session[:return_to] %>
+    var tt_cancel_destination = "<%= session[:return_to] %>"
+<% else %>
+    var tt_cancel_destination = "/patients/guardians_dashboard/<%= @patient.patient_id %>"
+    var tt_cancel_show = "/patients/guardians_dashboard/<%= @patient.patient_id %>"
+<% end %>
+</script>
+<form id='relationship' action="/relationships/create" method='post'> 
+  <%= hidden_field_tag :patient_id, @patient.id %>
+  <%= hidden_field_tag :relation, params[:relation] %>
+  <%
+  @relationships = RelationshipType.all.collect { | element |
+    [element.b_is_to_a, element.relationship_type_id]
+  }.sort
+
+  other = []
+
+  options = @relationships.collect { | relation |
+    other = [relation] if relation.include?("Other")
+    relation if !relation.include?("Village Health Worker") && !relation.include?("TB contact Person") && !relation.include?("TB Index Person")
+  }.compact
+
+  options = options - other
+  options = options + other
+
+  @relationship = RelationshipType.find_by_b_is_to_a("#{params[:cat]}").relationship_type_id rescue nil
+  
+%>
+  <%= select_tag :relationship, options_for_select(
+    options, @relationship), {
+    :helpText => "How is #{Person.find(params[:relation]).name rescue 'this person'} related to the patient" ,
+    :condition => "#{(!@relationship.nil? ? "false" : "true")}"
+  } %>
+
+</form>

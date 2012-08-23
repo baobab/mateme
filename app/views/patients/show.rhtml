@@ -65,9 +65,12 @@
               <option value='/encounters/update_hiv_status?patient_id=<%= @patient.id %>'>Update Hiv Status</option>
             </select>
             <select id="navigation_links">
-              <option link='/patients/demographics?patient_id=<%= @patient.id %>&person_id=<%= @patient.person.id %>'>
-                Full Demographics
+              <option link='/patients/general_demographics?patient_id=<%= @patient.id %>'>
+                Demographics
               </option>
+              <!--option link='/patients/demographics?patient_id=<%= @patient.id %>&person_id=<%= @patient.person.id %>'>
+                Full Demographics
+              </option-->
               <option link='/patients/print_registration?patient_id=<%= @patient.id %>'>Print Registration</option>
             </select>
             <tr>

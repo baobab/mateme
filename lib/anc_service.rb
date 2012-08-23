@@ -1764,6 +1764,46 @@ module ANCService
       }
 
       return [self.create_from_form(passed["person"])]
+
+    elsif create_from_remote
+      known_demographics = {:person => {:patient => { :identifiers => {"National id" => identifier }}}}
+
+      servers = CoreService.get_global_property_value("remote_servers.parent")
+
+      server_address_and_port = servers.to_s.split(':')
+
+      server_address = server_address_and_port.first
+      server_port = server_address_and_port.second
+
+      login = CoreService.get_global_property_value("remote_bart.username").split(/,/) rescue ""
+      password = CoreService.get_global_property_value("remote_bart.password").split(/,/) rescue ""
+      location = CoreService.get_global_property_value("remote_bart.location").split(/,/) rescue nil
+      machine = CoreService.get_global_property_value("remote_machine.account_name").split(/,/) rescue ''
+
+      uri = "http://#{server_address}:#{server_port}/people/remote_demographics"
+
+      p = JSON.parse(RestClient.post(uri, known_demographics)).first # rescue nil
+
+      return [] if p.blank?
+
+      results = p.second if p.second and p.first.match /person/
+
+      # TODO need better logic here to select the best result or merge them
+      # Currently returning the longest result - assuming that it has the most information
+      # Can't return multiple results because there will be redundant data from sites
+      # result = results.sort{|a,b|b.length <=> a.length}.first
+      # result ? person = JSON.parse(result) : nil
+      #Stupid hack to structure the hash for openmrs 1.7
+      results["occupation"] = results["attributes"]["occupation"]
+      results["cell_phone_number"] = results["attributes"]["cell_phone_number"]
+      results["home_phone_number"] =  results["attributes"]["home_phone_number"]
+      results["office_phone_number"] = results["attributes"]["office_phone_number"]
+      results["attributes"].delete("occupation")
+      results["attributes"].delete("cell_phone_number")
+      results["attributes"].delete("home_phone_number")
+      results["attributes"].delete("office_phone_number")
+
+      return [self.create_from_form(results)]
     end
     return people
   end

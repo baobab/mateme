@@ -45,8 +45,8 @@ class PeopleController < ApplicationController
 
   def occupations
     ['','Driver','Housewife','Messenger','Business','Farmer','Salesperson','Teacher',
-     'Student','Security guard','Domestic worker', 'Police','Office worker',
-     'Preschool child','Mechanic','Prisoner','Craftsman','Healthcare Worker','Soldier'].sort.concat(["Other","Unknown"])
+      'Student','Security guard','Domestic worker', 'Police','Office worker',
+      'Preschool child','Mechanic','Prisoner','Craftsman','Healthcare Worker','Soldier'].sort.concat(["Other","Unknown"])
   end
 
   # List traditional authority containing the string given in params[:value]
@@ -61,7 +61,7 @@ class PeopleController < ApplicationController
     render :text => traditional_authorities.join('') + "<li value='Other'>Other</li>" and return
   end
 
-    # Regions containing the string given in params[:value]
+  # Regions containing the string given in params[:value]
   def region
     region_conditions = ["name LIKE (?)", "#{params[:value]}%"]
 
@@ -72,7 +72,7 @@ class PeopleController < ApplicationController
     render :text => regions.join('') and return
   end
 
-    # Districts containing the string given in params[:value]
+  # Districts containing the string given in params[:value]
   def district
     region_id = Region.find_by_name("#{params[:filter_value]}").id
     region_conditions = ["name LIKE (?) AND region_id = ? ", "#{params[:search_string]}%", region_id]
@@ -84,7 +84,7 @@ class PeopleController < ApplicationController
     render :text => districts.join('') + "<li value='Other'>Other</li>" and return
   end
 
-    # Villages containing the string given in params[:value]
+  # Villages containing the string given in params[:value]
   def village
     traditional_authority_id = TraditionalAuthority.find_by_name("#{params[:filter_value]}").id
     village_conditions = ["name LIKE (?) AND traditional_authority_id = ?", "#{params[:search_string]}%", traditional_authority_id]
@@ -156,9 +156,46 @@ class PeopleController < ApplicationController
  
   # This method is just to allow the select box to submit, we could probably do this better
   def select
-    redirect_to :controller => :encounters, :action => :new, :patient_id => params[:person] and return unless params[:person].blank? || params[:person] == '0'
-    redirect_to :action => :new, :gender => params[:gender], :given_name => params[:given_name], :family_name => params[:family_name],
+=begin
+    redirect_to :controller => :encounters, :action => :new, :patient_id => params[:person],
+      :cat => params[:cat] and return unless params[:person].blank? || params[:person] == '0'
+    redirect_to :action => :new, :gender => params[:gender], :given_name => params[:given_name], 
+      :family_name => params[:family_name], :cat => params[:cat],
       :family_name2 => params[:family_name2], :address2 => params[:address2], :identifier => params[:identifier]
+=end
+
+    if params[:person][:id] != '0' && Person.find(params[:person][:id]).dead == 1
+
+			redirect_to :controller => :patients, :action => :show, :id => params[:person]
+		else
+      # raise params.to_yaml
+			redirect_to search_complete_url(params[:person][:id], params[:relation], params[:cat]) and return if (!params[:person][:id].blank? || !params[:person][:id] == '0') && params[:cat] == "mother"
+
+      redirect_to "/relationships/new?patient_id=#{params[:patient_id]}&relation=#{params[:person][:id]
+            }&cat=#{params[:cat]}" and return if (!params[:person][:id].blank? || !params[:person][:id] == '0') and
+        (params[:cat] and params[:cat] != "mother")
+
+      if params[:cat] and params[:cat] == "baby"
+        redirect_to :action => :new_baby,
+          :gender => params[:gender],
+          :given_name => params[:given_name],
+          :family_name => params[:family_name],
+          :family_name2 => params[:family_name2],
+          :address2 => params[:address2],
+          :identifier => params[:identifier],
+          :relation => params[:relation]
+      else
+        redirect_to :action => :new, :gender => params[:gender],
+          :given_name => params[:given_name],
+          :family_name => params[:family_name],
+          :family_name2 => params[:family_name2],
+          :address2 => params[:address2],
+          :identifier => params[:identifier],
+          :relation => params[:relation],
+          :patient_id => params[:patient_id],
+          :cat => params[:cat]
+      end
+		end
   end
  
   def created

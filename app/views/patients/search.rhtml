@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <style type="text/css">
+      #SHIFT,
+      #space,
+      #lessthan,
+      #greaterthan,
+      #star,
+      #abc,
+      #date,
+      #minus,
+      #plus,
+      #decimal,
+      #slash,
+      #equals,
+      #comma,
+      #percent { display: inline; }
+      #Unknown, #unknown {
+        display: none;
+      }
+
+      #barcode {
+        background: none repeat scroll 0 0 transparent;
+        border-color: -moz-use-text-color -moz-use-text-color #EEEEEE;
+        border-style: none none solid;
+        border-width: medium medium 1px;
+        font-family: "Nimbus Sans L","Arial Narrow",sans-serif;
+        font-size: 2.2em;
+        padding-left: 40px;
+        width: 95%;
+      }
+
+    </style>
+
+    <script>
+      var tt_cancel_destination = "/people/search?patient_id=<%= @patient.id %>&cat=<%= params[:cat] %>"
+    </script>
+  </head>
+  <body>
+    <div id="general_dashboard" for="barcode" style="font-size: 2.0em; margin: 30px; padding-top: 20px; font-weight: bold;">
+      <%= "Scan an existing #{params[:cat].titleize rescue "person"}'s barcode" %></div>
+    <div style="display: table; margin-left: 30px; border-spacing: 30px;">
+      <div style="display: table-row">
+        <div style="display: table-cell; vertical-align: bottom;">
+          <img src="/images/barcode.jpg" />
+        </div>
+        <div style="display: table-cell; width: 700px;">
+          <%= text_field_tag(:barcode, nil,
+            :helpText => "Scan an existing barcode for #{params[:name]}'s #{
+            params[:cat] == "mother" ? "mother" : "father" }",
+            :tt_pageStyleClass => "barcode") %>
+        </div>
+      </div>
+    </div>
+    <button id="btnCancel" class="red" style="position: absolute; top: 680px; z-index: 100;"
+            onclick="window.location='/patients/general_demographics?patient_id=<%= params[:patient_id] %>'">
+      <span>Cancel</span>
+    </button>
+    <script type="text/javascript" language="javascript">
+      <!--
+
+      var checkForBarcodeTimeout = 1500;
+      var barcodeFocusTimeoutId = null;
+      var barcodeFocusOnce = false;
+      var barcodeId = null;
+      
+      function __$(id){
+        return document.getElementById(id);
+      }
+
+      function checkForLocalBarcode(validAction){
+        if (!barcodeId) {
+          barcodeId = "barcode";
+        }
+
+        barcode_element = document.getElementById(barcodeId)
+
+        if (!barcode_element)
+          return
+
+        // Look for anything with a dollar sign at the end
+        if (barcode_element.value.match(/.+\$$/i) != null || barcode_element.value.match(/.+\n$/i) != null){
+          barcode_element.value = barcode_element.value.substring(0,barcode_element.value.length-1)
+          if (typeof barcodeScanAction != "undefined"){
+            barcodeScanAction();
+          } else {
+            if(tt_cancel_show){
+              window.location = tt_cancel_show + '?identifier=' + barcode_element.value + 
+                "&cat=<%= params[:cat] %>&patient_id=<%= @patient.id %>";
+            } else {
+              window.location = '/people/search?identifier=' + barcode_element.value + 
+                "&cat=<%= params[:cat] %>&patient_id=<%= @patient.id %>";
+            }
+          }
+        }
+        
+        window.setTimeout("checkForLocalBarcode('" + validAction + "')", checkForBarcodeTimeout);
+      }
+
+      function focusBarcode(){
+        __$("barcode").onkeydown = function(event){
+          if(event.keyCode == 13){
+            this.value += '$'
+          }
+        }
+        
+        __$("barcode").focus();
+        setTimeout('focusBarcode()', 300);
+      }
+
+      setTimeout('focusBarcode()', 300);
+
+      setTimeout("__$('btnNext').innerHTML = '<span>Search or Register New Person</span>'", 400);
+
+      window.setTimeout("checkForLocalBarcode()", checkForBarcodeTimeout);
+      
+      //-->
+    </script>
+  </body>
+</html>

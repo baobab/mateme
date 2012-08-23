@@ -256,6 +256,32 @@ module MaternityService
         self.person.birthdate_estimated = 0
       end
     end
-  
+
+    def current_baby_count
+       count = self.patient.encounters.collect{|e|
+         e.observations.collect{|o|
+           [
+             o.concept.concept_names.first.name,
+             o.answer_string
+           ] if o.concept.concept_names.first.name.downcase == "number of babies"
+         }.compact
+       }.compact.delete_if{|x|
+         x == []
+       }.last.flatten rescue []
+
+       count = count[1] if count.length > 0
+    end
+
+    def husband
+      self.patient.relationships.find(:last, :conditions => ["relationship = ?",
+          RelationshipType.find_by_b_is_to_a("Spouse/Partner").id]) rescue nil
+    end
+
+    def children
+      Relationship.find(:all, :conditions => ["person_a = ? AND relationship = ?",
+          self.patient.id, RelationshipType.find(:first,
+            :conditions => ["a_is_to_b = ? AND b_is_to_a ?", "Child", "Mother"]).id]) rescue []
+    end
+
   end
 end

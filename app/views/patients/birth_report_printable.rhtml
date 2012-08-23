@@ -1,0 +1,434 @@
+<html>
+  <head>
+    <title>Birth Report</title>
+    <style>
+      .cell {
+        border-bottom: dotted 1px #000;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <table width="100%" cellpadding="0">
+        <tr>
+          <td style="text-align: center;">
+            <img src="/images/emblem.gif" alt="emblem" />
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-size: 0.8em;">
+            REPUBLIC OF MALAWI
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-size: 1.2em; font-weight: bold;">
+            NATIONAL REGISTRATION ACT
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: right; font-size: 1em; padding-right: 30px;">
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: center; font-size: 1em; font-weight: bold;">
+            <div style="float: none;">
+              HOSPITAL BIRTH REPORT
+            </div>
+            <div style="float: right;">
+              FORM NR9
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table width="95%" style="margin-top: 20px; margin-left: 40px;" cellspacing="10" cellpadding="2">
+              <tr>
+                <td>
+                  1.
+                </td>
+                <td>
+                  Name of child:
+                </td>
+                <td id="fnc" style="text-align: center; padding-bottom: 0px;" class="cell">
+                  <%= @anc_patient.first_name %>&nbsp;
+                </td>
+                <td id="mnc" style="text-align: center; padding-bottom: 0px;" class="cell">
+                  <%= @anc_patient.middle_name %>&nbsp;
+                </td>
+                <td id="lnc" style="text-align: center; padding-bottom: 0px;" class="cell">
+                  <%= @anc_patient.last_name %>&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">First Name</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Middle Name</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Surname</sup>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  2.
+                </td>
+                <td>
+                  Date of birth:
+                </td>
+                <td id="ddob" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @patient.person.birthdate.to_date.strftime("%d") rescue "&nbsp;" %>
+                </td>
+                <td id="mdob" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @patient.person.birthdate.to_date.strftime("%B").titleize rescue "&nbsp;" %>
+                </td>
+                <td id="ydob" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @patient.person.birthdate.to_date.strftime("%Y") rescue "&nbsp;" %>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Date</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Month</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Year</sup>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  3.
+                </td>
+                <td>
+                  Sex (Male/Female):
+                </td>
+                <td id="sex" style="text-align: center; padding-top: 10px;" class="cell">
+                  <%= @anc_patient.sex %>&nbsp;
+                </td>
+                <td colspan="2">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: left; padding-top: 20px;">
+                  4.
+                </td>
+                <td colspan="4" style="text-align: left; padding-top: 20px;">
+                  Name of parents:
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-left: 20px; padding-top: 20px;">
+                  Mother (Maiden Name):
+                </td>
+                <td id="fnm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.first_name %>&nbsp;
+                </td>
+                <td id="mnm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.middle_name %>&nbsp;
+                </td>
+                <td id="lnm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.maiden_name %>&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">First Name</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Middle Name</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Surname</sup>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-left: 20px; padding-top: 20px;">
+                  Father (if known):
+                </td>
+                <td id="fnf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_father.first_name %>&nbsp;
+                </td>
+                <td id="mnf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_father.middle_name %>&nbsp;
+                </td>
+                <td id="lnf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_father.last_name %>&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">First Name</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Middle Name</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Surname</sup>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: left; padding-top: 20px;">
+                  5.
+                </td>
+                <td colspan="4" style="text-align: left; padding-top: 20px;">
+                  Nationality of parents:
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: right; padding-left: 20px; padding-top: 20px;">
+                  Mother:
+                </td>
+                <td id="ntm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.nationality %>&nbsp;
+                </td>
+                <td id="idm" style="text-align: left; padding-bottom: 0px; padding-top: 20px; padding-left: 20px;">
+                  ID No: <div class="cell" style="float: right;"><%= @anc_mother.national_id_with_dashes %>&nbsp;</div>
+                </td>
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: right; padding-left: 20px; padding-top: 20px;">
+                  Father :
+                </td>
+                <td id="ntf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_father.nationality %>&nbsp;
+                </td>
+                <td id="idf" style="text-align: left; padding-bottom: 0px; padding-top: 20px; padding-left: 20px;">
+                  ID No: <div class="cell" style="float: right;"><%= @anc_father.national_id_with_dashes %>&nbsp;</div>
+                </td>
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: left; padding-top: 20px;">
+                  6.
+                </td>
+                <td colspan="4" style="text-align: left; padding-top: 20px;">
+                  Physical Residential:
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: right; padding-top: 20px;">
+                  Address of Parent(s)
+                </td>
+                <td id="resm" colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.current_address %>
+                </td>
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: right; padding-top: 20px;">
+                  &nbsp;
+                </td>
+                <td id="resf" colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= (@anc_father.current_address != @anc_mother.current_address ?
+                      @anc_father.current_address : "") %>
+                </td>
+                <td style="text-align: left; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: left; padding-top: 20px;">
+                  7.
+                </td>
+                <td colspan="4" style="text-align: left; padding-top: 20px;">
+                  Home Address of Parent(s) (<i>bona fide</i> citizens):
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-left: 20px; padding-top: 20px;">
+                  Mother:
+                </td>
+                <td id="vm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.home_village %>&nbsp;
+                </td>
+                <td id="tam" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.home_ta %>&nbsp;
+                </td>
+                <td id="dim" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_mother.home_district %>&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Village</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">T/A</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">District</sup>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-left: 20px; padding-top: 20px;">
+                  Father (if known):
+                </td>
+                <td id="vf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_father.home_village %>&nbsp;
+                </td>
+                <td id="taf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_father.home_ta %>&nbsp;
+                </td>
+                <td id="dif" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  <%= @anc_father.home_district %>&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">Village</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">T/A</sup>
+                </td>
+                <td style="text-align: center; padding-top: 0px;">
+                  <sup style="font-style: italic; font-size: 0.6em;">District</sup>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align: left; padding-top: 20px;">
+                  8.
+                </td>
+                <td colspan="4" style="text-align: left; padding-top: 20px;">
+                  Details of Medical Officer/Hospital Official Registering the Birth:
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-top: 20px; padding-left: 80px;">
+                  Name:
+                </td>
+                <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
+                    class="cell">
+                  <% @name = @anc_patient.get_full_attribute("Provider Name") rescue nil %>
+                  <%= @name.value if !@name.nil? %>&nbsp;
+                </td>
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-top: 20px; padding-left: 80px;">
+                  Title:
+                </td>
+                <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
+                    class="cell">
+                  <% @title = @anc_patient.get_full_attribute("Provider Title") rescue nil %>
+                  <%= @title.value if !@title.nil? %>&nbsp;
+                </td>
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-top: 20px; padding-left: 80px;">
+                  Signature:
+                </td>
+                <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;" class="cell">
+                  &nbsp;
+                </td>
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td style="text-align: left; padding-top: 20px; padding-left: 80px;">
+                  Hospital Date:
+                </td>
+                <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
+                    class="cell">
+                  <% @facility_date = @anc_patient.get_full_attribute("Hospital Date") rescue nil %>
+                  <%= @facility_date.value.to_date.strftime("%d/%b/%Y") if !@facility_date.nil? %>&nbsp;
+                </td>
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                  &nbsp;
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </body>
+</html>

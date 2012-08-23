@@ -759,4 +759,8 @@ class PatientsController < ApplicationController
     render :layout => false
   end
 
+  def general_demographics
+    
+  end
+
 end

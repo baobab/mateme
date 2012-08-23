@@ -1,0 +1,35 @@
+<style>
+  #nav {
+    background-color: #333333;
+    border-top:3px solid #99AAB7;
+    color:#CADCEA;
+    height:80px;
+    width:100%;
+    bottom:0px;
+    position:absolute;
+    overflow:hidden;
+    z-index: 1000;
+  }
+  #footer {
+    background-color: #333333;
+  }
+  #main {
+    width: 99.7%;
+    height: 88.5%;
+  }
+  button{
+    margin: 5px;
+  }
+</style>
+
+<iframe id="main" src="/patients/birth_report_printable/<%= @patient.id %>"></iframe>
+
+<div id="nav">
+  
+  <button onclick="window.location = '/patients/show/<%= @patient.id %>';" class="button navButton green"
+          id="nextButton" style="margin-top: 10px; margin-right: 20px;" ><span>Finish</span>
+  </button>
+  <button onclick="window.location = '/patients/print_note/<%= @patient.id %>';" class="button navButton blue"
+          id="backButton" style="margin-top: 10px;" ><span>Print</span>
+  </button>
+</div>
