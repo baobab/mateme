@@ -4,7 +4,23 @@ require 'barby/outputter/rmagick_outputter'
 
 class EncountersController < ApplicationController
 
-  def create
+  def create    
+    if (params["encounter"]["encounter_type_name"].upcase rescue "") == "UPDATE OUTCOME"
+      delivered = params["observations"].collect{|o| o if o["value_coded_or_text"] == "Delivered"}.compact.length
+
+      if delivered > 0
+        babies = MaternityService.extract_live_babies(params)
+
+        @patient = Patient.find(params["encounter"]["patient_id"]) # rescue nil
+        
+        @maternity_patient = MaternityService::Maternity.new(@patient)
+
+        babies.each do |baby|
+          # raise baby.to_yaml
+          @maternity_patient.create_baby(baby)
+        end
+      end
+    end
     
     params[:encounter][:encounter_datetime] = (params[:encounter][:encounter_datetime].to_date.strftime("%Y-%m-%d ") + 
         Time.now.strftime("%H:%M")) rescue Time.now()

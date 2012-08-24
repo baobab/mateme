@@ -84,13 +84,13 @@
                   Date of birth:
                 </td>
                 <td id="ddob" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @patient.person.birthdate.to_date.strftime("%d") rescue "&nbsp;" %>
+                  <%= @person.person.birthdate.to_date.strftime("%d") rescue "&nbsp;" %>
                 </td>
                 <td id="mdob" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @patient.person.birthdate.to_date.strftime("%B").titleize rescue "&nbsp;" %>
+                  <%= @person.person.birthdate.to_date.strftime("%B").titleize rescue "&nbsp;" %>
                 </td>
                 <td id="ydob" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @patient.person.birthdate.to_date.strftime("%Y") rescue "&nbsp;" %>
+                  <%= @person.person.birthdate.to_date.strftime("%Y") rescue "&nbsp;" %>
                 </td>
               </tr>
               <tr>
@@ -372,8 +372,8 @@
                 </td>
                 <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
                     class="cell">
-                  <% @name = @anc_patient.get_full_attribute("Provider Name") rescue nil %>
-                  <%= @name.value if !@name.nil? %>&nbsp;
+                  <% @name = @anc_patient.get_full_attribute("Provider Name").value rescue (current_user.name rescue nil) %>
+                  <%= @name if !@name.nil? %>&nbsp;
                 </td>
                 <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
                   &nbsp;
@@ -388,8 +388,8 @@
                 </td>
                 <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
                     class="cell">
-                  <% @title = @anc_patient.get_full_attribute("Provider Title") rescue nil %>
-                  <%= @title.value if !@title.nil? %>&nbsp;
+                  <% @title = @anc_patient.get_full_attribute("Provider Title").value rescue (current_user.user_roles.first.role.titleize rescue nil) %>
+                  <%= @title if !@title.nil? %>&nbsp;
                 </td>
                 <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
                   &nbsp;
@@ -418,8 +418,8 @@
                 </td>
                 <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
                     class="cell">
-                  <% @facility_date = @anc_patient.get_full_attribute("Hospital Date") rescue nil %>
-                  <%= @facility_date.value.to_date.strftime("%d/%b/%Y") if !@facility_date.nil? %>&nbsp;
+                  <% @facility_date = @anc_patient.get_full_attribute("Hospital Date").value rescue Date.today %>
+                  <%= @facility_date.to_date.strftime("%d/%b/%Y") %>&nbsp;
                 </td>
                 <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
                   &nbsp;

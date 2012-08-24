@@ -35,7 +35,7 @@
       </select>
       <select id="links">
         <option value='/logout'>Logout</option>
-        <option value='/people/search' ttSize="320px">Find or Register Client</option>
+        <option value='/people/search?cat=mother&gender=F' ttSize="320px">Find or Register Client</option>
         <option value='<%= ((session[:datetime].to_date rescue '') != '' ?
                     "/people/reset_datetime" : "/people/set_datetime") %>'  ttSize="160px">
           <%= ((session[:datetime].to_date rescue '') != '' ? "Reset Date" : "Set Date") %></option>

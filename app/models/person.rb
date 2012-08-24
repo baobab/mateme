@@ -8,6 +8,7 @@ class Person < ActiveRecord::Base
   attr_accessor :education_level, :religion
 
   has_one :patient, :foreign_key => :patient_id, :dependent => :destroy
+  has_one :birth_report, :foreign_key => :person_id, :dependent => :destroy
   has_many :names, :class_name => 'PersonName', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_name.voided = 0', :order => 'person_name.preferred DESC'
   has_many :addresses, :class_name => 'PersonAddress', :foreign_key => :person_id, :dependent => :destroy, :conditions => 'person_address.voided = 0', :order => 'person_address.preferred DESC'
   has_many :person_attributes, :foreign_key => :person_id, :dependent => :destroy #, :conditions => 'person.voided = 0'
@@ -216,7 +217,8 @@ class Person < ActiveRecord::Base
 
   end
 
-  def self.create_from_form(params)
+  def self.create_from_form_old(params)
+    
     #return rescue text if remote timed out or creation of patient on remote failed
     if params.to_s == 'timeout' || params.to_s == 'creationfailed'
       return params.to_s
@@ -232,7 +234,8 @@ class Person < ActiveRecord::Base
 
     params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|attributes/) }
     birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
-    person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate/) }
+    person_params = params_to_process.reject{|key,value|
+      key.match(/birth_|age_estimate|race|occupation|citizenship|home_phone_number|cell_phone_number/) }
 
     # raise person_params.to_yaml
 
@@ -280,6 +283,110 @@ class Person < ActiveRecord::Base
       #patient.patient_identifiers.create("identifier" => patient_params["identifier"], "identifier_type" => PatientIdentifierType.find_by_name("Unknown id")) unless params["identifier"].blank?
     end
     return person
+  end
+
+  def self.create_from_form(params)
+    #return rescue text if remote timed out or creation of patient on remote failed
+    if params.to_s == 'timeout' || params.to_s == 'creationfailed'
+      return params.to_s
+    end
+
+    if params.has_key?('person')
+      params = params['person']
+    end
+    
+    address_params = params["addresses"]
+		names_params = params["names"]
+		patient_params = params["patient"]
+		params_to_process = params.reject{|key,value| key.match(/addresses|patient|names|relation|cell_phone_number|home_phone_number|office_phone_number|agrees_to_be_visited_for_TB_therapy|agrees_phone_text_for_TB_therapy/) }
+		birthday_params = params_to_process.reject{|key,value| key.match(/gender/) }
+		person_params = params_to_process.reject{|key,value| key.match(/birth_|age_estimate|occupation|identifiers|citizenship|race/) }
+
+		if person_params["gender"].to_s == "Female"
+      person_params["gender"] = 'F'
+		elsif person_params["gender"].to_s == "Male"
+      person_params["gender"] = 'M'
+		end
+
+		person = Person.create(person_params)
+
+		unless birthday_params.empty?
+		  if birthday_params["birth_year"] == "Unknown"
+        self.set_birthdate_by_age(person, birthday_params["age_estimate"], person.session_datetime || Date.today)
+		  else
+        self.set_birthdate(person, birthday_params["birth_year"], birthday_params["birth_month"], birthday_params["birth_day"])
+		  end
+		end
+		person.save
+
+		person.names.create(names_params)
+		person.addresses.create(address_params) unless address_params.empty? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Occupation").person_attribute_type_id,
+		  :value => params["occupation"]) unless params["occupation"].blank? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Cell Phone Number").person_attribute_type_id,
+		  :value => params["cell_phone_number"]) unless params["cell_phone_number"].blank? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Office Phone Number").person_attribute_type_id,
+		  :value => params["office_phone_number"]) unless params["office_phone_number"].blank? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Home Phone Number").person_attribute_type_id,
+		  :value => params["home_phone_number"]) unless params["home_phone_number"].blank? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Citizenship").person_attribute_type_id,
+		  :value => params["citizenship"]) unless params["citizenship"].blank? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Race").person_attribute_type_id,
+		  :value => params["race"]) unless params["race"].blank? rescue nil
+
+    # TODO handle the birthplace attribute
+
+		if (!patient_params.nil?)
+		  patient = person.create_patient
+
+		  patient_params["identifiers"].each{|identifier_type_name, identifier|
+        next if identifier.blank?
+        identifier_type = PatientIdentifierType.find_by_name(identifier_type_name) || PatientIdentifierType.find_by_name("Unknown id")
+        patient.patient_identifiers.create("identifier" => identifier, "identifier_type" => identifier_type.patient_identifier_type_id)
+		  } if patient_params["identifiers"]
+
+		  # This might actually be a national id, but currently we wouldn't know
+		  #patient.patient_identifiers.create("identifier" => patient_params["identifier"], "identifier_type" => PatientIdentifierType.find_by_name("Unknown id")) unless params["identifier"].blank?
+		end
+
+		return person
+  end
+
+  def self.set_birthdate_by_age(person, age, today = Date.today)
+    person.birthdate = Date.new(today.year - age.to_i, 7, 1)
+    person.birthdate_estimated = 1
+  end
+
+  def self.set_birthdate(person, year = nil, month = nil, day = nil)
+    raise "No year passed for estimated birthdate" if year.nil?
+
+    # Handle months by name or number (split this out to a date method)
+    month_i = (month || 0).to_i
+    month_i = Date::MONTHNAMES.index(month) if month_i == 0 || month_i.blank?
+    month_i = Date::ABBR_MONTHNAMES.index(month) if month_i == 0 || month_i.blank?
+
+    if month_i == 0 || month == "Unknown"
+      person.birthdate = Date.new(year.to_i,7,1)
+      person.birthdate_estimated = 1
+    elsif day.blank? || day == "Unknown" || day == 0
+      person.birthdate = Date.new(year.to_i,month_i,15)
+      person.birthdate_estimated = 1
+    else
+      person.birthdate = Date.new(year.to_i,month_i,day.to_i)
+      person.birthdate_estimated = 0
+    end
   end
 
   def self.find_remote_by_identifier(identifier)

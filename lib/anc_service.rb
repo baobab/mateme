@@ -1809,6 +1809,7 @@ module ANCService
   end
 
 	def self.create_from_form(params)
+
 		address_params = params["addresses"]
 		names_params = params["names"]
 		patient_params = params["patient"]
@@ -1851,6 +1852,14 @@ module ANCService
 		person.person_attributes.create(
 		  :person_attribute_type_id => PersonAttributeType.find_by_name("Home Phone Number").person_attribute_type_id,
 		  :value => params["home_phone_number"]) unless params["home_phone_number"].blank? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Citizenship").person_attribute_type_id,
+		  :value => params["citizenship"]) unless params["citizenship"].blank? rescue nil
+
+		person.person_attributes.create(
+		  :person_attribute_type_id => PersonAttributeType.find_by_name("Race").person_attribute_type_id,
+		  :value => params["race"]) unless params["race"].blank? rescue nil
 
     # TODO handle the birthplace attribute
 

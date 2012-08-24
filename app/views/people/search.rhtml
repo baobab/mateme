@@ -84,17 +84,17 @@ end -%>
   }
 </script>
 
-<% if (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
+<% if (params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
 
   <% form_tag "search", :method => :get do %>
     <%= text_field_tag :given_name, params[:given_name], {:field_type => 'alpha', :helpText => 'First name', :ajaxURL => '/person_names/given_names?search_string=', :allowFreeText => true }%>
     <%= text_field_tag :family_name, params[:family_name], {:field_type => 'alpha', :helpText => 'Last name', :ajaxURL => '/person_names/family_names?search_string=', :allowFreeText => true }%>
-    <%= hidden_field_tag :gender, "F" %>
+    <%= hidden_field_tag :gender, "#{params[:gender]}" %>
     <%= hidden_field_tag :create_patient, params[:create_patient] %>
 
     <input type="hidden" id="cat" name="cat" value="<%=h params[:cat] -%>" />
 
-    <% if !params[:patient_id].nil? %>
+    <% if !params[:patient_id].blank? %>
       <input type="hidden" id="patient_id" name="patient_id" value="<%=h params[:patient_id] -%>" />
     <% end %>
 
@@ -102,7 +102,7 @@ end -%>
   <% end -%>
 <% end -%>
 
-<% unless (params[:gender].blank? || params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
+<% unless (params[:given_name].blank? || params[:family_name].blank?) && (params[:identifier].blank?) %>
   <% form_tag "select", :method => :get do %>
     <% if @people.blank? %>
       <label for="person">No patients were found:</label>
@@ -131,5 +131,10 @@ end -%>
     <input type="hidden" name="family_name2" value="<%=h params[:family_name2] -%>" />
     <input type="hidden" name="address2" value="<%=h params[:address2] -%>" />
     <input type="hidden" id="cat" name="cat" value="<%=h params[:cat] -%>" />
+
+    <% if !params[:patient_id].blank? %>
+      <input type="hidden" id="patient_id" name="patient_id" value="<%=h params[:patient_id] -%>" />
+    <% end %>
+
   <% end -%>
 <% end -%>

@@ -2,12 +2,16 @@ production:
  create.from.dde.server: false
  link.to.anc: false
  birth_registration_url: http://localhost:3007/people/import_baby
-
+ current_facility: Bwaila Maternity Wing
+ current_district: Lilongwe
+ 
 development:
  create.from.dde.server: false
  link.to.anc: false
  birth_registration_url: http://localhost:3007/people/import_baby
-
+ current_facility: Bwaila Maternity Wing
+ current_district: Lilongwe
+ 
 test: &TEST
  create_from_remote: no
  use.user.selected.activities: yes

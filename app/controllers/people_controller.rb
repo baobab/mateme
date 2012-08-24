@@ -142,13 +142,26 @@ class PeopleController < ApplicationController
           found_person = Person.create_from_form(found_person_data) unless found_person_data.nil?
         end
       end
+
+      create_from_dde_server = CoreService.get_global_property_value('create.from.dde.server').to_s == "true" rescue false
       if found_person
 
-        patient = DDEService::Patient.new(found_person.patient)
+        if create_from_dde_server
+          patient = DDEService::Patient.new(found_person.patient)
 
-        patient.check_old_national_id(params[:identifier])
+          patient.check_old_national_id(params[:identifier])
+        end
 
-        redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
+				if (params[:cat].downcase rescue "") != "mother" && params[:patient_id]
+
+          redirect_to "/relationships/new?patient_id=#{params[:patient_id]}&relation=#{found_person.id
+            }&cat=#{params[:cat]}" and return
+
+				else
+
+          redirect_to :controller => :encounters, :action => :new, :patient_id => found_person.id and return
+
+        end
       end
     end
     @people = Person.search(params)
@@ -156,26 +169,19 @@ class PeopleController < ApplicationController
  
   # This method is just to allow the select box to submit, we could probably do this better
   def select
-=begin
-    redirect_to :controller => :encounters, :action => :new, :patient_id => params[:person],
-      :cat => params[:cat] and return unless params[:person].blank? || params[:person] == '0'
-    redirect_to :action => :new, :gender => params[:gender], :given_name => params[:given_name], 
-      :family_name => params[:family_name], :cat => params[:cat],
-      :family_name2 => params[:family_name2], :address2 => params[:address2], :identifier => params[:identifier]
-=end
 
     if params[:person][:id] != '0' && Person.find(params[:person][:id]).dead == 1
 
 			redirect_to :controller => :patients, :action => :show, :id => params[:person]
 		else
-      # raise params.to_yaml
-			redirect_to search_complete_url(params[:person][:id], params[:relation], params[:cat]) and return if (!params[:person][:id].blank? || !params[:person][:id] == '0') && params[:cat] == "mother"
+			redirect_to "/patients/show/#{params[:person][:id]}" and return if (!params[:person][:id].blank? &&
+          params[:person][:id] != '0') && (params[:cat] and !params[:cat].blank? and params[:cat] == "mother")
 
       redirect_to "/relationships/new?patient_id=#{params[:patient_id]}&relation=#{params[:person][:id]
-            }&cat=#{params[:cat]}" and return if (!params[:person][:id].blank? || !params[:person][:id] == '0') and
-        (params[:cat] and params[:cat] != "mother")
+            }&cat=#{params[:cat]}" and return if (params[:person][:id] rescue '0') != '0' and
+        (params[:cat].downcase rescue "") != "mother"
 
-      if params[:cat] and params[:cat] == "baby"
+      if params[:cat] and params[:cat] == "child"
         redirect_to :action => :new_baby,
           :gender => params[:gender],
           :given_name => params[:given_name],
@@ -258,9 +264,14 @@ class PeopleController < ApplicationController
       if found_person
 
         found_person.patient.national_id_label
+        
         if params[:next_url]
-          print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}",
-            params[:next_url] + "?patient_id=#{ found_person.patient.id }")
+          if (params[:cat].downcase rescue "") == "mother"
+            print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}",
+              params[:next_url] + "?patient_id=#{ found_person.patient.id }") and return
+          else
+            redirect_to params[:next_url] + found_person.patient.id.to_s and return
+          end
         else
           print_and_redirect("/patients/national_id_label/?patient_id=#{found_person.patient.id}", next_task(found_person.patient))
         end
@@ -272,8 +283,12 @@ class PeopleController < ApplicationController
       person = Person.create_from_form(params[:person])
 
       if params[:next_url]
-        print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}",
-          params[:next_url] + "?patient_id=#{ person.patient.id }")
+        if (params[:cat].downcase rescue "") == "mother"
+          print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}",
+            params[:next_url] + "?patient_id=#{ person.patient.id }") and return
+        else
+          redirect_to params[:next_url] + person.patient.id.to_s and return
+        end
       elsif params[:person][:patient]
         person.patient.national_id_label
         print_and_redirect("/patients/national_id_label/?patient_id=#{person.patient.id}", next_task(person.patient))

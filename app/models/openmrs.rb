@@ -21,7 +21,7 @@ module Openmrs
   def after_void(reason = nil)
   end
   
-  def void(reason = "Voided through #{BART_VERSION}",date_voided = Time.now,
+  def void(reason = "Voided through #{MATEME_VERSION}",date_voided = Time.now,
       voided_by = (User.current_user.user_id unless User.current_user.nil?))
     unless voided?
       self.date_voided = date_voided

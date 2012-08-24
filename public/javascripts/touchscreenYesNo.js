@@ -1,7 +1,7 @@
 var confirmation = null;
 var confirmationTimeout = null;
 
-function confirmYesNo(message, yes, no) {  
+function confirmYesNo(message, yes, no) {
   hideConfirmation();
   if (confirmation == null) {
     confirmation = document.createElement("div");

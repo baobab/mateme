@@ -22,6 +22,8 @@ if [ ! -x config/database.yml ] ; then
    cp config/database.yml.example config/database.yml
 fi
 
+sudo apt-get install htmldoc
+
 USERNAME=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['username']"`
 PASSWORD=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['password']"`
 DATABASE=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['database']"`
@@ -44,6 +46,8 @@ mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/create_site_w
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/migrate/change_concept_names_case_to_upper.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/create_dde_server_connection.sql
 mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/districts.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/relationship_type.sql
+mysql --user=$USERNAME --password=$PASSWORD $DATABASE < db/birth_report.sql
 
 # echo "USE $DATABASE; ALTER TABLE concept_name ADD COLUMN concept_name_id INT(11) NULL;" | mysql -u $USERNAME --password=$PASSWORD
 # echo "USE $DATABASE; create table person_name_code (person_name_code_id int(11),

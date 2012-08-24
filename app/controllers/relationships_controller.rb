@@ -2,6 +2,7 @@ class RelationshipsController < ApplicationController
   before_filter :find_patient, :except => [:void]
   
   def new
+    params[:cat] = "spouse/partner" if (params[:cat].downcase rescue "") == "husband"
     render :layout => 'application'
   end
 
@@ -17,7 +18,7 @@ class RelationshipsController < ApplicationController
       :person_b => params[:relation],
       :relationship => params[:relationship])
     if @relationship.save
-      redirect_to :controller => :patients, :action => :show, :patient_id => @patient.patient_id
+      redirect_to :controller => :patients, :action => :general_demographics, :patient_id => @patient.patient_id
     else 
       render :action => "new" 
     end

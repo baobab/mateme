@@ -1,9 +1,9 @@
-# production:
-#   adapter: mysql
-#   database: openmrs
-#   username: root
-#   password:
-#   host: localhost
+production:
+  adapter: mysql
+  database: openmrs
+  username: root
+  password:
+  host: localhost
 
 development:
   adapter: mysql
@@ -20,4 +20,9 @@ test:
   password: 
   host: localhost
 
-
+anc:
+  adapter: mysql
+  database: openmrs
+  username: root
+  password:
+  host: localhost

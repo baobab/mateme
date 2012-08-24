@@ -258,18 +258,18 @@ module MaternityService
     end
 
     def current_baby_count
-       count = self.patient.encounters.collect{|e|
-         e.observations.collect{|o|
-           [
-             o.concept.concept_names.first.name,
-             o.answer_string
-           ] if o.concept.concept_names.first.name.downcase == "number of babies"
-         }.compact
-       }.compact.delete_if{|x|
-         x == []
-       }.last.flatten rescue []
+      count = self.patient.encounters.collect{|e|
+        e.observations.collect{|o|
+          [
+            o.concept.concept_names.first.name,
+            o.answer_string
+          ] if o.concept.concept_names.first.name.downcase == "number of babies"
+        }.compact
+      }.compact.delete_if{|x|
+        x == []
+      }.last.flatten rescue []
 
-       count = count[1] if count.length > 0
+      count = count[1] if count.length > 0
     end
 
     def husband
@@ -277,11 +277,220 @@ module MaternityService
           RelationshipType.find_by_b_is_to_a("Spouse/Partner").id]) rescue nil
     end
 
-    def children
-      Relationship.find(:all, :conditions => ["person_a = ? AND relationship = ?",
+    def kids
+      Relationship.find(:all, :conditions => ["person_a = ? AND relationship = ? AND voided = 0",
           self.patient.id, RelationshipType.find(:first,
-            :conditions => ["a_is_to_b = ? AND b_is_to_a ?", "Child", "Mother"]).id]) rescue []
+            :conditions => ["a_is_to_b = ? AND b_is_to_a = ?", "Mother", "Child"]).id]) rescue []
+    end
+
+    def babies_ever
+      PatientReport.find(:all,
+        :conditions => ["patient_id = ? AND (COALESCE(babies, 0) != 0 OR " +
+            "COALESCE(bba_babies, 0) != 0)", self.patient.id], :select =>
+          ["(COALESCE(babies, 0) + COALESCE(bba_babies, 0)) babies"]).collect{|c| c.babies}.sum
+    end
+
+    def create_baby(params)
+      if !params["DATE OF DELIVERY"].nil? && !params["GENDER OF CONTACT"].nil? &&
+          (!params["BABY OUTCOME"].nil? && params["BABY OUTCOME"].upcase == "ALIVE")
+        
+        baby = {
+          "patient"=>{
+            "identifiers"=>{
+              "diabetes_number"=>""
+            }
+          },
+          "names"=>{
+            "family_name"=>"Unknown",
+            "given_name"=>"Unknown"
+          },
+          "addresses"=>{
+            "city_village"=>nil,
+            "county_district"=>nil,
+            "neighborhood_cell"=>nil,
+            "address2"=>nil,
+            "address1"=>nil,
+            "subregion"=>nil
+          },
+          "gender"=>(params["GENDER OF CONTACT"].upcase == "MALE" ? "M" :
+              (params["GENDER OF CONTACT"].upcase == "FEMALE" ? "F" : nil)),
+          "birthdate_estimated"=>0,
+          "birthdate"=>params["DATE OF DELIVERY"],
+          "birth_year"=>(params["DATE OF DELIVERY"].to_date rescue Date.today).year,
+          "birth_month"=>(params["DATE OF DELIVERY"].to_date rescue Date.today).month,
+          "birth_day"=>(params["DATE OF DELIVERY"].to_date rescue Date.today).day
+        }
+
+        create_from_dde_server = CoreService.get_global_property_value('create.from.dde.server').to_s == "true" rescue false
+        
+        person = ANCService.create_patient_from_dde(baby) if create_from_dde_server
+
+        if person.blank?
+          person = Person.create_from_form(baby)
+        end
+
+        person.patient.national_id_label
+
+        child_type = RelationshipType.find_by_a_is_to_b("Mother").relationship_type_id
+
+        Relationship.create(
+          # :creator => User.first.id,
+          :person_a => self.patient.id,
+          :person_b => person.id,
+          :relationship => child_type)
+        
+      end
+      
+    end
+
+    def mother
+      self.patient.mother rescue nil
+    end
+
+    def father
+      wife = MaternityService::Maternity.new(Patient.find(self.patient.mother.person_a)) rescue nil
+
+      wife.husband rescue nil
+    end
+
+    def export_person(user, facility, district)
+      current_user = User.find(user) rescue nil
+
+      if !current_user.nil?
+        child = ANCService::ANC.new(self.patient) rescue nil
+        mother = ANCService::ANC.new(self.mother.person.patient) rescue nil
+        father = ANCService::ANC.new(self.father.relation.patient) rescue nil
+        {
+          "birthdate_estimated" => (self.person.birthdate_estimated rescue 0),
+          "gender" => (child.person.gender rescue nil),
+          "birthdate" => (child.person.birthdate rescue nil),
+          "names" => {
+            "given_name" => (child.first_name rescue nil),
+            "family_name" => (child.last_name rescue nil),
+            "middle_name" => (child.middle_name rescue nil)
+          },
+          "patient" => {
+            "identifiers" => {
+              "diabetes_number" => "",
+              "national_id" => (child.national_id rescue nil)
+            }
+          },
+          "attributes" => {
+            "occupation" => (child.get_full_attribute("Occupation").value rescue nil),
+            "cell_phone_number" => (child.get_full_attribute("Cell Phone Number").value rescue nil),
+            "citizenship" => (child.get_full_attribute("Citizenship").value rescue nil),
+            "race" => (child.get_full_attribute("Race").value rescue nil)
+          },
+          "addresses" => {
+            "address1" => (child.current_address1 rescue nil),
+            "city_village" => (child.current_address2 rescue nil),
+            "address2" => (child.current_district rescue nil),
+            "subregion" => (child.home_district rescue nil),
+            "county_district" => (child.home_ta rescue nil),
+            "neighborhood_cell" => (child.home_village rescue nil)
+          },
+          "mother" => {
+            "birthdate_estimated" => (mother.person.birthdate_estimated rescue nil),
+            "gender" => (mother.person.gender rescue nil),
+            "birthdate" => (mother.person.birthdate rescue nil),
+            "names" => {
+              "given_name" => (mother.first_name rescue nil),
+              "family_name" => (mother.last_name rescue nil),
+              "family_name2" => (mother.maiden_name rescue nil),
+              "middle_name" => (mother.middle_name rescue nil)
+            },
+            "patient" => {
+              "identifiers" => {
+                "diabetes_number" => "",
+                "national_id" => (mother.national_id rescue nil)
+              }
+            },
+            "attributes" => {
+              "occupation" => (mother.get_full_attribute("Occupation").value rescue nil),
+              "cell_phone_number" => (mother.get_full_attribute("Cell Phone Number").value rescue nil),
+              "citizenship" => (mother.get_full_attribute("Citizenship").value rescue nil),
+              "race" => (mother.get_full_attribute("Race").value rescue nil)
+            },
+            "addresses" => {
+              "address1" => (mother.current_address1 rescue nil),
+              "city_village" => (mother.current_address2 rescue nil),
+              "address2" => (mother.current_district rescue nil),
+              "subregion" => (mother.home_district rescue nil),
+              "county_district" => (mother.home_ta rescue nil),
+              "neighborhood_cell" => (mother.home_village rescue nil)
+            }
+          },
+          "father" => {
+            "birthdate_estimated" => (father.person.birthdate_estimated rescue nil),
+            "gender" => (father.person.gender rescue nil),
+            "birthdate" => (father.person.birthdate rescue nil),
+            "names" => {
+              "given_name" => (father.first_name rescue nil),
+              "family_name" => (father.last_name rescue nil),
+              "middle_name" => (father.middle_name rescue nil)
+            },
+            "patient" => {
+              "identifiers" => {
+                "diabetes_number" => "",
+                "national_id" => (father.national_id rescue nil)
+              }
+            },
+            "attributes" => {
+              "occupation" => (father.get_full_attribute("Occupation").value rescue nil),
+              "cell_phone_number" => (father.get_full_attribute("Cell Phone Number").value rescue nil),
+              "citizenship" => (father.get_full_attribute("Citizenship").value rescue nil),
+              "race" => (father.get_full_attribute("Race").value rescue nil)
+            },
+            "addresses" => {
+              "address1" => (father.current_address1 rescue nil),
+              "city_village" => (father.current_address2 rescue nil),
+              "address2" => (father.current_district rescue nil),
+              "subregion" => (father.home_district rescue nil),
+              "county_district" => (father.home_ta rescue nil),
+              "neighborhood_cell" => (father.home_village rescue nil)
+            }
+          },
+          "facility" => {
+            "Health District" => (district),
+            "Health Center" => (facility),
+            "Provider Title" => ((current_user.user_roles.first.role.titleize rescue nil)),
+            "Hospital Date" => (Date.today.strftime("%Y-%m-%d")),
+            "Provider Name" => ((current_user.name rescue nil))
+          }
+        }
+      else
+        {}
+      end
     end
 
   end
+
+  def self.extract_live_babies(params)
+    babies = params["observations"].collect{|o|
+      o if ((!o["value_coded_or_text"].blank? ||
+            !o["value_datetime"].blank?) &&
+          (o["concept_name"].upcase == "BABY OUTCOME" ||
+            o["concept_name"].downcase == "gender of contact" ||
+            o["concept_name"].upcase == "DATE OF DELIVERY"))
+    }.compact
+
+    result = []
+    
+    i = 0
+
+    babies.each{|o|
+      result << {} if result[i/3].nil?
+      result[i/3][o["concept_name"].upcase] = (
+        case o["concept_name"]
+        when "DATE OF DELIVERY":
+            o["value_datetime"]
+        else
+          o["value_coded_or_text"]
+        end)
+      i += 1
+    }
+
+    result.delete_if{|r| r["BABY OUTCOME"].downcase != "alive"} rescue []
+  end
+
 end

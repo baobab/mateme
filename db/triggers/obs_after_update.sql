@@ -76,7 +76,7 @@ BEGIN
 	IF new.concept_id = (SELECT concept_id FROM concept_name WHERE name = "OUTCOME" LIMIT 1) AND new.value_coded = (SELECT concept_id FROM concept_name WHERE name = "DISCHARGED" LIMIT 1) THEN
       SET @ward = (SELECT name FROM location WHERE location_id = new.location_id);
       
-      DELETE FROM patient_report WHERE patient_id = new.person_id AND discharged = new.obs_datetime AND discharged_ward = @ward AND obs_id = new.obs_id;
+      DELETE FROM patient_report WHERE patient_id = new.person_id AND discharged = new.obs_datetime AND discharge_ward = @ward AND obs_id = new.obs_id;
       
 	END IF;
 	

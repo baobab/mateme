@@ -33,7 +33,8 @@
     </style>
 
     <script>
-      var tt_cancel_destination = "/people/search?patient_id=<%= @patient.id %>&cat=<%= params[:cat] %>"
+      var tt_cancel_destination = "/people/search?patient_id=<%= @patient.id %>&cat=<%= 
+          params[:cat] %>&gender=<%= params[:gender] %>"
     </script>
   </head>
   <body>
@@ -110,7 +111,7 @@
 
       setTimeout('focusBarcode()', 300);
 
-      setTimeout("__$('btnNext').innerHTML = '<span>Search or Register New Person</span>'", 400);
+      setTimeout("__$('btnNext').innerHTML = '<span>Search or Register New Person</span>'", 500);
 
       window.setTimeout("checkForLocalBarcode()", checkForBarcodeTimeout);
       

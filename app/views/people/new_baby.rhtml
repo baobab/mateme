@@ -1,0 +1,158 @@
+<style>
+
+  .tt_controls_month_of_birth #num , #apostrophe { display:none; }
+
+  .tt_controls_home_village #space , #apostrophe { display:inline; }
+
+  .tt_controls_current_traditional_authority_ta #space { display:inline; }
+
+  .tt_controls_current_village_residence #space { display:inline; }
+
+  .tt_controls_cell_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .tt_controls_home_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .tt_controls_office_phone_number #num , #plus, #apostrophe, #star, #abc, #date, #slash, #minus, #comma, #percent, #decimal { display:none; }
+
+  .nota #na {
+    display: block;
+  }
+
+  .nota #qwerty {
+    display: none;
+  }
+</style>
+
+<script>
+  var tt_cancel_destination = "/clinic"
+
+  var skipped = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  
+  function seen(page) {
+    for (var i = page; i >= 0; i--) {
+      skipped[i] = 1;
+    }
+  }
+
+  function validPhoneNum(type){
+    text = document.getElementById('tt_page_' + type).getElementsByTagName("input")[0]
+    if (text.value == 'Unknown')
+      return true
+
+    if (text.value.match("^0\\d{10}$"))
+      return false
+
+    if (text.value.length == 10){
+      return true
+    }else if (text.value.length == 8){
+      return true
+    }else if (text.value.length == 7){
+      return true
+    }
+
+    return false
+  }
+</script>
+
+<% form_for :person, @person, :url => { :action => "create" } do |f| %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "REGISTRATION" %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ?
+      session[:datetime].to_date.strftime("%Y-%m-%d %H:%M:%S") : Time.now) %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <%= text_field_tag "person[names][given_name]", params[:given_name], {
+    :id => 'given_name',
+    :field_type => 'alpha',
+    :helpText => 'First name',
+    :ajaxURL => '/person_names/given_names?search_string=',
+    :allowFreeText => true,
+    :condition => '__$("given_name").value == "" || skipped[tstCurrentPage] == 1',
+    :tt_onUnLoad => 'seen(tstCurrentPage);'
+  } %>
+
+  <%= text_field_tag "person[names][family_name]", params[:family_name], {
+    :id => 'family_name',
+    :field_type => 'alpha',
+    :helpText => 'Last name',
+    :ajaxURL => '/person_names/family_names?search_string=',
+    :allowFreeText => true,
+    :condition => '__$("family_name").value == "" || skipped[tstCurrentPage] == 1',
+    :tt_onUnLoad => 'seen(tstCurrentPage);'
+  } %>
+
+  Gender: <%= f.select :gender, {"" => "", "Male" => "M", "Female" => "F"}, {:selected => params[:gender]}, {
+    :id => 'gender',
+    :helpText => 'Gender',
+    :condition => '__$("gender").value == "" || skipped[tstCurrentPage] == 1',
+    :tt_onUnLoad => 'seen(tstCurrentPage);' } %>
+
+  <%= text_field_tag "person[names][middle_name]", params[:middle_name],
+    {:id => 'middle_name',
+    :field_type => 'alpha',
+    :helpText => 'Middle name',
+    :ajaxURL => '/person_names/given_names?search_string=',
+    :allowFreeText => true,
+    :condition => '__$("middle_name").value == "" || skipped[tstCurrentPage] == 1',
+    :tt_pageStyleClass => "azButton",
+    :optional => true,
+    :tt_onUnLoad => 'seen(tstCurrentPage);' } %>
+
+  <%#= text_field_tag "person[birth_date]", nil,
+    {
+    :helpText => 'Date of Birth',
+    :field_type => 'date',
+    :absoluteMin => "1890-01-01",
+    :min => (Date.today - 50.years),
+    :max => Date.today,
+    :absoluteMax => Date.today,
+    :tt_onUnLoad => 'seen(tstCurrentPage);' }  %>
+
+  <%= text_field_tag "person[birth_year]", nil, {
+    :helpText => 'Year of Birth',
+    :field_type => 'number',
+    :absoluteMin => ((session[:datetime] || Date.today).to_date.year - 55),
+    :min => ((session[:datetime] || Date.today).to_date.year - 50),
+    :max => ((session[:datetime] || Date.today).to_date.year),
+    :absoluteMax => ((session[:datetime] || Date.today).to_date.year),
+    :tt_pageStyleClass => "Numeric NumbersOnly",
+    :tt_onLoad => 'seen(tstCurrentPage);',
+    :validationJS => "setDOB();"
+  }  %>
+
+  <%= select_tag "person[birth_month]", month_name_options,
+    {:helpText => 'Month of Birth',
+    :condition => '$("person_birth_year").value.toLowerCase() != "unknown"',
+    :validationJS => "validateDOB();",
+    :validationMessage => 'Please enter a valid date'}%>
+
+  <%= text_field_tag "person[age_estimate]", nil, {
+    :helpText => 'Age Estimate',
+    :absoluteMin => 0,
+    :absoluteMax => 55,
+    :field_type => 'number',
+    :condition => '$("person_birth_year").value == "Unknown"',
+    :tt_onLoad => "$('nextButton').style.display = 'block';",
+    :tt_pageStyleClass => "Numeric NumbersOnly"
+  } %>
+
+  <%= text_field_tag "person[birth_day]",  nil,
+    :field_type => 'number',
+    :helpText => 'Birth Day',
+    :condition => '($("person_birth_year").value != "Unknown") && ($("person_birth_month").value != "Unknown")',
+    :tt_onLoad => "getDayOfMonthPicker($('person_birth_year').value, $('person_birth_month').value);$('nextButton').style.display = 'block';" ,
+    :validationJS => "validateDOB()",
+    :validationMessage => 'Please enter a valid date'%>
+
+
+  <!-- Make sure patient is created -->
+
+  <%= hidden_field_tag "person[patient]", "" %>
+
+  <%= hidden_field_tag "relation", params[:relation] %>
+
+  <%= hidden_field_tag :identifier, params[:identifier] %>
+
+  <%= submit_tag "Create person" %>
+
+<% end %>

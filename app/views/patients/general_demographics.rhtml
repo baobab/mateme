@@ -1,160 +1,268 @@
-<style type="text/css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <link rel="stylesheet" href="/touchscreentoolkit/lib/stylesheets/touch-fancy.css" type="text/css" />
+    <link rel="stylesheet" href="/touchscreentoolkit/lib/stylesheets/form.css" type="text/css" />
+    <style type="text/css">
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .title {
-    font-weight:bold;
-    border-color: #000000;
-    border-width: 0 0 0 0;
-    border-style: groove;
-    margin: 0;
-    padding: 4px;
-    text-align: left;
-    border-width: 0px 1px 1px;
-    width: 50%;
-    font-size: 22px;
-  }
-
-  .data {
-    font-size: 25px;
-    border-color: #000000;
-    border-width: 0 0 0 0;
-    border-style: groove;
-    margin: 0;
-    padding: 4px;
-    text-align: left;
-    border-width: 0px 1px 1px;
-  }
-
-  #printButton {
-    position: absolute;
-    top: 678px;
-    left: 600px;
-    z-index: 1;
-  }
-
-  .buttonsDiv {
-    background-color: #333333;
-    display: block;
-    height: 80px;
-    position: absolute;
-    top: 670px;
-    width:  98%;
-    padding-right: 20px;
-    /*  z-index:10;*/
-  }
-
-  button {
-    min-width: 350px;
-  }
-
-  td {
-    text-align: center;
-  }
-</style>
-
-<script type="text/javascript">
-  tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
-</script>
-
-<div style="margin:10px;">
-  <div id="details" style="float:none; border: 1px solid #000; height: 650px; overflow: auto;">
-    <table style="margin: 0px;" cellpadding="15">
-      <tr>
-        <td colspan="5" style="font-size: 2em; text-align: center; ">
-          Associated Demographics for <%= @anc_patient.name %> (Mother)
-        </td>
-      </tr>
-      <tr>
-        <td colspan="5">
-          &nbsp;
-        </td>
-      </tr>
-      <tr>
-        <td>
-          &nbsp;
-        </td>
-        <td>
-          <button onclick="window.location='/patients/demographics?patient_id=<%=
-                  @patient.id %>&person_id=<%= @patient.person.id %>'">
-            <span>
-              Mother Demographics
-            </span>
-          </button>
-        </td>
-        <td>
-          &nbsp;
-        </td>
-        <td>
-          <button onclick="window.location='/patients/<%= (@maternity_patient.husband.nil? ?
-                  "search" : "demographics") %>?patient_id=<%=
-                  @patient.id %>&person_id=<%= @patient.person.id %>&cat=husband'">
-            <span>
-              Father Demographics
-            </span>
-          </button>
-        </td>
-        <td>
-          &nbsp;
-        </td>
-      </tr>
-
-      <%
-      prefixes = {
-        1=>"st",
-        2=>"nd",
-        3=>"rd",
-        4=>"th",
-        5=>"th",
-        6=>"th",
-        6=>"th",
-        8=>"th",
-        9=>"th",
-        10=>"th"
+      table {
+        width: 100%;
+        border-collapse: collapse;
       }
-      
-    %>
-      <% (1..(@maternity_patient.current_baby_count.to_i)).each do |baby| %>
-        <tr>
-          <td>
-            &nbsp;
-          </td>
-          <td>
-            <button onclick="window.location='/patients/demographics?patient_id=<%=
-                    @patient.id %>&person_id=<%= @patient.person.id %>'">
-              <span>
-                <%= "#{baby}#{prefixes[baby]}" %> Baby Demographics
-              </span>
-            </button>
-          </td>
-          <td>
-            &nbsp;
-          </td>
-          <td>
-            <button>
-              <span>
-                <%= "#{baby}#{prefixes[baby]}" %> Baby Birth Report
-              </span>
-            </button>
-          </td>
-          <td>
-            &nbsp;
-          </td>
-        </tr>
-      <% end %>
 
-    </table>
-  </div>
-</div>
-<div id="footer">
-  <div id="buttons" class="buttonsDiv">
-    <button id="finishButton" class="button navButton green"
-            onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
-      <span>Finish</span>
-    </button>
-  </div>
-  <div id="tt_extraButtons"/>
-</div>
+      .title {
+        font-weight:bold;
+        border-color: #000000;
+        border-width: 0 0 0 0;
+        border-style: groove;
+        margin: 0;
+        padding: 4px;
+        text-align: left;
+        border-width: 0px 1px 1px;
+        width: 50%;
+        font-size: 22px;
+      }
+
+      .data {
+        font-size: 25px;
+        border-color: #000000;
+        border-width: 0 0 0 0;
+        border-style: groove;
+        margin: 0;
+        padding: 4px;
+        text-align: left;
+        border-width: 0px 1px 1px;
+      }
+
+      #printButton {
+        position: absolute;
+        top: 678px;
+        left: 600px;
+        z-index: 1;
+      }
+
+      .buttonDiv {
+        position: absolute;
+        background-color: #333333;
+        display: block;
+        height: 82px;
+        width:  980px;
+        padding-right: 20px;
+        max-width: 1000px;
+      }
+
+      butn {
+        min-width: 350px;
+      }
+
+      td {
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .rot90 {
+        position: absolute;
+        -moz-transform: rotate(-90deg);
+        font-size: 1.8em;
+        border-radius: 30px;
+        background-color: #6281A7;
+        /*background-color: #a8ed7a;*/
+        color: #fff;
+        width: 150px;
+        padding: 10px;
+        text-align: center;
+        left: -30px;
+      }
+    </style>
+
+    <script type="text/javascript">
+      tt_cancel_destination = "/patients/show/<%= @patient.patient_id%>";
+    </script>
+    <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="/javascripts/jquery.flot.js"></script>
+    <script src="/javascripts/touchscreenYesNo.js" type="text/javascript"></script>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <script type="text/javascript">
+      function voiding(node) {
+        confirmYesNo("Void this person?", function() {
+          hideConfirmation();
+
+          $.post('/relationships/void/?id=' + node.attr('relationship'), {}, function(data, status) {
+            if (status == 'success') node.remove();
+            window.parent.location = "/patients/general_demographics/<%= @patient.id %>";
+          })
+        }, function() { hideConfirmation(); });
+      }
+
+      jQuery(document).ready(function($) {
+        $('div.void').click(function() { voiding($(this)); return false; });
+      })
+    </script>
+  </head>
+  <body id="mateme">
+    <div id="container">
+      <div id="content" style="padding: 0px;">
+        <div style="margin:10px;">
+
+          <div style="font-size: 2em; text-align: center; padding: 18px; margin: 10px;
+               background-color: #6281A7; color: #eee; border-radius: 40px;">
+            Associated Demographics for <%= @anc_patient.name %> (Mother)
+          </div>
+
+          <div id="details" style="float:none; border: 1px solid #ccc; height: 520px;
+               padding: 20px; border-radius: 30px;">
+
+            <div class="rot90" style="top: 165px;">
+              Parents
+            </div>
+
+            <div class="rot90" style="top: 365px;">
+              Children
+            </div>
+
+            <div style="border: 1px solid #6281A7; margin-left: 60px; padding-top: 25px;
+                 padding-bottom: 25px; border-radius: 40px; margin-bottom: 20px;">
+              <table style="margin: 0px;" cellpadding="15">                                
+                <tr>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    <button style="min-width: 300px;" onclick="window.location='/patients/demographics?patient_id=<%=
+                            @patient.id %>&person_id=<%= @patient.person.id %>'">
+                      <span>
+                        Mother Demographics
+                      </span>
+                    </button>
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    <button style="min-width: 300px;" onclick="window.location='/patients/<%= (@maternity_patient.husband.nil? ?
+                        "search" : "demographics") %>?patient_id=<%=
+                    @patient.id %>&person_id=<%= (!@maternity_patient.husband.nil? ?
+                                @maternity_patient.husband.person_b : "") %>&cat=husband&gender=M'">
+                      <span>
+                        Father Demographics
+                      </span>
+                    </button>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <% if !@maternity_patient.husband.nil?  %>
+                      <div class="void" relationship="<%= @maternity_patient.husband.id %>"
+                           style="margin-top: 20px; margin-right: 30px;">
+                        <img src="/images/cancel_flat_small_red.png" alt="X" />
+                      </div>
+                    <% end %>
+                    &nbsp;
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div style="border: 1px solid #6281A7; margin-left: 60px; padding-top: 25px;
+                 padding-bottom: 25px; border-radius: 40px; margin-bottom: 20px;">
+              <table>
+                <%
+                prefixes = {
+                  1=>"st",
+                  2=>"nd",
+                  3=>"rd",
+                  4=>"th",
+                  5=>"th",
+                  6=>"th",
+                  6=>"th",
+                  8=>"th",
+                  9=>"th",
+                  10=>"th"
+                }
+
+              %>
+                <% (1..(@maternity_patient.kids.length)).each do |baby| %>
+                  <% if baby == 1 %>
+                    <table style=" width: 97%;">
+                      <tr>
+                        <td>
+                          &nbsp;
+                        </td>
+                        <td style="font-size: 1.6em; color: #6281A7;">
+                          Birth Reports
+                        </td>
+                        <td>
+                          &nbsp;
+                        </td>
+                        <td style="font-size: 1.6em; color: #6281A7;">
+                          Demographics
+                        </td>
+                        <td>
+                          &nbsp;
+                        </td>
+                      </tr>
+                    </table>
+                    <div style="height: 280px; overflow: auto; margin-right: 10px;">
+                      <table>
+                      <% end %>
+                      <tr>
+                        <td>
+                          &nbsp;
+                        </td>
+                        <td>
+                          <button style="min-width: 300px;" onclick="window.location='/patients/birth_report?person_id=<%=
+                                  (@maternity_patient.kids.length >= baby ? 
+                                      @maternity_patient.kids[baby - 1].person_b : "") %>&patient_id=<%= @patient.id %>'">
+                            <span>
+                              <%= "#{baby}#{prefixes[baby]}" %> Baby
+                            </span>
+                          </button>
+                        </td>
+                        <td>
+                          &nbsp;
+                        </td>
+                        <td>
+                          <button style="min-width: 300px;" onclick="window.location='/patients/<%=
+                          (@maternity_patient.kids.length < baby ?
+                              "search" : "demographics") %>?patient_id=<%=
+                          @patient.id %>&person_id=<%= (@maternity_patient.kids.length >= baby ?
+                                      @maternity_patient.kids[baby - 1].person_b : "") %>&cat=baby&gender='">
+                            <span>
+                              <%= "#{baby}#{prefixes[baby]}" %> Baby
+                            </span>
+                          </button>
+                        </td>
+                        <td>
+                          <% if !@maternity_patient.kids[baby - 1].nil?  %>
+                            <div class="void" relationship="<%= @maternity_patient.kids[baby - 1].id %>"
+                                 style="margin-top: 20px; margin-right: 30px;">
+                              <img src="/images/cancel_flat_small_red.png" alt="X" />
+                            </div>
+                          <% end %>
+                          &nbsp;
+                        </td>
+                      </tr>
+                      <% if baby == @maternity_patient.babies_ever %>
+                      </table>
+                    </div>
+                  <% end %>
+                <% end %>
+
+              </table>
+            </div>
+          </div>
+        </div>
+        <div id="footer" class="buttonDiv">
+          <!--div id="buttons" class="buttonDiv"-->
+            <button id="finishButton" class="button navButton green"
+                    onclick="if (tt_cancel_destination) window.location = tt_cancel_destination;">
+              <span>Finish</span>
+            </button>
+          <!--/div-->
+          <div id="tt_extraButtons"/>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>

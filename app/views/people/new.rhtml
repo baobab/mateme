@@ -67,7 +67,8 @@
 <% if params[:relation] %>
     var tt_cancel_destination = "/patients/show/<%=h params[:patient_id] -%>"
 <% else %>
-    var tt_cancel_destination = "/clinic"
+    var tt_cancel_destination = "<%= ((params[:cat].downcase rescue "") == "mother" ?
+    "/people" : "/patients/show/#{params[:patient_id]}") %>"
 <% end %>
 
   var dob_year = null ; var dob_month = null ; dob_day = null;
@@ -162,9 +163,10 @@
       session[:datetime].to_date.strftime("%Y-%m-%d %H:%M:%S") : Time.now) %>
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
-  <%= hidden_field_tag "next_url", "/encounters/referral/" %>
+  <%= hidden_field_tag "next_url", ((params[:cat].downcase rescue "") == "mother" ? "/encounters/referral/" :
+      "/relationships/new?patient_id=#{params[:patient_id]}&cat=#{params[:cat]}&relation=") %>
 
-  <%= hidden_field_tag "person[gender]", "F", {:id => 'gender' } %>
+  <%= hidden_field_tag "person[gender]", "#{params[:gender]}", {:id => 'gender' } %>
 
   <%= text_field_tag "person[names][given_name]", params[:given_name],
     {:id => 'given_name',
@@ -192,7 +194,7 @@
     :tt_onUnLoad => "if(__$('gender').value.toLowerCase() == 'm'){
     __$('person_birth_year').setAttribute('absoluteMin', #{(session[:datetime] || Date.today).to_date.year - 6});
     }"
-  }  %>
+  }  if (params[:cat].downcase rescue "") == "mother" %>
 
   <%= text_field_tag "person[names][family_name2]", params[:family_name2],
     {:id => 'family_name2',
@@ -201,7 +203,7 @@
     :ajaxURL => '/person_names/family_names?search_string=',
     :allowFreeText => true,
     # :condition => '$("family_name2").value == "" || skipped[tstCurrentPage] == 1',
-    :tt_onLoad => 'seen(tstCurrentPage);' }  %>
+    :tt_onLoad => 'seen(tstCurrentPage);' } if (params[:cat].downcase rescue "") == "mother"  %>
 
   <%= text_field_tag "person[names][middle_name]", params[:middle_name],
     {:id => 'middle_name',
