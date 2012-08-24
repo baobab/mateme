@@ -24,18 +24,18 @@
 
     <div style="z-index:11;bottom:0px; height: 82px; width: 100%; left: 0px;
          right: -66px; position: absolute; background-color: #333333; padding: 0px;">
-      <button onclick="window.location = '/cohort_report';" class="button navButton red"
+      <button onclick="window.location = '/cohort';" class="button navButton red"
               id="cancelButton" style="position: absolute; z-index: 100; margin-top: 10px;"><span>Cancel</span>
       </button>
 
       <button onclick="window.location = '/people';" class="button navButton green"
               id="nextButton" style="margin-top: 10px; margin-right: 20px;" ><span>Finish</span>
       </button>
-      <button onclick="window.location = '/cohort_report?reportType=<%= @reportType %>';" class="button navButton blue"
+      <button onclick="window.location = '/cohort?reportType=<%= @reportType %>';" class="button navButton blue"
               id="backButton" style="margin-top: 10px;" ><span>Back</span>
       </button>
       <button class="button navButton blue" style="margin-top: 10px;"
-              onclick="window.location = '/cohort_report/print_cohort?start_date=<%= @start_date %>+<%= @start_time
+              onclick="window.location = '/cohort/print_cohort?start_date=<%= @start_date %>+<%= @start_time 
                 %>&end_date=<%= @end_date %>+<%= @end_time %>&reportType=<%= @reportType %>'" style="float: right; ">
         <span>
           Print

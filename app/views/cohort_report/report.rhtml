@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css" media="screen">
+      body {
+        font-family: helvatica;
+      }
+
+      .head {
+        font-size: 1.6em; 
+        background-color: #6281A7; 
+        color: white; 
+        padding: 10px; 
+        font-weight: normal;
+      }
+
+      .cell {
+        border: 1px dotted #ccc;
+        padding: 5px;
+        min-width: 25%;
+      }
+
+      .placard {
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        border: 1px dotted #ccc;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        width: 300px;
+        text-align: center;
+      }
+
+      .title { 
+        background-color: #6281A7; 
+        color: white; 
+        padding: 10px; 
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .num {
+        text-align: center;
+        font-size: 1.2em;
+      }
+
+      .total {
+        font-weight: bold;
+      }
+
+      .three {
+        padding-left: 40px;
+      }
+
+      .two {
+        font-weight: bold;
+      }
+
+      a:link {
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: orange !important;
+        text-decoration: underline;
+      }
+
+      a:visited {
+        color: #000;
+        text-decoration: none;
+      }
+    </style>
+    <style type="text/css" media="print">
+      body {
+        font-family: helvatica;
+        font-size: 0.8em;
+      }
+
+      .head {
+        font-size: 1.6em; 
+        background-color: #fff; 
+        color: black; 
+        padding: 10px; 
+        font-weight: normal;
+        border: 1px solid #ccc;
+      }
+
+      .cell {
+        border: 1px solid #ccc;
+        padding: 5px;
+        min-width: 25%;
+      }
+
+      .placard {
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        width: 220px;
+        text-align: center;
+      }
+
+      .title {
+        background-color: #fff; 
+        color: black; 
+        padding: 10px; 
+        font-weight: bold;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+
+      .num {
+        text-align: center;
+      }
+
+      .total {
+        font-weight: bold;
+      }
+
+      .three {
+        padding-left: 30px;
+      }
+
+      .two {
+        font-weight: bold;
+      }
+
+      a:link {
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: orange !important;
+        text-decoration: underline;
+      }
+
+      a:visited {
+        color: #000;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="report" width="100%" cellspacing="1">
+      <tr>
+        <th class="head" colspan="4">
+          End of Shift Report
+        </th>
+      </tr>
+      <tr>
+        <td colspan="2" align="left">
+          <div class="placard">
+            <b>Start Date:</b> <%= @start_date.strftime("%d/%b/%Y %H:%M") %>
+          </div>
+        </td>
+        <td colspan="2" align="right">
+          <div class="placard">
+            <b>End Date:</b> <%= @end_date.strftime("%d/%b/%Y %H:%M") %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          &nbsp;
+        </td>
+        <td class="title">
+          <%= @group1_start.strftime("%H:%M") %> - <%= @group1_end.strftime("%H:%M") %>
+        </td>
+        <td class="title">
+          <%= ("#{@group2_start.strftime("%H:%M")} - " rescue "") + (" #{@group2_end.strftime("%H:%M")}" rescue "") %>
+        </td>
+        <td class="title">
+          Total
+        </td>
+      </tr>
+      <tr>
+        <td class="cell">
+          &nbsp;
+        </td>
+        <td class="cell">
+          &nbsp;
+        </td>
+        <td class="cell">
+          &nbsp;
+        </td>
+        <td class="cell">
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+
+    <script type="text/javascript">
+      <!--
+      
+      var clients_collection = {};
+      
+      /*
+       *  [
+       *    Label,
+       *    Field Type, # Types: 1-normal, 2-heading, 3-sublabel 
+       *    ID,
+       *    Ajax Path,
+       *    Addition Destination,
+       *    [Addition Children],  # Array
+       *  ]
+       **/
+      var fields = [
+        ["Admissions", 2, "admissions", "/cohort/q?field=admissions"],
+        
+        ["Delivery Mode", 2, "total_deliveries", "/cohort/q?field=total_deliveries"],
+        
+        // ["Total Deliveries", 3, "total_deliveries", "/cohort/q?field=total_deliveries"],
+        
+        ["SVD", 3, "svd", "/cohort/q?field=svd"],
+        
+        ["C/Section", 3, "c_section", "/cohort/q?field=c_section"],
+        
+        ["Vacuum Extraction", 3, "vacuum_extraction", "/cohort/q?field=vacuum_extraction"],
+        
+        ["Breech Delivery", 3, "breech_delivery", "/cohort/q?field=breech_delivery"],
+        
+        ["Twins", 2, "twins", "/cohort/q?field=twins"],
+        
+        ["Triplets", 2, "triplets", "/cohort/q?field=triplets"],
+        
+        ["Baby Outcome", 2],
+        ["Live Births", 3, "live_births", "/cohort/q?field=live_births"],
+        
+        ["Still Births (Macerated)", 3, "macerated", "/cohort/q?field=macerated"],
+        
+        ["Still Births (Fresh)", 3, "fresh", "/cohort/q?field=fresh"],
+        
+        ["Neonatal Death", 3, "neonatal_death", "/cohort/q?field=neonatal_death"],
+        
+        ["Maternal Death", 2],
+        ["Maternal Death", 3, "maternal_death", "/cohort/q?field=maternal_death"],
+        
+        ["Born Before Arrival", 2],
+        ["Born Before Arrival Babies", 3, "bba", "/cohort/q?field=bba"],
+        
+        ["Referrals Outcomes", 2],
+        ["Referral Out", 3, "referral_out", "/cohort/q?field=referral_out"],
+        
+        ["Referral In", 3, "referral_in", "/cohort/q?field=referral_in"],
+        
+        ["Dicharges", 2, "discharges", "/cohort/q?field=discharges"],
+        
+        ["Post-Natal (Low Risk)", 3, "discharges_low_risk", "/cohort/q?field=discharges_low_risk"],
+
+        ["Post-Natal (High Risk)", 3, "discharges_high_risk", "/cohort/q?field=discharges_high_risk"],
+        
+        ["Abscondees", 2],
+        ["Abscondees", 3, "abscondees", "/cohort/q?field=abscondees"],
+        
+        ["Postnatal Clients", 2],
+        ["Postnatal Mothers", 3, "post_mothers", "/cohort/q?field=post_mothers"],
+        
+        ["Postnatal Babies", 3, "post_babies", "/cohort/q?field=post_babies"],
+        
+        ["Internal Transfers", 2],
+        ["Antenantal - Labour", 3, "ante_labor", "/cohort/q?field=ante_labor"],
+        
+        ["Post-Natal - Labour", 3, "post_labor", "/cohort/q?field=post_labor"],
+        
+        ["Labour - Post-Natal (High Risk)", 3, "labor_high", "/cohort/q?field=labor_high"],
+        
+        ["Labour - Post-Natal (Low Risk)", 3, "labor_low", "/cohort/q?field=labor_low"],
+        
+        ["Labour - Ante-Natal", 3, "labor_ante", "/cohort/q?field=labor_ante"],
+        
+        ["Theatre - Post-Natal (High Risk)", 3, "theatre_high", "/cohort/q?field=theatre_high"],
+        
+        ["Ante-Natal - Theatre", 3, "ante_theatre", "/cohort/q?field=ante_theatre"],
+        
+        ["Labour - Gynaecology", 3, "labor_gynae", "/cohort/q?field=labor_gynae"],
+        
+        ["Gynaecology - Labour", 3, "gynae_labor", "/cohort/q?field=gynae_labor"]
+      ];
+      
+      function __$(id){
+        return document.getElementById(id);
+      }
+            
+      function createTable(){                
+        for(var i = 0; i < fields.length; i++){
+          var row = document.createElement("tr");                    
+                        
+          __$("report").getElementsByTagName("tbody")[0].appendChild(row);
+                                               
+          var cell0 = document.createElement("td");
+          cell0.innerHTML = fields[i][0];
+          cell0.className = "cell " + (fields[i][1] == 2 ? "two" : (fields[i][1] == 3 ? "three" : ""));
+          
+          row.appendChild(cell0);   
+          
+          var cell1 = document.createElement("td");
+          cell1.innerHTML = "&nbsp;";
+          cell1.className = "cell num";
+          
+          if(typeof(fields[i][2]) != "undefined"){
+            cell1.id = fields[i][2] + "_1";
+            cell1.setAttribute("base", fields[i][2]);
+          }
+          
+          row.appendChild(cell1); 
+          
+          var cell2 = document.createElement("td");
+          cell2.innerHTML = "&nbsp;";
+          cell2.className = "cell num";
+          
+          if(typeof(fields[i][2]) != "undefined"){
+            cell2.id = fields[i][2] + "_2";
+            cell2.setAttribute("base", fields[i][2]);
+          }
+          
+          row.appendChild(cell2); 
+          
+          var cell3 = document.createElement("td");
+          cell3.innerHTML = "&nbsp;";
+          cell3.className = "cell num total";
+          
+          if(typeof(fields[i][2]) != "undefined"){
+            cell3.id = fields[i][2] + "_total";
+            cell3.setAttribute("base", fields[i][2]);
+          }
+          
+          row.appendChild(cell3);
+        }
+        
+        var row = document.createElement("tr");                    
+                        
+        __$("report").getElementsByTagName("tbody")[0].appendChild(row);
+                                               
+        var cell0 = document.createElement("td");
+        cell0.innerHTML = "&nbsp;";
+        cell0.className = "cell";
+          
+        row.appendChild(cell0);   
+          
+        var cell1 = document.createElement("td");
+        cell1.innerHTML = "&nbsp;";
+        cell1.className = "cell";
+          
+        row.appendChild(cell1); 
+          
+        var cell2 = document.createElement("td");
+        cell2.innerHTML = "&nbsp;";
+        cell2.className = "cell";
+          
+        row.appendChild(cell2); 
+          
+        var cell3 = document.createElement("td");
+        cell3.innerHTML = "&nbsp;";
+        cell3.className = "cell";
+          
+        row.appendChild(cell3);
+      }
+            
+      function ajaxRequest(aElement, aUrl, base) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+          handleResult(aElement, httpRequest, base);
+        };
+        try {
+          httpRequest.open('GET', aUrl, true);
+          httpRequest.send(null);
+        } catch(e){
+        }
+      }
+
+      function handleResult(element, aXMLHttpRequest, base) {
+        if (!aXMLHttpRequest) return;
+
+        if (!element) return;
+        
+        if (aXMLHttpRequest.readyState == 4 && aXMLHttpRequest.status == 200) {
+          var result = aXMLHttpRequest.responseText;                
+        
+          if(__$(element)){
+            var clients = JSON.parse(result);
+            
+            clients_collection[element] = clients;
+            
+            __$(element).innerHTML = "<form id='frm" + element + "' method='post' target='_parent' action='decompose'>" +
+              "<input type='hidden' value='" + clients_collection[element] + "' name='patients' /><a " + 
+              (clients_collection[element].length > 0 ? "href=\"javascript:document.getElementById('frm" + element + 
+              "').submit()\" " : "") + ">" + 
+              clients_collection[element].length + "</a></form>";
+              
+            if(__$(base + "_total") && __$("frm" + base + "_1") && __$("frm" + base + "_2")){
+              __$(base + "_total").innerHTML = eval(__$("frm" + base + "_1").getElementsByTagName("a")[0].innerHTML) + 
+                (__$("frm" + base + "_2").getElementsByTagName("a")[0].innerHTML != "&nbsp;" ? 
+                eval(__$("frm" + base + "_2").getElementsByTagName("a")[0].innerHTML) : 0)
+            }
+          }
+        }
+      }            
+      
+      function loadFields(){
+        
+        for(var i = 0; i < fields.length; i++){
+          if(typeof(fields[i][3]) != "undefined"){
+            ajaxRequest(fields[i][2] + "_1", fields[i][3] + "&group=1&start_date=" + 
+              "<%= @group1_start.strftime('%Y-%m-%d+%H:%M') %>&end_date=<%= @group1_end.strftime('%Y-%m-%d+%H:%M') %>", fields[i][2]);
+
+<% if !@group2_start.nil? && !@group2_end.nil? %>
+          ajaxRequest(fields[i][2] + "_2", fields[i][3] + "&group=2&start_date=" + 
+            "<%= @group2_start.strftime('%Y-%m-%d+%H:%M') %>&end_date=<%= @group2_end.strftime('%Y-%m-%d+%H:%M') %>", fields[i][2]);
+<% end %>
+  
+      }
+    }
+  }
+            
+  createTable();
+  loadFields();
+      
+  //-->
+    </script>
+  </body>
+</html>

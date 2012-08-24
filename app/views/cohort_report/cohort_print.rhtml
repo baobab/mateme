@@ -1,0 +1,90 @@
+
+<link href="/stylesheets/cohort.css" media="screen" rel="stylesheet" type="text/css" />
+
+<form id="frmMain" action="/cohort/cohort" method="post">
+  <input type="hidden" id="start_date" name="start_date" value="<%#= @specified_period[0].to_date.strftime('%d-%m-%Y') %>" />
+  <input type="hidden" id="end_date" name="end_date" value="<%#= @specified_period[1].to_date.strftime('%d-%m-%Y') %>" />
+</form>
+
+<div>
+  <table width="100%" cellpadding="10">
+    <tr>
+      <th style="color:white; background-color:#6281a7; font-size: 30px; padding: 20px;">
+        <% case @reportType.to_i
+        when 1: %>
+          <%= "#{@location_name.titleize} - Maternity Statistics" %>
+        <% when 2: %>
+          <%=  "End of Shift Report - Labour Ward" %>
+        <% when 3: %>
+          <%= "End of Shift Report - AnteNatal Ward" %>
+        <% when 4: %>
+          <%= "End of Shift Report - Post Natal Ward" %>
+        <% when 5: %>
+          <%= "End of Shift Report - Gynae" %>
+        <% when 6: %>
+          <%= "End of Shift Report - Post Natal Ward (High Risk)" %>
+        <% when 7: %>
+          <%= "End of Shift Report - Post Natal Ward (Low Risk)" %>
+        <% when 8: %>
+          <%= "End of Shift Report - Theater" %>
+        <% else %>
+          <%= "#{@location_name.titleize} - Maternity Statistics" %>
+        <% end %>
+      </th>
+    </tr>
+    <tr>
+      <td style="width:100%;">
+        <table cellspacing="0" width="100%">
+          <tr>
+            <td align="center" colspan="2" class="padding-bottom-20">
+              <label class="main_heading" style="float:left;">
+                <b><i>Start Date:</i></b> <%= @specified_period[0].to_time.strftime("%a %d %b, %Y %H:%M") %>
+              </label>
+            </td>
+            <td align="center" colspan="2" class="padding-bottom-20">
+              <label class="main_heading" style="float:right;">
+                <b><i>End Date:</i></b> <%= @specified_period[1].to_time.strftime("%a %d %b, %Y %H:%M") %>
+              </label>
+            </td>
+          </tr>
+          <tr style="color:white; background-color:#6281a7;">
+            <th width="25%" class="cellleft celltop cellbottom main-table-cell" style="width:220px;">
+              <i>&nbsp;</i>
+            </th>
+            <th class="cellleft celltop cellbottom main-table-cell" align="center" style="width:200px;">
+              <i>07:30 - 16:30</i>
+            </th>
+            <th class="cellleft celltop cellbottom main-table-cell" align="center" style="width:200px;">
+              <i>16:30 - 07:30</i>
+            </th>
+            <th align="center" class="cellleft celltop cellbottom main-table-cell">
+              <i>Total</i>
+            </th>
+          </tr>
+
+          <% @fields.each do|field| %>
+
+            <tr>
+              <td class="cellleft cellbottom main-table-cell topic">
+                <i><%= field[0] %></i>&nbsp;
+              </td>
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  field[1].to_i %>&nbsp;
+              </td>
+              <td class="cellleft cellbottom main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  field[2].to_i %>&nbsp;
+              </td>
+              <td class="cellleft cellbottom cellright main-table-cell" align="center" style="font-size:1.5em;">
+                <%=  field[1].to_i + field[2].to_i %>
+              </td>
+            </tr>
+
+          <% end %>
+
+        </table>
+      </td>
+    </tr>
+    
+  </table>
+
+</div>

@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>Maternity Cohort Report Selection</title>
+    <%#= stylesheet_link_tag "mateme" %>
+    <%#= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <link href="/stylesheets/cohort.css" media="screen" rel="stylesheet" type="text/css" />
+    <!--script type="text/javascript" language="javascript" src="/touchscreentoolkit/lib/javascripts/touchScreenToolkit.js" defer></script-->
+    
+    <style>
+      #Unknown {display: none;}
+      #num {display: none;}
+    </style>
+  </head>
+  <body>    
+
+    <form id="frmReport" action="/cohort/cohort" method="post">
+      
+      <input type="text" field_type="date" id="start_date" name="start_date" value="" helpText="Select Start Date:" />
+
+      <input type="text" field_type="advancedTime" id="start_date" name="start_time" value="" helpText="Select Start Time:" />
+
+      <input type="text" field_type="date" id="end_date" name="end_date" value="" helpText="Select End Date:" />
+
+      <input type="text" field_type="advancedTime" id="start_date" name="end_time" value="" helpText="Select End Time:" />
+
+      <% if @reportType.nil? %>
+
+        <select id="reportType" name="reportType" helpText="Select Report Type:" >
+          <option></option>
+          <option value="1">End of Shift</option>
+          <option value="2">Diagnoses Report</option>          
+        </select>
+
+      <% else %>
+
+        <input type="hidden" id="reportType" name="reportType" value="<%= @reportType %>" />
+
+      <% end %>
+
+    </form>
+  </body>
+</html>

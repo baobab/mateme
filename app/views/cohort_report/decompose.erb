@@ -1,0 +1,180 @@
+<html>
+  <head>
+    <title>Cohort Report Selection</title>
+    <%= stylesheet_link_tag "form" %>
+    <%= stylesheet_link_tag fancy_or_high_contrast_touch %>
+    <link href="/stylesheets/dashboard.css" media="screen" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript">
+      <!--
+      tt_cancel_destination = '/cohort?reportType=1';
+      tt_show = '/cohort?reportType=1';
+      //-->
+    </script>
+    <style media="print">
+      button {
+        display: none;
+      }
+      #main {
+        height: 100%;
+      }
+    </style>
+    <style>
+      #Unknown {display: none;}
+      #num {display: none;}
+      #main {
+        height: 440px;
+      }
+
+      a:link {
+        color: #333366;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: orange !important;
+        text-decoration: underline;
+      }
+
+      a:visited {
+        color: #333366;
+        text-decoration: none;
+      }
+
+      button {
+        min-width: 150px;
+      }
+
+      .table {
+        display: table;
+        border-spacing: 2px;
+      }
+
+      .row {
+        display: table-row;
+      }
+
+      .cell {
+        display: table-cell;
+        border-left: 1px solid #6281A7;
+        border-bottom: 1px solid #6281A7;
+        padding: 5px;
+      }
+
+      .headerCell {
+        display: table-cell;
+        padding: 5px;
+        background-color: #6281A7;
+        font-weight: normal;
+        color: #fff;
+      }
+    </style>
+    <script type="text/javascript" language="javascript">
+      <!--
+      
+      function __$(id){
+        return document.getElementById(id);
+      }
+      
+      function expand(id){
+        if(id.trim().length > 0){
+        
+          if(__$(id).style.display == "none"){
+            if(__$("__" + id)){
+              __$("__" + id).style.display = "none";
+            }
+            __$(id).style.display = "block";
+            return "/images/minus.png";
+          } else {
+            __$(id).style.display = "none";
+            if(__$("__" + id)){
+              __$("__" + id).style.display = "block";
+            }
+            return "/images/plus.png";
+          }
+        }
+      }
+      
+      //-->
+    </script>
+  </head>
+  <body>
+    <div id="content">
+
+      <div style="background-color: #fff; height: 660px; width: 99%; padding: 5px;">
+        <table style="width: 100%; border: 1px solid #999; -moz-user-select: none;">
+          <tr>
+            <th style="font-size: 1.8em; color: #eee; background-color: #999; padding: 10px;">
+              M<span style="font-size: 0.8em">ATERNITY</span> - 
+              F<span style="font-size: 0.8em">ACILITY</span> R<span style="font-size: 0.8em">EPORT</span>
+              D<span style="font-size: 0.8em">RILL-DOWN</span>
+            </th>
+          </tr>
+          <tr>
+            <td style="height: 595px; border: 1px solid #ccc; vertical-align: top;">
+              <div style="width: 100%; height: 590px; overflow: auto;">
+                <div class="table" style="width: 100%; ">
+                  <div class="row">
+                    <div class="headerCell">
+                      Patient ID
+                    </div>
+                    <div class="headerCell">
+                      Patient Name
+                    </div>
+                    <div class="headerCell">
+                      Date Registered
+                    </div>
+                    <div class="headerCell">
+                      Date Of Birth
+                    </div>
+                    <div class="headerCell">
+                      Encounters
+                    </div>
+                  </div>
+
+                  <% @patients.each do |patient| %>
+                    <div class="row">
+                      <div class="cell">
+                        <%= patient.national_id rescue "&nbsp;" %>
+                      </div>
+                      <div class="cell">
+                        <%= patient.person.name rescue "" %>
+                      </div>
+                      <div class="cell">
+                        <%= patient.date_created.strftime("%d/%b/%Y") rescue "" %>
+                      </div>
+                      <div class="cell">
+                        <%= patient.person.birthdate_formatted rescue "" %>
+                      </div>
+                      <div class="cell" style="vertical-align: top; padding: 0px;">
+                        <div class="table">
+                          <div class="row">                            
+                            <div id="<%= "__" + patient.national_id rescue "" %>" 
+                                 style="display: block; display: table-cell; vertical-align: middle; text-align: center;">
+                              <%= patient.encounters.length %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="nav">
+        <button class="green" style="float: right; margin: 10px; width: 150px;" onclick="window.location = tt_show">
+          <span>
+            Finish
+          </span>
+        </button>
+        <button class="blue" style="float: right; margin: 10px; width: 150px;" onclick="back()">
+          <span>
+            Back
+          </span>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

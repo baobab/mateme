@@ -1,4 +1,4 @@
-class CohortController < ActionController::Base # < ApplicationController
+class CohortReportController < ApplicationController
 
   def index
     @location = GlobalProperty.find_by_property("facility.name").property_value rescue ""

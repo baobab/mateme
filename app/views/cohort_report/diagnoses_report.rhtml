@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css" media="screen">
+      body {
+        font-family: helvatica;
+      }
+
+      .head {
+        font-size: 1.6em; 
+        background-color: #6281A7; 
+        color: white; 
+        padding: 10px; 
+        font-weight: normal;
+      }
+
+      .cell {
+        border: 1px dotted #ccc;
+        padding: 5px;
+        min-width: 25%;
+      }
+
+      .placard {
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        border: 1px dotted #ccc;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        width: 300px;
+        text-align: center;
+      }
+
+      .title { 
+        background-color: #6281A7; 
+        color: white; 
+        padding: 10px; 
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .num {
+        text-align: center;
+        font-size: 1.2em;
+      }
+
+      .total {
+        font-weight: bold;
+      }
+
+      .three {
+        padding-left: 40px;
+      }
+
+      .two {
+        font-weight: bold;
+      }
+
+      a:link {
+        color: #000;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: orange !important;
+        text-decoration: underline;
+      }
+
+      a:visited {
+        color: #000;
+        text-decoration: none;
+      }
+    </style>
+    <style type="text/css" media="print">
+      body {
+        font-family: helvatica;
+        font-size: 0.8em;
+      }
+
+      .head {
+        font-size: 1.6em; 
+        background-color: #fff; 
+        color: black; 
+        padding: 10px; 
+        font-weight: normal;
+        border: 1px solid #ccc;
+      }
+
+      .cell {
+        border: 1px solid #ccc;
+        padding: 5px;
+        min-width: 25%;
+      }
+
+      .placard {
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        width: 220px;
+        text-align: center;
+      }
+
+      .title {
+        background-color: #fff; 
+        color: black; 
+        padding: 10px; 
+        font-weight: bold;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+
+      .num {
+        text-align: center;
+      }
+
+      .total {
+        font-weight: bold;
+      }
+
+      .three {
+        padding-left: 30px;
+      }
+
+      .two {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="report" width="100%" cellspacing="1">
+      <tr>
+        <th class="head" colspan="4">
+          Diagnoses Report
+        </th>
+      </tr>
+      <tr>
+        <td colspan="2" align="left">
+          <div class="placard">
+            <b>Start Date:</b> <%= @start_date.strftime("%d/%b/%Y %H:%M") %>
+          </div>
+        </td>
+        <td colspan="2" align="right">
+          <div class="placard">
+            <b>End Date:</b> <%= @end_date.strftime("%d/%b/%Y %H:%M") %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="title">
+          &nbsp;
+        </td>
+        <td class="title">
+          <%= @group1_start.strftime("%H:%M") %> - <%= @group1_end.strftime("%H:%M") %>
+        </td>
+        <td class="title">
+          <%= ("#{@group2_start.strftime("%H:%M")} - " rescue "") + (" #{@group2_end.strftime("%H:%M")}" rescue "") %>
+        </td>
+        <td class="title">
+          Total
+        </td>
+      </tr>
+      <tr>
+        <td class="cell">
+          &nbsp;
+        </td>
+        <td class="cell">
+          &nbsp;
+        </td>
+        <td class="cell">
+          &nbsp;
+        </td>
+        <td class="cell">
+          &nbsp;
+        </td>
+      </tr>
+    </table>
+
+    <script type="text/javascript">
+      <!--
+      
+      var clients_collection = {};
+      
+      /*
+       *  [
+       *    Label,
+       *    Field Type, # Types: 1-normal, 2-heading, 3-sublabel 
+       *    ID,
+       *    Ajax Path,
+       *    Addition Destination,
+       *    [Addition Children],  # Array
+       *  ]
+       **/
+      var fields = [
+        ["Premature Labour", 3, "premature_labour", "/cohort/q?field=premature_labour"],
+        
+        ["Abortions", 3, "abortions", "/cohort/q?field=abortions"],
+        
+        ["Cancer of Cervix", 3, "cancer_of_cervix", "/cohort/q?field=cancer_of_cervix"],
+        
+        ["Molar Pregnancy", 3, "molar_pregnancy", "/cohort/q?field=molar_pregnancy"],
+        
+        ["Fibriods", 3, "fibriods", "/cohort/q?field=fibriods"],
+        
+        ["Pelvic Inflammatory Disease", 3, "pelvic_inflamatory_disease", "/cohort/q?field=pelvic_inflamatory_disease"],
+        
+        ["Anaemia", 3, "anaemia", "/cohort/q?field=anaemia"],
+        
+        ["Malaria", 3, "malaria", "/cohort/q?field=malaria"],
+        
+        ["Post Partum", 3, "post_partum", "/cohort/q?field=post_partum"],
+        
+        ["Haemorrhage", 3, "haemorrhage", "/cohort/q?field=haemorrhage"],
+        
+        ["Ante Partum", 3, "ante_partum", "/cohort/q?field=ante_partum"],
+        
+        ["Pre-Eclampsia", 3, "pre_eclampsia", "/cohort/q?field=pre_eclampsia"],
+        
+        ["Eclampsia", 3, "eclampsia", "/cohort/q?field=eclampsia"],
+        
+        ["Premature Labour", 3, "premature_labour", "/cohort/q?field=premature_labour"],
+        
+        ["Premature Membranes Rapture", 3, "premature_membranes_rapture", "/cohort/q?field=premature_membranes_rapture"],
+        
+        ["Laparatomy", 3, "laparatomy", "/cohort/q?field=laparatomy"],
+        
+        ["Ruptured Uterus", 3, "ruptured_uterus", "/cohort/q?field=ruptured_uterus"]
+      ];
+      
+      function __$(id){
+        return document.getElementById(id);
+      }
+            
+      function createTable(){                
+        for(var i = 0; i < fields.length; i++){
+          var row = document.createElement("tr");                    
+                        
+          __$("report").getElementsByTagName("tbody")[0].appendChild(row);
+                                               
+          var cell0 = document.createElement("td");
+          cell0.innerHTML = fields[i][0];
+          cell0.className = "cell " + (fields[i][1] == 2 ? "two" : (fields[i][1] == 3 ? "three" : ""));
+          
+          row.appendChild(cell0);   
+          
+          var cell1 = document.createElement("td");
+          cell1.innerHTML = "&nbsp;";
+          cell1.className = "cell num";
+          
+          if(typeof(fields[i][2]) != "undefined"){
+            cell1.id = fields[i][2] + "_1";
+            cell1.setAttribute("base", fields[i][2]);
+          }
+          
+          row.appendChild(cell1); 
+          
+          var cell2 = document.createElement("td");
+          cell2.innerHTML = "&nbsp;";
+          cell2.className = "cell num";
+          
+          if(typeof(fields[i][2]) != "undefined"){
+            cell2.id = fields[i][2] + "_2";
+            cell2.setAttribute("base", fields[i][2]);
+          }
+          
+          row.appendChild(cell2); 
+          
+          var cell3 = document.createElement("td");
+          cell3.innerHTML = "&nbsp;";
+          cell3.className = "cell num total";
+          
+          if(typeof(fields[i][2]) != "undefined"){
+            cell3.id = fields[i][2] + "_total";
+            cell3.setAttribute("base", fields[i][2]);
+          }
+          
+          row.appendChild(cell3);
+        }
+        
+        var row = document.createElement("tr");                    
+                        
+        __$("report").getElementsByTagName("tbody")[0].appendChild(row);
+                                               
+        var cell0 = document.createElement("td");
+        cell0.innerHTML = "&nbsp;";
+        cell0.className = "cell";
+          
+        row.appendChild(cell0);   
+          
+        var cell1 = document.createElement("td");
+        cell1.innerHTML = "&nbsp;";
+        cell1.className = "cell";
+          
+        row.appendChild(cell1); 
+          
+        var cell2 = document.createElement("td");
+        cell2.innerHTML = "&nbsp;";
+        cell2.className = "cell";
+          
+        row.appendChild(cell2); 
+          
+        var cell3 = document.createElement("td");
+        cell3.innerHTML = "&nbsp;";
+        cell3.className = "cell";
+          
+        row.appendChild(cell3);
+      }
+            
+      function ajaxRequest(aElement, aUrl, base) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+          handleResult(aElement, httpRequest, base);
+        };
+        try {
+          httpRequest.open('GET', aUrl, true);
+          httpRequest.send(null);
+        } catch(e){
+        }
+      }
+
+      function handleResult(element, aXMLHttpRequest, base) {
+        if (!aXMLHttpRequest) return;
+
+        if (!element) return;
+        
+        if (aXMLHttpRequest.readyState == 4 && aXMLHttpRequest.status == 200) {
+          var result = aXMLHttpRequest.responseText;                
+        
+          if(__$(element)){
+            var clients = JSON.parse(result);
+            
+            clients_collection[element] = clients;
+            
+            if(clients_collection[element].length > 0){
+            
+              __$(element).innerHTML = "<form id='frm" + element + "' method='post' target='_parent' action='decompose'>" +
+                "<input type='hidden' value='" + clients_collection[element] + "' name='patients' />" + 
+                "<a href=\"javascript:document.getElementById('frm" + element + "').submit()\">" + 
+                clients_collection[element].length + "</a></form>";
+              
+            } else {
+              
+              __$(element).innerHTML = clients_collection[element].length; 
+              
+            }
+            
+            if(__$(base + "_total") && __$("frm" + base + "_1") && __$("frm" + base + "_2")){
+              __$(base + "_total").innerHTML = eval(__$("frm" + base + "_1").getElementsByTagName("a")[0].innerHTML) + 
+                (__$("frm" + base + "_2").getElementsByTagName("a")[0].innerHTML != "&nbsp;" ? 
+                eval(__$("frm" + base + "_2").getElementsByTagName("a")[0].innerHTML) : 0)
+            }
+          }
+        }
+      }            
+      
+      function loadFields(){
+        
+        for(var i = 0; i < fields.length; i++){
+          if(typeof(fields[i][3]) != "undefined"){
+            ajaxRequest(fields[i][2] + "_1", fields[i][3] + "&group=1&start_date=" + 
+              "<%= @group1_start.strftime('%Y-%m-%d+%H:%M') %>&end_date=<%= @group1_end.strftime('%Y-%m-%d+%H:%M') %>", fields[i][2]);
+
+<% if !@group2_start.nil? && !@group2_end.nil? %>
+          ajaxRequest(fields[i][2] + "_2", fields[i][3] + "&group=2&start_date=" + 
+            "<%= @group2_start.strftime('%Y-%m-%d+%H:%M') %>&end_date=<%= @group2_end.strftime('%Y-%m-%d+%H:%M') %>", fields[i][2]);
+<% end %>
+  
+      }
+    }
+  }
+            
+  createTable();
+  loadFields();
+      
+  //-->
+    </script>
+  </body>
+</html>

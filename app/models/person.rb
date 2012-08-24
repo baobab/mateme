@@ -385,7 +385,7 @@ class Person < ActiveRecord::Base
 
       begin
 
-        output = mechanize_browser.post("http://localhost:#{local_port}/patient/create_remote", demographics_params).body
+        output = mechanize_browser.post("http://#{demographic_server}:#{local_port}/patient/create_remote", demographics_params).body
 
       rescue Timeout::Error 
         return 'timeout'
