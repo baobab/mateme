@@ -50,13 +50,13 @@
                   Name of child:
                 </td>
                 <td id="fnc" style="text-align: center; padding-bottom: 0px;" class="cell">
-                  <%= @anc_patient.first_name %>&nbsp;
+                  <%= @anc_patient.first_name rescue nil %>&nbsp;
                 </td>
                 <td id="mnc" style="text-align: center; padding-bottom: 0px;" class="cell">
-                  <%= @anc_patient.middle_name %>&nbsp;
+                  <%= @anc_patient.middle_name rescue nil %>&nbsp;
                 </td>
                 <td id="lnc" style="text-align: center; padding-bottom: 0px;" class="cell">
-                  <%= @anc_patient.last_name %>&nbsp;
+                  <%= @anc_patient.last_name rescue nil %>&nbsp;
                 </td>
               </tr>
               <tr>
@@ -140,13 +140,13 @@
                   Mother (Maiden Name):
                 </td>
                 <td id="fnm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.first_name %>&nbsp;
+                  <%= @anc_mother.first_name rescue nil %>&nbsp;
                 </td>
                 <td id="mnm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.middle_name %>&nbsp;
+                  <%= @anc_mother.middle_name rescue nil %>&nbsp;
                 </td>
                 <td id="lnm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.maiden_name %>&nbsp;
+                  <%= @anc_mother.maiden_name rescue nil %>&nbsp;
                 </td>
               </tr>
               <tr>
@@ -174,13 +174,13 @@
                   Father (if known):
                 </td>
                 <td id="fnf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_father.first_name %>&nbsp;
+                  <%= @anc_father.first_name rescue nil %>&nbsp;
                 </td>
                 <td id="mnf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_father.middle_name %>&nbsp;
+                  <%= @anc_father.middle_name rescue nil %>&nbsp;
                 </td>
                 <td id="lnf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_father.last_name %>&nbsp;
+                  <%= @anc_father.last_name rescue nil %>&nbsp;
                 </td>
               </tr>
               <tr>
@@ -216,7 +216,7 @@
                   Mother:
                 </td>
                 <td id="ntm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.nationality %>&nbsp;
+                  <%= @anc_mother.nationality rescue nil %>&nbsp;
                 </td>
                 <td id="idm" style="text-align: left; padding-bottom: 0px; padding-top: 20px; padding-left: 20px;">
                   ID No: <div class="cell" style="float: right;"><%= @anc_mother.national_id_with_dashes %>&nbsp;</div>
@@ -233,10 +233,10 @@
                   Father :
                 </td>
                 <td id="ntf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_father.nationality %>&nbsp;
+                  <%= @anc_father.nationality rescue nil %>&nbsp;
                 </td>
                 <td id="idf" style="text-align: left; padding-bottom: 0px; padding-top: 20px; padding-left: 20px;">
-                  ID No: <div class="cell" style="float: right;"><%= @anc_father.national_id_with_dashes %>&nbsp;</div>
+                  ID No: <div class="cell" style="float: right;"><%= @anc_father.national_id_with_dashes rescue nil %>&nbsp;</div>
                 </td>
                 <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
                   &nbsp;
@@ -258,7 +258,7 @@
                   Address of Parent(s)
                 </td>
                 <td id="resm" colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.current_address %>
+                  <%= @anc_mother.current_address rescue nil %>
                 </td>
                 <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
                   &nbsp;
@@ -273,7 +273,7 @@
                 </td>
                 <td id="resf" colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;" class="cell">
                   <%= (@anc_father.current_address != @anc_mother.current_address ?
-                      @anc_father.current_address : "") %>
+                      @anc_father.current_address : "") rescue nil %>
                 </td>
                 <td style="text-align: left; padding-bottom: 0px; padding-top: 20px;">
                   &nbsp;
@@ -295,13 +295,13 @@
                   Mother:
                 </td>
                 <td id="vm" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.home_village %>&nbsp;
+                  <%= @anc_mother.home_village rescue nil %>&nbsp;
                 </td>
                 <td id="tam" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.home_ta %>&nbsp;
+                  <%= @anc_mother.home_ta rescue nil %>&nbsp;
                 </td>
                 <td id="dim" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_mother.home_district %>&nbsp;
+                  <%= @anc_mother.home_district rescue nil %>&nbsp;
                 </td>
               </tr>
               <tr>
@@ -329,13 +329,13 @@
                   Father (if known):
                 </td>
                 <td id="vf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_father.home_village %>&nbsp;
+                  <%= @anc_father.home_village rescue nil %>&nbsp;
                 </td>
                 <td id="taf" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_father.home_ta %>&nbsp;
+                  <%= @anc_father.home_ta rescue nil %>&nbsp;
                 </td>
                 <td id="dif" style="text-align: center; padding-bottom: 0px; padding-top: 20px;" class="cell">
-                  <%= @anc_father.home_district %>&nbsp;
+                  <%= @anc_father.home_district rescue nil %>&nbsp;
                 </td>
               </tr>
               <tr>
