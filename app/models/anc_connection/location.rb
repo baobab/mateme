@@ -2,7 +2,7 @@ class AncConnection::Location < ActiveRecord::Base
   self.establish_connection :anc
   set_table_name "location"
   set_primary_key "location_id"
-  include Openmrs
+  include AncConnection::Openmrs
 
   cattr_accessor :current_location
 
