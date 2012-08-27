@@ -83,4 +83,8 @@ class ApplicationController < ActionController::Base
     CoreService.get_global_property_value('link.to.anc').to_s == "true" rescue false
   end
 
+  def create_from_remote
+    CoreService.get_global_property_value('create.from.remote').to_s == "true" rescue false
+  end
+
 end
