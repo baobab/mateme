@@ -164,6 +164,7 @@ class PeopleController < ApplicationController
         redirect_to :action => "index"
       end
     else
+      person = ANCService.create_remote(params)
       person = Person.create_from_form(params[:person])
 
       if params[:next_url]
