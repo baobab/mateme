@@ -1489,22 +1489,18 @@ module ANCService
         "identifier"=>"#{new_params["addresses"]["county_district"]}"}
     }
 
-    demographics_params = CGI.unescape(known_demographics.to_param).split('&').map{|elem| elem.split('=')}
-
-    mechanize_browser = Mechanize.new
-
-    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
+    demographic_servers = JSON.parse(CoreService.get_global_property_value('demographic_server_ips_and_local_port')) # rescue []
 
     result = demographic_servers.map{|demographic_server, local_port|
 
       begin
 
-        output = mechanize_browser.post("http://localhost:#{local_port}/patient/create_remote", demographics_params).body
+        output = RestClient.post("http://#{demographic_server}:#{local_port}/patient/create_remote", known_demographics)
 
       rescue Timeout::Error
         return 'timeout'
       rescue
-        return 'creationfailed'
+        return 'creation failed'
       end
 
       output if output and output.match(/person/)

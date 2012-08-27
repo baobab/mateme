@@ -165,6 +165,7 @@ class PeopleController < ApplicationController
       end
     else
       remote_person = ANCService.create_remote(params) if create_from_remote
+
       person = Person.create_from_form(remote_person) if create_from_remote
       
       person = Person.create_from_form(params[:person]) if !create_from_remote
