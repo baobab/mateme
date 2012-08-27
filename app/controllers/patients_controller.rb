@@ -1,3 +1,5 @@
+require 'rqrcode'
+
 class PatientsController < ApplicationController
   before_filter :find_patient, :except => [:void]
   
@@ -787,6 +789,25 @@ class PatientsController < ApplicationController
     @father = Patient.find(@maternity_mother.husband.person_b) rescue nil
 
     @anc_father = ANCService::ANC.new(@father) rescue nil
+    
+    facility = CoreService.get_global_property_value("current_facility") rescue ''
+
+    district = CoreService.get_global_property_value("current_district") rescue ''
+
+    patient = Patient.find(params[:patient_id]) rescue nil
+
+    maternity = MaternityService::Maternity.new(patient) rescue nil
+
+    data = maternity.export_person((User.current_user.id rescue 1), facility, district)
+
+    # data = data.delete_blank
+
+    # Due to space limitation, no father demographics on barcode for now
+    data.delete("father")
+
+    data_w_father = data
+
+    @qr = RQRCode::QRCode.new(data_w_father.to_json, :size => 40, :level => :h)
 
     render :layout => false
   end
@@ -795,9 +816,9 @@ class PatientsController < ApplicationController
     # raise request.remote_ip.to_yaml
 
     location = request.remote_ip rescue ""
-    @patient    = Patient.find(params[:patient_id] || params[:id] || session[:patient_id]) rescue nil
+    @person    = Patient.find(params[:id]) rescue nil
 
-    if @patient
+    if @person
       current_printer = ""
 
       wards = GlobalProperty.find_by_property("facility.ward.printers").property_value.split(",") rescue []
@@ -810,7 +831,7 @@ class PatientsController < ApplicationController
 
         Kernel.system "wkhtmltopdf -s A4 http://" +
           request.env["HTTP_HOST"] + "\"/patients/birth_report_printable/" +
-          @patient.id.to_s + "\" /tmp/output-" + session[:user_id].to_s + ".pdf \n"
+          @person.id.to_s + "\" /tmp/output-" + session[:user_id].to_s + ".pdf \n"
       }
 
       t2 = Thread.new{
@@ -826,7 +847,7 @@ class PatientsController < ApplicationController
 
     end
 
-    redirect_to "/patients/show/#{@patient.id}" and return
+    redirect_to "/patients/birth_report?person_id=#{@person.id}&patient_id=#{params[:patient_id]}" and return
   end
 
   def send_birth_report
@@ -852,3 +873,4 @@ class PatientsController < ApplicationController
   end
   
 end
+

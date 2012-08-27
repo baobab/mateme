@@ -1534,10 +1534,10 @@ module ANCService
     def export_person
       mother = ANCService::ANC.new(self.mother.relation.patient) rescue nil
       father = ANCService::ANC.new(self.father.relation.patient) rescue nil
-      {
+      result = {
         "birthdate_estimated" => (self.person.birthdate_estimated rescue nil),
         "gender" => (self.person.gender rescue nil),
-        "birthdate" => (self.person.birthdate rescue nil),
+        "birthdate" => (self.person.birthdate.strftime("%Y-%m-%d") rescue nil),
         "names" => {
           "given_name" => self.first_name,
           "family_name" => self.last_name
@@ -1565,7 +1565,7 @@ module ANCService
         "mother" => {
           "birthdate_estimated" => (mother.person.birthdate_estimated rescue nil),
           "gender" => (mother.person.gender rescue nil),
-          "birthdate" => (mother.person.birthdate rescue nil),
+          "birthdate" => (mother.person.birthdate.strftime("%Y-%m-%d") rescue nil),
           "names" => {
             "given_name" => (mother.first_name rescue nil),
             "family_name" => (mother.last_name rescue nil)
@@ -1594,7 +1594,7 @@ module ANCService
         "father" => {
           "birthdate_estimated" => (father.person.birthdate_estimated rescue nil),
           "gender" => (father.person.gender rescue nil),
-          "birthdate" => (father.person.birthdate rescue nil),
+          "birthdate" => (father.person.birthdate.strftime("%Y-%m-%d") rescue nil),
           "names" => {
             "given_name" => (father.first_name rescue nil),
             "family_name" => (father.last_name rescue nil)
@@ -1674,22 +1674,18 @@ module ANCService
         "identifier"=>"#{new_params["addresses"]["county_district"]}"}
     }
 
-    demographics_params = CGI.unescape(known_demographics.to_param).split('&').map{|elem| elem.split('=')}
-
-    mechanize_browser = Mechanize.new
-
-    demographic_servers = JSON.parse(GlobalProperty.find_by_property("demographic_server_ips_and_local_port").property_value) rescue []
+    demographic_servers = JSON.parse(CoreService.get_global_property_value('demographic_server_ips_and_local_port')) # rescue []
 
     result = demographic_servers.map{|demographic_server, local_port|
 
       begin
 
-        output = mechanize_browser.post("http://localhost:#{local_port}/patient/create_remote", demographics_params).body
+        output = RestClient.post("http://#{demographic_server}:#{local_port}/patient/create_remote", known_demographics)
 
       rescue Timeout::Error
         return 'timeout'
       rescue
-        return 'creationfailed'
+        return 'creation failed'
       end
 
       output if output and output.match(/person/)

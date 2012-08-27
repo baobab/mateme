@@ -1,15 +1,73 @@
 <html>
   <head>
     <title>Birth Report</title>
-    <style>
+    <style media="print">
+      table {
+        font-size: 1.2em;
+        border-width: 0;
+        border-style: none;
+        border-color: #0000ff;
+        border-collapse: collapse;
+      }
+      td {
+        border-width: 0;
+        border-style: none;
+        border-color: #0000ff;
+        border-collapse: collapse;
+        padding: 0;
+        margin: 0;
+        width: 5px;
+        height: 5px;
+      }
+      td.black { background-color: #000; }
+      td.white { background-color: #fff; }
+    </style>
+    <style>      
       .cell {
         border-bottom: dotted 1px #000;
       }
+    </style>
+    <style type="text/css">
+      table {
+        border-width: 0;
+        border-style: none;
+        border-color: #0000ff;
+        border-collapse: collapse;
+      }
+      td {
+        border-width: 0;
+        border-style: none;
+        border-color: #0000ff;
+        border-collapse: collapse;
+        padding: 0;
+        margin: 0;
+        width: 3px;
+        height: 3px;
+      }
+      td.black { background-color: #000; }
+      td.white { background-color: #fff; }
     </style>
   </head>
   <body>
     <center>
       <table width="100%" cellpadding="0">
+        <!--tr>
+          <td>
+            <table>
+        <% @qr.modules.each_index do |x| -%>
+                      <tr>
+          <% @qr.modules.each_index do |y| -%>
+            <% if @qr.dark?(x,y) -%>
+                                        <td class="black"/>
+            <% else -%>
+                                        <td class="white"/>
+            <% end -%>
+          <% end -%>
+                      </tr>
+        <% end -%>
+            </table>
+          </td>
+        </tr-->
         <tr>
           <td style="text-align: center;">
             <img src="/images/emblem.gif" alt="emblem" />
@@ -372,10 +430,10 @@
                 </td>
                 <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
                     class="cell">
-                  <% @name = @anc_patient.get_full_attribute("Provider Name").value rescue (current_user.name rescue nil) %>
+                      <% @name = @anc_patient.get_full_attribute("Provider Name").value rescue (current_user.name rescue nil) %>
                   <%= @name if !@name.nil? %>&nbsp;
                 </td>
-                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px; width: 100px;" rowspan="4">
                   &nbsp;
                 </td>
               </tr>
@@ -388,11 +446,8 @@
                 </td>
                 <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
                     class="cell">
-                  <% @title = @anc_patient.get_full_attribute("Provider Title").value rescue (current_user.user_roles.first.role.titleize rescue nil) %>
+                      <% @title = @anc_patient.get_full_attribute("Provider Title").value rescue (current_user.user_roles.first.role.titleize rescue nil) %>
                   <%= @title if !@title.nil? %>&nbsp;
-                </td>
-                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
-                  &nbsp;
                 </td>
               </tr>
               <tr>
@@ -405,9 +460,6 @@
                 <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;" class="cell">
                   &nbsp;
                 </td>
-                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
-                  &nbsp;
-                </td>
               </tr>
               <tr>
                 <td>
@@ -418,10 +470,54 @@
                 </td>
                 <td colspan="2" style="text-align: left; padding-bottom: 0px; padding-top: 20px;  padding-left: 20px;"
                     class="cell">
-                  <% @facility_date = @anc_patient.get_full_attribute("Hospital Date").value rescue Date.today %>
+                      <% @facility_date = @anc_patient.get_full_attribute("Hospital Date").value rescue Date.today %>
                   <%= @facility_date.to_date.strftime("%d/%b/%Y") %>&nbsp;
                 </td>
-                <td style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+              </tr>
+              <tr>
+                <td colspan="5">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5" style="text-align: center; padding-left: 20%">
+                  <table style="float: none;">
+                    <% @qr.modules.each_index do |x| -%>
+                      <tr>
+                        <% @qr.modules.each_index do |y| -%>
+                          <% if @qr.dark?(x,y) -%>
+                            <td class="black"/>
+                          <% else -%>
+                            <td class="white"/>
+                          <% end -%>
+                        <% end -%>
+                      </tr>
+                    <% end -%>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5" style="height: 100px;">
                   &nbsp;
                 </td>
               </tr>

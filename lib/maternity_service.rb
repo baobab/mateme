@@ -363,7 +363,7 @@ module MaternityService
         {
           "birthdate_estimated" => (self.person.birthdate_estimated rescue 0),
           "gender" => (child.person.gender rescue nil),
-          "birthdate" => (child.person.birthdate rescue nil),
+          "birthdate" => (child.person.birthdate.strftime("%Y-%m-%d") rescue nil),
           "names" => {
             "given_name" => (child.first_name rescue nil),
             "family_name" => (child.last_name rescue nil),
@@ -392,7 +392,7 @@ module MaternityService
           "mother" => {
             "birthdate_estimated" => (mother.person.birthdate_estimated rescue nil),
             "gender" => (mother.person.gender rescue nil),
-            "birthdate" => (mother.person.birthdate rescue nil),
+            "birthdate" => (mother.person.birthdate.strftime("%Y-%m-%d") rescue nil),
             "names" => {
               "given_name" => (mother.first_name rescue nil),
               "family_name" => (mother.last_name rescue nil),
@@ -423,7 +423,7 @@ module MaternityService
           "father" => {
             "birthdate_estimated" => (father.person.birthdate_estimated rescue nil),
             "gender" => (father.person.gender rescue nil),
-            "birthdate" => (father.person.birthdate rescue nil),
+            "birthdate" => (father.person.birthdate.strftime("%Y-%m-%d") rescue nil),
             "names" => {
               "given_name" => (father.first_name rescue nil),
               "family_name" => (father.last_name rescue nil),

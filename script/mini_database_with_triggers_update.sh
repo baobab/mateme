@@ -23,6 +23,10 @@ if [ ! -x config/database.yml ] ; then
 fi
 
 sudo apt-get install htmldoc
+sudo apt-get install wkhtmltopdf
+sudo apt-get install ruby-rmagick
+sudo gem install rqrcode -v="0.4.2"
+sudo gem install bary -v="0.5.0"
 
 USERNAME=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['username']"`
 PASSWORD=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['password']"`

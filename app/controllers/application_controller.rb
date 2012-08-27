@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
   helper :all
   filter_parameter_logging :password
   before_filter :login_required, :except => ['login', 'logout','demographics', 'add_update_property',
-    'observations_printable', 'cohort_print']
+    'observations_printable', 'cohort_print', 'birth_report_printable', 'birth_report']
   before_filter :location_required, :except => ['login', 'logout', 'location','demographics',
-    'add_update_property', 'observations_printable', 'cohort_print']
+    'add_update_property', 'observations_printable', 'cohort_print', 'birth_report_printable', 'birth_report']
 
   
   def rescue_action_in_public(exception)
@@ -81,6 +81,10 @@ class ApplicationController < ActionController::Base
 
   def link_to_anc
     CoreService.get_global_property_value('link.to.anc').to_s == "true" rescue false
+  end
+
+  def create_from_remote
+    CoreService.get_global_property_value('create.from.remote').to_s == "true" rescue false
   end
 
   private
