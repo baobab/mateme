@@ -1,14 +1,32 @@
 production:
+ create.from.remote: true
  create.from.dde.server: false
  link.to.anc: false
+ remote_servers.parent: localhost:3000
+ remote_bart.username: admin
+ remote_bart.password: test
+ remote_bart.location: 721
+ remote_machine.account_name: localhost
  
 development:
+ create.from.remote: true
  create.from.dde.server: false
  link.to.anc: false
+ remote_servers.parent: localhost:3000
+ remote_bart.username: admin
+ remote_bart.password: test
+ remote_bart.location: 721
+ remote_machine.account_name: localhost
  
 test: &TEST
+ create.from.remote: false
  create_from_remote: no
  use.user.selected.activities: yes
+ remote_servers.parent: localhost:3000
+ remote_bart.username: admin
+ remote_bart.password: test
+ remote_bart.location: 721
+ remote_machine.account_name: localhost
 
 cucumber:
   <<: *TEST

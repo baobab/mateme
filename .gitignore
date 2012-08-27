@@ -3,6 +3,7 @@
 *.swo
 config/database.yml
 config/settings.yml
+config/application.yml
 notes
 doc
 development.sql
