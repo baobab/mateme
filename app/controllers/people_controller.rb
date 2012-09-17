@@ -93,7 +93,7 @@ class PeopleController < ApplicationController
       :family_name2 => params[:family_name2], :address2 => params[:address2], :identifier => params[:identifier]
   end
  
-  def created
+  def create
 
     remote_parent_server = GlobalProperty.find(:first, :conditions => {:property => "remote_servers.parent"}).property_value
     if !remote_parent_server.blank?
@@ -142,7 +142,7 @@ class PeopleController < ApplicationController
   
   end
 
-  def create
+  def created
 
     person = ANCService.create_patient_from_dde(params) if create_from_dde_server
 
