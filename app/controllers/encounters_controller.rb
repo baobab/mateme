@@ -4,8 +4,7 @@ require 'barby/outputter/rmagick_outputter'
 
 class EncountersController < ApplicationController
 
-  def create
-    
+  def create    
     params[:encounter][:encounter_datetime] = (params[:encounter][:encounter_datetime].to_date.strftime("%Y-%m-%d ") + 
         Time.now.strftime("%H:%M")) rescue Time.now()
     
@@ -99,6 +98,7 @@ class EncountersController < ApplicationController
     @new_hiv_status = params[:new_hiv_status]
     @admission_wards = [' '] + GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
     @patient = Patient.find(params[:patient_id] || session[:patient_id]) 
+
     @diagnosis_type = params[:diagnosis_type]
     @facility = (GlobalProperty.find_by_property("facility.name").property_value rescue "") # || (Location.find(session[:facility]).name rescue "")    
 
@@ -777,5 +777,26 @@ class EncountersController < ApplicationController
       redirect_to "/people/index"
     end
   end
-
+  def update_obs_before_create
+     raise params
+	 obs = params[:observations]
+	 hash = {}.with_indifferent_access
+	 score = 0.0;
+	 needed_concepts = ["APPEARANCE", "PULSE", "GRIMANCE", "ACTIVITY", "RESPIRATION"]
+     
+	 obs.each do |ob|
+		if needed_concepts.include? ob[:concept_name]     
+			score += ob[:value_text].to_f
+         end  
+      
+	 end
+     if !(score == 0.0)
+    	hash[:value_text] = score.to_s
+        hash[:concept_name] = "APGAR SCORE"
+		hash[:obs_datetime] = params['encounter']['encounter_datetime'] || Time.now
+	   	hash[:patient_id] = params[:encounter][:patient_id]
+	   	params[:observations] << hash
+	 end   
+	create    
+  end
 end
