@@ -1489,12 +1489,12 @@ module ANCService
         "identifier"=>"#{new_params["addresses"]["county_district"]}"}
     }
 
-    demographic_servers = JSON.parse(CoreService.get_global_property_value('demographic_server_ips_and_local_port')) # rescue []
+    demographic_servers = JSON.parse(CoreService.get_global_property_value('demographic_server_ips_and_local_port')) #  rescue []
 
     result = demographic_servers.map{|demographic_server, local_port|
 
       begin
-
+        raise demographic_servers.to_yaml
         output = RestClient.post("http://#{demographic_server}:#{local_port}/patient/create_remote", known_demographics)
 
       rescue Timeout::Error
