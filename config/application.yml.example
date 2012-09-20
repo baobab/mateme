@@ -10,6 +10,7 @@ production:
  remote_machine.account_name: localhost
  application.include_delivery_mode: yes
  application.include_baby_weight_and_apgar: yes
+ hdu_pog_wards: false
 
 development:
  create.from.remote: true
@@ -22,6 +23,7 @@ development:
  remote_machine.account_name: localhost
  extra_delivery_mode: true
  application.include_baby_weight_and_apgar: yes
+ hdu_pog_wards: false
  
 test: &TEST 
  create.from.remote: false
@@ -34,6 +36,7 @@ test: &TEST
  remote_machine.account_name: localhost 
  application.include_delivery_mode: yes
  application.include_baby_weight_and_apgar: yes
+ hdu_pog_wards: false
 
 cucumber:
   <<: *TEST
