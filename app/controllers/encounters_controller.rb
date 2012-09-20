@@ -776,27 +776,5 @@ class EncountersController < ApplicationController
     else
       redirect_to "/people/index"
     end
-  end
-  def update_obs_before_create
-     raise params
-	 obs = params[:observations]
-	 hash = {}.with_indifferent_access
-	 score = 0.0;
-	 needed_concepts = ["APPEARANCE", "PULSE", "GRIMANCE", "ACTIVITY", "RESPIRATION"]
-     
-	 obs.each do |ob|
-		if needed_concepts.include? ob[:concept_name]     
-			score += ob[:value_text].to_f
-         end  
-      
-	 end
-     if !(score == 0.0)
-    	hash[:value_text] = score.to_s
-        hash[:concept_name] = "APGAR SCORE"
-		hash[:obs_datetime] = params['encounter']['encounter_datetime'] || Time.now
-	   	hash[:patient_id] = params[:encounter][:patient_id]
-	   	params[:observations] << hash
-	 end   
-	create    
-  end
+  end  
 end

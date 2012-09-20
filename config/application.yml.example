@@ -12,7 +12,6 @@ production:
  application.include_baby_weight_and_apgar: yes
 
 development:
- demographic_server_ips_and_local_ports: {"localhost":"4000"}
  create.from.remote: true
  create.from.dde.server: false
  link.to.anc: false

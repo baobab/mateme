@@ -14,13 +14,11 @@
     return document.getElementById(e);
   }
  
- function growthIndicators(){
+  function growthIndicators(){
      //These values pulled from the tt_onLoad bit in the third form...
-     for (i = 1; i <= parseInt(document.getElementById("number_of_babies").value); i++){
- 			
-		 currentWeight = document.getElementById('weight' + i).value;
-         
-		 gender = document.getElementById("baby_gender" + i).value
+     for (i = 1; i <= parseInt(document.getElementById("number_of_babies").value); i++){ 			
+		 currentWeight = $('weight' + i).value;         
+		 gender = $("baby_gender" + i).value;
 		if (gender == "Male"){
 		 maxi = 4.5;
 		 mini = 2.5;
@@ -28,139 +26,109 @@
 		 maxi = 4.4;
 		 mini = 2.4;
 		}    
-
-		 showWeightForAge(i);     
-     }
-     document.getElementById('inputFrame'+tstCurrentPage).innerHTML = '<div id="summary">' + displayText + '</div><div id="charts" style="height:185px;margin:2px 6px 6px;padding:2px;width:380px;"></div>' ;
-     
-   }
-        
+		showWeightForAge(i);
+        showApgarScore(i);
+		displayText += "<br>"		
+		}
+     $('inputFrame'+tstCurrentPage).innerHTML = '<div id="summary">' + displayText + '</div><div id="charts" style="height:185px;margin:2px 6px 6px;padding:2px;width:380px;"></div>' ;     
+   }  
+  function showApgarScore(n){
+  	apgarScore = parseFloat($("appearance" + n).value) + parseFloat($("pulse" + n).value) + parseFloat($("grimance" + n).value) + parseFloat($("activity" + n).value) + parseFloat($("respiration" + n).value);
+	displayText += "<div><span class='title'>Apgar score for baby " + n + ":</span>";
+    if (apgarScore >= 7){
+      displayText += "<span class='normal'> [" + apgarScore.toFixed(1) + "/10] </span>" + "<span class ='recommendation'> Normal </span><br>";
+    } else if (apgarScore <=3) {
+      displayText += "<span class='red_alert'> [" + apgarScore.toFixed(1) + "/10] </span>" + " <span class='recommendation'> Low </span><br>";
+    } else {
+      displayText += "<span class='yellow_alert'> [" + apgarScore.toFixed(1) + "/10] </span>" + " <span class='recommendation'> Fairly Low </span><br>";
+    }
+    displayText += "</div>";     
+  	}      
   function showWeightForAge(baby){
-    document.getElementById('weight_for_age').value = currentWeight;
-       
+    $('weight_for_age').value = currentWeight;       
     displayText += "<div><span class='title'>Weight for age for baby " + baby + ":</span>";
     if ((currentWeight <= maxi) && (currentWeight >=mini)){
-      displayText += "<span class='goodWeightForAge'>" + currentWeight + "(Kg)" + "</span><br>";
+      displayText += "<span class='normal'>" + currentWeight + "(Kg)" + "</span>" + " <span class='recommendation'> Normal </span><br>";
     } else if (currentWeight > maxi) {
-      displayText += "<span class='overWeightForAge'>" + currentWeight + '(Kg)' + "</span>" + " <span class='recommendation'> Over Weight </span><br>";
+      displayText += "<span class='yellow_alert'>" + currentWeight + '(Kg)' + "</span>" + " <span class='recommendation'> Over Weight </span><br>";
     } else if (currentWeight < mini){
-      displayText += "<span class='lowWeightForAge'>" + currentWeight + '(Kg)' + "</span>" + " <span class='recommendation'> Under Weight</span><br>";
+      displayText += "<span class='red_alert'>" + currentWeight + '(Kg)' + "</span>" + " <span class='recommendation'> Under Weight</span><br>";
     }
-    displayText += "</div>";  
- 
-  } 
-  
+    displayText += "</div>";   
+  }   
   function isValidDateFormat(value){
     return value.trim().match(/(\d{4})\-(\d{2})\-(\d{2})\s(\d{2})\:(\d{2})/);
   }
-
   function isValidTimeFormat(value){
     return value.trim().match(/(\d{2})\:(\d{2})/);
   }
-
   function createDate(value){
-    var d = isValidDateFormat(value);
-    
+    var d = isValidDateFormat(value);    
     if(d){
       return new Date(eval(d[1]),(eval(d[2])-1),eval(d[3]),eval(d[4]),eval(d[5]));
     } else {
       return new Date();
     }
-  }
-  
+  }  
   function dateTimeFormatted(value){
     return value.getFullYear() + "-" + padZeros((value.getMonth() + 1),2) + "-" + 
       padZeros(value.getDate(),2) + " " + padZeros(value.getHours(),2) + ":" + 
       padZeros(value.getMinutes(),2)
-  }
-  
-  // Expects Date object and time string
+  }  
   function mergeDateTime(date, time){
-    var t = isValidTimeFormat(time);
-    
+    var t = isValidTimeFormat(time);    
     if(t){
       return new Date(date.getFullYear(), date.getMonth(), date.getDate(), eval(t[1]), eval(t[2]));
     } else {
       return date;
     }
   }
-
   function updateTimeOtherFields(group){
     var outcome_date = __$("baby" + group + "_outcome_date").value.trim();
     var delivery_mode_date = __$("baby" + group + "_delivery_mode_date").value.trim();
-    var time = __$("time_of_delivery" + group).value.trim();
-    
-    if(isValidTimeFormat(time)){
-      
-      outcome_date = createDate(outcome_date);
-      
-      outcome_date = mergeDateTime(outcome_date, time);
-      
-      __$("baby" + group + "_outcome_date").value = dateTimeFormatted(outcome_date);
-      
-      delivery_mode_date = createDate(delivery_mode_date);
-      
-      delivery_mode_date = mergeDateTime(delivery_mode_date, time);
-      
-      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(delivery_mode_date);
-      
-      if(group == 1){
-        
-        var number_of_babies_date = __$("number_of_babies_date").value.trim();
-        
-        number_of_babies_date = createDate(number_of_babies_date);
-      
-        number_of_babies_date = mergeDateTime(number_of_babies_date, time);
-      
-        __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);
-      
+    var time = __$("time_of_delivery" + group).value.trim();    
+    if(isValidTimeFormat(time)){      
+      outcome_date = createDate(outcome_date);      
+      outcome_date = mergeDateTime(outcome_date, time);      
+      __$("baby" + group + "_outcome_date").value = dateTimeFormatted(outcome_date);      
+      delivery_mode_date = createDate(delivery_mode_date);      
+      delivery_mode_date = mergeDateTime(delivery_mode_date, time);      
+      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(delivery_mode_date);      
+      if(group == 1){        
+        var number_of_babies_date = __$("number_of_babies_date").value.trim();        
+        number_of_babies_date = createDate(number_of_babies_date);      
+        number_of_babies_date = mergeDateTime(number_of_babies_date, time);      
+        __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);      
       }
     }
-  }
-  
+  }  
   function updateDateOtherFields(group){
     var outcome_date = createDate(__$("baby" + group + "_outcome_date").value.trim());
     var delivery_mode_date = createDate(__$("baby" + group + "_delivery_mode_date").value.trim());
     var date = __$("date_of_delivery" + group).value.trim();
-    var time = padZeros(outcome_date.getHours(),2) + ":" + padZeros(outcome_date.getMinutes(),2);
-    
-    if(isValidTimeFormat(time)){
-      
-      date = createDate(date);
-      
-      date = mergeDateTime(date, time);
-      
+    var time = padZeros(outcome_date.getHours(),2) + ":" + padZeros(outcome_date.getMinutes(),2);    
+    if(isValidTimeFormat(time)){      
+      date = createDate(date);      
+      date = mergeDateTime(date, time);      
       __$("baby" + group + "_outcome_date").value = dateTimeFormatted(date);
-    }
-    
+    }    
     date = __$("date_of_delivery" + group).value.trim();
-    time = padZeros(delivery_mode_date.getHours(),2) + ":" + padZeros(delivery_mode_date.getMinutes(),2);
-    
+    time = padZeros(delivery_mode_date.getHours(),2) + ":" + padZeros(delivery_mode_date.getMinutes(),2);    
     if(isValidTimeFormat(time)){
-      date = createDate(date);
-      
-      date = mergeDateTime(date, time);
-      
-      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(date);
-      
-    }
-    
+      date = createDate(date);      
+      date = mergeDateTime(date, time);      
+      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(date);      
+    }    
     var number_of_babies_date = createDate(__$("number_of_babies_date").value.trim());
         
     date = __$("date_of_delivery" + group).value.trim();
-    time = padZeros(number_of_babies_date.getHours(),2) + ":" + padZeros(number_of_babies_date.getMinutes(),2);
-    
-    if(group == 1 && isValidTimeFormat(time)){
-        
-      number_of_babies_date = createDate(number_of_babies_date);
-      
-      number_of_babies_date = mergeDateTime(number_of_babies_date, time);
-      
-      __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);
-      
+    time = padZeros(number_of_babies_date.getHours(),2) + ":" + padZeros(number_of_babies_date.getMinutes(),2);    
+    if(group == 1 && isValidTimeFormat(time)){        
+      number_of_babies_date = createDate(number_of_babies_date);      
+      number_of_babies_date = mergeDateTime(number_of_babies_date, time);      
+      __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);      
     }
-  }
-  
+  }  
   // Every 500 milliseconds update the Next/Finish button
   function updateNextFinish(){
     if (tstInputTarget.value == '')
@@ -168,9 +136,7 @@
     else
       $('nextButton').innerHTML = '<span>Next</span>';
     setTimeout(updateNextFinish, 500)
-  }
- 
- 
+  } 
 </script>
 
  <style type="text/css">
@@ -180,8 +146,7 @@
 
   .n #Unknown{
     display: block;    
-  }
- 
+  } 
     #summary {
       padding:10px;
       font-size:1.8em;
@@ -194,15 +159,10 @@
       margin-right:10px;
     }
     
-    .lowWeightForHeight{color:black;background:red;}
-    .overWeightForHeight {color:black;background:yellow;}
-    .lowWeightForAge {color:black;background:red;}
-    .overWeightForAge {color:black;background:yellow;}
-    .goodWeightForAge {color:black;}
-    .lowHeightForAge {color:black;background:red;}
-    .overHeightForAge {color:black;background:yellow;}
-    .goodHeightForAge {color:black;}
-
+    .red_alert {color:black;background:red;}
+    .yellow_alert {color:black;background:yellow;}
+    .normal {color:black;}
+       
     #tt_page_summary .inputFrameClass { height:84%; }
 
     #qwerty{ display:none; }
@@ -212,7 +172,7 @@
     } 
 </style>
 
-<form id='outcome' action="/encounters/update_obs_before_create" method='post'>
+<form id='outcome' action="/encounters/create" method='post'>
   
 	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
 	
@@ -454,8 +414,8 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
 		{	:id => "height#{baby}",
 			:field_type => "number",
 			:tt_onLoad => "$('clearButton').style.display = 'inline';",
-		   	:min => number_with_precision(0.5, :precision => 1),
-		   	:max => number_with_precision(15, :precision => 1),
+		   	:min => number_with_precision(15, :precision => 1),
+		   	:max => number_with_precision(60, :precision => 1),
 		   	:absoluteMin => 0,
 		   	:absoluteMax => 100,
 		   	:units => 'cm',
@@ -484,7 +444,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
 			:tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" } %>
 
 <%= touch_text_field_tag "PULSE", @patient, nil,
-		{	:id => "pulse",
+		{	:id => "pulse#{baby}",
 			:field_type => 'number',
 			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Pulse",
 			:min => number_with_precision(0.2, :precision => 1),

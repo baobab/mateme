@@ -1,23 +1,22 @@
-# production:
-#   adapter: mysql
-#   database: openmrs
-#   username: root
-#   password:
-#   host: localhost
+production:
+  adapter: mysql
+  database: maternity
+  username: root
+  password: masula
+  host: localhost
 
 development:
-  adapter: mysql
-  #database: openmrs_development
-  database: mateme_development
+  adapter: mysql  
+  database: maternity
   username: root
-  password:
+  password: masula
   host: localhost
 
 test:
   adapter: mysql
-  database: openmrs_test
+  database: maternity
   username: root
-  password: 
+  password: masula
   host: localhost
 
 
