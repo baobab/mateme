@@ -34,6 +34,11 @@
   <%= hidden_field_tag(:location, @location, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
 
   <label for="ward">Ward</label>
+  <%if !CoreService.get_global_property_value('hdu_pog_wards')%>
+	  <%@login_wards.delete("High Dependency Unit (HDU)")%>
+	  <%@login_wards.delete("Private Obsteric and Gynaecology")%>
+  <%end%>
+
   <%= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_requireNextClick => 'true', :tt_onload => 'updateNextButton();'})%> <br>
 
   <%= submit_tag value="Submit"%>
