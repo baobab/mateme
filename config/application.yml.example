@@ -1,4 +1,5 @@
 production:
+ demographic_server_ips_and_local_ports: {"localhost":"4000"}
  create.from.remote: true
  create.from.dde.server: false
  link.to.anc: false
@@ -7,7 +8,10 @@ production:
  remote_bart.password: test
  remote_bart.location: 721
  remote_machine.account_name: localhost
- 
+ application.include_delivery_mode: yes
+ application.include_baby_weight_and_apgar: yes
+ hdu_pog_wards: false
+
 development:
  create.from.remote: true
  create.from.dde.server: false
@@ -17,8 +21,11 @@ development:
  remote_bart.password: test
  remote_bart.location: 721
  remote_machine.account_name: localhost
+ extra_delivery_mode: true
+ application.include_baby_weight_and_apgar: yes
+ hdu_pog_wards: false
  
-test: &TEST
+test: &TEST 
  create.from.remote: false
  create_from_remote: no
  use.user.selected.activities: yes
@@ -26,7 +33,10 @@ test: &TEST
  remote_bart.username: admin
  remote_bart.password: test
  remote_bart.location: 721
- remote_machine.account_name: localhost
+ remote_machine.account_name: localhost 
+ application.include_delivery_mode: yes
+ application.include_baby_weight_and_apgar: yes
+ hdu_pog_wards: false
 
 cucumber:
   <<: *TEST

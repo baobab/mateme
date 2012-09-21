@@ -127,8 +127,13 @@
       :tt_pageStyleClass => "NumbersWithUnknown",
       :tt_onLoad => "timedEvent = setTimeout('calculateBP(1)', 100);",
       :tt_onUnLoad => "clearTimeout(timedEvent);",
-      :absoluteMin => 0,
-      :max => 250
+      :min => number_with_precision(90, :precision => 1),
+      :max => number_with_precision(140, :precision => 1),
+      :absoluteMin => 50,
+      :absoluteMax => 230,
+      :units => 'mm Hg',
+      :validationRule => "^([0-9]+)|Unknown$",      
+      :tt_pageStyleClass => "Numeric NumbersOnly"
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "SYSTOLIC BLOOD PRESSURE", {:id => 'systolic_blood_pressure_concept_name'}) %>
@@ -143,8 +148,13 @@
       :tt_pageStyleClass => "NumbersWithUnknown",
       :tt_onLoad => "timedEvent = setTimeout('calculateBP(2)', 100);",
       :tt_onUnLoad => "clearTimeout(timedEvent);",
-      :absoluteMin => 0,
-      :max => 180
+      :min => number_with_precision(60, :precision => 1),
+      :max => number_with_precision(90, :precision => 1),
+      :absoluteMin => 35,
+      :absoluteMax => 135,
+      :units => 'mm Hg',
+      :validationRule => "^([0-9]+)|Unknown$"
+        
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "DIASTOLIC BLOOD PRESSURE", {:id => 'diastolic_blood_pressure_concept_name'}) %>
@@ -156,9 +166,14 @@
       :id => "pulse",
       :helptext => "Pulse",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersWithUnknown",
+      :tt_pageStyleClass => "NumbersWithUnknownAndDecimal",
+      :min => 50,
+	  :max => 120,
       :absoluteMin => 0,
-      :max => 150
+      :absoluteMax => 160,
+      :units => 'bpm',
+	  :validationRule => "([0-9]+)|Unknown$"
+	  
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "PULSE", {:id => 'pulse_concept_name'}) %>
@@ -171,8 +186,13 @@
       :helptext => "Respiration Rate",
       :field_type => "number",
       :tt_pageStyleClass => "NumbersWithUnknown",
+      :min => 12,
+	  :max => 20,
       :absoluteMin => 0,
-      :max => 50
+      :absoluteMax => 200,
+	  :units => 'bpm',
+	  :validationRule => "([0-9]+)|Unknown$"
+	  
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "RESPIRATION RATE", {:id => 'respiration_concept_name'}) %>
@@ -184,7 +204,12 @@
       :id => "temperature",
       :helptext => "Temperature",
       :field_type => "number",
-      :tt_pageStyleClass => "NumbersWithUnknownAndDecimal"
+      :tt_pageStyleClass => "NumbersWithUnknownAndDecimal",
+      :min => 36.5,
+	  :max => 37.5,
+      :absoluteMin => 0,
+      :absoluteMax => 100,
+	  :validationRule => "([0-9]+)|Unknown$"	  
     }) %>
 
   <%= hidden_field_tag("observations[][concept_name]",  "TEMPERATURE", {:id => 'temperature_concept_name'}) %>

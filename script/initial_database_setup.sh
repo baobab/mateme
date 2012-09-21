@@ -27,7 +27,7 @@ sudo apt-get install htmldoc
 USERNAME=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['username']"`
 PASSWORD=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['password']"`
 DATABASE=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['database']"`
-
+echo "REACHED POINT"
 echo "DROP DATABASE $DATABASE;" | mysql --user=$USERNAME --password=$PASSWORD
 echo "CREATE DATABASE $DATABASE;" | mysql --user=$USERNAME --password=$PASSWORD
 

@@ -221,10 +221,11 @@ class Person < ActiveRecord::Base
     if params.to_s == 'timeout' || params.to_s == 'creationfailed'
       return params.to_s
     end
-
+    
     if params.has_key?('person')
       params = params['person']
     end
+
     address_params = params["addresses"]
     names_params = params["names"]
     patient_params = params["patient"]
@@ -240,8 +241,7 @@ class Person < ActiveRecord::Base
       person = Person.create(person_params[:person])
     else
       person = Person.create(person_params)
-    end
-    
+    end   
     
     if birthday_params["birth_year"] == "Unknown"
       person.set_birthdate_by_age(birthday_params["age_estimate"])

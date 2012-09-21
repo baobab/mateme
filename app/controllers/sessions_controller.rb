@@ -35,7 +35,7 @@ class SessionsController < ApplicationController
     @wards = GlobalProperty.find_by_property('facility.login_wards').property_value.split(',') rescue []
 
     @login_wards = [' ']
-
+ 
     @wards.each{|ward|
       @login_wards << ward
 =begin      

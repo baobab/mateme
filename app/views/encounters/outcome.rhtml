@@ -1,117 +1,130 @@
-<script>
-  var tt_cancel_destination = "/patients/show/<%= @patient.id%>?auto_load_forms=false"
 
+<script language="javascript">
+                           
+  var currentWeight;
+  var displayText = '';
+  var apgarScore;
+  var maxi;
+  var mini;
+  function $(e) {
+    return document.getElementById(e);
+  }
+ 
+  function growthIndicators(){
+     //These values pulled from the tt_onLoad bit in the third form...
+     for (i = 1; i <= parseInt(document.getElementById("number_of_babies").value); i++){ 			
+		 currentWeight = $('weight' + i).value;         
+		 gender = $("baby_gender" + i).value;
+		if (gender == "Male"){
+		 maxi = 4.5;
+		 mini = 2.5;
+		}else if (gender == "Female"){
+		 maxi = 4.4;
+		 mini = 2.4;
+		}    
+		showWeightForAge(i);
+        showApgarScore(i);
+		displayText += "<br>"		
+		}
+     $('inputFrame'+tstCurrentPage).innerHTML = '<div id="summary">' + displayText + '</div><div id="charts" style="height:185px;margin:2px 6px 6px;padding:2px;width:380px;"></div>';     
+   }  
+  function showApgarScore(n){
+  	apgarScore = parseFloat($("appearance" + n).value) + parseFloat($("pulse" + n).value) + parseFloat($("grimance" + n).value) + parseFloat($("activity" + n).value) + parseFloat($("respiration" + n).value);
+	displayText += "<div><span class='title'>Apgar score for baby " + n + ":</span>";
+    if (apgarScore >= 7){
+      displayText += "<span class='normal'> [" + apgarScore.toFixed(1) + "/10] </span>" + "<span class ='recommendation'> Normal </span><br>";
+    } else if (apgarScore <=3) {
+      displayText += "<span class='red_alert'> [" + apgarScore.toFixed(1) + "/10] </span>" + " <span class='recommendation'> Low </span><br>";
+    } else {
+      displayText += "<span class='yellow_alert'> [" + apgarScore.toFixed(1) + "/10] </span>" + " <span class='recommendation'> Fairly Low </span><br>";
+    }
+    displayText += "</div>";     
+  	}      
+  function showWeightForAge(baby){
+    $('weight_for_age').value = currentWeight;       
+    displayText += "<div><span class='title'>Weight for age for baby " + baby + ":</span>";
+    if ((currentWeight <= maxi) && (currentWeight >=mini)){
+      displayText += "<span class='normal'>" + currentWeight + "(Kg)" + "</span>" + " <span class='recommendation'> Normal </span><br>";
+    } else if (currentWeight > maxi) {
+      displayText += "<span class='yellow_alert'>" + currentWeight + '(Kg)' + "</span>" + " <span class='recommendation'> Over Weight </span><br>";
+    } else if (currentWeight < mini){
+      displayText += "<span class='red_alert'>" + currentWeight + '(Kg)' + "</span>" + " <span class='recommendation'> Under Weight</span><br>";
+    }
+    displayText += "</div>";   
+  }   
   function isValidDateFormat(value){
     return value.trim().match(/(\d{4})\-(\d{2})\-(\d{2})\s(\d{2})\:(\d{2})/);
   }
-
   function isValidTimeFormat(value){
     return value.trim().match(/(\d{2})\:(\d{2})/);
   }
-
   function createDate(value){
-    var d = isValidDateFormat(value);
-    
+    var d = isValidDateFormat(value);    
     if(d){
       return new Date(eval(d[1]),(eval(d[2])-1),eval(d[3]),eval(d[4]),eval(d[5]));
     } else {
       return new Date();
     }
-  }
-  
+  }  
   function dateTimeFormatted(value){
     return value.getFullYear() + "-" + padZeros((value.getMonth() + 1),2) + "-" + 
       padZeros(value.getDate(),2) + " " + padZeros(value.getHours(),2) + ":" + 
       padZeros(value.getMinutes(),2)
-  }
-
-  // Expects Date object and time string
+  }  
   function mergeDateTime(date, time){
-    var t = isValidTimeFormat(time);
-    
+    var t = isValidTimeFormat(time);    
     if(t){
       return new Date(date.getFullYear(), date.getMonth(), date.getDate(), eval(t[1]), eval(t[2]));
     } else {
       return date;
     }
   }
-
   function updateTimeOtherFields(group){
     var outcome_date = __$("baby" + group + "_outcome_date").value.trim();
     var delivery_mode_date = __$("baby" + group + "_delivery_mode_date").value.trim();
-    var time = __$("time_of_delivery" + group).value.trim();
-    
-    if(isValidTimeFormat(time)){
-      
-      outcome_date = createDate(outcome_date);
-      
-      outcome_date = mergeDateTime(outcome_date, time);
-      
-      __$("baby" + group + "_outcome_date").value = dateTimeFormatted(outcome_date);
-      
-      delivery_mode_date = createDate(delivery_mode_date);
-      
-      delivery_mode_date = mergeDateTime(delivery_mode_date, time);
-      
-      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(delivery_mode_date);
-      
-      if(group == 1){
-        
-        var number_of_babies_date = __$("number_of_babies_date").value.trim();
-        
-        number_of_babies_date = createDate(number_of_babies_date);
-      
-        number_of_babies_date = mergeDateTime(number_of_babies_date, time);
-      
-        __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);
-      
+    var time = __$("time_of_delivery" + group).value.trim();    
+    if(isValidTimeFormat(time)){      
+      outcome_date = createDate(outcome_date);      
+      outcome_date = mergeDateTime(outcome_date, time);      
+      __$("baby" + group + "_outcome_date").value = dateTimeFormatted(outcome_date);      
+      delivery_mode_date = createDate(delivery_mode_date);      
+      delivery_mode_date = mergeDateTime(delivery_mode_date, time);      
+      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(delivery_mode_date);      
+      if(group == 1){        
+        var number_of_babies_date = __$("number_of_babies_date").value.trim();        
+        number_of_babies_date = createDate(number_of_babies_date);      
+        number_of_babies_date = mergeDateTime(number_of_babies_date, time);      
+        __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);      
       }
     }
-  }
-  
+  }  
   function updateDateOtherFields(group){
     var outcome_date = createDate(__$("baby" + group + "_outcome_date").value.trim());
     var delivery_mode_date = createDate(__$("baby" + group + "_delivery_mode_date").value.trim());
     var date = __$("date_of_delivery" + group).value.trim();
-    var time = padZeros(outcome_date.getHours(),2) + ":" + padZeros(outcome_date.getMinutes(),2);
-    
-    if(isValidTimeFormat(time)){
-      
-      date = createDate(date);
-      
-      date = mergeDateTime(date, time);
-      
+    var time = padZeros(outcome_date.getHours(),2) + ":" + padZeros(outcome_date.getMinutes(),2);    
+    if(isValidTimeFormat(time)){      
+      date = createDate(date);      
+      date = mergeDateTime(date, time);      
       __$("baby" + group + "_outcome_date").value = dateTimeFormatted(date);
-    }
-    
+    }    
     date = __$("date_of_delivery" + group).value.trim();
-    time = padZeros(delivery_mode_date.getHours(),2) + ":" + padZeros(delivery_mode_date.getMinutes(),2);
-    
+    time = padZeros(delivery_mode_date.getHours(),2) + ":" + padZeros(delivery_mode_date.getMinutes(),2);    
     if(isValidTimeFormat(time)){
-      date = createDate(date);
-      
-      date = mergeDateTime(date, time);
-      
-      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(date);
-      
-    }
-    
+      date = createDate(date);      
+      date = mergeDateTime(date, time);      
+      __$("baby" + group + "_delivery_mode_date").value = dateTimeFormatted(date);      
+    }    
     var number_of_babies_date = createDate(__$("number_of_babies_date").value.trim());
         
     date = __$("date_of_delivery" + group).value.trim();
-    time = padZeros(number_of_babies_date.getHours(),2) + ":" + padZeros(number_of_babies_date.getMinutes(),2);
-    
-    if(group == 1 && isValidTimeFormat(time)){
-        
-      number_of_babies_date = createDate(number_of_babies_date);
-      
-      number_of_babies_date = mergeDateTime(number_of_babies_date, time);
-      
-      __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);
-      
+    time = padZeros(number_of_babies_date.getHours(),2) + ":" + padZeros(number_of_babies_date.getMinutes(),2);    
+    if(group == 1 && isValidTimeFormat(time)){        
+      number_of_babies_date = createDate(number_of_babies_date);      
+      number_of_babies_date = mergeDateTime(number_of_babies_date, time);      
+      __$("number_of_babies_date").value = dateTimeFormatted(number_of_babies_date);      
     }
-  }
-  
+  }  
   // Every 500 milliseconds update the Next/Finish button
   function updateNextFinish(){
     if (tstInputTarget.value == '')
@@ -119,20 +132,46 @@
     else
       $('nextButton').innerHTML = '<span>Next</span>';
     setTimeout(updateNextFinish, 500)
-  }
-
+  } 
 </script>
-<style>
+
+ <style type="text/css">
   #space { display:inline; font-size:1.2em; }
   #Unknown {display: none;}
   #num {display: none;}
 
   .n #Unknown{
     display: block;    
-  }
-</style>
-<form id='outcome' action="/encounters/create" method='post'>
+  } 
+    #summary {
+      padding:10px;
+      font-size:1.8em;
+    }
+    #char {
+      display: none;
+    }
+    .title {
+      text-decoration:underline;
+      margin-right:10px;
+    }
+    
+    .red_alert {color:black;background:red;}
+    .yellow_alert {color:black;background:yellow;}
+    .normal {color:black;}
+       
+    #tt_page_summary .inputFrameClass { height:84%; }
 
+    #qwerty{ display:none; }
+    
+    .unknownButton .numericKeyboard #char, #slash, #star, #plus, #date, #minus, #comma, #percent {
+			display: none;
+    } 
+</style>
+
+<form id='outcome' action="/encounters/create" method='post'>
+  
+	<%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+	
   <%@presentation = [""] + Concept.find_by_name("PRESENTATION").concept_answers.collect{|c| c.name} %>
   <%@baby_outcome = [""] + Concept.find_by_name("BABY OUTCOME").concept_answers.collect{|c| c.name} %>
   <% @main_outcomes = [""] + Concept.find_by_name("MATERNITY OUTCOME").concept_members_names rescue [] %>
@@ -140,7 +179,7 @@
     "DELIVERED BEFORE ARRIVAL",
     "DELIVERED IN THEATRE",
     "DELIVERED IN ANTENATAL WARD"] %>
-
+  <% @mode_of_delivery = ["", "Forceps delivery", "Breech delivery"] %>
   <% @main_outcomes = @main_outcomes - ["Admitted"] %>
 
   <% @main_outcomes = @main_outcomes - ["Discharged"] if !@location.upcase.include?("POST") && !@location.upcase.include?("ANTE") %>
@@ -192,9 +231,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   else {$('next_url').disabled = true; }"
 
   end
-
 %>
-
   <% options = {
     :id =>"discharge_outcome",
     :helpText => 'Outcome',
@@ -206,12 +243,17 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time :
         DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
+<% if CoreService.get_global_property_value('extra_delivery_mode')%>
+ 	<% @delivery_mode.concat(["Forceps Delivery"]) %>
+<%end%> 
+
   <% options = {
     :id => "admission_section",
     :field_type => 'text',
     :helptext =>"Select admission section",
     :condition => "($('discharge_outcome').value.toUpperCase() == 'ADMITTED')"
   }%>
+
   <%= hidden_field_tag("observations[][concept_name]",  "ADMISSION SECTION") %>
   <%= select_tag("observations[][value_coded_or_text]", options_for_select(@admission_section), options)%>
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
@@ -261,7 +303,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
   }
 %>
   <% (1..10).each do |baby| %>
-
+     
     <% options = {
       :id => "presentation#{baby}",
       :field_type => 'text',
@@ -349,6 +391,114 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
+<%= touch_text_field_tag "WEIGHT (KG)", @patient, nil,
+		{	:id => "weight#{baby}",
+			:field_type => 'number',
+			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Weight (KG)",
+			:min => number_with_precision(2.5, :precision => 1),
+			:max => number_with_precision(4.5, :precision => 1),
+			:condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+			:absoluteMin => 0,
+			:absoluteMax => 228,
+			:validationRule => "([0-9]+(\\.[0-9])?)|Unknown$",
+			:validationMessage => "You must enter a number between 0 and 15 (for example: 54<b>.6</b>)",
+			:tt_pageStyleClass => "unknownButton"} %>
+
+<%= touch_text_field_tag "HEIGHT (CM)", @patient, nil,
+		{	:id => "height#{baby}",
+			:field_type => "number",
+			:tt_onLoad => "$('clearButton').style.display = 'inline';",
+		   	:min => number_with_precision(15, :precision => 1),
+		   	:max => number_with_precision(60, :precision => 1),
+		   	:absoluteMin => 0,
+		   	:absoluteMax => 100,
+		   	:units => 'cm',
+			:condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+		   	:validationRule => "^([0-9]+)|Unknown$",
+		   	:validationMessage => "You must enter numbers only (for example 157)",
+		   	:tt_pageStyleClass => "unknownButton",
+			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Height (CM)" } %>
+
+<%= touch_text_field_tag "APPEARANCE", @patient, nil,
+		{	:id => "appearance#{baby}",
+			:field_type => 'number',
+			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Appearance",
+			:min => number_with_precision(0.2, :precision => 1),
+			:max => number_with_precision(1.7, :precision => 1),
+			:condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+			:absoluteMin => 0,
+			:absoluteMax => 2,
+			
+			:validationRule => "([0-9]+(\\.[0-9])?)|Unknown$",
+			:validationMessage => "You must enter a number between 0 and 9 (for example: 54<b>.6</b>)",
+			:tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" } %>
+
+<%= touch_text_field_tag "PULSE", @patient, nil,
+		{	:id => "pulse#{baby}",
+			:field_type => 'number',
+			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Pulse",
+			:min => number_with_precision(0.2, :precision => 1),
+			:max => number_with_precision(1.7, :precision => 1),
+			:condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+			:absoluteMin => 0,
+			:absoluteMax => 2,
+			
+			:validationRule => "([0-9]+(\\.[0-9])?)|Unknown$",
+			:validationMessage => "You must enter a number between 0 and 9 (for example: 54<b>.6</b>)",
+			:tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" } %>
+
+<%= touch_text_field_tag "GRIMANCE", @patient, nil,
+		{	:id => "grimance#{baby}",
+			:field_type => 'number',
+			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Grimance",
+			:min => number_with_precision(0.2, :precision => 1),
+			:max => number_with_precision(1.7, :precision => 1),
+			:condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+			:absoluteMin => 0,
+			:absoluteMax => 2,
+			:validationRule => "([0-9]+(\\.[0-9])?)|Unknown$",
+			:validationMessage => "You must enter a number between 0 and 9 (for example: 54<b>.6</b>)",
+			:tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" } %>
+<%= touch_text_field_tag "ACTIVITY", @patient, nil,
+		{	:id => "activity#{baby}",
+			:field_type => 'number',
+			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Activity",
+			:min => number_with_precision(0.2, :precision => 1),
+			:max => number_with_precision(1.7, :precision => 1),
+			:condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+			:absoluteMin => 0,
+			:absoluteMax => 2,
+			:validationRule => "([0-9]+(\\.[0-9])?)|Unknown$",
+			:validationMessage => "You must enter a number between 0 and 9 (for example: 54<b>.6</b>)",
+			:tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" } %>
+<%= touch_text_field_tag "RESPIRATION", @patient, nil,
+		{	:id => "respiration#{baby}",
+			:field_type => 'number',
+			:helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Respiration",
+			:min => number_with_precision(0.2, :precision => 1),
+			:max => number_with_precision(1.7, :precision => 1),
+			:condition => (@location.downcase == "ante-natal ward" ? "false" :
+          "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
+          "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
+			:absoluteMin => 0,
+			:absoluteMax => 2,
+			:validationRule => "([0-9]+(\\.[0-9])?)|Unknown$",
+			:validationMessage => "You must enter a number between 0 and 9 (for example: 54<b>.6</b>)",
+			:tt_pageStyleClass => "Numeric NumbersWithUnknownAndDecimal" } %>
+
+        
     <% options = {
       :id => "delivery_mode#{baby}",
       :field_type => 'text',
@@ -357,8 +507,9 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
           "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
           "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/")
     }%>
+
     <%= hidden_field_tag("observations[][concept_name]",  "DELIVERY MODE") %>
-    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode), options)%>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@delivery_mode.uniq), options)%>
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",
       (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M"),
@@ -547,6 +698,18 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
   <% end %>
+
+       
+        <%= touch_hidden_tag "WT FOR AGE", @patient, nil, {:id => 'weight_for_age'} %>
+    
+	
+    
+    <%= text_field_tag :showSummary, nil, 
+		{	:tt_onLoad => "$('clearButton').style.display = 'none';growthIndicators()", 
+			:tt_onUnLoad => "$('clearButton').style.display = 'inline';", 
+			:helpText => "Summary",
+			:optional => "true", 
+			:tt_pageStyleClass => "NoControls" } %>
 
 <%#= hidden_field_tag "next_url", "/encounters/new/admission_diagnosis/?patient_id=#{@patient.id}", {:disabled => true} %>
 
