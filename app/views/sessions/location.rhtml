@@ -34,9 +34,13 @@
   <%= hidden_field_tag(:location, @location, :helpText=> "Workstation Location", :field_type => "number", :tt_onLoad => "inform();") %><br>
 
   <label for="ward">Ward</label>
-  <%if !CoreService.get_global_property_value('hdu_pog_wards')%>
+  <%if !CoreService.get_global_property_value('hdu_pog_theater_wards')%>
 	  <%@login_wards.delete("High Dependency Unit (HDU)")%>
-	  <%@login_wards.delete("Private Obsteric and Gynaecology")%>
+	  <%@login_wards.delete("Private Obstetric and Gynaecology")%> 
+      <%@login_wards.delete("Theater")%>
+  <%else%>
+	  <%@login_wards.delete("Post-Natal Ward (High Risk)")%> 
+      <%@login_wards.delete("Post-Natal Ward (Low Risk)")%> 
   <%end%>
 
   <%= select_tag("ward", options_for_select(@login_wards), {:helpText => 'Select Ward', :tt_requireNextClick => 'true', :tt_onload => 'updateNextButton();'})%> <br>

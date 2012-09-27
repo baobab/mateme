@@ -1,5 +1,5 @@
 production:
- demographic_server_ips_and_local_ports: {"localhost":"4000"}
+ #demographic_server_ips_and_local_ports: {"localhost":"4000"}
  create.from.remote: true
  create.from.dde.server: false
  link.to.anc: false
@@ -10,7 +10,7 @@ production:
  remote_machine.account_name: localhost
  application.include_delivery_mode: yes
  application.include_baby_weight_and_apgar: yes
- hdu_pog_wards: false
+ hdu_pog_theater_wards: false
 
 development:
  create.from.remote: true
@@ -23,7 +23,7 @@ development:
  remote_machine.account_name: localhost
  extra_delivery_mode: true
  application.include_baby_weight_and_apgar: yes
- hdu_pog_wards: false
+ hdu_pog_theater_wards: true
  
 test: &TEST 
  create.from.remote: false
@@ -36,7 +36,8 @@ test: &TEST
  remote_machine.account_name: localhost 
  application.include_delivery_mode: yes
  application.include_baby_weight_and_apgar: yes
- hdu_pog_wards: false
+ hdu_pog_theater_wards: false
 
 cucumber:
   <<: *TEST
+

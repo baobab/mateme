@@ -70,7 +70,7 @@
 
     $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" + 
       edod + "</i><br /><br />Gestation Weeks: " + (gestation < 32 &&
-      gestation.trim().length > 0 ? "<i style='color: red'>(Premature)</i>" : "") +
+      gestation.trim().length > 0 ? "<i style='color: red'>(Premature)</i>" : (gestation > 42 && gestation.trim().length > 0 ? "<i style='color: red'>(Abnormal)</i>" : "")) +
       "<i style='font-size: 1.2em; float: right; width: 100px;'>" + gestation + "</i>";
     
     timedEvent = setTimeout('calculateEDOD()', 500);

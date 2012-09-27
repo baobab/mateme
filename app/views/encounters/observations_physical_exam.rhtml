@@ -222,18 +222,18 @@
   <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
   <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "presentation",
       :helptext => "Presentation",
       :field_type => "text",
       :condition => "__$('fundus').value != 'N/A'"
     }) %>
-  <% @presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow", "Shoulder"] %>
+  <%#@presentation = ["", "Compound", "Cephalic", "Breech", "Face", "Footling", "Cord", "Brow", "Shoulder"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "PRESENTATION", {:id => 'presentation_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "PRESENTATION", {:id => 'presentation_concept_name'}) %>
+  <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@presentation),options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
   <%# options = default.merge({
       :id => "position",
@@ -254,78 +254,78 @@
 <%#--------------------------------------------------------%>
 
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "vertex",
       :helptext => "Cephalic Position Type",
       :field_type => "text",
       :condition => "$('presentation').value.trim().toUpperCase() == 'CEPHALIC' && __$('fundus').value != 'N/A'"
     }) %>
-  <% @vertex = ["", "Left Occipito Anterior",
+  <%# @vertex = ["", "Left Occipito Anterior",
     "Left Occipito Transverse",
     "Left Occipito Posterior",
     "Right Occipito Anterior",
     "Right Occipito Transverse",
     "Right Occipito Posterior"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "CEPHALIC", {:id => 'position_vertex_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@vertex),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "CEPHALIC", {:id => 'position_vertex_concept_name'}) %>
+  <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@vertex),options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "breech",
       :helptext => "Breech Position Type",
       :field_type => "text",
       :condition => "$('presentation').value.trim().toUpperCase() == 'BREECH' && __$('fundus').value != 'N/A';"
     }) %>
-  <% @breech = ["", "Left Sacro Anterior",
+  <%# @breech = ["", "Left Sacro Anterior",
     "Left Sacro Transverse",
     "Left Sacro Posterior",
     "Right Sacro Anterior",
     "Right Sacro Transverse",
     "Right Sacro Posterior"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "BREECH", {:id => 'position_breech_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@breech),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "BREECH", {:id => 'position_breech_concept_name'}) %>
+  <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@breech),options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "face",
       :helptext => "Face Position Type",
       :field_type => "text",
       :condition => "$('presentation').value.trim().toUpperCase() == 'FACE' && __$('fundus').value != 'N/A';"
     }) %>
-  <% @face = ["", "Left Mento Anterior",
+  <%# @face = ["", "Left Mento Anterior",
     "Left Mento Transverse",
     "Left Mento Posterior",
     "Right Mento Anterior",
     "Right Mento Transverse",
     "Right Mento Posterior"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "FACE", {:id => 'position_face_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@face),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "FACE", {:id => 'position_face_concept_name'}) %>
+  <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@face),options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 
-  <% options = default.merge({
+  <%# options = default.merge({
       :id => "shoulder",
       :helptext => "Shoulder Position Type",
       :field_type => "text",
       :condition => "$('presentation').value.trim().toUpperCase() == 'SHOULDER' && __$('fundus').value != 'N/A';"
     }) %>
-  <% @shoulder = ["", "Left Acromion Dorsal Anterior",
+  <%# @shoulder = ["", "Left Acromion Dorsal Anterior",
     "Left Acromion Dorsal Posterior",
     "Right Acromion Dorsal Anterior",
     "Right Acromion Dorsal Posterior"] %>
 
-  <%= hidden_field_tag("observations[][concept_name]",  "SHOULDER", {:id => 'position_shoulder_concept_name'}) %>
-  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@shoulder),options) %>
-  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-  <%= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
+  <%#= hidden_field_tag("observations[][concept_name]",  "SHOULDER", {:id => 'position_shoulder_concept_name'}) %>
+  <%#= select_tag("observations[][value_coded_or_text]", options_for_select(@shoulder),options) %>
+  <%#= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%#= hidden_field_tag("observations[][obs_datetime]",  DateTime.now()) %>
 
 <%#--------------------------------------------------------%>
 

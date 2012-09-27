@@ -117,7 +117,11 @@
           </button>
         </div>
         <div style="display: table-cell">
-          &nbsp;
+          <button class="<%= (@encounters.include?("HEAD") ? "gray" : "blue") %>"
+                  onclick="<%= (@encounters.include?("HEAD") ? "" :
+                      "window.location = '/encounters/new/general_body_exam?patient_id=#{@patient.id}&next=true&ret=antenatal';") %> ">
+            <span>General Body Examination</span>
+          </button>
         </div>
       </div>
     </div>

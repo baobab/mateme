@@ -4,89 +4,89 @@
 
   function setDate(elementId){
 
-    if ($(elementId).value.toLowerCase() == 'unknown'){
-      $(elementId+'_value_datetime').value = null;
-      $(elementId+'_value_modifier').value = null;
-    }
-    else{
-      $(elementId+'_value_datetime').value = new Date($(elementId).value);  //.replace(/-/g, '/'));
-    }
+  if ($(elementId).value.toLowerCase() == 'unknown'){
+  $(elementId+'_value_datetime').value = null;
+  $(elementId+'_value_modifier').value = null;
+  }
+  else{
+  $(elementId+'_value_datetime').value = new Date($(elementId).value);  //.replace(/-/g, '/'));
+  }
   }
 
   function checkHIVTestDate(){
-    var hiv_test_date_str = $("hiv_test_date").value.replace(/-/g, '/');
-    var hiv_test_date     = new Date(hiv_test_date_str);
-    var today             = new Date(Date.now());
+  var hiv_test_date_str = $("hiv_test_date").value.replace(/-/g, '/');
+  var hiv_test_date     = new Date(hiv_test_date_str);
+  var today             = new Date(Date.now());
 
-    var weeks_ago = parseInt((today.getTime()- hiv_test_date.getTime())/ (1000 * 60 * 60 * 24 * 7));
-   
-    if (weeks_ago > 12){
-      dispatchMessage("Patient needs to be tested again", tstMessageBoxType.OKOnly);
-      return "true";
-    }
-    return "false";
+  var weeks_ago = parseInt((today.getTime()- hiv_test_date.getTime())/ (1000 * 60 * 60 * 24 * 7));
+
+  if (weeks_ago > 12){
+  dispatchMessage("Patient needs to be tested again", tstMessageBoxType.OKOnly);
+  return "true";
+  }
+  return "false";
   }
 
   // Every 500 milliseconds update the Next/Finish button
   function updateNextFinish(){
-    if (tstInputTarget.value == '')
-      $('nextButton').innerHTML = '<span>Finish</span>';
-    else
-      $('nextButton').innerHTML = '<span>Next</span>';
-    setTimeout(updateNextFinish, 500)
+  if (tstInputTarget.value == '')
+  $('nextButton').innerHTML = '<span>Finish</span>';
+  else
+  $('nextButton').innerHTML = '<span>Next</span>';
+  setTimeout(updateNextFinish, 500)
   }
 
   function calculateEDOD(){
-    var edod = "";
-    var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
-    if(!$('expected_date_of_delivery')){
-      var div = document.createElement("div");
-      div.id = "expected_date_of_delivery";
-      div.className = "statusLabel";
+  var edod = "";
+  var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-      $("inputFrame" + tstCurrentPage).appendChild(div);
-    }
+  if(!$('expected_date_of_delivery')){
+  var div = document.createElement("div");
+  div.id = "expected_date_of_delivery";
+  div.className = "statusLabel";
 
-    if($("touchscreenInput" + tstCurrentPage).value.trim().length > 0){
-      var theDate = new Date($("touchscreenInput" + tstCurrentPage).value.trim());
+  $("inputFrame" + tstCurrentPage).appendChild(div);
+  }
 
-      theDate.setDate(theDate.getDate() + 7);
+  if($("touchscreenInput" + tstCurrentPage).value.trim().length > 0){
+  var theDate = new Date($("touchscreenInput" + tstCurrentPage).value.trim());
 
-      theDate.setMonth(theDate.getMonth() + 9);
+  theDate.setDate(theDate.getDate() + 7);
 
-      edod = (theDate.getDate() + "-" + month[theDate.getMonth()] + "-" + theDate.getFullYear());
-    }
+  theDate.setMonth(theDate.getMonth() + 9);
 
-    $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" + edod + "</i>";
-    
-    timedEvent = setTimeout('calculateEDOD()', 500);
+  edod = (theDate.getDate() + "-" + month[theDate.getMonth()] + "-" + theDate.getFullYear());
+  }
+
+  $("expected_date_of_delivery").innerHTML = "Expected Date Of Delivery: <i style='font-size: 1.2em; float: right;'>" + edod + "</i>";
+
+  timedEvent = setTimeout('calculateEDOD()', 500);
   }
 
   function calculateBP(pos){
-    var bp;
-    
-    if(!$('bp')){
-      var div = document.createElement("div");
-      div.id = "bp";
-      div.className = "statusLabel";
+  var bp;
 
-      $("inputFrame" + tstCurrentPage).appendChild(div);
-    }
+  if(!$('bp')){
+  var div = document.createElement("div");
+  div.id = "bp";
+  div.className = "statusLabel";
 
-    if(pos == 1){
-      bp = ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
-        tstCurrentPage).value.trim() : "?") +
-        "/" + ($("diastolic_blood_pressure").value.trim().length > 0 ? $("diastolic_blood_pressure").value.trim() : "?");
-    } else if(pos == 2){
-      bp = ($("systolic_blood_pressure").value.trim().length > 0 ? $("systolic_blood_pressure").value.trim() : "?") +
-        "/" + ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
-        tstCurrentPage).value.trim() : "?");
-    }
-    
-    $("bp").innerHTML = "Blood Pressure: <i style='font-size: 1.2em; float: right;'>" + bp + "</i>";
+  $("inputFrame" + tstCurrentPage).appendChild(div);
+  }
 
-    timedEvent = setTimeout('calculateBP(' + pos + ')', 500);
+  if(pos == 1){
+  bp = ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+  tstCurrentPage).value.trim() : "?") +
+  "/" + ($("diastolic_blood_pressure").value.trim().length > 0 ? $("diastolic_blood_pressure").value.trim() : "?");
+  } else if(pos == 2){
+  bp = ($("systolic_blood_pressure").value.trim().length > 0 ? $("systolic_blood_pressure").value.trim() : "?") +
+  "/" + ($("touchscreenInput" + tstCurrentPage).value.trim().length > 0 ? $("touchscreenInput" +
+  tstCurrentPage).value.trim() : "?");
+  }
+
+  $("bp").innerHTML = "Blood Pressure: <i style='font-size: 1.2em; float: right;'>" + bp + "</i>";
+
+  timedEvent = setTimeout('calculateBP(' + pos + ')', 500);
   }
 
 </script>
@@ -121,7 +121,17 @@
   <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
 
   <% if params[:ret] && params[:ret] != "postnatal" %>
+    <% options = default.merge({
+        :id => "genetalia_inspection",
+        :helptext => "Genetalia Inspection",
+        :field_type => "text"
+      }) %>
+    <% @genetalia_inspection = ["", "Not Done", "Scar", "Sores", "Warts", "Bleeding", "Liqour", "Varicose Veins", "Nothing Abnormal Detected", "Show"] %>
 
+    <%= hidden_field_tag("observations[][concept_name]",  "GENETALIA INSPECTION", {:id => 'genetalia_inspection_concept_name'}) %>
+    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@genetalia_inspection),options) %>
+    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
     <% options = default.merge({
         :id => "station",
         :helptext => "Station",
@@ -239,18 +249,6 @@
 
     <%= hidden_field_tag("observations[][concept_name]",  "PRESENTING PART", {:id => 'presenting_part_concept_name'}) %>
     <%= select_tag("observations[][value_coded_or_text]", options_for_select(@presenting_part),options) %>
-    <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
-    <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
-
-    <% options = default.merge({
-        :id => "genetalia_inspection",
-        :helptext => "Genetalia Inspection",
-        :field_type => "text"
-      }) %>
-    <% @genetalia_inspection = ["", "Not Done", "Scar", "Sores", "Warts", "Bleeding", "Liqour", "Varicose Veins", "Nothing Abnormal Detected", "Show"] %>
-
-    <%= hidden_field_tag("observations[][concept_name]",  "GENETALIA INSPECTION", {:id => 'genetalia_inspection_concept_name'}) %>
-    <%= select_tag("observations[][value_coded_or_text]", options_for_select(@genetalia_inspection),options) %>
     <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
     <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
 
