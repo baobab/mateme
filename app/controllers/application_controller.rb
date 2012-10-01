@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
     @backtrace = exception.backtrace.join("\n") unless exception.nil?
     render :file => "#{RAILS_ROOT}/app/views/errors/error.rhtml", :layout=> false, :status => 404
   end if RAILS_ENV == 'production'
+#test push
 
   def next_task(patient)
     current_visit_encounters = patient.current_visit.encounters.active.find(:all, :include => [:type]).map{|e| e.type.name} rescue []
