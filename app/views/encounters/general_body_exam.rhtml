@@ -1,0 +1,87 @@
+
+<script>
+  var tt_cancel_destination = "/encounters/new/<%= (params[:ret] ? params[:ret] : "observations") %>/?patient_id=<%=  @patient.id %>"
+</script>
+<form id='medical_history' action="/encounters/create" method='post'>
+  <% default={
+    :allowFreeText => 'true',
+    :tt_requireNextClick => false,
+    :tt_onLoad => "__$('nextButton').style.display='none';",    
+  } %>
+
+  <%= hidden_field_tag "encounter[encounter_type_name]", "OBSERVATIONS" %>
+  <%= hidden_field_tag "encounter[patient_id]", @patient.id %>
+  <%= hidden_field_tag "encounter[encounter_datetime]", (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M") %>
+  <%= hidden_field_tag "encounter[provider_id]", session[:user_id] %>
+
+  <% options = default.merge({
+      :id => "head",
+      :helptext => "Head",
+      :field_type => "text"
+    }) %>
+  <% @select_options = ["", "Normal", "Abnormal", "Not Done"] %>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "HEAD", {:id => 'head status'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@select_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = default.merge({
+      :id => "heart",
+      :helptext => "Heart Beat",
+      :field_type => "text"
+    }) %>
+  <% @select_options = ["", "Normal Heart Sound", "Abnormal Heart Sound", "Not Done"] %>
+  <%= hidden_field_tag("observations[][concept_name]",  "HEART", {:id => 'heart beat status'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@select_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = default.merge({
+      :id => "chest",
+      :helptext => "Chest",
+      :field_type => "text"
+    }) %>
+  <% @select_options = ["", "Clear", "Abnormal", "Not Done"]%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "CHEST", {:id => 'chest status'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@select_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = default.merge({
+      :id => "breast",
+      :helptext => "Breasts",
+      :field_type => "text"
+    }) %>
+  <% @select_options = ["", "Normal", "Lumps","Sores", "Not Done"]%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "BREAST", {:id => 'breast status'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@select_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = default.merge({
+      :id => "abdomen",
+      :helptext => "Abdomen",
+      :field_type => "text"
+    }) %>
+  <% @select_options = ["", "Enlarged", "Not Enlarged", "Not Done"]%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "ABDOMEN", {:id => 'abdomen status'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@select_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+
+  <% options = default.merge({
+      :id => "spleen",
+      :helptext => "Spleen",
+      :field_type => "text"
+    }) %>
+  <% @select_options = ["", "Enlarged", "Not Enlarged", "Not Done"]%>
+
+  <%= hidden_field_tag("observations[][concept_name]",  "SPLEEN SIZE", {:id => 'spleen status'}) %>
+  <%= select_tag("observations[][value_coded_or_text]", options_for_select(@select_options),options) %>
+  <%= hidden_field_tag("observations[][patient_id]",    @patient.id) %>
+  <%= hidden_field_tag("observations[][obs_datetime]",  (session[:datetime] ? session[:datetime].to_time : DateTime.now()).strftime("%Y-%m-%d %H:%M")) %>
+</form>

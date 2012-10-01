@@ -322,7 +322,7 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
     <% options = {
       :id => "baby_outcome#{baby}",
       :field_type => 'text',
-      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Discharge Outcome",
+      :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Delivery Outcome",
       :condition => (@location.downcase == "ante-natal ward" ? "false" :
           "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1})")
     }%>
@@ -429,8 +429,6 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
       {	:id => "appearance#{baby}",
       :field_type => 'number',
       :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Appearance",
-      :min => number_with_precision(0.2, :precision => 1),
-      :max => number_with_precision(1.7, :precision => 1),
       :condition => (@location.downcase == "ante-natal ward" ? "false" :
           "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
           "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
@@ -445,8 +443,6 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
       {	:id => "pulse#{baby}",
       :field_type => 'number',
       :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Pulse",
-      :min => number_with_precision(0.2, :precision => 1),
-      :max => number_with_precision(1.7, :precision => 1),
       :condition => (@location.downcase == "ante-natal ward" ? "false" :
           "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
           "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
@@ -461,8 +457,6 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
       {	:id => "grimance#{baby}",
       :field_type => 'number',
       :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Grimance",
-      :min => number_with_precision(0.2, :precision => 1),
-      :max => number_with_precision(1.7, :precision => 1),
       :condition => (@location.downcase == "ante-natal ward" ? "false" :
           "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
           "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
@@ -475,8 +469,6 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
       {	:id => "activity#{baby}",
       :field_type => 'number',
       :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Activity",
-      :min => number_with_precision(0.2, :precision => 1),
-      :max => number_with_precision(1.7, :precision => 1),
       :condition => (@location.downcase == "ante-natal ward" ? "false" :
           "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
           "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
@@ -489,8 +481,6 @@ $('next_url').disabled = false;} else {$('next_url').disabled = true; }"
       {	:id => "respiration#{baby}",
       :field_type => 'number',
       :helptext =>"#{baby}<sup>#{prefixes[baby]}</sup> Baby: Respiration",
-      :min => number_with_precision(0.2, :precision => 1),
-      :max => number_with_precision(1.7, :precision => 1),
       :condition => (@location.downcase == "ante-natal ward" ? "false" :
           "($('discharge_outcome').value.toUpperCase() == 'DELIVERED' && parseInt($('number_of_babies').value) > #{baby - 1}) /*|| " +
           "($('discharge_outcome').value.toUpperCase() == 'DISCHARGED' && parseInt($('number_of_babies').value) > #{baby - 1})*/"),
