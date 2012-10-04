@@ -803,11 +803,11 @@ class PatientsController < ApplicationController
     # data = data.delete_blank
 
     # Due to space limitation, no father demographics on barcode for now
-    data.delete("father")
+    # data.delete("father")
 
-    data_w_father = data
+    # data_w_father = data
 
-    @qr = RQRCode::QRCode.new(data_w_father.to_json, :size => 40, :level => :h)
+    # @qr = RQRCode::QRCode.new(data_w_father.to_json, :size => 40, :level => :h)
 
     render :layout => false
   end

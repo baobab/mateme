@@ -2,11 +2,13 @@ production:
  create.from.dde.server: false
  link.to.anc: false
  birth_registration_url: http://localhost:3007/people/import_baby
+ portal_url: 192.168.6.139:3008
 
 development:
  create.from.dde.server: false
  link.to.anc: false
  birth_registration_url: http://localhost:3007/people/import_baby
+ portal_url: 192.168.6.139:3008
 
 test: &TEST
  create_from_remote: no

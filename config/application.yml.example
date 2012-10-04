@@ -4,6 +4,7 @@ production:
  birth_registration_url: http://localhost:3007/people/import_baby
  current_facility: Bwaila Maternity Wing
  current_district: Lilongwe
+ portal_url: 192.100.100.200:80
  
 development:
  create.from.dde.server: false
@@ -11,6 +12,7 @@ development:
  birth_registration_url: http://localhost:3007/people/import_baby
  current_facility: Bwaila Maternity Wing
  current_district: Lilongwe
+ portal_url: 192.100.100.200:80
  
 test: &TEST
  create_from_remote: no

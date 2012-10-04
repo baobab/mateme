@@ -1680,7 +1680,7 @@ module ANCService
 
       begin
 
-        output = RestClient.post("http://#{demographic_server}:#{local_port}/patient/create_remote", known_demographics)
+        output = RestClient.post("http://#{demographic_server}:#{local_port}/people/create_remote", known_demographics)
 
       rescue Timeout::Error
         return 'timeout'

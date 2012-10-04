@@ -50,24 +50,7 @@
   </head>
   <body>
     <center>
-      <table width="100%" cellpadding="0">
-        <!--tr>
-          <td>
-            <table>
-        <% @qr.modules.each_index do |x| -%>
-                      <tr>
-          <% @qr.modules.each_index do |y| -%>
-            <% if @qr.dark?(x,y) -%>
-                                        <td class="black"/>
-            <% else -%>
-                                        <td class="white"/>
-            <% end -%>
-          <% end -%>
-                      </tr>
-        <% end -%>
-            </table>
-          </td>
-        </tr-->
+      <table width="100%" cellpadding="0">        
         <tr>
           <td style="text-align: center;">
             <img src="/images/emblem.gif" alt="emblem" />
@@ -479,7 +462,7 @@
                   &nbsp;
                 </td>
               </tr>
-              <tr>
+              <!--tr>
                 <td colspan="5">
                   &nbsp;
                 </td>
@@ -502,17 +485,17 @@
               <tr>
                 <td colspan="5" style="text-align: center; padding-left: 20%">
                   <table style="float: none;">
-                    <% @qr.modules.each_index do |x| -%>
+                    <%# @qr.modules.each_index do |x| -%>
                       <tr>
-                        <% @qr.modules.each_index do |y| -%>
-                          <% if @qr.dark?(x,y) -%>
+                        <%# @qr.modules.each_index do |y| -%>
+                          <%# if @qr.dark?(x,y) -%>
                             <td class="black"/>
-                          <% else -%>
+                          <%# else -%>
                             <td class="white"/>
-                          <% end -%>
-                        <% end -%>
+                          <%# end -%>
+                        <%# end -%>
                       </tr>
-                    <% end -%>
+                    <%# end -%>
                   </table>
                 </td>
               </tr>
@@ -520,7 +503,7 @@
                 <td colspan="5" style="height: 100px;">
                   &nbsp;
                 </td>
-              </tr>
+              </tr-->
             </table>
           </td>
         </tr>
