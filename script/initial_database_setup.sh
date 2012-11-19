@@ -27,7 +27,7 @@ sudo apt-get install wkhtmltopdf
 sudo apt-get install libmagick++-dev libmagick++5
 sudo apt-get install ruby-rmagick
 sudo gem install rqrcode -v="0.4.2"
-sudo gem install bary -v="0.5.0"
+sudo gem install barby -v="0.5.0"
 
 
 USERNAME=`ruby -ryaml -e "puts YAML::load_file('config/database.yml')['${ENV}']['username']"`
