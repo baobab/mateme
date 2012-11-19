@@ -323,7 +323,7 @@ module MaternityService
 
         create_from_dde_server = CoreService.get_global_property_value('create.from.dde.server').to_s == "true" rescue false
         
-        person = ANCService.create_patient_from_dde(baby) if create_from_dde_server
+        person = ANCService.create_patient_from_dde_baby(baby) if create_from_dde_server
 
         if person.blank?
           person = Person.create_from_form(baby)
