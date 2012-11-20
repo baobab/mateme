@@ -213,6 +213,7 @@
     :allowFreeText => true,
     :condition => '$("middle_name").value == "" || skipped[tstCurrentPage] == 1',
     :tt_pageStyleClass => "azButton",
+    :optional => true,
     :tt_onLoad => 'seen(tstCurrentPage);' } %>
 
   <%= text_field_tag "person[birth_year]", nil, {
