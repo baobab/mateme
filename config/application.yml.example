@@ -5,6 +5,9 @@ production:
  current_facility: Bwaila Maternity Wing
  current_district: Lilongwe
  portal_url: 192.100.100.200:80
+ dde_server_ip: localhost:3001
+ dde_server_password: admin
+ dde_server_username: admin
  
 development:
  create.from.dde.server: false
@@ -13,6 +16,9 @@ development:
  current_facility: Bwaila Maternity Wing
  current_district: Lilongwe
  portal_url: 192.100.100.200:80
+ dde_server_ip: localhost:3001
+ dde_server_password: admin
+ dde_server_username: admin
  
 test: &TEST
  create_from_remote: no

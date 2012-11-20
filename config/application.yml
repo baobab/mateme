@@ -3,12 +3,18 @@ production:
  link.to.anc: false
  birth_registration_url: http://localhost:3007/people/import_baby
  portal_url: 192.168.6.139:3008
+ dde_server_ip: localhost:3001
+ dde_server_password: admin
+ dde_server_username: admin
 
 development:
  create.from.dde.server: false
  link.to.anc: false
  birth_registration_url: http://localhost:3007/people/import_baby
  portal_url: 192.168.6.139:3008
+ dde_server_ip: localhost:3001
+ dde_server_password: admin
+ dde_server_username: admin
 
 test: &TEST
  create_from_remote: no
