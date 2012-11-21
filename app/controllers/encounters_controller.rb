@@ -6,7 +6,7 @@ class EncountersController < ApplicationController
 
   def create    
     if (params["encounter"]["encounter_type_name"].upcase rescue "") == "UPDATE OUTCOME"
-      delivered = params["observations"].collect{|o| o if o["value_coded_or_text"].upcase == "DELIVERED"}.compact.length
+      delivered = params["observations"].collect{|o| o if !o["value_coded_or_text"].nil? and o["value_coded_or_text"].upcase == "DELIVERED"}.compact.length
 
       if delivered > 0
         babies = MaternityService.extract_live_babies(params)
