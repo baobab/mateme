@@ -8,7 +8,7 @@ production:
  dde_server_username: admin
 
 development:
- create.from.dde.server: false
+ create.from.dde.server: true
  link.to.anc: false
  birth_registration_url: http://localhost:3007/people/import_baby
  portal_url: 192.168.6.139:3008
